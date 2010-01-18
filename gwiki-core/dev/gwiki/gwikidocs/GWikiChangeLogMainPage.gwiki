@@ -1,0 +1,188 @@
+h2. 2010-01-08
+* Macros 
+** Es werden auch JSP Tag-Libraries in der Wiki-Syntax utnerstützt. Hierzu kann mit dem Macro jsptaglib eine Taglibary importiert und dann verwendet werden.
+** Neue Macros usemacro, include, HTMLcomment, groovy
+* Einige Korrekturen im Rich Text Editor
+* Einige Korrekturen im WikiParser
+* Event-Architektur in FileSystem implementiert. Bei der Datenbankimplementierung ist diese auch Clusterfähig.
+* Leider funktioniert der dhl2009 Style so gar nicht richtig unter IE6, so dass der pop-Style reaktiviert wurde.
+
+h2. 2010-01-07
+* *Rich Text Editor für Wiki-Seiten implementiert.*\\
+  Dazu wurde auch die Macro-Architektur erweitert. Macros werden über die WikiConfig registriert. Implementiert ein Macro das Interface {{GWikiMacroRte}} ist ein Macro auch in der Lage innerhalb des RTE visuell darzustellen. \\
+Die erweiterten Dialoge für Einfügen eines Links, Bilds oder erstellen eines Screenshots sind auch in dem RTE integriert. \\
+Für die Implementierung des RTE wurde tinyMCE verwendet, da der zuvor eingesetzte ckeditor eine nicht nennenswerte Doku hat.\\
+Wikiseiten haben auch eine interne Preview.
+* Wurde die Seite geändert, wird vor dem Verlassen der Seite gewarnt.
+
+* Eine Seite kann einem WikiSpace zugeordnet werden. Hat eine Seite keinen WikiSpace-Zuordnung, erbt er den WikiSpace von Parent-Element.\\
+Verwendet wird der WikiScace bei der Generierung der SmartLinks mit den Kreuzverweisen bei Keywords. Es werden nur noch SpartLinks erstellt, die dem gleichen WikiSpace zugeordnet sind.
+* Die Suche unterstützt nun auch {{space:WIKISPACENAME}}.
+
+h2. 2009-12-27
+* WikiParser neu geschrieben. Mit dem alten Ansatz mit Regular Expression konnte man einige Feinheiten nicht umsetzen. Ausserdem was das Parsen des Wiki-Text recht langsam. Der neue Parser braucht nun statt 8 Sekunden 8 Millisekunden für eine größere Seite.
+* Code cleanup.
+
+h2. 2009-12-22
+* Automatisches Speichern, wenn eine Seite editiert wird. Beim erneuten Editieren wird nachgefragt, ob die gesicherte Kopie weiter bearbeitet werden soll.
+
+h2. 2009-12-20
+* Compare-Funktion bei Versionen. Dazu geht zu einer Seite auf Seite/Info und wählt zwei Versionen aus und wählt Compare. 
+
+
+h2. 2009-12-19
+* Admin: Es kann nach gelöschten Seiten gesucht werden und diese wieder hergestellt werden.
+
+h2. 2009-12-18
+* Editieren
+** Bei Attachments kann ein Applet verwendet werden um Dateien via Drag und Drop zu importieren. Auch können Screenshots direkt aus der Zwischenablage importiert werden.
+** Im Wiki-Editor können direkt Screenshot aus der Zwischenablage importiert werden.\\
+ (Funktioniert unter MacOS im Moment nur mit Safarie, nicht mit Firefox)
+* Rechte: Erweiterte Rechteregeln auf Verzeichnisebene
+* Performance beim Speichern verbessert. Es wird nicht jedesmal die Metainfo des kompletten Wiki erneut eingelesen.
+* Attachments werden in den üblichen Navigationsbäumen nicht mehr dargestellt. Die Attachments zu einer Seite sind über Seite/Info verwaltbar.
+
+h2. 2009-12-13
+* Exportieren angefangen, um eine oder mehrere Seiten als HTML, WORD, PDF zu exportieren.
+
+h2. 2009-12-10
+* Suche: Filter für das Hervorheben in der Zielseite mit gelbem Marker der gesuchten Ausdrücke. 
+
+* Validierung von Parentpage beim Anlegen auf recursive Strukturen. Auch beim Löschen wird validiert, dass keine Parent-Verweise verweist sind.
+
+h2. 2009-12-09
+* Experimenteller Filter für den Viewcounter. Wird unten an der Seite angezeigt. \\
+Ggf auch möglich, diesen ViewCounter in das Suchranking mit zu übernehmen.
+
+h2. 2009-12-08
+* Email Notfication service. Eingeloggte User können sich bei Änderung eine Email schicken lassen.\\
+Hierbei kann eine Seite überwacht werden, oder die Seite und alle untergeordneten.\\
+Im Editierdialog kann man über eine Checkbox das Versenden der Benachrichtungsemails unterdrücken.
+
+h2. 2009-12-07
+* PUBLIC Pages gehen nun.
+
+h2. 2009-12-06
+* Viel aufgeräumt.
+
+h2. 2009-12-05
+* Suche
+** Einfacher Syntax beim Suchen von Properties. Statt prop:TITLE geht nun auch title:.
+** Im Suchmenü nun auch Autocomplete für Seiten (Titel und PageID)
+
+h2. 2009-12-04
+* Suche
+** Es werden nun auch Word, Excel, PowerPoint, PDF, Text, HTML und XML Attachment indiziert
+* PropsEditor. Feldern, die eine PageId erwarten, wird  autocomplete unterstützt.
+* User: Ein User kann sich seine eigene Homepage definieren.
+
+h2. 2009-12-03
+* NEU: Macro Breadcrumbs
+* Intern: Preview-Rendern
+* Diverse Bugfixes
+** Suche-Index über HTML
+** Editor Checkboxen
+** Import
+
+h2. 2009-11-28
+* GWiki-Editor angefangen.
+** Menu mit wichtigen Optionen.
+** Für die Praxis: Mit einem Keybinding
+** Einfügen von Links und Images mit Autocomplete.
+
+* Import und Export von Seiten
+** Export von ausgewählten/gefilterten Seiten als ZIP. Wahlweise auch mit den archivierten Seiten.
+** Import eines Zips mit Seiten. In einer Vorschau werden Quell- und Zielseiten nach Zeitstempel verglichen, so dass man nur neue, neuere oder alle importieren kann.
+** Import eines Zips mit Confluence-Seiten. Diese hat man vorher aus Confluence als XML exportiert. Auch hier Vorschau mit Vergleich der eventuell schon vorhandenen Seiten. Beim Importieren kann auch ein Unterordner angegeben werden.
+* Rechteverwaltung: Überarbeitung der entsprechenden Optionen im Settings-Reiter. 
+** Ist ein Recht leer, werden automatisch die Rechte von der Elternseite übernommen.
+** PUBLIC-Seiten können von jedem - auch ohne Login - gelesen werden. Für das Editieren braucht der Nutzer jedoch zumindest das Recht {{GWIKI_EDITPAGES}}.
+** PRIVATE-Seiten können nur vom Ersteller der Seite gelesen, bzw. geändert werden.
+* Home-Verzeichnisse. Im Menü kann jeder User sich eigene Seiten anlegen. Durch die Rechteverwaltung kann er festlegen ob er den Bereich sichtbar, bzw. änderbar für andere macht.
+
+* NEU: Macro {{recently}}. Wird auf der Index-Seite verwendet.
+
+h2. 2009-11-26
+* Datenbank
+** Grundsätzlich ist die Performance bei dem in der Datenbank abgebildeten Dateisystem deutlich höher. Ca. 2-4 mal so schnell.
+
+* Suche
+** Durch den Dev-Modus wurde die Suche dramatisch verlangsamt. Vormals dauerte die Volltextsuche über 2000 Dokumente ca. 1-2 Sekunden. Nun dauert die Volltextsuche 10-15 ms.
+
+ 
+* Internationalisierung 
+** Internationalisierungsdateien sind - natürlich - einfache Wiki-Dateien. 
+** Spezieller Editor für I18n-Dateien: Es wird geprüft, dass in einer Sprache definierten Key auch in den anderen Sprachen definiert ist.
+** tag fmt:message wird unterstützt.
+** Über das \{msg\}-Macro kann auch innerhalb Wiki Internationalisierung verwendet wird.
+
+h2. 2009-11-24
+* NEU: Grundlegendes Javascript Menü eingebaut, da ansonsten die einzelnen Menüs zu unübersichtlich werden. Derzeit nur im dhl2009 Skin.
+* Detailverbesserungen. 
+** Suche hat Backlink. PageNotFound kann auch direkt die Seite anlegen. 
+** Mit dem edit/CreateOrShowPage kann eine Seite angezeigt oder wenn nicht da erzeugt werden. Dabei kann parentId und Metatemplate mit übergeben werden.
+
+* Integration in POP angefangen:
+** Logging-Anzeige hat automatisch auch einen Link auf das Wiki, in dem die Logs dokumentiert werden können.
+** AdminWeb hat Hilfe-Button, die auch auf eine entsprechende Seite im Wiki verweist.
+
+h2. 2009-11-22
+* Suche durch einen global Suchindex ca. 10x so schnell. 800 Seiten brauchen bei der Suche ca. 500 Millisekunden.
+
+* User-Passworte werden verschlüsselt abgelegt. Innerhalb der {{WikiUserMetaTemplate.xml}} wurde die Passwortfelder und entsprechende Logik als Groovyfunktionen eingebettet.
+* FIX: GWiki-Macro Durchgstrichen kollidiert nicht mehr mit Bindestrichen in Worten.
+* NEW: Macro note und warn als Wiki-Template implementiert. 
+
+h2. 2009-11-21
+* Confluence Import: Es können komplette Confluence Spaces in GWiki import werden. Innerhalb von Confluence kann der Space (oder auch ausgewählte Seiten) als XML exportiert werden. Innerhalb von GWiki können die Zips - mit Seiten und Attachments - wieder importiert werden.
+
+
+h2. 2009-11-20
+* FIX: Smart-Tags gingen beim automatischen Roload des Wikis kaputt (Doppelregistrierung des Filters).
+* NEW: Cluster-Detektion. Änderungen am WikiWeb werden durch Wiki-Versionstempel entdeckt.
+* NEW: Cluster-Safe: Storages speichern Seiten atomar. Sowohl bei Datenbank und Dateisystem.
+
+h2. 2009-11-19
+* User nun mit Zeitzone, Zeitformat und Sprache und Skins. Achtung, nach Änderung im Profile muss derzeit noch ausgeloggt und danach wieder eingeloggt werden.
+* Auf jeder Seite steht nun auch die letzten Änderungen (Wer, Wann). Das bei einigen Seiten da noch null null steht, ist historisch bedingt.
+* Properties-Editor besser anpassbar über eingebettete Groovy-Actions.
+* Bei Groovy ActionBeans braucht man keine setter/getter mehr.
+* Seiteninfos (Menü Info) bisschen mehr Infos.
+
+ 
+h2. 2009-11-17
+
+* Einführung von Schlüsselworte für Seiten mit dem Attribut {{KEYWORDS}}. 
+* In Kombination mit Schlüsselworte gibt es ein Filter, der Wikiseiten beim Kompilieren automatisch nach Schlüsselworte durchsucht und dann an diese ein Tooltip hängt mit den Verweisen auf die anderen Seiten, die diese Schlüsselworte enthalten. Dies  ist auch quasi ein Ersatz für die klassischen CamelCase-Links von Wikis.
+* Einführung von Filterframework. Derzeit implementiert:
+** Beim Laden eines Wikis
+** Beim Kompilieren einer Wikiseite
+** Beim Rendern einer Wikiseite.
+** Beim Speichern einer Wikiseite.
+
+* Prüfung der Rechte auf auf GWikiFragment-Ebene. Ein GWikiFragment (Element der Wiki-Sprache, inkl. Macros) kann beim Speichern über den Editor prüfen, ob der aktuelle Nutzer das Recht hat, dieses Element zu verwenden. So braucht das Macro \{html\} das Recht {{GWIKI_EDITHTML}} um verwendet werden zu dürfen. Versucht ein Nutzer eine Seite zu Speichern, die solch ein Fragment enthält, wird im eine entsprechende Fehlermeldung angezeigt. \\
+Zum Test wurde noch ein User {{gwikiuser}} angelegt, der zwar reine Wiki-Seiten editieren darf, jedoch nicht das Recht {{GWIKI_EDITHTML}}  besitzt.
+* Bug: Keine Kommentare auf den NoAuth-Seiten (Login, etc.)
+* Vorschau: Die Vorschau funktioniert nun universell, d.h. auch mit allen Groovy/JSP-Seiten.
+
+h2. 2009-11-16
+
+* Kommentar auf Seiten. Entweder als Wiki-Macro \{pagecomments\} oder direkt im Template eingebunden. Bei skin dhl2009 ist das derzeit direkt in das Standardtemplate eingebunden.
+* GWiki hat eine rudimentäre Userverwaltung. 
+** Suche aller (WikiControl Users)
+** Neuen User anlegen/Löschen/Ändern.
+** Passwort noch im Klartext (muss natürlich noch geändert werden).
+* Es werden mehrere Skins unterstützt. Diese werden pro User gespeichert. Dabei werden drei Skins untertützt:
+** dhl2009
+** naked
+** pop (ist aber teilweise kaputt)
+* Suchsyntax wesentlich erweitert. 
+** Es können mit prop:XYZ Werte aus den Settings der Seiten abgefragt werden.
+** Vergleiche dieser Settings mit anderen Werten.
+** order by wird untertützt.
+* Alle Seiten (unter WikiControl) und die User-Liste unterstützen nun die Suchfilterabfragen.
+* Alle Seiten (unter WikiControl) und die User-Liste sind mit einer komfortablen Liste umgesetzt.
+* Leider ist editeren der Seiten in Word eine leichte Sackgasse. Funktionert, wenn man ein HTML Dokument direkt über die HTTP-Url mit führendem /worddav öffnet, leider aber nicht wenn man es direkt mit einem Link macht (Word öffnet dann immer schreibgeschützt).
+
+
+

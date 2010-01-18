@@ -1,0 +1,27 @@
+h2. Einbettbares Wiki für Java
+Die erste Motivation zur Entwicklung von GWiki war für einen Kunden ein Wiki zu haben, das in eine bestehende Javaanwendung einbettbar ist und dabei relativ wenig Voraussetzungen an die Umgebung stellt.
+
+h2. Wiki in Clusterumgebung betreibbar
+Bei der Evaluation von verschiedener Java-basierten Wikis stellte sich heraus, das diese nicht für den Betrieb innerhalb eines Clusters geeignet und auch bestimmte Datenbanksysteme voraussetzten. 
+Die Implementierung Speicherung der Daten oder auch insbesondere die zumeist verwendete Suchengine Lucene machen dabei dann einem einen Strich durch die Rechnung.
+
+h2. Wiki in beliebigen Webcontainern betreibbar
+Wie bei den Datenbanken - wo bei anderen Wikis oft mySQL vorausgesetzt wird - werden die freien und kommerziellen Wikis zumeist auf Basis von Tomcat entwickelt. Eine Einrichtung auf anderen Webcontainern und Java Application Servern scheitert oft an Kleinigkeiten. 
+
+h2. Wiki auf dem Desktop
+GWiki kann als ein einzelnen Jar (ggf. auch mit einem Exe-Wrapper) mit Doppelklick gestartet werden. Der Content kann entweder dabei in einfachen Verzeichnissen gehalten oder sogar auch direkt in dem Jar eingebettet sein.
+
+h2. Hilfeseiten / Knowgle Base
+In einer komplexen - durch Konfiguration gesteuerte - Webanwendung bedarf es entsprechend umfangreiche Dokumentation für Einrichtung und Betrieb der Anwendung. Der Klassische Ansatz hier entsprechende Worddokumente zu erstellen, haben den Nachteil, dass sie in der Regel schwer zu warten sind und somit auch oft recht schnell veraltet sind.
+
+Das GWiki soll hier eine Lösung bieten, innerhalb der Anwendung direkt Hilfetexte zur Verfügung zu stellen, die auch von den Anwendern selbst mit erweitert werden können.
+
+h2. Standardwiki für kleine und mittlere Größen
+Das Wiki ist dafür ausgelegt bis ca. 10.000 Seiten und sonstige Artefakte zu verwalten.
+
+h2. "Die Gute Architektur"
+Ein Aspekt einer guten Architektur kann auch darin bestehen, dass man versucht wenige Konzepte einzusetzen, die eine maximale Vernetzungspotentiale haben. Bei Unix ist es die Idee "Alles ist eine Datei", bei vielen Datenbanken ist "alles eine Tabelle". 
+Bei GWiki ist alles eine Wiki-Seite - auch die Seiten, die z.B. für das Editieren einer Seite zuständig sind.
+
+h2. Rapid Prototyping
+Innerhalb von GWiki können nicht nur Wiki- und HtML-Seiten sowie Attachments online editiert werden, sondern komplette MVC-Anwendungen erstellt werden. Auch die Standarseiten - wie etwa Suchen, Login, EditPage, etc. kann man - mit entsprechender Berechtigung, direkt Wiki-Like editieren, anpassen und erweitern.

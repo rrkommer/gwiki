@@ -1,0 +1,12 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<p>Die Seite konnte nicht gefunden werden.</p>
+
+<c:if test="${form.allowCreatePage}">
+	<a href="<c:url value="/edit/EditPage?newPage=true&pageId="/><c:out value="${form.pageId}"/>">Seite <c:out value="${form.pageId}"/> anlegen</a>
+</c:if>
+
+<% wikiContext.skinInclude("standardfoot"); %>

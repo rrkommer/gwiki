@@ -1,0 +1,47 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<c:if test="${form.pageId != null}">
+	Zurueck: <gwiki:link pageId="${form.pageId}"/>
+</c:if>
+<hr>
+<h2>Wiki Konfiguration</h2>
+<ul>
+<li><a href="<c:url value="/edit/ViewAllPages"/>">Alle Seiten des Wikis</a><br/></li>
+<li><a href="<c:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig">Wiki Globale Configuration</a><br/></li>
+<li><a href="<c:url value="/edit/ListUsers"/>">Wiki Users Configuration</a><br/></li>
+</ul>
+<hr>
+<h2>GWiki neu laden</h2>
+<form method="POST">
+  <html:hidden property="pageId"/>
+  <input type="submit" name="method_onClearPageCache" value="Page Cache L&ouml;schen"><p/>
+  <c:if test="${form.pageId != null}">
+     <input type="submit" name="method_onReloadPage" value="Seite neu Laden"><p/>
+  </c:if>
+  <input type="submit" name="method_onReloadWiki" value="Web neu Laden"><p/>
+<hr>
+<h2>Baue Index neu</h2>
+<c:if test="${form.pageId != null}">
+Indiziere die Seite <c:out value="${form.pageId}"/>: <input type="submit" name="method_onReIndexPage" value="Diese Seite neu indizieren"><p/>
+</c:if>
+Es das komplette Wiki neue indiziert.
+
+  <input type="submit" name="method_onRebuildIndex" value="Suchindex Neu Aufbauen">
+</form>
+<%--
+<h2>Rechte Testen</h2>
+Name: <html:text size="80" property="singleUser.user" /><br />
+Email: <html:text size="80" property="singleUser.email" /><br />
+RightRule: <html:text size="80" property="authRightsRule" /><br />
+<input type="submit" name="method_onSetRights"
+	value="User und Rechte setzen">
+<hr>
+<h2>GWiki Download</h2>
+<a href="<c:url value="/admin/WrappOurSelf"/>">Wiki Download</a>
+--%>
+<h2>Sonstiges</h2>
+<%	MainPage.render(wikiContext); %>
+<% wikiContext.skinInclude('standardfoot'); %>

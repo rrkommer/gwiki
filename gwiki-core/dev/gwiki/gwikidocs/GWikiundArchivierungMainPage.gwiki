@@ -1,0 +1,20 @@
+h1. Konzept
+h2. Zugriffsarten
+Zwei Zugriffsarten sind denkbar. Direkt auf Dateibene oder Elementebene.
+
+Die Dateiebene ist dann sinnvoll, wenn die interne Struktur des Wiki kaputt ist und repariert werden muss.
+
+Die Elementebene greift immer über den Umweg des Elementes auf die Daten zu.
+
+h2. Sicherung
+Ein Set von Dateien (z.B. Verzeichnis) kann über ein Matcher bestimmt werden und dann komprimiert heruntergeladen werden.
+
+h2. Synchronisation ohne Merge
+Es werden eine offline erstellte Seiten als ein ZIP hochgeladen.
+
+Das ZIP wird selbst als Wiki gemountet und dann die Elemente mit den internen Wiki-Mechanismen in das Ziel-Wiki kopiert. Von bestehenden Seiten wird dabei automatisch eine Archivversion angelegt.
+
+h2. Synchronisation mit Merge
+
+- Konflikte entdecken
+- Vergleich der Archivierten Version

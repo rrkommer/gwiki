@@ -1,0 +1,49 @@
+h2. Grundsätzlich
+Die User-Datenbank sind properties, die im GWiki unter {{admin/users}} liegen. Die ID der Seite entspricht dem Login-Namen des Users.
+
+h2. TODOs
+h3. Backend
+Für die Authentifizierung wird eine Implementierung {{GWikiAuthorization}} erstellt.
+
+Alle User werden aus den pageIds des {{admin/users}} gelesen.
+
+h3. Integration in Dritte Authentifizierungsverfahren.
+Damit die eigentliche Authentifizierung gegen andere Authentifizierungen laufen kann, kann diese auch gechained werden.
+
+h3. Weitere Dienste
+Über Authentifizierungsinterface  {{GWikiAuthorization}}  kann zu einem User ein Property abgefragt werden.
+
+
+h3. Template für UserSettings
+Das Properties-Template hat folgende Werte:
+- email
+- Locale
+- Timezone
+- skin
+- Homepage
+- ...
+
+h3. Storage für Heimseiten
+- Unter {{userspace/user}} liegen ggf. eigene Seiten.
+- Unter {{userspace/user/settings}} liegen ggf. zusätzliche Informationen, die spezifisch zum User sind.
+ 
+h3. Masken
+h4. Admin
+
+h5. Liste aller User
+Über einen Filter kann man alle User sehen und bearbeiten.
+
+h5. User Edit
+Die User-Editmaske ist ein normale Properties-Editor.
+Ggf. erweitert mit 
+- Doppelte Passworteingabe
+- Passwortverschlüsselung
+
+h4. User
+h5. Profilseite
+Ein User kann über eine Profilseite seine Properties bearbeiten.
+- Email
+- Homepage 
+- Skin.
+- Locale
+- Timezone

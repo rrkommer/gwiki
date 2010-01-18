@@ -1,0 +1,22 @@
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>
+
+<%--<link type="text/css" href="<c:url value='/inc/gwiki.css'/>" rel="stylesheet" />
+<link href="<c:url value="/static/skins/dhl2009/core.css"/>" rel="stylesheet" type="text/css" />
+ --%>
+<html>
+<head>
+<c:if test="${form.format != "PDF"}">
+<style  type="text/css">
+<@include file="inc/gwiki.css" @>
+</style>
+</c:if>
+</head>
+<body>
+
+<%
+	wikiContext.setRequestAttribute("WIKI_MAX_IMAGE_WIDTH", 600);
+	wikiContext.getRequestAttribute("WIKIGENDOCBEAN").renderPages(wikiContext);
+%>
+</body>
+</html>

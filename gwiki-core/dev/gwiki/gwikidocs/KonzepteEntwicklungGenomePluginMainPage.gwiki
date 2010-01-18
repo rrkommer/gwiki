@@ -1,0 +1,9 @@
+{pageintro}
+Einbinden des GWiki als Genome plugin.
+{pageintro}
+h2. Stand 
+Sollte weitgehend problemlos möglich sein, da das GWiki bereits bei POP als Plugin betrieben wird. 
+Die GWikiContext muss angepasst werden. 
+
+h2. Vorgehen
+TODO

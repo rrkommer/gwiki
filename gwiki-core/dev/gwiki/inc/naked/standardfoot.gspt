@@ -1,0 +1,10 @@
+<%--</div>  --%>
+
+</div>
+</td></tr>
+</table>
+<div align="right">
+<hr/>
+	<small>By Roger Rene Kommer <a href="mailto:r.kommer@micromata.de">r.kommer@micromata.de</a> and <a href="http://www.micromata.de">Micromata</a> 
+</div>
+<@include file="inc/footer.gspt"@>

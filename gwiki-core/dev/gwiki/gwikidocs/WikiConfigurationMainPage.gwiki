@@ -1,0 +1,11 @@
+Die Globale WikiConfiguration ist nur für Nutzer mit dem Recht {{GWIKI_ADMIN}} verfügbar.
+
+h2. GWIKI_WIKI_DEFAULT_SKIN
+
+h2. GWIKI_ERROR_SHOW_STACK_TRACE
+
+h2. GWIKI_WIKI_MACROS
+Hier werden alle Macros definiert, die über Javaklassen definiert werden.
+Die Syntax dabei ist:
+{{macroname=ClassName|nextmacroName=NextClassName}}.
+

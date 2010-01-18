@@ -1,0 +1,78 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+
+<script src='<c:url value="/static/jqgrid/src/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<script type="text/javascript" src="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
+<link type="text/css" href="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
+
+<gwiki:errors />
+
+<% form = pageContext.getRequest().getAttribute('form'); %>
+<form method="POST" enctype="multipart/form-data">
+	<html:hidden property="pageId" /> 
+	<html:hidden property="parentPageId" /><br/>
+<c:choose>
+<c:when test="${form.newPage == true}">
+<h2>User: <html:text property="title"/></h2>
+</c:when>
+<c:otherwise>
+<h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
+</c:otherwise>
+</c:choose>
+
+
+<html:hidden property="metaTemplatePageId" />
+<input type="submit" name="method_onSave" value="Speichern">
+<input type="submit" name="method_onCancel" value="Abbrechen">
+<c:if test="${form.newPage == false}">
+<gwiki:authorize ifHasAny="GWIKI_ADMIN">
+	<input type="submit" name="method_onDelete" value="L&ouml;schen">
+</gwiki:authorize>
+</c:if>
+
+<html:hidden property="newPage" /> 
+<div id="tabs">
+ <ul>
+  <%
+  	for (me in form.editors) { %>
+  	<li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
+ 	<%}  %>
+    </ul>
+
+ <%
+  	for (me in form.editors) { %>
+  		<div id="Editor<%= me.key %>">
+  			<% me.value.render(wikiContext); %>
+  		</div>
+	<% 	}  %>
+</div>
+
+<input type="submit" name="method_onSave" value="Speichern">
+<input type="submit" name="method_onCancel" value="Abbrechen">
+
+
+</form>
+<script type="text/javascript" src="<c:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
+<script type="text/javascript">
+  \$(document).ready(function(){
+    \$("#tabs").tabs();
+    \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
+
+    \$('.wikiPageEditText').autocomplete(
+    		'<c:url value="/edit/PageSuggestions"/>', 
+    {
+			matchContains : true,
+			minChars : 0,
+			width : 350,
+			formatItem : function(row) {
+				return row[1] + "<br><i>(" + row[0] + ")</i>";
+			}
+		});
+    }
+  );
+</script>
+
+<% wikiContext.skinInclude('standardfoot'); %>

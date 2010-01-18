@@ -1,0 +1,18 @@
+<@include file="inc/stdgfuncs.gspt" @>
+<% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') == null) { %>
+	<div class="panel" style="border-width: 1px;">
+<% } else { %>
+	<div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') %>">
+<% } %>
+<% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') == null) { %>
+<div class="panelContent">
+<% } else { %>
+	<div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') %>">
+<% } %>
+
+<% if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) { %>
+<center><b><%= esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title')) %></b></center><br />
+<% } %>
+<% GWIKI_MACRO_CHILD.render(wikiContext) %>
+</div>
+</div>

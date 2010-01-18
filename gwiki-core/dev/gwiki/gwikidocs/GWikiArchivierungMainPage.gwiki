@@ -1,0 +1,4 @@
+Zum Backup, Archivierung, Synchronisation und notfalls auch Reparator des Wikis ist ein integriertes WebDav Verzeichnis unter {{/dav/}} eingebunden.
+
+Als Authentifizierung muss ein Nutzer mit dem {{GWIKI_FSWEBDAV}} angegeben werden.
+Die Seiten - egal in welcher Form sie gespeichert sind - können direkt editiert werden.

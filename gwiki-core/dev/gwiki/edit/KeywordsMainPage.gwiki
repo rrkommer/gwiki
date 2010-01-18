@@ -1,0 +1,11 @@
+{pageintro}
+{if:lang=de}
+Index aller Schlüsselworte.
+{if}{if:lang=en}
+Index of all Keywords.
+{if}
+{pageintro}
+
+{listlabel}
+
+

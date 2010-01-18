@@ -1,0 +1,10 @@
+<html>
+<@include file="inc/stdtags.gspt" @>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<head>
+<@include file="inc/htmlHead.gspt" @>
+
+</head>
+<body>
+

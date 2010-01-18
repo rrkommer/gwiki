@@ -1,0 +1,38 @@
+<@include file="inc/head.gspt"@>
+
+<div id="header">
+<table width="100%"><tr><td width="700">
+
+</td><td align="left"><div>
+
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="main">
+<h1>
+<p id="navigation">
+<%--
+     <gwiki:link pageId="edit/PageInfo" title="SeitenInfos" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
+     <gwiki:authorize ifHasAny="GWIKI_EDITPAGES">
+     <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
+     <span style="color: rgb(204, 204, 204);">+</span>
+     <gwiki:link pageId="edit/EditPage" title="SeitenEditieren" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
+     <% } %>
+     </gwiki:authorize>
+     <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES"> 
+     	<span style="color: rgb(204, 204, 204);">+</span>
+     	<gwiki:link pageId="edit/EditPage" title="NeueSeite" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/>
+     </gwiki:authorize>
+     
+     <span style="color: rgb(204, 204, 204);">+</span>
+     <gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
+     <span style="color: rgb(204, 204, 204);">+</span>
+     <gwiki:link title="Logout" pageId="admin/Logout"/>
+--%>
+</p>
+<%= wikiPage.elementInfo.title %>
+</h1>
+
+<div class="wiki-content" style="margin-right: 10px;">

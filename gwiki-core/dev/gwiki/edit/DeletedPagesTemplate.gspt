@@ -1,0 +1,45 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<link type="text/css" href="<c:url value='/inc/js/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
+<script src='<c:url value="/static/jqgrid/src/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+
+<gwiki:errors />
+<c:choose>
+<form id="listform" method="post">
+<html:hidden styleId="delPageId" property="pageId"/>
+<script>
+function viewDelPage(pageId)
+{
+	jQuery('#delPageId').attr('value', pageId);
+	//alert('del: ' + pageId + "; "+ jQuery('#delPageId').attr('value'));
+	
+	jQuery('#formactionname').attr('name', 'method_onViewItem');
+	jQuery('#listform').submit();
+	
+}
+</script>
+
+<c:when test="${form.list}">
+	
+		Filter pageId: <html:text property="listFilter"/>
+		<input type="submit" name="method_onFilter" value="Find"/>
+		<input id="formactionname" type="hidden" name="action"/>
+		
+	<ul>
+	<c:forEach var="el" items="${form.deletedPages}">
+		<li><a href="javascript:viewDelPage('<c:out value="${el}"/>')"><c:out value="${el}"/></a></li>
+	</c:forEach>
+	</ul>
+</c:when>
+<c:otherwise>
+Page: <c:out value="${form.pageId}"/>
+<c:out value="${form.versionBox}" escapeXml="false"/>
+</c:otherwise>
+</c:choose>
+</form>
+	
+
+<% wikiContext.skinInclude('standardfoot'); %>

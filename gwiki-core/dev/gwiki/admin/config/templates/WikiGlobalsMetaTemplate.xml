@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+		<property name="elementType" value="gwiki" />
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_PUBLIC_URL" />
+											<property name="label" value="URL des Wiki" />
+											<property name="description"
+												value="Beispiel: https://www.sample.org/gwiki/" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_SEND_EMAIL" />
+											<property name="label"
+												value="Email, die für das Versenden verwendet wird." />
+											<property name="description" value="gwiki-noreply@micromata.de" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="EMAIL" />
+											<property name="defaultValue" value="" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_ERROR_SHOW_STACK_TRACE" />
+											<property name="label" value="Show Stacktrace" />
+											<property name="description"
+												value="Soll auf der admin/InternalError ein Stacktrace angezeigt werden." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_CHECK_STORAGE_MODIFICATIONS" />
+
+											<property name="label" value="Check Storage mods." />
+											<property name="description"
+												value="Sollen innerhalb Wikis überprüft werden? Bei Clusteranwendungen notwendig." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
+											<property name="label" value="Check external FS mods." />
+											<property name="description"
+												value="Sollen Änderungen ausserhalb des Wikis (Dateisystem) überprüft werden? Nicht zu empfehlen in Produktivumgebungen." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_CHECK_STORAGE_MODTIMEOUT" />
+											<property name="label" value="Timeout FS check" />
+											<property name="description"
+												value="Timeout nachdem auf externe Veränderungen im Filesystem geprüft werden." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="LONG" />
+											<property name="defaultValue" value="60000" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
+											<property name="label" value="Single Node" />
+											<property name="description" value="Single Node installation." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="true" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
+											<property name="label" value="Single Node" />
+											<property name="description" value="Single Node installation." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="true" />
+										</bean>
+											<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_DEFAULT_SKIN" />
+											<property name="label" value="Default Skin" />
+											<property name="description" value="Default Skin." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="naked" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_FILTER_CLASSES" />
+											<property name="label" value="Filter" />
+											<property name="description"
+												value="Kommaseparierte Liste von Classen, die GWikiFilter implementieren. Die zuletzt gelisteten Filter werden zuerst aufgerufen." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="controlerScript">
+												<value><![CDATA[
+import org.apache.commons.lang.*;
+def onRender(pct)
+{
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+}
+											]]></value>
+											</property>
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_FS_WRITE_ACCESSRULES" />
+											<property name="label" value="Write AccessRules" />
+											<property name="description"
+												value="Rechteregeln für den Schreibzugriff" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="controlerScript">
+												<value><![CDATA[
+import org.apache.commons.lang.*;
+def onRender(pct)
+{
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+}
+											]]></value>
+											</property>
+										</bean>
+											<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_MACROS" />
+											<property name="label" value="Wiki Macros" />
+											<property name="description"
+												value="Klassen für WikiMacros" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="controlerScript">
+												<value><![CDATA[
+import org.apache.commons.lang.*;
+def onRender(pct)
+{
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+}
+											]]></value>
+											</property>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

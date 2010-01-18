@@ -1,0 +1,21 @@
+h2. Einfach und komplexe Suche
+
+h2. Vergleiche
+
+{noformat}
+a -> content ~ a .
+a and b: content  ~ a and content ~ b.
+{prop:TITLE} ~ value: enhält.
+{prop:TITLE} -> admin/user/*  -> enthält Matcher. muss ggf. geqoutet werden:
+{prop:TITLE} -> "admin/user/*"
+{prop:TITLE} = "Genauer Wert".
+
+{pageId} ~ asdfsdf.
+{prop:CREATEDAT} >= 20091010.
+{noformat}
+
+
+h2. order by
+{{order by {prop:TITLE\}}}
+
+

@@ -1,0 +1,25 @@
+<@include file="inc/stdgfuncs.gspt" @>
+
+<div class="panel" style="border-width: 1px;">
+<table border="1" cellpadding="2" cellspacing="0">
+<%
+import de.micromata.genome.gwiki.model.*;
+import de.micromata.genome.gwiki.page.search.*;
+import de.micromata.genome.gwiki.page.*;
+if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
+	return ;
+}
+String queryexpr = "order by prop:MODIFIEDAT desc";
+SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
+query.setMaxCount(20);
+QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
+for (SearchResult sr in qr.getResults()) { 
+	if (wikiContext.wikiWeb.getAuthorization().isAllowToView(wikiContext, sr.elementInfo) == false) {
+		continue;
+	}
+	%><tr><td><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></td><td nowrap><small><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + "<br/>by " + sr.elementInfo.getModifiedBy() %></small></td></tr>
+	<%
+}
+%>
+</table>
+</div>
