@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+  <wb-module deploy-name="genome-core">
+    <property name="context-root" value="gwiki"/>
+    <wb-resource deploy-path="/" source-path="dev/web/gwiki"/>
+    <property name="java-output-path" value="/target/classes"/>
+    <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
+    <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-upload-applet"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/genome/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-jetty/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-upload-applet/resource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-upload-applet/java"/>
+  </wb-module>
+</project-modules>
