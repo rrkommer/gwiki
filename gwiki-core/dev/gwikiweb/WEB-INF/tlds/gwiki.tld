@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd" 
+  >
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>gwiki</short-name>
+	<uri>http://www.micromata.de/taglibs/gwiki</uri>
+	<display-name>GWiki tags</display-name>
+	<description>JSP Tags for GWiki Support</description>
+	<tag>
+		<name>link</name>
+		<tag-class>de.micromata.genome.gwiki.web.tags.WikiLinkTag</tag-class>
+		<!--  <body-content>JSP</body-content>-->
+		<description>
+		</description>
+		<attribute>
+			<name>pageId</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>Seiten-ID</description>
+		</attribute>
+		<attribute>
+			<name>urlParams</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>Seiten-ID</description>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+			<description>Seiten-ID</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>errors</name>
+		<tag-class>de.micromata.genome.gwiki.page.impl.actionbean.GWikiErrorsTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>bundle</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>footer</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>header</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>locale</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>prefix</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pattern</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>suffix</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>escapeXml</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>authorize</name>
+		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiAuthTag</tag-class>
+		<description>
+			A simple tag to output or not the body of the tag if the principal
+			has or doesn't have certain authorities.
+		</description>
+
+		<attribute>
+			<name>ifHasNot</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				A comma separated list of roles which the user must not have
+				for the body to be output. Each right will be trimmed.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>ifHasAll</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				A comma separated list of roles which the user must all
+				possess for the body to be output. Each right will be trimmed.
+			</description>
+		</attribute>
+
+		<attribute>
+			<name>ifHasAny</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				A comma separated list of roles, one of which the user must
+				possess for the body to be output.Each right will be trimmed.
+			</description>
+		</attribute>
+		<attribute>
+			<name>pageId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				If set check if pageId is viewable for user. 
+			</description>
+		</attribute>
+	</tag>
+</taglib>
