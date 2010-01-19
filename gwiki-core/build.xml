@@ -33,6 +33,10 @@
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/genome/java" sourcepath="src/genome/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki/java" sourcepath="src/gwiki/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 	</target>
+	<target name="clean">
+	</target>
+	<target name="test" description="execute tests" depends="compile-tests">
+	</target>
 	<target name="compile-tests" description="compile testcases" depends="compile-war">
 		<!-- TODO -->
 	</target>
