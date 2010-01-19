@@ -18,7 +18,7 @@ var gwikiContentCss = '<%= localCsse.toString() %>';
 
 </script>
 
-<script src='<c:url value="/static/jqgrid/src/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
 <script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <script type="text/javascript" src="<c:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/skins/naked/ui.jqgrid.css"/>" />
