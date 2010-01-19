@@ -1,6 +1,10 @@
 package de.micromata.genome.gwiki.jetty;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -19,6 +23,10 @@ public class GWikiJettyStarter
       GwikiFileContextBootstrapConfigLoader cfgLoader = new GwikiFileContextBootstrapConfigLoader();
       if (StringUtils.isNotBlank(contextFile) == true) {
         cfgLoader.setFileName(contextFile);
+      }
+      File f = new File(new File(contextFile).getParent(), "/log4j.properties");
+      if (f.exists() == true) {
+        PropertyConfigurator.configureAndWatch(f.getName(), 60 * 1000);
       }
       GWikiDAOContext wikibootcfg = cfgLoader.loadConfig(null);
       JettyConfig jettyConfig = (JettyConfig) cfgLoader.getBeanFactory().getBean("JettyConfig");
