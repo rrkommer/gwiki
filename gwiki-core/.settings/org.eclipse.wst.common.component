@@ -13,5 +13,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-jetty/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-upload-applet/resource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/gwiki-upload-applet/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/tools/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
   </wb-module>
 </project-modules>
