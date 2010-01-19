@@ -31,7 +31,7 @@
 		<fileset dir="dev/lib/test">
 			<include name="*.jar" />
 		</fileset>
-		<pathelement path="${gwikiweb}/classes" />
+		<pathelement path="${gwikiweb}/WEB-INF/classes" />
 	</path>
 	<path id="testClassPath">
 		<path refid="classPath" />
@@ -43,6 +43,12 @@
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/genome/java" sourcepath="src/genome/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki/java" sourcepath="src/gwiki/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 	</target>
+
+	<target name="compile-tests" description="compile testcases" depends="compile-war">
+		<mkdir dir="target/test-classes" />
+		<javac source="1.5" target="1.5" debug="true" srcdir="src/test/java" sourcepath="src/test/java" destdir="target/test-classes" encoding="UTF-8" classpathref="testClassPath" optimize="true" />
+	</target>
+
 	<target name="clean">
 		<delete includeemptydirs="true" quiet="true">
 			<fileset dir="delivery" includes="**/*" />
@@ -53,27 +59,29 @@
 	</target>
 
 	<target name="test" description="execute tests" depends="compile-tests">
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="target/ant-junit-reports" includes="**/*" />
+		</delete>
+		<mkdir dir="target/ant-junit-reports"/>
 		<junit timeout="3600000" showoutput="true" fork="true">
 			<!-- forkmode="perTest" -->
 			<jvmarg value="-Djava.awt.headless=true" />
-			<jvmarg value="-XX:MaxPermSize=356M" />
+			<!-- <jvmarg value="-XX:MaxPermSize=356M" />
 			<jvmarg value="-Xms512m" />
 			<jvmarg value="-Xmx712m" />
+			-->
 			<classpath refid="classPath" />
 			<classpath refid="testClassPath" />
 			<batchtest fork="true" todir="target/ant-junit-reports">
 				<formatter type="xml" />
 				<fileset dir="src/test/java">
-					<include name="**/.java" />
-					<include name="**/.java" />
+					<include name="**/*.java" />
 					<exclude name="**/FileSystemTest.java" />
 				</fileset>
 			</batchtest>
 		</junit>
 	</target>
-	<target name="compile-tests" description="compile testcases" depends="compile-war">
-		<!-- TODO -->
-	</target>
+
 	<target name="build-war" description="build war file">
 		<war webxml="${gwikiweb}/WEB-INF/web.xml" destfile="target/${warfile}">
 			<fileset dir="${gwikiweb}">
