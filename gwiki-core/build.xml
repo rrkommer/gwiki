@@ -91,6 +91,7 @@
 				<formatter type="xml" />
 				<fileset dir="src/test/java">
 					<include name="**/*Test.java" />
+					<include name="**/*TestSuite.java" />
 					<exclude name="**/FileSystemTest.java" />
 					<exclude name="**/GWikiPlayZoneTest.java" />
 				</fileset>
