@@ -27,6 +27,10 @@
 		</fileset>
 		<pathelement path="${gwikiweb}/classes" />
 	</path>
+	<path id="testClassPath">
+		<path refid="classPath" />
+		<pathelement location="target/test-classes" />
+	</path>
 
 	<target name="compile-war" description="compile sources">
 		<mkdir dir="${gwikiweb}/WEB-INF/classes" />
@@ -34,8 +38,32 @@
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki/java" sourcepath="src/gwiki/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 	</target>
 	<target name="clean">
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="delivery/.." includes="**/*" />
+		</delete>
+		<delete failonerror="true" dir="${gwikiweb}/WEB-INF/classes" />
+		<delete failonerror="true" dir="target/gwiki-jetty-classes" />
+		<delete failonerror="true" dir="target/test-classes" />
 	</target>
+
 	<target name="test" description="execute tests" depends="compile-tests">
+		<junit timeout="3600000" showoutput="true" fork="true">
+			<!-- forkmode="perTest" -->
+			<jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg value="-XX:MaxPermSize=356M" />
+			<jvmarg value="-Xms512m" />
+			<jvmarg value="-Xmx712m" />
+			<classpath refid="classPath" />
+			<classpath refid="testClassPath" />
+			<batchtest fork="true" todir="target/ant-junit-reports">
+				<formatter type="xml" />
+				<fileset dir="src/test/java">
+					<include name="**/.java" />
+					<include name="**/.java" />
+					<exclude name="**/FileSystemTest.java" />
+				</fileset>
+			</batchtest>
+		</junit>
 	</target>
 	<target name="compile-tests" description="compile testcases" depends="compile-war">
 		<!-- TODO -->
@@ -48,44 +76,44 @@
 				<exclude name="test/**/*" />
 			</fileset>
 		</war>
-		</target>
-		<target name="delivery" description="build standalone wiki" depends="gwikilib,copy.webcontent,copy.wikiweb,gwikidistr">
-		</target>
-		<target name="gwikidistr" description="build runtime distribution">
-			<copy todir="delivery/${distdir}">
-				<fileset dir="dev/gwikistandalone">
-					<include name="*.*" />
-				</fileset>
-			</copy>
-			<delete file="delivery/$/gwikiweb-${gwikiversion}.zip" />
-			<zip destfile="delivery/gwikiweb-${gwikiversion}.zip" basedir="delivery">
-				<fileset dir="delivery/${distdir}">
-					<include name="${distdir}/**" />
-					<exclude name="delivery/$/gwikiweb-${gwikiversion}.zip" />
-				</fileset>
-			</zip>
-		</target>
-		<target name="gwikilib" description="build gwikilib">
-			<delete dir="delivery/${distdir}/lib" failonerror="false" />
-			<mkdir dir="delivery/${distdir}/lib" />
-			<copy todir="delivery/${distdir}/lib">
-				<fileset dir="${gwikiweb}/WEB-INF/lib">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="dev/lib/jetty7">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="dev/lib/jetty7/jsp">
-					<include name="*.jar" />
-				</fileset>
-			</copy>
-			<jar destfile="delivery/${distdir}/lib/genome-gwiki-${gwikiversion}.jar">
-				<fileset dir="${gwikiweb}/WEB-INF/classes" />
-			</jar>
-			<jar destfile="delivery/${distdir}/jettygwiki-${gwikiversion}.jar">
-				<manifest>
-					<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
-					<attribute name="Class-Path" value=".
+	</target>
+	<target name="delivery" description="build standalone wiki" depends="gwikilib,copy.webcontent,copy.wikiweb,gwikidistr">
+	</target>
+	<target name="gwikidistr" description="build runtime distribution">
+		<copy todir="delivery/${distdir}">
+			<fileset dir="dev/gwikistandalone">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+		<delete file="delivery/$/gwikiweb-${gwikiversion}.zip" />
+		<zip destfile="delivery/gwikiweb-${gwikiversion}.zip" basedir="delivery">
+			<fileset dir="delivery/${distdir}">
+				<include name="${distdir}/**" />
+				<exclude name="delivery/$/gwikiweb-${gwikiversion}.zip" />
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwikilib" description="build gwikilib">
+		<delete dir="delivery/${distdir}/lib" failonerror="false" />
+		<mkdir dir="delivery/${distdir}/lib" />
+		<copy todir="delivery/${distdir}/lib">
+			<fileset dir="${gwikiweb}/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="dev/lib/jetty7">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="dev/lib/jetty7/jsp">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+		<jar destfile="delivery/${distdir}/lib/genome-gwiki-${gwikiversion}.jar">
+			<fileset dir="${gwikiweb}/WEB-INF/classes" />
+		</jar>
+		<jar destfile="delivery/${distdir}/jettygwiki-${gwikiversion}.jar">
+			<manifest>
+				<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
+				<attribute name="Class-Path" value=".
 									lib/genome-gwiki-${gwikiversion}.jar
 									lib/jetty-ajp-7.0.0.v20091005.jar 
 									lib/jetty-annotations-7.0.0.v20091005.jar 
@@ -165,16 +193,16 @@
 									lib/pdfbox-0.8.0-incubating.jar
 									lib/iText-2.1.4.jar
 					" />
-				</manifest>
-				<fileset dir="target/gwiki-jetty-classes" />
-			</jar>
-		</target>
+			</manifest>
+			<fileset dir="target/gwiki-jetty-classes" />
+		</jar>
+	</target>
 
-		<target name="preparetarget">
-			<delete dir="delivery/${distdir}" failonerror="false" />
-			<mkdir dir="delivery/${distdir}" />
-		</target>
-		<!-- 
+	<target name="preparetarget">
+		<delete dir="delivery/${distdir}" failonerror="false" />
+		<mkdir dir="delivery/${distdir}" />
+	</target>
+	<!-- 
 	<target name="copy.genomesrcfrompop" description="copy necessary java sources from pop">
 		<copy todir="src/genome">
 			<fileset dir="${genomesrcpath}">
@@ -198,86 +226,86 @@
 
 
 
-		<target name="copy.webcontent" description="copy webcontent">
-			<!-- GWIKI -->
-			<delete dir="delivery/${distdir}/gwiki" />
-			<mkdir dir="delivery/${distdir}/gwiki" />
-			<copy todir="delivery/${distdir}/gwiki">
-				<fileset dir="${gwikicontent}">
-					<exclude name="**/arch/**" />
-					<exclude name="tmp/**" />
-					<exclude name="pop/**" />
-					<exclude name="beispiele/**" />
-					<exclude name="samples/**" />
-					<exclude name="test/**" />
-					<exclude name="imp/**" />
-					<exclude name="gwikiimptest/**" />
-					<exclude name="**/genomehb/**" />
-					<exclude name="admin/user/**" />
-					<exclude name="home/**" />
-					<exclude name="inc/dhl2009/**" />
-					<exclude name="inc/pop/**" />
-					<exclude name="**/gwiki.jar" />
-				</fileset>
-			</copy>
-			<copy todir="delivery/${distdir}/gwiki">
-				<fileset dir="${gwikicontent}">
-				</fileset>
-			</copy>
+	<target name="copy.webcontent" description="copy webcontent">
+		<!-- GWIKI -->
+		<delete dir="delivery/${distdir}/gwiki" />
+		<mkdir dir="delivery/${distdir}/gwiki" />
+		<copy todir="delivery/${distdir}/gwiki">
+			<fileset dir="${gwikicontent}">
+				<exclude name="**/arch/**" />
+				<exclude name="tmp/**" />
+				<exclude name="pop/**" />
+				<exclude name="beispiele/**" />
+				<exclude name="samples/**" />
+				<exclude name="test/**" />
+				<exclude name="imp/**" />
+				<exclude name="gwikiimptest/**" />
+				<exclude name="**/genomehb/**" />
+				<exclude name="admin/user/**" />
+				<exclude name="home/**" />
+				<exclude name="inc/dhl2009/**" />
+				<exclude name="inc/pop/**" />
+				<exclude name="**/gwiki.jar" />
+			</fileset>
+		</copy>
+		<copy todir="delivery/${distdir}/gwiki">
+			<fileset dir="${gwikicontent}">
+			</fileset>
+		</copy>
 
-		</target>
+	</target>
 
-		<target name="copy.wikiweb" description="copy wikiweb">
-			<!-- GWIKIWEB -->
-			<delete dir="delivery/${distdir}/gwikiweb" />
-			<mkdir dir="delivery/${distdir}/gwikiweb" />
-			<copy todir="delivery/${distdir}/gwikiweb">
-				<fileset dir="${gwikiweb}" excludes="**/src/**,**/src-genome/**,**/src-pop/**,**/WEB-INF/classes/**,**/WEB-INF/lib/**">
-				</fileset>
-			</copy>
-		</target>
-		<target name="Source.Distr" description="Baut komplette Source-Distribution">
-			<delete dir="delivery/${distdir}-src" />
-			<mkdir dir="delivery/${distdir}-src" />
-			<copy todir="delivery/${distdir}-src">
-				<fileset dir="">
-					<include name="*.xml" />
-					<include name=".*" />
-				</fileset>
-			</copy>
-			<mkdir dir="delivery/${distdir}-src/src/standalone" />
-			<copy todir="delivery/${distdir}-src/src/standalone">
-				<fileset dir="src/standalone" />
-			</copy>
-			<mkdir dir="delivery/${distdir}-src/src/genome" />
-			<copy todir="delivery/${distdir}-src/src/genome">
-				<fileset dir="src/genome" />
-			</copy>
-			<mkdir dir="delivery/${distdir}-src/src/gwiki" />
-			<copy todir="delivery/${distdir}-src/src/gwiki">
-				<fileset dir="${gwikiweb}/src">
-					<exclude name="**/.svn" />
-				</fileset>
-			</copy>
+	<target name="copy.wikiweb" description="copy wikiweb">
+		<!-- GWIKIWEB -->
+		<delete dir="delivery/${distdir}/gwikiweb" />
+		<mkdir dir="delivery/${distdir}/gwikiweb" />
+		<copy todir="delivery/${distdir}/gwikiweb">
+			<fileset dir="${gwikiweb}" excludes="**/src/**,**/src-genome/**,**/src-pop/**,**/WEB-INF/classes/**,**/WEB-INF/lib/**">
+			</fileset>
+		</copy>
+	</target>
+	<target name="Source.Distr" description="Baut komplette Source-Distribution">
+		<delete dir="delivery/${distdir}-src" />
+		<mkdir dir="delivery/${distdir}-src" />
+		<copy todir="delivery/${distdir}-src">
+			<fileset dir="">
+				<include name="*.xml" />
+				<include name=".*" />
+			</fileset>
+		</copy>
+		<mkdir dir="delivery/${distdir}-src/src/standalone" />
+		<copy todir="delivery/${distdir}-src/src/standalone">
+			<fileset dir="src/standalone" />
+		</copy>
+		<mkdir dir="delivery/${distdir}-src/src/genome" />
+		<copy todir="delivery/${distdir}-src/src/genome">
+			<fileset dir="src/genome" />
+		</copy>
+		<mkdir dir="delivery/${distdir}-src/src/gwiki" />
+		<copy todir="delivery/${distdir}-src/src/gwiki">
+			<fileset dir="${gwikiweb}/src">
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
 
-			<mkdir dir="delivery/${distdir}-src/dev" />
-			<copy todir="delivery/${distdir}-src/dev">
-				<fileset dir="dev" />
-			</copy>
-			<mkdir dir="delivery/${distdir}-src/gwikiweb" />
-			<copy todir="delivery/${distdir}-src/gwikiweb">
-				<fileset dir="delivery/${distdir}/gwikiweb" />
-			</copy>
+		<mkdir dir="delivery/${distdir}-src/dev" />
+		<copy todir="delivery/${distdir}-src/dev">
+			<fileset dir="dev" />
+		</copy>
+		<mkdir dir="delivery/${distdir}-src/gwikiweb" />
+		<copy todir="delivery/${distdir}-src/gwikiweb">
+			<fileset dir="delivery/${distdir}/gwikiweb" />
+		</copy>
 
 
-			<mkdir dir="delivery/${distdir}-src/gwiki" />
-			<copy todir="delivery/${distdir}-src/gwiki">
-				<fileset dir="delivery/${distdir}/gwiki" />
-			</copy>
+		<mkdir dir="delivery/${distdir}-src/gwiki" />
+		<copy todir="delivery/${distdir}-src/gwiki">
+			<fileset dir="delivery/${distdir}/gwiki" />
+		</copy>
 
-			<mkdir dir="delivery/${distdir}-src/lib" />
-			<copy todir="delivery/${distdir}-src/lib">
-				<fileset dir="lib" />
-			</copy>
-		</target>
-	</project>
+		<mkdir dir="delivery/${distdir}-src/lib" />
+		<copy todir="delivery/${distdir}-src/lib">
+			<fileset dir="lib" />
+		</copy>
+	</target>
+</project>
