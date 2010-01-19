@@ -39,7 +39,9 @@
 	</path>
 
 	<target name="compile-war" description="compile sources">
+		
 		<mkdir dir="${gwikiweb}/WEB-INF/classes" />
+		<mkdir dir="target/gwiki-jetty-classes" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/genome/java" sourcepath="src/genome/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki/java" sourcepath="src/gwiki/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki-jetty/java" sourcepath="src/gwiki-jetty/java" destdir="target/gwiki-jetty-classes" encoding="UTF-8" classpathref="classPath" optimize="true" />		
