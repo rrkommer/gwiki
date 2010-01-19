@@ -119,7 +119,7 @@
 		<zip destfile="delivery/gwikiweb-${gwikiversion}.zip" basedir="delivery">
 			<fileset dir="delivery/${distdir}">
 				<include name="${distdir}/**" />
-				<exclude name="delivery/$/gwikiweb-${gwikiversion}.zip" />
+				<exclude name="delivery/gwikiweb-${gwikiversion}.zip" />
 			</fileset>
 		</zip>
 	</target>
