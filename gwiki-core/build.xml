@@ -46,7 +46,7 @@
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/gwiki/java" sourcepath="src/gwiki/java" destdir="${gwikiweb}/WEB-INF/classes" encoding="UTF-8" classpathref="classPath" optimize="true" />
 		<copy todir="${gwikiweb}/WEB-INF/classes">
 			<fileset dir="src/gwiki/resources">
-				<include name="*.*" />
+				<include name="**/*" />
 				<exclude name="**/.svn" />
 			</fileset>
 		</copy>
@@ -58,7 +58,7 @@
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/test/java" sourcepath="src/test/java" destdir="target/test-classes" encoding="UTF-8" classpathref="testClassPath" optimize="true" />
 		<copy todir="target/test-classes">
 			<fileset dir="src/test/resources">
-				<include name="*.*" />
+				<include name="**/*" />
 				<exclude name="**/.svn" />
 			</fileset>
 		</copy>
