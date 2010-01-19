@@ -25,11 +25,12 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.micromata.genome.gwiki.model.GWikiLog;
+
 public class TagLibraryInfoImpl extends TagLibraryInfo
 {
   protected PageContext pageContext;
 
-  
   public TagLibraryInfoImpl(PageContext pageContext, String prefix, String uri)
   {
     super(prefix, uri);
@@ -162,6 +163,9 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
           is = TagLibraryInfoImpl.class.getResourceAsStream("web-jsptaglibrary_1_2.dtd");
         }
         if (is == null) {
+          if (parentResolver == null) {
+            GWikiLog.error("Cannot resolve entity: " + publicId + "; " + systemId);
+          }
           return parentResolver.resolveEntity(publicId, systemId);
         }
         InputSource source = new InputSource(is);
@@ -218,6 +222,7 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
   {
     return new TagLibraryInfo[0];
   }
+
   public void setInfo(String info)
   {
     this.info = info;
@@ -242,6 +247,5 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
   {
     this.urn = urn;
   }
-
 
 }
