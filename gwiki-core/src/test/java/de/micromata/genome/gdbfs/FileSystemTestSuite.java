@@ -57,7 +57,10 @@ public class FileSystemTestSuite extends TestSuite
       if (StringUtils.isEmpty(connUrl) == true) {
         continue;
       }
-
+      String dialect = settings.getProperty("gdbfs." + dbd.name() + ".dialect");
+      if (StringUtils.isEmpty(dialect) == true) {
+        continue;
+      }
       BasicDataSource ds = new BasicDataSource();
       ds.setUrl(connUrl);
       ds.setDriverClassName(settings.getProperty("gdbfs." + dbd.name() + ".driverClassName"));
@@ -70,9 +73,16 @@ public class FileSystemTestSuite extends TestSuite
         ds.setPassword(password);
       }
       DbFileSystemImpl ofs = new DbFileSystemImpl();
-      ofs.setDbTarget(new DbTarget(DbDialectEnum.Oracle10, ds));
+
+      ofs.setDbTarget(new DbTarget(DbDialectEnum.valueOf(dialect), ds));
       ofs.setFileSystemName("GDBFS_UNITTEST");
-      createSuite(suite, "oracle10", ofs);
+      try {
+        ofs.exists("");
+      } catch (Exception ex) {
+        System.out.println("Database " + dialect + " not available");
+        continue;
+      }
+      createSuite(suite, dialect, ofs);
     }
 
     return suite;
