@@ -5,7 +5,7 @@
 	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
 		<property name="port" value="8081" />
 	
-		<property name="contextRoot" value="./gwikiweb" />
+		<property name="contextRoot" value="./dev/gwikiweb" />
 	</bean>
 
 
@@ -38,7 +38,7 @@
 				<constructor-arg>
 					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 						<constructor-arg>
-							<value>./gwiki</value>
+							<value>./dev/gwiki</value>
 						</constructor-arg>
 					</bean>
 				</constructor-arg>
