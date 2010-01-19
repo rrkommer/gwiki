@@ -131,6 +131,7 @@
 		<jar destfile="delivery/${distdir}/lib/genome-gwiki-${gwikiversion}.jar">
 			<fileset dir="${gwikiweb}/WEB-INF/classes" />
 		</jar>
+		
 		<jar destfile="delivery/${distdir}/jettygwiki-${gwikiversion}.jar">
 			<manifest>
 				<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
