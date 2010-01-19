@@ -158,13 +158,13 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
 
         InputStream is = null;
         if (StringUtils.equals(systemId, "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd") == true) {
-          is = TagLibraryInfoImpl.class.getResourceAsStream("web-jsptaglibrary_1_1.dtd");
+          is = TagLibraryInfoImpl.class.getResourceAsStream("de/micromata/genome/gwiki/page/gspt/taglibs/web-jsptaglibrary_1_1.dtd");
         } else if (StringUtils.equals(systemId, "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd") == true) {
-          is = TagLibraryInfoImpl.class.getResourceAsStream("web-jsptaglibrary_1_2.dtd");
+          is = TagLibraryInfoImpl.class.getResourceAsStream("de/micromata/genome/gwiki/page/gspt/taglibs/web-jsptaglibrary_1_2.dtd");
         }
         if (is == null) {
           if (parentResolver == null) {
-            GWikiLog.error("Cannot resolve entity: " + publicId + "; " + systemId);
+            GWikiLog.error("Cannot resolve entity: " + systemId);
             return null;
           }
           return parentResolver.resolveEntity(publicId, systemId);
