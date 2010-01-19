@@ -47,6 +47,12 @@
 	<target name="compile-tests" description="compile testcases" depends="compile-war">
 		<mkdir dir="target/test-classes" />
 		<javac source="1.5" target="1.5" debug="true" srcdir="src/test/java" sourcepath="src/test/java" destdir="target/test-classes" encoding="UTF-8" classpathref="testClassPath" optimize="true" />
+		<copy todir="target/test-classes">
+			<fileset dir="src/test/resources">
+				<include name="*.*" />
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="clean">
@@ -62,7 +68,7 @@
 		<delete includeemptydirs="true" quiet="true">
 			<fileset dir="target/ant-junit-reports" includes="**/*" />
 		</delete>
-		<mkdir dir="target/ant-junit-reports"/>
+		<mkdir dir="target/ant-junit-reports" />
 		<junit timeout="3600000" showoutput="true" fork="true">
 			<!-- forkmode="perTest" -->
 			<jvmarg value="-Djava.awt.headless=true" />
@@ -75,8 +81,9 @@
 			<batchtest fork="true" todir="target/ant-junit-reports">
 				<formatter type="xml" />
 				<fileset dir="src/test/java">
-					<include name="**/*.java" />
+					<include name="**/*Test.java" />
 					<exclude name="**/FileSystemTest.java" />
+					<exclude name="**/GWikiPlayZoneTest.java" />
 				</fileset>
 			</batchtest>
 		</junit>
