@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
+		<property name="port" value="8081" />
+	
+		<property name="contextRoot" value="../../dev/gwikiweb" />
+	</bean>
+
+
+	<bean id="GwikiMimeTypes" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key=".txt" value="text/text" />
+				<entry key=".properties" value="text/properties" />
+				<entry key="Settings.properties" value="text/gwikisettings" />
+				<entry key="TextExtract.txt" value="text/gwikitextextract" />
+				<entry key="TextIndex.txt" value="text/gwikitextindex" />
+				<entry key=".gwiki" value="text/gwiki" />
+				<entry key=".gspt" value="text/gspt" />
+				<entry key=".xml" value="text/xml" />
+				<entry key=".js" value="text/javascipt" />
+				<entry key=".css" value="text/css" />
+				<entry key=".gif" value="image/gif" />
+				<entry key=".jpgeg" value="image/jpeg" />
+				<entry key=".jpg" value="image/jpeg" />
+				<entry key=".png" value="image/png" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<!--  FILE -->
+
+		<property name="storage">
+			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg>
+							<value>../../dev/gwiki</value>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+		<!--  DB -->
+		<!--
+			<property name="storage"> <bean
+			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+			<constructor-arg> <bean
+			class="de.micromata.genome.gdbfs.DbFileSystemImpl" />
+			</constructor-arg> <property name="beforePersistHandler"> <list>
+			<bean
+			class="de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler"
+			/> </list> </property> </bean> </property>
+		-->
+	</bean>
+</beans>
