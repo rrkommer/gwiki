@@ -64,7 +64,7 @@ public class FileSystemTest extends TestCase
     assertTrue(fsys.exists(fname));
     long time = fsys.getLastModified(fname);
     try {
-      Thread.sleep(100);
+      Thread.sleep(1000);
     } catch (Exception ex) {
       // nothing;
     }
