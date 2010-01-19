@@ -13,13 +13,19 @@
 	<property name="warfile" value="gwikiweb.war" />
 
 	<path id="classPath">
-		<fileset dir="${gwikiweb}/lib">
+		<fileset dir="${gwikiweb}/WEB-INF/lib">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="dev/lib">
 			<include name="*.jar" />
 		</fileset>
+		<fileset dir="dev/lib/test">
+			<include name="*.jar" />
+		</fileset>
 		<fileset dir="dev/lib/jetty7">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="dev/lib/jetty7/jsp">
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="dev/lib/test">
@@ -39,7 +45,7 @@
 	</target>
 	<target name="clean">
 		<delete includeemptydirs="true" quiet="true">
-			<fileset dir="delivery/.." includes="**/*" />
+			<fileset dir="delivery" includes="**/*" />
 		</delete>
 		<delete failonerror="true" dir="${gwikiweb}/WEB-INF/classes" />
 		<delete failonerror="true" dir="target/gwiki-jetty-classes" />
