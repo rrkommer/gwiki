@@ -165,6 +165,7 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
         if (is == null) {
           if (parentResolver == null) {
             GWikiLog.error("Cannot resolve entity: " + publicId + "; " + systemId);
+            return null;
           }
           return parentResolver.resolveEntity(publicId, systemId);
         }
