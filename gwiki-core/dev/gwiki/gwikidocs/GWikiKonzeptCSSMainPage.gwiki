@@ -1,0 +1,49 @@
+h2. CSS für reinen Wiki-Content
+
+h3. Body 
+Ausrichtung schrift, etc.
+
+h3. Links
+- Standard-Link intern, besucht/unbesucht (bin nicht sicher, ob da ein Unterschied gemacht werden soll)
+- Standard-Link intern, jedoch Seite noch nicht existent
+- Standard-Link intern, jedoch Seite darf nicht angesehen werden (derzeit wird dies überhaupt nicht als Link gerendert)
+- Externer Link
+
+- Download-Links (Target ist Attachment)
+
+- Links innerhalb der Seite (Toc)
+
+- Smarttag-Links (siehe ChangeLog, Macro) sowohl Link (dashed) als auch das aufpoppende Tooltip (ist derzeit von POP geklaut).
+
+
+h3. Listen
+- ul, ol, square
+
+h3. Überschriften
+- h1-h3
+
+h3. Tabellen
+- Standardtabellen mit th und td
+
+h3. Sonstiges/Macros
+- pageintro
+- panel, info, warn, etc.
+- quote
+- code
+- pre
+
+
+h2. CSS für Rahmen
+h3. Login
+h3. Standardseite Navigation
+- Navmenü (Untergeordnete Seiten)
+- HeadMenü (Seite editieren, etc.)
+- Suchbox
+-- Autocomplete in Suchbox
+- Breadcrump
+
+- Standardboxen (siehe Seite / Info, wo mehr oder minder tabelarische Infos auf einer Seite gruppiert werden)
+
+h3. JQuery-Elemente
+- Panel mit Tabs (Seite editieren)
+- jqrid (Alle Elemente)
