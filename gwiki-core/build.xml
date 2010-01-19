@@ -89,7 +89,7 @@
 		</junit>
 	</target>
 
-	<target name="build-war" description="build war file">
+	<target name="build-war" description="build war file" depends="compile-tests">
 		<war webxml="${gwikiweb}/WEB-INF/web.xml" destfile="target/${warfile}">
 			<fileset dir="${gwikiweb}">
 				<exclude name="WEB-INF/web.xml" />
@@ -98,7 +98,7 @@
 			</fileset>
 		</war>
 	</target>
-	<target name="delivery" description="build standalone wiki" depends="gwikilib,copy.webcontent,copy.wikiweb,gwikidistr">
+	<target name="delivery" description="build standalone wiki" depends="build-war,gwikilib,copy.webcontent,copy.wikiweb,gwikidistr">
 	</target>
 	<target name="gwikidistr" description="build runtime distribution">
 		<copy todir="delivery/${distdir}">
