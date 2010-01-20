@@ -96,7 +96,16 @@
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
 										</bean>
-											<bean
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_USER_SKINS" />
+											<property name="label" value="Available Skins" />
+											<property name="description" value="List of comma seperated skins" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRINGLIST" />
+											<property name="defaultValue" value="naked" />
+										</bean>
+										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_DEFAULT_SKIN" />
 											<property name="label" value="Default Skin" />
@@ -127,8 +136,7 @@ def onRender(pct)
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FS_WRITE_ACCESSRULES" />
 											<property name="label" value="Write AccessRules" />
-											<property name="description"
-												value="Rechteregeln für den Schreibzugriff" />
+											<property name="description" value="Rechteregeln für den Schreibzugriff" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -141,12 +149,11 @@ def onRender(pct)
 											]]></value>
 											</property>
 										</bean>
-											<bean
+										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_MACROS" />
 											<property name="label" value="Wiki Macros" />
-											<property name="description"
-												value="Klassen für WikiMacros" />
+											<property name="description" value="Klassen für WikiMacros" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">

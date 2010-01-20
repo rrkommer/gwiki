@@ -33,13 +33,32 @@
 											<property name="key" value="skin" />
 											<property name="description" value="Standard-Skin des Users." />
 											<property name="type" value="OPTION" />
-											<property name="optionValues">
+											<property name="controlerScript">
+											<value><![CDATA[
+def getDefaultValue(pct) 
+{
+	return pct.wikiContext.wikiWeb.wikiConfig.getDefaultSkin();
+}
+def getOptionEntryMap(pct) 
+{
+	Map m = new TreeMap();
+	m.put("", "");
+	List l = pct.wikiContext.wikiWeb.wikiConfig.getAvailableSkins(pct.wikiContext);
+	for (String sk in l) {
+		m.put(sk, sk);
+	}
+	return m;
+}
+											]]></value>
+											</property>
+											<!--  <property name="optionValues">
 												<map>
 													<entry key="naked" value="Naked" />
 													<entry key="pop" value="DHL Old Style" />
 													<entry key="dhl2009" value="DHL New Style" />
 												</map>
 											</property>
+											-->
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
