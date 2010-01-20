@@ -73,7 +73,15 @@ public class GWikiServlet extends HttpServlet
       GWikiWeb nwiki = new GWikiWeb(daoContext);
       try {
         GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
+        String servPath = req.getServletPath();
+        if (StringUtils.isBlank(servPath) == true) {
+          servPath = ctx.getRequest().getPathInfo();
+        }
+        if (servPath.startsWith("/") == true) {
+          servPath = servPath.substring(1);
+        }
         GWikiContext.setCurrent(ctx);
+        nwiki.setServletPath(servPath);
         nwiki.loadWeb();
       } finally {
         GWikiContext.setCurrent(null);
@@ -81,17 +89,16 @@ public class GWikiServlet extends HttpServlet
       wiki = nwiki;
     }
   }
-
+  
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
     initWiki(req, resp);
-    // String pi = req.getPathInfo();
-    // String servletPath = req.getServletPath();
     long start = System.currentTimeMillis();
     GWikiContext ctx = new GWikiContext(wiki, this, req, resp);
     try {
       GWikiContext.setCurrent(ctx);
+      
       wiki.serveWiki(ctx);
     } catch (Exception ex) {
       GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);

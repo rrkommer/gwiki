@@ -64,11 +64,15 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_WIKI_MACROS = "GWIKI_WIKI_MACROS";
 
+  public static final String GWIKI_WIKI_USER_SKINS = "GWIKI_WIKI_USER_SKINS";
+
   public static final String GWIKI_WIKI_DEFAULT_SKIN = "GWIKI_WIKI_DEFAULT_SKIN";
 
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
+
+  private List<String> availableSkins = null;
 
   public GWikiGlobalConfig()
   {
@@ -125,6 +129,22 @@ public class GWikiGlobalConfig extends GWikiProps
     return StringUtils.defaultIfEmpty(getStringValue(GWIKI_WIKI_DEFAULT_SKIN), "naked");
   }
 
+  public List<String> getAvailableSkins(GWikiContext wikiContext)
+  {
+    if (availableSkins != null) {
+      return availableSkins;
+    }
+    List<String> all = getStringList(GWIKI_WIKI_USER_SKINS);
+    List<String> fl = new ArrayList<String>();
+    for (String s : all) {
+      if (isSkinAvailable(wikiContext, s) == true) {
+        fl.add(s);
+      }
+    }
+    availableSkins = fl;
+    return availableSkins;
+  }
+
   protected List<Pair<String, Matcher<String>>> parseRightRules(String text)
   {
     if (StringUtils.isEmpty(text) == true) {
@@ -164,6 +184,12 @@ public class GWikiGlobalConfig extends GWikiProps
       }
     }
     return true;
+  }
+
+  public boolean isSkinAvailable(GWikiContext wikiContext, String skin)
+  {
+    String id = "inc/" + skin + "/standardtemplate";
+    return wikiContext.getWikiWeb().findElementInfo(id) != null;
   }
 
   protected void initScriptMacros(GWikiContext wikiContext, Map<String, GWikiMacroFactory> factories)

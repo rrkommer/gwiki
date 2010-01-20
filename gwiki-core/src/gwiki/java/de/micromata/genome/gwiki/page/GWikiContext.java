@@ -68,11 +68,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * Request attribute with List<String> of CSS for javascript.
    */
   public static final String CONTENT_JS = "de.micromata.genome.gwiki.page.GWikiContext.CONTENT_JS";
+
   /**
    * Will be set after initialization.
    */
   protected GWikiWeb wikiWeb;
-  
+
   private GWikiElement wikiElement;
 
   private HttpServletRequest request;
@@ -675,7 +676,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     String userStyle = wikiWeb.getAuthorization().getUserProp(this, "skin");
     if (StringUtils.isEmpty(userStyle) == false) {
-      return userStyle;
+      if (wikiWeb.getWikiConfig().isSkinAvailable(this, userStyle) == true) {
+        return userStyle;
+      }
     }
     return wikiWeb.getStandardSkin();
   }

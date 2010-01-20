@@ -54,15 +54,7 @@ public class GWikiWeb
 
   private GWikiDAOContext daoContext;
 
-  // private Map<String, GWikiElement> cachedPages = Collections.synchronizedMap(new HashMap<String, GWikiElement>());
-  //
-  // private Map<String, GWikiElementInfo> pageInfos = Collections.emptyMap();
-
-  // private GWikiPageCache pageCache = new GWikiPageCacheImpl(this);
-
   private GWikiFilters filter = new GWikiFilters();
-
-  // private String standardSkin = "dhl2009";
 
   private boolean inBootStrapping = false;
 
@@ -78,6 +70,8 @@ public class GWikiWeb
    * In case of import, do not reload automatically.
    */
   private boolean disableReload = false;
+
+  private String servletPath;
 
   private ThreadLocal<Set<String>> devModeChecked = new ThreadLocal<Set<String>>() {
 
@@ -610,11 +604,6 @@ public class GWikiWeb
     return getWikiConfig().getDefaultSkin();
   }
 
-  // public void setStandardSkin(String standardSkin)
-  // {
-  // this.standardSkin = standardSkin;
-  // }
-
   public GWikiFilters getFilter()
   {
     return filter;
@@ -658,5 +647,15 @@ public class GWikiWeb
   public void setDaoContext(GWikiDAOContext daoContext)
   {
     this.daoContext = daoContext;
+  }
+
+  public String getServletPath()
+  {
+    return servletPath;
+  }
+
+  public void setServletPath(String servletPath)
+  {
+    this.servletPath = servletPath;
   }
 }
