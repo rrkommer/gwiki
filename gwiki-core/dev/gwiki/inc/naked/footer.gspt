@@ -1,3 +1,6 @@
+<%
+	 de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageCommentMacro.doRender(wikiContext);
+%>
 </body>
 </html>
 
