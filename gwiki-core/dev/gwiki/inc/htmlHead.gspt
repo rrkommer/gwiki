@@ -1,5 +1,6 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
+<!-- htmlHead.gspt START -->
 <%@ page contentType="text/html; charset=UTF-8" %>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="expires" content="0" />
@@ -39,3 +40,4 @@
 <% wikiContext.addContentCss("/inc/gwiki.css"); %>
 <title><%= esc(wikiContext.getTranslatedProp(wikiContext?.wikiElement?.elementInfo?.title)) %></title>
 
+<!-- htmlHead.gspt END -->
