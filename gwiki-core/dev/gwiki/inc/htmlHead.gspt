@@ -9,18 +9,18 @@
   <meta name="ROBOTS" content="NOINDEX">
 
 <%-- TODO gwiki in statc --%>
-<link type="text/css" href="<c:url value='/inc/js/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
+<link type="text/css" href="<gwiki:url value='/inc/js/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
 <%-- TODO gwiki include nach skin --%>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
 
-<link type="text/css" href="<c:url value='/inc/gwiki.css'/>" rel="stylesheet" />
-<script src='<c:url value="/static/js/jquery-1.3.2.min.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/js/jquery-ui-1.7.2.custom.min.js" />' type="text/JavaScript"></script>
-<script type="text/javascript" src="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwiki-searchbox-0.1.js'/>"></script>
-<script src='<c:url value="/static/js/jquery.menu.v009/jquery.menu.js" />' type="text/JavaScript"></script>
-<link href="<c:url value="/static/js/jquery.menu.v009/demo/style.css"/>" rel="stylesheet" type="text/css" />
-<link type="text/css" href="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
+<link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
+<script src='<gwiki:url value="/static/js/jquery-1.3.2.min.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/js/jquery-ui-1.7.2.custom.min.js" />' type="text/JavaScript"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-searchbox-0.1.js'/>"></script>
+<script src='<gwiki:url value="/static/js/jquery.menu.v009/jquery.menu.js" />' type="text/JavaScript"></script>
+<link href="<gwiki:url value="/static/js/jquery.menu.v009/demo/style.css"/>" rel="stylesheet" type="text/css" />
+<link type="text/css" href="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
 <script type="text/javascript">
         function displayHilfeLayer(content, backwardscompparam){
             Tip(content,
@@ -33,7 +33,7 @@
                     FONTFACE, "Arial, Helvetica, sans-serif",
                     FONTCOLOR, '#000000',
                     CLOSEBTNPOP,true,
-                    CLOSEBTNIMG, "<c:url value="/static/skins/dhl2009/img/closetooltips.gif"/>"
+                    CLOSEBTNIMG, "<gwiki:url value="/static/skins/dhl2009/img/closetooltips.gif"/>"
                     );
         }
         </script>

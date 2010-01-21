@@ -28,7 +28,7 @@
 <%	} %>
 </td><td align="left"><div>
 
-<form id="quick-search" class="quick-search" action="<c:url value="/edit/Search"/>" method="POST">
+<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
 	<fieldset>
 	<legend>Schnellsuche</legend>
 	<input id="quick-search-query" class="quick-search-query placeholded" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>

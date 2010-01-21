@@ -26,7 +26,7 @@
            		<input id="gwikiHeadQuickGoText" class="gwikiSearchBox" type="text" size="25"/>
 <script type="text/javascript">
   \$(document).ready(function(){
-  	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<c:url value="/edit/SearchBox"/>'); 
+  	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
    
  });
 </script>
@@ -48,7 +48,7 @@
            <ul>
            <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
              <li>
-             		<a href="<c:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
+             		<a href="<gwiki:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
              	</li>
              <li></li>  
            	</gwiki:authorize>
@@ -72,7 +72,7 @@
            	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
            	<li><gwiki:link title="WikiConfig" pageId="edit/EditPage" urlParams="?pageId=admin/config/GWikiConfig"/></li>
        			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
-       				<li><a target="_blank" href="<c:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
+       				<li><a target="_blank" href="<gwiki:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
        			</gwiki:authorize>
            </ul>  
        </li>
