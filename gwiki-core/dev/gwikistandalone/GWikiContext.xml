@@ -4,7 +4,7 @@
 
 	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
 		<property name="port" value="8081" />
-	
+
 		<property name="contextRoot" value="./gwikiweb" />
 	</bean>
 
@@ -55,5 +55,8 @@
 			class="de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler"
 			/> </list> </property> </bean> </property>
 		-->
+		<property name="enableWebDav" value="true" />
+		<property name="webDavUserName" value="gwikidavadmin" />
+		<property name="webDavPasswordHash" value="yfrNAF5Bp7m/lm+ywXpD92uRNKc=" />
 	</bean>
 </beans>
