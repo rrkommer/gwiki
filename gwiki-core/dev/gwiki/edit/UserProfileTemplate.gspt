@@ -2,11 +2,11 @@
 <@include file="inc/stdtags.gspt" @> 
 
 
-<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
-<script type="text/javascript" src="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
-<link type="text/css" href="<c:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
+<link type="text/css" href="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
 
 <gwiki:errors />
 
@@ -55,14 +55,14 @@
 
 
 </form>
-<script type="text/javascript" src="<c:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
 <script type="text/javascript">
   \$(document).ready(function(){
     \$("#tabs").tabs();
     \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
 
     \$('.wikiPageEditText').autocomplete(
-    		'<c:url value="/edit/PageSuggestions"/>', 
+    		'<gwiki:url value="/edit/PageSuggestions"/>', 
     {
 			matchContains : true,
 			minChars : 0,

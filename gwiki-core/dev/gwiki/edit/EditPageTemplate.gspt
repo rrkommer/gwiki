@@ -18,20 +18,20 @@ var gwikiContentCss = '<%= localCsse.toString() %>';
 
 </script>
 
-<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<script type="text/javascript" src="<c:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/skins/naked/ui.jqgrid.css"/>" />
-<script type="text/javascript" src="<c:url value='/static/gwiki/textarea-0.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwiki-link-dialog-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwikiedit-wikiops-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwikiedit-toolbar-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwiki-wikitextarea-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwikiedit-frame-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwikiedit-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/gwiki/gwiki-htmledit-0.3.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/static/tiny_mce/plugins/gwiki/editor_plugin_src.js'/>"></script> 
-<script type="text/javascript" src="<c:url value='/static/gwiki/heartbeat.js'/>"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<script type="text/javascript" src="<gwiki:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/textarea-0.1.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-link-dialog-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-wikiops-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-toolbar-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-wikitextarea-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-frame-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-htmledit-0.3.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/tiny_mce/plugins/gwiki/editor_plugin_src.js'/>"></script> 
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/heartbeat.js'/>"></script>
 <gwiki:errors />
 
 
@@ -47,7 +47,7 @@ function openPreviewWindow(url) {
     //myWindow.moveTo(40, 40);
     myWindow.focus();
   }  
-openPreviewWindow('<c:url value="/${form.pageId}"/>');
+openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 </script>
 </c:if>
 <% form = pageContext.getRequest().getAttribute('form'); %>
@@ -69,7 +69,7 @@ openPreviewWindow('<c:url value="/${form.pageId}"/>');
 <script>
 function viewBackupDiff()
 {
-	var url = '<c:url value="/edit/ComparePages"/>?rightPageId=<c:out value="${form.pageId}"/>&leftPageId=<c:out value="${form.backupElementInfo.id}"/>';
+	var url = '<gwiki:url value="/edit/ComparePages"/>?rightPageId=<c:out value="${form.pageId}"/>&leftPageId=<c:out value="${form.backupElementInfo.id}"/>';
 	myWindow = open(url, "preview",
   "dependend=yes,resizable=yes,scrollbars=yes");
 	if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
@@ -83,7 +83,7 @@ function viewBackupDiff()
 		Sie haben noch eine alte Sicherung vom <%= wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt()) %>.<br/>
 		<a href="javascript:viewBackupDiff()">Vergleichen</a><br/>
 		Soll diese weiterbearbeitet werden?<br/>
-		<a target="_blank" href="<c:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true">Seite anschauen</a><br/>
+		<a target="_blank" href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true">Seite anschauen</a><br/>
 		<br/>
 		<input type="submit" name="method_onInitDeleteBackup" value="Sicherung verwerfen">
 		<input type="submit" name="method_onInitLoadBackup" value="Sicherung laden und weiter bearbeiten">
@@ -156,7 +156,7 @@ var saveAsync = 	function () {
 	var frmqs = jQuery("#editForm").serialize();
   jQuery.ajax({
   	cache: false,
-    url: '<c:url value="/edit/EditPage"/>?method_onAsyncSave=true',
+    url: '<gwiki:url value="/edit/EditPage"/>?method_onAsyncSave=true',
     type: 'POST',
     dataType: "html",
     data: frmqs,
@@ -171,7 +171,7 @@ var saveAsync = 	function () {
     \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
 
     \$('.wikiPageEditText').autocomplete(
-    		'<c:url value="/edit/PageSuggestions"/>', 
+    		'<gwiki:url value="/edit/PageSuggestions"/>', 
     {
 			matchContains : true,
 			minChars : 0,
@@ -191,7 +191,7 @@ var saveAsync = 	function () {
  });
   
 </script>
-<script type="text/javascript" src="<c:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
 
 <% } %>
 </form>

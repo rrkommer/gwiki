@@ -1,9 +1,9 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @>
 
-<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
 <div
 	style="z-index: 1000; width: 1200px; min-width: 1000px; overflow: visible;">
@@ -78,7 +78,7 @@ function collectQueryParms(impVars)
 function onImport(mygrid)
 {
 	var rows = getSelectedGridData(mygrid); //mygrid.getGridParam("selarrrow");
-	var url = '<c:url value="/edit/PageImporter"/>';
+	var url = '<gwiki:url value="/edit/PageImporter"/>';
 	var overWriteMode = 'ONLYNEW';
 	if (jQuery("#overWriteModeONLYNEWER:checked").val() == "ONLYNEWER") {
 		overWriteMode = 'ONLYNEWER';
@@ -115,9 +115,9 @@ function onImport(mygrid)
 
 jQuery(document).ready(function() {
 	//alert("data start");
-	var gridimgpath = '<c:url value="/static/jqgrid/css/redmond/images"/>';
+	var gridimgpath = '<gwiki:url value="/static/jqgrid/css/redmond/images"/>';
 	
-	var myurl = '<c:url value="/edit/PageImporter?method_onFilter=true&fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|IMPSTATUS"/>' 
+	var myurl = '<gwiki:url value="/edit/PageImporter?method_onFilter=true&fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|IMPSTATUS"/>' 
 		+ '&method_onFilter=true&filterExpression=' + 
 			escape(jQuery("#filterExpression").attr('value')) + 
 				'&tmpDirName=<c:out value="${form.tmpDirName}" escapeXml="false"/>' +

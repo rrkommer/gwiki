@@ -53,7 +53,7 @@ Bestehende Notifications f&uuml;r <c:out value="${form.userName}" />:
 		</table>
 	</c:when>
 	<c:otherwise>
-Zur&uuml;ck <c:url value="${form.pageId}" />.
+Zur&uuml;ck <gwiki:url value="${form.pageId}" />.
 </c:otherwise>
 </c:choose>
 

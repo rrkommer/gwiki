@@ -2,10 +2,10 @@
 <@include file="inc/stdtags.gspt" @>
 
 
-<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/skins/naked/ui.jqgrid.css"/>" />
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
 
 
 <div style="z-index:1000;width:1200px;min-width:1000px;overflow:visible;">
@@ -56,12 +56,12 @@ function onExport(mygrid)
 </c:if>
 jQuery(document).ready(function() {
 	//alert("data start");
-	var gridimgpath = '<c:url value="/static/jqgrid/css/redmond/images"/>';
+	var gridimgpath = '<gwiki:url value="/static/jqgrid/css/redmond/images"/>';
 	
 			
 	var mygrid =  jQuery("#list2")
 		.jqGrid(
-			{ url:'<c:url value="/edit/ViewAllPages?fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|operations"/>' 
+			{ url:'<gwiki:url value="/edit/ViewAllPages?fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|operations"/>' 
 					+ '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
 				datatype: "xml",
 				colNames:['id', 'pageId', 'Titel', "Typ", "Erstellt von", "Erstellt am","Ge&auml;ndert von", "Ge&auml;ndert am", "Operationen"], 

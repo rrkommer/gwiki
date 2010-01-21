@@ -1,13 +1,13 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 
-<script src='<c:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<c:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
 
 <form method="post">
-	<a href="<c:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers">Neuen Nutzer anlegen</a><p/>
+	<a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers">Neuen Nutzer anlegen</a><p/>
 	<html:text size="80" property="filterExpression"/>
 	<input type="submit" name="method_onInit" value="Filtern"/>
 </form>
@@ -21,12 +21,12 @@
 
 <script type="text/JavaScript">
 jQuery(document).ready(function() {
-	var gridimgpath = '<c:url value="/static/css/ui-lightness/images"/>';
+	var gridimgpath = '<gwiki:url value="/static/css/ui-lightness/images"/>';
 	
 			
 	var mygrid =  jQuery("#list2")
 		.jqGrid(
-			{ url:'<c:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
+			{ url:'<gwiki:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
 					+ '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
 				datatype: "xml",
 				colNames:['id', 'User', 'Email', "Operationen"], 

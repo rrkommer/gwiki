@@ -16,8 +16,8 @@
 		    >
 		    
 		   <PARAM name="java_code" value="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet">
-			<PARAM name="java_codebase" value="<c:url value="${form.appletUrl}"/>">
-			<PARAM name="java_archive" value="<c:url value="${form.appletUrl}"/>">
+			<PARAM name="java_codebase" value="<gwiki:url value="${form.appletUrl}"/>">
+			<PARAM name="java_archive" value="<gwiki:url value="${form.appletUrl}"/>">
 			<PARAM name="type" value="application/x-java-applet;version=1.5">
 			<PARAM name="bgcolor" value="FFFFFF">
 			<PARAM name="pageId" value="<c:out value="${form.pageId}"/>">
@@ -32,8 +32,8 @@
 			<embed	type="application/x-java-applet;version=1.4" width="750" height="700" 
 					pluginspage="https://java.sun.com/products/plugin/index.html#download" 
 					java_code="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet" 
-					java_codebase="<c:url value="${form.appletUrl}"/>" 
-					java_archive="<c:url value="${form.appletUrl}"/>" bgcolor="#ffffff" 
+					java_codebase="<gwiki:url value="${form.appletUrl}"/>" 
+					java_archive="<gwiki:url value="${form.appletUrl}"/>" bgcolor="#ffffff" 
 					pageId="<c:out value="${form.pageId}"/>"
 					parentPageId="<c:out value="${form.parentPageId}"/>"
 					homeUrl="<c:out value="${form.homeUrl}"/>"
