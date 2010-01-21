@@ -14,6 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.test.web.SimHttpServletRequest;
 import de.micromata.genome.test.web.SimHttpServletResponse;
 
+
 public class GWikiMockupContext extends GWikiContext
 {
 
