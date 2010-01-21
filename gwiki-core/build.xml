@@ -146,6 +146,8 @@
 			<manifest>
 				<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
 				<attribute name="Class-Path" value=".
+									lib/slf4j-api-1.5.8.jar
+									lib/slf4j-log4j12-1.5.8.jar
 									lib/genome-gwiki-${gwikiversion}.jar
 									lib/jetty-ajp-7.0.0.v20091005.jar 
 									lib/jetty-annotations-7.0.0.v20091005.jar 
@@ -207,8 +209,8 @@
 									lib/groovy-1.5.4.jar 
 									lib/jakarta-oro-2.0.8.jar 
 									lib/jdom.jar 
-									lib/jstl-1.1.2.jar 
-									lib/log4j-1.2.8.jar
+									lib/jstl-1.1.2.jar
+									lib/log4j-1.2.15.jar
 									lib/spring-2.5.1.jar 
 									lib/standard-1.1.2.jar 
 									lib/struts-1.2.9.jar 
@@ -234,29 +236,6 @@
 		<delete dir="delivery/${distdir}" failonerror="false" />
 		<mkdir dir="delivery/${distdir}" />
 	</target>
-	<!-- 
-	<target name="copy.genomesrcfrompop" description="copy necessary java sources from pop">
-		<copy todir="src/genome">
-			<fileset dir="${genomesrcpath}">
-				<include name="de/micromata/genome/util/matcher/**/*.java" />
-				<exclude name="de/micromata/genome/util/matcher/cls/ClassMatcherBuilder.java" />
-				<exclude name="de/micromata/genome/util/matcher/cls/JUnit3TestCaseMatcher.java" />
-				<include name="de/micromata/genome/util/types/**/*.java" />
-				<exclude name="de/micromata/genome/util/types/DateUtils.java" />
-				<include name="de/micromata/genome/util/runtime/**/*.java" />
-				<exclude name="de/micromata/genome/util/runtime/PluginContext.java" />
-				<exclude name="de/micromata/genome/util/runtime/PluginCallback.java" />
-				<include name="de/micromata/genome/util/text/**/*.java" />
-				<include name="de/micromata/genome/util/bean/**/*.java" />
-				<include name="de/micromata/genome/util/xml/**/*.java" />
-				<include name="de/micromata/genome/dao/db/StdRecordDO.java" />
-				<include name="de/micromata/genome/util/web/MimeUtils.java" />
-			</fileset>
-		</copy>
-	</target>
--->
-
-
 
 	<target name="copy.webcontent" description="copy webcontent">
 		<!-- GWIKI -->

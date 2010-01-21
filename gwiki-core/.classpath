@@ -41,7 +41,6 @@
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/javamail-1.3.2.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/jhighlight-1.0.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/jstl-1.1.2.jar"/>
-	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/log4j-1.2.8.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/mail-1.4.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/milton-api-1.4.2.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/milton-console-1.4.2.jar"/>
@@ -55,7 +54,7 @@
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/poi-contrib-3.2-FINAL-20081019.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/poi-scratchpad-3.2-FINAL-20081019.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/spring-2.5.1.jar"/>
-	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/standard.jar" sourcepath="dev/lib/libsrc/jakarta-taglibs-standard-1.1.2-src.zip"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/struts-1.2.9.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/struts-el-1.2.9.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/xercesImpl-2.8.1.jar"/>
@@ -97,5 +96,8 @@
 	<classpathentry kind="lib" path="dev/lib/jetty7/jsp/ant-1.6.5.jar"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="lib" path="dev/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/log4j-1.2.15.jar" sourcepath="dev/lib/libsrc/log4j-1.2.15-src.zip"/>
 	<classpathentry kind="output" path="dev/gwikiweb/WEB-INF/classes"/>
 </classpath>
