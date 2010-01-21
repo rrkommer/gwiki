@@ -11,7 +11,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.web.GWikiServlet;
-import de.micromata.genome.gwiki.web.StaticFileServlet;
 
 public class GWikiJettyStarter
 {
@@ -37,8 +36,6 @@ public class GWikiJettyStarter
       context.setContextPath("/");
       context.setResourceBase(jettyConfig.getContextRoot());
 
-      ServletHolder staticFileServlet = new ServletHolder(new StaticFileServlet());
-      context.addServlet(staticFileServlet, "/static/*");
       GWikiServlet wikiServlet = new GWikiServlet();
       ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
       wikiServlet.setDAOContext(wikibootcfg);
