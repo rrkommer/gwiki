@@ -1,0 +1,13 @@
+<gwikidocs/comments/GWikiFeatures/20100120153428844
+20|COMMENT
+1|DIES
+1|HALLO
+1|KOMMENTAR
+1|LISTE
+4|LISTEMIT
+>gwikidocs/comments/GWikiFeatures/20100120153428844
+<admin/config/GWikiConfig
+20|CONFIG
+20|GLOBAL
+20|GWIKI
+>admin/config/GWikiConfig

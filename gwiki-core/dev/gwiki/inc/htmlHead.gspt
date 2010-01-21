@@ -38,6 +38,7 @@
         }
         </script>
 <% wikiContext.addContentCss("/inc/gwiki.css"); %>
+
 <title><%= esc(wikiContext.getTranslatedProp(wikiContext?.wikiElement?.elementInfo?.title)) %></title>
 
 <!-- htmlHead.gspt END -->

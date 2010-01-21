@@ -1,4 +1,4 @@
- 
+<!-- headMenu.gspt START --> 
  <ul id="menuone" class="menu" style="text-align: right">  
         <li class="menumain"><fmt:message key="gwiki.page.headmenu.Page"/>
             <ul>
@@ -48,7 +48,7 @@
            <ul>
            <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
              <li>
-             		<a href="<gwiki:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
+             		<a href="<c:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
              	</li>
              <li></li>  
            	</gwiki:authorize>
@@ -88,3 +88,5 @@
    \$('#menuone').menu(options);
   //});
 </script>
+
+<!-- headMenu.gspt END -->

@@ -2,7 +2,7 @@
 	background-position: left bottom;
 	background-repeat: repeat-x;
 	color: #777777;
-	font-family: Arial, Helvetica, Sans-Serif;
+	font-family: helvetica, arial, freesans, clean, sans-serif;
 	font-size: 11px;
 	margin: 0 auto;
 	padding: 0px 0 0px;
@@ -109,16 +109,7 @@ element.style {
 	padding: 0;
 }
 
-element.style {
-	border-bottom-width: 1px;
-	border-left-width-ltr-source: physical;
-	border-left-width-rtl-source: physical;
-	border-left-width-value: 1px;
-	border-right-width-ltr-source: physical;
-	border-right-width-rtl-source: physical;
-	border-right-width-value: 1px;
-	border-top-width: 1px;
-}
+
 
 .codeHeader,.panelHeader,.panelContent {
 	-moz-background-clip: border;
