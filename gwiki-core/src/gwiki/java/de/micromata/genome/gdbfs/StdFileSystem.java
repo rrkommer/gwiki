@@ -107,6 +107,7 @@ public class StdFileSystem extends AbstractFileSystem
   public boolean exists(String name)
   {
     File f = new File(root, name);
+    ensureFileInFs(f);
     return f.exists();
   }
 
@@ -118,6 +119,7 @@ public class StdFileSystem extends AbstractFileSystem
     } else {
       f = new File(root, name);
     }
+    ensureFileInFs(f);
     if (f.exists() == false) {
       return null;
     }
@@ -133,25 +135,38 @@ public class StdFileSystem extends AbstractFileSystem
   {
     checkReadOnly();
     File f = new File(root, name);
+    ensureFileInFs(f);
     boolean ret = f.mkdir();
     if (ret == true) {
       incLocalModificationCount();
       addEvent(FileSystemEventType.Created, name, System.currentTimeMillis());
     }
-    // TODO gwiki TEST ONLYE
-    try {
-      String p = f.getCanonicalPath();
-      System.out.println(p);
-    } catch (IOException ex) {
-
-    }
     return ret;
+  }
+
+  protected void ensureFileInFs(File f)
+  {
+    String cn;
+    try {
+      cn = f.getCanonicalPath();
+    } catch (IOException ex) {
+      throw new FsInvalidNameException("Cannot resolve filename: " + f.getName() + "; " + ex.getMessage(), ex);
+    }
+    ensureCanonFileInFs(cn);
+  }
+
+  protected void ensureCanonFileInFs(String canonPath)
+  {
+    if (canonPath.startsWith(canonRoot) == false) {
+      throw new FsInvalidNameException("File is not content of file system: " + canonPath);
+    }
   }
 
   public boolean mkdirs(String name)
   {
     checkReadOnly();
     File f = new File(root, name);
+    ensureFileInFs(f);
     boolean ret = f.mkdirs();
     if (ret == true) {
       incLocalModificationCount();
@@ -164,7 +179,10 @@ public class StdFileSystem extends AbstractFileSystem
   {
     checkReadOnly();
     File f = new File(root, oldName);
-    boolean ret = f.renameTo(new File(root, newName));
+    ensureFileInFs(f);
+    File toFile = new File(root, newName);
+    ensureFileInFs(toFile);
+    boolean ret = f.renameTo(toFile);
     if (ret == true) {
       incLocalModificationCount();
       addEvent(FileSystemEventType.Renamed, newName, System.currentTimeMillis(), oldName);
@@ -177,7 +195,6 @@ public class StdFileSystem extends AbstractFileSystem
   {
 
     byte[] data = readBinaryFile(name);
-
     try {
       return new String(data, STANDARD_STRING_ENCODING);
     } catch (UnsupportedEncodingException ex) {
@@ -188,6 +205,7 @@ public class StdFileSystem extends AbstractFileSystem
   public void readBinaryFile(String name, OutputStream os)
   {
     File f = new File(root, name);
+    ensureFileInFs(f);
     try {
       FileInputStream fin = new FileInputStream(f);
       IOUtils.copy(fin, os);
@@ -210,6 +228,7 @@ public class StdFileSystem extends AbstractFileSystem
     checkReadOnly();
     FileSystemEventType eventType = FileSystemEventType.Modified;
     File f = new File(root, name);
+    ensureFileInFs(f);
     if (overWrite == false) {
       checkUnexistantFile(name);
       eventType = FileSystemEventType.Created;
@@ -268,6 +287,7 @@ public class StdFileSystem extends AbstractFileSystem
 
   protected FsObject fileToFsObject(File f)
   {
+    ensureFileInFs(f);
     FsObject ret;
     String rn = getRelName(f);
     if (f.isDirectory() == true) {
@@ -338,35 +358,11 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
-  //
-  // public List<FsObject> listFiles(String name, Character searchType)
-  // {
-  // List<FsObject> ret = new ArrayList<FsObject>();
-  // File d = new File(rootFile, name);
-  // if (d.exists() == false) {
-  // return ret;
-  // }
-  //
-  // for (File tf : d.listFiles()) {
-  // if (searchType == null) {
-  // ret.add(fileToFsObject(tf));
-  // } else if (searchType == 'D') {
-  // if (tf.isDirectory() == true) {
-  // ret.add(fileToFsObject(tf));
-  // }
-  // } else if (searchType == 'F') {
-  // if (tf.isFile() == true) {
-  // ret.add(fileToFsObject(tf));
-  // }
-  // }
-  // }
-  // return ret;
-  // }
-
   public boolean delete(String name)
   {
     checkReadOnly();
     File f = new File(rootFile, name);
+    ensureFileInFs(f);
     boolean ret = f.delete();
     if (ret == true) {
       incLocalModificationCount();
@@ -378,6 +374,7 @@ public class StdFileSystem extends AbstractFileSystem
   public long getLastModified(final String name)
   {
     File f = new File(rootFile, name);
+    ensureFileInFs(f);
     if (f.exists() == false) {
       return 0;
     }
@@ -436,6 +433,7 @@ public class StdFileSystem extends AbstractFileSystem
       return getGlobalLock();
     }
     File f = new File(rootFile, name);
+    ensureFileInFs(f);
     StdFileSystemLock lock = new StdFileSystemLock(f);
     return lock;
   }
@@ -449,6 +447,7 @@ public class StdFileSystem extends AbstractFileSystem
 
     }
     File f = new File(rootFile, nomName);
+    ensureFileInFs(f);
     String fqName = canonPath(f);
     lock = lockedLocks.get().get(fqName);
 

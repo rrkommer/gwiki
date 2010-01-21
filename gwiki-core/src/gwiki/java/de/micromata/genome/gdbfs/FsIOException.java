@@ -11,15 +11,13 @@ package de.micromata.genome.gdbfs;
 
 import java.io.IOException;
 
-import de.micromata.genome.util.runtime.RuntimeIOException;
-
 /**
  * Exception thrown by FileSystem.
  * 
  * @author roger@micromata.de
  * 
  */
-public class FsIOException extends RuntimeIOException
+public class FsIOException extends FsException
 {
 
   private static final long serialVersionUID = -3256791863540206821L;
