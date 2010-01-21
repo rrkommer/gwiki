@@ -6,86 +6,20 @@
 		<title>
 			$title
 		</title>
-		<style type="text/css" media="screen">
-		body{
-			padding:0;
-			margin:0;
-			background:#6D6D6D;
-		}
-		
-		#gwikiExplorer{
-			width:3em;
-			height:3em;
-			border:1px solid red;
-			background:yellow;
-			float:left;
-		}
-		
-		#gwikiHead{
-			margin:0;
-			padding:0;
-			background:#FF0080;
-			border-bottom:0.5em solid #BB005E;
-		}
-		
-		
-		#gwikiMasthead{
-			float:left;
-			width:50%;
-		}
-		
-		#gwikiQuicksearch{
-			float:right;
-			width:50%;
-		}
-		
-		ul#gwikiMenuone, #gwikiMenuone ul{
-			list-style:none;
-		}
-		
-		#gwikiMenuone li {
-			float:left;
-		}
-		
-/* gwiki Head content END + + + + + + + + + + + + + + + + */
-		
-		
-		#gwikiContainer{
-			width:80em;
-			border-left:0.3em solid #999;
-			border-right:0.3em solid #999;
-			background:#fff;
-			margin: 0 auto;
-			padding:2em 0 0 0;
-		}
-		
-		div.clearAll{
-			height:1px;
-			overflow:hidden;
-			clear:both;
-		}
-		
-		#gwikiFooter{
-			border-top:1px solid #000;
-			width:100%;
-			padding:2em 0;
-			margin:0;
-			color:#fff;
-			background:#080708;
-		}
-		
-		#gwikiFooter dl.gwikiFooter{
-			float:left;
-			height:20em;
-			width:22%;
-			border:1px solid red;
-			color:#fff;
-		}
-		
-		
-		</style>
+		<link rel="stylesheet" href="reset.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="main.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<script src="js/jquery-1.4.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function(){
+				$("#knopp").click(function(){$("#gwikiTestbockwurst").toggle();})
+			})
+		</script>
 	</head>
 	<body>
+		<div id="knopp">klick mich</div>
+		<div id="gwikiTestbockwurst">
+			<img src="gWiki_screens.png" width="1024" height="3517" alt="GWiki Screens">
+		</div>
 		<div id="gwikiWrapper">
 			
 			
