@@ -15,8 +15,17 @@ import javax.servlet.jsp.JspException;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Generates a wiki link.
+ * 
+ * @author roger
+ * 
+ */
 public class WikiLinkTag extends WikiSimpleTagBase
 {
+
+  private static final long serialVersionUID = 6695603589254623511L;
+
   private String pageId;
 
   private String urlParams;

@@ -10,6 +10,8 @@
 package de.micromata.genome.gwiki.web;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,15 +19,36 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.bradmcevoy.http.CompressingResponseHandler;
+import com.bradmcevoy.http.DefaultResponseHandler;
+import com.bradmcevoy.http.HttpManager;
+import com.bradmcevoy.http.Request;
+import com.bradmcevoy.http.ResponseHandler;
+import com.bradmcevoy.http.ServletRequest;
+
+import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.utils.ClassUtils;
+import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
+import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
+import de.micromata.genome.util.types.TimeInMillis;
+import de.micromata.genome.util.web.MimeUtils;
 
+/**
+ * Servlet for wiki, static and dav access.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiServlet extends HttpServlet
 {
 
@@ -34,6 +57,11 @@ public class GWikiServlet extends HttpServlet
   private GWikiDAOContext daoContext;
 
   public GWikiWeb wiki;
+
+  /**
+   * WebDAV
+   */
+  private HttpManager httpManager;
 
   public static GWikiServlet INSTANCE;
 
@@ -58,12 +86,6 @@ public class GWikiServlet extends HttpServlet
 
   }
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
-  {
-    doPost(req, resp);
-  }
-
   protected void initWiki(HttpServletRequest req, HttpServletResponse resp)
   {
     if (wiki != null && wiki.getWikiConfig() != null) {
@@ -74,12 +96,12 @@ public class GWikiServlet extends HttpServlet
       try {
         GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
         String servPath = req.getServletPath();
-        if (StringUtils.isBlank(servPath) == true) {
-          servPath = ctx.getRequest().getPathInfo();
-        }
-        if (servPath.startsWith("/") == true) {
-          servPath = servPath.substring(1);
-        }
+        // if (StringUtils.isBlank(servPath) == true) {
+        // servPath = ctx.getRequest().getPathInfo();
+        // }
+        // if (servPath.startsWith("/") == true) {
+        // servPath = servPath.substring(1);
+        // }
         GWikiContext.setCurrent(ctx);
         nwiki.setServletPath(servPath);
         nwiki.loadWeb();
@@ -89,23 +111,119 @@ public class GWikiServlet extends HttpServlet
       wiki = nwiki;
     }
   }
-  
+
+  protected String getWikiPage(GWikiContext ctx)
+  {
+    String servPath = ctx.getRequest().getServletPath();
+    String pathInfo = ctx.getRequest().getPathInfo();
+    String page = servPath;
+    if (StringUtils.isNotEmpty(pathInfo) == true) {
+      page = pathInfo;
+    }
+    if (page.startsWith("/") == true) {
+      page = page.substring(1);
+    }
+    return page;
+  }
+
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
     initWiki(req, resp);
     long start = System.currentTimeMillis();
     GWikiContext ctx = new GWikiContext(wiki, this, req, resp);
     try {
       GWikiContext.setCurrent(ctx);
-      
-      wiki.serveWiki(ctx);
+      String page = getWikiPage(ctx);
+
+      if (page.equals("dav") == true || page.startsWith("dav/") == true) {
+        serveWebDav(ctx);
+        return;
+      }
+      final String method = req.getMethod();
+      if (StringUtils.equals(method, "GET") == false && StringUtils.equals(method, "POST") == false) {
+        resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Gwiki Method " + method + " not supported");
+        return;
+      }
+      if (page.startsWith("static/") == true) {
+        serveStatic(page, ctx);
+        return;
+      }
+      wiki.serveWiki(page, ctx);
     } catch (Exception ex) {
       GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);
     } finally {
       wiki.getLogging().addPerformance("GWikiServlet.doPost", System.currentTimeMillis() - start, 0);
       GWikiContext.setCurrent(null);
     }
+  }
+
+  protected void serveStatic(String page, GWikiContext wikiContext) throws ServletException, IOException
+  {
+    HttpServletResponse resp = wikiContext.getResponse();
+    String res = "/" + page;
+    InputStream is = getServletContext().getResourceAsStream(res);
+    if (is == null) {
+      resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      return;
+    }
+    long nt = new Date().getTime() + TimeInMillis.DAY;
+    String mime = MimeUtils.getMimeTypeFromFile(res);
+    if (StringUtils.equals(mime, "application/x-shockwave-flash")) {
+      resp.setHeader("Cache-Control", "cache, must-revalidate");
+      resp.setHeader("Pragma", "public");
+    }
+    resp.setDateHeader("Expires", nt);
+    resp.setHeader("Cache-Control", "max-age=86400, public");
+    if (mime != null) {
+      resp.setContentType(mime);
+    }
+
+    byte[] data = IOUtils.toByteArray(is);
+    IOUtils.closeQuietly(is);
+    resp.setContentLength((int) data.length);
+    IOUtils.write(data, resp.getOutputStream());
+  }
+
+  public synchronized HttpManager getHttpManager(HttpServletRequest req)
+  {
+    if (httpManager != null)
+      return httpManager;
+
+    GWikiStorage wkStorage = GWikiServlet.INSTANCE.getDAOContext().getStorage();
+    FileSystem storage = null;
+    if (wkStorage instanceof GWikiFileStorage) {
+      storage = ((GWikiFileStorage) wkStorage).getStorage();
+    } else {
+      throw new RuntimeException("GWiki not found or has no compatible storage");
+    }
+    String cpath = req.getContextPath();
+    String servPath = req.getServletPath();
+    // String pi = req.getPathInfo();
+    String prefix = cpath + servPath + "/dav/";
+    ResponseHandler responseHandler = new CompressingResponseHandler(new DefaultResponseHandler());
+    FsDavResourceFactory fsfac = new FsDavResourceFactory(storage, prefix);
+    fsfac.setInternalUserName(daoContext.getWebDavUserName());
+    fsfac.setInternalPass(daoContext.getWebDavPasswordHash());
+    boolean wordHtmlEdit = false;
+    fsfac.setWordHtmlEdit(wordHtmlEdit);
+    if (wordHtmlEdit == true) {
+      httpManager = new HttpManager(new FsDavOfficeResourceFactory(wiki, fsfac), responseHandler);
+    } else {
+      httpManager = new HttpManager(fsfac, responseHandler);
+    }
+    return httpManager;
+  }
+
+  protected void serveWebDav(GWikiContext ctx) throws ServletException, IOException
+  {
+    if (daoContext.isEnableWebDav() == false) {
+      ctx.getResponse().sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "GWiki webdav not enabled");
+      return;
+    }
+    Request request = new ServletRequest(ctx.getRequest());
+    LogServletResponse response = new LogServletResponse(ctx.getResponse());
+    getHttpManager(ctx.getRequest()).process(request, response);
   }
 
   public GWikiDAOContext getDAOContext()

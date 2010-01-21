@@ -39,6 +39,7 @@ public class StaticFileServlet extends HttpServlet
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
+    
     InputStream is = getServletContext().getResourceAsStream(respath);
     if (is == null) {
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -9,11 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.actionbean;
 
-import groovy.lang.GroovyObject;
-import groovy.lang.MetaClass;
-
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,7 +19,6 @@ import java.util.Set;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -64,16 +59,17 @@ public class ActionBeanUtils
     return nm;
   }
 
+  @SuppressWarnings("unchecked")
   public static void fillForm(ActionBean bean, GWikiContext pctx)
   {
     try {
       Map<String, Object> pm = pctx.getRequest().getParameterMap();
       pm = getPrivateMap(bean, pm);
       ClassUtils.populateBeanWithPuplicMembers(bean, pm);
-//      
-//      } else {
-//        BeanUtilsBean.getInstance().populate(bean, pm);
-//      }
+      //      
+      // } else {
+      // BeanUtilsBean.getInstance().populate(bean, pm);
+      // }
 
     } catch (Exception ex) {
       throw new RuntimeException(ex);
@@ -171,9 +167,12 @@ public class ActionBeanUtils
   public static void redirect(GWikiContext ctx, String pageId)
   {
     try {
-      if (pageId.startsWith("/") == true) {
+      if (pageId.startsWith("//") == true) {
         ctx.getResponse().sendRedirect(pageId);
       } else {
+        if (pageId.startsWith("/") == true) {
+          pageId = pageId.substring(1);
+        }
         ctx.getResponse().sendRedirect(ctx.localUrl(pageId));
       }
     } catch (IOException ex) {

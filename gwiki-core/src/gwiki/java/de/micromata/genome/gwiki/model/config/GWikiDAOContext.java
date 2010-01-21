@@ -66,6 +66,12 @@ public class GWikiDAOContext
 
   private Session mailSession;
 
+  private boolean enableWebDav = false;
+
+  private String webDavUserName;
+
+  private String webDavPasswordHash;
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -183,6 +189,36 @@ public class GWikiDAOContext
   public void setPageCache(GWikiPageCache pageCache)
   {
     this.pageCache = pageCache;
+  }
+
+  public String getWebDavUserName()
+  {
+    return webDavUserName;
+  }
+
+  public void setWebDavUserName(String webDavUserName)
+  {
+    this.webDavUserName = webDavUserName;
+  }
+
+  public String getWebDavPasswordHash()
+  {
+    return webDavPasswordHash;
+  }
+
+  public void setWebDavPasswordHash(String webDavPasswordHash)
+  {
+    this.webDavPasswordHash = webDavPasswordHash;
+  }
+
+  public boolean isEnableWebDav()
+  {
+    return enableWebDav;
+  }
+
+  public void setEnableWebDav(boolean enableWebDav)
+  {
+    this.enableWebDav = enableWebDav;
   }
 
 }

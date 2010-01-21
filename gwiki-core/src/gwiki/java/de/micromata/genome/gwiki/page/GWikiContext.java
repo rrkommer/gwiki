@@ -249,6 +249,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
         }
       }
     }
+    res = wikiWeb.getServletPath() + res;
     if (pageContext != null) {
       try {
         res = UrlTag.resolveUrl(res, null, pageContext);
@@ -258,11 +259,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     } else {
       String ctxpath = getRequest().getContextPath();
       String svpath = getRequest().getServletPath();
-      res = ctxpath + /* svpath + */res;
+      res = ctxpath + svpath + res;
     }
-    if (response != null)
+    if (response != null) {
       res = response.encodeURL(res);
-    // todo
+    }
     return res;
   }
 

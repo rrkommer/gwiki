@@ -156,7 +156,8 @@ public class GWikiWeb
 
   }
 
-  public void serveWiki(final GWikiContext ctx)
+  
+  public void serveWiki(String page, final GWikiContext ctx)
   {
     if (wikiGlobalConfig.checkFileSystemForExternalMod() == true) {
       devModeChecked.get().clear();
@@ -164,18 +165,9 @@ public class GWikiWeb
     try {
       if (inBootStrapping == true) {
         synchronized (this) {
-
         }
       }
-      String servPath = ctx.getRequest().getServletPath();
-      // bei jetty ist servPath ""
-      if (StringUtils.isBlank(servPath) == true) {
-        servPath = ctx.getRequest().getPathInfo();
-      }
-      if (servPath.startsWith("/") == true) {
-        servPath = servPath.substring(1);
-      }
-      serveWiki(ctx, servPath);
+      serveWiki(ctx, page);
     } finally {
       if (wikiGlobalConfig.checkFileSystemForExternalMod() == true) {
         devModeChecked.get().clear();
