@@ -1,0 +1,9 @@
+<!-- standardfoot.gspt START -->
+Last modified <%= wikiContext.getUserDateString(wikiContext.wikiElement.elementInfo.props.getDateValue("MODIFIEDAT")) %> by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %><br/>
+ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFilter.getUseCounter(wikiContext, wikiContext.wikiElement.elementInfo.id) %>
+
+By Roger Rene Kommer <a href="mailto:r.kommer@micromata.de">r.kommer@micromata.de</a> and <a href="http://www.micromata.de">Micromata</a>
+	
+
+<@include file="inc/naked/footer.gspt"@>
+<!-- standardfoot.gspt END -->
