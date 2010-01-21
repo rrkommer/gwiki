@@ -49,6 +49,15 @@
 		width:50%;
 	}
 	
+	#gwikiSearchmenu ul li {
+		float:left;
+		padding:0.2em;
+	}
+	
+	#gwikiQuicksearchQuery {
+		-moz-border-radius:1em;
+	}
+	
 	ul#gwikiMenuone, #gwikiMenuone ul{
 		list-style:none;
 	}
@@ -61,7 +70,7 @@
 	
 	
 	#gwikiContainer{
-		width:80em;
+		width:56em;
 		border-left:0.3em solid #999;
 		border-right:0.3em solid #999;
 		background:#fff;
