@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.ServletOutputStream;
@@ -56,6 +57,7 @@ import de.micromata.genome.gwiki.utils.TimeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
+import de.micromata.genome.util.types.ArraySet;
 
 public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 {
@@ -105,6 +107,10 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   private int renderMode = 0;;
 
   private int domIdCounter = 1;
+
+  private Set<String> requiredCss = new ArraySet<String>();
+
+  private Set<String> requiredJs = new ArraySet<String>();
 
   public GWikiContext(GWikiWeb wikiWeb, HttpServlet servlet, HttpServletRequest request, HttpServletResponse response)
   {
@@ -802,6 +808,26 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void setRenderMode(int renderMode)
   {
     this.renderMode = renderMode;
+  }
+
+  public Set<String> getRequiredCss()
+  {
+    return requiredCss;
+  }
+
+  public void setRequiredCss(Set<String> requiredCss)
+  {
+    this.requiredCss = requiredCss;
+  }
+
+  public Set<String> getRequiredJs()
+  {
+    return requiredJs;
+  }
+
+  public void setRequiredJs(Set<String> requiredJs)
+  {
+    this.requiredJs = requiredJs;
   }
 
 }

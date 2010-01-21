@@ -15,8 +15,17 @@ import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.PropUtils;
 
+/**
+ * Delegate to other page.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<String> implements GWikiExecutableArtefakt<String>
 {
+
+  private static final long serialVersionUID = 1137927890215377164L;
+
   private String pageId;
 
   public String getResolvePageId(final GWikiContext ctx)

@@ -27,6 +27,8 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  * 
  * The reason why not support read operations is, that implementation can write the zip file as stream.
  * 
+ * For reading file system from zip file, use RamFileSystem and FileSystemUtils.copyFromZip
+ * 
  * @author roger@micromata.de
  * 
  */
@@ -97,7 +99,6 @@ public class ZipWriteFileSystem extends AbstractFileSystem
 
   public boolean exists(String name)
   {
-    // unsupportedOp();
     return false;
   }
 
@@ -132,13 +133,11 @@ public class ZipWriteFileSystem extends AbstractFileSystem
 
   public boolean mkdir(String name)
   {
-    // unsupportedOp();
     return true;
   }
 
   public boolean mkdirs(String name)
   {
-    // unsupportedOp();
     return true;
   }
 

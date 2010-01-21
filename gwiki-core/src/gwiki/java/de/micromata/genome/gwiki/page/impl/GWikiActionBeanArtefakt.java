@@ -43,6 +43,11 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     }
   }
 
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+
+  }
+
   protected Class< ? extends ActionBean> getActionBeanClass(GWikiContext ctx)
   {
     if (beanClass != null) {

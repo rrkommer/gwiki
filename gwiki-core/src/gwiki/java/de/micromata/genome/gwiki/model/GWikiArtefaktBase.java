@@ -36,6 +36,10 @@ public abstract class GWikiArtefaktBase<T extends Serializable> implements GWiki
 
   abstract public boolean renderWithParts(final GWikiContext ctx);
 
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+  }
+
   public boolean render(final GWikiContext ctx)
   {
     return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {

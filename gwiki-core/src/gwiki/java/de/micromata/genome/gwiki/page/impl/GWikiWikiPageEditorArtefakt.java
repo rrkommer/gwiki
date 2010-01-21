@@ -31,6 +31,22 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     this.wikiPage = wikiPage;
   }
 
+  @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    super.prepareHeader(wikiContext);
+    wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
+    wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
+  }
+
   public boolean renderWithParts(GWikiContext ctx)
   {
     String thisPageId = null;
@@ -38,7 +54,9 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       thisPageId = editBean.getPageId();
     }
     String html = //
-    Html.textarea(Xml.attrs("class", "wikiEditorTextArea", "rows", "40", "cols", "100", "name", partName + ".wikiText", "style", "width:100%;height:100%"), // 
+    Html.textarea(
+        Xml.attrs("class", "wikiEditorTextArea", "rows", "40", "cols", "100", "name", partName + ".wikiText", "style",
+            "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
     "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" >"

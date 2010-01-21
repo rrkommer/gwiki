@@ -16,6 +16,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
+/**
+ * Editor for a HTML artefakt.
+ * 
+ * @author roger
+ * 
+ */
 @SuppressWarnings("unchecked")
 public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements GWikiEditorArtefakt
 {
@@ -36,6 +42,23 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
     String text = ctx.getRequestParameter(partName + ".htmlText");
     wikiPage.setStorageData(text);
 
+  }
+
+  @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    super.prepareHeader(wikiContext);
+    wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
+    wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
+    
   }
 
   public boolean renderWithParts(GWikiContext ctx)
@@ -63,10 +86,8 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
     String html = //
     Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), // 
         Xml.text(wikiPage.getStorageData())).toString();
-    String script = "<script type=\"text/javascript\">\n"
-        + "$(document).ready(function(){\n"
-        + "setTimeout(function() {\n"
-        //+ "alert('now timeout');\n"
+    String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n" + "setTimeout(function() {\n"
+    // + "alert('now timeout');\n"
         + "gwikiCreateHtmlPageEditor('"
         + textareaid
         + "');\n"
@@ -76,8 +97,9 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
     String link = "<a href=\"javascript:gwikiCreateHtmlPageEditor('" + textareaid + "');\">Load HTML Editor</a>";
     ctx.append(html);
     ctx.append(script);
-    //ctx.append(wordEdit);
-    //ctx.append(link);
+    // ctx.append(wordEdit);
+    // ctx.append(link);
     return true;
   }
+
 }

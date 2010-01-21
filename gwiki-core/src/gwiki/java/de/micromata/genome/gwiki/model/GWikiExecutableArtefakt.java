@@ -22,9 +22,18 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 public interface GWikiExecutableArtefakt<T extends Serializable> extends GWikiArtefakt<T>
 {
   /**
+   * Will be called before page will be rendered.
+   * 
+   * Usefull to add required css/or js or set http header.
+   * 
+   * @param wikiContext
+   */
+  public void prepareHeader(GWikiContext wikiContext);
+
+  /**
    * 
    * @param ctx
    * @return true if continue processing. Otherwise stop processing.
    */
-  public boolean render(GWikiContext ctx);
+  public boolean render(GWikiContext wikiContext);
 }

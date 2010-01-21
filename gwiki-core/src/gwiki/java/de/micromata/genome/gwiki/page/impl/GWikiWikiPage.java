@@ -94,6 +94,11 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 
   protected boolean renderParts(final GWikiContext ctx)
   {
+    for (GWikiArtefakt< ? > art : parts.values()) {
+      if (art instanceof GWikiExecutableArtefakt< ? >) {
+        ((GWikiExecutableArtefakt< ? >) art).prepareHeader(ctx);
+      }
+    }
     return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {
 
       public Boolean call() throws RuntimeException
