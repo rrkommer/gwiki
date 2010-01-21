@@ -133,7 +133,6 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
       return null;
     }
     wikiContext.getResponse().setContentType("application/zip");
-    // String filenameWithoutPath = "gwiki_pages.zip";
     wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"" + "gwiki_pages.zip" + "\"");
 
     try {
@@ -160,28 +159,6 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     return noForward();
 
   }
-
-  // public Object onLinkAutocomplete()
-  // {
-  // String q = wikiContext.getRequestParameter("q");
-  // String queryexpr = "prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\"";
-  // Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
-  // List<SearchResult> srl = new ArrayList<SearchResult>(webInfos.size());
-  // for (GWikiElementInfo wi : webInfos) {
-  // srl.add(new SearchResult(wi));
-  // }
-  // SearchQuery query = new SearchQuery(queryexpr, srl);
-  // query.setMaxCount(1000);
-  // QueryResult qr = filter(query);
-  // StringBuilder sb = new StringBuilder();
-  // int size = qr.getResults().size();
-  // for (SearchResult sr : qr.getResults()) {
-  // sb.append(sr.getPageId()).append("|").append(sr.getElementInfo().getTitle()).append("\n");
-  // }
-  // wikiContext.append(sb.toString());
-  // wikiContext.flush();
-  // return noForward();
-  // }
 
   protected boolean canViewNonViewable()
   {

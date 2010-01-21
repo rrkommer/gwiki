@@ -11,6 +11,8 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -119,14 +121,17 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
       if (macro.hasBody() == false) {
         return true;
       }
+      sb = new StringBuilder();
+      
       if (macro.evalBody() == true) {
         if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
           attrs.getChildFragment().render(ctx);
         } else {
           sb.append(attrs.getBody());
         }
+      } else {
+        sb.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
       }
-      sb = new StringBuilder();
       renderSourceFoot(sb);
       ctx.append(sb.toString());
       return true;

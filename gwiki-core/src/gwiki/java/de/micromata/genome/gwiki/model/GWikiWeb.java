@@ -355,7 +355,6 @@ public class GWikiWeb
 
   public GWikiElement findElement(String path)
   {
-    // TODO due performance set el GWikiContext
     GWikiContext wikiContext = GWikiContext.getCurrent();
     if (wikiContext != null) {
       GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider().getSessionAttribute(

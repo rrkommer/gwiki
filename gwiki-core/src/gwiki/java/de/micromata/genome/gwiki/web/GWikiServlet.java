@@ -96,12 +96,6 @@ public class GWikiServlet extends HttpServlet
       try {
         GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
         String servPath = req.getServletPath();
-        // if (StringUtils.isBlank(servPath) == true) {
-        // servPath = ctx.getRequest().getPathInfo();
-        // }
-        // if (servPath.startsWith("/") == true) {
-        // servPath = servPath.substring(1);
-        // }
         GWikiContext.setCurrent(ctx);
         nwiki.setServletPath(servPath);
         nwiki.loadWeb();

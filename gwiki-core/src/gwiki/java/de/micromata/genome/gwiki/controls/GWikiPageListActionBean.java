@@ -238,7 +238,7 @@ public class GWikiPageListActionBean extends ActionBeanBase
     GWikiContext sb = wikiContext;
     int total = qr.getTotalFoundItems();
     sb.append("<?xml version='1.0' encoding='utf-8'?>");
-    sb.append("<rows><total>" + total + "</total>");
+    sb.append("<rows><total>" + ((total / rows) + (total % rows != 0 ? 1 : 0)) + "</total>");
     sb.append("<records>" + rows + "</records>");
     sb.append("<page>" + page + "</page>");
     int id = 0;
