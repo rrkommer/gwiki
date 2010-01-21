@@ -9,9 +9,9 @@
 <hr>
 <h2>Wiki Konfiguration</h2>
 <ul>
-<li><a href="<c:url value="/edit/ViewAllPages"/>">Alle Seiten des Wikis</a><br/></li>
-<li><a href="<c:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig">Wiki Globale Configuration</a><br/></li>
-<li><a href="<c:url value="/edit/ListUsers"/>">Wiki Users Configuration</a><br/></li>
+<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">Alle Seiten des Wikis</a><br/></li>
+<li><a href="<gwiki:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig">Wiki Globale Configuration</a><br/></li>
+<li><a href="<gwiki:url value="/edit/ListUsers"/>">Wiki Users Configuration</a><br/></li>
 </ul>
 <hr>
 <h2>GWiki neu laden</h2>
@@ -40,7 +40,7 @@ RightRule: <html:text size="80" property="authRightsRule" /><br />
 	value="User und Rechte setzen">
 <hr>
 <h2>GWiki Download</h2>
-<a href="<c:url value="/admin/WrappOurSelf"/>">Wiki Download</a>
+<a href="<gwiki:url value="/admin/WrappOurSelf"/>">Wiki Download</a>
 --%>
 <h2>Sonstiges</h2>
 <%	MainPage.render(wikiContext); %>

@@ -1,8 +1,8 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
 
-<%--<link type="text/css" href="<c:url value='/inc/gwiki.css'/>" rel="stylesheet" />
-<link href="<c:url value="/static/skins/dhl2009/core.css"/>" rel="stylesheet" type="text/css" />
+<%--<link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
+<link href="<gwiki:url value="/static/skins/dhl2009/core.css"/>" rel="stylesheet" type="text/css" />
  --%>
 <html>
 <head>

@@ -51,8 +51,8 @@ function onSaveComment()
 	<div class="PageComment_commentContent">
 			<small><%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
 			<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
-				<a href="<c:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">&Auml;ndern</a>&nbsp;
-				<a href="<c:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">L&ouml;schen</a>&nbsp;
+				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">&Auml;ndern</a>&nbsp;
+				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">L&ouml;schen</a>&nbsp;
 			<% } %>
 			</small><br/>
 		<% form.renderCommentBody(el); %>
