@@ -36,6 +36,35 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>url</name>
+		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiUrlTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			Creates a URL with optional query parameters relativ to
+			wiki pages.
+    </description>
+		<attribute>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>context</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>errors</name>
 		<tag-class>de.micromata.genome.gwiki.page.impl.actionbean.GWikiErrorsTag</tag-class>
 		<body-content>empty</body-content>
@@ -89,7 +118,8 @@
 		<name>authorize</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiAuthTag</tag-class>
 		<description>
-			A simple tag to output or not the body of the tag if the principal
+			A simple tag to output or not the body of the tag if the
+			principal
 			has or doesn't have certain authorities.
 		</description>
 
@@ -98,7 +128,8 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				A comma separated list of roles which the user must not have
+				A comma separated list of roles which the user must not
+				have
 				for the body to be output. Each right will be trimmed.
 			</description>
 		</attribute>
@@ -118,7 +149,8 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<description>
-				A comma separated list of roles, one of which the user must
+				A comma separated list of roles, one of which the user
+				must
 				possess for the body to be output.Each right will be trimmed.
 			</description>
 		</attribute>
