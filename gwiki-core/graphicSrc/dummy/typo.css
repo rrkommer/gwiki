@@ -1,0 +1,262 @@
+body {
+	font: normal 62.5% Helvetica, Arial, sans-serif;
+}
+
+
+
+/* gwikiContent */
+
+#gwikiContent {
+	padding:0 2em;
+	background: #fff url("img/gui/bg24.gif") repeat top left;/**/
+	color: #5C6970;
+}
+
+
+/* All your prose... */
+
+
+#gwikiContent p{
+	font-size:1.6em;
+	padding:0;
+	margin:0 0 1.5em 0;
+	line-height:1.5;
+}
+
+/* All the pretty headings... */
+
+
+#gwikiContent h1,
+#gwikiContent h2,
+#gwikiContent h3,
+#gwikiContent h4,
+#gwikiContent h5,
+#gwikiContent h6,
+#gwikiContent h7,
+#gwikiContent h8{
+	line-height:1em;
+	margin:0;
+	padding:0;
+	font-weight: normal;
+	color:#33434C;
+}
+
+
+#gwikiContent h1 {
+	margin: 3em 0 0 0;
+	font-size:2.4em;
+}
+
+
+#gwikiContent h2 {
+	font-size:1.8em;
+	line-height:1.333em;
+}
+
+
+#gwikiContent h3 {
+	font-size:1.6em;
+	line-height:1.5em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h4 {
+	font-size:1.2em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h5 {
+	font-size:1.2em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h6 {
+	font-size:1.2em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+
+
+/* Cute little lists... */
+ 
+ 
+ /* Unordered */
+ 
+#gwikiContent ul {
+	margin:0;
+	padding: 1.5em 1.5em 1.5em 3em; 
+	font-size:1.6em;
+	line-height:1.5em;
+	list-style:disc;
+	background:#f9f9f9;
+	-moz-border-radius:1em;
+}
+
+#gwikiContent ul li {
+	margin:0 0 0 0;
+	padding:0;
+}
+
+
+/* disable endocrine growth... */
+#gwikiContent ul li ul li,
+#gwikiContent ul li ul li ul li,
+#gwikiContent ul li ul li ul li ul li,
+#gwikiContent ul li ul li ul li ul li ul li {
+	margin:0;
+	padding: 0;
+	opacity:0.6;
+}
+
+/* disable endocrine growth... */
+#gwikiContent ul li ul, 
+#gwikiContent ul li ul li ul, 
+#gwikiContent ul li ul li ul li ul {
+	font-size:1em;
+	margin:0 0 0 2em;
+	padding:0;
+}
+
+
+/* Ordered */
+
+#gwikiContent ol {
+	margin:1.5em 0 1.5em 2em;
+	padding:0;
+	font-size:1.6em;
+	line-height:1.5em;
+	list-style:decimal-leading-zero;
+}
+
+#gwikiContent ol li {
+	margin:1.5em 0 0 0;
+}
+
+
+/* disable child growth... */
+#gwikiContent ol li ol li,
+#gwikiContent ol li ol li ol li,
+#gwikiContent ol li ol li ol li ol li,
+#gwikiContent ol li ol li ol li ol li ol li {
+	margin:0;
+	opacity:0.6;
+}
+
+/* disable child growth... */
+#gwikiContent ol li ol, 
+#gwikiContent ol li ol li ol, 
+#gwikiContent ol li ol li ol li ol {
+	font-size:1em;
+	margin:0 0 0 2em;
+}
+
+#gwikiContent dl {
+	background:#656667 url("img/gui/line.gif") repeat-x top left;
+	margin:1.5em 0;
+	padding:0;
+	font-size:1.6em;
+	line-height:1.5em;
+	list-style:decimal-leading-zero;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+}
+
+#gwikiContent dl dt {
+	margin:0;
+	padding:0 0.5em 0 0.5em;
+	background:transparent url("img/gui/line.gif") repeat-x bottom left;
+	font-weight:bold;
+}
+
+#gwikiContent dl dd {
+	margin:0;
+	padding:0 0.5em 0 2em;
+	background:#fff url("img/gui/line.gif") repeat-x bottom left;
+}
+
+/* links */
+
+a:visited, a {
+	color: #2274AC;
+	text-decoration:none;
+}
+
+a:hover {
+ color: #00B1EB;
+ text-decoration: underline;	
+}
+
+/* tabelle */
+#gwikiContent table {
+	border: none;
+	border-right: 0.6em solid #fff;
+	border-collapse: inherit;
+	border-spacing: 0;
+	table-layout: auto;
+	margin: 0 0 2.4em 0;
+	font-size: 1em;
+	color: #5C6970;
+}
+
+#gwikiContent table thead {}
+
+#gwikiContent table tfoot {}
+
+#gwikiContent table tbody {}
+
+#gwikiContent table thead tr td,
+#gwikiContent table thead tr th,
+#gwikiContent table tfoot tr td,
+#gwikiContent table tfoot tr th,
+#gwikiContent table tbody tr td,
+#gwikiContent table tbody tr th {
+	padding: 0 0.3em;
+	font-size:1.6em;
+	line-height:1.5;
+	border-left:0.4em solid #fff;
+	font-weight:normal;
+}
+
+#gwikiContent table thead tr td,
+#gwikiContent table thead tr th{
+	border-bottom:none;
+	color: #33434C;
+	text-align:center;
+	background-color:#eaeeed;
+}
+
+#gwikiContent table thead tr th {
+	background-color:#CFD7D9;
+	font-weight:bold;
+}
+
+#gwikiContent table tfoot tr td,
+#gwikiContent table tfoot tr th {
+	background-color:#f9f9f9;	
+}
+
+#gwikiContent table tbody tr.even td,
+#gwikiContent table tbody tr.even th {
+	background-color:#fff;
+	color: #33434C;
+		
+}
+
+#gwikiContent table tbody tr.odd td,
+#gwikiContent table tbody tr.odd th {
+	background-color:#eaeeed;
+	color: #33434C;
+}
+
+ 
+
+
+
+
+

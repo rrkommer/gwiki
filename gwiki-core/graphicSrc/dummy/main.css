@@ -1,0 +1,105 @@
+/* ================================================================================= */
+/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
+/* ================================================================================= */
+
+	body{
+		padding:0;
+		margin:0;
+		background:#6D6D6D;
+	}
+	#knopp{
+		position:absolute;
+		top:0;
+		right:0;
+		z-index: 1000;
+		background:#F6CB21;
+		color:#fff;
+		padding:1em;
+	}
+	
+	#gwikiTestbockwurst{
+		text-align:center;
+		opacity:0.7;
+		position:absolute;
+		top:0;
+		left:0;
+		width:100%;
+	}
+	
+	
+	
+	#gwikiExplorer{
+		width:3em;
+		height:3em;
+		border:1px solid red;
+		background:yellow;
+		float:left;
+	}
+	
+	#gwikiHead{
+		margin:0;
+		padding:0;
+		background:#D9DEE0 url('img/gui/headbg.gif') repeat-x bottom center;
+		height:13.2em;
+	}
+	
+	
+	#gwikiMasthead{
+		float:left;
+		width:50%;
+	}
+	
+	#gwikiQuicksearch{
+		float:right;
+		width:50%;
+	}
+	
+	#gwikiSearchmenu ul li {
+		float:left;
+		padding:0.2em;
+	}
+	
+	#gwikiQuicksearchQuery {
+		-moz-border-radius:1em;
+	}
+	
+	ul#gwikiMenuone, #gwikiMenuone ul{
+		list-style:none;
+	}
+	
+	#gwikiMenuone li {
+		float:left;
+	}
+	
+/* gwiki Head content END + + + + + + + + + + + + + + + + */
+	
+	
+	#gwikiContainer{
+		width:89.6em;
+		background:#fff;
+		margin: 0 auto;
+		padding:2em 0 0 0;
+	}
+	
+	div.clearAll{
+		height:1px;
+		overflow:hidden;
+		clear:both;
+	}
+	
+	#gwikiFooter{
+		border-top:1px solid #000;
+		width:100%;
+		padding:2em 0;
+		margin:0;
+		color:#fff;
+		background:#080708;
+	}
+	
+	#gwikiFooter dl.gwikiFooter{
+		float:left;
+		height:20em;
+		width:22%;
+		border:1px solid red;
+		color:#fff;
+	}
