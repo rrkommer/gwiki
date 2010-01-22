@@ -342,12 +342,13 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     if (StringUtils.isNotBlank(backUrl) == true) {
       return backUrl;
     }
-
+    GWikiElement backElement = null;
     if (elementToEdit != null && elementToEdit.getElementInfo().isViewable() == true //
         && StringUtils.isBlank(pageId) == false //
         && (cancel == false || newPage == false) //
-        && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false) {
-      return getWikiContext().getWikiWeb().findElement(pageId);
+        && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false
+        && (backElement = getWikiContext().getWikiWeb().findElement(pageId)) != null) {
+      return backElement;
     } else if (StringUtils.isNotBlank(pageId) == true
         && wikiContext.getWikiWeb().findElement(pageId) != null
         && wikiContext.getWikiWeb().findElement(pageId).getElementInfo().isViewable() == true) {

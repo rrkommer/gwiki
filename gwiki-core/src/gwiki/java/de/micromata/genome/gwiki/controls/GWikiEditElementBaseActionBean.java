@@ -9,15 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.controls;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * Base action bean for editing Elements.

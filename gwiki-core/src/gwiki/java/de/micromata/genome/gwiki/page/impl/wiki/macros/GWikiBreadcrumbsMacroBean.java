@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiSessionProvider;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -96,7 +97,10 @@ public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
     }
     synchronized (list) {
       for (String id : list) {
-        ctx.append(ctx.renderLocalUrl(id), " | ");
+        GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo(id);
+        if (ei != null && ei.isViewable() == true && ei.isIndexed() == true) {
+          ctx.append(ctx.renderLocalUrl(id), " | ");
+        }
       }
     }
     registerPage(ctx);
