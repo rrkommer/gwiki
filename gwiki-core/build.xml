@@ -231,7 +231,34 @@
 			<fileset dir="target/gwiki-jetty-classes" />
 		</jar>
 	</target>
+	<target name="gwiki.content.jar" description="build embeddable gwiki jar">
+		<delete dir="target/gwikicontent" />
+		<mkdir dir="target/gwikicontent" />
+		<delete file="target/GWikiContent.zip" />
 
+		<copy todir="target/gwikicontent">
+			<fileset dir="dev/gwiki">
+				<!-- <include name="**/*" /> -->
+				<exclude name="**/*TextExtract.txt" />
+				<exclude name="**/*TextIndex.txt" />
+				<exclude name="**/tmp/**" />
+				<exclude name="**/arch/**" />
+				<exclude name="admin/user/**" />
+				<exclude name="home/**" />
+				<exclude name="**/.svn" />
+				<exclude name=".fslock" />
+			</fileset>
+		</copy>
+		<zip destfile="target/GWikiContent.zip">
+			<fileset dir="target/gwikicontent">
+			</fileset>
+		</zip>
+		<jar destfile="target/GWikiContent-${gwikiversion}.jar">
+			<fileset dir="target">
+				<include name="GWikiContent.zip" />
+			</fileset>
+		</jar>
+	</target>
 	<target name="preparetarget">
 		<delete dir="delivery/${distdir}" failonerror="false" />
 		<mkdir dir="delivery/${distdir}" />
@@ -242,7 +269,7 @@
 		<delete dir="delivery/${distdir}/gwiki" />
 		<mkdir dir="delivery/${distdir}/gwiki" />
 		<copy todir="delivery/${distdir}/gwiki">
-			<fileset dir="${gwikicontent}">
+			<zipgroupfileset dir="${gwikicontent}">
 				<exclude name="**/arch/**" />
 				<exclude name="tmp/**" />
 				<exclude name="pop/**" />
@@ -257,7 +284,7 @@
 				<exclude name="inc/dhl2009/**" />
 				<exclude name="inc/pop/**" />
 				<exclude name="**/gwiki.jar" />
-			</fileset>
+			</zipgroupfileset>
 		</copy>
 		<copy todir="delivery/${distdir}/gwiki">
 			<fileset dir="${gwikicontent}">
