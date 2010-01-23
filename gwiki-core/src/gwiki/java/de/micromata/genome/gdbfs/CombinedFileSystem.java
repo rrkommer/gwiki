@@ -16,15 +16,11 @@ import de.micromata.genome.util.runtime.CallableX;
  * @author roger
  * 
  */
-public class CombinedFileSystem extends AbstractFileSystem
+public abstract class CombinedFileSystem extends AbstractFileSystem
 {
-  private FileSystem primary;
+  protected FileSystem primary;
 
-  // private String mountPrim = "";
-
-  private FileSystem secondary;
-
-  // private String mountSec = "";
+  protected FileSystem secondary;
 
   public CombinedFileSystem()
   {
@@ -36,6 +32,10 @@ public class CombinedFileSystem extends AbstractFileSystem
     this.primary = primary;
     this.secondary = secondary;
   }
+
+  public abstract FileSystem getFsForRead(String name);
+
+  public abstract FileSystem getFsForWrite(String name);
 
   public void checkEvents(boolean force)
   {
@@ -51,22 +51,6 @@ public class CombinedFileSystem extends AbstractFileSystem
   public FsDirectoryObject createTempDir(String name, long timeToLive)
   {
     return primary.createTempDir(name, timeToLive);
-  }
-
-  public FileSystem getFsForRead(String name)
-  {
-    if (primary.exists(name) == true) {
-      return primary;
-    }
-    if (secondary.exists(name) == true) {
-      return secondary;
-    }
-    return primary;
-  }
-
-  public FileSystem getFsForWrite(String name)
-  {
-    return primary;
   }
 
   public boolean delete(String name)

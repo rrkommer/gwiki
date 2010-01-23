@@ -5,11 +5,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-public class CombineFileSystemTest extends TestCase
+public class ReadWriteCombinedFileSystemTest extends TestCase
 {
   public FileSystem loadZipFs()
   {
-    InputStream is = CombineFileSystemTest.class.getResourceAsStream("/de/micromata/genome/gdbfs/ZipFs.zip");
+    InputStream is = ReadWriteCombinedFileSystemTest.class.getResourceAsStream("/de/micromata/genome/gdbfs/ZipFs.zip");
     assertNotNull(is);
     RamFileSystem fs = new RamFileSystem("ramfs");
     FileSystemUtils.copyFromZip(is, fs.getFileObject(""));
@@ -22,7 +22,7 @@ public class CombineFileSystemTest extends TestCase
     String rootDir = "./tmp/unittests/gdfstests";
     FileSystem primary = new StdFileSystem(rootDir);
     primary.erase();
-    return new CombinedFileSystem(primary, loadZipFs());
+    return new ReadWriteCombinedFileSystem(primary, loadZipFs());
   }
 
   public void testZip()
