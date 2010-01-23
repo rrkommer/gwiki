@@ -10,7 +10,7 @@ Dabei muss noch folgender JVM-Parameter gesetzt sein:
 
 Im Browser http://localhost:8081/index
 
-Gültige User sind:
+Gueltige User sind:
 gwikisu
 gwikieditor
 gwikiview.
