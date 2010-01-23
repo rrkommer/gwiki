@@ -8,6 +8,8 @@
 		<link rel="stylesheet" href="reset.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
 		<link rel="stylesheet" href="typo.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
 		<link rel="stylesheet" href="main.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+		<link rel="stylesheet" href="menu.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+		
 		<script src="js/jquery-1.4.min.js" type="text/javascript" charset="utf-8"/>
 		
 		
@@ -29,19 +31,25 @@
 
 
 			<div id="gwikiHead">
-				<div id="gwikiMetanav"> </div>
-				<!-- gwikiMetanav END -->
-
+				<div id="gwikiMetanav"> 
+					<ul>
+						<li><a href="#" title="">Hilfe</a></li>
+						<li><a href="#" title="">Login</a></li>
+						<li><a href="#" title="">Über gGwiki</a></li>
+					</ul>
+				</div> <!-- gwikiMetanav END -->
+				
 				<div id="gwikiMasthead">
 					<div id="gwikiLogo">
 						<a href="http://labs.micromata.de/gwiki">
-							<img src="gwikiLogo.png" alt="gWWWWWWiki"/>
+							<img src="img/gui/gwikiLogo.png" alt="gWWWWWWiki"/>
 						</a>
 					</div>
 					<!-- gwikiLogo END -->
 					<h1>$gwikiName</h1>
 					<h2>$gwikiDescription</h2>
 				</div>
+				
 				<!-- gwikiMasthead END -->
 
 
@@ -91,7 +99,7 @@
 							<li>
 								<a href="/edit/EditPage?newPage=true&amp;parentPageId=gwikidocs/GWikiFeatures">Neue
 									Seite</a>
-								<ul>
+								</li>
 									<li>
 										<a
 											href="/edit/EditPage?newPage=true&amp;parentPageId=gwikidocs/GWikiFeatures&amp;metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"
@@ -162,12 +170,11 @@
 											href="/edit/EditPage?newPage=true&amp;parentPageId=gwikidocs/GWikiFeatures&amp;metaTemplatePageId=admin/templates/intern/FragmentWikiPageMetaTemplate"
 											>Wiki Page Fragment</a>
 									</li>
-								</ul>
-							</li>
+						
 						</ul>
 					</li>
 
-					<li class="menumain">
+					<li class="gwikiMenumain">
 						<span>gwikisu</span>
 						<ul>
 							<li>
@@ -183,7 +190,7 @@
 					</li>
 
 
-					<li class="menumain">
+					<li class="gwikiMenumain">
 						<span>Admin</span>
 						<ul>
 							<li>

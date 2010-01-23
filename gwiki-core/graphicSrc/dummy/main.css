@@ -1,3 +1,5 @@
+@CHARSET "UTF-8";
+
 /* ================================================================================= */
 /* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
 /* ================================================================================= */
@@ -48,7 +50,13 @@
 		float:left;
 		width:50%;
 	}
-	
+
+	#gwikiMasthead img{
+		float:left;
+		margin-left:10em;
+		border:none;
+	}
+
 	#gwikiQuicksearch{
 		float:right;
 		width:50%;

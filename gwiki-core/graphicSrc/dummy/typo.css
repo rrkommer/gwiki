@@ -1,6 +1,28 @@
+@CHARSET "UTF-8";
+
+/* ================================================================================= */
+/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
+/* ================================================================================= */
+
+
 body {
 	font: normal 62.5% Helvetica, Arial, sans-serif;
 }
+
+
+/* +++++ gwikiMasthead typography ++++++++++++++++++++++ */
+
+	#gwikiMasthead h1{
+		color:#5C6970;
+		font: bold 3em Helvetica, Arial, sans-serif;
+		margin:0 2em;
+	}
+	
+	#gwikiMasthead h2{
+		color:#5C6970;
+		font: normal 1.5em Helvetica, Arial, sans-serif;
+		margin:0.5em 4em;
+	}
 
 
 
