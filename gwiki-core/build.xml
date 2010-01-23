@@ -108,7 +108,7 @@
 			</fileset>
 		</war>
 	</target>
-	<target name="delivery" description="build standalone wiki" depends="build-war,gwikilib,copy.webcontent,copy.wikiweb,gwikidistr">
+	<target name="delivery" description="build standalone wiki" depends="build-war,gwikilib,gwiki.content.jar,copy.webcontent,copy.wikiweb,gwikidistr">
 	</target>
 	<target name="gwikidistr" description="build runtime distribution">
 		<copy todir="delivery/${distdir}">
@@ -137,6 +137,9 @@
 			<fileset dir="dev/lib/jetty7/jsp">
 				<include name="*.jar" />
 			</fileset>
+			<fileset dir="target">
+				<include name="GWikiContent-${gwikiversion}.jar" />
+			</fileset>
 		</copy>
 		<jar destfile="delivery/${distdir}/lib/genome-gwiki-${gwikiversion}.jar">
 			<fileset dir="${gwikiweb}/WEB-INF/classes" />
@@ -146,9 +149,10 @@
 			<manifest>
 				<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
 				<attribute name="Class-Path" value=".
+									lib/GWikiContent-${gwikiversion}.jar				
+									lib/genome-gwiki-${gwikiversion}.jar				
 									lib/slf4j-api-1.5.8.jar
 									lib/slf4j-log4j12-1.5.8.jar
-									lib/genome-gwiki-${gwikiversion}.jar
 									lib/jetty-ajp-7.0.0.v20091005.jar 
 									lib/jetty-annotations-7.0.0.v20091005.jar 
 									lib/jetty-client-7.0.0.v20091005.jar 
@@ -266,10 +270,10 @@
 
 	<target name="copy.webcontent" description="copy webcontent">
 		<!-- GWIKI -->
-		<delete dir="delivery/${distdir}/gwiki" />
+		<delete dir="delivery/${distdir}/gwiki" failonerror="true" />
 		<mkdir dir="delivery/${distdir}/gwiki" />
 		<copy todir="delivery/${distdir}/gwiki">
-			<zipgroupfileset dir="${gwikicontent}">
+			<fileset dir="dev/gwiki_dev">
 				<exclude name="**/arch/**" />
 				<exclude name="tmp/**" />
 				<exclude name="pop/**" />
@@ -279,15 +283,16 @@
 				<exclude name="imp/**" />
 				<exclude name="gwikiimptest/**" />
 				<exclude name="**/genomehb/**" />
-				<exclude name="admin/user/**" />
+				<!-- <exclude name="admin/user/**" /> -->
 				<exclude name="home/**" />
 				<exclude name="inc/dhl2009/**" />
 				<exclude name="inc/pop/**" />
 				<exclude name="**/gwiki.jar" />
-			</zipgroupfileset>
+			</fileset>
 		</copy>
-		<copy todir="delivery/${distdir}/gwiki">
+		<copy todir="dev/gwikistandalone/gwiki">
 			<fileset dir="${gwikicontent}">
+				<exclude name="**/.svn"/>
 			</fileset>
 		</copy>
 

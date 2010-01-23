@@ -15,7 +15,6 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Macros will be created for each instanceof of a macro node in the document.
  * 
- * TODO make runtime macro own interface.
  * 
  * @author roger@micromata.de
  * 
