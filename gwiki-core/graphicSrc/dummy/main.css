@@ -51,7 +51,12 @@
 
 	#gwikiQuicksearch{
 		float:right;
-		width:50%;
+		margin:3em 0 0;
+		width:33.6em;
+	}
+	
+	#gwikiQuicksearchSubmit {
+		display:none;
 	}
 	
 	#gwikiSearchmenu ul li {
@@ -59,9 +64,18 @@
 		padding:0.2em;
 	}
 	
+	#gwikiSearchmenu ul li a {
+		opacity:0.5;
+	}
+	
+	#gwikiSearchmenu ul li a:hover {
+		opacity:0.8;
+	}
+	
 	#gwikiQuicksearchQuery {
-		border: 1px solid #ADB4B7;
+		border: 0.1em solid #ADB4B7;
 		background: #fff;
+		font-size:1.4em;
 	}
 
 

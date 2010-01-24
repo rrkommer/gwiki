@@ -14,6 +14,11 @@
 		right:1em;
 	}
 	
+	#gwikiMetanav ul{
+		margin:0;
+		padding:0;
+	}
+	
 	#gwikiMetanav ul li{
 		float:left;
 	}
@@ -21,18 +26,20 @@
 	#gwikiMetanav ul li a {
 		display:block;
 		float:left;
-		padding:0.5em;
-		margin: 0 0.2em;
-		background:aqua;
-		color:#fff;
-		border: 1px solid #f9f9f9;
-		-moz-border-radius: 0.5em;
-		-webkit-border-radius: 0.5em;
+		padding: 0.2em 0.5em 0.1em 0.5em;
+		margin: 0 0.5em;
+		color:#5C6970;
+		border: 1px solid transparent;
+		background:transparent;
+		-moz-border-radius: 1em;
+		-webkit-border-radius: 1em;
 		text-decoration:none;		
 	}
 	
 	#gwikiMetanav ul li a:hover{
-		background:red;
+		border: 1px solid #B3B3B7;
+		background: #CCCCD1;
+		color:#5C6970;
 		text-decoration:none;
 	}
 	
