@@ -4,7 +4,7 @@
 
 	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
 		<property name="port" value="8081" />
-	
+
 		<property name="contextRoot" value="../../dev/gwikiweb" />
 	</bean>
 
@@ -32,7 +32,7 @@
 
 	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
 		<!--  FILE -->
-			<property name="storage">
+		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
 					<bean class="de.micromata.genome.gdbfs.MountedFileSystem">
@@ -56,7 +56,6 @@
 					</bean>
 				</constructor-arg>
 			</bean>
-		</property>
 		</property>
 		<!--  DB -->
 		<!--
