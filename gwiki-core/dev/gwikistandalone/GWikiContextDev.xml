@@ -32,8 +32,6 @@
 
 	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
 		<!--  FILE -->
-
-		<property name="storage">
 			<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
