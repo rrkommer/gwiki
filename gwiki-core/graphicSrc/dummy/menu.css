@@ -43,6 +43,11 @@
 	ul#gwikiMenuone{
 		margin:0;
 		padding:0;
+		height:3em;
+		z-index: 1000;
+		position:absolute;
+		right:1.2em;
+		top:11em;
 	}
 	
 	ul#gwikiMenuone li.gwikiMenumain{
@@ -71,8 +76,7 @@
 		cursor: pointer;
 	}
 	
-	ul#gwikiMenuone li.gwikiMenumain:hover{
-		background:red;
+	ul#gwikiMenuone li.gwikiMenumain:hover ul{
 		display:block;
 	}
 	
@@ -80,17 +84,13 @@
 		display:none;
 		position:absolute;
 		top:2.8em;
-		left:-150%;
-		width:16em;
-		background: transparent url("img/gui/menu.gif") no-repeat 69% 0%;
+		left:0;
+		background: transparent url("img/gui/menu.gif") no-repeat -21em 0%;
 		margin:0;
-		padding:1em 0 0 0;
+		padding:0.85em 0 0 0;
 	}
 	
-	ul#gwikiMenuone li.gwikiMenumain:hover ul, ul#gwikiMenuone li.gwikiMenumain.over ul {
-		display:block;
-		
-	}
+	
 	
 	ul#gwikiMenuone li ul li{
 		float:none;
@@ -102,9 +102,16 @@
 		font-size:1.4em;
 		display:block;
 		margin:0;
-		padding:0.4em;
-		border-bottom:1px solid #fff;
-		height:1%;
-		width:12em;		
+		padding:0.4em 1em;
+		border-top:1px solid #FEF5CC;
+		border-bottom: 1px solid #FACE00;
+		width:12em;
+		color:#5C6970;
+		text-decoration: none;	
+	}
+	
+	ul#gwikiMenuone li ul li a:hover{
+		color:#33434C;
+		background-color: #FACE00;
 	}
 	

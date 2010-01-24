@@ -7,27 +7,21 @@
 	body{
 		padding:0;
 		margin:0;
-		background:#6D6D6D;
-	}
-	#knopp{
-		position:absolute;
-		top:0;
-		right:0;
-		z-index: 1000;
-		background:#F6CB21;
-		color:#fff;
-		padding:1em;
+		background:#fff url('img/gui/headbg.gif') repeat-x 1em -5em;
 	}
 	
-	#gwikiTestbockwurst{
-		text-align:center;
-		opacity:0.7;
-		position:absolute;
-		top:0;
-		left:0;
-		width:100%;
+	#gwikiWrapperWrapper{
+		position:relative;
+		padding-left:1.6em;
+		margin:0 auto;
+		width:90em;
+		background: transparent url("img/gui/contentbg_left.png") no-repeat 0em 10em;
 	}
 	
+	#gwikiWrapper{
+		padding-right:1.6em;
+		background: transparent url("img/gui/contentbg.png") no-repeat 100% 10em;
+	}
 	
 	
 	#gwikiExplorer{
@@ -36,25 +30,23 @@
 		border:1px solid red;
 		background:yellow;
 		float:left;
+		display:none;
 	}
 	
 	#gwikiHead{
 		margin:0;
 		padding:0;
-		background:#D9DEE0 url('img/gui/headbg.gif') repeat-x bottom center;
-		height:13.2em;
+		height:12.2em;
 	}
-	
 	
 	#gwikiMasthead{
 		float:left;
-		width:50%;
 	}
 
 	#gwikiMasthead img{
 		float:left;
-		margin-left:10em;
-		border:none;
+		border: none;
+		margin: 3em 0 0 0;
 	}
 
 	#gwikiQuicksearch{
@@ -68,9 +60,11 @@
 	}
 	
 	#gwikiQuicksearchQuery {
-		-moz-border-radius:1em;
+		border: 1px solid #ADB4B7;
+		background: #fff;
 	}
-	
+
+
 	ul#gwikiMenuone, #gwikiMenuone ul{
 		list-style:none;
 	}
@@ -83,7 +77,7 @@
 	
 	
 	#gwikiContainer{
-		width:89.6em;
+		/*width:89.6em;*/
 		background:#fff;
 		margin: 0 auto;
 		padding:2em 0 0 0;
@@ -96,18 +90,75 @@
 	}
 	
 	#gwikiFooter{
-		border-top:1px solid #000;
 		width:100%;
 		padding:2em 0;
 		margin:0;
 		color:#fff;
-		background:#080708;
+		background:#080708 url("img/gui/footer.png") repeat-x top left;
 	}
 	
 	#gwikiFooter dl.gwikiFooter{
 		float:left;
-		height:20em;
-		width:22%;
-		border:1px solid red;
+		min-height:10em;
+		width:20.8em;
+		border:none;
+		color:#fff;
+		margin:0 0 0 1em;
+	}
+	
+	#gwikiFooter dl.gwikiFooter dt {
+		font-size:1.6em;
+		line-height:1.5em;
+		color:#fff;
+		padding: 0.3em 0.5em 0.1em 0.5em;
+		border-bottom:0.2em solid #fff;
+		font-weight:bold;
+	}
+	
+	#gwikiFooter dl.gwikiFooter dt a {
+		color:#fff;
+		text-decoration: none;
+	}
+	
+	
+	#gwikiFooter dl.gwikiFooter dd {
+		font-size:1.4em;
+		line-height:1em;
+		color:#fff;
+		padding:0.3em 0.5em;
+		border-top: 0.1em solid #ADB4B7;
+		margin:0;
+	}
+	
+	#gwikiFooter dl.gwikiFooter dd a {
+		color:#ADB4B7;
+		text-decoration: none;
+	}
+	
+	#gwikiFooter dl.gwikiFooter dd a:hover {
+		color:#fff;
+		text-decoration: none;
+	}
+	
+	
+	#gwikiFooter p.imprint {
+		font-size:1.4em;
+		line-height:1.5em;
+		border-top:1px solid #ADB4B7;
+		margin: 1em;
+		padding:0.5em 0 0 0;
+		text-align: center;
+		color:#ADB4B7;
+	}
+	
+
+	
+	#gwikiFooter p.imprint a {
+		font-weight: bold;
+		text-decoration: none;
+		color:#ADB4B7;
+	}
+	
+	#gwikiFooter p.imprint a:hover{
 		color:#fff;
 	}

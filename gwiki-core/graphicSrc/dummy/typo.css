@@ -14,25 +14,46 @@ body {
 
 	#gwikiMasthead h1{
 		color:#5C6970;
-		font: bold 3em Helvetica, Arial, sans-serif;
-		margin:0 2em;
+		font: bold 1.4em Helvetica, Arial, sans-serif;
+		float:left;
+		margin: 0.5em;
+		
 	}
 	
 	#gwikiMasthead h2{
 		color:#5C6970;
-		font: normal 1.5em Helvetica, Arial, sans-serif;
-		margin:0.5em 4em;
+		font: normal 1.2em Helvetica, Arial, sans-serif;
+		float:left;
+		display:none;
 	}
 
+ #gwikiPageinfo{
+	background-color: #FDEB99;
+	margin:0 -0.6em 0 -0.9em;
+	padding:2em;
+	border-top: 0.1em solid #CFD7D9;
+	border-bottom: 0.1em solid #5C6970;
+}
 
+#gwikiPageinfo h3 {
+	font-size:2em;
+	line-height:1.25em;
+	margin: 0 0 1em 0;
+}
+#gwikiPageinfo p{
+	font-size:1.6em;
+	line-height:1.5em;
+}
 
 /* gwikiContent */
 
 #gwikiContent {
 	padding:0 2em;
-	background: #fff url("img/gui/bg24.gif") repeat top left;/**/
+	/*background: #fff url("img/gui/bg24.gif") repeat top left;/**/
 	color: #5C6970;
 }
+
+
 
 
 /* All your prose... */
@@ -243,6 +264,7 @@ a:hover {
 	line-height:1.5;
 	border-left:0.4em solid #fff;
 	font-weight:normal;
+	vertical-align: top;
 }
 
 #gwikiContent table thead tr td,
@@ -276,7 +298,21 @@ a:hover {
 	color: #33434C;
 }
 
- 
+/* take care of the inglorious-layout-table-basterds */
+
+#gwikiContent table.layout thead tr td,
+#gwikiContent table.layout thead tr th,
+#gwikiContent table.layout tfoot tr td,
+#gwikiContent table.layout tfoot tr th,
+#gwikiContent table.layout tbody tr td,
+#gwikiContent table.layout tbody tr th {
+	padding: 0;
+	font-size:1em;
+	line-height:1;
+	border:none;
+	font-weight:normal;
+	vertical-align: top;
+}
 
 
 
