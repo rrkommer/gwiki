@@ -1,5 +1,6 @@
 h2. CSS für reinen Wiki-Content
 
+
 h3. Body 
 Ausrichtung schrift, etc.
 
@@ -14,6 +15,7 @@ h3. Links
 - Links innerhalb der Seite (Toc)
 
 - Smarttag-Links (siehe ChangeLog, Macro) sowohl Link (dashed) als auch das aufpoppende Tooltip (ist derzeit von POP geklaut).
+-- wikiSmartTag für Link. 
 
 
 h3. Listen
@@ -23,7 +25,13 @@ h3. Überschriften
 - h1-h3
 
 h3. Tabellen
-- Standardtabellen mit th und td
+
+Standardtabellen mit th und td. 
+-- table gwikiTable
+-- th gwikith
+-- td gwikitd
+
+Weite, ggf. Fonts
 
 h3. Sonstiges/Macros
 - pageintro
