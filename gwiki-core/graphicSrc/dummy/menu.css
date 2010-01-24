@@ -41,7 +41,8 @@
 /* ++++++ gwiki main navigation ++++++++++++++++++++ */
 	
 	ul#gwikiMenuone{
-		
+		margin:0;
+		padding:0;
 	}
 	
 	ul#gwikiMenuone li.gwikiMenumain{
@@ -79,8 +80,11 @@
 		display:none;
 		position:absolute;
 		top:2.8em;
-		left:0;
-		background:aqua;
+		left:-150%;
+		width:16em;
+		background: transparent url("img/gui/menu.gif") no-repeat 69% 0%;
+		margin:0;
+		padding:1em 0 0 0;
 	}
 	
 	ul#gwikiMenuone li.gwikiMenumain:hover ul, ul#gwikiMenuone li.gwikiMenumain.over ul {
@@ -90,7 +94,6 @@
 	
 	ul#gwikiMenuone li ul li{
 		float:none;
-		clear:left;
 		padding:0;
 		margin:0;
 	}
@@ -98,11 +101,10 @@
 	ul#gwikiMenuone li ul li a{
 		font-size:1.4em;
 		display:block;
-		
 		margin:0;
 		padding:0.4em;
 		border-bottom:1px solid #fff;
 		height:1%;
-		
+		width:12em;		
 	}
 	
