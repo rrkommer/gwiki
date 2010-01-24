@@ -34,15 +34,31 @@
 		<!--  FILE -->
 
 		<property name="storage">
+			<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
-					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+					<bean class="de.micromata.genome.gdbfs.MountedFileSystem">
 						<constructor-arg>
-							<value>../../dev/gwiki</value>
+							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+								<constructor-arg>
+									<value>../../dev/gwiki</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+						<constructor-arg>
+							<value>+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*</value>
+						</constructor-arg>
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+								<constructor-arg>
+									<value>../../dev/gwiki_dev</value>
+								</constructor-arg>
+							</bean>
 						</constructor-arg>
 					</bean>
 				</constructor-arg>
 			</bean>
+		</property>
 		</property>
 		<!--  DB -->
 		<!--
