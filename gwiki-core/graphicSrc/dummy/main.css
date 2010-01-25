@@ -5,7 +5,7 @@
 /* ================================================================================= */
 
 	body{
-		padding:0;
+		padding:0 6em;
 		margin:0;
 		background:#fff url('img/gui/headbg.gif') repeat-x 1em -5em;
 	}
