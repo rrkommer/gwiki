@@ -16,10 +16,26 @@
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function(){
 				//alert("Jedem Lorem sein Ipsum");
+				$("#gwikiContent div.panel h3").append("<a href='#'><img class='icon' src='img/search.png' alt'Zoom'/></a>");
+				
 				$("a").click(function(){
 						alert("Your are clicking a mockup, it is just in your brain. Nothing is real. :-)")
 						return false;
-					});
+				});
+
+				
+				// iterate over all content-images and get their alt-contents)
+				$("#gwikiContent img[class!=icon]").each(function(index) {
+					width=$("#gwikiContent img").eq(index).width();
+					alttext=$("#gwikiContent img").eq(index).attr("alt");
+					floating=$("#gwikiContent img").eq(index).css("float");
+					//height=$("#gwikiContent img").eq(index).height();
+					$("#gwikiContent img[class!=icon]").eq(index).after("<div style='width:" + width + "px ;' class='imgfoot imgfoot_"+floating+"'><strong>Fig:" + (index + 1) + "</strong> " + alttext + " </div> ")
+					//alert("lalapoo" + width +  " " + alttext);
+					
+				  });
+
+				
 			})
 		</script>
 		
@@ -273,7 +289,7 @@
 						
 						<h1>Lorem Ipsum Dolor sit! H1</h1>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-											<img class="right" src="img/windowslivewriteranotherannoyingtrend-3149ghetto-blaster-051216035418598-wideweb-300x3752.jpg" alt="Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom " />
+											<img class="right" src="img/windowslivewriteranotherannoyingtrend-3149ghetto-blaster-051216035418598-wideweb-300x3752.jpg" alt="Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom" />
 											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
 											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
 											<h2>Lorem Ypsilon</h2>
@@ -291,7 +307,7 @@
 											
 											<!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE -->
 	
-											<object id="player" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" name="player" width="400" height="315">
+											<!-- object id="player" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" name="player" width="400" height="315">
 												<param name="movie" value="js/mediaplayer/player.swf" />
 												<param name="allowfullscreen" value="true" />
 												<param name="allowscriptaccess" value="always" />
@@ -307,7 +323,7 @@
 													allowfullscreen="true"
 													flashvars="file=media/video.flv&image=media/preview.jpg" 
 												/>
-											</object>
+											</object-->
 											
 											<!-- END OF THE PLAYER EMBEDDING -->
 
@@ -392,20 +408,21 @@
 											
 											
 											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-											<img class="right" src="img/The-World’s-Largest-Ghetto-Blaster-1.jpg" alt="Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom " />
+											<img class="right" src="img/The-World’s-Largest-Ghetto-Blaster-1.jpg" alt="Der Welt größter Ghettoblaster: Eine tolle Pommesbude" />
 											
 											<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-											
-											<dl class="right">
+											<div class="clearAll"> &nbsp; </div>
+											<dl class="left">
 												<dt>Lorem Ipsum dolor sit amet. Duis aute irure dolor in reprehendrit in voluptate.</dt>
 												<dd>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</dd>
 												<dd>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</dd>
 												<dd>La la la la la la la la</dd>
 												
 											</dl>
+											<div class="clearAll"> &nbsp; </div>
 											<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
 											
-											<img src="img/ghettoblaster.jpg" alt="Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom Boom " />
+											<img src="img/ghettoblaster.jpg" alt="Der Philips LaberRhababerRapDirEinen 2000, die erste Wahl für den Afroneger von Welt." />
 											
 											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 											<table border="0" cellspacing="5" cellpadding="5">
@@ -451,12 +468,43 @@
 	
 											<div class="panel">
 												<h3>Panel Heading</h3>
-												<pre>
-													
+												<pre class="code">&lt;div id=&quot;containingBlock&quot;&gt;
+  &lt;div class=&quot;videoWrapper&quot;&gt;
+    &lt;div&gt;
+      &lt;!--[if IE]&gt;
+      &lt;object classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; &raquo;
+width=&quot;480&quot; height=&quot;295&quot;&gt;
+        &lt;param name=&quot;movie&quot; value=&quot;http://www.youtube.com/v/mDRYnaajUcY &raquo;
+ &amp;amp;hl=en&amp;amp;fs=1&amp;amp;showinfo=0&quot; /&gt;
+      &lt;![endif]--&gt;
+      &lt;!--[if !IE]&gt;--&gt;
+      &lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://www. &raquo; 
+youtube.com/v/mDRYnaajUcY&amp;amp;hl=en&amp;amp;fs=1&amp;amp;showinfo=0&quot; width=&quot;480&quot; &raquo; 
+height=&quot;295&quot;&gt;
+      &lt;!--&lt;![endif]--&gt;
+        &lt;param name=&quot;quality&quot; value=&quot;high&quot; /&gt;
+        &lt;param name=&quot;wmode&quot; value=&quot;opaque&quot; /&gt;
+        &lt;p&gt;&lt;a href=&quot;http://www.adobe.com/go/getflashplayer&quot;&gt;&lt;img alt= &raquo; 
+ &quot;Get Adobe Flash player&quot; src=&quot;http://www.adobe.com/images/shared/ &raquo; 
+download_buttons/get_flash_player.gif&quot;/&gt;&lt;/a&gt;&lt;/p&gt;
+      &lt;/object&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  ...
+&lt;/div&gt;
 												</pre>
 											</div><!-- .panel END -->
-						
-											<h6>Willkommen bei GWiki </h6>
+											
+											
+											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+											<p>So sieht eine Tabelle aus.</p>
+											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+											<p>So sieht eine Tabelle aus.</p>
+											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+											<p>So sieht eine Tabelle aus.</p>
+											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 						
 						
 						

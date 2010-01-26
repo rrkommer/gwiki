@@ -1,9 +1,8 @@
 @CHARSET "UTF-8";
 
 /* ================================================================================= */
-/* = Author: ÇpË™ÉÊ‡ÉÉ¯oÉ¹É”Ä±É¯@zÉ¹ÉÊÉ¥É”sË™É¯  | Â© 02010 Micromata GmbH | Have a lot of fun! = */
+/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
 /* ================================================================================= */
-
 
 body {
 	font: normal 62.5% Helvetica, Arial, sans-serif;
@@ -49,7 +48,7 @@ body {
 
 #gwikiContent {
 	padding:0 2em;
-	background: #fff url("img/gui/bg24.gif") repeat top left;/**/
+	/*background: #fff url("img/gui/bg24.gif") repeat top left;/**/
 	color: #5C6970;
 }
 
@@ -228,15 +227,15 @@ body {
 /* Let 'em float */
 
 #gwikiContent dl.left{
-	clear:none;
+	clear:left;
 	float:left;
-	width:30em;
+	max-width:30em;
 }
 
 #gwikiContent dl.right{
-	clear:none;
+	clear:right;
 	float:right;
-	width:30em;
+	max-width:30em;
 }
 
 
@@ -344,17 +343,104 @@ a:hover {
 	font-size:1.6em;
 	line-height:1.5em;
 }
+
+/*used icons in gwikiContent have to behave like icons, not like images.*/
+
+#gwikiContent img.icon{
+	margin:0;
+	padding:0.1em;
+	border: 1px solid #eaeeed;
+	float:right;
+	-moz-border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+	width:0.5em;
+}
+
+#gwikiContent img.icon:hover, #gwikiContent img.iconOver {
+	background:#CCCCD1;
+	border-color:#B3B3B7;
+}
 	
 #gwikiContent img.right{
 	float:right;
 	max-height:13.9em;
-	margin: 0 0 1.5em 1.5em;
+	margin: 0 0 0 1.5em;
 }
 	
 #gwikiContent img.left{
 	float: left;
 	max-height:13.9em;
-	margin: 0 1.5em 1.5em 0;
+	margin: 0 1.5em 0 0;
+}
+
+/* rendering the alt-text as imagefootnote */
+
+
+#gwikiContent div.imgfoot{
+	font-size:1.2em;
+	padding: 1em 0.6em;
+	background:#fff;
+	color: #CCCCD1;
+	line-height: 1;
+	max-height:6em;
+	min-height:4em;
+	overflow:hidden;
+	/*background: red url("img/gui/bg24.gif") repeat top left;/**/
+}
+
+
+#gwikiContent div.imgfoot_none{
+	margin-top:-2.2em;
+
+}
+
+
+
+#gwikiContent div.imgfoot_left{
+	float:left;
+	clear:left;
+	margin:0 2em 0 0;
+}
+
+
+#gwikiContent div.imgfoot_right{
+	float:right;
+	clear:right;
+	margin:0 0 0 2em;
+}
+
+
+
+/* Prettyfy all the code snippets */
+
+
+
+#gwikiContent div.panel { 
+	margin:0 2.4em 2.4em 0;
+	max-width: 24em;
+	height: 19.6em;
+	padding: 0 0 2em 0; 
+	background:#f9f9f9;
+	-moz-border-radius: 1.6em;
+	-webkit-border-radius: 1.6em;
+	float:left;
+}
+
+
+#gwikiContent div.panel h3{
+	border-bottom: 1px solid #CFD7D9;
+	font-size:1.3em;
+	margin: 0;
+	padding: 0.25em 1em 0 1em;
+}
+
+
+#gwikiContent div.panel pre {
+	font-size: 0.8em;
+	overflow: auto;
+	margin:3em;
+	max-height: 22em;
+	border:1px solid #CFD7D9;
 }
 
 
