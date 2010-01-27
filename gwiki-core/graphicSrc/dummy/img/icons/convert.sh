@@ -1,6 +1,12 @@
 #!/bin/bash
 
-for png in `ls *.png`
+for var in `ls *`
 do
-convert -thumbnail 16x16 $png $png
+	
+	echo "TYPE=attachment">>${var}Settings.properties
+	echo "AUTH_VIEW=GWIKI_PUBLIC">>
+	echo "WIKIMETATEMPLATE=admin/templates/FileWikiPageMetaTemplate">>
+	
+	
+	
 done
