@@ -1,0 +1,124 @@
+@CHARSET "UTF-8";
+
+/* ================================================================================= */
+/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
+/* ================================================================================= */
+
+
+/* ++++++ gwiki metanav topmost navigation  ++++++++++++++++++++ */
+
+	
+	#gwikiMetanav{
+		position:absolute;
+		top:1em;
+		right:1em;
+	}
+	
+	#gwikiMetanav ul{
+		margin:0;
+		padding:0;
+	}
+	
+	#gwikiMetanav ul li{
+		float:left;
+	}
+	
+	#gwikiMetanav ul li a {
+		display:block;
+		float:left;
+		padding: 0.2em 0.5em 0.1em 0.5em;
+		margin: 0 0.5em;
+		color:#5C6970;
+		border: 1px solid transparent;
+		background:transparent;
+		-moz-border-radius: 1em;
+		-webkit-border-radius: 1em;
+		text-decoration:none;		
+	}
+	
+	#gwikiMetanav ul li a:hover{
+		border: 1px solid #B3B3B7;
+		background: #CCCCD1;
+		color:#5C6970;
+		text-decoration:none;
+	}
+	
+	
+	
+/* ++++++ gwiki main navigation ++++++++++++++++++++ */
+	
+	ul#gwikiMenuone{
+		margin:0;
+		padding:0;
+		height:3em;
+		z-index: 1000;
+		position:absolute;
+		right:1.2em;
+		top:11em;
+	}
+	
+	ul#gwikiMenuone li.gwikiMenumain{
+		position:relative;
+	}
+	
+	ul#gwikiMenuone li.gwikiMenumain span{
+		font-size: 1.4em;
+		display: block;
+		padding:  0.2em 0.5em;
+		margin: 0.2em;
+		border: 1px solid #CFD7D9;
+		background: #f9f9f9;
+		color:#919CA9;
+		-moz-border-radius: 0.8em;
+		-webkit-border-radius: 0.8em;
+	}
+	
+
+	
+	ul#gwikiMenuone li.gwikiMenumain:hover span, ul#gwikiMenuone li.gwikiMenumain.over span{
+		border: 1px solid #333;
+		background: #666;
+		color:#fff;
+		opacity:0.2;
+		cursor: pointer;
+	}
+	
+	ul#gwikiMenuone li.gwikiMenumain:hover ul{
+		display:block;
+	}
+	
+	ul#gwikiMenuone li ul{
+		display:none;
+		position:absolute;
+		top:2.5em;
+		right:0;
+		background: transparent url("../img/gui/menu.gif") no-repeat -7em 0%;
+		margin:0;
+		padding:0.85em 0 0 0;
+	}
+	
+	
+	
+	ul#gwikiMenuone li ul li{
+		float:none;
+		padding:0;
+		margin:0;
+	}
+		
+	ul#gwikiMenuone li ul li a{
+		font-size:1.4em;
+		display:block;
+		margin:0;
+		padding:0.4em 1em;
+		border-top:1px solid #FEF5CC;
+		border-bottom: 1px solid #FACE00;
+		width:12em;
+		color:#5C6970;
+		text-decoration: none;	
+	}
+	
+	ul#gwikiMenuone li ul li a:hover{
+		color:#33434C;
+		background-color: #FACE00;
+	}
+	

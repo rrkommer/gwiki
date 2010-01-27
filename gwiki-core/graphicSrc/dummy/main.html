@@ -24,15 +24,14 @@
 				});
 
 				
-				// iterate over all content-images and get their alt-contents)
-				$("#gwikiContent img[class!=icon]").each(function(index) {
-					width=$("#gwikiContent img").eq(index).width();
-					alttext=$("#gwikiContent img").eq(index).attr("alt");
-					floating=$("#gwikiContent img").eq(index).css("float");
+				// iterate over all content-images and get their alt-contents to display an elegant imagefooter
+				$("#gwikiContent img[class!='icon']").each(function(index) {
+					width=$("#gwikiContent img[class!='icon']").eq(index).width();
+					alttext= " " + $("#gwikiContent img[class!='icon']").eq(index).attr("alt");
+					floating=$("#gwikiContent img[class!='icon']").eq(index).css("float");
 					//height=$("#gwikiContent img").eq(index).height();
-					$("#gwikiContent img[class!=icon]").eq(index).after("<div style='width:" + width + "px ;' class='imgfoot imgfoot_"+floating+"'><strong>Fig:" + (index + 1) + "</strong> " + alttext + " </div> ")
+					$("#gwikiContent img[class!='icon']").eq(index).after("<div style='width:" + width + "px ;' class='imgfoot imgfoot_"+floating+"'><strong>Fig:" + (index + 1) + "</strong> " + alttext + " </div> ")
 					//alert("lalapoo" + width +  " " + alttext);
-					
 				  });
 
 				
@@ -501,6 +500,7 @@ download_buttons/get_flash_player.gif&quot;/&gt;&lt;/a&gt;&lt;/p&gt;
 											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
 											<p>So sieht eine Tabelle aus.</p>
+											<img class="left" src="img/ghettoblaster.jpg" alt="Der Philips LaberRhababerRapDirEinen 2000, die erste Wahl für den Afroneger von Welt." />
 											<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
 											<p>So sieht eine Tabelle aus.</p>

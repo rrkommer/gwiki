@@ -1,0 +1,67 @@
+<!-- headMenu.gspt START --> 
+ <ul id="gwikiMenuone" class="menu">  
+        <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Page"/></span>
+            <ul>
+            	<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+            	<li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+            <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
+             <li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+						<% } %>
+			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
+     		<li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/>
+     			<ul>
+     			<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
+     				<% wikiContext.setRequestAttribute("wktp", pair); %>
+     				<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/>
+     			<% } %>
+     			</ul>
+     		</li>
+     						<% } %>
+           </ul>  
+       </li>
+       <li class="gwikiMenumain"><span><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
+           <ul>
+           <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
+             <li>
+             		<a href="<c:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
+             	</li>
+             <li></li>  
+           	</gwiki:authorize>
+           	<% if (de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization.isOwnUser(wikiContext) == true) { %>
+           	<li><gwiki:link pageId="edit/UserProfile" urlParams="?backUrl=${wikiPage.elementInfo.id}" title="Profil" /></li>
+           	<% } %>
+           	<li></li>  
+             <li><gwiki:link title="Logout" pageId="admin/Logout"/></li>  
+           </ul>  
+       </li>  
+       <gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
+       <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Admin"/></span>
+           <ul>
+           	<li><gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+           	<li></li> 
+           	<li><gwiki:link pageId="edit/ListUsers" /></li>
+           	<li></li> 
+           	<li><gwiki:link pageId="edit/PageImporter" /></li>
+           	<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="Seiten Exportieren"/></li>
+           	<li><gwiki:link pageId="edit/DeletedPages"/></li>
+           	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
+           	<li><gwiki:link title="WikiConfig" pageId="edit/EditPage" urlParams="?pageId=admin/config/GWikiConfig"/></li>
+       			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
+       				<li><a target="_blank" href="<gwiki:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
+       			</gwiki:authorize>
+           </ul>  
+       </li>
+       </gwiki:authorize>
+   </ul>  
+   <!-- script type="text/javascript">
+  // \$(document).ready(function(){
+   var options = {showDelay: 0, 
+		   hoverOpenDelay: 100, 
+		   minWidth: 60/*, arrowSrc: 'arrow_right.gif', onClick: function(e, menuItem){  
+        alert('you clicked item "' + \$(this).text() + '"');  
+    }*/};  
+   \$('#menuone').menu(options);
+  //});
+</script-->
+
+<!-- headMenu.gspt END -->
