@@ -259,7 +259,7 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
 
   public void renderViaDescriptor(GWikiContext ctx)
   {
-    XmlElement table = Html.table(Xml.attrs("width", "100%"), //
+    XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
         Html.tr( //
             Html.th(Xml.attrs("width", "70", "align", "left"), Xml.text("Key")), //
             Html.th(Xml.attrs("width", "300", "align", "left"), Xml.text("Value")), //

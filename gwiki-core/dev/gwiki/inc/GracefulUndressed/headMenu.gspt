@@ -1,12 +1,18 @@
 <!-- headMenu.gspt START --> 
  <ul id="gwikiMenuone" class="menu">  
+ 		<%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
+             <li class="gwikiMenumain">
+             	<span style="background-image: url('<gwiki:url value='/inc/GracefulUndressed/img/icons/notepencil16.png'/>');">
+             		<gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
+             	</span>
+             </li>
+		<% } %>
+ 
         <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Page"/></span>
             <ul>
             	<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
             	<li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
-            <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
-             <li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
-						<% } %>
+            
 			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
      		<li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/>
      			<ul>
@@ -19,7 +25,7 @@
      						<% } %>
            </ul>  
        </li>
-       <li class="gwikiMenumain"><span><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
+       <li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/GracefulUndressed/img/icons/user16.png'/>')" ><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
            <ul>
            <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
              <li>

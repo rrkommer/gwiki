@@ -52,12 +52,31 @@
 	#gwikiQuicksearch{
 		float:right;
 		margin:3em 0 0;
-		width:33.6em;
 	}
 	
+	
+	
 	#gwikiQuicksearchSubmit {
-		display:none;
+		text-indent:-9999px;
+		border: none;
+		background: transparent url("../img/icons/search16.png") no-repeat center center;
+		font-size:1.4em;
+		width:1.6em;
+		height: 1.6em;
+		padding:0.2em;
+		opacity:0.5;		
 	}
+	
+	
+	#gwikiQuicksearchSubmit:hover{
+		opacity:0.8;
+		cursor:pointer;
+	}
+	
+	#gwikiSearchmenu { 
+		width:28em;
+	}
+	
 	
 	#gwikiSearchmenu ul li {
 		float:left;
@@ -76,6 +95,9 @@
 		border: 0.1em solid #ADB4B7;
 		background: #fff;
 		font-size:1.4em;
+		width:10em;
+		height:1em;
+		padding: 0.2em;
 	}
 
 

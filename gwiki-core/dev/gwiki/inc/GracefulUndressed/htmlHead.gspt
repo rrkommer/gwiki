@@ -15,10 +15,7 @@
 
 <link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
 
-<link href="<gwiki:url value="/inc/GracefulUndressed/css/reset.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/GracefulUndressed/css/main.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/GracefulUndressed/css/typo.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/GracefulUndressed/css/menu.css"/>" rel="stylesheet" type="text/css" />
+
 
 
 <script src='<gwiki:url value="/static/js/jquery-1.3.2.min.js" />' type="text/JavaScript"></script>

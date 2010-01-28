@@ -104,7 +104,7 @@ body {
 
 
 #gwikiContent h4 {
-	font-size:1.2em;
+	font-size:1.4em;
 	line-height:2em;
 	font-weight:bold;
 }
@@ -141,6 +141,12 @@ body {
 	-webkit-border-radius: 1em;
 }
 
+/*TODO: move to tabs css */
+#gwikiContent #tabs ul { 
+	list-style:none;
+	font-size:1em;
+}
+
 #gwikiContent ul li {
 	margin: 0;
 	padding: 0;
@@ -148,6 +154,10 @@ body {
 
 
 /*disable endocrine growth... */
+
+#gwikiContent ul li a{
+	font-size:1em;
+}
 #gwikiContent ul li ul li,
 #gwikiContent ul li ul li ul li,
 #gwikiContent ul li ul li ul li ul li,
@@ -159,8 +169,11 @@ body {
 
 /* disable endocrine growth... */
 #gwikiContent ul li ul, 
-#gwikiContent ul li ul li ul, 
-#gwikiContent ul li ul li ul li ul {
+#gwikiContent ul ul, 
+#gwikiContent ul li ul li ul,
+#gwikiContent ul ul ul, 
+#gwikiContent ul li ul li ul li ul, 
+#gwikiContent ul ul ul ul  {
 	font-size: 1em;
 	margin: 0 0 0 2em;
 	padding: 0;
@@ -302,6 +315,10 @@ a:hover {
 	background-color:#f9f9f9;	
 }
 
+#gwikiContent table tbody tr th{
+	text-align: left;
+}
+
 #gwikiContent table tbody tr.even td,
 #gwikiContent table tbody tr.even th {
 	background-color:#fff;
@@ -311,7 +328,7 @@ a:hover {
 
 #gwikiContent table tbody tr.odd td,
 #gwikiContent table tbody tr.odd th {
-	background-color:#eaeeed;
+	background-color:#f9f9f9;
 	color: #33434C;
 }
 
@@ -444,4 +461,19 @@ a:hover {
 }
 
 
+/* TODO:all following code has to be placed into forms.css */
+
+
+#gwikiContent table.gwikiProperties, 
+#gwikiContent table.gwikiProperties tr td,
+#gwikiContent table.gwikiProperties tr th,
+#gwikiContent table.gwikiProperties thead tr td,
+#gwikiContent table.gwikiProperties thead tr th,
+#gwikiContent table.gwikiProperties tbody tr td,
+#gwikiContent table.gwikiProperties tbody tr th,
+#gwikiContent table.gwikiProperties tfoot tr td,
+#gwikiContent table.gwikiProperties tfoot tr th {
+	border:none;
+	font-size:1em;
+}
 

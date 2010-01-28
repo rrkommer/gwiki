@@ -13,34 +13,37 @@
 <% form = pageContext.getRequest().getAttribute('form'); %>
 <form method="POST" enctype="multipart/form-data">
 	<html:hidden property="pageId" /> 
-	<html:hidden property="parentPageId" /><br/>
+	<html:hidden property="parentPageId" />
+	
 <c:choose>
-<c:when test="${form.newPage == true}">
-<h2>User: <html:text property="title"/></h2>
-</c:when>
-<c:otherwise>
-<h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
-</c:otherwise>
+	<c:when test="${form.newPage == true}">
+		<h2>User: <html:text property="title"/></h2>
+	</c:when>
+	<c:otherwise>
+		<h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
+	</c:otherwise>
 </c:choose>
 
 
 <html:hidden property="metaTemplatePageId" />
+
 <input type="submit" name="method_onSave" value="Speichern">
+
 <input type="submit" name="method_onCancel" value="Abbrechen">
+
 <c:if test="${form.newPage == false}">
-<gwiki:authorize ifHasAny="GWIKI_ADMIN">
-	<input type="submit" name="method_onDelete" value="L&ouml;schen">
-</gwiki:authorize>
+	<gwiki:authorize ifHasAny="GWIKI_ADMIN">
+		<input type="submit" name="method_onDelete" value="L&ouml;schen">
+	</gwiki:authorize>
 </c:if>
 
 <html:hidden property="newPage" /> 
 <div id="tabs">
  <ul>
-  <%
-  	for (me in form.editors) { %>
-  	<li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
+  <% for (me in form.editors) { %>
+  		<li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
  	<%}  %>
-    </ul>
+</ul>
 
  <%
   	for (me in form.editors) { %>

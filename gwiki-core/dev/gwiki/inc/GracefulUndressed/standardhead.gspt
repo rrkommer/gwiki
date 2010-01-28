@@ -41,18 +41,20 @@
 						<div id="gwikiSearchmenu">
            					<ul>
 					           	<gwiki:authorize pageId="edit/SiteMap">
-					             	<li><a href="<gwiki:url value="/edit/SiteMap"/>">sitemap</a></li>
+					             	<li><a href="<gwiki:url value="/edit/SiteMap"/>"><img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/folder16.png'/>" alt="Edit Page" /></a></li>
 					            </gwiki:authorize>
 								<gwiki:authorize pageId="edit/ViewAllPages">
-	             					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">allpages</a></li>
+	             					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>"><img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/recycle16.png'/>" alt="Edit Page" /></a></li>
 	             				</gwiki:authorize>
 	             				<gwiki:authorize pageId="edit/Keywords">
-	             					<li><a href="<gwiki:url value="/edit/Keywords"/>">ipsum</a></li>
+	             					<li><a href="<gwiki:url value="/edit/Keywords"/>"><img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/notepencil16.png'/>" alt="Edit Page" /></a></li>
 	             				</gwiki:authorize>
            					</ul>  
+						
+							<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="search" size="25" name="searchExpression" accesskey="n"/>
+							
+							<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
 						</div> <!-- gwikiSearchmenu END -->
-								<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="search" size="25" name="searchExpression" accesskey="n"/>
-						<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
 					</form>
 					
 					<script type="text/javascript">
@@ -94,6 +96,8 @@
 						
 					</div-->
 					<!-- pagenav END -->
-	
-					<div id="gwikiContent">
+					<div id="gwikiExplorer">
 						<@include file="inc/navMenu" @>
+					</div><!-- gwikiExplorer END -->
+					<div id="gwikiContent">
+						

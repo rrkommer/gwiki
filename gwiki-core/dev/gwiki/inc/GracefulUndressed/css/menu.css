@@ -64,22 +64,30 @@
 	ul#gwikiMenuone li.gwikiMenumain span{
 		font-size: 1.4em;
 		display: block;
-		padding:  0.2em 0.5em;
+		padding:  0.2em 0.5em 0.2em 2em;
 		margin: 0.2em;
 		border: 1px solid #CFD7D9;
-		background: #f9f9f9;
+		background: #f9f9f9 url("../img/icons/heart16.png") no-repeat 0.5em 50%;
 		color:#919CA9;
 		-moz-border-radius: 0.8em;
 		-webkit-border-radius: 0.8em;
+	}
+	ul#gwikiMenuone li.gwikiMenumain span a{
+		color:#919CA9;
+		text-decoration: none;
+	}
+	
+	ul#gwikiMenuone li.gwikiMenumain span a:hover, ul#gwikiMenuone li.gwikiMenumain span:hover a{
+		color:#333;
 	}
 	
 
 	
 	ul#gwikiMenuone li.gwikiMenumain:hover span, ul#gwikiMenuone li.gwikiMenumain.over span{
-		border: 1px solid #333;
-		background: #666;
-		color:#fff;
-		opacity:0.2;
+		border: 1px solid #666;
+		background-color: #999;
+		color:#333;
+		opacity:0.5;
 		cursor: pointer;
 	}
 	
