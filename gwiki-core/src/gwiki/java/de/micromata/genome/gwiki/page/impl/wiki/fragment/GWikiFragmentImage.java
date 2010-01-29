@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -109,7 +110,7 @@ public class GWikiFragmentImage extends GWikiFragementBase
     String ltarget = target;
     if (RenderModes.LocalImageLinks.isSet(ctx.getRenderMode()) == true) {
 
-      String o = (String) ctx.getRequestAttribute(WIKI_MAX_IMAGE_WIDTH);
+      String o = ObjectUtils.toString(ctx.getRequestAttribute(WIKI_MAX_IMAGE_WIDTH));
       if (o != null && lwidth == null) {
         lwidth = o;
         // ctx.append("<img src='", target, "' width='" + o + "'>");

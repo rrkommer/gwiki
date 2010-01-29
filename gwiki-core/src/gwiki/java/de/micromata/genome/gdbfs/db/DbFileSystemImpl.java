@@ -186,6 +186,11 @@ public class DbFileSystemImpl extends AbstractFileSystem
   private Long getObjectPk(String name)
   {
     name = normalizeName(name);
+    return getObjectPkUnnormalized(name);
+  }
+
+  private Long getObjectPkUnnormalized(String name)
+  {
     String sql = "select " + table.getPkColumnName() + " from " + table.getTableName() + " where FSNAME = ? and NAME = ?";
     try {
       return jdbc().queryForLong(sql, new Object[] { fileSystemName, name});
@@ -199,8 +204,9 @@ public class DbFileSystemImpl extends AbstractFileSystem
     checkReadOnly();
     name = normalizeName(name);
     try {
-      if (exists(name) == true)
+      if (existsForWrite(name) == true) {
         return true;
+      }
       Long pk = getParentDirPk(name);
       if (pk == null) {
         if (name.equals("/") == true) {
@@ -557,11 +563,23 @@ public class DbFileSystemImpl extends AbstractFileSystem
     }
   }
 
-  private void removeDelName(String delName)
+  public void destoryFile(String name)
   {
-    String sql = "delete from " + table.getTableName() + " where FSNAME = ? and NAME = ?";
-    int updated = jdbc().update(sql, new Object[] { fileSystemName, delName});
+    name = normalizeName(name);
+    destoryFileUnnormalized(name);
+  }
 
+  private void destoryFileUnnormalized(String name)
+  {
+    Long delNamePk = getObjectPkUnnormalized(name);
+    if (delNamePk == null) {
+      return;
+    }
+
+    String sql = "delete from " + tableData.getTableName() + " where " + table.getPkColumnName() + " = ?";
+    int updated = jdbc().update(sql, new Object[] { delNamePk});
+    sql = "delete from " + table.getTableName() + " where " + table.getPkColumnName() + " = ?";
+    updated = jdbc().update(sql, new Object[] { delNamePk});
   }
 
   public boolean delete(String name)
@@ -577,7 +595,7 @@ public class DbFileSystemImpl extends AbstractFileSystem
     }
     try {
       String delName = DEL_PREFIX + name;
-      removeDelName(delName);
+      destoryFileUnnormalized(delName);
       String sql = "update " + table.getTableName() + " set NAME = ?, PARENT = null where " + table.getPkColumnName() + " = ?";
       int updated = jdbc().update(sql, new Object[] { delName, pk});
 

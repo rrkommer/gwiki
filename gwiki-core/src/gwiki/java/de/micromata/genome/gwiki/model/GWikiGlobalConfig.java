@@ -51,6 +51,7 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_CHECK_STORAGE_MODTIMEOUT = "GWIKI_CHECK_STORAGE_MODTIMEOUT";
 
+  @Deprecated
   public static final String GWIKI_SINGLENODE_STORAGE = "GWIKI_SINGLENODE_STORAGE";
 
   /**
@@ -117,11 +118,6 @@ public class GWikiGlobalConfig extends GWikiProps
   public boolean checkFileSystemForExternalMod()
   {
     return getBooleanValue(GWIKI_CHECK_EXTERNAL_MODIFICATIONS);
-  }
-
-  public boolean isSingleNodeStorage()
-  {
-    return getBooleanValue(GWIKI_SINGLENODE_STORAGE);
   }
 
   public String getDefaultSkin()

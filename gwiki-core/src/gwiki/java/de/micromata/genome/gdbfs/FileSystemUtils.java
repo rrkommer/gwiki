@@ -111,7 +111,7 @@ public class FileSystemUtils
     boolean matches = matcher.match(source.getName());
     if (source.isDirectory() == true) {
       if (matches == true) {
-        if (target.exists(source.getName()) == false && target.mkdirs(source.getName()) == false) {
+        if (target.existsForWrite(source.getName()) == false && target.mkdirs(source.getName()) == false) {
           throw new RuntimeException("Cannot create directory " + source.getName() + " on " + target);
         }
       }
@@ -212,7 +212,7 @@ public class FileSystemUtils
     if (name.endsWith("/") == true) {
       String fqName = mergeDirNames(target.getName(), name);
       fqName = fqName.substring(0, fqName.length() - 1);
-      if (target.getFileSystem().exists(fqName) == true) {
+      if (target.getFileSystem().existsForWrite(fqName) == true) {
         return;
       }
       target.getFileSystem().mkdirs(fqName);

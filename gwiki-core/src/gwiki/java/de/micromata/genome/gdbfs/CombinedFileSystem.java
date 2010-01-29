@@ -73,6 +73,11 @@ public abstract class CombinedFileSystem extends AbstractFileSystem
     return getFsForRead(name).exists(name);
   }
 
+  public boolean existsForWrite(String name)
+  {
+    return getFsForWrite(name).existsForWrite(name);
+  }
+
   public FsObject getFileObject(String name)
   {
     return getFsForRead(name).getFileObject(name);

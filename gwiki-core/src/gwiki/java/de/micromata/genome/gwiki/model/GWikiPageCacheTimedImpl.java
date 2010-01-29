@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import de.micromata.genome.gdbfs.FileSystemEvent;
@@ -39,7 +38,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
 {
   private long standardLifeTime = TimeInMillis.MINUTE;
 
-  private Map<String, Pair<Long, GWikiElement>> cachedPages = new HashMap<String, Pair<Long, GWikiElement>>();
+  private Map<String, Pair<Long, GWikiElement>> cachedPages = newCachePagesMap();
 
   private Map<String, GWikiElementInfo> pageInfoMap = Collections.emptyMap();
 
@@ -57,6 +56,25 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     noCachePages = noCachePageIds;
   }
 
+  protected Map<String, Pair<Long, GWikiElement>> newCachePagesMap()
+  {
+    return new HashMap<String, Pair<Long, GWikiElement>>();
+  }
+
+  protected Map<String, Pair<Long, GWikiElement>> newCachePagesMap(Map<String, Pair<Long, GWikiElement>> oldMap)
+  {
+    Map<String, Pair<Long, GWikiElement>> nm = new HashMap<String, Pair<Long, GWikiElement>>(oldMap.size());
+    nm.putAll(oldMap);
+    return nm;
+  }
+
+  protected Map<String, GWikiElementInfo> newPageInfoMap(Map<String, GWikiElementInfo> oldMap)
+  {
+    Map<String, GWikiElementInfo> nm = new HashMap<String, GWikiElementInfo>(oldMap.size());
+    nm.putAll(oldMap);
+    return nm;
+  }
+
   public GWikiElementInfo getPageInfo(String pageId)
   {
     return pageInfoMap.get(pageId);
@@ -64,15 +82,25 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
 
   public void putPageInfo(GWikiElementInfo ei)
   {
+    putPageInfo(ei, true);
+  }
+
+  public void putPageInfo(GWikiElementInfo ei, boolean notify)
+  {
     if (noCachePageIds.match(ei.getId()) == true) {
       return;
     }
     if (logNode == true) {
       GWikiLog.info("put pageInfo: " + this + ": " + ei.getId());
     }
+
     GWikiElementInfo oldEi = pageInfoMap.get(ei.getId());
-    pageInfoMap.put(ei.getId(), ei);
+    Map<String, GWikiElementInfo> nm = newPageInfoMap(pageInfoMap);
+    nm.put(ei.getId(), ei);
+    pageInfoMap = nm;
+    if (notify == true) {
     wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, ei, oldEi);
+  }
   }
 
   public boolean hasCachedPage(String pageId)
@@ -80,20 +108,25 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return cachedPages.containsKey(pageId);
   }
 
-  public synchronized void clearCachedPages()
+  public void clearCachedPages()
   {
     if (logNode == true) {
       GWikiLog.info("clearPages");
     }
-    cachedPages.clear();
+    cachedPages = newCachePagesMap();
   }
 
-  public synchronized void clearCachedPage(String pageId)
+  public void clearCachedPage(String pageId)
   {
-    cachedPages.remove(pageId);
+    if (cachedPages.containsKey(pageId) == false) {
+      return;
+    }
+    Map<String, Pair<Long, GWikiElement>> nm = newCachePagesMap(cachedPages);
+    nm.remove(pageId);
+    cachedPages = nm;
   }
 
-  public synchronized void clearCompiledFragments(Class< ? extends GWikiArtefakt< ? extends Serializable>> toClear)
+  public void clearCompiledFragments(Class< ? extends GWikiArtefakt< ? extends Serializable>> toClear)
   {
     for (Pair<Long, GWikiElement> p : cachedPages.values()) {
       GWikiElement el = p.getSecond();
@@ -129,7 +162,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return metaTemplate.getElementLifeTime();
   }
 
-  public synchronized GWikiElement getPage(String pageId)
+  public GWikiElement getPage(String pageId)
   {
     Pair<Long, GWikiElement> p = cachedPages.get(pageId);
     if (p == null) {
@@ -155,14 +188,24 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return pageInfoMap.values();
   }
 
-  public synchronized void removePageInfo(String pageId)
+  public void removePageInfo(String pageId)
+  {
+    removePageInfo(pageId, true);
+  }
+
+  public void removePageInfo(String pageId, boolean notify)
   {
     if (logNode == true) {
       GWikiLog.info("remove pageId: " + pageId);
     }
     GWikiElementInfo oldInfo = pageInfoMap.get(pageId);
-    pageInfoMap.remove(pageId);
-    if (oldInfo != null) {
+    if (oldInfo == null) {
+      return;
+    }
+    Map<String, GWikiElementInfo> nm = newPageInfoMap(pageInfoMap);
+    nm.remove(pageId);
+    pageInfoMap = nm;
+    if (notify == true) {
       wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldInfo);
     }
   }
@@ -172,10 +215,10 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return pageInfoMap.containsKey(pageId);
   }
 
-  protected void clearOldItems(long now)
+  protected void clearOldItems(Map<String, Pair<Long, GWikiElement>> nm, long now)
   {
-    List<String> toRemove = null;
-    for (Map.Entry<String, Pair<Long, GWikiElement>> me : cachedPages.entrySet()) {
+    Collection<String> toRemove = null;
+    for (Map.Entry<String, Pair<Long, GWikiElement>> me : nm.entrySet()) {
       final long lt = me.getValue().getFirst();
       if (lt != -1 && lt < now) {
         if (toRemove == null) {
@@ -190,12 +233,13 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     if (toRemove == null) {
       return;
     }
+
     for (String rk : toRemove) {
-      cachedPages.remove(rk);
+      nm.remove(rk);
     }
   }
 
-  public synchronized void putCachedPage(String pageId, GWikiElement el)
+  public void putCachedPage(String pageId, GWikiElement el)
   {
     if (noCachePages.match(pageId) == true) {
       return;
@@ -207,13 +251,15 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     if (lifeTime == 0) {
       return;
     }
+    Map<String, Pair<Long, GWikiElement>> nm = newCachePagesMap(cachedPages);
     final long now = System.currentTimeMillis();
     if (lifeTime == -1) {
-      cachedPages.put(pageId, Pair.make(lifeTime, el));
+      nm.put(pageId, Pair.make(lifeTime, el));
     } else {
-      cachedPages.put(pageId, Pair.make(now + lifeTime, el));
+      nm.put(pageId, Pair.make(now + lifeTime, el));
     }
-    clearOldItems(now);
+    clearOldItems(nm, now);
+    cachedPages = nm;
   }
 
   public void initPageCache(GWikiWeb wikiWeb)
@@ -229,7 +275,6 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
 
       public void onFileSystemChanged(FileSystemEvent event)
       {
-        synchronized (GWikiPageCacheTimedImpl.this) {
           String fileName = event.getFileName();
           String id = fileName.substring(0, fileName.length() - "Settings.properties".length());
           if (id.startsWith("/") == true) {
@@ -248,13 +293,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
               }
               GWikiElementInfo newEi = storage.loadElementInfo(id);
               if (newEi != null) {
-                pageInfoMap.put(newEi.getId(), newEi);
+              putPageInfo(newEi, false);
               }
               if (newEi != null && newEi.getLoadedTimeStamp() >= event.getTimeStamp()) {
                 wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, oldEi);
               }
               clearCachedPage(id);
-
               break;
             }
             case Deleted: {
@@ -263,8 +307,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
                 wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldEi);
               }
               clearCachedPage(id);
-              pageInfoMap.remove(id);
-              // removePageInfo(id);
+            removePageInfo(id, false);
               break;
             }
             case Renamed: {
@@ -272,8 +315,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
               if (noCachePageIds.match(id) == false) {
                 newEi = storage.loadElementInfo(id);
                 if (newEi != null) {
-                  pageInfoMap.put(newEi.getId(), newEi);
-                  //putPageInfo(newEi);
+                putPageInfo(newEi, false);
                 }
               }
               String oldFileName = event.getOldFileName();
@@ -292,9 +334,8 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
                 wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, null);
               }
               clearCachedPage(oldId);
-              pageInfoMap.remove(oldId);
+            removePageInfo(oldId, false);
               break;
-            }
           }
         }
       }

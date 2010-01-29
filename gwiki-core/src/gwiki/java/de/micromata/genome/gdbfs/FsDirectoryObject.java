@@ -30,7 +30,7 @@ public class FsDirectoryObject extends FsObject
   public FsDirectoryObject mkdir(String dir)
   {
     String locName = FileNameUtils.join(getName(), dir);
-    if (fileSystem.exists(locName) == true) {
+    if (fileSystem.existsForWrite(locName) == true) {
       FsObject fso = fileSystem.getFileObject(locName);
       if (fso instanceof FsDirectoryObject) {
         return (FsDirectoryObject) fso;

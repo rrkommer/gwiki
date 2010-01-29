@@ -12,6 +12,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.filter;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
@@ -48,6 +49,8 @@ public class GWikiUseCounterFilter implements GWikiServeElementFilter
   {
     FileSystem fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
     String data = PropUtils.fromProperties(props.getMap());
+    String name = FileNameUtils.getParentDir(PageViewCounterfile);
+    fs.mkdirs(name);
     fs.writeTextFile(PageViewCounterfile, data, true);
   }
 

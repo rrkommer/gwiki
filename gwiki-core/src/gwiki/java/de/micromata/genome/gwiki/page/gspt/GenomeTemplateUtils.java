@@ -64,34 +64,16 @@ public class GenomeTemplateUtils
     ServletContext servletContext = null;// this.getServletContext();
     HttpServlet servlet = ctx.getServlet();
     servletContext = servlet.getServletContext();
-    // de.micromata.web.gwar.GspStandardApplication app = (de.micromata.web.gwar.GspStandardApplication) ctx.getRequest().getAttribute(
-    // "application");
-    // HttpServlet gwarServlet = (HttpServlet) ctx.getRequest().getAttribute("GWarServlet");
-
-    PageContext rpageContext = factory.getPageContext(servlet, ctx.getRequest(), // req
+    PageContext orgPageContext = ctx.getPageContext();
+    PageContext rpageContext = orgPageContext;
+    if (rpageContext == null) {
+      rpageContext = factory.getPageContext(servlet, ctx.getRequest(), // req
         ctx.getResponse(), // res
         null, // error page url
         true, // need session
         ctx.getResponse().getBufferSize(), true); // autoflush
-    // PageContext pageContext = rpageContext;
+    }
     GspPageContext pageContext = new GspPageContext(rpageContext);
-    // String newRoot = app.getLocalURI();
-    // HttpServletRequest newReq = new NestedHttpServletRequest((HttpServletRequest) rpageContext.getRequest(), newRoot);
-    //
-    // GspPageContext pageContext = new GspPageContext(rpageContext);
-    // pageContext.setNewRootRequest(newReq);
-    // pageContext.setServletContext(new GServletContext(gwarServlet.getServletContext(), app));
-    //
-    // ServletConfig servletConfig = ctx.getServlet().getServletConfig();
-    // if (servletContext == null)
-    // servletContext = (ServletContext) ctx.getRequestAttribute(PageContext.APPLICATION);
-
-    // pageContext.getAttribute(PageContext.PAGE)
-    // SESSION
-    // REQUEST
-    // PAGECONTEXT
-    // OUT
-    // EXCEPTION
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);
     // pageContext.setAttribute(PageContext.CONFIG, servletConfig);
     pageContext.setAttribute(PageContext.PAGE, ctx.getWikiElement());
@@ -120,23 +102,11 @@ public class GenomeTemplateUtils
         true, // need session
         ctx.getResponse().getBufferSize(), true); // autoflush
 
-    // String newRoot = app.getLocalURI();
-    // HttpServletRequest newReq = new NestedHttpServletRequest((HttpServletRequest) rpageContext.getRequest(), newRoot);
-    // HttpServletRequest newReq = ctx.getRequest();
-    // GspPageContext pageContext = new GspPageContesxt(rpageContext);
-    // pageContext.setNewRootRequest(newReq);
-    // pageContext.setServletContext(new GServletContext(gwarServlet.getServletContext(), app));
     PageContext pageContext = rpageContext;
     ServletConfig servletConfig = ctx.getServlet().getServletConfig();
     if (servletContext == null)
       servletContext = (ServletContext) ctx.getRequestAttribute(PageContext.APPLICATION);
 
-    // pageContext.getAttribute(PageContext.PAGE)
-    // SESSION
-    // REQUEST
-    // PAGECONTEXT
-    // OUT
-    // EXCEPTION
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);
     pageContext.setAttribute(PageContext.CONFIG, servletConfig);
     pageContext.setAttribute(PageContext.PAGE, ctx.getWikiElement());
@@ -197,7 +167,7 @@ public class GenomeTemplateUtils
       return template;
     } catch (Exception ex) {
       if (store == true && saveGroovy == true && engine.groovySource != null) {
-        // TODO appStorage.storeFile(page.replace(".gspt", ".groovy"), engine.groovySource.getBytes());
+        // TODO gwiki appStorage.storeFile(page.replace(".gspt", ".groovy"), engine.groovySource.getBytes());
       }
 
       final List<Integer> errorLineNumbers = new ArrayList<Integer>();
@@ -242,7 +212,7 @@ public class GenomeTemplateUtils
       return;
     }
     PageContext pageContext = ctx.getPageContext();
-    if (pageContext == null) {
+    if (pageContext == null || (pageContext instanceof ChildPageContext) == false) {
       pageContext = initPageContext(ctx);
       ctx.setPageContext(pageContext);
     }

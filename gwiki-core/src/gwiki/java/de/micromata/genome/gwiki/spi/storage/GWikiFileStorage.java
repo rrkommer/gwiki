@@ -480,7 +480,7 @@ public class GWikiFileStorage implements GWikiStorage
           String oldName = art.buildFileName(el.getElementInfo().getId(), me.getKey());
           String newName = art.buildFileName(clelinfo.getId(), me.getKey());
           if (storage.exists(oldName) == true) {
-            if (storage.exists(archivDir) == false) {
+            if (storage.existsForWrite(archivDir) == false) {
               storage.mkdirs(archivDir);
             }
             boolean success = storage.rename(oldName, newName);
@@ -651,7 +651,7 @@ public class GWikiFileStorage implements GWikiStorage
     String id = element.getElementInfo().getId();
     if (id.indexOf('/') != -1) {
       String ppath = id.substring(0, id.lastIndexOf('/'));
-      if (storage.exists(ppath) == false) {
+      if (storage.existsForWrite(ppath) == false) {
         storage.mkdirs(ppath);
       }
     }
@@ -671,6 +671,7 @@ public class GWikiFileStorage implements GWikiStorage
         GWikiTextArtefakt< ? > ta = (GWikiTextArtefakt< ? >) art;
         String text = ta.getStorageData();
         if (text != null) {
+
           storage.writeTextFile(fname, text, /* ta.isNoArchiveData() == true */true);
         }
       } else if (art instanceof GWikiBinaryArtefakt< ? >) {

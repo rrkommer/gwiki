@@ -102,7 +102,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     byte[] data = simContext.getStandaloneResponse().getOutputBytes();
     String parent = FileNameUtils.getParentDir(imageUrl);
     if (StringUtils.isNotEmpty(parent) == true) {
-      if (fs.exists(parent) == false) {
+      if (fs.existsForWrite(parent) == false) {
         fs.mkdirs(parent);
       }
     }

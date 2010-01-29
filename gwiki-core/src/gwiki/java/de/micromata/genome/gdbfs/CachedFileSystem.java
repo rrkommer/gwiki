@@ -72,6 +72,18 @@ public class CachedFileSystem extends FileSystemWrapper implements InitializingB
     dirty = true;
     return nex;
   }
+  public boolean existsForWrite(String name)
+  {
+    checkDirty();
+    RamFileSystem rfsys = fetchRamFileSystem();
+    boolean exits = rfsys.existsForWrite(name);
+    boolean nex = nested.existsForWrite(name);
+    if (exits == nex) {
+      return exits;
+    }
+    dirty = true;
+    return nex;
+  }
 
   protected void reloadRamFS(RamFileSystem target)
   {

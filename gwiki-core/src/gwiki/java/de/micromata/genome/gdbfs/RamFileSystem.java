@@ -154,7 +154,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
   {
     checkReadOnly();
     name = normalizeFileName(name);
-    if (exists(name) == true) {
+    if (existsForWrite(name) == true) {
       return false;
     }
     String parent = getParentDirString(name);
@@ -187,7 +187,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     if (exists(oldName) == false)
       return false;
     FsObjectContainer c = files.get(oldName);
-    if (exists(newName) == false) {
+    if (existsForWrite(newName) == false) {
       return false;
     }
     if (c.getFile().isFile() == false) {
@@ -209,7 +209,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     checkReadOnly();
 
     name = normalizeFileName(name);
-    boolean existed = exists(name);
+    boolean existed = existsForWrite(name);
     ensureFileToWrite(name, overWrite);
     FsObjectContainer old = files.get(name);
     FsFileObject newFile = new FsFileObject(this, name, "", System.currentTimeMillis());

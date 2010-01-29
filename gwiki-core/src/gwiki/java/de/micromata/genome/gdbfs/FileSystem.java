@@ -58,8 +58,20 @@ public interface FileSystem
    * @return
    */
   public boolean mkdirs(String name);
-
+  /**
+   * 
+   * @param name
+   * @return true if file exists (read fs)
+   */
   boolean exists(String name);
+
+  /**
+   * same as exists, but on mounted filesystems check if file is on writeable filesystem.
+   * 
+   * @param name
+   * @return
+   */
+  boolean existsForWrite(String name);
 
   /**
    * See File.rename

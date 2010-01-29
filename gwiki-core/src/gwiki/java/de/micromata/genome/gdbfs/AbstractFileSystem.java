@@ -82,6 +82,11 @@ public abstract class AbstractFileSystem implements FileSystem
     return StringUtils.startsWith(mimeType, "text/") == true;
   }
 
+  public boolean existsForWrite(String name)
+  {
+    return exists(name);
+  }
+
   protected void checkReadOnly()
   {
     if (readOnly == false)
@@ -177,10 +182,10 @@ public abstract class AbstractFileSystem implements FileSystem
 
   public boolean mkdirs(String name)
   {
-    if (exists(name) == true)
+    if (existsForWrite(name) == true)
       return false;
     String p = getParentDirString(name);
-    if (exists(p) == false) {
+    if (existsForWrite(p) == false) {
       if (mkdirs(p) == false)
         return false;
     }

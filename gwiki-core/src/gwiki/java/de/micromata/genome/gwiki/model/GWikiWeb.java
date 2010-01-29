@@ -11,7 +11,6 @@ package de.micromata.genome.gwiki.model;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -156,7 +155,6 @@ public class GWikiWeb
 
   }
 
-  
   public void serveWiki(String page, final GWikiContext ctx)
   {
     if (wikiGlobalConfig.checkFileSystemForExternalMod() == true) {
@@ -384,7 +382,7 @@ public class GWikiWeb
     return null;
   }
 
-  public synchronized GWikiElement findElement(String path, boolean usePageCache)
+  public GWikiElement findElement(String path, boolean usePageCache)
   {
     if (path == null) {
       return null;
@@ -420,24 +418,6 @@ public class GWikiWeb
     return el;
   }
 
-  /**
-   * create a new ArrayList which directly modified.
-   * 
-   * @param ei
-   * @return
-   */
-  @Deprecated
-  public List<GWikiElementInfo> getDirectChilds(GWikiElementInfo ei)
-  {
-    List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
-    for (GWikiElementInfo pi : daoContext.getPageCache().getPageInfos()) {
-      if (StringUtils.equals(pi.getProps().getStringValue(GWikiPropKeys.PARENTPAGE), ei.getId()) == true) {
-        ret.add(pi);
-      }
-    }
-    return ret;
-  }
-
   public GWikiMetaTemplate findMetaTemplate(String pageId)
   {
     if (StringUtils.isBlank(pageId) == true) {
@@ -460,26 +440,17 @@ public class GWikiWeb
   public void removeWikiPage(GWikiContext wikiContext, GWikiElement element)
   {
     getStorage().deleteElement(wikiContext, element);
-    if (wikiGlobalConfig.isSingleNodeStorage() == true) {
-      synchronized (this) {
-        daoContext.getPageCache().clearCachedPages();
-        daoContext.getPageCache().removePageInfo(element.getElementInfo().getId());
-      }
-    } else {
-      reloadWeb();
+
+    GWikiPageCache pacheCache = daoContext.getPageCache();
+      pacheCache.clearCachedPages();
+      pacheCache.removePageInfo(element.getElementInfo().getId());
     }
-  }
 
   protected void onReplacePageInfo(GWikiElementInfo ei)
   {
-    if (wikiGlobalConfig.isSingleNodeStorage() == true) {
-      synchronized (this) {
-        daoContext.getPageCache().clearCachedPages();
-        daoContext.getPageCache().putPageInfo(ei);
-      }
-    } else {
-      reloadWeb();
-    }
+    GWikiPageCache pacheCache = daoContext.getPageCache();
+    pacheCache.clearCachedPages();
+    pacheCache.putPageInfo(ei);
   }
 
   /**
@@ -487,18 +458,19 @@ public class GWikiWeb
    * 
    * @param pageId
    */
-  public synchronized void reloadPage(String pageId)
+  public void reloadPage(String pageId)
   {
     if (pageId == null) {
       return;
     }
+    GWikiPageCache pageCache = daoContext.getPageCache();
     GWikiElementInfo ei = getStorage().loadElementInfo(pageId);
     if (ei == null) {
-      daoContext.getPageCache().removePageInfo(pageId);
+        pageCache.removePageInfo(pageId);
     } else {
-      daoContext.getPageCache().putPageInfo(ei);
-    }
-    daoContext.getPageCache().clearCachedPage(pageId);
+        pageCache.putPageInfo(ei);
+      }
+      pageCache.clearCachedPage(pageId);
   }
 
   public void restoreWikiPage(GWikiContext wikiContext, GWikiElement element)
