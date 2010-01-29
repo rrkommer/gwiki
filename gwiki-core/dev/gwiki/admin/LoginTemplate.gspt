@@ -2,23 +2,21 @@
 <@include file="inc/stdtags.gspt" @> 
 
 <gwiki:errors />
-<form method="post">
-<html:hidden property="pageId"/>
-<div align="center">
-<table>
-	<tr>
-		<td>Benutzer</td>
-		<td><html:text size="50" property="user" /></td>
-	</tr>
-	<tr>
-		<td>Passwort</td>
-		<td><html:password size="50" property="password" /></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td><input type="submit" name="method_onLogin" value="Login"></td>
-	</tr>
-</table>
-</div>
-</form>
+
+<div id="body">
+	<form method="post">
+		<html:hidden property="pageId"/>
+
+   	<label for="user">Benutzer</label>
+   	<html:text errorStyleClass="text error" styleClass="text" styleId="user" size="20" property="user" />
+   <br/>
+   	<label for="pass">Passwort</label>
+   	<td><html:password errorStyleClass="text error" styleClass="text" styleId="pass" size="20" property="password" />
+   <br/>
+   	<input  class="submit main" type="submit" name="method_onLogin" value="Login">
+   
+	</form>
+</div><!--#body END-->
+
+
 <% wikiContext.skinInclude("noauthfoot"); %>

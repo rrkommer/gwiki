@@ -459,6 +459,24 @@ a:hover {
 	max-height: 22em;
 	border:1px solid #CFD7D9;
 }
+/* special ul for the sitemaps */
+
+#gwikiContent .sitemap ul {
+	list-style:none;
+	background: transparent url("../img/gui/folder.png") no-repeat 1em 1em;
+	margin: 0;
+	border:none;
+}
+
+#gwikiContent .sitemap ul li {
+	padding: 0 0 0 2em;
+	background: transparent url("../img/gui/file.png") no-repeat scroll 0em -0.3em;
+}
+
+#gwikiContent .sitemap ul ul {
+	padding: 0 0 0 2em;
+	background: transparent url("../img/gui/folder.png") no-repeat scroll 0em -0.3em;
+}
 
 
 /* TODO:all following code has to be placed into forms.css */

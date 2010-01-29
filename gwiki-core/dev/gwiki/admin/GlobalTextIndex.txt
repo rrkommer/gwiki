@@ -36,3 +36,7 @@
 10|SIEHE
 10|ZULETZT
 >index
+<edit/SiteMap
+20|MAP
+20|SITE
+>edit/SiteMap
