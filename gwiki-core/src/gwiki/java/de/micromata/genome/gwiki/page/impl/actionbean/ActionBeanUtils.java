@@ -187,7 +187,7 @@ public class ActionBeanUtils
       if (redirect == true) {
         redirect(pctx, url);
       } else {
-        RequestDispatcher rd = pctx.getPageContext().getServletContext().getRequestDispatcher(pctx.localUrl(url));
+        RequestDispatcher rd = pctx.getCreatePageContext().getServletContext().getRequestDispatcher(pctx.localUrl(url));
         if (rd == null) {
         }
         rd.forward(pctx.getRequest(), pctx.getResponse());

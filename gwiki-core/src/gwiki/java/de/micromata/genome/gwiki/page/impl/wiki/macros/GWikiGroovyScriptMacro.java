@@ -47,7 +47,7 @@ public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro
   protected Map<String, Object> createBinding(MacroAttributes attrs, GWikiContext ctx)
   {
     Map<String, Object> binding = GenomeTemplateUtils.createBinding(ctx);
-    binding.put("out", ctx.getPageContext().getOut());
+    binding.put("out", ctx.getCreatePageContext().getOut());
     return binding;
   }
 

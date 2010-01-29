@@ -74,13 +74,15 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
   public void flush() throws IOException
   {
     flushBody();
-    //super.flush(); // otherwise java.io.IOException: Illegal to flush within a custom tag
+    // super.flush(); // otherwise java.io.IOException: Illegal to flush within a custom tag
   }
 
   public void flushBody() throws IOException
   {
-    write(sw.getBuffer().toString());
-    sw = new StringWriter();
+    if ((getEnclosingWriter() instanceof NullJspWriter) == false) {
+      write(sw.getBuffer().toString());
+      sw = new StringWriter();
+    }
   }
 
   @Override

@@ -45,7 +45,7 @@ public class GWikiUseJspTagLibMacro extends GWikiMacroBase implements GWikiCompi
     }
     String prefix = macroFrag.getAttrs().getArgs().getStringValue("prefix");
 
-    TagLibraryInfoImpl tagLib = new TagLibraryInfoImpl(GWikiContext.getCurrent().getPageContext(), prefix, uri);
+    TagLibraryInfoImpl tagLib = new TagLibraryInfoImpl(GWikiContext.getCurrent().getCreatePageContext(), prefix, uri);
     for (TagInfo ti : tagLib.getTags()) {
       String macroName = prefix + ti.getTagName();
       ctx.getMacroFactories().put(macroName, new GWikiJspTagMacroFactory(ti));

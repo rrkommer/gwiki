@@ -72,6 +72,8 @@ public class GWikiDAOContext
 
   private String webDavPasswordHash;
 
+  private boolean staticContentFromClassPath = false;
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -219,6 +221,16 @@ public class GWikiDAOContext
   public void setEnableWebDav(boolean enableWebDav)
   {
     this.enableWebDav = enableWebDav;
+  }
+
+  public boolean isStaticContentFromClassPath()
+  {
+    return staticContentFromClassPath;
+  }
+
+  public void setStaticContentFromClassPath(boolean staticContentFromClassPath)
+  {
+    this.staticContentFromClassPath = staticContentFromClassPath;
   }
 
 }

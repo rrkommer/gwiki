@@ -152,11 +152,20 @@ public class GWikiServlet extends HttpServlet
     }
   }
 
+  protected InputStream getStaticResource(String res, GWikiContext wikiContext) throws ServletException, IOException
+  {
+    if (daoContext.isStaticContentFromClassPath() == true) {
+      return GWikiServlet.class.getResourceAsStream(res);
+    } else {
+      return getServletContext().getResourceAsStream(res);
+    }
+  }
+
   protected void serveStatic(String page, GWikiContext wikiContext) throws ServletException, IOException
   {
-    HttpServletResponse resp = wikiContext.getResponse();
     String res = "/" + page;
-    InputStream is = getServletContext().getResourceAsStream(res);
+    HttpServletResponse resp = wikiContext.getResponse();
+    InputStream is = getStaticResource(res, wikiContext);
     if (is == null) {
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;

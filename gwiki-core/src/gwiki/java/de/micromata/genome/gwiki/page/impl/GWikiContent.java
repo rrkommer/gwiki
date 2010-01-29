@@ -16,7 +16,12 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 
-// TODO gwiki use GWikiFragmentChildsBase
+/**
+ * Content of an elemenent.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiContent extends GWikiFragmentChildContainer
 {
 

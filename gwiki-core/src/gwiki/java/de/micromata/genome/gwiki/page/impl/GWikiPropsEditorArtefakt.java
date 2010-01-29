@@ -249,11 +249,11 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
   public String onRender(PropsEditContext pct)
   {
     StringWriter sout = new StringWriter();
-    pct.getWikiContext().getPageContext().pushBody(sout);
+    pct.getWikiContext().getCreatePageContext().pushBody(sout);
     if (pct.invokeOnControlerBean("onRender") == false) {
       onRenderInternal(pct);
     }
-    pct.getWikiContext().getPageContext().popBody();
+    pct.getWikiContext().getCreatePageContext().popBody();
     return sout.getBuffer().toString();
   }
 

@@ -439,7 +439,7 @@ public class Html2WikiFilter extends DefaultFilter
     } else if (en.equals("img") == true) {
       parseImage(attributes);
     } else if (en.equals("a") == true) {
-      // TODO gwiki anchro
+      // TODO gwiki anchor
     } else if (supportedHtmlTags.contains(en) == true) {
       parseContext.addFragment(convertToEmptyMacro(element, attributes));
     } else {

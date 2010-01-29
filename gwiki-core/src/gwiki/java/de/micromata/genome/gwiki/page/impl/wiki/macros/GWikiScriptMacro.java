@@ -67,7 +67,7 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
       }
       return true;
     }
-    BodyContent bc = ctx.getPageContext().pushBody();
+    BodyContent bc = ctx.getCreatePageContext().pushBody();
     Map<String, Object> params = new HashMap<String, Object>();
     params.put("GWIKI_MACRO_NAME", name);
     params.put("GWIKI_MACRO_ATTRIBUTES", attrs);
@@ -81,7 +81,7 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
     Map<String, Object> sm = ctx.pushNativeParams(params);
     executer.serve(ctx);
     ctx.pushNativeParams(sm);
-    ctx.getPageContext().popBody();
+    ctx.getCreatePageContext().popBody();
     ctx.append(bc.getString());
     return true;
   }

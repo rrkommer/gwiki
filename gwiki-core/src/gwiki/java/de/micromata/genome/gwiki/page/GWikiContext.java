@@ -729,6 +729,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public PageContext getPageContext()
   {
+    return pageContext;
+  }
+
+  public PageContext getCreatePageContext()
+  {
     if (pageContext != null) {
       return pageContext;
     }

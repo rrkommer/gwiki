@@ -65,7 +65,7 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
 
   public boolean renderTag(Tag tag, MacroAttributes attrs, GWikiContext ctx)
   {
-    tag.setPageContext(ctx.getPageContext());
+    tag.setPageContext(ctx.getCreatePageContext());
     if (tag instanceof BodyTag) {
       return renderBodyTag((BodyTag) tag, attrs, ctx);
     }
@@ -107,7 +107,7 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     try {
-      PageContext pageContext = ctx.getPageContext();
+      PageContext pageContext = ctx.getCreatePageContext();
       ChildPageContext childPageContext = null;
       if (pageContext instanceof ChildPageContext) {
         childPageContext = (ChildPageContext) pageContext;

@@ -39,8 +39,8 @@ public class GWikiI18nPageRenderFilter implements GWikiServeElementFilter
     if (loc == null) {
       loc = Locale.getDefault();
     }
-    wikiContext.getPageContext().setAttribute(CTAG_PAGE_FMT_LOCALE_KEY, loc);
-    wikiContext.getPageContext().setAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY,
+    wikiContext.getCreatePageContext().setAttribute(CTAG_PAGE_FMT_LOCALE_KEY, loc);
+    wikiContext.getCreatePageContext().setAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY,
         new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));
     // wikiContext.getPageContext().setAttribute(Config.FMT_LOCALIZATION_CONTEXT,
     // new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));

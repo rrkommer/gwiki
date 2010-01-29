@@ -160,7 +160,7 @@ public class GenomeTemplateUtils
         context.put(me.getKey(), me.getValue());
       }
     }
-    context.put("pageContext", ctx.getPageContext());
+    context.put("pageContext", ctx.getCreatePageContext());
     context.put("wikiContext", ctx);
     context.put("wikiPage", ctx.getWikiElement());
     return context;
