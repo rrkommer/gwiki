@@ -46,10 +46,15 @@ public class GenomeTemplateUtils
 
   private static boolean saveGroovy = false;
 
+  public static boolean IN_UNITEST = false;
+
   public static PageContext initPageContext(GWikiContext ctx)
   {
-    // return initPageContext(ctx, JspFactory.getDefaultFactory());
-    return initPageContext2(ctx, JspFactory.getDefaultFactory());
+    if (IN_UNITEST == false) {
+      return initPageContext2(ctx, JspFactory.getDefaultFactory());
+    }
+    return initPageContext2(ctx, new StandaloneJspFactory());
+
   }
 
   /**
@@ -68,10 +73,10 @@ public class GenomeTemplateUtils
     PageContext rpageContext = orgPageContext;
     if (rpageContext == null) {
       rpageContext = factory.getPageContext(servlet, ctx.getRequest(), // req
-        ctx.getResponse(), // res
-        null, // error page url
-        true, // need session
-        ctx.getResponse().getBufferSize(), true); // autoflush
+          ctx.getResponse(), // res
+          null, // error page url
+          true, // need session
+          ctx.getResponse().getBufferSize(), true); // autoflush
     }
     GspPageContext pageContext = new GspPageContext(rpageContext);
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);

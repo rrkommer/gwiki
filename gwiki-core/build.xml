@@ -108,6 +108,7 @@
 			</fileset>
 		</war>
 	</target>
+
 	<target name="delivery" description="build standalone wiki" depends="build-war,gwikilib,gwiki.content.jar,copy.webcontent,copy.wikiweb,gwikidistr">
 	</target>
 	<target name="gwikidistr" description="build runtime distribution">
@@ -124,6 +125,7 @@
 			</fileset>
 		</zip>
 	</target>
+
 	<target name="gwikilib" description="build gwikilib">
 		<delete dir="delivery/${distdir}/lib" failonerror="false" />
 		<mkdir dir="delivery/${distdir}/lib" />
@@ -137,10 +139,18 @@
 			<fileset dir="dev/lib/jetty7/jsp">
 				<include name="*.jar" />
 			</fileset>
-			<fileset dir="target">
+			<!-- <fileset dir="target">
 				<include name="GWikiContent-${gwikiversion}.jar" />
+			</fileset> -->
+		</copy>
+		<mkdir dir="${gwikiweb}/WEB-INF/classes/static" />
+		<copy todir="${gwikiweb}/WEB-INF/classes/static">
+			<fileset dir="${gwikiweb}/static">
+				<exclude name="**/.svn" />
 			</fileset>
 		</copy>
+		<copy todir="${gwikiweb}/WEB-INF/classes" file="target/GWikiContent.zip" />
+
 		<jar destfile="delivery/${distdir}/lib/genome-gwiki-${gwikiversion}.jar">
 			<fileset dir="${gwikiweb}/WEB-INF/classes" />
 		</jar>
@@ -149,7 +159,6 @@
 			<manifest>
 				<attribute name="Main-Class" value="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" />
 				<attribute name="Class-Path" value=".
-									lib/GWikiContent-${gwikiversion}.jar				
 									lib/genome-gwiki-${gwikiversion}.jar				
 									lib/slf4j-api-1.5.8.jar
 									lib/slf4j-log4j12-1.5.8.jar
@@ -257,11 +266,12 @@
 			<fileset dir="target/gwikicontent">
 			</fileset>
 		</zip>
-		<jar destfile="target/GWikiContent-${gwikiversion}.jar">
+		<!--<jar destfile="target/GWikiContent-${gwikiversion}.jar">
 			<fileset dir="target">
 				<include name="GWikiContent.zip" />
 			</fileset>
 		</jar>
+		-->
 	</target>
 	<target name="preparetarget">
 		<delete dir="delivery/${distdir}" failonerror="false" />
@@ -292,7 +302,7 @@
 		</copy>
 		<copy todir="dev/gwikistandalone/gwiki">
 			<fileset dir="${gwikicontent}">
-				<exclude name="**/.svn"/>
+				<exclude name="**/.svn" />
 			</fileset>
 		</copy>
 

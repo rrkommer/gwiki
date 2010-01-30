@@ -48,7 +48,7 @@
            <ul>
            <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
              <li>
-             		<a href="<c:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
+             		<a href="<gwiki:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
              	</li>
              <li></li>  
            	</gwiki:authorize>

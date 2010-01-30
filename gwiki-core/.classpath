@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/gwiki/java"/>
-	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/tools/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry kind="src" output="target/gwiki-upload-applet-classes" path="src/gwiki-upload-applet/resource"/>
@@ -9,7 +9,7 @@
 	<classpathentry kind="src" output="target/gwiki-jetty-classes" path="src/gwiki-jetty/java"/>
 	<classpathentry kind="src" path="src/gwiki/resources"/>
 	<classpathentry kind="src" path="src/genome/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JDK-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/activation-1.0.2.jar"/>
 	<classpathentry kind="lib" path="dev/gwikiweb/WEB-INF/lib/activation-1.1.jar"/>
@@ -92,7 +92,7 @@
 	<classpathentry kind="lib" path="dev/lib/jetty7/jsp/jetty-jsp-2.1-7.0.0.v20091005.jar"/>
 	<classpathentry kind="lib" path="dev/lib/jetty7/jsp/jsp-2.1-glassfish-9.1.1.B60.25.p2.jar"/>
 	<classpathentry kind="lib" path="dev/lib/jetty7/jsp/jsp-api-2.1-glassfish-9.1.1.B60.25.p2.jar"/>
-	<classpathentry kind="lib" path="dev/lib/test/stripes-1.4.3.jar"/>
+	<classpathentry kind="lib" path="dev/lib/test/stripes-1.4.3.jar" sourcepath="dev/lib/libsrc/stripes-1.4.3-src.zip"/>
 	<classpathentry kind="lib" path="dev/lib/jetty7/jsp/ant-1.6.5.jar"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="lib" path="dev/lib/ojdbc14.jar"/>

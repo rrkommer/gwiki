@@ -28,6 +28,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.bradmcevoy.http.Request;
+
 public class StandaloneHttpServletRequest implements HttpServletRequest
 {
   private String authType;

@@ -1,3 +1,9 @@
+h2. 2010-01-24
+* FileSystem. Neue FileSysteme, MountCombinedFileSystem, ReadWriteCombinedFileSystem, CpZipRamFileSystem und FileZipRamFileSystem
+** MountCombinedFileSystem: Mit dieser FileSystem-Implementierungen kann man mehrere FileSysteme ineinander mounten. Ein Matcher gibt an, an welchen Stellen (Verzeichnisse oder auch einzelnen Dateien, bzw. Dateitypen) vom Primary-Filesystem gelesen und geschrieben werden sollen. Alle anderen Zugriffe gehen auf das Secondary-FileSystem.
+** ReadWriteCombinedFileSystem: Eine FileSystem-Implementierung, die ein ReadWrite und ein Read-Only Filesystem kombiniert. Wird eine Datei, die aus dem Read-Only Filesystem geladen, wird beim Schreiben automatisch diese in das ReadWrite-Filesystem geschrieben.
+** CpZipRamFileSystem und FileZipRamFileSystem liest ein Zip - einmal aus dem ClassPath und aus dem lokalen Dateisystem als RamFileSystem. Es kann dabei noch angegeben werden, ob das FileSystem Read-Only sein soll.
+
 h2. 2010-01-08
 * Macros 
 ** Es werden auch JSP Tag-Libraries in der Wiki-Syntax utnerstützt. Hierzu kann mit dem Macro jsptaglib eine Taglibary importiert und dann verwendet werden.

@@ -28,7 +28,9 @@ public class GwikiFileContextBootstrapConfigLoader implements GWikiBootstrapConf
     if (beanFactory != null) {
       return;
     }
+
     if (StringUtils.isEmpty(fileName) == true) {
+
       fileName = "GWikiContext.xml";
     }
     Resource res = new FileSystemResource(fileName);
@@ -37,6 +39,9 @@ public class GwikiFileContextBootstrapConfigLoader implements GWikiBootstrapConf
 
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
+    if (config != null) {
+      fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName");
+    }
     initBeanFactory();
     return (GWikiDAOContext) beanFactory.getBean("GWikiBootstrapConfig");
   }
