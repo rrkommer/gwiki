@@ -33,6 +33,8 @@ public class GWikiJettyStarter
       Server server = new Server(jettyConfig.getPort());
 
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+      // upload applet needs this. set limit to 100mb
+      context.setMaxFormContentSize(1024 * 1024 * 100);
       context.setContextPath("/");
       context.setResourceBase(jettyConfig.getContextRoot());
 
