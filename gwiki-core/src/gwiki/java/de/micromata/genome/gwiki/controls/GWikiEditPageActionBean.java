@@ -40,6 +40,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiEditableArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessage;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
@@ -52,6 +53,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
+import de.micromata.genome.util.types.ArrayMap;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -70,9 +72,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   protected boolean chooseMetaTemplate = false;
 
-  protected Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+  protected Map<String, GWikiArtefakt< ? >> parts = new ArrayMap<String, GWikiArtefakt< ? >>();
 
-  protected Map<String, GWikiEditorArtefakt< ? >> editors = new HashMap<String, GWikiEditorArtefakt< ? >>();
+  protected Map<String, GWikiEditorArtefakt< ? >> editors = new ArrayMap<String, GWikiEditorArtefakt< ? >>();
 
   protected GWikiElement elementToEdit;
 
@@ -344,13 +346,15 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     GWikiElement backElement = null;
     if (elementToEdit != null && elementToEdit.getElementInfo().isViewable() == true //
+        && (elementToEdit instanceof GWikiAttachment) == false //
         && StringUtils.isBlank(pageId) == false //
         && (cancel == false || newPage == false) //
         && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false
         && (backElement = getWikiContext().getWikiWeb().findElement(pageId)) != null) {
       return backElement;
     } else if (StringUtils.isNotBlank(pageId) == true
-        && wikiContext.getWikiWeb().findElement(pageId) != null
+        && wikiContext.getWikiWeb().findElement(pageId) != null //
+        && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false
         && wikiContext.getWikiWeb().findElement(pageId).getElementInfo().isViewable() == true) {
       return pageId;
     } else if (StringUtils.isNotBlank(parentPageId) == true) {

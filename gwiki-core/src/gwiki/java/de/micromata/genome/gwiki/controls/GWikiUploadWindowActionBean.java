@@ -42,8 +42,6 @@ public class GWikiUploadWindowActionBean extends ActionBeanBase
 
   public Object onInit()
   {
-    System.out.println("GWikiUploadWindowActionBean.onInit");
-    // pageId = "";
     appletUrl = "/edit/gwiki-image-uploader1.0.jar";
     homeUrl = wikiContext.getResponse().encodeURL(wikiContext.globalUrl("/edit/UploadAttachment"));
     return null;

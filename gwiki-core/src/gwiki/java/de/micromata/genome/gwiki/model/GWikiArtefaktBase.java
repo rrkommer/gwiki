@@ -38,6 +38,7 @@ public abstract class GWikiArtefaktBase<T extends Serializable> implements GWiki
 
   public void prepareHeader(GWikiContext wikiContext)
   {
+    
   }
 
   public boolean render(final GWikiContext ctx)

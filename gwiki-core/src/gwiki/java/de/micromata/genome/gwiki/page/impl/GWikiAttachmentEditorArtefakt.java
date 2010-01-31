@@ -10,6 +10,7 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
@@ -71,11 +72,15 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
   private void storeUpload(GWikiContext ctx)
   {
     if (StringUtils.isEmpty(appletTmpFileName) == true) {
-      if (dataFile == null || dataFile.getSize() != -1) {
-        if (attachment.getStorageData() == null) {
-          ctx.addSimpleValidationError("no data to upload/empty file");
-        }
+      if (dataFile == null) {
         return;
+      }
+      if (dataFile == null || dataFile.getSize() != -1) {
+        //dif = dataFile.getInputStream();
+//        if (dif == null && attachment.getStorageData() == null) {
+//          ctx.addSimpleValidationError("no data to upload/empty file");
+//        }
+//        return;
       }
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       byte[] data;

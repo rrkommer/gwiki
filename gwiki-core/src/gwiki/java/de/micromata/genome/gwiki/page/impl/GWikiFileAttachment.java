@@ -83,7 +83,8 @@ public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAt
 
   public void collectParts(Map<String, GWikiArtefakt< ? >> map)
   {
-    super.collectParts(map);
     map.put("", data);
+    super.collectParts(map);
+    
   }
 }

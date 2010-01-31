@@ -38,8 +38,9 @@ public class GWikiConfigElement extends GWikiAbstractElement
 
   public void collectParts(Map<String, GWikiArtefakt< ? >> map)
   {
-    super.collectParts(map);
     map.put("", config);
+    super.collectParts(map);
+    
 
   }
 

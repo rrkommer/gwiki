@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
-public class GWikiJspPageEditorArtefakt extends GWikiTextPageEditorArtefakt
+public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt
 {
   private GWikiJspTemplateArtefakt jspPage;
 
@@ -37,7 +37,7 @@ public class GWikiJspPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     ex.printStackTrace(pout);
     return sout.getBuffer().toString();
   }
-
+  
   @Override
   public void onSave(GWikiContext ctx)
   {
@@ -53,17 +53,9 @@ public class GWikiJspPageEditorArtefakt extends GWikiTextPageEditorArtefakt
   }
 
   @Override
-  public boolean renderWithParts(GWikiContext ctx)
+  protected String getCodeType()
   {
-    boolean withCodePress = false;
-    if (withCodePress == false) {
-      return super.renderWithParts(ctx);
-    }
-    String html = Html.textarea(
-        Xml.attrs("id", ctx.genHtmlId("gwikijsppe"), "rows", "40", "cols", "120", "name", partName + ".wikiText", "class",
-            "codepress html  linenumbers-off"), //
-        Xml.text(jspPage.getStorageData())).toString();
-    ctx.append(html);
-    return true;
+    return "html";
   }
+
 }

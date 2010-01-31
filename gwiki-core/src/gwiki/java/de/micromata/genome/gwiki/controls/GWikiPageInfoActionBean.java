@@ -256,7 +256,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
               td(text(getDisplayDate(ei.getProps().getDateValue(MODIFIEDAT)))), //
               td(//
                   a(attrs("href", wikiContext.localUrl(ei.getId())), text("Ansehen")), //
-                  a(attrs("href", wikiContext.localUrl("edit/PageInfo")
+                  ei == elementInfo ? nbsp() : a(attrs("href", wikiContext.localUrl("edit/PageInfo")
                       + "?restoreId="
                       + ei.getId()
                       + "&pageId="

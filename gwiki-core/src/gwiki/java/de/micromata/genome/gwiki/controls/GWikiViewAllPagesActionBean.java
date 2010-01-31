@@ -23,7 +23,6 @@ import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -139,7 +138,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
       ZipWriteFileSystem zfs = new ZipWriteFileSystem(wikiContext.getResponse().getOutputStream());
       GWikiFileStorage zipSt = new GWikiFileStorage(zfs);
       // THIS IS A HACK, but fast and memory saving.
-      GWikiWeb wikiWeb = new GWikiWeb(new GWikiDAOContext());
+      GWikiWeb wikiWeb = new GWikiWeb(wikiContext.getWikiWeb().getDaoContext());
       zipSt.setWikiWeb(wikiWeb);
       for (SearchResult sr : qr.getResults()) {
         GWikiElement el = wikiContext.getWikiWeb().getElement(sr.getElementInfo());
