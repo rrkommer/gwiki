@@ -3,18 +3,6 @@
 
 <% boolean wikiWithNavNavigation = true; %>
 
-
-
-
-
-
-
-
-
-
-
-
-
 		<div id="gwikiWrapperWrapper">
 			<div id="gwikiWrapper">
 				<div id="gwikiHead">
@@ -24,18 +12,14 @@
 					
 					<div id="gwikiMasthead">
 						<div id="gwikiLogo">
-							<a href="http://labs.micromata.de/gwiki">
+							<a href="<gwiki:url value="/index"/>" title="<gwiki:url value="/index"/>">
 								<img src="<gwiki:url value='/inc/GracefulUndressed/img/gui/gwikiLogo.png'/>" alt="gWWWWWWiki"/>
 							</a>
 						</div>
 						<!-- gwikiLogo END -->
-						<h1>title</h1>
+						<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
 						<h2>subtitle</h2>
-					</div>
-					
-					<!-- gwikiMasthead END -->
-	
-	
+					</div> <!-- gwikiMasthead END -->
 					<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
 	
 						<div id="gwikiSearchmenu">

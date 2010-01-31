@@ -2,6 +2,7 @@ h2. Einbettbares Wiki für Java
 Die erste Motivation zur Entwicklung von GWiki war für einen Kunden ein Wiki zu haben, das in eine bestehende Javaanwendung einbettbar ist und dabei relativ wenig Voraussetzungen an die Umgebung stellt.
 
 h2. Wiki in Clusterumgebung betreibbar
+
 Bei der Evaluation von verschiedener Java-basierten Wikis stellte sich heraus, das diese nicht für den Betrieb innerhalb eines Clusters geeignet und auch bestimmte Datenbanksysteme voraussetzten. 
 Die Implementierung Speicherung der Daten oder auch insbesondere die zumeist verwendete Suchengine Lucene machen dabei dann einem einen Strich durch die Rechnung.
 

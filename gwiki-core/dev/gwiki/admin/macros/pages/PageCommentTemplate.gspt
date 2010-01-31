@@ -1,6 +1,6 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
-<hr></hr>
+
 <% 
 	def form = wikiContext.pageContext.request.getAttribute('form');
 	String pageCommentUrl = wikiContext.localUrl("/admin/macros/pages/PageComment");
@@ -8,16 +8,12 @@
 <script>
 function createNewCommentShow()
 {
-	//document.getElementById('PageComment_NewComment').show();
 	\$('#PageComment_NewComment').toggle();
-	/** \$('#PageComment_NewComment').css('visibility', 'visible'); */
 	document.getElementById('PageComment_method').name = 'method_onCreateNew';
-	//alert('should now visible');
 	
 }
 function createNewCommentHide()
 {
-	/* \$('#PageComment_NewComment').css('visibility', 'hidden'); */
 	\$('#PageComment_NewComment').toggle();
 	document.getElementById('PageComment_method').name = '';
 }
@@ -30,7 +26,6 @@ function onSaveComment()
 	var form = document.getElementById('PageComment_form');
 	var dataString = \$(form).serialize();
 	var url = '<%= pageCommentUrl %>' +'?' + dataString;
-	//alert('jetzt speichern: ' + url);
   \$(pc).load(url);
 }
 </script>
@@ -38,24 +33,33 @@ function onSaveComment()
 <gwiki:errors />
 
 <form name='PageComment_form' id='PageComment_form' method="post">
-	<html:hidden property="pageId" />
+	<h4><a href="javascript:createNewCommentShow()" >Neuen Kommentar anlegen</a> <!--  onclick='createNewCommentShow()' --></h4>
+	<html:hidden property="pageId" /><!-- TODO:gwikifizieren der Namen -->
 	<input type="hidden" id="PageComment_method" name="method_onInit"/> 
-	<p id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
-			<html:textarea rows="10" cols="90" property="commentText"/><br/>
-			<input onclick="onSaveComment()" type="button" value="Speichern">
-			<input onclick="createNewCommentHide()" type="button" value="Abbrechen">
-	</p>
-	<a href="javascript:createNewCommentShow()" >Neuen Kommentar anlegen</a> <!--  onclick='createNewCommentShow()' -->
-	<% for (el in form.commentElements) { %> 
-	<hr/>
-	<div class="PageComment_commentContent">
-			<small><%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
-			<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
-				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">&Auml;ndern</a>&nbsp;
-				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">L&ouml;schen</a>&nbsp;
-			<% } %>
-			</small><br/>
-		<% form.renderCommentBody(el); %>
+	<div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
+			<html:textarea styleClass="gwikiTextarea" errorStyleClass="error gwikiTextarea" rows="10" cols="100" property="commentText"/><br/>
+			<input class="gwikiButton main" onclick="onSaveComment()" type="button" value="Speichern">
+			<input  class="gwikiButton reset" onclick="createNewCommentHide()" type="button" value="Abbrechen">
+			<div class="clearAll">&nbsp;</div>
 	</div>
+	
+	
+	<% for (el in form.commentElements) { %> 
+	
+	<div class="gwikiPagecommentcontent">
+			<div class="gwikiNewshead">
+				<%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
+			
+			<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
+				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
+					<img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
+				</a>
+				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
+					<img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
+				</a>
+			<% } %>
+			</div><!-- gwikiNewshead END -->
+		<% form.renderCommentBody(el); %>
+	</div><!-- div ."gwikiPagecommentcontent" END -->
 	<% } %> 
 </form>

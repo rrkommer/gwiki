@@ -4,7 +4,7 @@
  
  		<%-- PAGE INFO --%>
  		
- 		<li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/GracefulUndressed/img/icons/notepencil16.png'/>');"><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span></li>
+ 		<li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/GracefulUndressed/img/icons/lightbulb16.png'/>');"><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span></li>
  		
  		<%-- EDIT PAGE --%>
  		
@@ -16,23 +16,23 @@
              </li>
 		<% } %>
  
-        <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Page"/></span>
-            <ul>
+   <%--CREATE THINGS --%>
             	
             	
             
 			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
-     		<li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/>
-     			<ul>
-     			<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
-     				<% wikiContext.setRequestAttribute("wktp", pair); %>
-     				<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/>
-     			<% } %>
-     			</ul>
-     		</li>
-     						<% } %>
-           </ul>  
-       </li>
+     			<li class="gwikiMenumain">
+					<span style="background-image: url('<gwiki:url value='/inc/GracefulUndressed/img/icons/paperplus32.png'/>');">
+						<gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/></span>
+     				<ul>
+     					<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
+     					<% wikiContext.setRequestAttribute("wktp", pair); %>
+     						<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/>
+     					<% } %>
+     				</ul>
+     			</li>
+     		<% } %>
+    
        
        <%-- USER MENU --%>
        
