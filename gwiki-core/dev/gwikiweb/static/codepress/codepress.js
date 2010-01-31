@@ -16,6 +16,10 @@ CodePress = function(obj) {
 	self.textarea.style.overflow = 'hidden';
 	self.style.height = self.textarea.clientHeight +'px';
 	self.style.width = self.textarea.clientWidth +'px';
+//patched by rrk: 
+	//rkk geht leider nicht self.style.height = "100%";
+	self.style.height = "400px";
+	self.style.width = "100%";
 	self.textarea.style.overflow = 'auto';
 	self.style.border = '1px solid gray';
 	self.frameBorder = 0; // remove IE internal iframe border
