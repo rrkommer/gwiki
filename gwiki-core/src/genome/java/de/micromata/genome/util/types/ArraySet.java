@@ -19,7 +19,6 @@ public class ArraySet<T> extends ArrayList<T> implements Set<T>
   public ArraySet()
   {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   public ArraySet(Collection< ? extends T> c)
