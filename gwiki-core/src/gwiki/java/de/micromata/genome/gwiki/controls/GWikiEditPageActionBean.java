@@ -12,7 +12,6 @@ package de.micromata.genome.gwiki.controls;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,6 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiEditableArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
-import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessage;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
@@ -352,9 +350,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false
         && (backElement = getWikiContext().getWikiWeb().findElement(pageId)) != null) {
       return backElement;
-    } else if (StringUtils.isNotBlank(pageId) == true
-        && wikiContext.getWikiWeb().findElement(pageId) != null //
-        && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false
+    } else if (StringUtils.isNotBlank(pageId) == true && wikiContext.getWikiWeb().findElement(pageId) != null //
+        && (elementToEdit != null && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false)
         && wikiContext.getWikiWeb().findElement(pageId).getElementInfo().isViewable() == true) {
       return pageId;
     } else if (StringUtils.isNotBlank(parentPageId) == true) {
