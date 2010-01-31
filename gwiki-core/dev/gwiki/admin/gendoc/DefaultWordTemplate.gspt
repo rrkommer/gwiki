@@ -6,7 +6,7 @@
  --%>
 <html>
 <head>
-<c:if test="${form.format != "PDF"}">
+<c:if test="${form.format != 'PDF'}">
 <style  type="text/css">
 <@include file="inc/gwiki.css" @>
 </style>
