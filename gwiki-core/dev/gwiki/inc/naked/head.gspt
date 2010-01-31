@@ -9,10 +9,7 @@
 <link href="<gwiki:url value="/inc/naked/gwiki.css"/>" rel="stylesheet" type="text/css" />
 
 <% wikiContext.addContentCss("/inc/naked/gwiki.css"); %>
-
 </head>
-
 <body>
-
 <script src='<gwiki:url value="/static/skins/dhl2009/js/wz_tooltip.js"/>' type="text/javascript"></script>
 <!-- head.gspt END -->

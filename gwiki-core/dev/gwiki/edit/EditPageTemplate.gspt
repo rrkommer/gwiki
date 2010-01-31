@@ -1,7 +1,16 @@
+<% form = pageContext.getRequest().getAttribute('form'); 
+	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); } %>
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-
+<style>
+.ui-tabs .ui-tabs-hide {
+    position: absolute;
+    left: -10000px;
+    display: inline !important;
+    position:fixed ;
+}
+</style>
 <script>
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
@@ -15,14 +24,24 @@ var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
  }
 %>
 var gwikiContentCss = '<%= localCsse.toString() %>';
-
+var codepressteaids = new Array();
+var saveHandlers = new Array();
+function onSave()
+{
+	gwikiContentChanged=false;
+	for (var i = 0; i < saveHandlers.length; ++i)
+	{
+		saveHandlers[i]();
+	}
+	\$("#formmn").attr("name", "method_onSave");
+	\$("#editForm").submit();
+}
 </script>
-
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
+<%--
 <script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <script type="text/javascript" src="<gwiki:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/textarea-0.1.js'/>"></script>
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-link-dialog-0.3.js'/>"></script>
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-wikiops-0.3.js'/>"></script>
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-toolbar-0.3.js'/>"></script>
@@ -32,11 +51,14 @@ var gwikiContentCss = '<%= localCsse.toString() %>';
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-htmledit-0.3.js'/>"></script>
 <script type="text/javascript" src="<gwiki:url value='/static/tiny_mce/plugins/gwiki/editor_plugin_src.js'/>"></script> 
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/heartbeat.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/edit_area/edit_area_full.js'/>"></script>
+ --%>
 <gwiki:errors />
 
 
 <c:if test="${form.launchPreview}">
 <script>
+
 function openPreviewWindow(url) {
     myWindow = open(url, "preview",
       "dependend=yes,resizable=yes,scrollbars=yes");
@@ -50,10 +72,12 @@ function openPreviewWindow(url) {
 openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 </script>
 </c:if>
-<% form = pageContext.getRequest().getAttribute('form'); %>
+<% %>
 <form id="editForm" method="POST" enctype="multipart/form-data">
 	<html:hidden property="pageId" /> 
+	<input id="formmn" type="hidden" name="m" value=""/>
 	<html:hidden property="parentPageId" /><br/>
+	
 
 <script>gwikiContentChanged=false;</script>
 
@@ -107,7 +131,7 @@ function viewBackupDiff()
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
 	<input id="gwikieditpreviewbutton" type="submit" onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>">
 </c:if>
-<input id="gwikieditsavebutton" type="submit" name="method_onSave" onclick="gwikiContentChanged=false;" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
+<input id="gwikieditsavebutton" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
 <input id="gwikieditcancelbutton" onclick="gwikiContentChanged=false;" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 <c:if test="${form.newPage == false}">
 <input type="submit" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>">
@@ -168,6 +192,7 @@ var saveAsync = 	function () {
 	
   \$(document).ready(function(){
     var tabs = \$("#tabs").tabs({ selected: 0 });
+    
     \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
 
     \$('.wikiPageEditText').autocomplete(

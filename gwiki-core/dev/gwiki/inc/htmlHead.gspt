@@ -40,5 +40,8 @@
 <% wikiContext.addContentCss("/inc/gwiki.css"); %>
 
 <title><%= esc(wikiContext.getTranslatedProp(wikiContext?.wikiElement?.elementInfo?.title)) %></title>
-
+<% 
+de.micromata.genome.gwiki.page.GWikiContextUtils.renderRequiredJs(wikiContext); 
+de.micromata.genome.gwiki.page.GWikiContextUtils.renderRequiredCss(wikiContext); 
+%>
 <!-- htmlHead.gspt END -->
