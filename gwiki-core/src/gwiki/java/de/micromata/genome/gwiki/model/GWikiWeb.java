@@ -123,11 +123,12 @@ public class GWikiWeb
             GWikiLoadElementInfosFilterEvent event)
         {
           getStorage().loadPageInfos(event.getPageInfos());
+          lastModCounter = getStorage().getModificationCounter();
+          daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
           return null;
         }
       });
-      lastModCounter = getStorage().getModificationCounter();
-      daoContext.getPageCache().setPageInfoMap(npageInfos);
+      
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;

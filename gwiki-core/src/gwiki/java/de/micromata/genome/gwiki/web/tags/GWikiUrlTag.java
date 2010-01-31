@@ -148,6 +148,9 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
     // don't touch absolute URLs
     if (ImportSupport.isAbsoluteUrl(url))
       return url;
+    if (url == null) {
+      return "";
+    }
     // GWikiContext wikiContext = GWikiContext.getCurrent();
     final String servletPath = GWikiWeb.get().getServletPath();
     // normalize relative URLs against a context root
