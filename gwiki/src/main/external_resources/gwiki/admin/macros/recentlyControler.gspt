@@ -1,0 +1,45 @@
+<@include file="inc/stdgfuncs.gspt" @>
+
+<table border="0" cellpadding="0" cellspacing="0">
+<thead>
+	<tr>
+		<th>Seite / Element</th>
+		<th>&Auml;nderungsdatum</th>
+		<th>User</th>
+	</tr>
+</thead>
+<tbody>
+
+<%
+import de.micromata.genome.gwiki.model.*;
+import de.micromata.genome.gwiki.page.search.*;
+import de.micromata.genome.gwiki.page.*;
+if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
+	return ;
+}
+
+int c = 1;
+String queryexpr = "order by prop:MODIFIEDAT desc";
+SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
+query.setMaxCount(20);
+QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
+
+
+
+for (SearchResult sr in qr.getResults()) { 
+	String zebra = "even";
+	if (c % 2 == 0){
+		zebra = "odd";
+	}
+	
+	if (wikiContext.wikiWeb.getAuthorization().isAllowToView(wikiContext, sr.elementInfo) == false) {
+		continue; c += 1;
+	} %>
+	
+	<tr class="<%=zebra%>">
+		<th><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></th>
+		<td nowrap><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + " Uhr" + "</td><td> " + sr.elementInfo.getModifiedBy() %></td></tr>
+	<% c += 1; } %>
+</tbody>
+</table>
+

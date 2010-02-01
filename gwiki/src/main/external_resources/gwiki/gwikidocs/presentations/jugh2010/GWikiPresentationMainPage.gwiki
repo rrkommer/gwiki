@@ -1,0 +1,3 @@
+{usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
+
+{pagegallery:columns=3}

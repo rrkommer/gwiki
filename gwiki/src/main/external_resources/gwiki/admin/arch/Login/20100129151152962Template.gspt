@@ -1,0 +1,19 @@
+<% wikiContext.skinInclude("noauthhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<form method="post">
+<html:hidden property="pageId"/>
+
+		<label for="user">Benutzer</label>
+		<html:text errorStyleClass="text error" styleClass="text" styleId="user" size="20" property="user" />
+
+		<label for="">Passwort</label>
+		<td><html:password errorStyleClass="text error" styleClass="text" styleId="user"size="20" property="password" />
+	
+		<input  class="submit main" type="submit" name="method_onLogin" value="Login">
+
+</form>
+
+<% wikiContext.skinInclude("noauthfoot"); %>

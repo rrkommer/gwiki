@@ -1,0 +1,4 @@
+{html}<div class="sitemap">{html}
+{children:all=true|sort=title|page=index}
+
+{html}</div>{html}

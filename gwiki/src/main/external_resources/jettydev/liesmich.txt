@@ -1,0 +1,19 @@
+GWiki Development.
+
+Nach Auschecken in Eclipse.
+
+Klasse GWikiJettyStarter (Debug Java Application).
+Dabei muss noch folgender JVM-Parameter gesetzt sein:
+
+-Dde.micromata.genome.gwiki.contextfile=dev/jettydev/GWikiContext.xml
+
+
+Im Browser http://localhost:8081/index
+
+Gueltige User sind:
+gwikisu
+gwikieditor
+gwikiview.
+
+Alle haben das Passwort gwiki.
+

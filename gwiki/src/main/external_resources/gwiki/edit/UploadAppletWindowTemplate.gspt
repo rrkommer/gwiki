@@ -1,0 +1,54 @@
+<@include file="inc/stdtags.gspt" @>
+<div	style="z-index: 1000; width: 1200px; min-width: 1000px; overflow: visible;">
+<div id="uploadappletbody">
+<script type="text/javascript">
+		if ( navigator.javaEnabled() == false )
+		{
+		  document.write("Applets are not supported. You have install or activate Java Applet Plugin.");
+			alert('Applets are not supported. You have install or activate Java Applet Plugin.');	
+		} 
+</script>
+		
+		<object
+		    classid = "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+		    codebase = "https://java.sun.com/products/plugin/"
+		    width="750" height="700"
+		    >
+		    
+		   <PARAM name="java_code" value="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet">
+			<PARAM name="java_codebase" value="<gwiki:url value="${form.appletUrl}"/>">
+			<PARAM name="java_archive" value="<gwiki:url value="${form.appletUrl}"/>">
+			<PARAM name="type" value="application/x-java-applet;version=1.5">
+			<PARAM name="bgcolor" value="FFFFFF">
+			<PARAM name="pageId" value="<c:out value="${form.pageId}"/>">
+			<PARAM name="parentPageId" value="<c:out value="${form.parentPageId}"/>">
+			<PARAM name="homeUrl" value="<c:out value="${form.homeUrl}"/>">
+			<PARAM name="storeTmpFile" value="<c:out value="${form.storeTmpFile}"/>">
+			<PARAM name="allowedFileType" value="<c:out value="${form.allowedFileType}"/>">
+			<PARAM name="jscb" value="<c:out value="${form.jscb}"/>">
+	    <param name = "scriptable" value = "false">
+			
+	    <comment>
+			<embed	type="application/x-java-applet;version=1.4" width="750" height="700" 
+					pluginspage="https://java.sun.com/products/plugin/index.html#download" 
+					java_code="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet" 
+					java_codebase="<gwiki:url value="${form.appletUrl}"/>" 
+					java_archive="<gwiki:url value="${form.appletUrl}"/>" bgcolor="#ffffff" 
+					pageId="<c:out value="${form.pageId}"/>"
+					parentPageId="<c:out value="${form.parentPageId}"/>"
+					homeUrl="<c:out value="${form.homeUrl}"/>"
+					storeTmpFile="<c:out value="${form.storeTmpFile}"/>"
+					allowedFileType="<c:out value="${form.allowedFileType}"/>"
+					jscb="<c:out value="${form.jscb}"/>"
+			    scriptable="false"
+			    fileType="<c:out value="${form.storeTmpFile}"/>"
+		    >
+			    	<noembed>
+			    	Applets are not supported. You have install or activate Java Applet Plugin.
+            </noembed>
+			</embed>
+		    </comment>
+		</object>
+</div>
+</div>
+
