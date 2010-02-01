@@ -432,6 +432,14 @@ a:hover {
 
 
 /*used icons in gwikiContent have to behave like icons, not like images.*/
+#gwikiContent img.gwikiIcon, #PageComments img.gwikiIcon {
+	margin:0;	
+	padding:0.1em;
+	border: 1px solid #eaeeed;
+	-moz-border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+}
+
 
 #gwikiContent img.icon, #PageComments img.icon{
 	margin:0;
@@ -675,7 +683,6 @@ input.reset:hover{
 
 /* comments */
 #PageComments {
-	border-top: 1px solid red;
 	color:#858E94;
 }
 

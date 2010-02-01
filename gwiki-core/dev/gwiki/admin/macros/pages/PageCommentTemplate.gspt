@@ -33,7 +33,10 @@ function onSaveComment()
 <gwiki:errors />
 
 <form name='PageComment_form' id='PageComment_form' method="post">
-	<h4><a href="javascript:createNewCommentShow()" >Neuen Kommentar anlegen</a> <!--  onclick='createNewCommentShow()' --></h4>
+<h2>Kommentare 
+	<a href="javascript:createNewCommentShow()" title="Neuen Kommentar schreiben">
+		<img class="gwikiIcon" src="<gwiki:url value='/inc/GracefulUndressed/img/icons/commentblack16.png'/>" alt="Neuen Kommentar schreiben" />
+	</a> <!--  onclick='createNewCommentShow()' --></h2>
 	<html:hidden property="pageId" /><!-- TODO:gwikifizieren der Namen -->
 	<input type="hidden" id="PageComment_method" name="method_onInit"/> 
 	<div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
