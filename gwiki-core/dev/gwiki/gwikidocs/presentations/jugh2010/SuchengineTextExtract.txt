@@ -1,0 +1,8 @@
+
+VolltextsucheClusterfähig Datenbank oder Dateisystem=> Standardlösung Lucene passt nicht.
+HTML Wiki (mit Gewichtung)PDF, Word, Texte
+Annahmen
+Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)Seltene Updates.
+
+
+Suchengine

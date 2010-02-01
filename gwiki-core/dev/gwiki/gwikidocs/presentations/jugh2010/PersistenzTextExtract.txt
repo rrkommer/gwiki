@@ -1,0 +1,7 @@
+
+Wahl der Persistenz
+Unversell, FlexibelFileSystem
+Standard Dateisystem.
+RAM/ZIPDatenbank.
+
+FileSystem Event für ClusteringPersistenz

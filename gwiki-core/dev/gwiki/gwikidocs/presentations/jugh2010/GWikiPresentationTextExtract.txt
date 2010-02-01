@@ -183,102 +183,6 @@ Einsatz im Java (EE)-Feld. ClusterfähigSkalierbarIntegrierbarAdaptierbarErweite
 
 
 
-Einsatzszenarien
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        function displayHilfeLayer(content, backwardscompparam){
-            Tip(content,
-                    STICKY, true,
-                    CLICKCLOSE, false,
-                    WIDTH, 300,
-                    BGCOLOR,'#EEEEEE',
-                    BORDERCOLOR,'#FFFFFF',
-                    FONTSIZE, "0.8em",
-                    FONTFACE, "Arial, Helvetica, sans-serif",
-                    FONTCOLOR, '#000000',
-                    CLOSEBTNPOP,true,
-                    CLOSEBTNIMG, "/static/skins/dhl2009/img/closetooltips.gif"
-                    );
-        }
-        
-
-
-GWiki JUGH 2010 Presentation
-
-
-
-
-
-
-
-
-
-
-
-  
- <<<<
- 	
- 
-		
-
-	GWiki Presentationen
-	
-	Presentation GWiki FeaturesGWiki JUGH 2010 Presentation
-
-
-$(document).ready(function(){
-	$('#presentationlayer').contextMenu('#editmenu');
-	$('#presentationtitle').contextMenu('#editmenu');
-});
-
-
-
-GWiki JUGH 2010 Presentation
-
-
-Vollwertiges Wiki-basiertes CMSWikipages, Attachments, HTML-Seiten, Online Editieren, Rechte, Versionen, Volltextsuche und all der übliche "Schnickschnack".
-Desktop Wiki für persönlichen Einsatz.
-Ein Klick zum Start, wenig Infrastruktur notwendig.
-CMS-Zusätz für tradionelle Java basierte WebanwendungenEinbinden von Inhalten/Fragmenten, die durch den Kunden selbst editiert werden kann.
-Dynamischer Content, Wiki/Rapid Entwicklung.
-
-
-
-
-
-
-
 Verlinkung
 
 
@@ -463,6 +367,102 @@ Annahmen
 Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)Seltene Updates.
 
 
+
+
+
+
+
+
+
+Einsatzszenarien
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function displayHilfeLayer(content, backwardscompparam){
+            Tip(content,
+                    STICKY, true,
+                    CLICKCLOSE, false,
+                    WIDTH, 300,
+                    BGCOLOR,'#EEEEEE',
+                    BORDERCOLOR,'#FFFFFF',
+                    FONTSIZE, "0.8em",
+                    FONTFACE, "Arial, Helvetica, sans-serif",
+                    FONTCOLOR, '#000000',
+                    CLOSEBTNPOP,true,
+                    CLOSEBTNIMG, "/static/skins/dhl2009/img/closetooltips.gif"
+                    );
+        }
+        
+
+
+GWiki JUGH 2010 Presentation
+
+
+
+
+
+
+
+
+
+
+
+  
+ <<<<
+ 	
+ 
+		
+
+	GWiki Presentationen
+	
+	Presentation GWiki FeaturesGWiki JUGH 2010 Presentation
+
+
+$(document).ready(function(){
+	$('#presentationlayer').contextMenu('#editmenu');
+	$('#presentationtitle').contextMenu('#editmenu');
+});
+
+
+
+GWiki JUGH 2010 Presentation
+
+
+Vollwertiges Wiki-basiertes CMSWikipages, Attachments, HTML-Seiten, Online Editieren, Rechte, Versionen, Volltextsuche und all der übliche "Schnickschnack".
+Desktop Wiki für persönlichen Einsatz.
+Ein Klick zum Start, wenig Infrastruktur notwendig.
+CMS-Zusätz für tradionelle Java basierte WebanwendungenEinbinden von Inhalten/Fragmenten, die durch den Kunden selbst editiert werden kann.
+Dynamischer Content, Wiki/Rapid Entwicklung.
 
 
 
