@@ -1,0 +1,15 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Project   Micromata Genome Core
+//
+// Author    roger@micromata.de
+// Created   16.02.2008
+// Copyright Micromata 16.02.2008
+//
+/////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.dao.db;
+
+public interface ExtFieldTypes
+{
+  public FieldType getFieldType();
+}
