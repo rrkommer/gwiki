@@ -1,0 +1,97 @@
+Siehe [gwikidocs/DHLPOPLeistungsschein].
+
+
+
+h2.Speicherung
+
+Die GWiki-Dokumente können auf mehreren Weisen persistiert werden. 
+
+- Im Dateisystem
+- In der Datenbank. Die Datenbankzugriffschicht ist als virtuelles Dateisystem abgebildet, so dass es auch für andere Zwecke verwendet werden kann.
+- Im Speicher
+- Jede Speicherart kann auch als Read-Only gesperrt werden.
+- Interface für die Möglichkeit andere Arten der Speicherung 
+*- SVN
+*- Caching als Filter
+*- Primary und Secondary Storage. Z.B. Kern kommt aus ZIP aus der Anwendung, zusätzliche werden in der DB gespeichert.
+
+h2.Rechte
+- Rechte für grundsätzliche Operationen
+- Metatemplate bezogene Rechte
+- Ordner-Bezogene Rechte
+- Inhaltsverlinkte Rechte
+- Seitenbezogene Rechte
+- Vererbung von Rechten an die untergeordneten Seiten.
+- Private Seiten
+- Public Seiten
+- Einfaches Interface für die Einbindung eigener Userverwaltungen.
+
+
+h2.Dokumente
+h3.Wiki
+- Standard-Wiki-Sprache an Confluence angelehnt.
+- Interface für eigene Wiki-Dialekte
+- Smart-Tags anhand Schlüsselworte.
+- Prüfung auf Recht auf unsichere Macros.
+- Kommentarfunktion
+
+h2.Navigation
+h3.Verlinkung
+
+h3.Smarttags
+
+h3.Suche
+
+Eine Volltextsuche ist integriert. Diese kann sowohl Wiki und HTML-Seiten als auch Anhänge indizieren (PDF, Word, etc.).
+
+h3.Quicksearch
+
+Die Schnellsuche ist mit einer Autovervollständigung kombiniert.
+
+{div:style=text-align: center;}!gwikidocs/features_quicksearch.png|border=2!{div}
+
+ Hierbei werden alle Seiten gelistet, die entweder in ihrer PageId oder im Titel den Suchausdruck haben.
+ Ist da das Gesuchte nicht vorhanden kann man über 
+- Globale Suche das ganze Wiki nach dem Begriff durchsuchen oder mit
+- Lokaler Suche nur die aktuelle Seiten und untergeordnet durchsuchen.
+
+ Die Suche kann auch in jede Seite über ein Macro eingebunden werden.
+
+{div:style=text-align: center;}!gwikidocs/features_localsearchbox.png|border=2!{div}
+
+ In der Suchergebniseite werden Auszüge der gefundenen Seiten angezeigt:
+
+{div:style=text-align:center;}!gwikidocs/features_searchresult.png|width=602|height=290|border=2!{div}
+
+Öffnet man die Seite, werden die Suchausdrücke auch innerhalb der Seite gelb hervorgehoben:
+
+{div:style=text-align: center;}!gwikidocs/features_search_highlight.png|width=599|height=255|border=2!{div}
+
+h3.Wiki-Macros
+
+Macros können in
+- Java
+- gspt (jsp)
+- Groovy
+
+geschrieben werden. 
+ Die scriptbasierten Macros können auch direkt über das Wiki erstellt werden.
+
+ TODO.
+
+h2.HTML mit Wysiwyg-Editor
+- HTML im Quellcode und einem Wysiwyg-Editor bearbeiten.
+- Copy/Paste zwischen Office und GWiki
+- Editieren mit MS Word.
+- Kommentarfunktion
+
+h2.Templates
+
+h2.MVC
+
+h2.Admin-Zugang über WebDAV
+
+Über einen integrierten WebDAV-Zugang können die Dateien des Wiki archiviert werden. Hierbei ist es unerheblich, ob die Dateien in Dateisystem oder in der Datenbank vorgehalten werden.
+
+
+ TODO
