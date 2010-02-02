@@ -47,12 +47,7 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_ERROR_SHOW_STACK_TRACE = "GWIKI_ERROR_SHOW_STACK_TRACE";
 
-  public static final String GWIKI_CHECK_STORAGE_MODIFICATIONS = "GWIKI_CHECK_STORAGE_MODIFICATIONS";
-
   public static final String GWIKI_CHECK_STORAGE_MODTIMEOUT = "GWIKI_CHECK_STORAGE_MODTIMEOUT";
-
-  @Deprecated
-  public static final String GWIKI_SINGLENODE_STORAGE = "GWIKI_SINGLENODE_STORAGE";
 
   /**
    * boolean if files should be checked, if they are modified outside the file system.
@@ -103,11 +98,6 @@ public class GWikiGlobalConfig extends GWikiProps
   public boolean showErrorStackTrace()
   {
     return getBooleanValue(GWIKI_ERROR_SHOW_STACK_TRACE, false);
-  }
-
-  public boolean checkFileSystemForModifications()
-  {
-    return getBooleanValue(GWIKI_CHECK_STORAGE_MODIFICATIONS, false);
   }
 
   public long getCheckFileSystemForModTimeout()

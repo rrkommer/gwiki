@@ -49,17 +49,6 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_CHECK_STORAGE_MODIFICATIONS" />
-
-											<property name="label" value="Check Storage mods." />
-											<property name="description"
-												value="Sollen innerhalb Wikis überprüft werden? Bei Clusteranwendungen notwendig." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="false" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
 											<property name="label" value="Check external FS mods." />
 											<property name="description"
@@ -77,24 +66,6 @@
 											<property name="readOnly" value="false" />
 											<property name="type" value="LONG" />
 											<property name="defaultValue" value="60000" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
-											<property name="label" value="Single Node" />
-											<property name="description" value="Single Node installation." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="true" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
-											<property name="label" value="Single Node" />
-											<property name="description" value="Single Node installation." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="true" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
