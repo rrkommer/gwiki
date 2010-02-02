@@ -16,8 +16,8 @@ import java.util.List;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
@@ -30,7 +30,7 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
 
   private static final long serialVersionUID = 6726490960427363801L;
 
-  public static class Macro implements GWikiBodyMacro, GWikiCompileTimeMacro
+  public static class Macro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
   {
 
     private static final long serialVersionUID = 6651596226823444417L;
@@ -47,11 +47,6 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
     public boolean hasBody()
     {
       return true;
-    }
-
-    public boolean render(MacroAttributes attrs, GWikiContext ctx)
-    {
-      return false;
     }
 
     public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
