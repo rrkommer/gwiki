@@ -125,6 +125,9 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
   {
     List<GWikiFragment> frags = parseText("{html}{html}", "html", new GWikiMacroClassFactory(GWikiHtmlBodyMacro.class));
     assertEquals(1, frags.size());
+    assertTrue(frags.get(0) instanceof GWikiMacroFragment);
+    GWikiMacroFragment mf = (GWikiMacroFragment) frags.get(0);
+    frags = mf.getChilds();
     assertTrue(frags.get(0) instanceof GWikiFragmentUnsecureHtml);
     GWikiFragmentUnsecureHtml l = (GWikiFragmentUnsecureHtml) frags.get(0);
     assertEquals("", l.getHtml());
@@ -134,6 +137,8 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
   {
     List<GWikiFragment> frags = parseText("{html}[]{{html}", "html", new GWikiMacroClassFactory(GWikiHtmlBodyMacro.class));
     assertEquals(1, frags.size());
+    assertTrue(frags.get(0) instanceof GWikiMacroFragment);
+    frags = ((GWikiMacroFragment) frags.get(0)).getChilds();
     assertTrue(frags.get(0) instanceof GWikiFragmentUnsecureHtml);
     GWikiFragmentUnsecureHtml l = (GWikiFragmentUnsecureHtml) frags.get(0);
     assertEquals("[]{", l.getHtml());
