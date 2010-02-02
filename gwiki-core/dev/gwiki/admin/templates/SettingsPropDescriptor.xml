@@ -213,6 +213,12 @@ def onRender(pct)
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="LANG" />
+					<property name="description" value="Language (like en or de)" />
+					<property name="readOnly" value="false" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="ORDER" />
 					<property name="description"
 						value="Sortierreihenfolge innerhalb der Silblings" />
