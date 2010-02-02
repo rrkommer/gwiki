@@ -1,5 +1,7 @@
 <% form = pageContext.getRequest().getAttribute('form'); 
-	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); } %>
+	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); }
+	 wikiContext.requiredJs.add("/static/gwiki/heartbeat.js");
+%>
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
@@ -131,11 +133,11 @@ function viewBackupDiff()
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
 	<input id="gwikieditpreviewbutton" type="submit" class="gwikiButton"  onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>">
 </c:if>
-<input id="gwikieditsavebutton" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
-<input id="gwikieditcancelbutton" onclick="gwikiContentChanged=false;" class="gwikiButton main" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
+<input id="gwikieditsavebutton" class="gwikiButton" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
+<input id="gwikieditcancelbutton" class="gwikiButton" onclick="gwikiContentChanged=false;" class="gwikiButton main" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 <c:if test="${form.newPage == false}">
-<input class="gwiki" type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>">
-<input type="submit" onclick="gwikiContentChanged=false;" name="method_onDelete" value="<fmt:message key="gwiki.edit.button.delete"/>">
+<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>">
+<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onDelete" value="<fmt:message key="gwiki.edit.button.delete"/>">
 </c:if> 
 <html:checkbox property="noNotificationEmails"/><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails"/> 
 <html:hidden property="newPage" />
