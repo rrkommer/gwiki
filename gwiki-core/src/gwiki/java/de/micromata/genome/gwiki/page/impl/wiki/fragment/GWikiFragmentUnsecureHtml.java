@@ -57,7 +57,8 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
     public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
     {
       List<GWikiFragment> fragl = new ArrayList<GWikiFragment>();
-      fragl.add(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
+      macroFrag.addChild(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
+      fragl.add(macroFrag);
       return fragl;
     }
 

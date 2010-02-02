@@ -34,15 +34,15 @@ public class GWikiNoFormatBodyMacro extends GWikiMacroBean implements GWikiBodyM
     return false;
   }
 
-
   public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
     GWikiHtmlBodyTagMacro tagMacro = new GWikiHtmlBodyTagMacro();
     GWikiMacroFragment preFrag = new GWikiMacroFragment(tagMacro, new MacroAttributes("pre:style=border=1;"));
     preFrag.addChild(new GWikiFragmentText(macroFrag.getAttrs().getBody()));
-    
-    frags.add(preFrag);
+    macroFrag.addChild(preFrag);
+    frags.add(macroFrag);
+    // frags.add(preFrag);
     return frags;
   }
 }

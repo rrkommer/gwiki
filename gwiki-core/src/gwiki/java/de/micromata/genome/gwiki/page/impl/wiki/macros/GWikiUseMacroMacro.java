@@ -21,6 +21,7 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
@@ -38,8 +39,10 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
  * @author roger@micromata.de
  * 
  */
-public class GWikiUseMacroMacro implements GWikiCompileTimeMacro
+public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
 {
+  private static final long serialVersionUID = 1423464798547568584L;
+
   /**
    * local macro name
    */
@@ -103,8 +106,9 @@ public class GWikiUseMacroMacro implements GWikiCompileTimeMacro
     } else {
       return error("usemacro; either macroClass or pageId has to be defined");
     }
-
-    return Collections.emptyList();
+    List<GWikiFragment> l = new ArrayList<GWikiFragment>();
+    l.add(macroFrag);
+    return l;
   }
 
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
