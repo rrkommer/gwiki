@@ -276,7 +276,7 @@ function gwikimaximizeWindow(framId) {
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css( {
 		'position' : position,
-		'z-index' : '900',
+		'z-index' : '999999',
 		'left' : '0px',
 		'top' : '0px',
 		'width' : vp.w - 9, // width + 'px',
@@ -353,8 +353,8 @@ function gwikimaximizeWindow(framId) {
 		'left' : '0px',
 		// 'right' : '10px',
 		'top' : '0px',
-		'width' : "100%"/*,
-		'height' : '100%'*/// - 110
+		'width' : "100%"//,
+		//'height' : '100%'// - 110
 	});
 
 	if ($("#gwikihtmledit").length) {
