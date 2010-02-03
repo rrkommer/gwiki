@@ -12,8 +12,16 @@ package de.micromata.genome.gwiki.page.impl;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ * Descriptor of a property value (Settings.properties or other).
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPropsDescriptorValue implements Serializable
 {
+  private static final long serialVersionUID = 5787594707201861142L;
+
   private String key;
 
   /**
@@ -50,17 +58,6 @@ public class GWikiPropsDescriptorValue implements Serializable
    * String getDefaultValue(GWikiContext wikiContext, GWikiPropsDescriptorValue wikiPropDescriptor, String name);
    */
   private String defaultValue;
-
-  // /**
-  // * Groovy Code will be called on Validate. GWikiContext wikiContext GWikiElement wikiElement GWikiPropsDescriptorValue
-  // wikiPropDescriptor
-  // * String value;
-  // *
-  // * String onValidate(String value, GWikiContext wikiContext, GWikiElement wikiElement, GWikiPropsDescriptorValue wikiPropDescriptor) def
-  // * onValidate(value, wikiContext, wikiElement, wikiPropDescriptor)
-  // *
-  // */
-  // private String onValidate;
 
   /**
    * -> either a Map with key/values. key-> is internal name, value is used to display.
