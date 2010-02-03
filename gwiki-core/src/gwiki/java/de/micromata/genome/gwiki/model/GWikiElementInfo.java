@@ -177,6 +177,30 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
     return true;
   }
 
+  public String getRecStringValue(String key, String defaultValue, GWikiContext wikiContext)
+  {
+    final String val = props.getStringValue(key);
+    if (StringUtils.isNotEmpty(val) == true) {
+      return val;
+    }
+    final GWikiElementInfo pi = getParent(wikiContext);
+    if (pi != null) {
+      return pi.getRecStringValue(key, defaultValue, wikiContext);
+    }
+    return defaultValue;
+  }
+
+  /**
+   * get the language of the element. return null if no language is defined.
+   * 
+   * @param wikiContext
+   * @return
+   */
+  public String getLang(GWikiContext wikiContext)
+  {
+    return getRecStringValue(LANG, null, wikiContext);
+  }
+
   /**
    * Getter
    * 
@@ -197,15 +221,7 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
    */
   public String getWikiSpace(GWikiContext wikiContext)
   {
-    final String space = props.getStringValue(WIKISPACE);
-    if (StringUtils.isNotEmpty(space) == true) {
-      return space;
-    }
-    GWikiElementInfo pi = getParent(wikiContext);
-    if (pi == null) {
-      return "GLOBAL";
-    }
-    return pi.getWikiSpace(wikiContext);
+    return getRecStringValue(WIKISPACE, "GLOBAL", wikiContext);
   }
 
   public long getLoadedTimeStamp()
