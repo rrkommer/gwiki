@@ -1,0 +1,1 @@
+<@include file="inc/stdtags.gspt"@><%MainPage.render(wikiContext);%>

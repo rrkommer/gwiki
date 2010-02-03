@@ -1,0 +1,31 @@
+h2. Allgemeine I18N Dateien
+
+
+Für die eigentlichen I18N-Dateien werden Java-Properties verwendet.
+
+Ein Internationalisierung-Element besteht aus n Artefakten, die jeweils eine Sprache enthalten.
+
+Innerhalb der globalen GWikiConfig können die Module (pageIds) definiert werden, die für die Internationalisierung verwendet werden kann.
+
+Ein Plugin oder ein MetaTemplate kann noch zusätzliche I18n-Module referenzieren.
+
+Für die Internationalisierung stehen folgende APIs zur Verfügung:
+- Java
+- JspTag
+- Wiki Macro
+
+h2. Properties/XML
+Wenn in den Properties z.B: bei Title der Wert 
+I\{Title} enthält, wird in den I18N geschaut.
+
+
+
+h2. Mehrsprachige Seiten
+h3. Variante 1, eigenes Metatemplate
+Für mehrsprachige Seiten kann ein eigenes Metatemplate (Wiki/HTML) definiert werden. Dieses hat dann nicht nur eine MainPage oder für jede Sprache eines. Die unterschiedlichen Sprachen werden kann im Editor in verschiedenen Tabs angezeigt.
+
+h3. Variante 2, Filterdispatcher
+Es werden normale Seiten definiert. Über Namenskonventionen enden diese mit der Locale-Kennung. Eine Seite ist die Default-Seite ohne Locale-Kennung. Ein Filter untersucht, ob eine Seite auch noch eine Seite mit dem Locale des Anwenders hat und forwardet dann die Seite.
+
+h2. Suche, Kennworte
+Nicht ganz so einfach ist die Suche. Jede Sprache braucht dann noch die Sprachen, die sie unterstützt. In der Suche müssen dann die nicht passenden Seiten ausgefiltert werden.

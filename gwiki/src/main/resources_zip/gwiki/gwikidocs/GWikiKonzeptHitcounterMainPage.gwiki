@@ -1,0 +1,17 @@
+h2. Speicherung
+Für ein Ranking nach Beliebtheit soll pro Seite ein Hitcounter verwaltet werden.
+
+Das kann über Filter render-Filter realisiert werden. 
+
+Persistiert wird in einer Datei, die als Property abgelegt wird.
+Durch einen Lock auf das FS kann die Datei gesperrt werden und dann geupdated werden.
+
+Z.B. Nach 5 Minuten und erreichen einer gewissen Anzahl von Hits werden diese in der Datei Persistiert.
+
+
+* Soll das FS dadurch "schmutzig werden"? Reloads. Wann.
+* Asynchron: Nicht aktuelle Werte.
+* In Genome könnte da auch einfach auf die Werte von Stats zugegriffen werden. Ist aber Performancemäßig auch nicht toll.
+
+h2. Plugin in der Suche
+In der Suche ist das ein Pseudo-Property, nach dem gefiltert/sortiert werden kann.
