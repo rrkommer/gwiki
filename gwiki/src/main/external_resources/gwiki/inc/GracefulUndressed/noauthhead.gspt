@@ -1,8 +1,0 @@
-<@include file="inc/head.gspt"@>
-
-
-<h1>
-	<%= wikiPage.elementInfo.title %>
-</h1>
-
-
