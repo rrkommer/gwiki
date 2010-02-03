@@ -353,8 +353,8 @@ function gwikimaximizeWindow(framId) {
 		'left' : '0px',
 		// 'right' : '10px',
 		'top' : '0px',
-		'width' : "100%",
-		'height' : '100%'// - 110
+		'width' : "100%"/*,
+		'height' : '100%'*/// - 110
 	});
 
 	if ($("#gwikihtmledit").length) {
