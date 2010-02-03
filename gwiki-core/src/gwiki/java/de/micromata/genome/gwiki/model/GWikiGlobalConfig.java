@@ -64,6 +64,8 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_WIKI_DEFAULT_SKIN = "GWIKI_WIKI_DEFAULT_SKIN";
 
+  public static final String GWIKI_WIKI_LANGUAGES = "GWIKI_WIKI_LANGUAGES";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
@@ -129,6 +131,11 @@ public class GWikiGlobalConfig extends GWikiProps
     }
     availableSkins = fl;
     return availableSkins;
+  }
+
+  public List<String> getAvailableLanguages(GWikiContext context)
+  {
+    return this.getStringList(GWIKI_WIKI_LANGUAGES);
   }
 
   protected List<Pair<String, Matcher<String>>> parseRightRules(String text)
