@@ -11,17 +11,24 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.GWikiContent;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 
 /**
  * generates toc with children.
@@ -55,6 +62,16 @@ public class GWikiChildrenMacro extends GWikiMacroBean
    */
   private String type = "gwiki";
 
+  /**
+   * Only for gwiki-childs. Include also pageintro's
+   */
+  private boolean withPageIntro = false;
+
+  /**
+   * Only for gwiki childs. Include also toc's inside the pages.
+   */
+  private boolean withPageTocs = false;
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
@@ -67,6 +84,59 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     }
     renderChildToc(ei, 1, ctx);
     return true;
+  }
+
+  protected GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ci, GWikiContext ctx)
+  {
+    GWikiElement el = ctx.getWikiWeb().findElement(ci.getId());
+    if (el == null) {
+      return null;
+    }
+    GWikiArtefakt< ? > ma = el.getMainPart();
+    if (ma instanceof GWikiWikiPageArtefakt) {
+      return (GWikiWikiPageArtefakt) ma;
+    }
+    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    el.collectParts(map);
+    ma = map.get("MainPage");
+    if (ma instanceof GWikiWikiPageArtefakt) {
+      return (GWikiWikiPageArtefakt) ma;
+    }
+    for (GWikiArtefakt< ? > a : map.values()) {
+      if (a instanceof GWikiWikiPageArtefakt) {
+        return (GWikiWikiPageArtefakt) a;
+      }
+    }
+    return null;
+  }
+
+  protected void renderChild(GWikiElementInfo ci, GWikiContext ctx)
+  {
+
+    ctx.append("<li>").append(ctx.renderLocalUrl(ci.getId()));
+    if (withPageIntro == true || withPageTocs == true) {
+
+      GWikiWikiPageArtefakt wiki = getWikiFromElement(ci, ctx);
+      if (wiki != null) {
+        if (wiki.compileFragements(ctx) == true) {
+          GWikiContent cont = wiki.getCompiledObject();
+          if (withPageIntro == true) {
+            GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor("pageintro");
+            cont.iterate(col);
+            if (col.getFound().isEmpty() == false) {
+              GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
+              ctx.append("<small>");
+              mf.renderChilds(ctx);
+              ctx.append("</small><br/>");
+            }
+          } else if (withPageTocs == true) {
+            // TODO gwiki
+          }
+        }
+      }
+    }
+    ctx.append("</li>\n");
+
   }
 
   protected void renderChildToc(GWikiElementInfo ei, int level, GWikiContext ctx)
@@ -104,7 +174,8 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ci) == false) {
         continue;
       }
-      ctx.append("<li>").append(ctx.renderLocalUrl(ci.getId())).append("</li>\n");
+      renderChild(ci, ctx);
+
       if (level + 1 > depth) {
         continue;
       }
@@ -201,6 +272,26 @@ public class GWikiChildrenMacro extends GWikiMacroBean
   public void setType(String type)
   {
     this.type = type;
+  }
+
+  public boolean isWithPageIntro()
+  {
+    return withPageIntro;
+  }
+
+  public void setWithPageIntro(boolean withPageIntro)
+  {
+    this.withPageIntro = withPageIntro;
+  }
+
+  public boolean isWithPageTocs()
+  {
+    return withPageTocs;
+  }
+
+  public void setWithPageTocs(boolean withPageTocs)
+  {
+    this.withPageTocs = withPageTocs;
   }
 
 }

@@ -78,6 +78,14 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   protected GWikiMetaTemplate metaTemplate;
 
+  /**
+   * path of storage for the element.
+   */
+  protected String path;
+
+  /**
+   * Title of the page.
+   */
   protected String title;
 
   protected String copyFromPageId;
@@ -283,6 +291,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       props.setStringValue(TYPE, metaTemplate.getElementType());
       props.setStringValue(TITLE, title);
       props.setStringValue(PARENTPAGE, parentPageId);
+      if (StringUtils.isEmpty(storePath) && StringUtils.isNotBlank(parentPageId) == true) {
+        storePath = GWikiContext.getParentDirPathFromPageId(parentPageId);
+      }
     } else {
       initBackup();
       if (StringUtils.isBlank(title) == true) {
@@ -865,6 +876,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   public void setDisableBackup(boolean disableBackup)
   {
     this.disableBackup = disableBackup;
+  }
+
+  public String getPath()
+  {
+    return path;
+  }
+
+  public void setPath(String path)
+  {
+    this.path = path;
   }
 
 }

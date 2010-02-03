@@ -59,10 +59,10 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
             "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
-    "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" >"
+    "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">"
         + "<tr>"
-        + "<td style=\"position: relative;\">"
-        + "<table class=\"gwikiToolBar\" cellspacing=\"0\" cellpadding=\"0\" align=\"\"><tr><td>"
+        + "<td style=\"position: relative;\" >"
+        + "<table class=\"gwikiToolBar\" cellspacing=\"0\" cellpadding=\"0\" align=\"\" ><tr><td>"
         + "<td style=\"position: relative;\"><a title=\"Save\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
         + "<span class=\"gwikiToolbarIcon gwikiIcon_save\" onclick=\"gwikiEditSave()\"/>"
         + "</a></td>"
@@ -76,8 +76,9 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "<a class=\"mceButton mceButtonEnabled\" title=\"GWiki Help\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
         + "<span class=\"gwikiToolbarIcon gwikiIcon_help\" onclick=\"gwikiHelp()\"/>"
         + "</a></td>"
+        + "<td>&nbsp;</td>"
         + "</tr></table>"
-        + "</td></tr></table>";
+        + "</td><td>&nbsp;</td></tr></table>";
     String tabs = "<div id=\"gwikiWikiEditorFrame\">"
         + commands
         + "<div id='gwikiwktabs'>"
