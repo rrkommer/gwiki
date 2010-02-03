@@ -22,7 +22,7 @@
 			%>&lt; <%= wikiContext.renderLocalUrl(pi) %>
 	<% 
 	}
-	List cel = wikiContext.getWikiWeb().getElementFinder().getDirectChilds(wikiPage.getElementInfo());
+	List cel = wikiContext.getElementFinder().getDirectChilds(wikiPage.getElementInfo());
 	for (Object ei in cel) {
 		%> &gt; <%= wikiContext.renderLocalUrl(ei.getId()) %> |
 <%	} %>
