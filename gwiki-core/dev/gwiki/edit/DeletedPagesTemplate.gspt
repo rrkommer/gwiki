@@ -14,26 +14,26 @@
 <script>
 function viewDelPage(pageId)
 {
-	jQuery('#delPageId').attr('value', pageId);
-	//alert('del: ' + pageId + "; "+ jQuery('#delPageId').attr('value'));
-	
-	jQuery('#formactionname').attr('name', 'method_onViewItem');
-	jQuery('#listform').submit();
-	
+  jQuery('#delPageId').attr('value', pageId);
+  //alert('del: ' + pageId + "; "+ jQuery('#delPageId').attr('value'));
+  
+  jQuery('#formactionname').attr('name', 'method_onViewItem');
+  jQuery('#listform').submit();
+  
 }
 </script>
 
 <c:when test="${form.list}">
-	
-		Filter pageId: <html:text property="listFilter"/>
-		<input type="submit" name="method_onFilter" value="Find"/>
-		<input id="formactionname" type="hidden" name="action"/>
-		
-	<ul>
-	<c:forEach var="el" items="${form.deletedPages}">
-		<li><a href="javascript:viewDelPage('<c:out value="${el}"/>')"><c:out value="${el}"/></a></li>
-	</c:forEach>
-	</ul>
+  
+    Filter pageId: <html:text property="listFilter"/>
+    <input type="submit" name="method_onFilter" value="Find"/>
+    <input id="formactionname" type="hidden" name="action"/>
+    
+  <ul>
+  <c:forEach var="el" items="${form.deletedPages}">
+    <li><a href="javascript:viewDelPage('<c:out value="${el}"/>')"><c:out value="${el}"/></a></li>
+  </c:forEach>
+  </ul>
 </c:when>
 <c:otherwise>
 Page: <c:out value="${form.pageId}"/>
@@ -41,6 +41,6 @@ Page: <c:out value="${form.pageId}"/>
 </c:otherwise>
 </c:choose>
 </form>
-	
+  
 
 <% wikiContext.skinInclude('standardfoot'); %>
