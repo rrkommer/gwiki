@@ -1,0 +1,15 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Project   DHL-ParcelOnlinePostage
+//
+// Author    jensi@micromata.de
+// Created   27.11.2008
+// Copyright Micromata 27.11.2008
+//
+/////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.gdbfs.db;
+
+public interface TransactionPropagation
+{
+  public int getCode();
+}

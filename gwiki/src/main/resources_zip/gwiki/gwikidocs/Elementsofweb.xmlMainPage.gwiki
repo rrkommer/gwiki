@@ -1,0 +1,90 @@
+{pageintro}
+Describes the intialization of GWiki from a web.xml.
+{pageintro}
+
+h2. The Wiki-Servlet
+The WikiServer provides a Servlet for serving the servlet itself.
+
+It also initialize the wiki with the basic GWikiDAOContext, which provides information
+about core services.
+
+Sample:
+{code}
+         <servlet>
+		<servlet-name>WikiService</servlet-name>
+
+		<servlet-class>de.micromata.genome.gwiki.web.GWikiServlet
+		</servlet-class>
+		<init-param>
+                        <!--  Register class, loading the GWikiDAOContext -->
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className</param-name>
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+    <!-- ... -->
+     <servlet-mapping>
+		<servlet-name>WikiService</servlet-name>
+		<url-pattern>/</url-pattern>
+      </servlet-mapping>
+{code}
+
+h2. The static content servlet
+
+{code}
+	<servlet>
+		<servlet-name>StaticFilesService</servlet-name>
+		<servlet-class>de.micromata.genome.gwiki.web.StaticFileServlet</servlet-class>
+	</servlet>
+<!-- ... -->
+       <servlet-mapping>
+		<servlet-name>StaticFilesService</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+	</servlet-mapping>
+{code}
+
+h2. The DAV Servlet
+The WEB-DAV Servlet can be used to provide direct access to the virtual file system.
+This access can be used, if wiki files are damaged, which cannot be fixed via the wiki
+itself.
+{code}
+<servlet>
+		<servlet-name>DavService</servlet-name>
+		<servlet-class>de.micromata.genome.gwiki.web.WebDavServlet
+		</servlet-class>
+		<init-param>
+			<param-name>internalUserName</param-name>
+			<param-value>gwikidavadmin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>internalPass</param-name>
+			<!-- use the Method GWikiUserAuthorization.encrypt() to create a hash code for a password -->
+			<param-value>yfrNAF5Bp7m/lm+ywXpD92uRNKc=</param-value>
+		</init-param>
+	</servlet>
+<!-- ... -->
+       <servlet-mapping>
+		<servlet-name>DavService</servlet-name>
+		<url-pattern>/dav/*</url-pattern>
+	</servlet-mapping>
+{code}
+h2. The Word DAV Servlet
+This servlet is experimenal for direct editing Pages via Word.
+To open/safe documents, the normal Wiki Authorization rights are used.
+{code}
+       <servlet>
+		<servlet-name>WordDavService</servlet-name>
+		<servlet-class>de.micromata.genome.gwiki.web.WebDavServlet
+		</servlet-class>
+		<init-param>
+			<param-name>wordHtmlEdit</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+      <!-- ... -->
+       <servlet-mapping>
+		<servlet-name>WordDavService</servlet-name>
+		<url-pattern>/worddav/*</url-pattern>
+	</servlet-mapping>
+
+{code}

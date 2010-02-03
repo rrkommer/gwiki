@@ -1,0 +1,5 @@
+- Desktop (Jetty)
+- Tomcat, BEA oder anderer Servletcontainer
+- Java 1.5
+- Standalone & Integriert
+- Ablage in Dateisystem, Speicher (ZIP) oder Datenbank.

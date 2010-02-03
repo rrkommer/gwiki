@@ -1,0 +1,6 @@
+<!--  this is GracefulUndressed -->
+<@include file="inc/naked/standardhead.gspt"@>
+<%
+	MainPage.render(wikiContext);
+%>
+<@include file="inc/naked/standardfoot.gspt"@>

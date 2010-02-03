@@ -1,0 +1,221 @@
+
+h1. Aktuelle Tasks und offene Punkte
+
+h4. Anforderungen
+- Clusterfähig.
+- Integrierbar (genome reicht)
+- Anpassbar
+- Weitgehend Sessionlos
+- Wiki < 10.000 Seiten. ca. 1-2 kb pro Seite im Ram, ca 15 MB Ram (OK)
+- Renderzeiten < 100 ms (OK, diese Seite benötigt ca. 10 ms)
+- Seiten selbst über Weak-Reference gecacht
+- Hierarchische Rechte möglich
+- Attachments
+- Storage über Filesystem oder DB (OK, sollte mit allen Genome-DBs laufen).
+
+h4. Architektur
+- Alles ist Wiki (auch das Wiki selbst)
+- Dynamische Seiten (GSPT, ActionBean in Java oder Groovy).
+- Metatemplates für die Beschreibung von Seiten (Artefakte)
+- Auch dadurch Templates für Seite, die Bilder/Text/HTML benötigt.
+
+h4. Verwendete Frameworks
+- Genome basic (Logging, Gspt, Utilities)
+- Spring XML-Config
+- apache.commons.*
+- optional Struts oder Stripes
+- NekoHTML 
+- Verwendbar als Genome Plugin, Freestanding WAR, Normale Library. 
+
+h4. Allgemein
+- Cluster Change detection
+- Integration WebDav (Verwaltung und Word-Bearbeitung) (Teilweise)
+- PageTypen extern via Factories registrieren (OK)
+- Datenbankmapping des Filesystems (OK)
+
+h4. EditPage
+- Loeschen (OK)
+- Preview (OK, leider noch nicht im eigenen Fenster)
+- Abfangen von ComileFehlern. (OK)
+- Besserer Texteditor fuer wiki, gspt und groovy. (Lado hat schon kleine Verbesserung für Groovy gemacht -> Tabhandling)
+- Speichern in einer Transaktion (zumindest DB)
+
+h4. PageInfo
+- Restaurieren (Archivieren und dann lÃ¶schen) (OK)
+- Diff-Anzeige
+- Geloeschte restaurieren
+- Seitenhierarchie anzeigen
+- Outgoing und Incoming Links
+- Statistiken über Größe der einzelnen Artefakte.
+
+
+h4. Export/Import
+- WebDAVLösung oder
+- a la Repository (ZIP)
+
+WebDAV angefangen, aber noch nicht funktionabel.
+
+h4. Allgemeine Wiki-Einstellungen
+- Standardtemplate (aus Parent, config, default)
+- in eigener Datei
+
+h4. Indizierung/Suche
+- Offen, Artefakt muss nur GWikiIndexedArtefakt implementieren.
+- Extract Texte aus Wiki (OK)
+- Extract Text aus HTML (OK, muss bei Word-HTML noch verfeinert werden)
+- Extract aus Properties (insbesondere Settings), TITLE, KEYWORDS
+- Konfiguration Stopwords. (OK)
+- Via Textindex. Ca. 1/10 der orginalen Größe (OK)
+- Bei ca. 100 kb Dok-Größe und 10 kb Index-Größe, ca. 100 MB.
+- Zentraler Index ggf. Reduzierung auf 50 MB DB/Platte/RAM und Performance nahe 0 ms.
+- Bei DBFileSystem, ggf. Abbildung über DB. Dazu müssen die 4KB-Blöcke aligned abgelegt werden.
+- Gewichtet (OK)
+- Logische Operationen (gestartet, zur zeit nur gewichtetes 'or')
+- Einschränkung auf Verzeichnisse
+- Einschränkung auf Seitenzweige
+- Prasen
+- PDF-Extract mit PDFBox
+- Word-Extract mit poi
+- Abbildung des Textindices in DB (key/reversekey, Gewichtung, pageId) (minor)
+- Indizierung auch ohne GWiki nutzbar.
+
+- Alt
+** brute force (grep). (OK, aber sehr langsam)
+** Textextractoren (wiki, html) 
+** Ggf. Lucene RAM-basiert (wenn das geht)
+
+h4. User/Authentizierung
+- Simples Interface (hasRight(String right))
+- Login-Dialog
+- GWiki-Based (Props, Text) für ganz arme (zum Testen)
+
+h4. GWiki
+- Grundfunktion (OK)
+- Syntax als Plugin einstellbar (ok)
+- Confluence-Syntax als default (in Arbeit)
+- Macros. Am besten mit Taglibs fuer Verwendung auch in GSPT.
+- Macros als Groovy-Resource. in admin/macros liegen alle verfuebaren Macros (tld/java/groovy). 
+- Macro-Rechte: Wer darf ausfuehren, wer darf editieren.
+- Tabellen
+- Statefull parser mit previous und parent Fragment analog GSPT.
+
+h4. Seitentyp HTML
+- HTML pur. (OK)
+- mit JavaScript Editor (OK)
+http://ckeditor.com/
+
+h4. Sonstige Seiten
+- Seite nicht gefunden 
+- Ungültiger Zugriff
+- Nicht eingeloggt /Login
+
+h4. Details
+- Titel aus Id Extrahieren (OK)
+- Email notification bei Aenderung.
+- Dif View
+
+h3. Möglichkeiten
+h4. Kommentare
+- Kann in GWiki selbst implementiert werden.
+h4. Dokumentenexport
+- Export als HTML/PDF/Word
+- Export kompletter Seiten-Hierarchien (Nummerierung, Kopf, etc).
+
+h4. Genome Infrastruktur
+- Wiki als Ressource für beliebige Fileablage (z.B. Reporting)
+- POP /gw nach /gw2, wegen genome compat.
+- Brick (Viewable Elemente in zip)
+
+h1. ALT Anforderungen an ein einfaches Wiki
+
+h2. Seiten
+- Markup Wikisprache
+- Macros, ggf. auch einfach als Macros
+- Einfacher Editor (Textfeld)
+- Graphischer Editor
+
+h2. Organisation
+- Hierarchische Organisation
+
+
+h2. Versionsverwaltung
+- Speichern von Versionen
+- Anzeige von Versionen
+- Restaurieren von Versionen
+
+h2. Standardmacros
+- Inhaltsverzeichnis.
+- Link zu internen Seiten
+- Link zu externen Seiten.
+- Bilder
+
+h2. Layout
+- Standard Layout fÃ¼r Seiten (Bereiche)
+
+h2. Attachments
+- Hochladen
+- Versionieren
+- LÃ¶schen
+
+h2. Persistenz
+- Dateisystem
+- Datenbank
+
+h2. Suche
+- Volltext
+ ** Datenbank
+ ** Lucene
+
+- Stichworte
+
+h2. Rechte
+- Rechte pro Seite
+- Rechte pro Funktion (sehen, speichern, lÃ¶schen)
+
+
+h1. Anforderung POP
+- Eingebettet
+- Nicht viel, nicht schnell
+- Suchen
+- Ggf. einfach Bausteine, Config-Repository + ATTR verwenden.
+
+h2. GUI
+- Seite Anzeigen/Editieren
+- Rechte Deklarativ
+- Version
+
+h2. Wordeditieren.
+Dazu braucht man ein WebDav
+ggf. bei JspWiki WebdavServlet schauen.
+oder auch http://milton.ettrema.com/downloads/index.html
+oder http://jakarta.apache.org/slide/ (ist ausgelaufen)
+oder JackRabit (ggf. eher nicht)
+
+h2. Indizierung
+Brute force ist etwas zu langsam. Insbesondere
+das extrahieren.
+
+h3. Alternative raw text speichern.
+Zwar mÃ¼ssen alle Texte aus der DB gelesen werden, jedoch
+laesst sich dies ggf. sogar direkt in der DB abbilden.
+Dazu darf ein Text jedoch nicht mitten im wort umgebrochen
+werden.
+
+
+h3. Verwenden der FileSystem
+index table
+
+word -> 
+	-> Liste > 
+			Seite1 -> ID
+				-> Nominelle Anzahl (gewichtet)
+
+Abbildung in FileSystem
+-> Problem Rewrite von n Worten und n also n Zeilen.
+
+h3. Abbildung in Tabelle.
+
+F|Wort1|PageId2|
+R|1trow|PageId2|
+
+Sicher schnell, wenngleich Platverbrauch.

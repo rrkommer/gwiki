@@ -1,0 +1,70 @@
+<!-- navMenu.gspt Start -->
+
+<div id="menu">
+<%
+def renderMenu(wikiPage, wikiContext)
+{
+	el = wikiContext.getWikiWeb().findElementInfo("index");
+	if (el == null) {
+	  out.print("element was null");
+	  return;
+	}
+	url = wikiContext.localUrl("/" + el.getId());
+	%>
+<li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
+<%
+	el = wikiPage.getElementInfo();
+
+	List idList = new ArrayList();
+	while (el != null) {
+		String parentId = el.getParentId();
+		if (parentId == null) { 
+			break;
+		}
+		if (parentId.equals("index") == true)
+			break;
+		el = wikiContext.getWikiWeb().findElementInfo(parentId);
+		if (el == null)
+			break;
+		if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, el) == false)
+			break;
+		idList.add(el);
+		
+	}
+	idList = idList.reverse();
+		for (pi in idList) {
+			url = wikiContext.localUrl("/" + pi.getId());
+			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
+<% 
+	}
+	%></ul>
+<br />
+<ul class="gwikiNavMenu">
+	<%
+	List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
+	for (Object ei in cel) {
+		if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
+			continue;
+		}
+		 url = wikiContext.localUrl("/" + ei.getId());
+		%><li><a href="<%= url %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a></li>
+	<%	}
+}
+%>
+	<% if (wikiWithNavNavigation) { %>
+	<%--      <div class="toplevel">
+        <h2>Navigation</h2>
+        <hr/>
+      </div>
+--%>
+	<ul class="gwikiNavMenu">
+		<%
+renderMenu(wikiPage, wikiContext);
+%>
+
+	</ul>
+	<% } %>
+
+</div><!-- #menu end -->
+
+<!-- navMenu.gspt Start -->
