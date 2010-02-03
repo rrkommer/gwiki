@@ -1,0 +1,26 @@
+
+GWiki Liesmich
+
+Zum Starten einfach ZIP-Archiv auspacken.
+
+
+
+In einer Shell/Kommandozeile in das entpackte Verzeichnis gehen und dann
+gwikiweb.cmd bzw. 
+gwikiweb.sh
+starten.
+
+Es wird davon ausgegangen, dass java (JDK >= 5) im Pfad liegt.
+Ggf. einfach Shellscript anpassen.
+
+Hinweis: Unter Mac funktioniert es nicht auf einem Netzwerklaufwerk.
+
+Im Browser http://localhost:8081/index
+
+Gültige User sind:
+gwikisu
+gwikieditor
+gwikiview.
+
+Alle haben das Passwort gwiki.
+
