@@ -2,6 +2,10 @@
 Describes the intialization of GWiki from a web.xml.
 {pageintro}
 
+{note:title=Deprecated}
+This information is deprecated
+{note}
+
 h2. The Wiki-Servlet
 The WikiServer provides a Servlet for serving the servlet itself.
 
