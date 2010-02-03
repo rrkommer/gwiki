@@ -1,9 +1,18 @@
-h2. Letzte Änderungen
-{html}<p>Letzte Änderungen am GWiki siehe {html}[gwikidocs/GWikiChangeLog]{html}.</p>{html}
-h2. Inhalt
+{html}
+<center>
+<b><large>Willkommen bei GWiki</large></b><br/>
+</center>
+{html}
+
+{panel:title=Neues}
+Letzte Änderungen am GWiki siehe [gwikidocs/GWikiChangeLog].
+{panel}
+
+{table:border=0}{tr}{td:valign=top|width=50%}
+h4. Inhalt
 {children:depth=2|sort=title}
-h2. Zuletzt aktualisiert
+{td}{td:valign=top}
+
+h4. Zuletzt aktualisiert
 {recently}
-
-
-
+{td}{tr}{table}
