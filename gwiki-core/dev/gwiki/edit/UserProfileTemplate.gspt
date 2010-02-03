@@ -12,16 +12,16 @@
 
 <% form = pageContext.getRequest().getAttribute('form'); %>
 <form method="POST" enctype="multipart/form-data">
-	<html:hidden property="pageId" /> 
-	<html:hidden property="parentPageId" />
-	
+  <html:hidden property="pageId" /> 
+  <html:hidden property="parentPageId" />
+  
 <c:choose>
-	<c:when test="${form.newPage == true}">
-		<h2>User: <html:text property="title"/></h2>
-	</c:when>
-	<c:otherwise>
-		<h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
-	</c:otherwise>
+  <c:when test="${form.newPage == true}">
+    <h2>User: <html:text property="title"/></h2>
+  </c:when>
+  <c:otherwise>
+    <h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
+  </c:otherwise>
 </c:choose>
 
 
@@ -32,25 +32,25 @@
 <input type="submit" name="method_onCancel" value="Abbrechen">
 
 <c:if test="${form.newPage == false}">
-	<gwiki:authorize ifHasAny="GWIKI_ADMIN">
-		<input type="submit" name="method_onDelete" value="L&ouml;schen">
-	</gwiki:authorize>
+  <gwiki:authorize ifHasAny="GWIKI_ADMIN">
+    <input type="submit" name="method_onDelete" value="L&ouml;schen">
+  </gwiki:authorize>
 </c:if>
 
 <html:hidden property="newPage" /> 
 <div id="tabs">
  <ul>
   <% for (me in form.editors) { %>
-  		<li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
- 	<%}  %>
+      <li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
+  <%}  %>
 </ul>
 
  <%
-  	for (me in form.editors) { %>
-  		<div id="Editor<%= me.key %>">
-  			<% me.value.render(wikiContext); %>
-  		</div>
-	<% 	}  %>
+    for (me in form.editors) { %>
+      <div id="Editor<%= me.key %>">
+        <% me.value.render(wikiContext); %>
+      </div>
+  <%  }  %>
 </div>
 
 <input type="submit" name="method_onSave" value="Speichern">
@@ -65,15 +65,15 @@
     \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
 
     \$('.wikiPageEditText').autocomplete(
-    		'<gwiki:url value="/edit/PageSuggestions"/>', 
+        '<gwiki:url value="/edit/PageSuggestions"/>', 
     {
-			matchContains : true,
-			minChars : 0,
-			width : 350,
-			formatItem : function(row) {
-				return row[1] + "<br><i>(" + row[0] + ")</i>";
-			}
-		});
+      matchContains : true,
+      minChars : 0,
+      width : 350,
+      formatItem : function(row) {
+        return row[1] + "<br><i>(" + row[0] + ")</i>";
+      }
+    });
     }
   );
 </script>
