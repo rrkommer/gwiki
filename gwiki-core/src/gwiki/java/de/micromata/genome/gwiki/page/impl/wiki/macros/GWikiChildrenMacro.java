@@ -28,7 +28,10 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 
 /**
  * generates toc with children.
@@ -129,8 +132,31 @@ public class GWikiChildrenMacro extends GWikiMacroBean
               mf.renderChilds(ctx);
               ctx.append("</small><br/>");
             }
-          } else if (withPageTocs == true) {
-            // TODO gwiki
+          }
+          if (withPageTocs == true) {
+            GWikiCollectFragmentTypeVisitor col = new GWikiCollectFragmentTypeVisitor(GWikiFragmentHeading.class);
+            cont.iterate(col);
+            int lastLevel = 1;
+            for (GWikiFragment frag : col.getFound()) {
+              GWikiFragmentHeading hf = (GWikiFragmentHeading) frag;
+              int cl = hf.getLevel();
+              if (cl > lastLevel) {
+                for (int l = lastLevel; l < cl; ++l) {
+                  ctx.append("<ul>");
+                }
+              }
+              if (cl < lastLevel) {
+                for (int l = lastLevel; l > cl; --l) {
+                  ctx.append("</ul>");
+                }
+              }
+              ctx.append("<li><a href=\"").append(ctx.localUrl(ci.getId())).append("#");
+              ctx.append(hf.getLinkText(ctx)).append("\">").append(StringUtils.escape(hf.getLinkText(ctx))).append("</a></li>");
+              lastLevel = cl;
+            }
+            for (int l = lastLevel; l > 1; --l) {
+              ctx.append("</ul>");
+            }
           }
         }
       }

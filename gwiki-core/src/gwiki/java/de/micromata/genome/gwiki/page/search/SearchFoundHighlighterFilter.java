@@ -45,10 +45,7 @@ public class SearchFoundHighlighterFilter implements GWikiServeElementFilter
     // el.getElementInfo().get
 
     HttpServletResponse resp = event.getWikiContext().getResponse();
-    //String contentType = resp.getContentType();
-    // if (StringUtils.equals(contentType, "text/html") == false) {
-    // return chain.nextFilter(event);
-    // }
+
     final StringWriter sout = new StringWriter();
     final PrintWriter pout = new PrintWriter(sout);
     final Holder<Boolean> skip = new Holder<Boolean>(Boolean.FALSE);
