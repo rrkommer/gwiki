@@ -1,0 +1,9 @@
+Die Möglichkeit Kommentare an Wiki-Pages anzufügen wird durch ein einfaches Macro realisert.
+Möglich dabei wäre
+{code}
+{pagecomments}
+{code}
+
+h2. Abbildung
+In dem Verzeichnis der zu kommentierenden Seite gibt es analog zu dem Archivverzeichnis ein Unterverzeichnis comments/PageId/datumElement.
+Für jedes Kommentar ein eigenes Element.

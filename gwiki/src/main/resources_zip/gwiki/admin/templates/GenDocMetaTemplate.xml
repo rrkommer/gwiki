@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="gwiki" />
+		<property name="viewable" value="false"/>
+		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
+		<property name="elementLifeTime" value="-1" /> 
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="forward">
+							<bean
+								class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt" />
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

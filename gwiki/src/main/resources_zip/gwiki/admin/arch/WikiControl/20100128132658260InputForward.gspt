@@ -1,0 +1,58 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<c:if test="${form.pageId != null}">
+	Zurueck: <gwiki:link pageId="${form.pageId}"/>
+</c:if>
+
+
+<h2>gWiki Konfiguration</h2>
+	<ul>
+		<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">Alle Seiten des Wikis</a><br/></li>
+		<li><a href="<gwiki:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig">Wiki Globale Configuration</a><br/></li>
+		<li><a href="<gwiki:url value="/edit/ListUsers"/>">Wiki Users Configuration</a><br/></li>
+	</ul>
+<hr>
+
+<form method="POST">
+<fieldset>
+<legend>gWiki neu laden</legend>
+
+  <html:hidden property="pageId"/>
+  <input type="submit" name="method_onClearPageCache" value="Page Cache L&ouml;schen"/>
+
+  <c:if test="${form.pageId != null}">
+     <input type="submit" name="method_onReloadPage" value="Diese Seite neu Laden"><p/>
+  </c:if>
+
+  <input type="submit" name="method_onReloadWiki" value="Gesamtes WikiWeb neu Laden" />
+
+</fieldset>
+<fieldset>
+<legend>Baue Index neu</legend>
+	<c:if test="${form.pageId != null}">
+		<label for="reindexpage">Indiziere die Seite <c:out value="${form.pageId}"/>: </label>
+		<input id="reindexpage" type="submit" name="method_onReIndexPage" value="Diese Seite neu indizieren"/>
+	</c:if>
+<br/>
+	<label for="reindexwiki" >Es das komplette Wiki neue indiziert.</label>
+	<input id="reindexwiki" type="submit" name="method_onRebuildIndex" value="Suchindex Neu Aufbauen" />
+</form>
+</fieldset>
+<%--
+<h2>Rechte Testen</h2>
+Name: <html:text size="80" property="singleUser.user" /><br />
+Email: <html:text size="80" property="singleUser.email" /><br />
+RightRule: <html:text size="80" property="authRightsRule" /><br />
+<input type="submit" name="method_onSetRights"
+	value="User und Rechte setzen">
+<hr>
+<h2>GWiki Download</h2>
+<a href="<gwiki:url value="/admin/WrappOurSelf"/>">Wiki Download</a>
+--%>
+
+<h2>Sonstiges</h2>
+<%	MainPage.render(wikiContext); %>
+<% wikiContext.skinInclude('standardfoot'); %>

@@ -1,0 +1,4 @@
+<% 
+	wikiContext.wikiWeb.authorization.logout(wikiContext);
+	wikiContext.getResponse().sendRedirect(wikiContext.localUrl("admin/Login")); 
+%>

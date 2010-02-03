@@ -1,0 +1,124 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @>
+
+
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
+
+
+<div style="z-index:1000;width:1200px;min-width:1000px;overflow:visible;">
+<form id='searchForm' method="post">
+	<html:text size="80" property="filterExpression"/>
+	<html:hidden property="withExport"/>
+	<input type="hidden" id="command" name="" value=""/>
+	<input type="hidden" id="filterparams" name="filterparams" value=""/>
+	<input onclick="jQuery('#command').attr('name', '');" type="submit" name="method_onInit" value="Filtern"/>
+	<c:if test="${form.withExport == true}">
+	<html:checkbox styleId="withArchive" property="withArchive"/> Mit Archiv<br/>
+	<br/><br/><input type="button" id="doExport" name="" value="Exportieren"></input>
+</c:if>
+
+</form>
+<br/>
+<span id="rsperror" style="color:red"></span> 
+
+<table id="list2" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pager2" class="scroll" style="text-align: center;"></div>
+
+
+
+<script type="text/JavaScript">
+<c:if test="${form.withExport == true}">
+function collectQueryParams()
+{
+	var ret = '';
+	jQuery('input').each( function(el) {
+		if (this.type == 'text' && this.value != '') {
+			ret += '&' + this.name + '=' + this.value;
+		}
+	}
+	);
+	return ret;
+}
+function onExport(mygrid)
+{
+	var addParams= collectQueryParams();
+	jQuery('#command').attr('name', 'method_onExport');
+	var withArchive = jQuery('#withArchive:checked').val();
+	addParams['withArchive'] = withArchive;
+	jQuery('#filterparams').attr('value', addParams);
+	
+	jQuery('#searchForm').submit();
+	
+}
+</c:if>
+jQuery(document).ready(function() {
+	//alert("data start");
+	var gridimgpath = '<gwiki:url value="/static/jqgrid/css/redmond/images"/>';
+	
+			
+	var mygrid =  jQuery("#list2")
+		.jqGrid(
+			{ url:'<gwiki:url value="/edit/ViewAllPages?fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|operations"/>' 
+					+ '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
+				datatype: "xml",
+				colNames:['id', 'pageId', 'Titel', "Typ", "Erstellt von", "Erstellt am","Ge&auml;ndert von", "Ge&auml;ndert am", "Operationen"], 
+				colModel:[
+								{name:'id',index:'id', width:12},  
+								{name:'pageId',index:'PAGEID', width:200},
+								{name:'title',index:'TITLE', width:100},
+								{name:'type',index:'TYPE', width:30},
+								{name:'createdby',index:'CREATEDBY', width:60},
+								{name:'createdat',index:'CREATEDAT', width:60},
+								{name:'modifiedby',index:'MODIFIEDBY', width:60},
+								{name:'modifiedat',index:'MODIFIEDAT', width:60},
+								{name:'operations',index:'operations', width:60, sortable:false}
+								 ], 
+				height: 440,
+				sortable: true, 
+				//scroll: true,
+				//scrollrows: true,
+				autowidth: true,
+				//height: auto,
+				hidegrid: false,
+				rowNum:20, 
+				rowList:[10,20,100], 
+				imgpath: gridimgpath, 
+				pager: jQuery('#pager2'), 
+				//sortname: 'pageId', 
+				viewrecords: true, 
+				//sortorder: "desc", 
+				caption:"Alle Seiten",
+				loadError : function(xhr,st,err) { 
+					 jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
+				}
+			})
+			.navGrid('#pager2',{edit:false,add:false,del:false})
+			.navButtonAdd("#pager2",
+						{caption:"Toggle",
+					title:"Toggle Search Toolbar", buttonicon :'ui-icon-pin-s', 
+					onClickButton: function(){ mygrid[0].toggleToolbar() } 
+			}) 
+			.navButtonAdd("#pager2",{
+					caption:"Clear",
+					title:"Clear Search",
+					buttonicon :'ui-icon-refresh',
+					onClickButton:function(){ mygrid[0].clearToolbar() } 
+			}); 
+			mygrid.filterToolbar();
+			mygrid.jqGrid('navButtonAdd','#pager2',
+					{ caption: "Columns", 
+						title: "Reorder Columns", 
+						onClickButton : function (){ jQuery("#list2").jqGrid('columnChooser'); } 
+			}); 
+			; 
+			mygrid.jqGrid('gridResize',{minWidth:350,maxWidth:1200,minHeight:80, maxHeight:1050});
+<c:if test="${form.withExport == true}">			
+			\$("#doExport").click(function(){ onExport(mygrid); });
+</c:if>
+});	
+</script>
+</div>
+<% wikiContext.skinInclude('standardfoot'); %>
