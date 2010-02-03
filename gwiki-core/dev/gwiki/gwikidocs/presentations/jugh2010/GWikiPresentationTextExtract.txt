@@ -88,6 +88,20 @@ GWiki JUGH 2010 Presentation
 
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
+
 
 
 
@@ -175,10 +189,27 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
+
 Einsatz im Java (EE)-Feld. ClusterfähigSkalierbarIntegrierbarAdaptierbarErweiterbar= "Die Gute Architektur"Passende OpenSource Lizenz
 
 
 
+
+
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 
@@ -267,12 +298,26 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
 Klassisches Wiki mit CamelCase. Hierarchisch aufgebaute Seiten.
 Rechtemodell einfacher mit Hierarchischen Modell.
 Parent/Childs/Silblings
 
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 
@@ -361,6 +406,7 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
 VolltextsucheClusterfähig Datenbank oder Dateisystem=> Standardlösung Lucene passt nicht.
 HTML Wiki (mit Gewichtung)PDF, Word, Texte
 Annahmen
@@ -370,6 +416,19 @@ Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)Selte
 
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 
@@ -458,6 +517,7 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
 Vollwertiges Wiki-basiertes CMSWikipages, Attachments, HTML-Seiten, Online Editieren, Rechte, Versionen, Volltextsuche und all der übliche "Schnickschnack".
 Desktop Wiki für persönlichen Einsatz.
 Ein Klick zum Start, wenig Infrastruktur notwendig.
@@ -466,6 +526,19 @@ Dynamischer Content, Wiki/Rapid Entwicklung.
 
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 
@@ -554,6 +627,7 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
 Core
 GWikiWeb: Servlet/Bootstrap für ServicesGWikiContext: Request/Response, etc.
 
@@ -570,6 +644,19 @@ Ein Spezialfall für ein GWikiFragment ist ein GWikiMacro.
 
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 
@@ -658,14 +745,28 @@ $(document).ready(function(){
 GWiki JUGH 2010 Presentation
 
 
+
 Wahl der Persistenz
-Unversell, FlexibelFileSystem
+Universell, FlexibelFileSystem
 Standard Dateisystem.
 RAM/ZIPDatenbank.
 
 FileSystem Event für Clustering
 
 
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
 
 
 

@@ -1,6 +1,6 @@
 
 Wahl der Persistenz
-Unversell, FlexibelFileSystem
+Universell, FlexibelFileSystem
 Standard Dateisystem.
 RAM/ZIPDatenbank.
 
