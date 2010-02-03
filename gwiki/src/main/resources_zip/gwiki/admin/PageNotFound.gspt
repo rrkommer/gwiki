@@ -1,8 +1,0 @@
-<% wikiContext.skinInclude("standardhead"); %>
-
-
-<gwiki:errors />
-
-<p>Die Seite konnte nicht gefunden werden.</p>
-
-<% wikiContext.skinInclude("standardfoot"); %>
