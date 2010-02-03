@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.micromata.genome.gwiki</groupId>
+	<artifactId>gwiki-parent</artifactId>
+	<name>gwiki</name>
+	<version>${gwiki.version}</version>
+	<packaging>pom</packaging>
+	
+	<properties>
+    <gwiki.version>0.0.1-SNAPSHOT</gwiki.version>
+  </properties>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!--
+		<dependency> <groupId></groupId> <artifactId></artifactId>
+		<version></version> </dependency>
+	-->
+
+</project>
