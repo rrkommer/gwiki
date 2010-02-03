@@ -7,12 +7,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <style>
 .ui-tabs .ui-tabs-hide {
-    position: absolute;
+    position: absolute; 
     left: -10000px;
+    /*width: 400px; */
     display: inline !important;
-    position:fixed ;
+    z-index: -99999;
+    /*position:fixed ; */
 }
 </style>
+
 <script>
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
@@ -121,6 +124,9 @@ function viewBackupDiff()
 <a href="javascript:restoreBackup()">Letzte Sicherung vom <%= wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt()) %> wieder herstellen</a><br/>
 <% } %>
 </div>
+<c:if test="${form.newPage == true}">
+	<fmt:message key="gwiki.edit.EditPage.label.path"/> <html:text styleId="editPageTitle" size="80" property="storePath" /><br/>
+</c:if>
 	<fmt:message key="gwiki.edit.EditPage.label.title"/>
 	<html:text styleId="editPageTitle" size="80" property="title" /><br/>
 
