@@ -87,6 +87,15 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_LANGUAGES" />
+											<property name="label" value="Languages" />
+											<property name="description" value="Available Languages" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRINGLIST" />
+											<property name="defaultValue" value="en,de" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FILTER_CLASSES" />
 											<property name="label" value="Filter" />
 											<property name="description"
