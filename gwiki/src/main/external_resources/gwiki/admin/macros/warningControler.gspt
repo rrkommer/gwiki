@@ -1,7 +1,0 @@
-<% wikiContext.setRequestAttribute(
-			'wiki.macro.panel.panelStyle', 
-			'margin:10px 20px;overflow:hidden;border-width: 1px;background-color:#FFCECE;');  %>
-<% wikiContext.setRequestAttribute(
-			'wiki.macro.panel.panelContentStyle', 
-			'margin:10px 20px;overflow:hidden;background-color:#FFCECE;border-width: 0px;');  %>
-<@include file="admin/macros/panel" @>

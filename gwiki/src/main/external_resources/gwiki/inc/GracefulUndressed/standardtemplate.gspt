@@ -1,7 +1,0 @@
-<@include file="/inc/GracefulUndressed/standardhead.gspt"@>
-<!-- this is GracefulUndressed standardtemplate.gspt -->
-
-<% MainPage.render(wikiContext); %>
-
-
-<@include file="/inc/GracefulUndressed/standardfoot.gspt"@>

@@ -1,9 +1,0 @@
-<% wikiContext.skinInclude("standardhead"); %>
-
-
-<gwiki:errors />
-
-<p>Es ist ein Zugriffsfehler entstanden.</p>
-<p>Bitte wenden Sie sich an Ihren Adminstrator.</p>
-
- <% wikiContext.skinInclude("standardfoot"); %>
