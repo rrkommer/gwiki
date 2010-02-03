@@ -1,0 +1,5 @@
+{pageintro}
+Konzepte für die Verwendung von GWiki in Projekten.
+{pageintro}
+
+{children:all=true|sort=title}

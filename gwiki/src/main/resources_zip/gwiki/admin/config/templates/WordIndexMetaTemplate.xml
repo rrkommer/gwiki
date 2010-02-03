@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"  singleton="false">
+		<property name="viewable" value="false"/>
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.page.search.WordIndexTextArtefakt"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

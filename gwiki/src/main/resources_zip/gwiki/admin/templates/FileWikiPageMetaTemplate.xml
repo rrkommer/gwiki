@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"  singleton="false">
+		<property name="elementType" value="attachment"/>
+		<!--  10 minutes -->
+		<property name="elementLifeTime" value="600000" /> 
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="beanClassName"
+							value="de.micromata.genome.gwiki.controls.DeliverFileActionBean" />
+						<property name="parts">
+							<map>
+								<entry key="File">
+									<bean
+										class="de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt" />
+								</entry>
+							</map>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

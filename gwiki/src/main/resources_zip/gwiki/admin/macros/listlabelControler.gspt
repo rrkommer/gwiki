@@ -1,0 +1,24 @@
+<@include file="inc/stdgfuncs.gspt" @>
+<%
+import de.micromata.genome.gwiki.model.*;
+import de.micromata.genome.gwiki.page.*;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
+  return ;
+}
+%>
+<ul>
+<%
+Map<String, List<GWikiElementInfo>> eimap = GWikiListLabelsMacroBean.collectKeywords(wikiContext);
+char lc = 0;
+for (me in eimap.entrySet()) {
+	char c = me.key.charAt(0);
+	%><li><%= me.key %></li>
+	<ul>
+		<% for (ei in me.value) { %>
+			<li><%=wikiContext.renderLocalUrl(ei.id) %></li>
+		<% } %>
+	</ul>
+<%}
+%>
+</ul>

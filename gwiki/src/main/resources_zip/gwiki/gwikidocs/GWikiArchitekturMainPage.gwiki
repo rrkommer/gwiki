@@ -1,0 +1,51 @@
+h2. Alles ist GWiki
+
+h2. Elemente, Artefakte und Metatemplates
+
+Das GWiki ist weitgehend auf internen Interfaces aufgebaut. 
+Jede Element, das über eine URL erreichbar ist ein {{GWikiElement}}. Ein solch eines Element ist mit einer {{GWikiElementInfo}} gekoppelt, die die wichtigsten Informationen über das individuelle Element enthält, wie etwa:
+- Rechte
+- Typ
+- Versionsinformationen
+
+Die GWikiElementInfo ist als Property-Datei gespeichert, wobei folgende Namenskonvention verwendet wird: {{PageIdSettings.properties}}.
+Beim Start des Wiki werden für alle Seiten die entsprechenden GWikiElementInfo geladen und im Speicher vorgehalten.
+
+Welche Properties ein Element innerhalb der Settings hat, ist in der {{SettingsPropDescriptor.xml}} definiert.
+Hierbei wird für jedes Property u.a. folgende Eigenschaften definiert:
+- Name 
+- Typ
+- Anzeige
+- Defaultwert
+- Validierung
+- Rechte (lesen, schreiben)
+- Welche Element-Typen das Property besitzt
+
+h2. GWikiArtefakt
+Ein GWikiElement hat 1-n {{GWikiArtefakte}}. 
+
+Eine klassische Wikiseite - wie diese hier - besteht aus einer Template-Referenz (JSP) und einem WikiText. 
+Das JSP-Template ist für das Rendern des Rahmens (Header/Footer, etc.) und definiert dann auch in diesem Template, wo der WikiText eingebunden werden soll.
+Das Referenzierte JSP-Template ist selbst wieder ein Wiki-Element und ist somit einfach über seinen Pfad zu referieren und direkt über den GWiki-Editor anpassbar.
+
+Eine Wiki-Seite kann jedoch für sich ein eigenes JSP-Template definieren. Dann besteht das GWikiElement aus zwei physichen Artefakten. 
+
+Ein Artefakt kann noch über die Implementierung von Java-Interfaces weitere Funktionen erfüllen:
+- Rendern. Das Artefakt erzeugt HTML
+- Persistieren. Das Artefakt persistiert sich als Datei.
+- Textextrakt zur Verfügung stellen. Ein Artefakt stellt eine gewichteten Textextrakt zur Verfügung, der dann für die Indizierung für die Volltextsuche verwendet werden kann.
+- Editieren: Ein Artefakt stellt ein weiteres Artefakt zur Verfügung, das beim Editieren des übergeordneten Elementes innerhalb der EditPage-Maske als Tab dargestellt wird.
+
+h3. Metatemplate
+Aus welchen Artefakten ein GWikiElement besteht, ist nicht direkt im GWikiElement codiert, sondern über eine Metatemplate-Referenz. (Ich glaube, ich brauche nicht mehr gross zu erwähnen, dass dies natürlich selbst ein Wikielement ist, dass über die EditPage-Maske editierbar ist). 
+Innerhalb der GWikiElementInfo wird über das Property {{WIKIMETATEMPLATE}} die PageId des Metatemplates hinterlegt. 
+Das Metatemplate enthält die Informationen über den Aufbau eines Elements. Bei einer normalen Wiki-Seite ist dies z.B. {{StandardWikiPageMetaTemplate.xml}}.
+
+
+Die allgemein verfügbaren Metatemplates werden im Ordner {{admin/templates}} abgelegt. 
+
+h2. Filter
+Bei vielen Prozessen kann über die Definition von Filter das Verhalten der Anwendung modifiziert werden. Die Filter sind analog zu HttpServletFilter interception-Filter und können somit vor oder hinter der Weiterleitung des Events Daten manipulieren.
+
+Die Filter werden über die WikiConfig über die Klassennamen der Filter definiert.
+

@@ -1,0 +1,13 @@
+h1. Redaktion
+h2. Anforderung
+Dokumente können im Konzeptmodus erstellt werden und dann veröffentlicht werden.
+
+Wichtig sind hierbei:
+- Freigabe von mehreren Dokumenten gleichzeitig.
+- Ansicht der Dokumente im Gesamtzusammenhang (Vorschau)
+
+
+h2. Lösungskonzept
+- Ablage in verschiedenen Verzeichnissen. Die Konzeptversion sind normale Seiten, die von den bstehenden kopiert werden.
+- Filter, der anhand einer Metainfo überprüft, welche Version verwendet werden soll und dann über pageId Redirect/Forward auf die richtige Version der Seite weiterleitet.
+- Konzepte können gleichzeitig auch über die hierarchische Seiten-Rechte nur einem kleineren Kreis an Editoren sichtbar gemacht werden.

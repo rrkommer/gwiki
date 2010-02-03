@@ -1,0 +1,18 @@
+Core
+- GWikiWeb: Servlet/Bootstrap für Services
+- GWikiContext: Request/Response, etc.
+----
+Services sind Interfaces und DI pro Instanz assembliert.
+Storage, Authorisation, Caching, Logging, Scheduling, Email, Session, Suchmaschine, I18N
+----
+*GWikiElemente*
+- GWikiWikiPage (HTML, JSP, Wiki, sonstiger Content, beliebige Kombinationen)
+-- GWikiI18nElement
+- GWikiFileAttachment
+- GWikiConfigElement
+----
+Jedem Element innerhalb von GWiki ist eine Metatemplate assoziiert, das die neben anderen Informationen (Rechte, etc.) die *GWikiArtefakt*, aus dem das Element (Seite) besteht.
+----
+Ein GWikiWikiPageArtefakt besteht aus einer Art DOM-Modell, wobei jede Node über ein *GWikiFragment* abgebildet wird.
+----
+Ein Spezialfall für ein GWikiFragment ist ein GWikiMacro.
