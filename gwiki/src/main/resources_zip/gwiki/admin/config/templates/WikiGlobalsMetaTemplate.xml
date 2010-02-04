@@ -49,17 +49,6 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_CHECK_STORAGE_MODIFICATIONS" />
-
-											<property name="label" value="Check Storage mods." />
-											<property name="description"
-												value="Sollen innerhalb Wikis überprüft werden? Bei Clusteranwendungen notwendig." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="false" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
 											<property name="label" value="Check external FS mods." />
 											<property name="description"
@@ -80,24 +69,6 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
-											<property name="label" value="Single Node" />
-											<property name="description" value="Single Node installation." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="true" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-											<property name="key" value="GWIKI_SINGLENODE_STORAGE" />
-											<property name="label" value="Single Node" />
-											<property name="description" value="Single Node installation." />
-											<property name="readOnly" value="false" />
-											<property name="type" value="BOOLEAN" />
-											<property name="defaultValue" value="true" />
-										</bean>
-										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_USER_SKINS" />
 											<property name="label" value="Available Skins" />
 											<property name="description" value="List of comma seperated skins" />
@@ -113,6 +84,15 @@
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="naked" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_LANGUAGES" />
+											<property name="label" value="Languages" />
+											<property name="description" value="Available Languages" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRINGLIST" />
+											<property name="defaultValue" value="en,de" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">

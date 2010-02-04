@@ -51,6 +51,10 @@ public class GWikiFragmentImage extends GWikiFragementBase
 
   private String vspace;
 
+  private String style;
+
+  private String styleClass;
+
   public GWikiFragmentImage(String target)
   {
     this.target = target;
@@ -96,7 +100,12 @@ public class GWikiFragmentImage extends GWikiFragementBase
     if (StringUtils.isNotEmpty(vspace) == true) {
       sb.append("|").append("vspace=").append(vspace);
     }
-
+    if (StringUtils.isNotEmpty(style) == true) {
+      sb.append("|").append("style=").append(style);
+    }
+    if (StringUtils.isNotEmpty(styleClass) == true) {
+      sb.append("|").append("class=").append(styleClass);
+    }
     sb.append("!");
   }
 
@@ -113,12 +122,6 @@ public class GWikiFragmentImage extends GWikiFragementBase
       String o = ObjectUtils.toString(ctx.getRequestAttribute(WIKI_MAX_IMAGE_WIDTH));
       if (o != null && lwidth == null) {
         lwidth = o;
-        // ctx.append("<img src='", target, "' width='" + o + "'>");
-        // } else {
-        // ctx.append("<img src='", target, "'>");
-        // }
-
-        // return true;
       }
     }
     Set<String> set = (Set<String>) ctx.getRequestAttribute(WIKIGENINCLUDEDIMAGES);
@@ -153,6 +156,12 @@ public class GWikiFragmentImage extends GWikiFragementBase
     }
     if (StringUtils.isNotEmpty(width) == true) {
       ctx.append(" hspace=\"", hspace, "\"");
+    }
+    if (StringUtils.isNotEmpty(style) == true) {
+      ctx.append(" style=\"", style, "\"");
+    }
+    if (StringUtils.isNotEmpty(styleClass) == true) {
+      ctx.append(" class=\"", styleClass, "\"");
     }
     return true;
   }
@@ -230,5 +239,25 @@ public class GWikiFragmentImage extends GWikiFragementBase
   public void setVspace(String vspace)
   {
     this.vspace = vspace;
+  }
+
+  public String getStyle()
+  {
+    return style;
+  }
+
+  public void setStyle(String style)
+  {
+    this.style = style;
+  }
+
+  public String getStyleClass()
+  {
+    return styleClass;
+  }
+
+  public void setStyleClass(String styleClass)
+  {
+    this.styleClass = styleClass;
   }
 }

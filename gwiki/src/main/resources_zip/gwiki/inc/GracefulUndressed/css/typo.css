@@ -27,7 +27,7 @@ body {
 	}
 
  #gwikiPageinfo{
-	background-color: #FDEB99;
+	background-color: #EAEEED;
 	margin:0 -0.6em 0 -0.9em;
 	padding:2em;
 	border-top: 0.1em solid #CFD7D9;
@@ -432,6 +432,14 @@ a:hover {
 
 
 /*used icons in gwikiContent have to behave like icons, not like images.*/
+#gwikiContent img.gwikiIcon, #PageComments img.gwikiIcon {
+	margin:0;	
+	padding:0.1em;
+	border: 1px solid #eaeeed;
+	-moz-border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+}
+
 
 #gwikiContent img.icon, #PageComments img.icon{
 	margin:0;
@@ -555,6 +563,35 @@ a:hover {
 /* TODO:all following code has to be placed into forms.css */
 
 
+
+#gwikiContent form.visible {
+	background-color: #EAEEED;
+	border-top: 1px solid #CFD7D9;
+	border-bottom: 1px solid #CFD7D9;
+	color: #5C6970;
+	padding:1.5em 0;
+}
+
+
+#gwikiContent form fieldset {
+	border:none;
+	border-bottom: 1px solid #CFD7D9;
+	padding:1.5em;
+	margin: 0 0 1.5em 0;
+}
+
+#gwikiContent form fieldset legend{
+	background:transparent;
+	padding:0;
+	font-size:2em;	
+}
+
+#gwikiContent form fieldset p.description {
+	float:right;
+	font-size:1.4em;
+	width:60%;
+}
+
 #gwikiContent table.gwikiProperties, 
 #gwikiContent table.gwikiProperties tr td,
 #gwikiContent table.gwikiProperties tr th,
@@ -569,6 +606,14 @@ a:hover {
 	
 }
 
+#gwikiContent form label {
+	display:block;
+	float:left;
+	font-size:1.4em;
+	margin:0.5em 0;
+	width:20em;
+}
+
 .gwikiTextarea {
 	font-size: 1.2em;
 	width: 68.3em;
@@ -580,31 +625,41 @@ a:hover {
 	font-family: "Andale Mono", "Monaco", Courier, monospace;
 }
 
-.gwikiButton {
+
+input.gwikiButton {
 	background-color: #ADB4B7;
 	border: 1px solid #5C6970;
 	color: #5C6970;
 	font-size:1.4em;
-	float:right;
-	margin:0.5em;
+	margin: 0 0.5em 0 0;
 	padding:0.2em 0.5em 0.1em 0.5em;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 }
 
-.gwikiButton:hover{
-cursor: pointer;
+.buttons .gwikiButton {
+	float:right;
+}
+
+input.gwikiButton:hover{
+	cursor: pointer;
+	background-color: #CFD7D9;
+	color:#8994A0;
+	border-color:#8994A0;
 }
 
 input.main{ 
-	background-color: #99D79F;
-	color:#009C0E ; 
-	border-color:#009C0E;
+	background-color: #51AE30;
+	color:#005D4D ; 
+	border-color:#005D4D;
 }
 
 input.main:hover{ 
-	background-color: #66C46E;
+	background-color: #B9C900;
+	color:#005D4D ; 
+	border-color:#005D4D;
 }
+
 
 input.reset{ 
 	background-color: #F5AD9F; 
@@ -613,13 +668,21 @@ input.reset{
 }
 
 
+input.reset:hover{ 
+	background-color: #EA4F44; 
+	color:#730019; 
+	border-color:#730019;
+}
+
+
+
+
 
 	
 /* TODO:all preceding code has to be placed into forms.css */
 
 /* comments */
 #PageComments {
-	border-top: 1px solid red;
 	color:#858E94;
 }
 

@@ -113,7 +113,6 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
         pct.addSimpleValidationError("Property Wert " + pct.getPropName() + " muss einen Wert haben");
       }
     }
-    // pct.setValue(reqValue);
   }
 
   public void onSave(GWikiContext ctx)
@@ -129,20 +128,6 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
       PropsEditContext pct = createPropContext(ctx, d);
       onParseRequest(pct);
       onValidate(pct);
-      //      
-      // if (StringUtils.isNotBlank(d.getOnValidate()) == true) {
-      // value = StringUtils.defaultString(value);
-      // value = (String) ScriptUtils.invokeScriptFunktion(d.getOnValidate(), "onValidate", value, ctx, el, d);
-      // }
-      // if (d.isReadOnly() == true && d.getDefaultValue() == null && StringUtils.isBlank(d.getOnValidate()) == true) {
-      // continue;
-      // }
-      // if (d.isRequiresValue() == true) {
-      // if (StringUtils.isBlank(value) == true) {
-      // ctx.addSimpleValidationError("Property Wert " + d.getKey() + " muss einen Wert haben");
-      // }
-      // }
-      // setValue(d.getKey(), value);
     }
   }
 
@@ -152,12 +137,6 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
       props.setCompiledObject(new GWikiProps());
     }
     return props.getCompiledObject();
-  }
-
-  private void setValue(String key, String value)
-  {
-
-    getCompiledProps().setStringValue(key, value);
   }
 
   public boolean isForThisElement(GWikiPropsDescriptorValue d, String metaTemplateId)
@@ -208,7 +187,7 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
     // if (StringUtils.isEmpty(value) && StringUtils.isNotEmpty(pct.getPropDescriptor().getDefaultValue()) == true) {
     // value = evalDefaultValue(ctx, d, name);
     // }
-    
+
     XmlNode[] controlNodes = new XmlNode[0];
     String type = pct.getControlType();
     if (StringUtils.equals(type, "BOOLEAN") == true) {
@@ -261,9 +240,9 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
   {
     XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
         Html.tr( //
-            Html.th(Xml.attrs("width", "70", "align", "left"), Xml.text("Key")), //
-            Html.th(Xml.attrs("width", "300", "align", "left"), Xml.text("Value")), //
-            Html.th(Xml.attrs("align", "left"), Xml.text("Description"))));
+            Html.th(Xml.attrs("width", "70", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
+            Html.th(Xml.attrs("width", "300", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
+            Html.th(Xml.attrs("align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.description")))));
     GWikiEditPageActionBean bean = ((GWikiEditPageActionBean) ctx.getRequest().getAttribute("form"));
     String metaTemplateId = bean.getMetaTemplate().getPageId();
     // String metaTemplateId = el.getMetaTemplate().getPageId();
@@ -278,13 +257,13 @@ public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
       String nested = onRender(pctx);
       String label = d.getKey();
       if (d.getLabel() != null) {
-        label = d.getLabel();
+        label = ctx.getTranslatedProp(d.getLabel());
       }
       table.add( //
           Html.tr( //
-              Html.td(Xml.text(label)), //
+              Html.td(Xml.code(label)), //
               Html.td(Xml.code(nested)), //
-              Html.td(Xml.text(d.getDescription()))));
+              Html.td(Xml.code(ctx.getTranslatedProp(d.getDescription())))));
     }
     ctx.append(table.toString());
 

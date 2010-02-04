@@ -15,7 +15,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
-public interface GWikiCompileTimeMacro extends GWikiMacro
+public interface GWikiCompileTimeMacro extends GWikiMacro, GWikiRuntimeMacro
 {
   Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx);
+  
+
 }

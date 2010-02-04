@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.jsp.tagext.TagInfo;
 
@@ -19,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.taglibs.TagLibraryInfoImpl;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
@@ -34,8 +35,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
  * @author roger@micromata.de
  * 
  */
-public class GWikiUseJspTagLibMacro extends GWikiMacroBase implements GWikiCompileTimeMacro
+public class GWikiUseJspTagLibMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
 {
+
+  private static final long serialVersionUID = -7610724416297860345L;
 
   public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
@@ -50,7 +53,9 @@ public class GWikiUseJspTagLibMacro extends GWikiMacroBase implements GWikiCompi
       String macroName = prefix + ti.getTagName();
       ctx.getMacroFactories().put(macroName, new GWikiJspTagMacroFactory(ti));
     }
-    return Collections.emptyList();
+    List<GWikiFragment> l = new ArrayList<GWikiFragment>();
+    l.add(macroFrag);
+    return l;
   }
 
 }

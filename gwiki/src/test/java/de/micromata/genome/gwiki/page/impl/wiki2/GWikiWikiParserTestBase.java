@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 
-public class GWikiWikiParserTestBase extends TestCase
+public abstract class GWikiWikiParserTestBase extends TestCase
 {
 
   protected List<GWikiFragment> parseText(String wikiText, String macroName, GWikiMacroFactory macroFactorie)

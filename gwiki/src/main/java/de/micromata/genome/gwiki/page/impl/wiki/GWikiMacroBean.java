@@ -45,7 +45,6 @@ public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRunt
 
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
-    //this.wikiContext = ctx;
     if (populated == false) {
       populated = true;
       populate(attrs, ctx);
@@ -55,19 +54,5 @@ public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRunt
   }
 
   public abstract boolean renderImpl(GWikiContext ctx, MacroAttributes attrs);
-  //
-  // public GWikiContext getWikiContext()
-  // {
-  // if (wikiContext == null) {
-  // wikiContext = GWikiContext.getCurrent();
-  //
-  // }
-  // return wikiContext;
-  // }
-  //
-  // public void setWikiContext(GWikiContext wikiContext)
-  // {
-  // this.wikiContext = wikiContext;
-  // }
 
 }

@@ -5,10 +5,6 @@
 def renderMenu(wikiPage, wikiContext)
 {
 	el = wikiContext.getWikiWeb().findElementInfo("index");
-	if (el == null) {
-	  out.print("element was null");
-	  return;
-	}
 	url = wikiContext.localUrl("/" + el.getId());
 	%>
 <li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>

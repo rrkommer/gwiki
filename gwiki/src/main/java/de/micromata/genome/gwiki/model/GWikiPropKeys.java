@@ -81,4 +81,9 @@ public interface GWikiPropKeys
    * List of pageIds with the I18N-Modudes used by the page.
    */
   public static final String I18NMODULES = "I18NMODULES";
+
+  /**
+   * Language of the page.
+   */
+  public static final String LANG = "LANG";
 }

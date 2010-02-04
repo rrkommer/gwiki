@@ -15,18 +15,19 @@ import java.util.List;
 import junit.framework.TestCase;
 import de.micromata.genome.util.matcher.string.EndsWithMatcher;
 
-public class FileSystemTest extends TestCase
+
+public abstract class FileSystemCase extends TestCase
 {
   private final FileSystem fsys;
 
   private final String testName;
 
-  public FileSystemTest()
+  public FileSystemCase()
   {
     this("FileSystemTest", new StdFileSystem());
   }
 
-  public FileSystemTest(final String name, final FileSystem fsys)
+  public FileSystemCase(final String name, final FileSystem fsys)
   {
     this.fsys = fsys;
     testName = name;
