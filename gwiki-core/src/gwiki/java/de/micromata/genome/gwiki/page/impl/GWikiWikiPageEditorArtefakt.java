@@ -53,9 +53,10 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     if (editBean.isNewPage() == false) {
       thisPageId = editBean.getPageId();
     }
+    String pn = partName;
     String html = //
     Html.textarea(
-        Xml.attrs("class", "wikiEditorTextArea", "rows", "40", "cols", "100", "name", partName + ".wikiText", "style",
+        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "40", "cols", "100", "name", partName + ".wikiText", "style",
             "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
@@ -79,21 +80,29 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "<td>&nbsp;</td>"
         + "</tr></table>"
         + "</td><td>&nbsp;</td></tr></table>";
-    String tabs = "<div id=\"gwikiWikiEditorFrame\">"
+    String tabs = "<div id=\"gwikiWikiEditorFrame"
+        + pn
+        + "\">"
         + commands
-        + "<div id='gwikiwktabs'>"
-        + "<ul><li><a href='#WikiEdit'><span>Wiki</span></a></li><li><a href='#WikiRte'><span>Rich Text</span></a></li><li><a href='#WikiPreview'><span>Preview</span></a></li></ul>"
-        + "<div id='WikiEdit'>"
+        + "<div id='gwikiwktabs"
+        + pn
+        + "'>"
+        + "<ul><li><a href='#WikiEdit" + pn + "'><span>Wiki</span></a></li><li>"
+        + "<a href='#WikiRte"
+        + pn
+        + "'><span>Rich Text</span></a></li><li><a href='#WikiPreview" + pn + "'><span>Preview</span></a></li></ul>"
+        + "<div id='WikiEdit" + pn + "'>"
         + html
         + "</div>"
-        + "<div id='WikiRte'></div>"
-        + "<div id='WikiPreview' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
+        + "<div id='WikiRte" + pn + "'></div>"
+        + "<div id='WikiPreview" + pn + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
         + "</div>"
         + "</div>"
         + "</div>";
     ctx.append(tabs);
 
-    ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){ jQuery(\".wikiEditorTextArea\").gwikiedit({\n",
+    ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){\n" 
+        + " jQuery(\"#textarea" + pn + "\").gwikiedit({\n",
         "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '", partName, "' ");
     if (thisPageId != null) {
       ctx.append(", parentPageId: '", thisPageId, "'");
