@@ -53,7 +53,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.utils.StringUtils;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * 
@@ -289,6 +288,12 @@ public class Html2WikiFilter extends DefaultFilter
     }
     if (StringUtils.isNotEmpty(attributes.getValue("vspace")) == true) {
       image.setVspace(attributes.getValue("vspace"));
+    }
+    if (StringUtils.isNotEmpty(attributes.getValue("class")) == true) {
+      image.setStyleClass(attributes.getValue("class"));
+    }
+    if (StringUtils.isNotEmpty(attributes.getValue("style")) == true) {
+      image.setStyle(attributes.getValue("style"));
     }
     parseContext.addFragment(image);
   }
