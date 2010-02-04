@@ -229,7 +229,26 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
 
   protected InputStream loadImpl(String uri) throws IOException
   {
-    return pageContext.getServletContext().getResourceAsStream(uri);
+    String luri = uri;
+    if (luri.startsWith("/WEB-INF/") == true) {
+      luri = luri.substring("/WEB-INF/".length());
+    }
+    if (luri.startsWith("/") == true) {
+      luri = luri.substring(1);
+    }
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    InputStream is = cl.getResourceAsStream(luri);
+    if (is != null) {
+      return is;
+    }
+    if (TagLibraryInfo.class.getClassLoader() != cl) {
+      is = cl.getResourceAsStream(luri);
+      if (is != null) {
+        return is;
+      }
+    }
+    is = pageContext.getServletContext().getResourceAsStream(uri);
+    return is;
   }
 
   public TagLibraryInfo[] getTagLibraryInfos()
