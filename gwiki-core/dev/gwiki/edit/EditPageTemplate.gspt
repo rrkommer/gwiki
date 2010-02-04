@@ -17,6 +17,13 @@
 </style>
 
 <script>
+var gwikiCurrentPart = '';
+var gwikiParts = new Array();
+<% for (me in form.editors) { %>
+gwikiParts.push('<%= me.key %>');
+<% } %>
+gwikiCurrentPart = gwikiParts[0];
+
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 <%
@@ -43,21 +50,7 @@ function onSave()
 }
 </script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
-<%--
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<script type="text/javascript" src="<gwiki:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-link-dialog-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-wikiops-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-toolbar-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-wikitextarea-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-frame-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-htmledit-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/tiny_mce/plugins/gwiki/editor_plugin_src.js'/>"></script> 
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/heartbeat.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/edit_area/edit_area_full.js'/>"></script>
- --%>
+
 <gwiki:errors />
 
 
@@ -199,10 +192,13 @@ var saveAsync = 	function () {
 }  	
 	
   \$(document).ready(function(){
-    var tabs = \$("#tabs").tabs({ selected: 0 });
+    var tabs = \$("#tabs").tabs(
+        	{ selected: 0,
+        		select: function(event, ui) {
+        		gwikiCurrentPart = gwikiParts[ui.index];
+        	}    	 
+          });
     
-    \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
-
     \$('.wikiPageEditText').autocomplete(
     		'<gwiki:url value="/edit/PageSuggestions"/>', 
     {
@@ -224,7 +220,7 @@ var saveAsync = 	function () {
  });
   
 </script>
-<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
+<%--<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>  --%>
 
 <% } %>
 </form>
