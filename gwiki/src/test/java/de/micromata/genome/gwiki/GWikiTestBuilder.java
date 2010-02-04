@@ -51,12 +51,12 @@ public class GWikiTestBuilder
     GenomeTemplateUtils.IN_UNITEST = true;
     MockServletConfig msc = new MockServletConfig();
     msc.setServletName("gwiki");
-    SimServletContext sc = new SimServletContext("gwiki", "dev/gwikiweb");
+    SimServletContext sc = new SimServletContext("gwiki", "src/test/external_resources/webapp");
     Map<String, String> initParams = new HashMap<String, String>();
     initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className",
         GwikiFileContextBootstrapConfigLoader.class.getName());
     initParams
-        .put("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName", "dev/jettydev/GWikiContext.xml");
+        .put("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName", "src/main/external_resources/GWikiContext.xml");
     sc.setServlet(GWikiServlet.class, "gwiki", initParams);
     msc.setServletContext(sc);
     servlet = GWikiServlet.INSTANCE;
