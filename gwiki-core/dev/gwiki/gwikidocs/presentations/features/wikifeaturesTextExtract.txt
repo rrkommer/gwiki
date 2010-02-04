@@ -1,2 +1,189 @@
 
+
+Webpages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function displayHilfeLayer(content, backwardscompparam){
+            Tip(content,
+                    STICKY, true,
+                    CLICKCLOSE, false,
+                    WIDTH, 300,
+                    BGCOLOR,'#EEEEEE',
+                    BORDERCOLOR,'#FFFFFF',
+                    FONTSIZE, "0.8em",
+                    FONTFACE, "Arial, Helvetica, sans-serif",
+                    FONTCOLOR, '#000000',
+                    CLOSEBTNPOP,true,
+                    CLOSEBTNIMG, "/static/skins/dhl2009/img/closetooltips.gif"
+                    );
+        }
+        
+
+
 Presentation GWiki Features
+
+
+
+
+
+
+
+
+
+
+
+>>>>  
+ 
+ 	
+ 
+		
+
+	GWiki Presentationen
+	
+	Presentation GWiki FeaturesGWiki JUGH 2010 Presentation
+
+
+$(document).ready(function(){
+	$('#presentationlayer').contextMenu('#editmenu');
+	$('#presentationtitle').contextMenu('#editmenu');
+});
+
+
+
+Presentation GWiki Features
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function displayHilfeLayer(content, backwardscompparam){
+            Tip(content,
+                    STICKY, true,
+                    CLICKCLOSE, false,
+                    WIDTH, 300,
+                    BGCOLOR,'#EEEEEE',
+                    BORDERCOLOR,'#FFFFFF',
+                    FONTSIZE, "0.8em",
+                    FONTFACE, "Arial, Helvetica, sans-serif",
+                    FONTCOLOR, '#000000',
+                    CLOSEBTNPOP,true,
+                    CLOSEBTNIMG, "/static/skins/dhl2009/img/closetooltips.gif"
+                    );
+        }
+        
+
+
+Presentation GWiki Features
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>  
+ 
+ 	
+ 
+		
+
+	GWiki Presentationen
+	
+	Presentation GWiki FeaturesGWiki JUGH 2010 Presentation
+
+
+$(document).ready(function(){
+	$('#presentationlayer').contextMenu('#editmenu');
+	$('#presentationtitle').contextMenu('#editmenu');
+});
+
+
+
+Presentation GWiki Features
+
+
+
+Java 1.5 oder 1.6Desktop (Jetty)Tomcat, BEA oder anderer ServletcontainerStandalone & IntegriertAblage in Dateisystem, Speicher (ZIP) oder Datenbank.
+
+
+
+$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  $('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
+
+
+
+
+
+
+Presentation GWiki FeaturesHeader PresentationFooter Presentation
