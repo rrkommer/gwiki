@@ -21,6 +21,12 @@ import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.ScriptUtils;
 
+/**
+ * Context for render a property editor.
+ * 
+ * @author roger
+ * 
+ */
 public class PropsEditContext
 {
   private GWikiContext wikiContext;

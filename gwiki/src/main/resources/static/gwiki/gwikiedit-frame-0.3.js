@@ -1,11 +1,9 @@
 var gwikiContentChanged = false;
 
 function gwikiSetContentChanged() {
-	// alert('content changed');
 	gwikiContentChanged = true;
 }
 function gwikiUnsetContentChanged() {
-	// alert('clear content changed');
 	gwikiContentChanged = false;
 }
 function gwikiOnUnload() {
@@ -15,10 +13,9 @@ function gwikiOnUnload() {
 }
 
 window.onbeforeunload = gwikiOnUnload;
-// alert('now activate unloading');
 
-function gwikiCreateHtmlEditor(content) {
-	gwikiCreateTiny(content);
+function gwikiCreateHtmlEditor(partName, content) {
+	gwikiCreateTiny(partName, content);
 }
 var preContent = '';
 var htmlIsNotDirty = true;
@@ -33,8 +30,8 @@ function gwikiEditCleanup(type, value) {
 	return value;
 }
 
-function gwikiCreateTiny(content) {
-	var ed = tinyMCE.get('gwikihtmledit');
+function gwikiCreateTiny(partName, content) {
+	var ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (ed) {
 		ed.setContent(content);
 		preContent = content;
@@ -78,17 +75,16 @@ function gwikiCreateTiny(content) {
 				content_css : gwikiContentCss,
 				setup : function(ed) {
 					ed.onChange.add(function(ed, l) {
-						// alert('Editor contents was modified. Contents: ' + l.content);
 							ed.isNotDirty = false;
 							htmlIsNotDirty = false;
 							gwikiSetContentChanged();
 						});
 				}
 			});
-	ed = tinyMCE.get('gwikihtmledit');
+	ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (!ed) {
-		tinyMCE.execCommand('mceAddControl', false, 'gwikihtmledit');
-		ed = tinyMCE.get('gwikihtmledit');
+		tinyMCE.execCommand('mceAddControl', false, 'gwikihtmledit' + partName);
+		ed = tinyMCE.get('gwikihtmledit' + partName);
 		// var ed = new tinymce.Editor('gwikihtmledit');
 	}
 	if (ed) {
@@ -104,12 +100,10 @@ function gwikiCreateTiny(content) {
 		'width' : "100%",
 		'height' : '100%'
 	});
-	// alert('content set');
-
 }
 
-function gwikiRestoreFromRte() {
-	var edit = tinyMCE.get('gwikihtmledit');
+function gwikiRestoreFromRte(partName) {
+	var edit = tinyMCE.get('gwikihtmledit' + partName);
 	if (!edit) {
 		// alert('edit not found');
 		return true;
@@ -126,7 +120,7 @@ function gwikiRestoreFromRte() {
 	}
 	var content = edit.getContent();
 	// alert("gwk: " + content);
-	tinyMCE.execCommand('mceRemoveControl', false, 'gwikihtmledit');
+	tinyMCE.execCommand('mceRemoveControl', false, 'gwikihtmledit' + partName);
 	tinyMCE.remove(edit);
 	jQuery.ajax( {
 		async : false,
@@ -156,10 +150,11 @@ function gwikiRelaodPreviewFrame() {
 }
 
 function gwikicreateEditTab(partName) {
+	var pn = partName;
 	$(document)
 			.ready(
 					function() {
-						$("#gwikiwktabs")
+						$("#gwikiwktabs" + pn)
 								.tabs( {
 									select : function(event, ui) {
 										// ui.tab // anchor element of the selected (clicked) tab
@@ -169,7 +164,7 @@ function gwikicreateEditTab(partName) {
 										// jQuery('#WikiPreview').html("Loading...");
 
 										if (ui.index != 1) {
-											gwikiRestoreFromRte();
+											gwikiRestoreFromRte(pn);
 										}
 										if (ui.index == 1) {
 											var frmqs = jQuery("#editForm").serialize();
@@ -184,16 +179,15 @@ function gwikicreateEditTab(partName) {
 															if (status == "success"
 																	|| status == "notmodified") {
 																if (res.status == 200) {
-																	if (!$('#gwikihtmledit').length) {
-																		var te = "<textarea rows='40' cols='100' id='gwikihtmledit'>";
-																		$('#WikiRte').html(te);
+																	if (!$('#gwikihtmledit' + pn).length) {
+																		var te = "<textarea rows='40' cols='100' id='gwikihtmledit" + pn + "'>";
+																		$('#WikiRte' + pn).html(te);
 																	}
-																	$('#gwikihtmledit').val(res.responseText);
-																	// CKEDITOR.replace('gwikihtmledit');
-																	gwikiCreateHtmlEditor(res.responseText);
+																	$('#gwikihtmledit' + pn).val(res.responseText);
+																	gwikiCreateHtmlEditor(pn, res.responseText);
 																	window
 																			.setTimeout(
-																					"ajustScreen('gwikiWikiEditorFrame')",
+																					"ajustScreen('gwikiWikiEditorFrame" + pn + "')",
 																					50);
 																	// ajustScreen('gwikiWikiEditorFrame');
 																} else {
@@ -217,7 +211,7 @@ function gwikicreateEditTab(partName) {
 																	|| status == "notmodified") {
 																if (res.status == 200) {
 																	var html = res.responseText
-																	document.getElementById('WikiPreview').innerHTML = html;
+																	document.getElementById('WikiPreview' + pn).innerHTML = html;
 																} else {
 																	alert("Failure rendering Preview: "
 																			+ res.responseText);
@@ -233,28 +227,30 @@ function gwikicreateEditTab(partName) {
 }
 
 window.onresize = function(event) {
-	var framId = 'gwikiWikiEditorFrame';
+	var pn = gwikiCurrentPart;
+	var framId = 'gwikiWikiEditorFrame' + pn;
 	if ($("#" + framId).hasClass("fullscreen") == true) {
-		//alert('resized now');
-		gwikimaximizeWindow(framId);
+		gwikimaximizeWindow(framId, pn);
 	}
 }
 
 
 function gwikiFullscreen(framId) {
-
-	if ($("#" + framId).hasClass("fullscreen") == false) {
-		gwikimaximizeWindow(framId);
+	var pn = gwikiCurrentPart;
+	//alert("framId: " + framId);
+	if ($("#" + framId + pn).hasClass("fullscreen") == false) {
+		gwikimaximizeWindow(framId + pn, pn);
 	} else {
-		gwikirestoreWindow(framId);
+		gwikirestoreWindow(framId + pn, pn);
 	}
 }
 
 function ajustScreen(framId) {
-	if ($("#" + framId).hasClass("fullscreen") == false) {
-		gwikirestoreWindow(framId);
+	var pn = gwikiCurrentPart;
+	if ($("#" + framId + pn).hasClass("fullscreen") == false) {
+		gwikirestoreWindow(framId + pn, pn);
 	} else {
-		gwikimaximizeWindow(framId);
+		gwikimaximizeWindow(framId + pn, pn);
 	}
 }
 function getViewPort()
@@ -268,15 +264,15 @@ function getViewPort()
 		h : window.innerHeight || b.clientHeight
 	};
 }
-function gwikimaximizeWindow(framId) {
+function gwikimaximizeWindow(framId, partName) {
 	var vp = getViewPort();
-	//alert("vp: w: " + vp.w + ";h: " + vp.w);
+	var pn = partName;
 	var ie6 = jQuery.browser.version == '6.0' &&  jQuery.browser.msie == true;
 	var position = (ie6 || (jQuery.browser.msie && ! jQuery.support.boxModel)) ? 'absolute' : 'fixed';
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css( {
 		'position' : position,
-		'z-index' : '900',
+		'z-index' : '999999',
 		'left' : '0px',
 		'top' : '0px',
 		'width' : vp.w - 9, // width + 'px',
@@ -293,7 +289,7 @@ function gwikimaximizeWindow(framId) {
 		'width' : '100%',
 		'height' : vp.h - 90 //height - 120//200
 	});
-	var ed = tinyMCE.get('gwikihtmledit');
+	var ed = tinyMCE.get('gwikihtmledit' + pn);
 	if (ed) {
 		$(ed.getContainer()).css( {
 			// 'position' : 'relative',
@@ -303,11 +299,11 @@ function gwikimaximizeWindow(framId) {
 			'height' : '100%'
 		});
 	}
-	$("#WikiEdit").css( {
+	$("#WikiEdit" + pn).css( {
 		'width' : "100%",
 		'height' : '100%'
 	});
-	$("#WikiRte").css( {
+	$("#WikiRte" + pn).css( {
 		// 'position' : 'relative',
 		'left' : '0px',
 		'top' : '0px',
@@ -315,14 +311,14 @@ function gwikimaximizeWindow(framId) {
 		'height' : '100%'
 	});
 
-	$("#gwikihtmledit_parent").css( {
+	$("#gwikihtmledit" + pn + "_parent").css( {
 		// 'position' : 'relative',
 		'left' : '0px',
 		'top' : '0px',
 		'width' : "100%",
 		'height' : '100%'
 	});
-	$("#gwikiwktabs").css( {
+	$("#gwikiwktabs" + pn).css( {
 		// 'position' : 'relative',
 		'left' : '0px',
 		'left' : '0px',
@@ -331,7 +327,7 @@ function gwikimaximizeWindow(framId) {
 		'height' : '100%'
 	});
 
-	$("#WikiPreview").css( {
+	$("#WikiPreview" + pn).css( {
 		'position' : 'relative',
 		'left' : '0px',
 		'top' : '0px',
@@ -339,7 +335,7 @@ function gwikimaximizeWindow(framId) {
 		'height' : '100%'
 	});
 	// das ist es:
-	$("#gwikihtmledit_tbl").css( {
+	$("#gwikihtmledit" + pn + "_tbl").css( {
 		'position' : 'relative',
 		'left' : '0px',
 		// 'right' : '10px',
@@ -348,17 +344,17 @@ function gwikimaximizeWindow(framId) {
 		'width' : "100%",
 		'height' : '100%'
 	});
-	$("#gwikihtmledit_ifr").css( {
+	$("#gwikihtmledit" +pn + "_ifr").css( {
 		'position' : 'relative',
 		'left' : '0px',
 		// 'right' : '10px',
 		'top' : '0px',
-		'width' : "100%",
-		'height' : '100%'// - 110
+		'width' : "100%"//,
+		//'height' : '100%'// - 110
 	});
 
-	if ($("#gwikihtmledit").length) {
-		$("#gwikihtmledit").css( {
+	if ($("#gwikihtmledit" + pn).length) {
+		$("#gwikihtmledit" + pn).css( {
 			'position' : 'relative',
 			'left' : '0px',
 			'top' : '0px',
@@ -386,12 +382,12 @@ function gwikirestoreWindow(framId) {
 }
 
 function gwikiShowFullPreview() {
-	gwikiRestoreFromRte();
+	gwikiRestoreFromRte(gwikiCurrentPart);
 	gwikiUnsetContentChanged();
 	jQuery("#gwikieditpreviewbutton").click();
 }
 function gwikiEditSave() {
-	gwikiRestoreFromRte();
+	gwikiRestoreFromRte(gwikiCurrentPart);
 	gwikiUnsetContentChanged();
 	jQuery("#gwikieditsavebutton").click();
 }
@@ -410,40 +406,4 @@ function gwikiHelp() {
 	}
 	// myWindow.moveTo(40, 40);
 	myWindow.focus();
-}
-function gwikiCreateCKEDITOR() {
-	var editor = CKEDITOR.replace('gwikihtmledit', {
-		// Defines a simpler toolbar to be used in this
-		// sample.
-		// Note that we have added out "MyButton" button
-		// here.
-		toolbar : [ [ /* 'Source', '-', */'Bold', 'Italic', 'Underline', 'Strike',
-				'-', 'Link', '-', 'MyButton' ] ],
-		uiColor : '#9AB8F3'
-	});
-	editor.on('pluginsLoaded', function(ev) {
-		// If our custom dialog has not been registered, do that now.
-			if (!CKEDITOR.dialog.exists('myDialog')) {
-				// We need to do the following trick to find out the dialog
-			// definition file URL path. In the real world, you would simply
-			// point to an absolute path directly, like "/mydir/mydialog.js".
-			var href = document.location.href.split('/');
-			href.pop();
-			href.push('api_dialog', 'my_dialog.js');
-			href = href.join('/');
-
-			// Finally, register the dialog.
-			CKEDITOR.dialog.add('myDialog', href);
-		}
-
-		// Register the command used to open the dialog.
-		editor.addCommand('myDialogCmd', new CKEDITOR.dialogCommand('myDialog'));
-
-		// Add the a custom toolbar buttons, which fires the above
-		// command..
-		editor.ui.addButton('MyButton', {
-			label : 'My Dialog',
-			command : 'myDialogCmd'
-		});
-	});
 }

@@ -13,12 +13,14 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 (function($) {
 	$.fn.gwikiedit = function(settings) {
 		var field = this;
+		//alert("field: " + $(field).attr('id'));
 		gwikiEditField = field;
 		var currentSearchType = '';
 		var maximized = false;
+		var pn = settings['partName'];
 		options = {
 			parentPageId : '',
-			partName : '',
+			partName : pn,
 			linkAutoCompleteUrl : '',
 			editorClassName : "gwiki-editor",
 			toolBarClassName : "gwiki-toolBar",

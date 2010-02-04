@@ -71,7 +71,7 @@ public class GWikiServlet extends HttpServlet
   }
 
   @Override
-  public void init(final ServletConfig config) throws ServletException
+  public void init(ServletConfig config) throws ServletException
   {
     super.init(config);
     if (daoContext == null) {
@@ -86,7 +86,7 @@ public class GWikiServlet extends HttpServlet
 
   }
 
-  protected void initWiki(final HttpServletRequest req, final HttpServletResponse resp)
+  protected void initWiki(HttpServletRequest req, HttpServletResponse resp)
   {
     if (wiki != null && wiki.getWikiConfig() != null) {
       return;
@@ -106,7 +106,7 @@ public class GWikiServlet extends HttpServlet
     }
   }
 
-  protected String getWikiPage(final GWikiContext ctx)
+  protected String getWikiPage(GWikiContext ctx)
   {
     String servPath = ctx.getRequest().getServletPath();
     String pathInfo = ctx.getRequest().getPathInfo();
@@ -121,7 +121,7 @@ public class GWikiServlet extends HttpServlet
   }
 
   @Override
-  protected void service(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException
+  protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
     initWiki(req, resp);
     long start = System.currentTimeMillis();
@@ -129,10 +129,6 @@ public class GWikiServlet extends HttpServlet
     try {
       GWikiContext.setCurrent(ctx);
       String page = getWikiPage(ctx);
-
-      if (page.equals("")) {
-        page = "index";
-      }
 
       if (page.equals("dav") == true || page.startsWith("dav/") == true) {
         serveWebDav(ctx);
@@ -156,7 +152,7 @@ public class GWikiServlet extends HttpServlet
     }
   }
 
-  protected InputStream getStaticResource(final String res, final GWikiContext wikiContext) throws ServletException, IOException
+  protected InputStream getStaticResource(String res, GWikiContext wikiContext) throws ServletException, IOException
   {
     if (daoContext.isStaticContentFromClassPath() == true) {
       return GWikiServlet.class.getResourceAsStream(res);
@@ -165,7 +161,7 @@ public class GWikiServlet extends HttpServlet
     }
   }
 
-  protected void serveStatic(final String page, final GWikiContext wikiContext) throws ServletException, IOException
+  protected void serveStatic(String page, GWikiContext wikiContext) throws ServletException, IOException
   {
     String res = "/" + page;
     HttpServletResponse resp = wikiContext.getResponse();
@@ -188,15 +184,14 @@ public class GWikiServlet extends HttpServlet
 
     byte[] data = IOUtils.toByteArray(is);
     IOUtils.closeQuietly(is);
-    resp.setContentLength(data.length);
+    resp.setContentLength((int) data.length);
     IOUtils.write(data, resp.getOutputStream());
   }
 
-  public synchronized HttpManager getHttpManager(final HttpServletRequest req)
+  public synchronized HttpManager getHttpManager(HttpServletRequest req)
   {
-    if (httpManager != null) {
+    if (httpManager != null)
       return httpManager;
-    }
 
     GWikiStorage wkStorage = GWikiServlet.INSTANCE.getDAOContext().getStorage();
     FileSystem storage = null;
@@ -223,7 +218,7 @@ public class GWikiServlet extends HttpServlet
     return httpManager;
   }
 
-  protected void serveWebDav(final GWikiContext ctx) throws ServletException, IOException
+  protected void serveWebDav(GWikiContext ctx) throws ServletException, IOException
   {
     if (daoContext.isEnableWebDav() == false) {
       ctx.getResponse().sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "GWiki webdav not enabled");
@@ -239,7 +234,7 @@ public class GWikiServlet extends HttpServlet
     return daoContext;
   }
 
-  public void setDAOContext(final GWikiDAOContext daoContext)
+  public void setDAOContext(GWikiDAOContext daoContext)
   {
     this.daoContext = daoContext;
   }

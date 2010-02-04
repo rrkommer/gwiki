@@ -92,11 +92,11 @@ public class FileSystemTestSuite extends TestSuite
   public static void createSuite(FileSystemTestSuite suite, String name, FileSystem fsys)
   {
 
-    for (Method m : FileSystemTest.class.getDeclaredMethods()) {
+    for (Method m : FileSystemCase.class.getDeclaredMethods()) {
       if (isTestMethod(m) == false) {
         continue;
       }
-      FileSystemTest test = new FileSystemTest(name, fsys);
+      FileSystemCase test = new FileSystemCase(name, fsys){};
       test.setName(m.getName());
       suite.addTest(test);
     }

@@ -71,10 +71,10 @@ public class GWikiErrorsTag extends TagSupport
   protected void initHeaderFooter()
   {
     if (header == null) {
-      header = "<ul>";
+      header = "<ul class='error'>";
     }
     if (footer == null) {
-      footer = "</u>";
+      footer = "</ul>";
     }
     if (prefix == null) {
       prefix = "<li>";

@@ -89,11 +89,25 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
     return el;
   }
 
+  public GWikiSimpleUser findFallbackUser(GWikiContext ctx, String user)
+  {
+    String wdun = ctx.getWikiWeb().getDaoContext().getWebDavUserName();
+    if (StringUtils.equals(wdun, user) == false) {
+      return null;
+    }
+    GWikiSimpleUser wdu = new GWikiSimpleUser(wdun, ctx.getWikiWeb().getDaoContext().getWebDavPasswordHash(), "gwiki-noreply@micromata.de",
+        "+*");
+    return wdu;
+  }
+
   public GWikiSimpleUser findUser(GWikiContext ctx, String user)
   {
+    if (StringUtils.isBlank(user) == true) {
+      return null;
+    }
     GWikiElement el = findUserElement(ctx, user);
     if (el == null) {
-      return null;
+      return findFallbackUser(ctx, user);
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiProps props = (GWikiProps) ser;

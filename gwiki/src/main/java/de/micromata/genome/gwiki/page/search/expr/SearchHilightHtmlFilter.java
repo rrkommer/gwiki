@@ -20,6 +20,12 @@ import org.apache.xerces.xni.XNIException;
 
 import de.micromata.genome.gwiki.utils.html.PassthroughHtmlFilter;
 
+/**
+ * Filter to highlight words in HTML.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchHilightHtmlFilter extends PassthroughHtmlFilter
 {
   private List<String> words;
@@ -35,30 +41,13 @@ public class SearchHilightHtmlFilter extends PassthroughHtmlFilter
   @Override
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
+    if (ignoreLevel > 0) {
+      super.characters(text, augs);
+      return;
+    }
     String rt = text.toString();
-
-    //    
-    // int lastIdx = 0;
-    // Pair<Integer, String> p = StringUtils.indexOfAny(rt, lastIdx, words);
-    // int idx = p.getFirst();
-    // if (idx == -1) {
-    // super.characters(text, augs);
-    // return;
-    // }
     String sr = SearchUtils.sampleToHtml(rt, words, "<span style=\"background-color:#FFFF66;\">", "</span>");
     fPrinter.print(sr);
-    //    
-    // while (p.getFirst() != -1) {
-    // if (p.getFirst() > lastIdx) {
-    // printCharacters(new XMLString(rt.toCharArray(), lastIdx, p.getFirst() - lastIdx), true);
-    // }
-    // fPrinter.print("<span style=\"background-color:#FFFF66;\">");
-    // printCharacters(new XMLString(p.getSecond().toCharArray(), 0, p.getSecond().length()), true);
-    // fPrinter.print("</span>");
-    // lastIdx = p.getFirst() + p.getSecond().length();
-    // p = StringUtils.indexOfAny(rt, lastIdx, words);
-    // }
-    // printCharacters(new XMLString(rt.toCharArray(), lastIdx, rt.length() - lastIdx), true);
   }
 
   @Override

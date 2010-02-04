@@ -1,17 +1,29 @@
 <% form = pageContext.getRequest().getAttribute('form'); 
-	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); } %>
+	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); }
+	 wikiContext.requiredJs.add("/static/gwiki/heartbeat.js");
+%>
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <style>
 .ui-tabs .ui-tabs-hide {
-    position: absolute;
+    position: absolute; 
     left: -10000px;
+    /*width: 400px; */
     display: inline !important;
-    position:fixed ;
+    z-index: -99999;
+    /*position:fixed ; */
 }
 </style>
+
 <script>
+var gwikiCurrentPart = '';
+var gwikiParts = new Array();
+<% for (me in form.editors) { %>
+gwikiParts.push('<%= me.key %>');
+<% } %>
+gwikiCurrentPart = gwikiParts[0];
+
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 <%
@@ -38,21 +50,7 @@ function onSave()
 }
 </script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
-<%--
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<script type="text/javascript" src="<gwiki:url value="/static/tiny_mce/tiny_mce_src.js"/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-link-dialog-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-wikiops-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-toolbar-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-wikitextarea-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-frame-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwikiedit-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-htmledit-0.3.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/tiny_mce/plugins/gwiki/editor_plugin_src.js'/>"></script> 
-<script type="text/javascript" src="<gwiki:url value='/static/gwiki/heartbeat.js'/>"></script>
-<script type="text/javascript" src="<gwiki:url value='/static/edit_area/edit_area_full.js'/>"></script>
- --%>
+
 <gwiki:errors />
 
 
@@ -87,8 +85,8 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 			<html:optionsCollection property="availableMetaTemplates" label="key" value="value" />
 		</html:select>
 </p>
-	<input type="submit" name="method_onInit" value="<fmt:message key="gwiki.edit.EditPage.button.create"/>">
-	<input type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
+	<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.edit.EditPage.button.create"/>">
+	<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 <% } else if (form.initalBackup == true) { %>
 <script>
 function viewBackupDiff()
@@ -109,8 +107,8 @@ function viewBackupDiff()
 		Soll diese weiterbearbeitet werden?<br/>
 		<a target="_blank" href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true">Seite anschauen</a><br/>
 		<br/>
-		<input type="submit" name="method_onInitDeleteBackup" value="Sicherung verwerfen">
-		<input type="submit" name="method_onInitLoadBackup" value="Sicherung laden und weiter bearbeiten">
+		<input class="gwikiButton main" type="submit" name="method_onInitDeleteBackup" value="Sicherung verwerfen">
+		<input class="gwikiButton main" type="submit" name="method_onInitLoadBackup" value="Sicherung laden und weiter bearbeiten">
 <% } else { %>
 
 <div id="backupInfo">	
@@ -119,6 +117,9 @@ function viewBackupDiff()
 <a href="javascript:restoreBackup()">Letzte Sicherung vom <%= wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt()) %> wieder herstellen</a><br/>
 <% } %>
 </div>
+<c:if test="${form.newPage == true}">
+	<fmt:message key="gwiki.edit.EditPage.label.path"/> <html:text styleId="editPageTitle" size="80" property="storePath" /><br/>
+</c:if>
 	<fmt:message key="gwiki.edit.EditPage.label.title"/>
 	<html:text styleId="editPageTitle" size="80" property="title" /><br/>
 
@@ -129,13 +130,13 @@ function viewBackupDiff()
 
 
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
-	<input id="gwikieditpreviewbutton" type="submit" onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>">
+	<input id="gwikieditpreviewbutton" type="submit" class="gwikiButton"  onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>">
 </c:if>
-<input id="gwikieditsavebutton" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
-<input id="gwikieditcancelbutton" onclick="gwikiContentChanged=false;" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
+<input id="gwikieditsavebutton" class="gwikiButton" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
+<input id="gwikieditcancelbutton" class="gwikiButton" onclick="gwikiContentChanged=false;" class="gwikiButton main" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 <c:if test="${form.newPage == false}">
-<input type="submit" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>">
-<input type="submit" onclick="gwikiContentChanged=false;" name="method_onDelete" value="<fmt:message key="gwiki.edit.button.delete"/>">
+<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>">
+<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onDelete" value="<fmt:message key="gwiki.edit.button.delete"/>">
 </c:if> 
 <html:checkbox property="noNotificationEmails"/><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails"/> 
 <html:hidden property="newPage" />
@@ -191,10 +192,13 @@ var saveAsync = 	function () {
 }  	
 	
   \$(document).ready(function(){
-    var tabs = \$("#tabs").tabs({ selected: 0 });
+    var tabs = \$("#tabs").tabs(
+        	{ selected: 0,
+        		select: function(event, ui) {
+        		gwikiCurrentPart = gwikiParts[ui.index];
+        	}    	 
+          });
     
-    \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
-
     \$('.wikiPageEditText').autocomplete(
     		'<gwiki:url value="/edit/PageSuggestions"/>', 
     {
@@ -216,7 +220,7 @@ var saveAsync = 	function () {
  });
   
 </script>
-<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>
+<%--<script type="text/javascript" src="<gwiki:url value='/static/tabindent/jquery.tabindent-0.1.js'/>"></script>  --%>
 
 <% } %>
 </form>

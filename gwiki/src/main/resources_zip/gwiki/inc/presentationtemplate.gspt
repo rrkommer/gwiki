@@ -39,13 +39,31 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 
 <h1 id="presentationtitle" <% if (nextSibl != null) { %> ondblclick="document.location.href='<%= wikiContext.localUrl(nextSibl.id) %>';" <%}%> style="font-size:2.0em;text-align: center;"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
 <div <% if (nextSibl != null) { %> ondblclick="document.location.href='<%= wikiContext.localUrl(nextSibl.id) %>';" <%}%>  id="presentationlayer" style="font-size:2.0em">
+<div id="prescorr">
 <% } %>
 <%
 	MainPage.render(wikiContext);
 %>
+</div>
+<script>
+\$(document).ready(function() {
+		var th = 400;
+	  var l = $("#presentationlayer");
+	  var rtio = th / l.height();
+	  if (rtio > 1.5) {
+		  rtio = 1.5;
+	  }
+	  /*if (rtio < 0.8) {
+		  rtio = 0.8;
+	  }*/
+	  \$('#prescorr').css('font-size', "" + rtio + 'em');
+	}
+);
+</script>
 <% if (editMode) { %>
 <@include embedd="false" file="inc/naked/standardfoot"@>
 <% } else { %>
 </div>
-<@include embedd="false" file="inc/naked/footer"@>
+</body>
+</html>
 <% } %>

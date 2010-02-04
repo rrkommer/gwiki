@@ -9,7 +9,8 @@
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CREATEDAT" />
-					<property name="description" value="Erzeugt am" />
+					<property name="label" value="I{gwiki.settings.CREATEDAT.label}" />
+					<property name="description" value="I{gwiki.settings.CREATEDAT.description}" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="type" value="DATE" />
 					<property name="controlerScript">
@@ -29,7 +30,8 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CREATEDBY" />
-					<property name="description" value="Erzeugt von" />
+					<property name="label" value="I{gwiki.settings.CREATEDBY.label}" />
+					<property name="description" value="I{gwiki.settings.CREATEDBY.description}" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -46,7 +48,8 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="MODIFIEDAT" />
-					<property name="description" value="Geändert am" />
+					<property name="label" value="I{gwiki.settings.MODIFIEDAT.label}" />
+					<property name="description" value="I{gwiki.settings.MODIFIEDAT.description}" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="type" value="DATE" />
 					<property name="controlerScript">
@@ -63,7 +66,8 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="MODIFIEDBY" />
-					<property name="description" value="Geändert von" />
+					<property name="label" value="I{gwiki.settings.MODIFIEDBY.label}" />
+					<property name="description" value="I{gwiki.settings.MODIFIEDBY.description}" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -78,14 +82,16 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="TYPE" />
-					<property name="description" value="Typ der Seite" />
+					<property name="label" value="I{gwiki.settings.TYPE.label}" />
+					<property name="description" value="I{gwiki.settings.TYPE.description}" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="requiresValue" value="true" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="PARENTPAGE" />
-					<property name="description" value="PageId der übergeordneten Seite" />
+					<property name="label" value="I{gwiki.settings.PARENTPAGE.label}" />
+					<property name="description" value="I{gwiki.settings.PARENTPAGE.description}" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="PAGEID" />
 					<property name="controlerScript">
@@ -122,15 +128,16 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="NOINDEX" />
-					<property name="description"
-						value="Falls auf true gesetzt, wird diese Seite nicht in den Index uebernommen" />
+					<property name="label" value="I{gwiki.settings.NOINDEX.label}" />
+					<property name="description" value="I{gwiki.settings.NOINDEX.description}" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="BOOLEAN" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="AUTH_VIEW" />
-					<property name="description" value="Recht fuer das Ansehen" />
+					<property name="label" value="I{gwiki.settings.AUTH_VIEW.label}" />
+					<property name="description" value="I{gwiki.settings.AUTH_VIEW.description}" />
 					<property name="readOnly" value="false" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -172,7 +179,8 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="AUTH_EDIT" />
-					<property name="description" value="Recht fuer das Ändern" />
+					<property name="label" value="I{gwiki.settings.AUTH_EDIT.label}" />
+					<property name="description" value="I{gwiki.settings.AUTH_EDIT.description}" />
 					<property name="readOnly" value="false" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -208,92 +216,54 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CONTENTYPE" />
-					<property name="description" value="Mime Type der Ressource" />
+					<property name="label" value="I{gwiki.settings.CONTENTYPE.label}" />
+					<property name="description" value="I{gwiki.settings.CONTENTYPE.description}" />
+					<property name="readOnly" value="false" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="LANG" />
+					<property name="label" value="I{gwiki.settings.LANG.label}" />
+					<property name="description" value="I{gwiki.settings.LANG.description}" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="ORDER" />
-					<property name="description"
-						value="Sortierreihenfolge innerhalb der Silblings" />
+					<property name="label" value="I{gwiki.settings.ORDER.label}" />
+					<property name="description" value="I{gwiki.settings.ORDER.description}" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="INTEGER" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKIMETATEMPLATE" />
-					<property name="description" value="Meta Template für diese Seite" />
+					<property name="label" value="I{gwiki.settings.WIKIMETATEMPLATE.label}" />
+					<property name="description" value="I{gwiki.settings.WIKIMETATEMPLATE.description}" />
 					<property name="readOnly" value="true" />
 					<property name="type" value="STRING" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKICONTROLERCLASS" />
-					<property name="description" value="Classenname der ActionBean" />
+					<property name="label" value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
+					<property name="description" value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
 					<property name="readOnly" value="false" />
 					<property name="requiredMetaTemplateId"
 						value="admin/templates/FullFeaturedMetaTemplate,admin/templates/StdProgMetaTemplate,StdProgMetaTemplate" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MACRO_WITH_BODY" />
-					<property name="description" value="Hat dieses Macro einen Body" />
-					<property name="readOnly" value="false" />
-					<property name="type" value="BOOLEAN" />
-					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MACRO_EVAL_BODY" />
-					<property name="description"
-						value="Soll der Body des Macros ausgewertet werden." />
-					<property name="readOnly" value="false" />
-					<property name="type" value="BOOLEAN" />
-					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MACRO_WITH_PREVIEW" />
-					<property name="description" value="Unterstützt das Macro Preview." />
-					<property name="readOnly" value="false" />
-					<property name="type" value="BOOLEAN" />
-					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MACRO_ARGUMENTS" />
-					<property name="description" value="Liste der Argumente des Macros." />
-					<property name="readOnly" value="false" />
-					<property name="type" value="STRINGLIST" />
-					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="NOVIEW" />
-					<property name="description" value="Seite kann nicht direkt angezeigt werden." />
-					<property name="readOnly" value="true" />
-					<property name="type" value="BOOLEAN" />
-					<property name="defaultValue" value="true" />
-					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="SIZE" />
-					<property name="description" value="Größe des Anhangs." />
-					<property name="readOnly" value="true" />
-					<property name="type" value="INTEGER" />
-					<property name="requiredMetaTemplateId" value="admin/templates/FileWikiPageMetaTemplate" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKISPACE" />
-					<property name="description" value="Page belongs to space" />
+					<property name="label" value="I{gwiki.settings.WIKISPACE.label}" />
+					<property name="description" value="I{gwiki.settings.WIKISPACE.description}" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="KEYWORDS" />
-					<property name="description" value="Schlüsselworte der Seite" />
+					<property name="label" value="I{gwiki.settings.KEYWORDS.label}" />
+					<property name="description" value="I{gwiki.settings.KEYWORDS.description}" />
 					<property name="type" value="STRINGLIST" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -309,11 +279,69 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="I18NMODULES" />
-					<property name="description" value="I18N Dateien fuer die Seite." />
+					<property name="label" value="I{gwiki.settings.I18NMODULES.label}" />
+					<property name="description" value="I{gwiki.settings.I18NMODULES.description}" />
 					<property name="type" value="PAGEIDLIST" />
 					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
 					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="NOVIEW" />
+					<property name="label" value="I{gwiki.settings.NOVIEW.label}" />
+					<property name="description" value="I{gwiki.settings.NOVIEW.description}" />
+					<property name="readOnly" value="true" />
+					<property name="type" value="BOOLEAN" />
+					<property name="defaultValue" value="true" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="MACRO_WITH_BODY" />
+					<property name="label" value="I{gwiki.settings.MACRO_WITH_BODY.label}" />
+					<property name="description" value="I{gwiki.settings.MACRO_WITH_BODY.description}" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="BOOLEAN" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="MACRO_EVAL_BODY" />
+					<property name="label" value="I{gwiki.settings.MACRO_EVAL_BODY.label}" />
+					<property name="description" value="I{gwiki.settings.MACRO_EVAL_BODY.description}" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="BOOLEAN" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="MACRO_WITH_PREVIEW" />
+					<property name="label" value="I{gwiki.settings.MACRO_WITH_PREVIEW.label}" />
+					<property name="description" value="I{gwiki.settings.MACRO_WITH_PREVIEW.description}" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="BOOLEAN" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="MACRO_ARGUMENTS" />
+					<property name="label" value="I{gwiki.settings.MACRO_ARGUMENTS.label}" />
+					<property name="description" value="I{gwiki.settings.MACRO_ARGUMENTS.description}" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="STRINGLIST" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
+				
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="SIZE" />
+					<property name="label" value="I{gwiki.settings.SIZE.label}" />
+					<property name="description" value="I{gwiki.settings.SIZE.description}" />
+					<property name="readOnly" value="true" />
+					<property name="type" value="INTEGER" />
+					<property name="requiredMetaTemplateId" value="admin/templates/FileWikiPageMetaTemplate" />
+				</bean>
+				
 			</list>
 		</property>
 	</bean>
