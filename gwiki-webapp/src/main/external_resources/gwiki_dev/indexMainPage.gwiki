@@ -1,9 +1,0 @@
-h2. Letzte Änderungen
-{html}<p>Letzte Änderungen am GWiki siehe {html}[gwikidocs/GWikiChangeLog]{html}.</p>{html}
-h2. Inhalt
-{children:depth=2|sort=title}
-h2. Zuletzt aktualisiert
-{recently}
-
-
-
