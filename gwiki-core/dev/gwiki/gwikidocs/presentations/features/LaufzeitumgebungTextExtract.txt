@@ -1,3 +1,3 @@
 
-Desktop (Jetty)Tomcat, BEA oder anderer ServletcontainerJava 1.5Standalone & IntegriertAblage in Dateisystem, Speicher (ZIP) oder Datenbank.
+Java 1.5 oder 1.6Desktop (Jetty)Tomcat, BEA oder anderer ServletcontainerStandalone & IntegriertAblage in Dateisystem, Speicher (ZIP) oder Datenbank.
 Laufzeitumgebung
