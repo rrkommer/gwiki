@@ -53,7 +53,7 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
       ctx.append("<th  valign=\"top\" width=\"" + columnWidth + "\">").append(ctx.getTranslatedProp(el.getElementInfo().getTitle())).append("</th></tr>");
       ctx.append("<tr height=\"" + rowHeight + "\"><td valign=\"top\">");
       /*oncontextmenu=\"alert('clicked');\" */
-      ctx.append("<div style=\"font-size:0.1em;size:0.1em;\"  ondblclick=\"document.location.href='"
+      ctx.append("<div style=\"font-size:0.3em;size:0.3em;\"  ondblclick=\"document.location.href='"
           + ctx.localUrl(el.getElementInfo().getId())
           + "';\">");
       exec.render(ctx);
