@@ -13,6 +13,7 @@ import javax.mail.Session;
 
 import org.apache.commons.lang.ObjectUtils;
 
+import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
@@ -74,6 +75,11 @@ public class GWikiDAOContext
 
   private boolean staticContentFromClassPath = false;
 
+  /**
+   * if set, serve static content from this location.
+   */
+  private FileSystem staticContentFileSystem;
+  
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -231,6 +237,16 @@ public class GWikiDAOContext
   public void setStaticContentFromClassPath(boolean staticContentFromClassPath)
   {
     this.staticContentFromClassPath = staticContentFromClassPath;
+  }
+
+  public FileSystem getStaticContentFileSystem()
+  {
+    return staticContentFileSystem;
+  }
+
+  public void setStaticContentFileSystem(FileSystem staticContentFileSystem)
+  {
+    this.staticContentFileSystem = staticContentFileSystem;
   }
 
 }

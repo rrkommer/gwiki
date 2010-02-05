@@ -41,7 +41,10 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
     if (beanFactory == null) {
       String sdata = getStorageData();
       Resource resource = new ByteArrayResource(Converter.bytesFromString(sdata));
-      beanFactory = new XmlBeanFactory(resource);
+      
+      XmlBeanFactory bf = new XmlBeanFactory(resource);
+      bf.setBeanClassLoader(Thread.currentThread().getContextClassLoader());
+      beanFactory = bf;
     }
     T bean = (T) beanFactory.getBean("config");
     return bean;

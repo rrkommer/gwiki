@@ -128,7 +128,7 @@ public class GWikiWeb
           return null;
         }
       });
-      
+
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;
@@ -198,6 +198,8 @@ public class GWikiWeb
     initStandardReqParams(ctx);
     GWikiElement el = findElement(pageId);
     if (el == null) {
+      GWikiLog.note("PageNot Found: " + pageId);
+      el = findElement(pageId);
       ctx.setRequestAttribute("NotFoundPageId", pageId);
       el = findElement("admin/PageNotFound");
       if (el == null)
@@ -443,9 +445,9 @@ public class GWikiWeb
     getStorage().deleteElement(wikiContext, element);
 
     GWikiPageCache pacheCache = daoContext.getPageCache();
-      pacheCache.clearCachedPages();
-      pacheCache.removePageInfo(element.getElementInfo().getId());
-    }
+    pacheCache.clearCachedPages();
+    pacheCache.removePageInfo(element.getElementInfo().getId());
+  }
 
   protected void onReplacePageInfo(GWikiElementInfo ei)
   {
@@ -467,11 +469,11 @@ public class GWikiWeb
     GWikiPageCache pageCache = daoContext.getPageCache();
     GWikiElementInfo ei = getStorage().loadElementInfo(pageId);
     if (ei == null) {
-        pageCache.removePageInfo(pageId);
+      pageCache.removePageInfo(pageId);
     } else {
-        pageCache.putPageInfo(ei);
-      }
-      pageCache.clearCachedPage(pageId);
+      pageCache.putPageInfo(ei);
+    }
+    pageCache.clearCachedPage(pageId);
   }
 
   public void restoreWikiPage(GWikiContext wikiContext, GWikiElement element)
