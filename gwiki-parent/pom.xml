@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<gwiki.version>0.0.1-SNAPSHOT</gwiki.version>
+		<gwiki.version>0.3.0</gwiki.version>
 	</properties>
 
 	<profiles>
@@ -63,7 +63,7 @@
 					<execution>
 						<inherited>true</inherited>
 						<id>attach-sources</id>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
 						</goals>
@@ -108,12 +108,13 @@
 		<repository>
 			<id>gwiki-releases</id>
 			<name>gwiki-releases</name>
-			<url>http://repo.micromata.priv:8081/nexus/content/</url>
+			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki</url>
 		</repository>
 		<snapshotRepository>
 			<id>gwiki-snapshots</id>
 			<name>gwiki-snapshots</name>
-			<url>http://repo.micromata.priv:8081/nexus/content/</url>
+			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki</url>
+			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
 
