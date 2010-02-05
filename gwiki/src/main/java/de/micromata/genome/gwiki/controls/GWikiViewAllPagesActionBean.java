@@ -86,7 +86,6 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
       withExport = false;
     }
-    // super.onInit();
     return null;
   }
 

@@ -9,8 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model.config;
 
-import javax.servlet.ServletConfig;
-
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -19,18 +18,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author roger@micromata.de
  * 
  */
-public class GWikiCpContextBootstrapConfigLoader implements GWikiBootstrapConfigLoader
+public class GWikiCpContextBootstrapConfigLoader extends GWikiAbstractSpringContextBootstrapConfigLoader
 {
 
-  public GWikiDAOContext loadConfig(ServletConfig config)
+  @Override
+  protected ConfigurableApplicationContext createApplicationContext(String fileName)
   {
-    String xmlFile = "GWikiContext.xml";
-    //Resource res = new ClassPathResource("GWikiContext.xml");
-
-    ClassPathXmlApplicationContext cpt = new ClassPathXmlApplicationContext(xmlFile);
-    cpt.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
-    cpt.refresh();
-    // BeanFactory bf = new XmlBeanFactory(res);
-    return (GWikiDAOContext) cpt.getBean("GWikiBootstrapConfig");
+    return new ClassPathXmlApplicationContext(fileName);
   }
 }
