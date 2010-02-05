@@ -12,60 +12,33 @@
 	<name>gwiki-standalone</name>
 	<build>
 		<plugins>
-		<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3</version>
-        <configuration>
-          <archive>
-            <index>true</index>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>de.micromata.genome.gwiki.jetty.GWikiJettyStarter</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-		</plugin>
-		<plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-5</version>
-        <configuration>
-          <descriptors>
-            <descriptor>src/maven/assembly/distribution.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
-		
-		<!--							
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>de.micromata.genome.gwiki</groupId>
-									<artifactId>gwiki</artifactId>
-									<version>0.0.1-SNAPSHOT</version>
-									<type>war</type>
-									<includes>**/*</includes>
-									<overWrite>false</overWrite>
-									<outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-							
-						</configuration>
-					</execution>
-				</executions>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>de.micromata.genome.gwiki.jetty.GWikiJettyStarter</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Built-By>Micromata GmbH</Built-By>
+						</manifestEntries>
+					</archive>
+				</configuration>
 			</plugin>
-			-->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-5</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/maven/assembly/distribution.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -108,7 +81,7 @@
 			<version>2.5</version>
 		</dependency>
 	</dependencies>
-	
+
 	<repositories>
 		<repository>
 			<id>central</id>
