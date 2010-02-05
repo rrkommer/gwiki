@@ -99,8 +99,8 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     nm.put(ei.getId(), ei);
     pageInfoMap = nm;
     if (notify == true) {
-    wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, ei, oldEi);
-  }
+      wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, ei, oldEi);
+    }
   }
 
   public boolean hasCachedPage(String pageId)
@@ -275,67 +275,67 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
 
       public void onFileSystemChanged(FileSystemEvent event)
       {
-          String fileName = event.getFileName();
-          String id = fileName.substring(0, fileName.length() - "Settings.properties".length());
-          if (id.startsWith("/") == true) {
-            id = id.substring(1);
-          }
-          switch (event.getEventType()) {
-            case Created:
-            case Modified: {
-              if (noCachePageIds.match(id) == true) {
-                break;
-              }
-              GWikiElementInfo oldEi = pageInfoMap.get(id);
+        String fileName = event.getFileName();
+        String id = fileName.substring(0, fileName.length() - "Settings.properties".length());
+        if (id.startsWith("/") == true) {
+          id = id.substring(1);
+        }
+        switch (event.getEventType()) {
+          case Created:
+          case Modified: {
+            if (noCachePageIds.match(id) == true) {
+              break;
+            }
+            GWikiElementInfo oldEi = pageInfoMap.get(id);
 
-              if (oldEi != null && oldEi.getLoadedTimeStamp() >= event.getTimeStamp()) {
-                break;
-              }
-              GWikiElementInfo newEi = storage.loadElementInfo(id);
-              if (newEi != null) {
+            if (oldEi != null && oldEi.getLoadedTimeStamp() >= event.getTimeStamp()) {
+              break;
+            }
+            GWikiElementInfo newEi = storage.loadElementInfo(id);
+            if (newEi != null) {
               putPageInfo(newEi, false);
-              }
-              if (newEi != null && newEi.getLoadedTimeStamp() >= event.getTimeStamp()) {
-                wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, oldEi);
-              }
-              clearCachedPage(id);
-              break;
             }
-            case Deleted: {
-              GWikiElementInfo oldEi = pageInfoMap.get(id);
-              if (oldEi != null) {
-                wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldEi);
-              }
-              clearCachedPage(id);
+            if (newEi != null && newEi.getLoadedTimeStamp() >= event.getTimeStamp()) {
+              wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, oldEi);
+            }
+            clearCachedPage(id);
+            break;
+          }
+          case Deleted: {
+            GWikiElementInfo oldEi = pageInfoMap.get(id);
+            if (oldEi != null) {
+              wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldEi);
+            }
+            clearCachedPage(id);
             removePageInfo(id, false);
+            break;
+          }
+          case Renamed: {
+            GWikiElementInfo newEi = null;
+            if (noCachePageIds.match(id) == false) {
+              newEi = storage.loadElementInfo(id);
+              if (newEi != null) {
+                putPageInfo(newEi, false);
+              }
+            }
+            String oldFileName = event.getOldFileName();
+            if (oldFileName.endsWith("Settings.properties") == false) {
               break;
             }
-            case Renamed: {
-              GWikiElementInfo newEi = null;
-              if (noCachePageIds.match(id) == false) {
-                newEi = storage.loadElementInfo(id);
-                if (newEi != null) {
-                putPageInfo(newEi, false);
-                }
-              }
-              String oldFileName = event.getOldFileName();
-              if (oldFileName.endsWith("Settings.properties") == false) {
-                break;
-              }
-              String oldId = oldFileName.substring(0, oldFileName.length() - "Settings.properties".length());
-              if (oldId.startsWith("/") == true) {
-                oldId = oldId.substring(1);
-              }
-              GWikiElementInfo oldEi = pageInfoMap.get(id);
-              if (oldEi != null) {
-                wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldEi);
-              }
-              if (newEi != null) {
-                wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, null);
-              }
-              clearCachedPage(oldId);
+            String oldId = oldFileName.substring(0, oldFileName.length() - "Settings.properties".length());
+            if (oldId.startsWith("/") == true) {
+              oldId = oldId.substring(1);
+            }
+            GWikiElementInfo oldEi = pageInfoMap.get(id);
+            if (oldEi != null) {
+              wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, null, oldEi);
+            }
+            if (newEi != null) {
+              wikiWeb.getFilter().pageChanged(GWikiContext.getCurrent(), wikiWeb, newEi, null);
+            }
+            clearCachedPage(oldId);
             removePageInfo(oldId, false);
-              break;
+            break;
           }
         }
       }

@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GWikiJspProcessor;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.util.runtime.CallableX;
@@ -444,16 +445,20 @@ public class GWikiWeb
   {
     getStorage().deleteElement(wikiContext, element);
 
-    GWikiPageCache pacheCache = daoContext.getPageCache();
-    pacheCache.clearCachedPages();
-    pacheCache.removePageInfo(element.getElementInfo().getId());
+    GWikiPageCache pageCache = daoContext.getPageCache();
+    // pacheCache.clearCachedPages();
+    String pageId = element.getElementInfo().getId();
+    pageCache.clearCachedPage(pageId);
+    pageCache.removePageInfo(pageId);
+    pageCache.clearCompiledFragments(GWikiWikiPageArtefakt.class);
   }
 
   protected void onReplacePageInfo(GWikiElementInfo ei)
   {
-    GWikiPageCache pacheCache = daoContext.getPageCache();
-    pacheCache.clearCachedPages();
-    pacheCache.putPageInfo(ei);
+    GWikiPageCache pageCache = daoContext.getPageCache();
+    pageCache.clearCachedPage(ei.getId());
+    pageCache.putPageInfo(ei);
+    pageCache.clearCompiledFragments(GWikiWikiPageArtefakt.class);
   }
 
   /**
