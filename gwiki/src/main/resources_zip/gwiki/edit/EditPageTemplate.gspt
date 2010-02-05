@@ -1,4 +1,4 @@
-<% form = pageContext.getRequest().getAttribute('form'); 
+<% def form = pageContext.getRequest().getAttribute('form'); 
 	 for (me in form.editors) {  me.value.prepareHeader(wikiContext); }
 	 wikiContext.requiredJs.add("/static/gwiki/heartbeat.js");
 %>

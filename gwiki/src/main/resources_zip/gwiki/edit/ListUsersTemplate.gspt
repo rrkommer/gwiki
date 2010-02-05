@@ -7,9 +7,9 @@
 
 
 <form method="post">
-	<a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers">Neuen Nutzer anlegen</a><p/>
-	<html:text size="80" property="filterExpression"/>
-	<input type="submit" name="method_onInit" value="Filtern"/>
+  <a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers">Neuen Nutzer anlegen</a><p/>
+  <html:text size="80" property="filterExpression"/>
+  <input type="submit" name="method_onInit" value="Filtern"/>
 </form>
 <br/>
 <span id="rsperror" style="color:red"></span> 
@@ -21,56 +21,56 @@
 
 <script type="text/JavaScript">
 jQuery(document).ready(function() {
-	var gridimgpath = '<gwiki:url value="/static/css/ui-lightness/images"/>';
-	
-			
-	var mygrid =  jQuery("#list2")
-		.jqGrid(
-			{ url:'<gwiki:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
-					+ '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
-				datatype: "xml",
-				colNames:['id', 'User', 'Email', "Operationen"], 
-				colModel:[
-								{name:'id',index:'id', width:12},  
-								{name:'User',index:'USER', width:100},
-								//{name:'Name',index:'NAME', width:100},
-								{name:'Email',index:'EMAIL', width:60},
-								{name:'operations',index:'operations', width:60, sortable:false}
-								 ], 
-				height: 400,
-				//scroll: true,
-				//scrollrows: true,
-				//autowidth: true,
-				autowidth: true,
-				//height: auto,
-				hidegrid: false,
-				rowNum:30, 
-				rowList:[30,50,100], 
-				imgpath: gridimgpath, 
-				pager: jQuery('#pager2'), 
-				//sortname: 'pageId', 
-				viewrecords: true, 
-				//sortorder: "desc", 
-				caption:"Alle Seiten",
-				loadError : function(xhr,st,err) { 
-					 jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
-				}
-			})
-			.navGrid('#pager2',{edit:false,add:false,del:false})
-			.navButtonAdd("#pager2",
-						{caption:"Toggle",
-					title:"Toggle Search Toolbar", buttonicon :'ui-icon-pin-s', 
-					onClickButton: function(){ mygrid[0].toggleToolbar() } 
-			}) 
-			.navButtonAdd("#pager2",{
-					caption:"Clear",
-					title:"Clear Search",
-					buttonicon :'ui-icon-refresh',
-					onClickButton:function(){ mygrid[0].clearToolbar() } 
-			}); 
-			mygrid.filterToolbar();
-			; 
-});	
+  var gridimgpath = '<gwiki:url value="/static/css/ui-lightness/images"/>';
+  
+      
+  var mygrid =  jQuery("#list2")
+    .jqGrid(
+      { url:'<gwiki:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
+          + '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
+        datatype: "xml",
+        colNames:['id', 'User', 'Email', "Operationen"], 
+        colModel:[
+                {name:'id',index:'id', width:12},  
+                {name:'User',index:'USER', width:100},
+                //{name:'Name',index:'NAME', width:100},
+                {name:'Email',index:'EMAIL', width:60},
+                {name:'operations',index:'operations', width:60, sortable:false}
+                 ], 
+        height: 400,
+        //scroll: true,
+        //scrollrows: true,
+        //autowidth: true,
+        autowidth: true,
+        //height: auto,
+        hidegrid: false,
+        rowNum:30, 
+        rowList:[30,50,100], 
+        imgpath: gridimgpath, 
+        pager: jQuery('#pager2'), 
+        //sortname: 'pageId', 
+        viewrecords: true, 
+        //sortorder: "desc", 
+        caption:"Alle Seiten",
+        loadError : function(xhr,st,err) { 
+           jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
+        }
+      })
+      .navGrid('#pager2',{edit:false,add:false,del:false})
+      .navButtonAdd("#pager2",
+            {caption:"Toggle",
+          title:"Toggle Search Toolbar", buttonicon :'ui-icon-pin-s', 
+          onClickButton: function(){ mygrid[0].toggleToolbar() } 
+      }) 
+      .navButtonAdd("#pager2",{
+          caption:"Clear",
+          title:"Clear Search",
+          buttonicon :'ui-icon-refresh',
+          onClickButton:function(){ mygrid[0].clearToolbar() } 
+      }); 
+      mygrid.filterToolbar();
+      ; 
+}); 
 </script>
 
 <% wikiContext.skinInclude('standardfoot'); %>
