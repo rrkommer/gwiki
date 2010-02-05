@@ -11,10 +11,7 @@ package de.micromata.genome.gwiki.model.config;
 
 import javax.servlet.ServletConfig;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Looks for GWikiContext.xml in the class laoder.
@@ -27,8 +24,13 @@ public class GWikiCpContextBootstrapConfigLoader implements GWikiBootstrapConfig
 
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
-    Resource res = new ClassPathResource("GWikiContext.xml");
-    BeanFactory bf = new XmlBeanFactory(res);
-    return (GWikiDAOContext) bf.getBean("GWikiBootstrapConfig");
+    String xmlFile = "GWikiContext.xml";
+    //Resource res = new ClassPathResource("GWikiContext.xml");
+
+    ClassPathXmlApplicationContext cpt = new ClassPathXmlApplicationContext(xmlFile);
+    cpt.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
+    cpt.refresh();
+    // BeanFactory bf = new XmlBeanFactory(res);
+    return (GWikiDAOContext) cpt.getBean("GWikiBootstrapConfig");
   }
 }
