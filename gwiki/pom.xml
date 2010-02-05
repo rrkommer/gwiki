@@ -46,8 +46,16 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
+	
+	<scm>
+		<connection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki
+		</developerConnection>
+	</scm>
+	
 	<dependencies>
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
@@ -240,5 +248,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+  
 </project>
