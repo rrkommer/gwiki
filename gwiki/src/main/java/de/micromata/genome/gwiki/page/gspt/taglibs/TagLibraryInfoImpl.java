@@ -169,10 +169,12 @@ public class TagLibraryInfoImpl extends TagLibraryInfo
       {
 
         InputStream is = null;
-        if (StringUtils.equals(systemId, "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd") == true) {
+        if (StringUtils.equals(systemId, "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd") == true
+            || StringUtils.equals(publicId, "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN") == true) {
           is = loadLocalDtd("web-jsptaglibrary_1_1.dtd");
 
-        } else if (StringUtils.equals(systemId, "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd") == true) {
+        } else if (StringUtils.equals(systemId, "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd") == true
+            || StringUtils.equals(publicId, "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN") == true) {
           is = loadLocalDtd("web-jsptaglibrary_1_2.dtd");
         }
         if (is == null) {
