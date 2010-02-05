@@ -16,21 +16,16 @@
 			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
+	
+	<scm>
+		<connection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-genome-dependencies
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-genome-dependencies
+		</developerConnection>
+	</scm>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -71,7 +66,6 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
 	</dependencies>
 	<!--
 		<dependency>
@@ -80,4 +74,19 @@
 			<version></version>
 		</dependency>
 	-->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
