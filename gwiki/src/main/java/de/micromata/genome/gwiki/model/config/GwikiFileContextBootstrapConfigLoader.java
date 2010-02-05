@@ -18,6 +18,6 @@ public class GwikiFileContextBootstrapConfigLoader extends GWikiAbstractSpringCo
   @Override
   protected ConfigurableApplicationContext createApplicationContext(String fileName)
   {
-    return new FileSystemXmlApplicationContext(fileName);
+    return new FileSystemXmlApplicationContext(new String[] { fileName}, false, null);
   }
 }
