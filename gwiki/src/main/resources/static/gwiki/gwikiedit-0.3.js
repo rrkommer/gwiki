@@ -104,16 +104,17 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 			var oName = $$.attr("name") || "";
 
 			// wrap textfield in a container div
-				var editdiv = $(field).wrap(
-						"<div id=\"" + oId + "\" title=\"" + oTitle + "\" class=\""
+				var t = "<div id=\"gwikiwed" + pn + "\" style=\"padding-right: 8px\"></div>";
+				var tewrap = $(field).wrap(t);
+				
+				var editdiv = $("#gwikiwed" + pn).wrap(
+						"<div id=\"" + "gwikiwed2" + oId + "\" title=\"" + oTitle + "\" class=\""
 								+ oClassName + "\" width=\"100%\" height=\"100%\"></div>");
-
-				// var editdiv = document.elementById(oId);
-				// alert(editdiv);
+				
 				// add the toolbar et statusbar
 				var toolbar = $(
 						"<div class=\"" + options.toolBarClassName + "\"></div>")
-						.insertBefore(field);
+						.insertBefore("#gwikiwed" + pn);
 				// gwikiEditFrame(editdiv);
 				// copy attributes
 				$(field).attr("class", options.editorClassName);
@@ -139,7 +140,7 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 								return false;
 							}).appendTo(toolbar);
 						});
-
+				
 				if (!$.browser.opera)
 					$(field).keydown(keyEvent);
 				else
