@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -154,6 +156,14 @@ public class GWikiServlet extends HttpServlet
 
   protected InputStream getStaticResource(String res, GWikiContext wikiContext) throws ServletException, IOException
   {
+    FileSystem fs = daoContext.getStaticContentFileSystem();
+    if (fs != null) {
+      if (fs.exists(res) == true) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        fs.readBinaryFile(res, os);
+        return new ByteArrayInputStream(os.toByteArray());
+      }
+    }
     if (daoContext.isStaticContentFromClassPath() == true) {
       return GWikiServlet.class.getResourceAsStream(res);
     } else {
