@@ -13,8 +13,12 @@ import groovy.lang.GroovyShell;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.Map;
 
 import org.codehaus.groovy.control.CompilationFailedException;
 
@@ -45,12 +49,27 @@ public class GsptTemplateEngine extends SimpleTemplateEngine
     this.templateFlags = templateFlags;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Template createTemplate(Reader reader) throws CompilationFailedException, IOException
+  {
+    return createTemplate(reader, (Map<String, Object>) Collections.EMPTY_MAP);
+  }
+
+  public Template createTemplate(String templateText, Map<String, Object> context) throws CompilationFailedException,
+      FileNotFoundException, ClassNotFoundException, IOException
+  {
+    return createTemplate(new StringReader(templateText), context);
+  }
+
+  public Template createTemplate(Reader reader, Map<String, Object> context) throws CompilationFailedException, IOException
   {
     ExtendedTemplate template = new ExtendedTemplate();
     template.setFlags(templateFlags);
     GroovyShell shell = new GroovyShell(Thread.currentThread().getContextClassLoader());
+    for (Map.Entry<String, Object> me : context.entrySet()) {
+      shell.setVariable(me.getKey(), me.getValue());
+    }
     groovySource = template.parse(reader);
     template.setScript(shell.parse(groovySource));
     return template;
@@ -75,6 +94,7 @@ public class GsptTemplateEngine extends SimpleTemplateEngine
   {
     this.templateFlags = templateFlags;
   }
+
   public void addTemplateFlag(Flags templateFlag)
   {
     this.templateFlags |= templateFlag.getFlags();
