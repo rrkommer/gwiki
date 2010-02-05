@@ -7,8 +7,8 @@ import net.sourceforge.stripes.mock.MockServletConfig;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
-import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GenomeTemplateUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
@@ -48,15 +48,17 @@ public class GWikiTestBuilder
       this.servlet = GWikiServlet.INSTANCE;
       return this;
     }
+    System.setProperty("gwiki.dev.path", ".");
     GenomeTemplateUtils.IN_UNITEST = true;
     MockServletConfig msc = new MockServletConfig();
     msc.setServletName("gwiki");
     SimServletContext sc = new SimServletContext("gwiki", "src/test/external_resources/webapp");
     Map<String, String> initParams = new HashMap<String, String>();
-    initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className",
-        GwikiFileContextBootstrapConfigLoader.class.getName());
-    initParams
-        .put("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName", "src/main/external_resources/GWikiContext.xml");
+    initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className", //
+        GWikiCpContextBootstrapConfigLoader.class.getName());
+    initParams.put("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName",
+        "src/main/external_resources/GWikiContext.xml");
+    initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName", "GWikiTestContext.xml");
     sc.setServlet(GWikiServlet.class, "gwiki", initParams);
     msc.setServletContext(sc);
     servlet = GWikiServlet.INSTANCE;
