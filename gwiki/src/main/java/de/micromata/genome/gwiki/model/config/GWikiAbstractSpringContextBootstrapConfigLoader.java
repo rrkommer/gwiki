@@ -22,9 +22,20 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
 
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
+    fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
     ConfigurableApplicationContext actx = createApplicationContext(getApplicationContextName());
     actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
     actx.refresh();
     return (GWikiDAOContext) actx.getBean("GWikiBootstrapConfig");
+  }
+
+  public String getFileName()
+  {
+    return fileName;
+  }
+
+  public void setFileName(String fileName)
+  {
+    this.fileName = fileName;
   }
 }
