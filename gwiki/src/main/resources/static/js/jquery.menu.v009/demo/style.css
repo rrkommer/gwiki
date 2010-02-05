@@ -20,6 +20,7 @@ div.result{
 html>body div.outerbox
 {
 	padding: 0 5px 5px 0;
+	z-index: 100;
 }
 html>body div.outerbox div.shadowbox1
 {

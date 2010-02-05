@@ -275,8 +275,8 @@ function gwikimaximizeWindow(framId, partName) {
 		'z-index' : '999999',
 		'left' : '0px',
 		'top' : '0px',
-		'width' : vp.w - 9, // width + 'px',
-		'height' : vp.h - 40,
+		'width' : vp.w, // width + 'px',
+		'height' : vp.h,
 		'background-color' : '#FFFFFF'
 	});
 	// $(".gwiki-editor").val('cols', '200');
@@ -287,7 +287,7 @@ function gwikimaximizeWindow(framId, partName) {
 		'top' : '0px',
 		'bottom': '20px',
 		'width' : '100%',
-		'height' : vp.h - 90 //height - 120//200
+		'height' : vp.h //height - 120//200
 	});
 	var ed = tinyMCE.get('gwikihtmledit' + pn);
 	if (ed) {
