@@ -33,6 +33,11 @@
 	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
 		<!--  FILE -->
 		<property name="staticContentFromClassPath" value="true" />
+		<property name="staticContentFileSystem">
+		<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+			<constructor-arg value="${gwiki.dev.path}/src/main/resources"/>
+		</bean>
+		</property>
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
