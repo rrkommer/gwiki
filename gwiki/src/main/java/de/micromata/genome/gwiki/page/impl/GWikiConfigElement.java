@@ -51,7 +51,7 @@ public class GWikiConfigElement extends GWikiAbstractElement
 
   public void serve(GWikiContext ctx)
   {
-    AuthorizationFailedException.failRight(ctx, null);
+    AuthorizationFailedException.failRight(ctx, "INVALID_PAGE");
   }
 
   public GWikiXmlConfigArtefakt<?> getConfig()

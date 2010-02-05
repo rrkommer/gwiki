@@ -41,6 +41,10 @@ public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro
   protected void compileScript(MacroAttributes attrs, GWikiContext ctx)
   {
     GroovyShell shell = new GroovyShell(Thread.currentThread().getContextClassLoader());
+    Map<String, Object> m = GenomeTemplateUtils.createBinding(ctx);
+    for (Map.Entry<String, Object> me : m.entrySet()) {
+      shell.setVariable(me.getKey(), me.getValue());
+    }
     script = shell.parse(attrs.getBody());
   }
 

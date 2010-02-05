@@ -149,22 +149,16 @@ public class GenomeTemplateUtils
 
     String page = ctx.getWikiElement().getElementInfo().getId() + "Template.gspt";
     GsptPreprocessor processor = new GsptPreprocessor(page, context, servletApi24);
-    // text = processor.preprocess(appStorage, text, pageContext);
     processor.addReplacer(new GWikiIncludeReplacer(ctx));
-
-    // processor.addReplacer(new FormStartReplacer());
-    // processor.addReplacer(new SimpleReplacer("</html:form>", "</form>"));
     processor.useStdReplacer(context);
     ReplacerContext replctx = ReplacerContext.createReplacer(page, context);
     text = processor.preprocess(replctx, text);
     if (store == true && saveGsp == true) {
-      // TODO appStorage.storeFile(page.replace(".gspt", ".gsp"), text.getBytes());
+      // TODO gwiki later appStorage.storeFile(page.replace(".gspt", ".gsp"), text.getBytes());
     }
-    // DaoManager.get().getLogging().debug(Category.Coding, "gspt compiled", new LogAttribute(AttributeType.Miscellaneous, text));
-    // log.error("gspt compiled: " + text);
     Template template = null;
     try {
-      template = engine.createTemplate(text);
+      template = engine.createTemplate(text, context);
       if (store == true && saveGroovy == true) {
         // TODO appStorage.storeFile(page.replace(".gspt", ".groovy"), engine.groovySource.getBytes());
       }
