@@ -59,12 +59,15 @@
 					<execution>
 						<inherited>true</inherited>
 						<id>attach-sources</id>
-						<phase>install</phase>
+						<phase>verify</phase>
 						<goals>
-							<goal>jar-no-fork</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
