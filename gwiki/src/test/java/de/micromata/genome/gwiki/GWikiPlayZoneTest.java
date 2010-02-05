@@ -60,7 +60,7 @@ public class GWikiPlayZoneTest extends TestCase
     }
   }
 
-  public void testTextExtract()
+  public void NOtestTextExtract()
   {
     getWordText();
   }
@@ -117,7 +117,7 @@ public class GWikiPlayZoneTest extends TestCase
     // }
   }
 
-  public void testIt()
+  public void NotestIt()
   {
     textExtract();
   }
