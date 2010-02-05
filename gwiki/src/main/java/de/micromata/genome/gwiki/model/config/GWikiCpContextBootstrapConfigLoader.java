@@ -24,6 +24,6 @@ public class GWikiCpContextBootstrapConfigLoader extends GWikiAbstractSpringCont
   @Override
   protected ConfigurableApplicationContext createApplicationContext(String fileName)
   {
-    return new ClassPathXmlApplicationContext(fileName);
+    return new ClassPathXmlApplicationContext(new String[] { fileName}, false, null);
   }
 }
