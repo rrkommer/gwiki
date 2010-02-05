@@ -4,12 +4,8 @@
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-parent</artifactId>
 	<name>gwiki</name>
-	<version>${gwiki.version}</version>
+	<version>0.3.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-	<properties>
-		<gwiki.version>0.3.0</gwiki.version>
-	</properties>
 
 	<profiles>
 		<profile>
