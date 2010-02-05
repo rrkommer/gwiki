@@ -12,12 +12,12 @@
      			<ul>
      			<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
      				<% wikiContext.setRequestAttribute("wktp", pair); %>
-     				<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/>
+     				<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/></li>
      			<% } %>
      			</ul>
      		</li>
      						<% } %>
-           </ul>  
+        </ul>  
        </li>  
        <li class="menumain"><fmt:message key="gwiki.page.headmenu.Search"/>  
            <ul>
