@@ -8,9 +8,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta name="ROBOTS" content="NOINDEX">
 
-<%-- TODO gwiki in statc --%>
-<link type="text/css" href="<gwiki:url value='/inc/js/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
-<%-- TODO gwiki include nach skin --%>
+
+<link type="text/css" href="<gwiki:url value='/static/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
 
 <link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
