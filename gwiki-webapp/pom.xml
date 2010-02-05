@@ -18,6 +18,15 @@
 			</resource>
 		</resources>
 	</build>
+	
+	<scm>
+		<connection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp
+		</developerConnection>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -26,4 +35,20 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
