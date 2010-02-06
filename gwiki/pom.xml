@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki-genome-dependencies</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.3.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -149,16 +149,19 @@
 			<artifactId>milton-api</artifactId>
 			<version>1.4.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-console</artifactId>
 			<version>1.4.2</version>
 		</dependency>
+				<!-- 
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-filesystem</artifactId>
 			<version>1.4.2</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-ftp</artifactId>
@@ -169,11 +172,19 @@
 			<artifactId>milton-json</artifactId>
 			<version>1.4.2</version>
 		</dependency>
+ -->
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-servlet</artifactId>
 			<version>1.4.2</version>
+			<exclusions>
+			<exclusion>
+           <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </exclusion>
+			</exclusions>
 		</dependency>
+	
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
