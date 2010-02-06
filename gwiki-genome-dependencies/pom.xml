@@ -59,8 +59,9 @@
     </dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy</artifactId>
-			<version>1.5.4</version>
+			<artifactId>groovy-all</artifactId>
+			<!--  POP Version <version>1.5.4</version>  -->
+			<version>1.7.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -82,6 +83,13 @@
 		<repository>
 			<id>central</id>
 			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>mavenrepo</id>
+			<url>http://repo1.maven.org/maven2</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
