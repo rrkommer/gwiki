@@ -21,8 +21,6 @@ import javax.servlet.http.HttpSession;
 import net.sourceforge.stripes.mock.MockHttpServletRequest;
 import net.sourceforge.stripes.mock.MockHttpSession;
 
-import org.apache.tools.ant.util.ReaderInputStream;
-
 /**
  * 
  * @author roger@micromata.de
