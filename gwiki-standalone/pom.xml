@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.3.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
