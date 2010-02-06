@@ -11,6 +11,8 @@ package de.micromata.genome.gwiki.model.config;
 
 import javax.servlet.ServletConfig;
 
+import org.springframework.beans.factory.BeanFactory;
+
 /**
  * Loads the bootstrap configuration for the wiki.
  * 
@@ -21,4 +23,5 @@ public interface GWikiBootstrapConfigLoader
 {
   GWikiDAOContext loadConfig(ServletConfig config);
 
+  BeanFactory getBeanFactory();
 }
