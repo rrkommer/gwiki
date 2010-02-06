@@ -3,6 +3,7 @@ package de.micromata.genome.gwiki.model.config;
 import javax.servlet.ServletConfig;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements GWikiBootstrapConfigLoader
@@ -10,6 +11,8 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
   protected String fileName;
 
   protected abstract ConfigurableApplicationContext createApplicationContext(String fileName);
+
+  protected BeanFactory beanFactory;
 
   public String getApplicationContextName()
   {
@@ -22,10 +25,13 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
 
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
-    fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
+    if (config != null) {
+      fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
+    }
     ConfigurableApplicationContext actx = createApplicationContext(getApplicationContextName());
     actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
     actx.refresh();
+    beanFactory = actx;
     return (GWikiDAOContext) actx.getBean("GWikiBootstrapConfig");
   }
 
@@ -37,5 +43,15 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
   public void setFileName(String fileName)
   {
     this.fileName = fileName;
+  }
+
+  public BeanFactory getBeanFactory()
+  {
+    return beanFactory;
+  }
+
+  public void setBeanFactory(BeanFactory beanFactory)
+  {
+    this.beanFactory = beanFactory;
   }
 }
