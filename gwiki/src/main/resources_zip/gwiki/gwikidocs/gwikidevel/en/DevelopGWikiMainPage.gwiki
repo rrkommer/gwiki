@@ -1,0 +1,57 @@
+{pageintro}
+How to develop gwiki itself.
+{pageintro}
+
+h2. Requirements
+- JDK 1.5 or higher
+- Ecplipse (recomended)
+- SVN
+- Maven 2
+
+h2. Checkout projects
+To develop GWiki you have to checkout the gwiki projects:
+
+- https://svn.micromata.de/svn/gwiki/trunk/gwiki-parent\\
+  The parent pom
+- https://svn.micromata.de/svn/gwiki/trunk/gwiki-genome-dependencies\\
+   As alternative you can also use genome-core. In this case you have ajust the dependencies in following projects.
+- https://svn.micromata.de/svn/gwiki/trunk/gwiki\\
+  The GWiki code.
+- https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp\\
+  If you want run GWiki as WAR in a web container (tomcat)\\
+  or
+- https://svn.micromata.de/svn/gwiki/trunk/gwiki-standalone\\
+  If you want to run GWiki as standandalone
+
+h2. Configuration
+
+Developing GWiki itself containing not only java source, but also GWiki Elements.
+The files can be found inside the gwiki project:
+- {{src/main/resources_zip}}: The core GWiki pages.
+- {{src/main/external_resources/GWikiContext.xml}}: A spring context file, which setup internal interfaces and storage.
+- {{src/main/external_resources/gwiki_dev}}: Elements/Pages used for development not included in the release distribution.\\
+  You may use this to create developer account used when editing GWiki Elements via GWiki itself.
+- {{src/main/resources/static}}: Static content for GWiki like Javascripts and images.\\
+   These files cannot be modified via GWiki itself.
+
+
+
+h3. Setting up WPT environment
+In the gwiki-webapp you have to ajust the {{gwiki-webapp/src/main/webapp/META-INF/context.xml}}.
+
+{code}
+<Context reloadable="false" debug="0" cookies="true" >
+	<Parameter name="gwiki.dev.path" value="C:/Users/roger/d/dhl/gwiki/gwiki" />
+</Context>
+{code}
+Let the value point to your path, where gwiki project is checked out.
+
+Start the the web project with the eclipse WPT.
+
+
+h3. Setting up Jetty standalone environment
+To start GWiki with Jetty you have to run/Debug the {{GWikiJettyStarter}} Java class.
+In your debug environment you have to define two variables:
+- {{-Dde.micromata.genome.gwiki.contextfile=src/main/resources/GWikiContext.xml}}.
+- {{-Dgwiki.dev.path=../gwiki}}: Point to the project path, where the gwiki project is checked out.
+
