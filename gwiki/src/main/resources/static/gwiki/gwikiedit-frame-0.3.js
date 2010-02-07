@@ -1,4 +1,4 @@
-var gwikiContentChanged = false;
+//if (!window.console){ window.console.log = function {}; }
 
 function gwikiSetContentChanged() {
 	gwikiContentChanged = true;
@@ -30,7 +30,11 @@ function gwikiEditCleanup(type, value) {
 	return value;
 }
 
+
 function gwikiCreateTiny(partName, content) {
+	if (1 == 2) {
+		return;
+	}
 	var ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (ed) {
 		ed.setContent(content);
@@ -93,23 +97,19 @@ function gwikiCreateTiny(partName, content) {
 		htmlIsNotDirty = true;
 	}
 	preContent = content;
-	$("#gwikihtmledit_tbl").css( {
-		'position' : 'relative',
-		'left' : '10px',
-		'top' : '20px',
-		'width' : "100%",
-		'height' : '100%'
-	});
+	window.setTimeout("gwikiFitTiny('" + partName + "')", 50);
+	
 }
 
 function gwikiRestoreFromRte(partName) {
 	var edit = tinyMCE.get('gwikihtmledit' + partName);
 	if (!edit) {
-		// alert('edit not found');
 		return true;
 	}
 	// var firefox = false;
 	if (edit.isDirty() == false && htmlIsNotDirty == true) {
+		tinyMCE.execCommand('mceRemoveControl', false, 'gwikihtmledit' + partName);
+		tinyMCE.remove(edit);
 		// if (preContent == edit.getContent()) {
 		// alert('not dirty');
 		// tinyMCE.remove(edit);
@@ -180,7 +180,7 @@ function gwikicreateEditTab(partName) {
 																	|| status == "notmodified") {
 																if (res.status == 200) {
 																	if (!$('#gwikihtmledit' + pn).length) {
-																		var te = "<textarea rows='40' cols='100' id='gwikihtmledit" + pn + "'>";
+																		var te = "<textarea rows='30' cols='100' id='gwikihtmledit" + pn + "' style='width: 100%;height: 100%'>";
 																		$('#WikiRte' + pn).html(te);
 																	}
 																	$('#gwikihtmledit' + pn).val(res.responseText);
@@ -225,12 +225,24 @@ function gwikicreateEditTab(partName) {
 								});
 					});
 }
+function isFullScreen()
+{
+	var pn = gwikiCurrentPart;
+	var framId = 'gwikiWikiEditorFrame' + pn;
+	if ($("#" + framId).hasClass("fullscreen") == true) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 window.onresize = function(event) {
 	var pn = gwikiCurrentPart;
 	var framId = 'gwikiWikiEditorFrame' + pn;
 	if ($("#" + framId).hasClass("fullscreen") == true) {
 		gwikimaximizeWindow(framId, pn);
+	} else {
+		gwikirestoreWindow(framId);
 	}
 }
 
@@ -246,12 +258,12 @@ function gwikiFullscreen(framId) {
 }
 
 function ajustScreen(framId) {
-	var pn = gwikiCurrentPart;
-	if ($("#" + framId + pn).hasClass("fullscreen") == false) {
-		gwikirestoreWindow(framId + pn, pn);
-	} else {
-		gwikimaximizeWindow(framId + pn, pn);
-	}
+//	var pn = gwikiCurrentPart;
+//	if ($("#" + framId + pn).hasClass("fullscreen") == false) {
+//		gwikirestoreWindow(framId + pn, pn);
+//	} else {
+//		gwikimaximizeWindow(framId + pn, pn);
+//	}
 }
 function getViewPort()
 {
@@ -265,10 +277,12 @@ function getViewPort()
 	};
 }
 function gwikimaximizeWindow(framId, partName) {
+	//window.console.log("gwikimaximizeWindow");
 	var vp = getViewPort();
 	var pn = partName;
 	var ie6 = jQuery.browser.version == '6.0' &&  jQuery.browser.msie == true;
 	var position = (ie6 || (jQuery.browser.msie && ! jQuery.support.boxModel)) ? 'absolute' : 'fixed';
+	//alert("framId: " + framId);
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css( {
 		'position' : position,
@@ -276,7 +290,7 @@ function gwikimaximizeWindow(framId, partName) {
 		'left' : '0px',
 		'top' : '0px',
 		'width' : vp.w, // width + 'px',
-		'height' : vp.h,
+		'height' : vp.h - 5,
 		'background-color' : '#FFFFFF'
 	});
 	// $(".gwiki-editor").val('cols', '200');
@@ -285,39 +299,49 @@ function gwikimaximizeWindow(framId, partName) {
 		'left' : '0px',
 		'right' : '0px',
 		'top' : '0px',
-		'bottom': '20px',
-		'width' : '100%',
-		'height' : vp.h //height - 120//200
+		//'bottom': '20px',
+		'width' : vp.w - 20,
+		'height' : vp.h -75 //height - 120//200
 	});
-	var ed = tinyMCE.get('gwikihtmledit' + pn);
-	if (ed) {
-		$(ed.getContainer()).css( {
-			// 'position' : 'relative',
-			'left' : '0px',
-			'top' : '0px',
-			'width' : "100%",
-			'height' : '100%'
-		});
-	}
+	$('#gwikihtmledit' + pn).css( {
+		'position' : 'relative',
+		'left' : '0px',
+		'right' : '0px',
+		'top' : '0px',
+		//'bottom': '20px',
+		'width' : vp.w - 20,
+		'height' : vp.h -75 //height - 120//200
+	});
+	
+//	var ed = tinyMCE.get('gwikihtmledit' + pn);
+//	if (ed) {
+//		$(ed.getContainer()).css( {
+//			// 'position' : 'relative',
+//			'left' : '0px',
+//			'top' : '0px',
+//			'width' : "100%",
+//			'height' : '100%'
+//		});
+//	}
 	$("#WikiEdit" + pn).css( {
 		'width' : "100%",
 		'height' : '100%'
 	});
-	$("#WikiRte" + pn).css( {
-		// 'position' : 'relative',
-		'left' : '0px',
-		'top' : '0px',
-		'width' : "100%",
-		'height' : '100%'
-	});
+//	$("#WikiRte" + pn).css( {
+//		// 'position' : 'relative',
+//		'left' : '0px',
+//		'top' : '0px',
+//		'width' : "100%",
+//		'height' : '100%'
+//	});
 
-	$("#gwikihtmledit" + pn + "_parent").css( {
-		// 'position' : 'relative',
-		'left' : '0px',
-		'top' : '0px',
-		'width' : "100%",
-		'height' : '100%'
-	});
+//	$("#gwikihtmledit" + pn + "_parent").css( {
+//		// 'position' : 'relative',
+//		'left' : '0px',
+//		'top' : '0px',
+//		'width' : "100%",
+//		'height' : '100%'
+//	});
 	$("#gwikiwktabs" + pn).css( {
 		// 'position' : 'relative',
 		'left' : '0px',
@@ -334,36 +358,92 @@ function gwikimaximizeWindow(framId, partName) {
 		'width' : "100%",
 		'height' : '100%'
 	});
-	// das ist es:
-	$("#gwikihtmledit" + pn + "_tbl").css( {
-		'position' : 'relative',
-		'left' : '0px',
-		// 'right' : '10px',
-		'top' : '0px',
-		'bottom' : '0px',
-		'width' : "100%",
-		'height' : '100%'
-	});
-	$("#gwikihtmledit" +pn + "_ifr").css( {
-		'position' : 'relative',
-		'left' : '0px',
-		// 'right' : '10px',
-		'top' : '0px',
-		'width' : "100%"//,
-		//'height' : '100%'// - 110
-	});
-
-	if ($("#gwikihtmledit" + pn).length) {
-		$("#gwikihtmledit" + pn).css( {
-			'position' : 'relative',
-			'left' : '0px',
-			'top' : '0px',
-			'width' : "100%",
-			'height' : '100%'
-		});
-	}
+////das ist es:
+//	$("#gwikihtmledit" + pn + "_tbl").css( {
+//		'position' : 'relative',
+//		'left' : '0px',
+//		// 'right' : '10px',
+//		'top' : '0px',
+//		'bottom' : '0px',
+//		//'width' : "100%",
+//		'width': vp.w - 20,
+//		'height' : '100%'
+//	});
+	gwikiFitTiny(pn);
+	
 }
-function gwikirestoreWindow(framId) {
+
+function gwikiStdNestedCss(selector)
+{
+	$(selector).css( {
+		'position' : 'relative',
+		'left' : '0px',
+		'top' : '0px',
+		'width' : '100%',
+		'height': '100%'
+	});
+}
+
+function dumpDimension(id)
+{
+	console.log('gwikiFitTiny: ' + id + ': width %d height %d',  $(id).outerWidth(),
+			 $(id).outerHeight());
+}
+function dumpElDimension(id)
+{
+//	console.log('gwikiFitTiny: ' + $(id).attr('id') + ': width %d height %d',  $(id).outerWidth(),
+//			 $(id).outerHeight());
+}
+function gwikiFitTiny(partName)
+{
+//	dumpDimension("#gwikihtmledit" + partName);
+//	dumpDimension("#gwikihtmledit" + partName+ "_tbl");
+	var ed = tinyMCE.get('gwikihtmledit' + partName);
+	if (!ed) {
+		return;
+	}
+	var edc = ed.getContainer();
+	var idcid = $(edc).attr('id');
+	//$(edc).attr('height', '100%');
+	console.log('gwikiFitTiny: c1: width %d height %d; ' + idcid,  $(edc).outerWidth(),
+			 $(edc).outerHeight());
+	var width = '100%';
+	var height = '100%';
+	if(isFullScreen() == true) {
+		var vp = getViewPort();
+		width = vp.w - 20;
+		height = vp.h - 150;
+	} else {
+		height = '450px';//'100%';//$("#gwikihtmledit" + partName).outerHeight();
+	}
+	
+	//console.log('gwikiFitTiny: width: %d height: %d', width, height);
+	$("#gwikihtmledit"+ partName + "_tbl").css( {
+		'position' : 'relative',
+		'left' : '0px',
+		'top' : '0px',
+		'width' : width,
+		'height' : height
+	});
+	$("#" + idcid).css( {
+		'position' : 'relative',
+		'left' : '0px',
+		'top' : '0px',
+		'width' : width,
+		'height' : '100%'//height
+	});
+	$("#gwikihtmledit"+ partName + "_ifr").css( {
+		'position' : 'relative',
+		'left' : '0px',
+		'top' : '0px',
+		'width' : width,
+		'height' : height
+	});
+//	console.log('gwikiFitTiny: c2: width %d height %d; ' + idcid,  $(edc).outerWidth(),
+//			 $(edc).outerHeight());
+}
+
+function gwikirestoreWindow(framId, partName) {
 	//removeEventListener('nameOfEvent',referenceToFunction,phase)
 	$("#" + framId).removeClass('fullscreen');
 	$("#" + framId).css( {
@@ -371,14 +451,14 @@ function gwikirestoreWindow(framId) {
 		'z-index' : '1',
 		'left' : '0px',
 		'top' : '0px',
-		'width' : '100%'
+		'width' : '100%',
+		'height': '100%'
 	});
-	$(".gwiki-editor").css( {
-		'position' : 'relative',
-		'left' : '0px',
-		'top' : '0px',
-		'width' : '100%'
-	});
+	gwikiStdNestedCss(".gwiki-editor");
+	gwikiStdNestedCss("#gwikihtmledit" + partName);
+	gwikiStdNestedCss("#gwikiwktabs" + partName);
+	//gwikiStdNestedCss("#gwikihtmledit" + partName + "_ifr");
+	gwikiFitTiny(partName);
 }
 
 function gwikiShowFullPreview() {

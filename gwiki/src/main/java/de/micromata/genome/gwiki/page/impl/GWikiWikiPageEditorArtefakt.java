@@ -56,7 +56,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     String pn = partName;
     String html =
     Html.textarea(
-        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "35", "cols", "100", "name", partName + ".wikiText", "style",
+        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText", "style",
             "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
@@ -82,7 +82,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "</td><td>&nbsp;</td></tr></table>";
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
-        + "\">"
+        + "\" style=\"width: 100%; height: 100%\">"
         + commands
         + "<div id='gwikiwktabs"
         + pn
