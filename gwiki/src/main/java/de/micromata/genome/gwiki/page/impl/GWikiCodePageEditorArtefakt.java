@@ -35,9 +35,7 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
         "class", "tabindent", //
         "style", "min-height:500px;height: 500px"), //
         Xml.text(getCode())).toString();
-    String sin = "<script language=\"javascript\" type=\"text/javascript\">\n"
-        + "editAreaLoader.init({\n"
-        + "id : \""
+    String sin = "<script language=\"javascript\" type=\"text/javascript\">\n" + "editAreaLoader.init({\n" + "id : \""
         + textId
         + "\"\n"
         + ",syntax: \""
@@ -49,7 +47,18 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
         + "saveHandlers.push(function(){ "
         + "editAreaLoader.toggle('"
         + textId
-        + "');});</script>\n";
+        + "');});\n"
+        + "function "
+        + partName
+        + "Activate(partName){\n"
+        + "gwikiActivateCodeEditor('" + textId + "', partName, '" + getCodeType() + "');\n"
+        + "}\n"
+        + "function "
+        + partName
+        + "Deactivate(partName){\n"
+        + "gwikiDeActivateCodeEditor('" + textId + "', partName);\n"
+        + "}\n"
+        + "</script>\n";
 
     html += sin;
     ctx.append(html);
@@ -62,6 +71,7 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
   {
     super.prepareHeader(wikiContext);
     wikiContext.getRequiredJs().add("/static/edit_area/edit_area_full.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-codeedit-0.3.js");
   }
 
 }

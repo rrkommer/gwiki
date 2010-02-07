@@ -15,8 +15,6 @@ import java.io.StringWriter;
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.util.xml.xmlbuilder.Xml;
-import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
 public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt
 {
