@@ -100,13 +100,14 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     GWikiStandaloneContext simContext = new GWikiStandaloneContext(wikiContext);
     el.serve(simContext);
     byte[] data = simContext.getStandaloneResponse().getOutputBytes();
+    FileSystem fsw = fs.getFsForWrite(imageUrl);
     String parent = FileNameUtils.getParentDir(imageUrl);
     if (StringUtils.isNotEmpty(parent) == true) {
-      if (fs.existsForWrite(parent) == false) {
-        fs.mkdirs(parent);
+      if (fsw.existsForWrite(parent) == false) {
+        fsw.mkdirs(parent);
       }
     }
-    fs.writeBinaryFile(imageUrl, data, true);
+    fsw.writeBinaryFile(imageUrl, data, true);
   }
 
   void serveDoc(String htmlData, GWikiStandaloneContext simContext)

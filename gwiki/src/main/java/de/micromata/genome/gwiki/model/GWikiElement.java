@@ -48,9 +48,16 @@ public interface GWikiElement extends Serializable
   /**
    * Get the main artefakt.
    * 
-   * @return
+   * @return null if not exists
    */
   GWikiArtefakt< ? > getMainPart();
+
+  /**
+   * 
+   * @param partName
+   * @return null if not exists
+   */
+  GWikiArtefakt< ? > getPart(String partName);
 
   /**
    * The GWikiMetaTemplate describes the type of this element.

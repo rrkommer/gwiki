@@ -14,11 +14,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.controls.GWikiEditPropsDescription;
-import de.micromata.genome.gwiki.controls.GWikiEditWikiPropsDescription;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.util.runtime.CallableX;
@@ -66,17 +63,24 @@ public abstract class GWikiAbstractElement implements GWikiElement, GWikiPropKey
     parts.put("Settings", new GWikiSettingsPropsArtefakt(getElementInfo().getProps()));
   }
 
-//  protected Map<String, String> parseElementProperties(GWikiContext wikiContext, GWikiEditPropsDescription[] descriptions)
-//  {
-//    Map<String, String> ret = new HashMap<String, String>();
-//    for (GWikiEditPropsDescription pdesc : descriptions) {
-//      String v = wikiContext.getRequestParameter("elementProps." + pdesc.getName());
-//      if (StringUtils.isNotBlank(v) == true) {
-//        ret.put(pdesc.getName(), v);
-//      }
-//    }
-//    return ret;
-//  }
+  public GWikiArtefakt< ? > getPart(String partName)
+  {
+    Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+    collectParts(parts);
+    return parts.get(partName);
+  }
+
+  // protected Map<String, String> parseElementProperties(GWikiContext wikiContext, GWikiEditPropsDescription[] descriptions)
+  // {
+  // Map<String, String> ret = new HashMap<String, String>();
+  // for (GWikiEditPropsDescription pdesc : descriptions) {
+  // String v = wikiContext.getRequestParameter("elementProps." + pdesc.getName());
+  // if (StringUtils.isNotBlank(v) == true) {
+  // ret.put(pdesc.getName(), v);
+  // }
+  // }
+  // return ret;
+  // }
 
   public void saveParts(final GWikiContext ctx, final Map<String, GWikiEditorArtefakt< ? >> editors)
   {
@@ -87,7 +91,7 @@ public abstract class GWikiAbstractElement implements GWikiElement, GWikiPropKey
         for (Map.Entry<String, GWikiEditorArtefakt< ? >> me : editors.entrySet()) {
           me.getValue().onSave(ctx);
         }
-        //getElementInfo().getProps().getMap().putAll(parseElementProperties(ctx, GWikiEditWikiPropsDescription.values()));
+        // getElementInfo().getProps().getMap().putAll(parseElementProperties(ctx, GWikiEditWikiPropsDescription.values()));
         return null;
       }
     });

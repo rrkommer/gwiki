@@ -419,13 +419,23 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     init();
     saveParts();
     removeBackup();
+    String oldPageId = pageId;
     newPage = true;
+
     this.pageId = null;
 
     if (this.elementToEdit != null) {
       this.elementToEdit.getElementInfo().setId(null);
       this.metaTemplatePageId = this.elementToEdit.getMetaTemplate().getPageId();
     }
+    if (StringUtils.isEmpty(storePath) == true) {
+      if (StringUtils.isNotBlank(parentPageId) == true) {
+        storePath = GWikiContext.getParentDirPathFromPageId(parentPageId);
+      } else if (StringUtils.isNotBlank(oldPageId) == true) {
+        storePath = GWikiContext.getParentDirPathFromPageId(oldPageId);
+      }
+    }
+
     this.title = "";
     checkAccess();
     // elementProperties = buildDescription(elementToEdit.getElementInfo().getProps().getMap(), GWikiEditWikiPropsDescription.values());
