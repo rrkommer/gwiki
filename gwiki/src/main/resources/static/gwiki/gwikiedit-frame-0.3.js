@@ -386,8 +386,8 @@ function gwikiStdNestedCss(selector)
 
 function dumpDimension(id)
 {
-	console.log('gwikiFitTiny: ' + id + ': width %d height %d',  $(id).outerWidth(),
-			 $(id).outerHeight());
+//	console.log('gwikiFitTiny: ' + id + ': width %d height %d',  $(id).outerWidth(),
+//			 $(id).outerHeight());
 }
 function dumpElDimension(id)
 {
@@ -397,7 +397,7 @@ function dumpElDimension(id)
 function gwikiFitTiny(partName)
 {
 //	dumpDimension("#gwikihtmledit" + partName);
-//	dumpDimension("#gwikihtmledit" + partName+ "_tbl");
+	dumpDimension("#gwikihtmledit" + partName+ "_tbl");
 	var ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (!ed) {
 		return;
@@ -405,8 +405,8 @@ function gwikiFitTiny(partName)
 	var edc = ed.getContainer();
 	var idcid = $(edc).attr('id');
 	//$(edc).attr('height', '100%');
-	console.log('gwikiFitTiny: c1: width %d height %d; ' + idcid,  $(edc).outerWidth(),
-			 $(edc).outerHeight());
+//	console.log('gwikiFitTiny: c1: width %d height %d; ' + idcid,  $(edc).outerWidth(),
+//			 $(edc).outerHeight());
 	var width = '100%';
 	var height = '100%';
 	if(isFullScreen() == true) {
