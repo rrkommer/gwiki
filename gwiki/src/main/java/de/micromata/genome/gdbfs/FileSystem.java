@@ -41,6 +41,22 @@ public interface FileSystem
 
   public static final char DATAENCODING_SHORTVALUE = 'S';
 
+  /**
+   * return this on standard implementation.
+   * 
+   * @param name
+   * @return
+   */
+  FileSystem getFsForRead(String name);
+
+  /**
+   * return this on standard implementation.
+   * 
+   * @param name
+   * @return
+   */
+  FileSystem getFsForWrite(String name);
+
   String getFileSystemName();
 
   /**
@@ -58,6 +74,7 @@ public interface FileSystem
    * @return
    */
   public boolean mkdirs(String name);
+
   /**
    * 
    * @param name

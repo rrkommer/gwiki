@@ -57,6 +57,16 @@ public abstract class AbstractFileSystem implements FileSystem
 
   protected boolean readOnly = false;
 
+  public FileSystem getFsForRead(String name)
+  {
+    return this;
+  }
+
+  public FileSystem getFsForWrite(String name)
+  {
+    return this;
+  }
+
   public void addMimeType(String extension, String mimeType)
   {
     mimeTypes.put(extension, mimeType);

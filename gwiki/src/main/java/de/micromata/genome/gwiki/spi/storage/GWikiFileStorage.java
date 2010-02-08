@@ -46,7 +46,6 @@ import de.micromata.genome.gwiki.model.filter.GWikiStorageDeleteElementFilterEve
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.search.GlobalIndexFile;
 import de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler;
 import de.micromata.genome.gwiki.page.search.WordIndexTextArtefakt;
@@ -154,7 +153,7 @@ public class GWikiFileStorage implements GWikiStorage
       throw new RuntimeIOException(ex);
     }
 
-    storage.writeBinaryFile(name, bout.toByteArray(), true);
+    writeBinaryFile(name, bout.toByteArray(), true);
   }
 
   private String storage2WikiPath(String path)
@@ -645,14 +644,37 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  protected FileSystem getFsForWrite(String fname)
+  {
+    FileSystem fs = storage.getFsForWrite(fname);
+    String pn = FileNameUtils.getParentDir(fname);
+    if (fs.existsForWrite(pn) == false) {
+      fs.mkdirs(pn);
+    }
+    return fs;
+  }
+
+  protected void writeBinaryFile(String fname, byte[] data, boolean overWrite)
+  {
+    FileSystem fs = getFsForWrite(fname);
+    fs.writeBinaryFile(fname, data, overWrite);
+  }
+
+  protected void writeTextFile(String fname, String data, boolean overWrite)
+  {
+    FileSystem fs = getFsForWrite(fname);
+    fs.writeTextFile(fname, data, overWrite);
+  }
+
   public void storeImplNoTrans(final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
   {
 
     String id = element.getElementInfo().getId();
     if (id.indexOf('/') != -1) {
+      FileSystem fsw = storage.getFsForWrite(id);
       String ppath = id.substring(0, id.lastIndexOf('/'));
-      if (storage.existsForWrite(ppath) == false) {
-        storage.mkdirs(ppath);
+      if (fsw.existsForWrite(ppath) == false) {
+        fsw.mkdirs(ppath);
       }
     }
     for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
@@ -671,14 +693,13 @@ public class GWikiFileStorage implements GWikiStorage
         GWikiTextArtefakt< ? > ta = (GWikiTextArtefakt< ? >) art;
         String text = ta.getStorageData();
         if (text != null) {
-
-          storage.writeTextFile(fname, text, /* ta.isNoArchiveData() == true */true);
+          writeTextFile(fname, text, /* ta.isNoArchiveData() == true */true);
         }
       } else if (art instanceof GWikiBinaryArtefakt< ? >) {
         GWikiBinaryArtefakt< ? > ba = (GWikiBinaryArtefakt< ? >) art;
         byte[] data = ba.getStorageData();
         if (data != null) {
-          storage.writeBinaryFile(fname, data, /* ta.isNoArchiveData() == true */true);
+          writeBinaryFile(fname, data, /* ta.isNoArchiveData() == true */true);
         }
       } else {
         throw new RuntimeException("Cannot store artefakt type: " + art.getClass().toString() + " from page: " + id);

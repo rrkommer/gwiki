@@ -22,7 +22,6 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -50,7 +49,7 @@ public class GlobalIndexFile implements GWikiPropKeys
     GWikiElementInfo ei = new GWikiElementInfo(props, metaTemplate);
     ei.setId(GLOBAL_INDEX_PAGEID);
     GWikiElement elementToEdit = ctx.getWikiWeb().getStorage().createElement(ei);
-    //elementToEdit.setMetaTemplate(metaTemplate);
+    // elementToEdit.setMetaTemplate(metaTemplate);
     return elementToEdit;
   }
 
@@ -106,7 +105,8 @@ public class GlobalIndexFile implements GWikiPropKeys
     }
     GlobalWordIndexTextArtefakt art = (GlobalWordIndexTextArtefakt) el.getMainPart();
 
-    String cont = art.getStorageData();
+    String cont = StringUtils.defaultString(art.getStorageData());
+
     String pageId = elm.getElementInfo().getId();
     String startTag = "<" + pageId + "\n";
     String endTag = ">" + pageId + "\n";
