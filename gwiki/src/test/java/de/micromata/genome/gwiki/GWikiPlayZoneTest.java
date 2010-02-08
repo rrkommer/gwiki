@@ -121,4 +121,9 @@ public class GWikiPlayZoneTest extends TestCase
   {
     textExtract();
   }
+
+  public void testDummy()
+  {
+    assertTrue(true == true);
+  }
 }
