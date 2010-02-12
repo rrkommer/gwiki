@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils;
 
+/**
+ * A diff status of one line.
+ * 
+ * @author roger
+ * 
+ */
 public class DiffLine
 {
   public static enum DiffType

@@ -34,6 +34,12 @@ import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
 import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
 
+/**
+ * 
+ * @author roger
+ * @deprecated the static content will also be provided by the GWikiServlet.
+ * 
+ */
 public class WebDavServlet extends HttpServlet
 {
 
@@ -61,7 +67,7 @@ public class WebDavServlet extends HttpServlet
     }
     String cpath = req.getContextPath();
     String servPath = req.getServletPath();
-    //String pi = req.getPathInfo();
+    // String pi = req.getPathInfo();
     String prefix = cpath + servPath;
     ResponseHandler responseHandler = new CompressingResponseHandler(new DefaultResponseHandler());
     FsDavResourceFactory fsfac = new FsDavResourceFactory(storage, prefix);
@@ -97,12 +103,12 @@ public class WebDavServlet extends HttpServlet
   protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
     logRequest(req);
-    
+
     GWikiContext ctx = new GWikiContext(GWikiServlet.INSTANCE.wiki, GWikiServlet.INSTANCE, req, resp);
 
     try {
       GWikiContext.setCurrent(ctx);
-      
+
       Request request = new ServletRequest(req);
       LogServletResponse response = new LogServletResponse(resp);
       getHttpManager(req).process(request, response);

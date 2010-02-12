@@ -27,6 +27,12 @@ import org.xml.sax.SAXException;
 
 import de.micromata.genome.gwiki.model.GWikiLog;
 
+/**
+ * Internal implementation of the TagLibraryInfo class used for gspt.
+ * 
+ * @author roger
+ * 
+ */
 public class TagLibraryInfoImpl extends TagLibraryInfo
 {
   protected PageContext pageContext;

@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;

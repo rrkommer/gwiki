@@ -16,6 +16,12 @@ import org.apache.commons.lang.ObjectUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Base implementation for GWikiLogging.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiLoggingBase implements GWikiLogging
 {
 

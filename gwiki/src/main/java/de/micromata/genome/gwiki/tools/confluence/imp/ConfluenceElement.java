@@ -18,6 +18,12 @@ import org.dom4j.Element;
 
 import de.micromata.genome.gwiki.model.GWikiProps;
 
+/**
+ * A confluence element in the import file.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class ConfluenceElement extends Entity
 {
   private String originalVersion;
@@ -42,7 +48,7 @@ public abstract class ConfluenceElement extends Entity
     modifiedAt = selectText("property[@name=\"lastModificationDate\"]/child::text()");
     modifiedAt = convertDate(modifiedAt);
     originalVersion = selectText("property[@name=\"originalVersion\"]/id/child::text()");
-    //version = = selectText("property[@name=\"version\"]/id/child::text()");
+    // version = = selectText("property[@name=\"version\"]/id/child::text()");
   }
 
   public boolean isArchive()

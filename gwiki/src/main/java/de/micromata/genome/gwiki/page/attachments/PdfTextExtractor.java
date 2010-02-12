@@ -18,6 +18,12 @@ import org.apache.pdfbox.util.PDFTextStripper;
 
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Extracts text from a pdf file.
+ * 
+ * @author roger
+ * 
+ */
 public class PdfTextExtractor extends TextExtractorBase
 {
 

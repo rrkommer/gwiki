@@ -23,6 +23,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
+/**
+ * Base class to implement html macros.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiHtmlTagMacro extends GWikiMacroBean
 {
 

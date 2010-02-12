@@ -20,6 +20,12 @@ import java.util.Set;
 import javax.servlet.jsp.PageContext;
 import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class PageScopeMap implements Map<String, Object> {
   
   private final PageContext parentPageContext;

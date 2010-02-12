@@ -17,6 +17,12 @@ import org.apache.commons.io.IOUtils;
 
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Extracts text from a text file.
+ * 
+ * @author roger
+ * 
+ */
 public class TxtTextExtractor extends TextExtractorBase
 {
 

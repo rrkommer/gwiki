@@ -40,11 +40,10 @@ public class GWikiConfigElement extends GWikiAbstractElement
   {
     map.put("", config);
     super.collectParts(map);
-    
 
   }
 
-  public GWikiArtefakt<?> getMainPart()
+  public GWikiArtefakt< ? > getMainPart()
   {
     return config;
   }
@@ -54,12 +53,12 @@ public class GWikiConfigElement extends GWikiAbstractElement
     AuthorizationFailedException.failRight(ctx, "INVALID_PAGE");
   }
 
-  public GWikiXmlConfigArtefakt<?> getConfig()
+  public GWikiXmlConfigArtefakt< ? > getConfig()
   {
     return config;
   }
 
-  public void setConfig(GWikiXmlConfigArtefakt<?> config)
+  public void setConfig(GWikiXmlConfigArtefakt< ? > config)
   {
     this.config = config;
   }

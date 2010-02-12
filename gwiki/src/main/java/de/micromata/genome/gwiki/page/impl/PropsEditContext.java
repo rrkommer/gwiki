@@ -175,6 +175,7 @@ public class PropsEditContext
    * @param args
    * @return null if contoler method cannot be found.
    */
+  @SuppressWarnings("unchecked")
   public <T> T invokeControlerBean(String methodName, Object... args)
   {
     Object bean = getControlerBean();

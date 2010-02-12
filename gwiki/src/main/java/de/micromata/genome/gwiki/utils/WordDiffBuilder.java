@@ -14,6 +14,12 @@ import java.util.List;
 
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Build a diff view for a line.
+ * 
+ * @author roger
+ * 
+ */
 public class WordDiffBuilder extends DiffBuilder
 {
   protected List<String> parseText(String text)

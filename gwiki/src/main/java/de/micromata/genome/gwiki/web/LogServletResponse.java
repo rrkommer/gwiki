@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bradmcevoy.http.ServletResponse;
 
+/**
+ * Servlet response wrapper to log responses.
+ * 
+ * @author roger
+ * 
+ */
 public class LogServletResponse extends ServletResponse
 {
   public StringBuilder sb = new StringBuilder();
@@ -27,7 +33,8 @@ public class LogServletResponse extends ServletResponse
   @Override
   public void sendRedirect(String url)
   {
-    sb.append("REDIRECTTO: ").append(url).append("\n");;
+    sb.append("REDIRECTTO: ").append(url).append("\n");
+    ;
     super.sendRedirect(url);
   }
 
@@ -48,14 +55,16 @@ public class LogServletResponse extends ServletResponse
   @Override
   public void setStatus(Status status)
   {
-    sb.append("STATUS: " + status.name()).append("\n");;
+    sb.append("STATUS: " + status.name()).append("\n");
+    ;
     super.setStatus(status);
   }
 
   @Override
   public void setResponseHeader(Header header, String value)
   {
-    sb.append(header.code).append(": ").append(value).append("\n");;
+    sb.append(header.code).append(": ").append(value).append("\n");
+    ;
     super.setResponseHeader(header, value);
   }
 

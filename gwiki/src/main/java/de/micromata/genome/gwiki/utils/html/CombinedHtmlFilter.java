@@ -19,6 +19,12 @@ import org.apache.xerces.xni.XMLString;
 import org.apache.xerces.xni.XNIException;
 import org.cyberneko.html.filters.DefaultFilter;
 
+/**
+ * Html filter to combine two other filter.
+ * 
+ * @author roger
+ * 
+ */
 public class CombinedHtmlFilter extends DefaultFilter
 {
   protected DefaultFilter first;

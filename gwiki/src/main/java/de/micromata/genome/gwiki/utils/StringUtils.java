@@ -19,6 +19,12 @@ import org.apache.commons.lang.ArrayUtils;
 import de.micromata.genome.util.runtime.CallableX1;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * Extension to commons StringUtils.
+ * 
+ * @author roger
+ * 
+ */
 public class StringUtils extends org.apache.commons.lang.StringUtils
 {
   public static final Pair<Integer, String> INDEX_OF_ANY_NOT_FOUND_PAIR = new Pair<Integer, String>(-1, null);

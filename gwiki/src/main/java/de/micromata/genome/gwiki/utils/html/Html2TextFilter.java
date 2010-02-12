@@ -22,6 +22,12 @@ import org.apache.xerces.xni.parser.XMLParserConfiguration;
 import org.cyberneko.html.HTMLConfiguration;
 import org.cyberneko.html.filters.DefaultFilter;
 
+/**
+ * HTML Filter to generate text extract.
+ * 
+ * @author roger
+ * 
+ */
 public class Html2TextFilter extends DefaultFilter
 {
   protected StringBuilder resultText = new StringBuilder();

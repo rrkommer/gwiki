@@ -24,6 +24,12 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.util.types.TimeInMillis;
 import de.micromata.genome.util.web.MimeUtils;
 
+/**
+ * 
+ * @author roger
+ * @deprecated the static content will also be provided by the GWikiServlet.
+ * 
+ */
 public class StaticFileServlet extends HttpServlet
 {
 
@@ -39,7 +45,7 @@ public class StaticFileServlet extends HttpServlet
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-    
+
     InputStream is = getServletContext().getResourceAsStream(respath);
     if (is == null) {
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);

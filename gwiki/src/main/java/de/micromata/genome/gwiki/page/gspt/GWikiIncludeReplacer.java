@@ -18,6 +18,12 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiTextArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiIncludeReplacer extends RegExpReplacer
 {
   private GWikiContext context;
@@ -73,6 +79,16 @@ public class GWikiIncludeReplacer extends RegExpReplacer
     } else {
       return "<% wikiContext.includeText('" + id + "'); %>";
     }
+  }
+
+  public GWikiContext getContext()
+  {
+    return context;
+  }
+
+  public void setContext(GWikiContext context)
+  {
+    this.context = context;
   }
 
 }

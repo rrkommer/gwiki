@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.page.search;
 import org.apache.commons.collections15.ArrayStack;
 import org.apache.commons.collections15.Buffer;
 
+/**
+ * Internal class to collect words.o
+ * 
+ * @author roger
+ * 
+ */
 public abstract class WordCallbackBase implements WordCallback
 {
   protected Buffer<Integer> offsetLevel = new ArrayStack<Integer>();

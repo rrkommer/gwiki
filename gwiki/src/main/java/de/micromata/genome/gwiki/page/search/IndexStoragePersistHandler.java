@@ -38,6 +38,12 @@ import de.micromata.genome.gwiki.utils.AppendableUtils;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * Storage filter to create index files on Gwiki Element save operations.
+ * 
+ * @author roger
+ * 
+ */
 public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilter// , StoragePersistEventHandler
 {
   public static final String TEXTINDEX_PARTNAME = "TextIndex";

@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils.html;
 
+/**
+ * Enumeration used by the html 2 wiki filter
+ * 
+ * @author roger
+ * 
+ */
 public enum Html2WikiElements implements Html2WikiElement
 {
   Li("- ", "\n"), //

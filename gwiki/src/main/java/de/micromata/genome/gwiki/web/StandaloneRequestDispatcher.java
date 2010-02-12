@@ -17,6 +17,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * Standalone servlet request dispatcher for batch processing and unit tests.
+ * 
+ * @author roger
+ * 
+ */
 public class StandaloneRequestDispatcher implements RequestDispatcher
 {
   private String url;

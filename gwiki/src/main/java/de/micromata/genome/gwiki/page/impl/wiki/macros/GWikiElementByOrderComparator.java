@@ -13,6 +13,12 @@ import java.util.Comparator;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
+/**
+ * Comparator to compare to GWiki Element info by order property value.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiElementByOrderComparator extends GWikiElementComparatorBase
 {
   public GWikiElementByOrderComparator()

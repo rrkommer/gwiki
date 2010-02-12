@@ -13,6 +13,12 @@ import de.micromata.genome.gdbfs.FsDirectoryObject;
 import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
 import de.micromata.genome.gwiki.web.dav.GDirectoryResource;
 
+/**
+ * Experimental DAV service for MS Word online editing.
+ * 
+ * @author roger
+ * 
+ */
 public class GOfficeDirectoryResource extends GDirectoryResource
 {
 

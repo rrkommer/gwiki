@@ -17,6 +17,12 @@ import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Artefact for a Jsp (GSPT) artefact.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiJspTemplateArtefakt extends GWikiTextArtefaktBase<Serializable> implements GWikiExecutableArtefakt<Serializable>,
     GWikiEditableArtefakt
 {

@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.model;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Provides interationalization.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiI18nProvider
 {
   public void addTranslationElement(GWikiContext ctx, String pageId);

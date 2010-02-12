@@ -1,7 +1,5 @@
 package de.micromata.genome.gwiki.page.gspt;
 
-import java.io.IOException;
-
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;

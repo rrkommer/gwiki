@@ -17,6 +17,13 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefaktBase;
 import de.micromata.genome.gwiki.model.GWikiElement;
 
+/**
+ * Base implementation for GWikiEditorArtefakt.
+ * 
+ * @author roger
+ * 
+ * @param <T>
+ */
 public abstract class GWikiEditorArtefaktBase<T extends Serializable> extends GWikiArtefaktBase<T> implements GWikiEditorArtefakt<T>
 {
 

@@ -22,6 +22,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.util.types.Holder;
 
+/**
+ * Internal visitor to transform html to wiki.
+ * 
+ * @author roger
+ * 
+ */
 public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
 {
   public ArrayStack<GWikiFragment> stack = new ArrayStack<GWikiFragment>();
@@ -135,7 +141,8 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
         return true;
       }
       for (GWikiFragmentTable.Cell cell : row.cells) {
-        if (hasOnlyClassAttribute(cell.getAttributes(), "gwikith") == false && hasOnlyClassAttribute(cell.getAttributes(), "gwikitd") == false) {
+        if (hasOnlyClassAttribute(cell.getAttributes(), "gwikith") == false
+            && hasOnlyClassAttribute(cell.getAttributes(), "gwikitd") == false) {
           return true;
         }
       }

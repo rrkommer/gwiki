@@ -16,6 +16,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiTextContentArtefakt;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * GWiki Artefakt for a word index file.
+ * 
+ * @author roger
+ * 
+ */
 public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
 {
 

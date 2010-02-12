@@ -18,7 +18,12 @@ import javax.servlet.jsp.tagext.TagLibraryInfo;
 import de.micromata.genome.gwiki.page.gspt.taglibs.TagLibraryInfoImpl;
 
 
-
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class JTagLibReplacer extends ReplacerBase
 {
 

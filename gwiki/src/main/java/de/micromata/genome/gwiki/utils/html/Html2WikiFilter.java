@@ -55,6 +55,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.utils.StringUtils;
 
 /**
+ * Filter to transform HTML to Wiki syntax.
  * 
  * @author roger@micromata.de
  * 

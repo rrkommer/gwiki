@@ -39,23 +39,6 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     return parser.getCommandExpressions().keySet();
   }
 
-  public void addElement(GWikiElement el)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void removeElement(GWikiElementInfo ei)
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  public void replaceElement(GWikiElement el)
-  {
-    // TODO Auto-generated method stub
-
-  }
 
   public void rebuildIndex(GWikiContext wikiContext, String pageId)
   {
@@ -84,8 +67,6 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     }
     sr.setTextExerpt(rt);
   }
-
-  
 
   @SuppressWarnings("unchecked")
   public QueryResult search(GWikiContext ctx, SearchQuery query)

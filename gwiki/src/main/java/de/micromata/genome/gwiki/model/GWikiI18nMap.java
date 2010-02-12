@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.model;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Map holding I18N keys.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiI18nMap extends HashMap<String, String> implements Serializable
 {
   private static final long serialVersionUID = -5348824646939727080L;

@@ -18,6 +18,12 @@ import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.util.matcher.Matcher;
 
+/**
+ * Comparator of two field selectors.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchExpressionComparator implements SearchExpression
 {
   private Matcher<String> comparator;
@@ -54,8 +60,9 @@ public class SearchExpressionComparator implements SearchExpression
   @Override
   public String toString()
   {
-    return "compare(" + left.toString() +  " to " + comparator.toString() + ")";
+    return "compare(" + left.toString() + " to " + comparator.toString() + ")";
   }
+
   public Matcher<String> getComparator()
   {
     return comparator;
@@ -85,6 +92,5 @@ public class SearchExpressionComparator implements SearchExpression
   {
     this.right = right;
   }
-
 
 }

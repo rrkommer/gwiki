@@ -23,6 +23,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
+/**
+ * Implements the bread crumbs as Macro.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
 {
 

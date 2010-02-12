@@ -6,6 +6,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * Base implementation to load GWikiDAOContext from a spring context file.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements GWikiBootstrapConfigLoader
 {
   protected String fileName;

@@ -16,6 +16,12 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.Text;
 
+/**
+ * Internal entity element for confluence import.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class Entity
 {
   private String id;

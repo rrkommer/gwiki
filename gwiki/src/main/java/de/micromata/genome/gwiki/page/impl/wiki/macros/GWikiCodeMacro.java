@@ -19,7 +19,6 @@ import com.uwyn.jhighlight.renderer.JavaXhtmlRenderer;
 import com.uwyn.jhighlight.renderer.XhtmlRenderer;
 import com.uwyn.jhighlight.renderer.XmlXhtmlRenderer;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
@@ -28,8 +27,13 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.utils.AppendableI;
 
+/**
+ * GWiki macro code.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro
 {
 

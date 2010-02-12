@@ -29,6 +29,14 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Holder;
 
+/**
+ * Fitlers a the HTML output to hilight words.
+ * 
+ * The words are passed a request parameter _gwhiwords as comma seperated list.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchFoundHighlighterFilter implements GWikiServeElementFilter
 {
 
@@ -95,9 +103,8 @@ public class SearchFoundHighlighterFilter implements GWikiServeElementFilter
       filter.doFilter(orgString);
       // System.out.println("\n\nOrig:\n" + sout.getBuffer().toString() + "\n\nFiltered:\n" + filteredContent.getBuffer().toString());
 
-      
-//      pr
-//          .println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+      // pr
+      // .println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
       pr.print(filteredContent.getBuffer().toString());
     } catch (IOException ex) {
       throw new RuntimeIOException(ex);

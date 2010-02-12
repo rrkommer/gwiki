@@ -22,6 +22,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 
+/**
+ * implements to toc macro.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiTocMacro extends GWikiMacroBean
 {
 

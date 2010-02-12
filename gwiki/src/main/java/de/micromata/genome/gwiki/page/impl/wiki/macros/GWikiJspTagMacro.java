@@ -159,4 +159,14 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
     return tag instanceof BodyTag;
   }
 
+  public TagInfo getTagInfo()
+  {
+    return tagInfo;
+  }
+
+  public void setTagInfo(TagInfo tagInfo)
+  {
+    this.tagInfo = tagInfo;
+  }
+
 }

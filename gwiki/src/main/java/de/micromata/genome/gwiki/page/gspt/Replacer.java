@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.gspt;
 import java.util.Map;
 
 /**
- * Taglib fuer Arme
+ * Implements a replacer to parse gspts.
  */
 public interface Replacer
 {

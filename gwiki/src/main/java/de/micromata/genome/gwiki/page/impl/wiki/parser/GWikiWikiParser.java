@@ -39,6 +39,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTable;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
 
+/**
+ * Parser implementation for the GWiki syntax.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiParser
 {
 

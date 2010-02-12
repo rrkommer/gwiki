@@ -14,16 +14,23 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Artefakt containing plain text.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiTextContentArtefakt extends GWikiTextArtefaktBase<String> implements GWikiEditableArtefakt
-// , GWikiIndexedArtefakt by default kein index
 {
+
+  private static final long serialVersionUID = -2437463613041787945L;
 
   public java.lang.String getFileSuffix()
   {
     return ".txt";
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiTextPageEditorArtefakt(elementToEdit, bean, partKey, this);
 

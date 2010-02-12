@@ -11,6 +11,13 @@ package de.micromata.genome.gwiki.model;
 
 import java.io.Serializable;
 
+/**
+ * Base implementation for a GWikiPersistArtefakt.
+ * 
+ * @author roger
+ * 
+ * @param <T>
+ */
 public abstract class GWikiPersistArtefaktBase<T extends Serializable> extends GWikiArtefaktBase<T> implements GWikiPersistArtefakt<T>
 {
 

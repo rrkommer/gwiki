@@ -13,6 +13,12 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Interface to start jobs asynchron.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiSchedulerProvider
 {
   /**

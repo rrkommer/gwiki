@@ -20,6 +20,12 @@ import java.util.concurrent.TimeUnit;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 
+/**
+ * GWikiSchedulerProvider using a transient thread.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiStandardSchedulerProvider extends GWikiSchedulerProviderBase implements RejectedExecutionHandler
 {
 
@@ -107,7 +113,7 @@ public class GWikiStandardSchedulerProvider extends GWikiSchedulerProviderBase i
 
   public void rejectedExecution(Runnable r, ThreadPoolExecutor executor)
   {
-    
+
   }
 
 }

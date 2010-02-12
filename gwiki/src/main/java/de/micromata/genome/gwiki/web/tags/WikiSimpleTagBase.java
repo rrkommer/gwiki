@@ -13,8 +13,17 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Base implementation for GWiki Tags.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class WikiSimpleTagBase extends TagSupport
 {
+
+  private static final long serialVersionUID = -7658522982913202856L;
+
   protected GWikiContext getWikiContext()
   {
     return (GWikiContext) pageContext.getAttribute("wikiContext");

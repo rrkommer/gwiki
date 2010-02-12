@@ -19,6 +19,12 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Tag for authentification.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiAuthTag extends TagSupport
 {
   // ~ Instance fields ================================================================================================

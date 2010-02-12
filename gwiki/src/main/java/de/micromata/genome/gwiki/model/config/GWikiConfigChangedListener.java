@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilterEvent;
 
+/**
+ * Filter for changing global GWiki configuration.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiConfigChangedListener implements GWikiPageChangedFilter
 {
   public Void filter(GWikiFilterChain<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter> chain, GWikiPageChangedFilterEvent event)

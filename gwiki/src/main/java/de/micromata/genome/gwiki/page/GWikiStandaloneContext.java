@@ -25,6 +25,12 @@ import de.micromata.genome.gwiki.page.gspt.StandAlonePageContext;
 import de.micromata.genome.gwiki.web.StandaloneHttpServletRequest;
 import de.micromata.genome.gwiki.web.StandaloneHttpServletResponse;
 
+/**
+ * Implementation for a GWikiContext with no http request/response attached.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiStandaloneContext extends GWikiContext
 {
   private StandAlonePageContext standAlonepageContext;
@@ -80,7 +86,7 @@ public class GWikiStandaloneContext extends GWikiContext
   {
     this(wikiContext.getWikiWeb(), wikiContext.getServlet(), wikiContext.getRequest().getContextPath(), wikiContext.getRequest()
         .getServletPath());
-    
+
   }
 
   public HttpSession getSession(boolean create)

@@ -18,6 +18,12 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Bean to hold the query.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchQuery
 {
   private String searchExpression;

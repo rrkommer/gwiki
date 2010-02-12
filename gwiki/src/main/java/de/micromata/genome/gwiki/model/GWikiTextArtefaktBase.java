@@ -13,6 +13,13 @@ import java.io.Serializable;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Base implementation for an artefakt with text as storage.
+ * 
+ * @author roger
+ * 
+ * @param <T>
+ */
 public abstract class GWikiTextArtefaktBase<T extends Serializable> extends GWikiPersistArtefaktBase<T> implements GWikiTextArtefakt<T>
 {
   private static final long serialVersionUID = 8433380526307298393L;

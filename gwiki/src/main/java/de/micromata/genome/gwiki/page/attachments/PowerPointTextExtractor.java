@@ -16,6 +16,12 @@ import org.apache.poi.hslf.extractor.PowerPointExtractor;
 
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Extracts text from a power point file.
+ * 
+ * @author roger
+ * 
+ */
 public class PowerPointTextExtractor extends TextExtractorBase
 {
   public PowerPointTextExtractor(String fileName, InputStream data)

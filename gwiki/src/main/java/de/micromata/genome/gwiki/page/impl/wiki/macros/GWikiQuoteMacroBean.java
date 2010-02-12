@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
 /**
- * Render a pageIntro section.
+ * Render a Quote section.
  * 
  * @author roger@micromata.de
  * 

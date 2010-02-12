@@ -16,8 +16,17 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Editor for a GSPT/Jsp page.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt
 {
+
+  private static final long serialVersionUID = 433557872072235804L;
+
   private GWikiJspTemplateArtefakt jspPage;
 
   public GWikiJspPageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
@@ -35,7 +44,7 @@ public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt
     ex.printStackTrace(pout);
     return sout.getBuffer().toString();
   }
-  
+
   @Override
   public void onSave(GWikiContext ctx)
   {

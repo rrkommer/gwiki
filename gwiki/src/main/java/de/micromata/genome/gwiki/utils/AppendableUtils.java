@@ -9,6 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils;
 
+/**
+ * 
+ * @author roger TODO gwiki minor may move to other class.
+ */
 public class AppendableUtils
 {
   public static AppendableI create(final StringBuilder sb)

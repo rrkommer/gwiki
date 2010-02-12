@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+/**
+ * Some standard tools handling time.
+ * 
+ * @author roger
+ * 
+ */
 public class TimeUtils
 {
   public static final String ISO_DATETIME = "yyyy-MM-dd HH:mm";

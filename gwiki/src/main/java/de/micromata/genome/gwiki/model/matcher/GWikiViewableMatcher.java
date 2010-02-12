@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Matches if GWikiElement is viewable.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiViewableMatcher extends GWikiElementMatcherBase
 {
 

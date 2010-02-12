@@ -29,13 +29,18 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.ThrowableUtils;
 import de.micromata.genome.util.matcher.string.SimpleWildcardMatcherFactory;
 
+/**
+ * ActionBean dealing with comment actions.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements GWikiPropKeys
 {
   /**

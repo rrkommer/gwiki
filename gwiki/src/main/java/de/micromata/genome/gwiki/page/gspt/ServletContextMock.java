@@ -21,7 +21,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.apache.log4j.Logger;
-
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class ServletContextMock implements ServletContext
 {
   private static final Logger log = Logger.getLogger(ServletContextMock.class);

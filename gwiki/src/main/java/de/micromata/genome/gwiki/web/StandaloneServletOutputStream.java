@@ -14,6 +14,12 @@ import java.io.IOException;
 
 import javax.servlet.ServletOutputStream;
 
+/**
+ * Standalone response output stream for batch processing and unit tests.
+ * 
+ * @author roger
+ * 
+ */
 public class StandaloneServletOutputStream extends ServletOutputStream
 {
   private ByteArrayOutputStream out = new ByteArrayOutputStream();

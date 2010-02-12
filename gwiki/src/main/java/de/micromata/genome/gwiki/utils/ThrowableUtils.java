@@ -14,6 +14,12 @@ import java.io.StringWriter;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+/**
+ * Utils for handling throwables.
+ * 
+ * @author roger
+ * 
+ */
 public class ThrowableUtils
 {
   public static String getExceptionStacktraceForHtml(Throwable ex)

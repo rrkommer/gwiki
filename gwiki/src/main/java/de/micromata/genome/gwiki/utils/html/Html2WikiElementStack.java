@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.utils.html;
 
 import org.apache.commons.collections15.ArrayStack;
 
+/**
+ * Internal class for the Html2WikiFilter.
+ * 
+ * @author roger
+ * 
+ */
 public class Html2WikiElementStack
 {
   private ArrayStack<Html2WikiElement> stack = new ArrayStack<Html2WikiElement>();

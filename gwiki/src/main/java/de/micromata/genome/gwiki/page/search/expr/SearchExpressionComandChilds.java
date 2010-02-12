@@ -21,6 +21,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 
+/**
+ * A command with a SearchExpression.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchExpressionComandChilds extends SearchExpressionCommand
 {
   public SearchExpressionComandChilds(String command, SearchExpression nested)
@@ -58,6 +64,7 @@ public class SearchExpressionComandChilds extends SearchExpressionCommand
     }
     return ret;
   }
+
   public List<String> getLookupWords()
   {
     return Collections.emptyList();

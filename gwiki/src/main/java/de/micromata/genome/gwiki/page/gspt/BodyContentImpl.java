@@ -20,6 +20,12 @@ import javax.servlet.jsp.tagext.BodyContent;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Implementation of BodyContent.
+ * 
+ * @author roger
+ * 
+ */
 public class BodyContentImpl extends BodyContent implements BodyFlusher
 {
   StringWriter sw = new StringWriter();

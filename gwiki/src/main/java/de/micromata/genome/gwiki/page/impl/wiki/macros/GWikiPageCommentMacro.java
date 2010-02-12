@@ -15,6 +15,12 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
+/**
+ * Macro to create a comment section inside a page.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPageCommentMacro extends GWikiMacroBean
 {
 

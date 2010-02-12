@@ -25,6 +25,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
 
+/**
+ * State hold by the gwiki parser.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiParserContext
 {
   private List<List<GWikiFragment>> frags = new ArrayList<List<GWikiFragment>>();

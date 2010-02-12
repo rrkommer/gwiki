@@ -15,6 +15,12 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Filter event for element storage.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiStorageElementPartsFilterEvent extends GWikiElementFilterEvent
 {
   protected Map<String, GWikiArtefakt< ? >> parts;

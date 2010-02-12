@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.model.filter;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 
+/**
+ * Event for a GWikiWikiPageRenderFilter.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiPageRenderFilterEvent extends GWikiFilterEvent
 {
   protected GWikiWikiPageArtefakt wikiPageArtefakt;

@@ -17,6 +17,12 @@ import javax.servlet.http.HttpSession;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * GWikiSessionProvider for standard sessions.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiStandardSessionProvider implements GWikiSessionProvider
 {
   public static String SESSKEYS = "de.micromata.genome.gwiki.model.GWikiStandardSessionProvider.SESSKEYS";
@@ -30,6 +36,7 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     return session.getAttribute(key);
   }
 
+  @SuppressWarnings("unchecked")
   public void setSessionAttribute(GWikiContext wikiContext, String key, Serializable object)
   {
     HttpSession session = wikiContext.getSession(true);
@@ -44,6 +51,7 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     session.setAttribute(key, object);
   }
 
+  @SuppressWarnings("unchecked")
   public void removeSessionAttribute(GWikiContext wikiContext, String key)
   {
     HttpSession session = wikiContext.getSession(true);
@@ -55,6 +63,7 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     session.removeAttribute(key);
   }
 
+  @SuppressWarnings("unchecked")
   public void clearSessionAttributes(GWikiContext wikiContext)
   {
     HttpSession session = wikiContext.getSession(true);

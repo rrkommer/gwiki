@@ -11,6 +11,13 @@ package de.micromata.genome.gwiki.model;
 
 import java.io.Serializable;
 
+/**
+ * Artefakt with has a string as storage.
+ * 
+ * @author roger
+ * 
+ * @param <T> compiled version of the artefakt.
+ */
 public interface GWikiTextArtefakt<T extends Serializable> extends GWikiArtefakt<T>
 {
   String getStorageData();

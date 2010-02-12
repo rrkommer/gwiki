@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
-import de.micromata.genome.gwiki.page.search.WordCallback;
 import de.micromata.genome.gwiki.utils.AppendableI;
 
 public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GWikiIndexedArtefakt

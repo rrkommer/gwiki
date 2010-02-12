@@ -31,6 +31,12 @@ import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableI;
 import de.micromata.genome.util.runtime.CallableX;
 
+/**
+ * Artefakt containing a GWiki Text.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> implements GWikiIndexedArtefakt,
     GWikiExecutableArtefakt<GWikiContent>, GWikiEditableArtefakt
 {
@@ -42,7 +48,7 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
     return ".gwiki";
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
   {
     return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
   }
@@ -74,7 +80,6 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
   @Override
   public void setCompiledObject(GWikiContent compiledObject)
   {
-    GWikiContext wikiContext = GWikiContext.getCurrent();
     super.setCompiledObject(compiledObject);
   }
 

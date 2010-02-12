@@ -15,6 +15,12 @@ import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilterEvent;
 
+/**
+ * Event for a GWikiServeElementFilter.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiUserServeElementFilterEvent implements GWikiServeElementFilter
 {
   public static ThreadLocal<GWikiSimpleUser> CURRENT_USER = new ThreadLocal<GWikiSimpleUser>();

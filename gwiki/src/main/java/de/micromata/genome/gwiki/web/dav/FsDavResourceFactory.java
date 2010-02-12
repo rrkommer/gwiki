@@ -20,6 +20,12 @@ import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
+/**
+ * WebDav service implementation.
+ * 
+ * @author roger
+ * 
+ */
 public class FsDavResourceFactory implements ResourceFactory
 {
   private FileSystem storage;

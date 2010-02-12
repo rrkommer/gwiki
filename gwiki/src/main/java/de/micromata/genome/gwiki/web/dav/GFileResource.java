@@ -28,6 +28,12 @@ import com.bradmcevoy.http.exceptions.NotAuthorizedException;
 
 import de.micromata.genome.gdbfs.FsFileObject;
 
+/**
+ * WebDav service implementation.
+ * 
+ * @author roger
+ * 
+ */
 public class GFileResource extends GFsResource implements Resource, GetableResource, CopyableResource, DeletableResource, MoveableResource,
     PropFindableResource
 {

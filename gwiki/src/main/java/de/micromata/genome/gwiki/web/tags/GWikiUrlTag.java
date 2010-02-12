@@ -32,6 +32,12 @@ import org.apache.taglibs.standard.tag.common.core.Util;
 
 import de.micromata.genome.gwiki.model.GWikiWeb;
 
+/**
+ * Tag for url rendering to other pages.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiUrlTag extends BodyTagSupport implements ParamParent
 {
 

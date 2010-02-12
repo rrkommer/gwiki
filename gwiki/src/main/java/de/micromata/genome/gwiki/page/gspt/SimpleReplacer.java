@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.gspt;
 
 import java.util.Map;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class SimpleReplacer extends ReplacerBase
 {
   String start;

@@ -13,6 +13,12 @@ import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * GWikiLogging implementing writing to Log4J.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiLoggingLog4J extends GWikiLoggingBase
 {
   private static final Logger log = Logger.getLogger(GWikiLoggingLog4J.class);

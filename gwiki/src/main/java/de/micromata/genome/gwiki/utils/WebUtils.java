@@ -14,6 +14,12 @@ import java.net.URLEncoder;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * TODO gwiki move this to another class.
+ * 
+ * @author roger
+ * 
+ */
 public class WebUtils
 {
   public static String encodeUrlParam(String value)

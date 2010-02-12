@@ -24,6 +24,12 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * GWikiElement for an attachment.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAttachment, GWikiPropKeys
 {
 
@@ -85,6 +91,6 @@ public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAt
   {
     map.put("", data);
     super.collectParts(map);
-    
+
   }
 }

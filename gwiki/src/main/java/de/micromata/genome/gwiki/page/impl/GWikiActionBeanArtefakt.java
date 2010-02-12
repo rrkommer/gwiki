@@ -21,6 +21,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 
+/**
+ * Base class to implement a ActionBean as GWikiArtefakt.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends ActionBean>> implements
     GWikiExecutableArtefakt<Class< ? extends ActionBean>>
 {
@@ -48,6 +54,7 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
 
   }
 
+  @SuppressWarnings("unchecked")
   protected Class< ? extends ActionBean> getActionBeanClass(GWikiContext ctx)
   {
     if (beanClass != null) {
@@ -116,12 +123,12 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     this.beanClassName = beanClassName;
   }
 
-  public GWikiExecutableArtefakt getForward()
+  public GWikiExecutableArtefakt< ? > getForward()
   {
     return forward;
   }
 
-  public void setForward(GWikiExecutableArtefakt forward)
+  public void setForward(GWikiExecutableArtefakt< ? > forward)
   {
     this.forward = forward;
   }

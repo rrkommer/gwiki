@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils;
 
+/**
+ * Create a diff view for properties.
+ * 
+ * @author roger
+ * 
+ */
 public class PropDiffLine extends DiffLine
 {
   private String key;

@@ -20,6 +20,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.groovy.runtime.InvokerHelper;
 
+/**
+ * static Utils functions to deal with groovy.
+ * 
+ * @author roger
+ * 
+ */
 public class ScriptUtils
 {
   public static void executeScriptCode(String code, Map<String, Object> vars)

@@ -9,7 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.attachments;
 
-
+/**
+ * Interface to extract from a file.
+ * 
+ * @author roger
+ * 
+ */
 public interface TextExtractor
 {
   String extractText();

@@ -18,6 +18,12 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor;
 import de.micromata.genome.gwiki.page.impl.GWikiPropsEditorArtefakt;
 
+/**
+ * Artefakt hold a GWikiProps.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPropsArtefakt extends GWikiPersistArtefaktBase<GWikiProps> implements GWikiEditableArtefakt
 {
   private static final long serialVersionUID = -7444414246579867245L;

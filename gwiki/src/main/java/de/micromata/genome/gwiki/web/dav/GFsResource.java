@@ -26,6 +26,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
+/**
+ * WebDav service implementation.
+ * 
+ * @author roger
+ * 
+ */
 public class GFsResource implements PropFindableResource
 {
   protected FsDavResourceFactory resourceFactory;

@@ -18,6 +18,12 @@ import org.cyberneko.html.HTMLConfiguration;
 
 import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
 
+/**
+ * extracts text from a html page.
+ * 
+ * @author roger
+ * 
+ */
 public class HtmlTextExtractor extends TextExtractorBase
 {
 

@@ -18,6 +18,12 @@ import org.cyberneko.html.HTMLConfiguration;
 
 import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
 
+/**
+ * Extracts text from a xml file.
+ * 
+ * @author roger
+ * 
+ */
 public class XmlTextExtractor extends TextExtractorBase
 {
 

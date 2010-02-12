@@ -26,5 +26,9 @@ public interface GWikiEditorArtefakt<T extends Serializable> extends GWikiExecut
 {
   public void onSave(GWikiContext ctx);
 
+  /**
+   * 
+   * @return title name for the tab.
+   */
   public String getTabTitle();
 }

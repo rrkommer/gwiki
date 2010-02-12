@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.matcher.MatcherBase;
 
+/**
+ * Base implementation for a GWikiElementInfo matcher.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiElementMatcherBase extends MatcherBase<GWikiElementInfo>
 {
 

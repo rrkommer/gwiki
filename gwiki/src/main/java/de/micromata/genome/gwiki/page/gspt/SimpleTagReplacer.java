@@ -11,10 +11,16 @@ package de.micromata.genome.gwiki.page.gspt;
 
 import java.util.Map;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class SimpleTagReplacer extends TagReplacer
 {
 
-  public SimpleTagReplacer(String tagName, Class tagClass, boolean evaluateELViaGroovy)
+  public SimpleTagReplacer(String tagName, Class< ? > tagClass, boolean evaluateELViaGroovy)
   {
     super(tagName, tagClass, evaluateELViaGroovy);
   }
