@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 /**
  * Chain implementation to dispatch events.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFilterChain<R, E extends GWikiFilterEvent, F extends GWikiFilter<R, E, F>>

@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Hard coded html fragment.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiFragmentHtml extends GWikiFragementBase

@@ -17,7 +17,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Build a diff view for a line.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WordDiffBuilder extends DiffBuilder

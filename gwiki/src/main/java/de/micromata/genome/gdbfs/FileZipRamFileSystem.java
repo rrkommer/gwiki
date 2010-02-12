@@ -7,7 +7,7 @@ import java.io.InputStream;
 /**
  * RAM file system initially loaded from a zip from standard file system.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileZipRamFileSystem extends ZipRamFileSystem

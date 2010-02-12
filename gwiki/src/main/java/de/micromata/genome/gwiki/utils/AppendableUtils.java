@@ -11,7 +11,7 @@ package de.micromata.genome.gwiki.utils;
 
 /**
  * 
- * @author roger TODO gwiki minor may move to other class.
+ * @author Roger Rene Kommer (r.kommer@micromata.de) TODO gwiki minor may move to other class.
  */
 public class AppendableUtils
 {

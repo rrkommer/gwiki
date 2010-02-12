@@ -27,7 +27,7 @@ import de.micromata.genome.gwiki.utils.CommaListParser;
 /**
  * Wrapper to a property (string/string) map.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiProps implements Serializable

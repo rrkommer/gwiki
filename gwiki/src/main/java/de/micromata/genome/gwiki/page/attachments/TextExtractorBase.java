@@ -14,7 +14,7 @@ import java.io.InputStream;
 /**
  * Base implementation for a TextExtractor.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class TextExtractorBase implements TextExtractor

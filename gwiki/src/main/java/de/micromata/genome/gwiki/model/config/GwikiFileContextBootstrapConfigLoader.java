@@ -15,7 +15,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 /**
  * Loads a spring application context file from standard file system.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GwikiFileContextBootstrapConfigLoader extends GWikiAbstractSpringContextBootstrapConfigLoader

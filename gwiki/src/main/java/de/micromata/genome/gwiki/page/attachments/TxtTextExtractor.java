@@ -20,7 +20,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Extracts text from a text file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TxtTextExtractor extends TextExtractorBase

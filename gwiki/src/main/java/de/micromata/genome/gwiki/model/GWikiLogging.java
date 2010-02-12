@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Simple logging interface.
  *  
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiLogging

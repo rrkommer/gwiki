@@ -31,7 +31,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * Holds the ElementInfo and Elements (cache) for the Wiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageCacheTimedImpl implements GWikiPageCache

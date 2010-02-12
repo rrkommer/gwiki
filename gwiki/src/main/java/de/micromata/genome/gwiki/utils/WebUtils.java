@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * TODO gwiki move this to another class.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WebUtils

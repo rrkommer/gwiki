@@ -22,7 +22,7 @@ import de.micromata.genome.gwiki.web.dav.GFileResource;
 /**
  * Experimental DAV service for MS Word online editing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsDavOfficeResourceFactory implements ResourceFactory

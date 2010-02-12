@@ -19,7 +19,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor for a HTML artefakt.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @SuppressWarnings("unchecked")

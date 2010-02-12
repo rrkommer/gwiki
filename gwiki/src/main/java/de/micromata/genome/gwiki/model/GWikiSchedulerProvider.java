@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Interface to start jobs asynchron.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiSchedulerProvider

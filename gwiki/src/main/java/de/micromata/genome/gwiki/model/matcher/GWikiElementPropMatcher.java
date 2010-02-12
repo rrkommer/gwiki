@@ -16,7 +16,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * Matcher to match agains a property inside a properties file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementPropMatcher extends GWikiElementMatcherBase

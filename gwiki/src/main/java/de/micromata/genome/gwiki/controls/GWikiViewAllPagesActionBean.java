@@ -32,7 +32,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * ActionBean to show/filter all pages in the wiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean

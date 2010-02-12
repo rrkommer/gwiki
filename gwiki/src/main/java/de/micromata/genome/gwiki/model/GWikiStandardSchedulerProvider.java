@@ -23,7 +23,7 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
 /**
  * GWikiSchedulerProvider using a transient thread.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiStandardSchedulerProvider extends GWikiSchedulerProviderBase implements RejectedExecutionHandler

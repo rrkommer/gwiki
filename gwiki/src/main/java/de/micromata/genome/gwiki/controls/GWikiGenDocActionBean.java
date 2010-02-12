@@ -60,7 +60,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * ActionBean pre alpha implementation of exporting pages in different formats.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiGenDocActionBean extends ActionBeanBase

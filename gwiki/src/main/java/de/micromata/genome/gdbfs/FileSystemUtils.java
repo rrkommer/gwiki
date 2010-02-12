@@ -29,7 +29,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Utils for dealing with Files.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileSystemUtils

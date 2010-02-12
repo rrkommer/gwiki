@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 /**
  * Compatator to compare two GWikiElementInfo by a property string value.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementByPropComparator extends GWikiElementComparatorBase

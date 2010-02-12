@@ -20,7 +20,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Extracts text from a excel sheet.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ExcelTextExtractor extends TextExtractorBase

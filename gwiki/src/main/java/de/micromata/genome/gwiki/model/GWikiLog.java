@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Static helper function delegates all calles to GWikiLogging.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiLog

@@ -57,7 +57,7 @@ import de.micromata.genome.gwiki.utils.StringUtils;
 /**
  * Filter to transform HTML to Wiki syntax.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2WikiFilter extends DefaultFilter

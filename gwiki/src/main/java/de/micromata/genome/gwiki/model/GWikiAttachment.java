@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.model;
 /**
  * An Attachment element.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiAttachment extends GWikiElement

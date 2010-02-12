@@ -16,7 +16,7 @@ import org.springframework.beans.factory.BeanFactory;
 /**
  * Loads the bootstrap configuration for the wiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiBootstrapConfigLoader

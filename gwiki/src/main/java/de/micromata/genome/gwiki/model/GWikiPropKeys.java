@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.model;
 /**
  * Standard property keys used in *Settings.properties.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiPropKeys

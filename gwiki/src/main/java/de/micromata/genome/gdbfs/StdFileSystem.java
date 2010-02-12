@@ -34,7 +34,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * FileSystem implementation using the standard operation system file system.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StdFileSystem extends AbstractFileSystem

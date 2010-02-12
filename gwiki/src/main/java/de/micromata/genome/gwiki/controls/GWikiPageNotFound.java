@@ -17,7 +17,7 @@ import de.micromata.genome.util.web.MimeUtils;
 /**
  * Standard Page not found ActionBean.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageNotFound extends GWikiCreateOrShowPage

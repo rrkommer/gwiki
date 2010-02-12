@@ -27,7 +27,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor Artefact for attachments.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[]> implements GWikiEditorArtefakt<byte[]>

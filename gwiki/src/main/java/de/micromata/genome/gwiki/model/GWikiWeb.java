@@ -39,7 +39,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * Central instance of a wiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWeb

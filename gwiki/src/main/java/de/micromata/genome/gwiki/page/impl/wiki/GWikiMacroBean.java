@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Simple render Bean. MacroAttributes will be mapped to Bean properties.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRuntimeMacro

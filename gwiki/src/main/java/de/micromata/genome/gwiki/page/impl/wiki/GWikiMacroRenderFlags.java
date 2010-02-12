@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 /**
  * Source Render modes for macros.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public enum GWikiMacroRenderFlags

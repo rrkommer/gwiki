@@ -12,7 +12,7 @@ package de.micromata.genome.gdbfs;
 /**
  * Exception thrown by FileSystem.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsException extends RuntimeException

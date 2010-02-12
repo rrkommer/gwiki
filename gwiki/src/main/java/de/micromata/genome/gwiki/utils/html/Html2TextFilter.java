@@ -25,7 +25,7 @@ import org.cyberneko.html.filters.DefaultFilter;
 /**
  * HTML Filter to generate text extract.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2TextFilter extends DefaultFilter

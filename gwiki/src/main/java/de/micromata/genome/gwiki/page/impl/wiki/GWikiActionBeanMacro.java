@@ -22,7 +22,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
  * 
  * never used.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiActionBeanMacro extends GWikiMacroBase implements GWikiRuntimeMacro, ActionBean

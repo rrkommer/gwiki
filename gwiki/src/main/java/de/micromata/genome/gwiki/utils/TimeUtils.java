@@ -19,7 +19,7 @@ import java.util.TimeZone;
 /**
  * Some standard tools handling time.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TimeUtils

@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Provides interationalization.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiI18nProvider

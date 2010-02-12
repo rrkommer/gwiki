@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Generates a wiki link.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WikiLinkTag extends WikiSimpleTagBase

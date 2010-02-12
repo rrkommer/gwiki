@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Standard GWikiBinaryArtefakt base implementation
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiBinaryArtefaktBase<T extends Serializable> implements GWikiBinaryArtefakt<T>, GWikiPersistArtefakt<T>

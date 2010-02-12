@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
 /**
  * Factory for a GWikiJspTagMacro.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiJspTagMacroFactory implements GWikiMacroFactory

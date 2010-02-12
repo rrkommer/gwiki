@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.utils;
 /**
  * A diff status of one line.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class DiffLine

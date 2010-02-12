@@ -20,7 +20,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Interface for a abstract file system.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface FileSystem

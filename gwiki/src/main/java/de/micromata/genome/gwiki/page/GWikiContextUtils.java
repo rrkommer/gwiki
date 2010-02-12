@@ -3,7 +3,7 @@ package de.micromata.genome.gwiki.page;
 /**
  * Utitilies for dealing with GWikiContext.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiContextUtils

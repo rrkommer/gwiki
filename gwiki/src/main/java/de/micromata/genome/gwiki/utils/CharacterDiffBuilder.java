@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Create a diff inside a line.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class CharacterDiffBuilder extends DiffBuilder

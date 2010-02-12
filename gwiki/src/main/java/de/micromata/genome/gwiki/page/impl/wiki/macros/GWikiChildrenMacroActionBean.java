@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 /**
  * An ActionBean for the childrean macro.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiChildrenMacroActionBean extends ActionBeanBase

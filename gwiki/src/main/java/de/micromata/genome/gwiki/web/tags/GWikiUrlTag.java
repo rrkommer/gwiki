@@ -35,7 +35,7 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 /**
  * Tag for url rendering to other pages.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUrlTag extends BodyTagSupport implements ParamParent

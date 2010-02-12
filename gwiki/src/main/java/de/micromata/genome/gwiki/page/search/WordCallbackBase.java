@@ -15,7 +15,7 @@ import org.apache.commons.collections15.Buffer;
 /**
  * Internal class to collect words.o
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class WordCallbackBase implements WordCallback

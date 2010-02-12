@@ -3,7 +3,7 @@ package de.micromata.genome.gwiki.umgmt;
 /**
  * Just takes a password and generates hashed value.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class MkPassHash

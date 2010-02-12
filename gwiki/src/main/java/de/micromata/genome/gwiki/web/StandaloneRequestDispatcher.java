@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 /**
  * Standalone servlet request dispatcher for batch processing and unit tests.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandaloneRequestDispatcher implements RequestDispatcher

@@ -15,7 +15,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * Macro Create a gallery of pages.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageGalleryMacro extends GWikiMacroBean

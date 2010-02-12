@@ -31,7 +31,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * A mounted web is for temporary storage of imported pages.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiMountedWeb implements Serializable

@@ -37,7 +37,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * ActionBean to compare two wiki elements.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiCompareActionBean extends ActionBeanBase

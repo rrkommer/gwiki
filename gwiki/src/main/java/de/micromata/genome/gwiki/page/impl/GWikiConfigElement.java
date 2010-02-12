@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * XML file configuration item.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiConfigElement extends GWikiAbstractElement

@@ -14,7 +14,7 @@ import de.micromata.genome.dao.db.StdRecordDO;
 /**
  * Representing a file or a directory in the FileSystem.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsObject extends StdRecordDO

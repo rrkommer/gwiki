@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Artefakt that can be persist.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiPersistArtefakt<T extends Serializable> extends GWikiArtefakt<T>

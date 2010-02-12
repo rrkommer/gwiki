@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Internal utils to deal with file names.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileNameUtils

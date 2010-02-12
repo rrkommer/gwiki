@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.utils.AppendableI;
 /**
  * Artefakt for HTML content.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHtmlArtefakt extends GWikiTextArtefaktBase<String> implements GWikiExecutableArtefakt<String>, GWikiIndexedArtefakt,

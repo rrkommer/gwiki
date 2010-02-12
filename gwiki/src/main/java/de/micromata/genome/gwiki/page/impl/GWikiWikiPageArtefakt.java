@@ -34,7 +34,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Artefakt containing a GWiki Text.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> implements GWikiIndexedArtefakt,

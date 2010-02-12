@@ -13,7 +13,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Combines a primary read/write and a secondary read only file system.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class CombinedFileSystem extends AbstractFileSystem

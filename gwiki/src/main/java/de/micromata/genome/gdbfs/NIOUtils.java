@@ -17,7 +17,7 @@ import java.nio.channels.Channel;
  * 
  * Only internal needed methods are implemented.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class NIOUtils

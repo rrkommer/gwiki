@@ -16,7 +16,7 @@ import org.apache.commons.lang.ArrayUtils;
 /**
  * List implementation based on int[].
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class IntArray extends AbstractList<Integer>

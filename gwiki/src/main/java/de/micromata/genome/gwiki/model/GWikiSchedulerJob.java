@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Interface for a job executed in a thread.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiSchedulerJob extends Serializable

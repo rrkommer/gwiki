@@ -57,7 +57,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * ActionBean for editing/creating/deleting pages.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean implements GWikiPropKeys

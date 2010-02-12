@@ -34,7 +34,7 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 /**
  * ActionBean provides information about all deleted pages.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiDeletedPagesActionBean extends ActionBeanBase

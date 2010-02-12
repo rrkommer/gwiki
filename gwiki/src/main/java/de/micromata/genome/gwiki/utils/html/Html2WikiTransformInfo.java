@@ -24,7 +24,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * Information to tranform html back to wiki syntax.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2WikiTransformInfo

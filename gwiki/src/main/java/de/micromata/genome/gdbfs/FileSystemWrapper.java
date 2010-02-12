@@ -19,7 +19,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Wrapper pattern for a FileSystem, delegating calls to nested file system.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileSystemWrapper extends AbstractFileSystem

@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Action for users.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiListUsersActionBean extends GWikiPageListActionBean

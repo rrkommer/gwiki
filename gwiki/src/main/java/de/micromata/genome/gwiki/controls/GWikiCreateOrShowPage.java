@@ -22,7 +22,7 @@ import de.micromata.genome.util.types.Converter;
  * ActionBean with no representation, which decides if target page can be created by current user and redirect to create page or page not
  * found.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiCreateOrShowPage extends ActionBeanBase

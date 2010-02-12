@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * An artefakt which store its data as binary.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiBinaryArtefakt<T extends Serializable> extends GWikiPersistArtefakt<T>

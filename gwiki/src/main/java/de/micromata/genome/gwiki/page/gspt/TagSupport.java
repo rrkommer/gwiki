@@ -41,7 +41,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TagSupport

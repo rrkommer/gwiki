@@ -32,7 +32,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
  * 
  * Registered macros will be access by prefix_tag
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUseJspTagLibMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro

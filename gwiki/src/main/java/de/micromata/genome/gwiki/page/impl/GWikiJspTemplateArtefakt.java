@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Artefact for a Jsp (GSPT) artefact.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiJspTemplateArtefakt extends GWikiTextArtefaktBase<Serializable> implements GWikiExecutableArtefakt<Serializable>,

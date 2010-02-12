@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Artefakt with has a string as storage.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  * @param <T> compiled version of the artefakt.
  */

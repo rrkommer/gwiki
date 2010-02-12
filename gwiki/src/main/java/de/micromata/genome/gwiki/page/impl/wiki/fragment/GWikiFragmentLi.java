@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * list elements inside a list.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFragmentLi extends GWikiFragmentDecorator

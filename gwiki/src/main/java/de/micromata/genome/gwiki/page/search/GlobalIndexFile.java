@@ -27,7 +27,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Format. <id1\n LocalIndex entries >id1\n <id2 LocalIndex entries >id1\n
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GlobalIndexFile implements GWikiPropKeys

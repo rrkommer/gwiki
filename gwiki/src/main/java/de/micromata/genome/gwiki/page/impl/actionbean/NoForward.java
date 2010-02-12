@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.impl.actionbean;
 /**
  * NoForward.class returned in ActionBean will simply do nothing.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public enum NoForward

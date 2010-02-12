@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * Compares values in the ElementInfo properties
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @Deprecated

@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
 /**
  * Extracts text from a xml file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class XmlTextExtractor extends TextExtractorBase

@@ -16,7 +16,7 @@ import java.util.Properties;
 /**
  * Not synchronized version of Properties
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class UnsyncProperties extends HashMap<String, Object>

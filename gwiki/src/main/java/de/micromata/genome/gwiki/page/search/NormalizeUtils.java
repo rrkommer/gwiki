@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 /**
  * Static utils to normalize search tokens.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class NormalizeUtils

@@ -22,7 +22,7 @@ import org.cyberneko.html.filters.DefaultFilter;
 /**
  * Html filter to combine two other filter.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class CombinedHtmlFilter extends DefaultFilter

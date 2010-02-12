@@ -10,7 +10,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Base editor artefact for editing code.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArtefakt

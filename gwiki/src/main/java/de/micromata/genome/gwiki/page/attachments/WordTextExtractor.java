@@ -19,7 +19,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Extracts text from a ms word file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WordTextExtractor extends TextExtractorBase

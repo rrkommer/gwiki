@@ -29,7 +29,7 @@ import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
 /**
  * Filter to create index.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class CreateIndexHtmlFilter extends CombinedHtmlFilter

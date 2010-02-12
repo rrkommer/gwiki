@@ -26,7 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * Base class to implement html macros.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHtmlTagMacro extends GWikiMacroBean

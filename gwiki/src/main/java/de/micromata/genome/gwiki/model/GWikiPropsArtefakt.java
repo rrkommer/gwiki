@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiPropsEditorArtefakt;
 /**
  * Artefakt hold a GWikiProps.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPropsArtefakt extends GWikiPersistArtefaktBase<GWikiProps> implements GWikiEditableArtefakt

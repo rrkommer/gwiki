@@ -15,7 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * Looks for GWikiContext.xml in the class laoder.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiCpContextBootstrapConfigLoader extends GWikiAbstractSpringContextBootstrapConfigLoader

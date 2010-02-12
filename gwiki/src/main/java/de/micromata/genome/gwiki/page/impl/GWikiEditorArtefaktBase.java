@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 /**
  * Base implementation for GWikiEditorArtefakt.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  * @param <T>
  */

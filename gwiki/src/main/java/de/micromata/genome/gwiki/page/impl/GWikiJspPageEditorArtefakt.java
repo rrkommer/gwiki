@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Editor for a GSPT/Jsp page.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt

@@ -17,7 +17,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Service interface for authentification, authorisation and user information.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiAuthorization

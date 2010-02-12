@@ -17,7 +17,7 @@ import org.dom4j.Element;
 /**
  * Holds a confluence body element.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class BodyContent extends Entity

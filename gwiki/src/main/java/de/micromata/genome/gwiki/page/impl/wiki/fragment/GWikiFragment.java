@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Base interface for a Wiki Element.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiFragment extends Serializable

@@ -19,7 +19,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * GWiki Artefakt for a word index file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt

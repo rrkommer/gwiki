@@ -3,7 +3,7 @@ package de.micromata.genome.gdbfs;
 /**
  * Combines a primary read/write and a secondary read only file system.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ReadWriteCombinedFileSystem extends CombinedFileSystem

@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * GWikiSessionProvider for standard sessions.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiStandardSessionProvider implements GWikiSessionProvider

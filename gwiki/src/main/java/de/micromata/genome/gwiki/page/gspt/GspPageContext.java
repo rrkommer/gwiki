@@ -25,7 +25,7 @@ import org.apache.taglibs.standard.tag.common.core.ImportSupport;
 /**
  * PageContext with extensions for GWARs
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GspPageContext extends ChildPageContext

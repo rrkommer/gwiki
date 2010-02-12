@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  *  TODO move this.
  */

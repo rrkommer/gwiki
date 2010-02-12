@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.utils;
 /**
  * Same as java.lang.appendable, but no IOException.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface AppendableI extends java.lang.Appendable

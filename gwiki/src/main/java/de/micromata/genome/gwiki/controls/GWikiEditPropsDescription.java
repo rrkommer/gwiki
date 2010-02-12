@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.controls;
 /**
  * TODO check if this is still necesary.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @Deprecated

@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.utils;
 /**
  * Appendable, which does not throw IOExceptions.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class AbstractAppendable implements AppendableI

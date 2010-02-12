@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
 /**
  * State hold by the gwiki parser.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiParserContext

@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ServletContextMock implements ServletContext

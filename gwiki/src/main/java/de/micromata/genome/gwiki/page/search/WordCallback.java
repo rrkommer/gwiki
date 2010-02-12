@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.search;
 /**
  * Will be called for index word.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface WordCallback

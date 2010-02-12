@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Holds a diff view.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class DiffSet

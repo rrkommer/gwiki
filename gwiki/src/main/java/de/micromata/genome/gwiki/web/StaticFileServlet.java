@@ -26,7 +26,7 @@ import de.micromata.genome.util.web.MimeUtils;
 
 /**
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * @deprecated the static content will also be provided by the GWikiServlet.
  * 
  */

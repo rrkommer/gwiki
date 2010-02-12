@@ -17,7 +17,7 @@ import com.lowagie.text.html.HtmlParser;
 /**
  * Pre-Alpha implementation of Pdf exporter.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GenPdfDocHtmlParser extends HtmlParser

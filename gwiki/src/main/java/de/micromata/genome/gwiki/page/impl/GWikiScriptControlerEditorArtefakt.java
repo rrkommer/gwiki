@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * A editor artefakt for groovy controler action beans.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiScriptControlerEditorArtefakt extends GWikiCodePageEditorArtefakt

@@ -41,7 +41,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * Storage filter to create index files on Gwiki Element save operations.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilter// , StoragePersistEventHandler

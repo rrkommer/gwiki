@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * GWikiLogging implementing writing to Log4J.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiLoggingLog4J extends GWikiLoggingBase

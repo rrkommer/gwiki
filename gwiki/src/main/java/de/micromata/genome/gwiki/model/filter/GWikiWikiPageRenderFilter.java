@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.model.filter;
 /**
  * Will be called with compiled Wiki Fragements. Target will render the Fragments.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiWikiPageRenderFilter extends GWikiFilter<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter>

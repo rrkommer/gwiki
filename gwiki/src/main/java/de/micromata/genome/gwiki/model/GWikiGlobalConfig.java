@@ -33,7 +33,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * Global Wiki configuration backing bean.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiGlobalConfig extends GWikiProps

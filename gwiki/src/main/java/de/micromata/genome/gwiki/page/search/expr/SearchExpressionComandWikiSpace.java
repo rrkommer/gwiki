@@ -23,7 +23,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * Search expression matches to WikiSpace.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionComandWikiSpace extends SearchExpressionCommand

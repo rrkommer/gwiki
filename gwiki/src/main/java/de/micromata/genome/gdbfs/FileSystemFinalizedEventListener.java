@@ -14,7 +14,7 @@ package de.micromata.genome.gdbfs;
  * 
  * This is usable, if lister want to implement batch operations.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface FileSystemFinalizedEventListener

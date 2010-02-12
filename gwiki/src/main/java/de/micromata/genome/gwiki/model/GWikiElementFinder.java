@@ -25,7 +25,7 @@ import de.micromata.genome.util.matcher.Matcher;
  * 
  * The common way to access this is wikiContext.getElementFinder().
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementFinder

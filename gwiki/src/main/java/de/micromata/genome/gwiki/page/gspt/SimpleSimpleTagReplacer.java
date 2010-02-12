@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SimpleSimpleTagReplacer extends TagReplacer

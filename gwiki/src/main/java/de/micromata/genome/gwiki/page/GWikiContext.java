@@ -62,7 +62,7 @@ import de.micromata.genome.util.types.ArraySet;
 /**
  * A GWikiContext is the central state to hold information in a request/response cycle.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiContext extends AbstractAppendable implements GWikiPropKeys

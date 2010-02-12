@@ -22,7 +22,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * utils to deal with properties.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PropUtils

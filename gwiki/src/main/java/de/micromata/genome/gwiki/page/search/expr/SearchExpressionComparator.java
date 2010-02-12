@@ -21,7 +21,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * Comparator of two field selectors.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionComparator implements SearchExpression

@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.web.dav.GDirectoryResource;
 /**
  * Experimental DAV service for MS Word online editing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GOfficeDirectoryResource extends GDirectoryResource

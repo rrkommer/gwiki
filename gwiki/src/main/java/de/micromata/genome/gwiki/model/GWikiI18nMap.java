@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * Map holding I18N keys.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiI18nMap extends HashMap<String, String> implements Serializable

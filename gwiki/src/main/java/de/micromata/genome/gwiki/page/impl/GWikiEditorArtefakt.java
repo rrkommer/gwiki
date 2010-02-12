@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * 
  * The render method should render a editor.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiEditorArtefakt<T extends Serializable> extends GWikiExecutableArtefakt<T>

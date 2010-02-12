@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.web.StandaloneHttpServletResponse;
 /**
  * Implementation for a GWikiContext with no http request/response attached.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiStandaloneContext extends GWikiContext

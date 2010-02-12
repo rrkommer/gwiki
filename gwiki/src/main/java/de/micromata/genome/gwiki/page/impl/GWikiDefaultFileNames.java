@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.impl;
 /**
  * constant interface for some standard gwiki element names.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiDefaultFileNames

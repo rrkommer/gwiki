@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Descriptor of a property value (Settings.properties or other).
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPropsDescriptorValue implements Serializable

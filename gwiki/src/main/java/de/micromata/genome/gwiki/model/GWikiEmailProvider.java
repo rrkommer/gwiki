@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Provides a service to send emails.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiEmailProvider

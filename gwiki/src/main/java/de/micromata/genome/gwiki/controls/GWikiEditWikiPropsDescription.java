@@ -13,7 +13,7 @@ package de.micromata.genome.gwiki.controls;
  * TODO gwiki delete me.
  * 
  * @deprecated now implemented via MetaTemplates.
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @Deprecated

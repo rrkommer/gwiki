@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Matches if GWikiElement is viewable.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiViewableMatcher extends GWikiElementMatcherBase

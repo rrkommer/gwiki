@@ -35,7 +35,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * PageContext with extensions for GWARs
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class ChildPageContext extends PageContext

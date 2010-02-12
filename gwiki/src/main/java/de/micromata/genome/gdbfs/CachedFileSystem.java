@@ -23,7 +23,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * Experimental Caching file system.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class CachedFileSystem extends FileSystemWrapper implements InitializingBean

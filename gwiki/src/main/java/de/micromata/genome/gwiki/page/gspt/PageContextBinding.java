@@ -10,7 +10,7 @@ import javax.servlet.jsp.PageContext;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PageContextBinding extends Binding

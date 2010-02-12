@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.search.SearchTextExtractorBase;
 /**
  * SearchExpression look at the pageId.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionComandPageIdMatcher extends SearchExpressionCommand

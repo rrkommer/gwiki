@@ -19,7 +19,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PageReplacer extends RegExpReplacer

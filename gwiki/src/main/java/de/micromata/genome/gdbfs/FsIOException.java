@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Exception thrown by FileSystem.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsIOException extends FsException

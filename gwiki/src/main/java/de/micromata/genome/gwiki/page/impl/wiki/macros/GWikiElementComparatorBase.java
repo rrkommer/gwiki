@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 /**
  * Base implementation for comparing GWikiElementInfo.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiElementComparatorBase implements Comparator<GWikiElementInfo>

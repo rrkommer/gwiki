@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * 
  * Needs GWIKI_DEVELOPER right to safe.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro

@@ -17,7 +17,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 /**
  * Configuration of the database used by DbFileSystem.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class DbTarget

@@ -25,7 +25,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 /**
  * GWiki macro to implement the noformat macro.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiNoFormatBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro

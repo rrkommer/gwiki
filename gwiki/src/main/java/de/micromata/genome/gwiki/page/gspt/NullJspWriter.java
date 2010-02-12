@@ -18,7 +18,7 @@ import javax.servlet.jsp.JspWriter;
  * 
  * JspWriter just discarging written content.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class NullJspWriter extends JspWriter

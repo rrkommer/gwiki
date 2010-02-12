@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 /**
  * Implementation now in WikiControlTemplate.groovy
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @Deprecated

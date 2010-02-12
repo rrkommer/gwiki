@@ -19,7 +19,7 @@ import org.dom4j.Text;
 /**
  * Internal entity element for confluence import.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class Entity

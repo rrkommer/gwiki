@@ -42,7 +42,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
 /**
  * Parser implementation for the GWiki syntax.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiParser

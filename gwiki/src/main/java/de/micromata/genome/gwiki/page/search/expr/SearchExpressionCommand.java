@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.search.expr;
 /**
  * Base class for SearchExpression with commands.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class SearchExpressionCommand extends SearchExpressionUnary

@@ -22,7 +22,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * A Simple user implementation held by GWikiSimpleUserAuthorization.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSimpleUser implements Serializable

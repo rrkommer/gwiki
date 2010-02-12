@@ -25,7 +25,7 @@ import de.micromata.genome.util.types.Holder;
 /**
  * Internal visitor to transform html to wiki.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor

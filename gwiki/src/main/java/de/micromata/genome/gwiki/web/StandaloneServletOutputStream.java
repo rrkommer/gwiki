@@ -17,7 +17,7 @@ import javax.servlet.ServletOutputStream;
 /**
  * Standalone response output stream for batch processing and unit tests.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandaloneServletOutputStream extends ServletOutputStream

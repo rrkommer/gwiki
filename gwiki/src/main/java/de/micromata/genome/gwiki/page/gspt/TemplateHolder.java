@@ -16,7 +16,7 @@ import java.io.Serializable;
 /**
  * serializable wrapper
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TemplateHolder implements Serializable

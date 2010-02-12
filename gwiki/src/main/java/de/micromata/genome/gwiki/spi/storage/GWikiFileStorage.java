@@ -65,7 +65,7 @@ import de.micromata.genome.util.types.TimeInMillis;
  * Storage handle persistancy of GWiki Elements.
  * 
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFileStorage implements GWikiStorage

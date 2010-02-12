@@ -12,7 +12,7 @@ package de.micromata.genome.gdbfs;
 /**
  * Type of the FileSystemEvent
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public enum FileSystemEventType

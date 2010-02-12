@@ -30,7 +30,7 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 /**
  * Internal implementation of the TagLibraryInfo class used for gspt.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TagLibraryInfoImpl extends TagLibraryInfo

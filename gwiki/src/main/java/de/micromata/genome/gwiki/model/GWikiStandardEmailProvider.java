@@ -23,7 +23,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 /**
  * Standard implementation for a GWikiEmailProvider.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiStandardEmailProvider implements GWikiEmailProvider

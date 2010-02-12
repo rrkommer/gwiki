@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 /**
  * Base class to implement a ActionBean as GWikiArtefakt.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends ActionBean>> implements

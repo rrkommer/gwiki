@@ -21,7 +21,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Dealing with persistancy of Elements and Artefakts.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiStorage

@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 /**
  * HTML tag macro with a evaluated body.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro, GWikiMacroRte

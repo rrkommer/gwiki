@@ -12,7 +12,7 @@ package de.micromata.genome.gdbfs;
 /**
  * Sent to FileSystemEventListener.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileSystemEvent

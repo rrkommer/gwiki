@@ -25,7 +25,7 @@ import org.apache.taglibs.standard.lang.jstl.JSTLVariableResolver;
  * Only reason for this class, because instead of org.apache.taglibs.standard.lang.support.ExpressionEvaluator it accepts not only Tag but
  * JspTag. Copy of org.apache.taglibs.standard.lang.jstl.Evaluator
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class JspTagEvaluator
