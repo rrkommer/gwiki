@@ -12,9 +12,14 @@ package de.micromata.genome.gwiki.tools.confluence.imp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
 
+/**
+ * Confluence Page.
+ * 
+ * @author roger
+ * 
+ */
 public class Page extends ConfluenceElement
 {
   private String parent;

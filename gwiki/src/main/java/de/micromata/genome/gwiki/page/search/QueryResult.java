@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.page.search;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A result bean for a search operation.
+ * 
+ * @author roger
+ * 
+ */
 public class QueryResult
 {
   private List<SearchResult> results;

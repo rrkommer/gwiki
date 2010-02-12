@@ -21,6 +21,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Standalone servlet request for batch processing and unit tests.
+ * 
+ * @author roger
+ * 
+ */
 public class StandaloneHttpServletResponse implements HttpServletResponse
 {
   private StandaloneServletOutputStream out = new StandaloneServletOutputStream();

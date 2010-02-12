@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.model.config;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+/**
+ * Loads a spring application context file from standard file system.
+ * 
+ * @author roger
+ * 
+ */
 public class GwikiFileContextBootstrapConfigLoader extends GWikiAbstractSpringContextBootstrapConfigLoader
 {
 

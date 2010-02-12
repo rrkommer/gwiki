@@ -18,6 +18,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
 
+/**
+ * Dealing with persistancy of Elements and Artefakts.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiStorage
 {
   /**

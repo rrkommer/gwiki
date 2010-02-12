@@ -16,6 +16,12 @@ import org.apache.xerces.xni.XMLString;
 import org.apache.xerces.xni.XNIException;
 import org.cyberneko.html.filters.DefaultFilter;
 
+/**
+ * Fitler, rendering a HTML preview.
+ * 
+ * @author roger
+ * 
+ */
 public class Html2PreviewHtmlFilter extends DefaultFilter
 {
   private StringBuilder textBuffer = new StringBuilder();

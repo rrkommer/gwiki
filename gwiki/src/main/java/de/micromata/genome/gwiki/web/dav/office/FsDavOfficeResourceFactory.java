@@ -19,6 +19,12 @@ import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
 import de.micromata.genome.gwiki.web.dav.GDirectoryResource;
 import de.micromata.genome.gwiki.web.dav.GFileResource;
 
+/**
+ * Experimental DAV service for MS Word online editing.
+ * 
+ * @author roger
+ * 
+ */
 public class FsDavOfficeResourceFactory implements ResourceFactory
 {
   private GWikiWeb wikiWeb;

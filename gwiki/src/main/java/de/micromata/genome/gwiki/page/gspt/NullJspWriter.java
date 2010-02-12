@@ -13,6 +13,14 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspWriter;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * JspWriter just discarging written content.
+ * 
+ * @author roger
+ * 
+ */
 public class NullJspWriter extends JspWriter
 {
   public NullJspWriter()

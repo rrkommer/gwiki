@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl;
 
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,18 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
-public class GWikiPropsEditorArtefakt extends GWikiEditorArtefaktBase
+/**
+ * Editor artefakt for properties with a GWikiPropsDescriptor.
+ * 
+ * @author roger
+ * 
+ * @param <T>
+ */
+public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEditorArtefaktBase<T>
 {
+
+  private static final long serialVersionUID = -987015918439198302L;
+
   private GWikiPropsArtefakt props;
 
   private GWikiPropsDescriptor propDescriptor;

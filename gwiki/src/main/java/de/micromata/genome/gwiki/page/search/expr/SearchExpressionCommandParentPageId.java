@@ -20,6 +20,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 
+/**
+ * Matches against parent page id.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchExpressionCommandParentPageId extends SearchExpressionCommand
 {
 
@@ -38,6 +44,7 @@ public class SearchExpressionCommandParentPageId extends SearchExpressionCommand
     }
     return ret;
   }
+
   public List<String> getLookupWords()
   {
     return Collections.emptyList();

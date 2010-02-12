@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.attachments;
 
 import java.io.InputStream;
 
+/**
+ * Base implementation for a TextExtractor.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class TextExtractorBase implements TextExtractor
 {
   protected String fileName;

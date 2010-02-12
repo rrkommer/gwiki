@@ -20,6 +20,12 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+/**
+ * Standard implementation for a GWikiEmailProvider.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiStandardEmailProvider implements GWikiEmailProvider
 {
   private static final String DEFAULT_MAIL_ENCODING = "ISO-8859-1";

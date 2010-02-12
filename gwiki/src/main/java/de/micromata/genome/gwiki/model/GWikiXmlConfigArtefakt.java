@@ -22,6 +22,13 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiTextPageEditorArtefakt;
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Artefakt for a spring xml configuration file.
+ * 
+ * @author roger
+ * 
+ * @param <T>
+ */
 public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArtefaktBase<T> implements GWikiEditableArtefakt
 {
 
@@ -41,10 +48,10 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
     if (beanFactory == null) {
       String sdata = getStorageData();
       Resource resource = new ByteArrayResource(Converter.bytesFromString(sdata));
-      
+
       XmlBeanFactory bf = new XmlBeanFactory(resource);
       // ist nicht gegen aeltere spring-version kompatibel
-      //bf.setBeanClassLoader(Thread.currentThread().getContextClassLoader());
+      // bf.setBeanClassLoader(Thread.currentThread().getContextClassLoader());
       beanFactory = bf;
     }
     T bean = (T) beanFactory.getBean("config");

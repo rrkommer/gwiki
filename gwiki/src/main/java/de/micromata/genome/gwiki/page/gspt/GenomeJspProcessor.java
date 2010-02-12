@@ -17,6 +17,12 @@ import javax.servlet.jsp.PageContext;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class GenomeJspProcessor implements GWikiJspProcessor
 {
   protected void initPageContext(GWikiContext ctx)

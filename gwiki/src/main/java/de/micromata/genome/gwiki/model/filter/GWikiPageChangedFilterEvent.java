@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Event for GWikiPageChangedFilter.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPageChangedFilterEvent extends GWikiFilterEvent
 {
   private GWikiWeb wikiWeb;

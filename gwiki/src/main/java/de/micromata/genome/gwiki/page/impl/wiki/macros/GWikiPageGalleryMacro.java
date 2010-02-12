@@ -12,6 +12,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
+/**
+ * Macro Create a gallery of pages.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPageGalleryMacro extends GWikiMacroBean
 {
 
@@ -50,9 +56,10 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
       ctx.append("<td valign=\"top\">");
       GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
       ctx.append("<table border=\"0\" cellspacing=\"0\" ><tr>");
-      ctx.append("<th  valign=\"top\" width=\"" + columnWidth + "\">").append(ctx.getTranslatedProp(el.getElementInfo().getTitle())).append("</th></tr>");
+      ctx.append("<th  valign=\"top\" width=\"" + columnWidth + "\">").append(ctx.getTranslatedProp(el.getElementInfo().getTitle()))
+          .append("</th></tr>");
       ctx.append("<tr height=\"" + rowHeight + "\"><td valign=\"top\">");
-      /*oncontextmenu=\"alert('clicked');\" */
+      /* oncontextmenu=\"alert('clicked');\" */
       ctx.append("<div style=\"font-size:0.3em;size:0.3em;\"  ondblclick=\"document.location.href='"
           + ctx.localUrl(el.getElementInfo().getId())
           + "';\">");

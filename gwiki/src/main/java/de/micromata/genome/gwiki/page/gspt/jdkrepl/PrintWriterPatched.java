@@ -34,8 +34,13 @@ import java.util.Locale;
 import de.micromata.genome.gwiki.page.gspt.BodyFlusher;
 import de.micromata.genome.util.bean.PrivateBeanUtils;
 
-
 /**
+ * This is patched version of the jdk PrintWriter implmentation. Different to the orignal class, the defaultNewLine will not initialized
+ * every time on construction, but only once, when class is loaded. The reason is, when using PrintWriter in multi threaded context every
+ * construction of PrintWriter will be fully synchronized because of reading system properties.
+ * 
+ * Original docu:
+ * 
  * Print formatted representations of objects to a text-output stream. This class implements all of the <tt>print</tt> methods found in
  * {@link PrintStream}. It does not contain methods for writing raw bytes, for which a program should use unencoded byte streams.
  * 

@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.page.search;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Static utils to normalize search tokens.
+ * 
+ * @author roger
+ * 
+ */
 public class NormalizeUtils
 {
   private static ThreadLocal<Pattern> NON_ALPHANUM_PATTERN = new ThreadLocal<Pattern>() {
@@ -60,6 +66,7 @@ public class NormalizeUtils
     }
     return ret.toString();
   }
+
   /**
    * @see normalize(name, true);
    * @param Name

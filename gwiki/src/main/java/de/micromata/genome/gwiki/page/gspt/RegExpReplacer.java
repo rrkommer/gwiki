@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.gspt;
 
 import java.util.regex.Pattern;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class RegExpReplacer extends ReplacerBase
 {
   private Pattern startPattern;

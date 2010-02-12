@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * A editor artefakt for groovy controler action beans.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiScriptControlerEditorArtefakt extends GWikiCodePageEditorArtefakt
 {
   private static final long serialVersionUID = -4234425256998011853L;

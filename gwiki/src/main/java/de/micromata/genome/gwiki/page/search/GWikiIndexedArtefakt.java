@@ -18,7 +18,6 @@ import de.micromata.genome.gwiki.utils.AppendableI;
  * @author roger@micromata.de
  * 
  */
-
 public interface GWikiIndexedArtefakt
 {
   void getPreview(GWikiContext ctx, AppendableI sb);

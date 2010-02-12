@@ -24,9 +24,18 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 
+/**
+ * An artefakt implementing a ActionBean via groovy script.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ? extends ActionBeanBase>> implements
     GWikiExecutableArtefakt<Class< ? extends ActionBeanBase>>, GWikiEditableArtefakt
 {
+
+  private static final long serialVersionUID = 1185666527076725648L;
+
   private Class< ? extends ActionBeanBase> beanClass;
 
   public String getFileSuffix()
@@ -36,7 +45,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
 
   protected boolean inputForward(GWikiContext ctx)
   {
-    GWikiExecutableArtefakt forward = (GWikiExecutableArtefakt) getParts().get("InputForward");
+    GWikiExecutableArtefakt< ? > forward = (GWikiExecutableArtefakt< ? >) getParts().get("InputForward");
     if (forward == null) {
       return true;
     }
@@ -60,6 +69,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
     }
   }
 
+  @SuppressWarnings("unchecked")
   protected Class< ? extends ActionBeanBase> getActionBeanClassFromSettings(GWikiContext ctx)
   {
     if (beanClass != null) {
@@ -104,6 +114,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
     }
   }
 
+  @SuppressWarnings("unchecked")
   public Class< ? extends ActionBeanBase> getActionBeanClass(GWikiContext ctx)
   {
     if (getCompiledObject() != null)
@@ -116,7 +127,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
     return getCompiledObject();
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiScriptControlerEditorArtefakt(elementToEdit, bean, partKey, this);
   }

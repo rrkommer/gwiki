@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.tools.confluence.imp;
 
 import org.dom4j.Element;
 
+/**
+ * Holds an Confluence attachment.
+ * 
+ * @author roger
+ * 
+ */
 public class Attachment extends ConfluenceElement
 {
   protected String fileName;

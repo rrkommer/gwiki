@@ -13,8 +13,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger@micromata.de
+ * @author roger
  * 
  */
 public abstract class TagReplacer extends ReplacerBase

@@ -20,6 +20,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 
+/**
+ * Search expression matches to WikiSpace.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchExpressionComandWikiSpace extends SearchExpressionCommand
 {
   public SearchExpressionComandWikiSpace(String command, SearchExpression nested)

@@ -22,7 +22,7 @@ import org.cyberneko.html.HTMLConfiguration;
 import org.cyberneko.html.filters.Writer;
 
 /**
- * Filter just pass throgh
+ * Filter just pass throgh. Can be used as base implementation.
  * 
  * @author roger@micromata.de
  * 

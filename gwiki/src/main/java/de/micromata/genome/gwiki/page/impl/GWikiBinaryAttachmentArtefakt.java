@@ -20,7 +20,6 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.attachments.TextExtractorUtils;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
-import de.micromata.genome.gwiki.page.search.WordCallback;
 import de.micromata.genome.gwiki.utils.AppendableI;
 
 /**
@@ -58,7 +57,7 @@ public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[
     }
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiAttachmentEditorArtefakt(elementToEdit, bean, partKey, this);
   }

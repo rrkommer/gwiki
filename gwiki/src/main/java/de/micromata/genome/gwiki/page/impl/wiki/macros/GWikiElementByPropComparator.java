@@ -13,6 +13,12 @@ import java.util.Comparator;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
+/**
+ * Compatator to compare two GWikiElementInfo by a property string value.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiElementByPropComparator extends GWikiElementComparatorBase
 {
   private String propName;

@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.model;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * GWikiWeb static utils.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWebUtils
 {
   public static GWikiElement createNewElement(GWikiContext wikiContext, String id, String metaTemplateId, String title)

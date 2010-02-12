@@ -31,11 +31,16 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
-import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Importer for confluence XML exported spaces.
+ * 
+ * @author roger
+ * 
+ */
 public class ConfluenceImporter implements GWikiPropKeys
 {
   private FileSystem fileSystem;

@@ -14,6 +14,12 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.page.impl.GWikiTextContentArtefakt;
 
+/**
+ * GWiki Artefakt to hold a word intext text file.
+ * 
+ * @author roger
+ * 
+ */
 public class WordIndexTextArtefakt extends GWikiTextContentArtefakt
 {
 

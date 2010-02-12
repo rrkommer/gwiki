@@ -19,6 +19,12 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiTextPageEditorArtefakt;
 import de.micromata.genome.gwiki.utils.PropUtils;
 
+/**
+ * Artefakt holding I18N-Properties.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiI18NArtefakt extends GWikiTextArtefaktBase<GWikiI18nMap> implements GWikiEditableArtefakt
 {
 

@@ -16,6 +16,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 
+/**
+ * A search expression interface.
+ * 
+ * @author roger
+ * 
+ */
 public interface SearchExpression
 {
   public Collection<SearchResult> filter(GWikiContext ctx, SearchQuery query);

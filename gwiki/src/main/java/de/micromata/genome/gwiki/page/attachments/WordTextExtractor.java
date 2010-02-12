@@ -16,6 +16,12 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Extracts text from a ms word file.
+ * 
+ * @author roger
+ * 
+ */
 public class WordTextExtractor extends TextExtractorBase
 {
   public WordTextExtractor(String fileName, InputStream data)

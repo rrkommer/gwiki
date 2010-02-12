@@ -16,6 +16,12 @@ import java.util.Map;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.util.types.TimeInMillis;
 
+/**
+ * A meta template defines the internal structure of a GWikiElement.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiMetaTemplate implements Serializable
 {
 

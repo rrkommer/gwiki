@@ -14,6 +14,12 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Interface for a job executed in a thread.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiSchedulerJob extends Serializable
 {
   public Object call(Map<String, String> args);

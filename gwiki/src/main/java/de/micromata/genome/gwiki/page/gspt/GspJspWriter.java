@@ -17,7 +17,7 @@ import javax.servlet.jsp.JspWriter;
 import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
 
 /**
- * Wird im Jetty-Umfeld verwendet.
+ * Will be used in Jetty-environment.
  */
 public class GspJspWriter extends JspWriter implements BodyFlusher
 {

@@ -13,6 +13,12 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Interface for caching pages.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiPageCache
 {
   public void clearCachedPages();

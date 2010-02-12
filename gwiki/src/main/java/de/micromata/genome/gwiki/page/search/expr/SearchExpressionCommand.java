@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.search.expr;
 
+/**
+ * Base class for SearchExpression with commands.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class SearchExpressionCommand extends SearchExpressionUnary
 {
   protected String command;

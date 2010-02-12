@@ -23,6 +23,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
+/**
+ * A macro implemented by a GWiki element script.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
 {
 

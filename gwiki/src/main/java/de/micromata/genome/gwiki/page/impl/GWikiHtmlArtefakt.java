@@ -9,16 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
-import de.micromata.genome.gwiki.page.search.HtmlParserWordCallback2;
-import de.micromata.genome.gwiki.page.search.WordCallback;
 import de.micromata.genome.gwiki.utils.AppendableI;
 
 /**
@@ -50,7 +46,7 @@ public class GWikiHtmlArtefakt extends GWikiTextArtefaktBase<String> implements 
     sb.append(getStorageData());
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiHtmlEditorArtefakt(elementToEdit, bean, partKey, this);
   }

@@ -16,6 +16,12 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class PageReplacer extends RegExpReplacer
 {
   public PageReplacer()

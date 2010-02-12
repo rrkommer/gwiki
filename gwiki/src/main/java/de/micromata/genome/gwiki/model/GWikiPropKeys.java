@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model;
 
+/**
+ * Standard property keys used in *Settings.properties.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiPropKeys
 {
   public static final String PAGEID = "PAGEID";

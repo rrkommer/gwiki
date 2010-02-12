@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.gspt;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * 
+ * @author roger
+ * 
+ *  TODO move this.
+ */
 public class BeanTools
 {
   public static String propertyToGetterMethod(String prop)

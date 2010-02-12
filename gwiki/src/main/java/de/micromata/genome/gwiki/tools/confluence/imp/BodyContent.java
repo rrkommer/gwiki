@@ -14,6 +14,12 @@ import java.util.List;
 
 import org.dom4j.Element;
 
+/**
+ * Holds a confluence body element.
+ * 
+ * @author roger
+ * 
+ */
 public class BodyContent extends Entity
 {
   private List<String> bodies;

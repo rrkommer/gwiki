@@ -17,6 +17,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 
+/**
+ * Combine two SearchExpression with AND.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchExpressionAnd extends SearchExpressionBinary
 {
 
@@ -49,7 +55,5 @@ public class SearchExpressionAnd extends SearchExpressionBinary
   {
     return "and(" + left.toString() + ", " + right.toString() + ")";
   }
-
-  
 
 }

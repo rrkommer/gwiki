@@ -59,6 +59,12 @@ import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.ArraySet;
 
+/**
+ * A GWikiContext is the central state to hold information in a request/response cycle.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 {
   /**

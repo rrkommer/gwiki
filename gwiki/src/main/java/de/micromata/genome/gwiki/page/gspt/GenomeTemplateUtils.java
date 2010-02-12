@@ -38,6 +38,12 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class GenomeTemplateUtils
 {
   private static boolean servletApi24 = true;

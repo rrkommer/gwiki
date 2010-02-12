@@ -17,6 +17,12 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Utitilies to extreact text.
+ * 
+ * @author roger
+ * 
+ */
 public class TextExtractorUtils
 {
   /**

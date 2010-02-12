@@ -17,13 +17,19 @@ import de.micromata.genome.util.matcher.OrMatcher;
 import de.micromata.genome.util.matcher.string.ContainsMatcher;
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Factory to create matchers.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchMatcherFactory implements MatcherFactory<String>
 {
 
   public Matcher<String> createMatcher(String pattern)
   {
     List<String> parts = Converter.parseStringTokens(pattern, " ", false);
-    
+
     Matcher<String> lm = null;// new OrMatcher<String>();
 
     for (String p : parts) {

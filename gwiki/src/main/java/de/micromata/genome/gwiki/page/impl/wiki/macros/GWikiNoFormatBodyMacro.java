@@ -22,6 +22,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
+/**
+ * GWiki macro to implement the noformat macro.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiNoFormatBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro
 {
   private static final long serialVersionUID = 335691916315972801L;

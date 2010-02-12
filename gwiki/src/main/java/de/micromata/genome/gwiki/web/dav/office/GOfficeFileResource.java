@@ -21,6 +21,12 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.web.dav.GFileResource;
 
+/**
+ * Experimental DAV service for MS Word online editing.
+ * 
+ * @author roger
+ * 
+ */
 public class GOfficeFileResource extends GFileResource
 {
   private GWikiElement element;

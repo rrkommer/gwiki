@@ -13,6 +13,12 @@ import java.util.Comparator;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
+/**
+ * Base implementation for comparing GWikiElementInfo.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiElementComparatorBase implements Comparator<GWikiElementInfo>
 {
   protected Comparator<GWikiElementInfo> parentComparator;

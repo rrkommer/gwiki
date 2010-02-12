@@ -13,8 +13,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A descriptor bean for properties.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiPropsDescriptor implements Serializable
 {
+
+  private static final long serialVersionUID = -3438528857386553181L;
+
   public List<GWikiPropsDescriptorValue> descriptors = new ArrayList<GWikiPropsDescriptorValue>();
 
   public List<GWikiPropsDescriptorValue> getDescriptors()

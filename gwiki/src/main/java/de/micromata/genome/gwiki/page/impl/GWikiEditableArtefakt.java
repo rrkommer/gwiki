@@ -13,14 +13,19 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 
 /**
- * The artefakt
+ * An artefakt which is editable.
  * 
  * @author roger@micromata.de
  * 
  */
 public interface GWikiEditableArtefakt
 {
-  // TODO hier auch noch Parent element uebergeben, so dass der Part ggf. auf Props zugreifen kann.
-
+  /**
+   * 
+   * @param elementToEdit the element which should be edited.
+   * @param editBean
+   * @param partKey name of the artefakt
+   * @return editor for this artefact.
+   */
   GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partKey);
 }

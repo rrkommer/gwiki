@@ -13,6 +13,12 @@ import java.util.Comparator;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
+/**
+ * Comparator to compare two int values in the GWikielementInfo.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiElementByIntPropComparator extends GWikiElementComparatorBase
 {
   private String propName;

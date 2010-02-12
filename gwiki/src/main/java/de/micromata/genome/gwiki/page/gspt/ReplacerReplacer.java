@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.page.gspt;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class ReplacerReplacer extends ReplacerBase
 {
   GsptPreprocessor processor;

@@ -11,7 +11,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;

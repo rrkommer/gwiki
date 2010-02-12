@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.model.filter;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Event with a containing GWikiElement.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiElementFilterEvent extends GWikiFilterEvent
 {
   protected GWikiElement element;

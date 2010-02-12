@@ -17,6 +17,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
+/**
+ * Extracts text from a excel sheet.
+ * 
+ * @author roger
+ * 
+ */
 public class ExcelTextExtractor extends TextExtractorBase
 {
   public ExcelTextExtractor(String fileName, InputStream data)

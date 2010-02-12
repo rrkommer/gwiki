@@ -62,7 +62,8 @@ import de.micromata.genome.util.types.Pair;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
- * id[-version].properties id.txt id.gspt
+ * Storage handle persistancy of GWiki Elements.
+ * 
  * 
  * @author roger@micromata.de
  * 

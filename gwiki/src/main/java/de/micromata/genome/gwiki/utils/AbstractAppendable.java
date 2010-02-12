@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils;
 
+/**
+ * Appendable, which does not throw IOExceptions.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class AbstractAppendable implements AppendableI
 {
 

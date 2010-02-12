@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl;
 
+/**
+ * constant interface for some standard gwiki element names.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiDefaultFileNames
 {
   public static final String DEFAULT_METATEMPLATE = "admin/templates/StandardWikiPageMetaTemplate";

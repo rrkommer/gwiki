@@ -15,6 +15,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
+/**
+ * Base implementation of a GWikiSchedulerJob.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiSchedulerJobBase implements GWikiSchedulerJob
 {
 

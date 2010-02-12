@@ -24,6 +24,13 @@ import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
 
+/**
+ * GWikiElement for a standard Wiki Page.
+ * 
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 {
 

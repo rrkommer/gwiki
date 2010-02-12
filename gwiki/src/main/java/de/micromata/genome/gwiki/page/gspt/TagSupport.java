@@ -38,6 +38,12 @@ import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
 import de.micromata.genome.util.bean.SoftCastPropertyUtilsBean;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class TagSupport
 {
   private static final Logger log = Logger.getLogger(TagSupport.class);

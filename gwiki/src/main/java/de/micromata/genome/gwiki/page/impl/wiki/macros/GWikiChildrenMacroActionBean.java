@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
+/**
+ * An ActionBean for the childrean macro.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiChildrenMacroActionBean extends ActionBeanBase
 {
   private boolean all;

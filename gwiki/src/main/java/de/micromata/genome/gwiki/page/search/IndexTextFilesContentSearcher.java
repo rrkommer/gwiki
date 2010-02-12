@@ -34,6 +34,12 @@ import de.micromata.genome.util.matcher.string.StringMatcherBase;
 import de.micromata.genome.util.matcher.string.StringPatternMatcherBase;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * ContentSearch using index text files.
+ * 
+ * @author roger
+ * 
+ */
 public class IndexTextFilesContentSearcher implements ContentSearcher
 {
 

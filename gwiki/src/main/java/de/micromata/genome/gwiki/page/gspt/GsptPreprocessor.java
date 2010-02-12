@@ -24,6 +24,12 @@ import javax.servlet.jsp.tagext.TagInfo;
 
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class GsptPreprocessor
 {
   private Map<String, Class< ? >> tagLibs = new HashMap<String, Class< ? >>();

@@ -14,6 +14,12 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Matcher to find child.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiChildMatcher extends GWikiElementMatcherBase
 {
 

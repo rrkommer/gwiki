@@ -10,7 +10,6 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
@@ -25,6 +24,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
+/**
+ * Editor Artefact for attachments.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[]> implements GWikiEditorArtefakt<byte[]>
 {
 
@@ -76,11 +81,11 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
         return;
       }
       if (dataFile == null || dataFile.getSize() != -1) {
-        //dif = dataFile.getInputStream();
-//        if (dif == null && attachment.getStorageData() == null) {
-//          ctx.addSimpleValidationError("no data to upload/empty file");
-//        }
-//        return;
+        // dif = dataFile.getInputStream();
+        // if (dif == null && attachment.getStorageData() == null) {
+        // ctx.addSimpleValidationError("no data to upload/empty file");
+        // }
+        // return;
       }
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       byte[] data;
@@ -189,7 +194,7 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     }
     String pageId = editBean.getPageId();
 
-    String url = ctx.localUrl("/edit/UploadAppletWindow?");
+    //String url = ctx.localUrl("/edit/UploadAppletWindow?");
     StringBuilder sb = new StringBuilder();
     if (StringUtils.isNotEmpty(pageId) == true) {
       if (sb.length() > 0) {

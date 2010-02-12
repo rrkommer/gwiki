@@ -17,6 +17,12 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Action for users.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiListUsersActionBean extends GWikiPageListActionBean
 {
   public GWikiListUsersActionBean()
@@ -44,7 +50,11 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
       return props.getStringValue("email");
     }
     if ("operations".equals(fieldName) == true) {
-      return "<a href='" + wikiContext.localUrl("edit/UserProfile") + "?pageId=" + elementInfo.getId() + "&backUrl=edit/ListUsers'>Edit</a>";
+      return "<a href='"
+          + wikiContext.localUrl("edit/UserProfile")
+          + "?pageId="
+          + elementInfo.getId()
+          + "&backUrl=edit/ListUsers'>Edit</a>";
     }
     return super.renderField(fieldName, elementInfo);
   }

@@ -11,7 +11,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtilsBean;

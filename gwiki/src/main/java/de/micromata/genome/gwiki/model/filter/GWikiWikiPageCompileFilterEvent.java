@@ -13,6 +13,12 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 
+/**
+ * Event for a GWikiWikiPageCompileFilter.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiPageCompileFilterEvent extends GWikiFilterEvent
 {
   protected GWikiElement element;

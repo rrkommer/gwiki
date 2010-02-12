@@ -17,6 +17,12 @@ import de.micromata.genome.gwiki.utils.ThrowableUtils;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
+/**
+ * Editor artefakt for editing gwiki wiki text.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
 {
 
@@ -54,10 +60,9 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       thisPageId = editBean.getPageId();
     }
     String pn = partName;
-    String html =
-    Html.textarea(
-        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText", "style",
-            "width:100%;height:100%"), // 
+    String html = Html.textarea(
+        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText",
+            "style", "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
     "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">"
@@ -87,23 +92,34 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "<div id='gwikiwktabs"
         + pn
         + "'>"
-        + "<ul><li><a href='#WikiEdit" + pn + "'><span>Wiki</span></a></li><li>"
+        + "<ul><li><a href='#WikiEdit"
+        + pn
+        + "'><span>Wiki</span></a></li><li>"
         + "<a href='#WikiRte"
         + pn
-        + "'><span>Rich Text</span></a></li><li><a href='#WikiPreview" + pn + "'><span>Preview</span></a></li></ul>"
-        + "<div id='WikiEdit" + pn + "'>"
+        + "'><span>Rich Text</span></a></li><li><a href='#WikiPreview"
+        + pn
+        + "'><span>Preview</span></a></li></ul>"
+        + "<div id='WikiEdit"
+        + pn
+        + "'>"
         + html
         + "</div>"
-        + "<div id='WikiRte" + pn + "'></div>"
-        + "<div id='WikiPreview" + pn + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
+        + "<div id='WikiRte"
+        + pn
+        + "'></div>"
+        + "<div id='WikiPreview"
+        + pn
+        + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
         + "</div>"
         + "</div>"
         + "</div>";
     ctx.append(tabs);
 
-    ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){\n" 
-        + " jQuery(\"#textarea" + pn + "\").gwikiedit({\n",
-        "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '", partName, "' ");
+    ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){\n"
+        + " jQuery(\"#textarea"
+        + pn
+        + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '", partName, "' ");
     if (thisPageId != null) {
       ctx.append(", parentPageId: '", thisPageId, "'");
     }

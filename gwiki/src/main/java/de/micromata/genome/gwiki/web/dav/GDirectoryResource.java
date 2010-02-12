@@ -38,6 +38,12 @@ import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FsDirectoryObject;
 import de.micromata.genome.gdbfs.FsObject;
 
+/**
+ * WebDav service implementation.
+ * 
+ * @author roger
+ * 
+ */
 public class GDirectoryResource extends GFsResource implements MakeCollectionableResource, PutableResource, CopyableResource,
     DeletableResource, MoveableResource, PropFindableResource, GetableResource
 {

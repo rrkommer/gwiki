@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.page.search.expr;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Combine two SearchExpression .
+ * 
+ * @author roger
+ * 
+ */
 public abstract class SearchExpressionBinary implements SearchExpression
 {
 

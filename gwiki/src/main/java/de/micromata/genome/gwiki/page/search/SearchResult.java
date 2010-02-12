@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.search;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
+/**
+ * Internal class to hold a search result element.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchResult
 {
   private GWikiElementInfo elementInfo;

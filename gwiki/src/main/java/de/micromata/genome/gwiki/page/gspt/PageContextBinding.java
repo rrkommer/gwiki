@@ -7,6 +7,12 @@ import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
 
+/**
+ * Internal implementation for jsp/GSPT-Parsing.
+ * 
+ * @author roger
+ * 
+ */
 public class PageContextBinding extends Binding
 {
   private PageContext pageContext;

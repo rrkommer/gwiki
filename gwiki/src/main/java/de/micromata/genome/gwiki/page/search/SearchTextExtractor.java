@@ -11,6 +11,12 @@ package de.micromata.genome.gwiki.page.search;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * create a raw text extract.
+ * 
+ * @author roger
+ * 
+ */
 public interface SearchTextExtractor
 {
   String getRawText(GWikiContext ctx, SearchQuery query, SearchResult sr);

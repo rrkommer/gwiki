@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
 /**
+ * utils to deal with properties.
  * 
  * @author roger@micromata.de
  * 

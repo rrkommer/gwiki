@@ -12,6 +12,12 @@ package de.micromata.genome.gwiki.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds a diff view.
+ * 
+ * @author roger
+ * 
+ */
 public class DiffSet
 {
   public static enum DiffSetStatus

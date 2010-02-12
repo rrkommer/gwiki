@@ -24,6 +24,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
 
+/**
+ * User authorization.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
 {
   /**

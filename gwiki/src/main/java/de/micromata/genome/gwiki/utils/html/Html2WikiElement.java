@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils.html;
 
+/**
+ * Interface to a Wiki element used by the html 2 wiki filter
+ * 
+ * @author roger
+ * 
+ */
 public interface Html2WikiElement
 {
   public String name();

@@ -9,7 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model.filter;
 
+/**
+ * Filter if a page was changed.
+ * 
+ * @author roger
+ * 
+ */
 public interface GWikiPageChangedFilter extends GWikiFilter<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter>
 {
-  
+
 }

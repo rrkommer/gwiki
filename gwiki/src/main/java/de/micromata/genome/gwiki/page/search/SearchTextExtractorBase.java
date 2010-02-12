@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.search;
 
+/**
+ * Base implementation of the SearchTextExtractor interface.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class SearchTextExtractorBase implements SearchTextExtractor
 {
   private int weight = 1;

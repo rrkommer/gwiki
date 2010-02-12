@@ -7,13 +7,19 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
+/**
+ * Base editor artefact for editing code.
+ * 
+ * @author roger
+ * 
+ */
 public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArtefakt
 {
 
   private static final long serialVersionUID = 1489327680460828556L;
 
   public GWikiCodePageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
-      GWikiTextArtefaktBase textPage)
+      GWikiTextArtefaktBase< ? > textPage)
   {
     super(elementToEdit, editBean, partName, textPage);
   }
@@ -51,12 +57,18 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
         + "function "
         + partName
         + "Activate(partName){\n"
-        + "gwikiActivateCodeEditor('" + textId + "', partName, '" + getCodeType() + "');\n"
+        + "gwikiActivateCodeEditor('"
+        + textId
+        + "', partName, '"
+        + getCodeType()
+        + "');\n"
         + "}\n"
         + "function "
         + partName
         + "Deactivate(partName){\n"
-        + "gwikiDeActivateCodeEditor('" + textId + "', partName);\n"
+        + "gwikiDeActivateCodeEditor('"
+        + textId
+        + "', partName);\n"
         + "}\n"
         + "</script>\n";
 

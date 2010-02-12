@@ -17,6 +17,12 @@ import de.micromata.genome.gwiki.utils.IntArray;
 import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.util.runtime.CallableX1;
 
+/**
+ * GWiki text parsed token.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiWikiTokens
 {
   protected IntArray tokenOffsets = new IntArray();
@@ -71,7 +77,7 @@ public class GWikiWikiTokens
   public String getTokens()
   {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i /*                         * 2 */< tokenOffsets.size(); ++i) {
+    for (int i = 0; i /*                          * 2 */< tokenOffsets.size(); ++i) {
       String s = text.substring(tokenOffsets.getInt(i), tokenOffsets.getInt(i + 1));
       sb.append("[").append(s).append("]\n");
     }

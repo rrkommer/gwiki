@@ -25,6 +25,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentUnsecureHt
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
+/**
+ * Macro to implement the html macro.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro
 {
 

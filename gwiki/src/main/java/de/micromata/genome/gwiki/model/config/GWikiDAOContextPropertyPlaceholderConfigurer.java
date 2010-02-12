@@ -8,6 +8,12 @@ import javax.servlet.ServletConfig;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+/**
+ * Place holder implementation that ${} expressions can be used in spring xml context files.
+ * 
+ * @author roger
+ * 
+ */
 public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer
 {
   protected ServletConfig servletConfig;
