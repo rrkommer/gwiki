@@ -31,21 +31,36 @@
 				<constructor-arg>
 					<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
 						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+							<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
 								<constructor-arg>
-									<value>./src/main/resources_zip/gwiki</value>
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>./src/main/resources_zip/gwiki</value>
+										</constructor-arg>
+									</bean>
+								</constructor-arg>
+								<constructor-arg>
+									<value>+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*</value>
+								</constructor-arg>
+								<constructor-arg>
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>./src/main/external_resources/gwiki_dev</value>
+										</constructor-arg>
+									</bean>
 								</constructor-arg>
 							</bean>
 						</constructor-arg>
+
+					</bean>
+				</constructor-arg>
+				<constructor-arg>
+					<value>+tmp/*,+arch/*,+*/arch*/</value>
+				</constructor-arg>
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 						<constructor-arg>
-							<value>+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*</value>
-						</constructor-arg>
-						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-								<constructor-arg>
-									<value>./src/main/external_resources/gwiki_dev</value>
-								</constructor-arg>
-							</bean>
+							<value>./src/main/external_resources/gwiki_tmp</value>
 						</constructor-arg>
 					</bean>
 				</constructor-arg>
