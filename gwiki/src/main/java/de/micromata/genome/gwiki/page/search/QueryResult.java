@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * A result bean for a search operation.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class QueryResult

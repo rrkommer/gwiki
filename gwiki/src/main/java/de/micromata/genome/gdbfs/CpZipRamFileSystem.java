@@ -5,7 +5,7 @@ import java.io.InputStream;
 /**
  * Load RAM File system from Zip loaded from Classpath.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class CpZipRamFileSystem extends ZipRamFileSystem

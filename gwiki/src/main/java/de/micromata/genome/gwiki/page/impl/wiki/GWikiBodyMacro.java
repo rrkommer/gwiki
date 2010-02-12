@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 /**
  * Macro has a body
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiBodyMacro extends GWikiMacro

@@ -26,7 +26,7 @@ import de.micromata.genome.util.matcher.InvalidMatcherGrammar;
 /**
  * ActionBean for searching.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSearchActionBean extends ActionBeanBase

@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.utils.html;
 /**
  * Interface to a Wiki element used by the html 2 wiki filter
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface Html2WikiElement

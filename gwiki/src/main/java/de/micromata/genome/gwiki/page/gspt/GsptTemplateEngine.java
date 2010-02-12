@@ -27,7 +27,7 @@ import de.micromata.genome.gwiki.page.gspt.ExtendedTemplate.Flags;
 /**
  * Internal for parsing gspt
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GsptTemplateEngine extends SimpleTemplateEngine

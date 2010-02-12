@@ -27,7 +27,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * GWikiElement for an attachment.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAttachment, GWikiPropKeys

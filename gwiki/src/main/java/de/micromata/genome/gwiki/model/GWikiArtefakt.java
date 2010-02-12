@@ -19,7 +19,7 @@ import java.util.Map;
  * 
  * An artefakt can contain itself more artefakt. So a controler artefakt often contains a gspt-Template or a wiki page as nested artefakt.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiArtefakt<T extends Serializable> extends Serializable

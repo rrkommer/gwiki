@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Exception throws if file written without overwrite and file already exists.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsFileExistsException extends FsIOException

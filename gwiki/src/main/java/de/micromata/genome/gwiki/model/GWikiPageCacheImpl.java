@@ -21,7 +21,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * Holds the ElementInfo and Elements (cache) for the Wiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageCacheImpl implements GWikiPageCache

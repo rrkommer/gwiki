@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildConta
 /**
  * parse and Held command args
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class MacroAttributes implements Serializable

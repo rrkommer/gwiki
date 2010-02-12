@@ -16,7 +16,7 @@ import de.micromata.genome.util.matcher.MatcherBase;
 /**
  * Base implementation for a GWikiElementInfo matcher.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiElementMatcherBase extends MatcherBase<GWikiElementInfo>

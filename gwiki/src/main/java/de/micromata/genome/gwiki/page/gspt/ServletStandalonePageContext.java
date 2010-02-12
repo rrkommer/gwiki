@@ -32,7 +32,7 @@ import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
 /**
  * Implementation of a standalone PageContext.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ServletStandalonePageContext extends PageContext

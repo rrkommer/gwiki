@@ -51,7 +51,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * ActionBean to show information about a page.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiPropKeys

@@ -37,7 +37,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * ContentSearch using index text files.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class IndexTextFilesContentSearcher implements ContentSearcher

@@ -12,7 +12,7 @@ package de.micromata.genome.gdbfs;
 /**
  * Notification Event fired after file system is changed.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface FileSystemEventListener

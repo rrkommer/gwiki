@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilterEvent;
 /**
  * Filter for changing global GWiki configuration.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiConfigChangedListener implements GWikiPageChangedFilter

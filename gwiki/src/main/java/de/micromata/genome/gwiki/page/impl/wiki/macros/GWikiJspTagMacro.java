@@ -34,7 +34,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * 
  * The tag library has to be imported with the GWikiUseJspTagLibMacro.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacro

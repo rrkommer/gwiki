@@ -37,7 +37,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 /**
  * generates toc with children.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiChildrenMacro extends GWikiMacroBean

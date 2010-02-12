@@ -15,7 +15,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * GWikiWeb static utils.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWebUtils

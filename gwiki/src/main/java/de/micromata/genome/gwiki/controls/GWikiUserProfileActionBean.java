@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 /**
  * ActionBean for displaying user profile.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUserProfileActionBean extends GWikiEditPageActionBean

@@ -20,7 +20,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Common Base implementation for artefakt. TODO T is not necessary serializable.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiArtefaktBase<T extends Serializable> implements GWikiArtefakt<T>

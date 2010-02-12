@@ -20,7 +20,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * create a diff between two text files for each line.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class DiffBuilder

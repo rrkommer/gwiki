@@ -31,7 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * GWiki macro code.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro

@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * Liest den wert aus.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface SearchExpressionFieldSelektor

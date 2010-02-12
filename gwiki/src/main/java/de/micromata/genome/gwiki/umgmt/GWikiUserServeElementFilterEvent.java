@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilterEvent;
 /**
  * Event for a GWikiServeElementFilter.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUserServeElementFilterEvent implements GWikiServeElementFilter

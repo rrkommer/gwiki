@@ -31,7 +31,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor artefakt for properties with a GWikiPropsDescriptor.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  * @param <T>
  */

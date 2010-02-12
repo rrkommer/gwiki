@@ -16,7 +16,7 @@ import de.micromata.genome.util.web.MimeUtils;
 /**
  * Representing a File (not a directory) in the file system.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsFileObject extends FsObject

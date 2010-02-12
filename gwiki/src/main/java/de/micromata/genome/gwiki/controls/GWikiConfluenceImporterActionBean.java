@@ -28,7 +28,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * ActionBean for importing confluence XML-Export files.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean

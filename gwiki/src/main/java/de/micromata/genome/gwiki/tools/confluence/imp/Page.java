@@ -17,7 +17,7 @@ import org.dom4j.Element;
 /**
  * Confluence Page.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Page extends ConfluenceElement

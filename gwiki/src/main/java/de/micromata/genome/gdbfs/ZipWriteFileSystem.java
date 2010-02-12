@@ -29,7 +29,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  * 
  * For reading file system from zip file, use RamFileSystem and FileSystemUtils.copyFromZip
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ZipWriteFileSystem extends AbstractFileSystem

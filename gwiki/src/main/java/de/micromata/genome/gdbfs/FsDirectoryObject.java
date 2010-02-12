@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Represents a directory in the FileSystem.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsDirectoryObject extends FsObject

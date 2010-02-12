@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFragmentChildContainer extends GWikiFragmentChildsBase

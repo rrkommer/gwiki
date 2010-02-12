@@ -41,7 +41,7 @@ import de.micromata.genome.gdbfs.FsObject;
 /**
  * WebDav service implementation.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GDirectoryResource extends GFsResource implements MakeCollectionableResource, PutableResource, CopyableResource,

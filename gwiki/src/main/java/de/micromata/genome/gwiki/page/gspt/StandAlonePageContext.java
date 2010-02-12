@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 /**
  * TODO See ServletStandalonePageContext, this class superflous?
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandAlonePageContext extends PageContext

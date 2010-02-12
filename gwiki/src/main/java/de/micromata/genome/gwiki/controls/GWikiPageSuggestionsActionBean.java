@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * ActionBean for Ajax page autocompletion.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean

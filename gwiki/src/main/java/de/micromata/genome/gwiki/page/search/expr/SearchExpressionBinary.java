@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Combine two SearchExpression .
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class SearchExpressionBinary implements SearchExpression

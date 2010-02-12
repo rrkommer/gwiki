@@ -14,7 +14,7 @@ import javax.servlet.jsp.PageContext;
  * 
  * Also used for gspt
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandaloneJspFactory extends JspFactory

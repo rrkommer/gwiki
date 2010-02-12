@@ -18,7 +18,7 @@ import com.bradmcevoy.http.ServletResponse;
 /**
  * Servlet response wrapper to log responses.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class LogServletResponse extends ServletResponse

@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 /**
  * ActionBean for standard login dialog.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiLoginActionBean extends ActionBeanBase

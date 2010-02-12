@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 /**
  * Base action bean for editing Elements.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiEditElementBaseActionBean extends ActionBeanBase

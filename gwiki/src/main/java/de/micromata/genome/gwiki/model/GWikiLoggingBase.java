@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Base implementation for GWikiLogging.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiLoggingBase implements GWikiLogging

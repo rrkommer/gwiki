@@ -14,7 +14,7 @@ import org.apache.commons.collections15.ArrayStack;
 /**
  * Internal class for the Html2WikiFilter.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2WikiElementStack

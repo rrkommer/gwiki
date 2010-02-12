@@ -9,7 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * Base implementation to load GWikiDAOContext from a spring context file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements GWikiBootstrapConfigLoader

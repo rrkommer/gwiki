@@ -22,7 +22,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * Extension to commons StringUtils.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StringUtils extends org.apache.commons.lang.StringUtils

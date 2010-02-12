@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Text decorations like italic, bold.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFragmentTextDeco extends GWikiFragmentDecorator

@@ -19,7 +19,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * A meta template defines the internal structure of a GWikiElement.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiMetaTemplate implements Serializable

@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 /**
  * Filter to change current user lookalike.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSimpleUserChangedFilter implements GWikiPageChangedFilter

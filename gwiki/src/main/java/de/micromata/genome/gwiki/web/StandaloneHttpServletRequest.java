@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Standalone servlet request for batch processing and unit tests.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandaloneHttpServletRequest implements HttpServletRequest

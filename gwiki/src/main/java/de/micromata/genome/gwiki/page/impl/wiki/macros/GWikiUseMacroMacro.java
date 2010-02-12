@@ -35,7 +35,7 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
 /**
  * Macro imports another macro for usage.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro

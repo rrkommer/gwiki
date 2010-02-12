@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Event for GWikiStorageStoreElementFilter.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiStorageStoreElementFilterEvent extends GWikiStorageElementPartsFilterEvent

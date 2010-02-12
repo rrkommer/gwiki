@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 /**
  * If a GWikiFilter also implement this method, it will be called after construction.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiFilterInit

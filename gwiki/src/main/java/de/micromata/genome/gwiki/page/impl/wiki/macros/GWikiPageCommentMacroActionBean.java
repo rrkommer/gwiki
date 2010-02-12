@@ -38,7 +38,7 @@ import de.micromata.genome.util.matcher.string.SimpleWildcardMatcherFactory;
 /**
  * ActionBean dealing with comment actions.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements GWikiPropKeys

@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Context for Replacer
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ReplacerContext

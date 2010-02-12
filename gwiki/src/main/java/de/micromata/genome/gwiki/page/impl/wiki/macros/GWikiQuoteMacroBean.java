@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 /**
  * Render a Quote section.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte

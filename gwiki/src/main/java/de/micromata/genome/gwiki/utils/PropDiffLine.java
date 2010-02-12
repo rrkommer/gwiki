@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.utils;
 /**
  * Create a diff view for properties.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PropDiffLine extends DiffLine

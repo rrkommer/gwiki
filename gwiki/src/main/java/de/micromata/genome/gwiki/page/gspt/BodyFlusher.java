@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Flush current buffer, but not flush target.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface BodyFlusher

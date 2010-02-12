@@ -22,7 +22,7 @@ import de.micromata.genome.util.matcher.MatcherFactory;
  * 
  * 
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class MountCombinedFileSystem extends CombinedFileSystem implements InitializingBean

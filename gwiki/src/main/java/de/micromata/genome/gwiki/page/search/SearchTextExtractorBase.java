@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.search;
 /**
  * Base implementation of the SearchTextExtractor interface.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class SearchTextExtractorBase implements SearchTextExtractor

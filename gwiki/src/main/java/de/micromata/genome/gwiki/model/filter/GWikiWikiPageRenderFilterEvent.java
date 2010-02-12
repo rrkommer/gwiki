@@ -15,7 +15,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 /**
  * Event for a GWikiWikiPageRenderFilter.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiPageRenderFilterEvent extends GWikiFilterEvent

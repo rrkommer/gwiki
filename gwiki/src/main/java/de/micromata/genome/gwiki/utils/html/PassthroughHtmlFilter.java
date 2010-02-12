@@ -24,7 +24,7 @@ import org.cyberneko.html.filters.Writer;
 /**
  * Filter just pass throgh. Can be used as base implementation.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PassthroughHtmlFilter extends Writer

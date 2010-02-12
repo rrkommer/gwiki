@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Base implementation for a GWikiPersistArtefakt.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  * @param <T>
  */

@@ -48,7 +48,7 @@ import de.micromata.genome.util.web.MimeUtils;
 /**
  * Servlet for wiki, static and dav access.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiServlet extends HttpServlet

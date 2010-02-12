@@ -38,7 +38,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Importer for confluence XML exported spaces.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ConfluenceImporter implements GWikiPropKeys

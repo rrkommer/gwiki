@@ -23,7 +23,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * Matches against parent page id.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionCommandParentPageId extends SearchExpressionCommand

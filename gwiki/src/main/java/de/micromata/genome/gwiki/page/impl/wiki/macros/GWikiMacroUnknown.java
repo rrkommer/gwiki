@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * Macro place holder for unknown macro.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiMacroUnknown implements GWikiRuntimeMacro

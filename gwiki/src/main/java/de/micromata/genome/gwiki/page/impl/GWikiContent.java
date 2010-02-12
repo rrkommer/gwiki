@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildConta
 /**
  * Content of an elemenent.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiContent extends GWikiFragmentChildContainer

@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.search;
 /**
  * split text into words.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class TextParserWordCallback implements WordCallback

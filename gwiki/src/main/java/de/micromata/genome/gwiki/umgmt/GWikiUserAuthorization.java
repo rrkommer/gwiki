@@ -27,7 +27,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * User authorization.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization

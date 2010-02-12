@@ -7,7 +7,7 @@ import javax.servlet.jsp.PageContext;
 /**
  * Used to be instantiated as groovy class
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GsptPageBase extends HttpServlet

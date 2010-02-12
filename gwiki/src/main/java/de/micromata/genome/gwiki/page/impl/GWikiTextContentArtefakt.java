@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Artefakt containing plain text.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiTextContentArtefakt extends GWikiTextArtefaktBase<String> implements GWikiEditableArtefakt

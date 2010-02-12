@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Matcher to find child.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiChildMatcher extends GWikiElementMatcherBase

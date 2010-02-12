@@ -22,7 +22,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Tag for authentification.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiAuthTag extends TagSupport

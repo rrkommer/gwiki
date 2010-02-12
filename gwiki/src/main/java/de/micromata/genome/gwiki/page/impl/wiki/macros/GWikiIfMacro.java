@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * if macro to test against language (lang) or right.
  * 
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiIfMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiRuntimeMacro

@@ -58,7 +58,7 @@ import de.micromata.genome.util.types.TimeInMillis;
  * 
  * Currently only tested with oracle 10 but should be easely ported to other db systems.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class DbFileSystemImpl extends AbstractFileSystem

@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 /**
  * All items (page, attachments, config, etc.) are a GWikiElement.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiElement extends Serializable

@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 /**
  * Implementation of BodyContent.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class BodyContentImpl extends BodyContent implements BodyFlusher

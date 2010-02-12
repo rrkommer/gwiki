@@ -24,7 +24,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Implementation of common methods of GWikiAuthorization.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWikiPropKeys

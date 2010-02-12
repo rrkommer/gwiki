@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 /**
  * Html body tag, where body will not interpreted, but outputed as text.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHtmlBodyTextTagMacro extends GWikiHtmlTagMacro implements GWikiBodyMacro, GWikiMacroRte

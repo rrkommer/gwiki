@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 /**
  * Macro to implement the html macro.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro

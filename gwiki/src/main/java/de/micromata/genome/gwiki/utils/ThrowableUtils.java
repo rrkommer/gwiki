@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 /**
  * Utils for handling throwables.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ThrowableUtils

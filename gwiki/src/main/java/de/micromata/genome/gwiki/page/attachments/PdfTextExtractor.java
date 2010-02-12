@@ -21,7 +21,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Extracts text from a pdf file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PdfTextExtractor extends TextExtractorBase

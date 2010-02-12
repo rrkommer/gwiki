@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Standalone servlet request for batch processing and unit tests.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class StandaloneHttpServletResponse implements HttpServletResponse

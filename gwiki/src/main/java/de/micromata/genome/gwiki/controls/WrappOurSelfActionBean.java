@@ -28,7 +28,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Nur bei standalone moeglich. Verpackt sich selbst und laded sich als Datei herunter.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WrappOurSelfActionBean extends ActionBeanBase

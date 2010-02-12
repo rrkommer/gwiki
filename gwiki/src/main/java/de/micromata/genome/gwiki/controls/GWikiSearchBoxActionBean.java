@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.utils.WebUtils;
 /**
  * Ajax ActionBean for searching.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSearchBoxActionBean extends GWikiPageListActionBean

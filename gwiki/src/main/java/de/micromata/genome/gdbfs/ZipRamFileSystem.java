@@ -5,7 +5,7 @@ import java.io.InputStream;
 /**
  * Zip Ram File system.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ZipRamFileSystem extends RamFileSystem

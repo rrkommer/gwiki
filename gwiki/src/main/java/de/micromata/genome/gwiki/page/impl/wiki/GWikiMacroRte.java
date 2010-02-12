@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 /**
  * Marker interface that this macro can be interpreted in Rich Text Editor.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiMacroRte extends GWikiRuntimeMacro

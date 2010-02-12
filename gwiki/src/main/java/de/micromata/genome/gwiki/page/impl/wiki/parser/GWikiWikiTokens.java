@@ -20,7 +20,7 @@ import de.micromata.genome.util.runtime.CallableX1;
 /**
  * GWiki text parsed token.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiTokens

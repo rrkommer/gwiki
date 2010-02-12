@@ -23,7 +23,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Base implementation for a Wiki Element (page, config, attachment, etc.).
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiAbstractElement implements GWikiElement, GWikiPropKeys

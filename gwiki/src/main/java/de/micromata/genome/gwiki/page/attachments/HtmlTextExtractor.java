@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
 /**
  * extracts text from a html page.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class HtmlTextExtractor extends TextExtractorBase

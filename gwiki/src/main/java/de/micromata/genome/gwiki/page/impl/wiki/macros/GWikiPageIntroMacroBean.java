@@ -22,7 +22,7 @@ import de.micromata.genome.util.matcher.EqualsMatcher;
 /**
  * Render a pageIntro section.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte

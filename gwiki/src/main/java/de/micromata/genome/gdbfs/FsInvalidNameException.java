@@ -14,7 +14,7 @@ package de.micromata.genome.gdbfs;
  * 
  * File name contains invalid name.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsInvalidNameException extends FsException

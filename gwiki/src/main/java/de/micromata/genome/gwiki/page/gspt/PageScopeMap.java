@@ -23,7 +23,7 @@ import static javax.servlet.jsp.PageContext.PAGE_SCOPE;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PageScopeMap implements Map<String, Object> {

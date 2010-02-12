@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
 /**
  * Base implementation of a GWikiSchedulerJob.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiSchedulerJobBase implements GWikiSchedulerJob

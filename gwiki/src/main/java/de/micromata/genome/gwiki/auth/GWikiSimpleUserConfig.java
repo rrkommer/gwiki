@@ -18,7 +18,7 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * Spring context bean holding GWikiSimpleUser.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSimpleUserConfig implements InitializingBean, Serializable

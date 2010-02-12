@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * A command with a SearchExpression.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionComandChilds extends SearchExpressionCommand

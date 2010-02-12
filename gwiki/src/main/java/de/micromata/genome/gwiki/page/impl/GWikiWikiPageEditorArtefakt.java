@@ -20,7 +20,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor artefakt for editing gwiki wiki text.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt

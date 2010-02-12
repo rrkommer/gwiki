@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * A search expression interface.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface SearchExpression

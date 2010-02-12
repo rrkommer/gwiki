@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * Renders nothing (if default hidden is set) or a Html-Comment.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiHTMLcommentMacro extends GWikiMacroBase implements GWikiBodyMacro, GWikiRuntimeMacro

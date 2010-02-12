@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 /**
  * ActionBean to show the upload and screenshot applet.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiUploadWindowActionBean extends ActionBeanBase

@@ -29,7 +29,7 @@ import de.micromata.genome.util.types.TimeInMillis;
 /**
  * ActionBean to import pages.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageImporterActionBean extends GWikiPageListActionBean

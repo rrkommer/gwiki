@@ -23,7 +23,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Very basic implementation of the GWikiAuthorizationBase with users held by spring context file.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase

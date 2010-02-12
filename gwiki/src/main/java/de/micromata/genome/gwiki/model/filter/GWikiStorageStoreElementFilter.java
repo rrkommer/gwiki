@@ -14,7 +14,7 @@ package de.micromata.genome.gwiki.model.filter;
  * 
  * wikiContext.getElement() delivers the element to render.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiStorageStoreElementFilter extends GWikiFilter<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter>

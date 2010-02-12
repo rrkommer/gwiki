@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Abstract implementation of a fragment with childs.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class GWikiFragmentChildsBase extends GWikiFragementBase

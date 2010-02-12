@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Filter when page infos will be loaded.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiLoadElementInfosFilterEvent extends GWikiFilterEvent

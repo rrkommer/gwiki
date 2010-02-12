@@ -34,7 +34,7 @@ import de.micromata.genome.util.types.Holder;
  * 
  * The words are passed a request parameter _gwhiwords as comma seperated list.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchFoundHighlighterFilter implements GWikiServeElementFilter

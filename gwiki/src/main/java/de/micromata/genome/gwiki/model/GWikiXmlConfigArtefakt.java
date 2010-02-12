@@ -25,7 +25,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Artefakt for a spring xml configuration file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  * @param <T>
  */

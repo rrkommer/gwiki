@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Internal implementation for jsp/GSPT-Parsing.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GenomeJspProcessor implements GWikiJspProcessor

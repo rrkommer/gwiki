@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Some simplified interface for classes.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ClassUtils

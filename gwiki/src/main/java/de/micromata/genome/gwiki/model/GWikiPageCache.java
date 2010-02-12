@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Interface for caching pages.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiPageCache

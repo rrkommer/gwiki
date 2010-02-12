@@ -29,7 +29,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * FileSystem implementation holds all in RAM.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable

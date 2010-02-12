@@ -16,7 +16,7 @@ import de.micromata.genome.util.matcher.Matcher;
 /**
  * Matches agains a page id matcher.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageIdMatcher extends GWikiElementMatcherBase

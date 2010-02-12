@@ -14,7 +14,7 @@ import java.io.Serializable;
 /**
  * Container which holds a file and its data.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsObjectContainer implements Serializable

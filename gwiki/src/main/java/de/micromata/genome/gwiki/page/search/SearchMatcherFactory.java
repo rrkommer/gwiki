@@ -20,7 +20,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Factory to create matchers.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchMatcherFactory implements MatcherFactory<String>

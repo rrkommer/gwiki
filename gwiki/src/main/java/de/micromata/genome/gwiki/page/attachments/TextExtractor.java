@@ -12,7 +12,7 @@ package de.micromata.genome.gwiki.page.attachments;
 /**
  * Interface to extract from a file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface TextExtractor

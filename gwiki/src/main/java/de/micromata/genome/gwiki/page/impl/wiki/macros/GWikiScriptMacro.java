@@ -26,7 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * A macro implemented by a GWiki element script.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys

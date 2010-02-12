@@ -12,7 +12,7 @@ package de.micromata.genome.gdbfs;
 /**
  * If file lock is not possible due timeout.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsFileLockException extends FsException

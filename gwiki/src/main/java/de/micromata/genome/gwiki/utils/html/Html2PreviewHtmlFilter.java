@@ -19,7 +19,7 @@ import org.cyberneko.html.filters.DefaultFilter;
 /**
  * Fitler, rendering a HTML preview.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Html2PreviewHtmlFilter extends DefaultFilter

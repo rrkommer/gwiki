@@ -25,7 +25,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisi
 /**
  * implements to toc macro.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiTocMacro extends GWikiMacroBean

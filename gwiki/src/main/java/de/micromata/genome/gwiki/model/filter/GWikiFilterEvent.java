@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * common base for filter events.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFilterEvent

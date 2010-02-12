@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiTextContentArtefakt;
 /**
  * GWiki Artefakt to hold a word intext text file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class WordIndexTextArtefakt extends GWikiTextContentArtefakt

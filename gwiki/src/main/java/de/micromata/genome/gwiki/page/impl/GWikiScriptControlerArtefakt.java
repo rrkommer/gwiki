@@ -27,7 +27,7 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
 /**
  * An artefakt implementing a ActionBean via groovy script.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ? extends ActionBeanBase>> implements

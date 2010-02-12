@@ -19,7 +19,7 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 /**
  * Extracts text from a power point file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PowerPointTextExtractor extends TextExtractorBase

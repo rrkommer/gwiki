@@ -11,7 +11,7 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 /**
  * Place holder implementation that ${} expressions can be used in spring xml context files.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer

@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 /**
  * Comparator to compare two int values in the GWikielementInfo.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementByIntPropComparator extends GWikiElementComparatorBase

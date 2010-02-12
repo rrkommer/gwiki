@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * A descriptor bean for properties.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPropsDescriptor implements Serializable

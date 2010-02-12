@@ -16,7 +16,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 /**
  * Comparator to compare to GWiki Element info by order property value.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementByOrderComparator extends GWikiElementComparatorBase

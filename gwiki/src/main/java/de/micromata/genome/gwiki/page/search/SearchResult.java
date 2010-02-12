@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 /**
  * Internal class to hold a search result element.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchResult

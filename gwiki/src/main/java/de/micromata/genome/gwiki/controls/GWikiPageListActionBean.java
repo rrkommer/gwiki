@@ -30,7 +30,7 @@ import de.micromata.genome.util.types.Converter;
 /**
  * Base implementation of listing elements/pages.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiPageListActionBean extends ActionBeanBase

@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 /**
  * Combine two SearchExpression with AND.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchExpressionAnd extends SearchExpressionBinary

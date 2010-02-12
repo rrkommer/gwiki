@@ -20,7 +20,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Core information about a element.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiElementInfo implements Serializable, GWikiPropKeys

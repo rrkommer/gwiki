@@ -15,7 +15,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 /**
  * Represents p html element.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFragmentP extends GWikiFragmentHtml

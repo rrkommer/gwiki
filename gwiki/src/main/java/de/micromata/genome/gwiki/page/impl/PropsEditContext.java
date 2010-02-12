@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.utils.ScriptUtils;
 /**
  * Context for render a property editor.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class PropsEditContext

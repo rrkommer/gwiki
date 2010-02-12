@@ -19,7 +19,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * For Internationalization.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiI18nElement extends GWikiWikiPage

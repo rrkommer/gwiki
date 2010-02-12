@@ -22,7 +22,7 @@ import de.micromata.genome.gwiki.utils.PropUtils;
 /**
  * Artefakt holding I18N-Properties.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiI18NArtefakt extends GWikiTextArtefaktBase<GWikiI18nMap> implements GWikiEditableArtefakt

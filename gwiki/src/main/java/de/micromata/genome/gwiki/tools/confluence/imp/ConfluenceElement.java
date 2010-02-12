@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 /**
  * A confluence element in the import file.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public abstract class ConfluenceElement extends Entity

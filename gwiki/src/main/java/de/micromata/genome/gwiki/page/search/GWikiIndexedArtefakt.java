@@ -15,7 +15,7 @@ import de.micromata.genome.gwiki.utils.AppendableI;
 /**
  * A GWikiArtefakt which provides index information should implement this.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiIndexedArtefakt

@@ -31,7 +31,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * Filter registered in GWiki.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiFilters

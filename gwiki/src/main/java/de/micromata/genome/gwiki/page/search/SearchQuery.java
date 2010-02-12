@@ -21,7 +21,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Bean to hold the query.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class SearchQuery

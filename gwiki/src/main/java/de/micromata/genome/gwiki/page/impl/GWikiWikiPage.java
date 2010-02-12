@@ -28,7 +28,7 @@ import de.micromata.genome.util.runtime.CallableX;
  * GWikiElement for a standard Wiki Page.
  * 
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys

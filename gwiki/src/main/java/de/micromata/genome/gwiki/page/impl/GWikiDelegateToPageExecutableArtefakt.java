@@ -18,7 +18,7 @@ import de.micromata.genome.gwiki.utils.PropUtils;
 /**
  * Delegate to other page.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<String> implements GWikiExecutableArtefakt<String>

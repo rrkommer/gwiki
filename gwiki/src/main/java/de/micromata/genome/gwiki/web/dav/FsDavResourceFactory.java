@@ -23,7 +23,7 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
 /**
  * WebDav service implementation.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FsDavResourceFactory implements ResourceFactory

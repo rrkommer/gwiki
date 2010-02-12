@@ -23,7 +23,7 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 /**
  * static Utils functions to deal with groovy.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class ScriptUtils

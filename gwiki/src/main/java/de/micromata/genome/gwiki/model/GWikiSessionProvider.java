@@ -17,7 +17,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * Interface to deal with sessions. Because some runtime environments - like Genome Plugins - needs some preparation to read/write session
  * objects, this interface will encapsulate the implementation.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface GWikiSessionProvider

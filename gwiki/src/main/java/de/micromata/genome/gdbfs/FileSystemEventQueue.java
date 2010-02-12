@@ -20,7 +20,7 @@ import de.micromata.genome.util.types.Pair;
 /**
  * Queue to send files.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class FileSystemEventQueue

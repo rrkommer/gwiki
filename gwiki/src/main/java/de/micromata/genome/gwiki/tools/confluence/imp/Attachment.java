@@ -14,7 +14,7 @@ import org.dom4j.Element;
 /**
  * Holds an Confluence attachment.
  * 
- * @author roger
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class Attachment extends ConfluenceElement

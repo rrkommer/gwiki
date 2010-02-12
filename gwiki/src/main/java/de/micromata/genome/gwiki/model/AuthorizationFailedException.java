@@ -14,7 +14,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 /**
  * Exception thrown if authorization failed.
  * 
- * @author roger@micromata.de
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class AuthorizationFailedException extends RuntimeException
