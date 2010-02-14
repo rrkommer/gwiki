@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.test.web;
 
@@ -75,9 +72,16 @@ public class SimHttpSession implements HttpSession
 
   private long created = System.currentTimeMillis();
 
+  private ServletContext servletContext;
+
   public SimHttpSession()
   {
 
+  }
+
+  public SimHttpSession(ServletContext servletContext)
+  {
+    this.servletContext = servletContext;
   }
 
   public Object getAttribute(String key)
@@ -85,6 +89,7 @@ public class SimHttpSession implements HttpSession
     return sessionAttributes.get(key);
   }
 
+  @SuppressWarnings("unchecked")
   public Enumeration getAttributeNames()
   {
     return new IteratorEnumeration(sessionAttributes.keySet().iterator());
@@ -112,7 +117,7 @@ public class SimHttpSession implements HttpSession
 
   public ServletContext getServletContext()
   {
-    return null;
+    return servletContext;
   }
 
   public HttpSessionContext getSessionContext()
