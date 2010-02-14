@@ -14,12 +14,12 @@
 <span id="impmessage"style="color: red"></span>
 
 <form name="form" method="post" enctype="multipart/form-data">
-		<html:hidden	property="tmpDirName" />
+		<gwiki:hidden	property="tmpDirName" />
 <c:if test="${form.tmpDirName == null}">
 <br />
 
-<html:checkbox property="confluenceArchive"/> Confluence Archive<br/>
-Zielverzeichnis: <html:text styleId="targetDir" property="targetDir" /><br />	
+<gwiki:checkbox property="confluenceArchive"/> Confluence Archive<br/>
+Zielverzeichnis: <gwiki:text styleId="targetDir" property="targetDir" /><br />	
 
 Zip with pages: <input type="file" name="dataFile_attachment"></input> 
 <input	type="submit" name="method_onUpload" value="Hochladen"></input> <br />
@@ -27,16 +27,16 @@ Zip with pages: <input type="file" name="dataFile_attachment"></input>
 	
 <c:if test="${form.tmpDirName != null}">
 	<input type="submit" name="method_onNewArchive" value="Neues Archiv hochladen"></input><br/>
-	<html:radio styleId="overWriteModeONLYNEW" property="overWriteMode"	value="ONLYNEW" /> Nur neue anlegen.<br />
-	<html:radio styleId="overWriteModeONLYNEWER" property="overWriteMode" value="ONLYNEWER" /> Nur neuere &uuml;berschreiben.<br />
-	<html:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> Alle &uuml;berschreiben.<br />
+	<gwiki:radio styleId="overWriteModeONLYNEW" property="overWriteMode"	value="ONLYNEW" /> Nur neue anlegen.<br />
+	<gwiki:radio styleId="overWriteModeONLYNEWER" property="overWriteMode" value="ONLYNEWER" /> Nur neuere &uuml;berschreiben.<br />
+	<gwiki:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> Alle &uuml;berschreiben.<br />
 <br />
 TempDir: <c:out value="${form.tmpDirName}" /><br />
-<html:hidden styleId="targetDir" property="targetDir" />
+<gwiki:hidden styleId="targetDir" property="targetDir" />
 Target Dir: <c:out value="${form.targetDir}" /><br />
 
 
-<p><html:text styleId="filterExpression" size="80" property="filterExpression" /> 
+<p><gwiki:text styleId="filterExpression" size="80" property="filterExpression" /> 
 	<input	type="submit" name="method_onInit" value="Filtern" />
 </form>
 </p>

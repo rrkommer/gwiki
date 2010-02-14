@@ -8,11 +8,11 @@
 
 <form name="form" method="post" >
 
-<html:radio property="format" value="HTML"/> HTML.<br/>
-<html:radio property="format" value="DOC"/> Word.<br/>
-<html:radio property="format" value="PDF"/> PDF.<br/>
+<gwiki:radio property="format" value="HTML"/> HTML.<br/>
+<gwiki:radio property="format" value="DOC"/> Word.<br/>
+<gwiki:radio property="format" value="PDF"/> PDF.<br/>
 
-<html:text property="rootPageId" length="40"/>
+<gwiki:text property="rootPageId" length="40"/>
 
 <input type="submit" name="method_onExport" value="Dokument generieren"/>
 </form>

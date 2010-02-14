@@ -9,7 +9,7 @@ Hallo
 <h2>Formular</h2>
 <form method="POST">
 
-<html:text property="input"/>
+<gwiki:text property="input"/>
 <input type="submit" name="method_onOk" value="OK"><p/>
 
 <%	MainPage.render(wikiContext); %>

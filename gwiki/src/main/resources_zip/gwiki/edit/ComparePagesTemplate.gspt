@@ -10,7 +10,7 @@
 <gwiki:errors />
 
 <form method="post">
-<html:checkbox property="fullDiff"/> Vollst&auml;ndig anzeigen.<br/>
+<gwiki:checkbox property="fullDiff"/> Vollst&auml;ndig anzeigen.<br/>
 <input type="submit" name="method_onInit" value="Vergleichen"/>
 </form>
 <% wikiContext.getRequestAttribute("form").doRenderDiffSets(); %>
