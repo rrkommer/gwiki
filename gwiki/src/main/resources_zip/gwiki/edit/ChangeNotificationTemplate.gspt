@@ -6,14 +6,14 @@
     <p>Sie k&ouml;nnen Sich bei &Auml;nderungen an der Seite
     automatisch eine Email zusenden lassen.</p>
     <form id="mainform" method="post">Seite <gwiki:link
-      pageId="${form.pageId}" /> Abonieren. <html:hidden property="pageId" />
-    <html:hidden styleId="chPageId" property="delPageId" /> <input
+      pageId="${form.pageId}" /> Abonieren. <gwiki:hidden property="pageId" />
+    <gwiki:hidden styleId="chPageId" property="delPageId" /> <input
       type="hidden" id="formcommand" name="command" /> <c:choose>
       <c:when test="${form.alreadyRegistered}">
         <input type="submit" name="method_onUnregister" value="Abo aufheben" />
       </c:when>
       <c:otherwise>
-        <html:checkbox property="recursive" /> Recursive<br />
+        <gwiki:checkbox property="recursive" /> Recursive<br />
         <input type="submit" name="method_onRegister" value="Abonieren" />
       </c:otherwise>
     </c:choose></form>

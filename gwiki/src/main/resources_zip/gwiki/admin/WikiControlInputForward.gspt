@@ -20,7 +20,7 @@
 <fieldset>
 <legend>gWiki neu laden</legend>
   <p class="description">Hier kannst du den <strong>PageCache für das WIKI löschen.</strong></p>
-  <html:hidden property="pageId"/>
+  <gwiki:hidden property="pageId"/>
   <input class="gwikiButton reset" type="submit" name="method_onClearPageCache" value="Page Cache L&ouml;schen"/>
   <div class="clearAll">&nbsp;</div>
 
@@ -49,9 +49,9 @@
 </fieldset>
 <%--
 <h2>Rechte Testen</h2>
-Name: <html:text size="80" property="singleUser.user" /><br />
-Email: <html:text size="80" property="singleUser.email" /><br />
-RightRule: <html:text size="80" property="authRightsRule" /><br />
+Name: <gwiki:text size="80" property="singleUser.user" /><br />
+Email: <gwiki:text size="80" property="singleUser.email" /><br />
+RightRule: <gwiki:text size="80" property="authRightsRule" /><br />
 <input type="submit" name="method_onSetRights"
 	value="User und Rechte setzen">
 <hr>

@@ -8,7 +8,7 @@
 
 <form method="post">
   <a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers">Neuen Nutzer anlegen</a><p/>
-  <html:text size="80" property="filterExpression"/>
+  <gwiki:text size="80" property="filterExpression"/>
   <input type="submit" name="method_onInit" value="Filtern"/>
 </form>
 <br/>

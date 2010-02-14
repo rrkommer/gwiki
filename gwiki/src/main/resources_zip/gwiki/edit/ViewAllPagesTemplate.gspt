@@ -10,13 +10,13 @@
 
 <div style="z-index:1000;width:1200px;min-width:1000px;overflow:visible;">
 <form id='searchForm' method="post">
-	<html:text size="80" property="filterExpression"/>
-	<html:hidden property="withExport"/>
+	<gwiki:text size="80" property="filterExpression"/>
+	<gwiki:hidden property="withExport"/>
 	<input type="hidden" id="command" name="" value=""/>
 	<input type="hidden" id="filterparams" name="filterparams" value=""/>
 	<input onclick="jQuery('#command').attr('name', '');" type="submit" name="method_onInit" value="Filtern"/>
 	<c:if test="${form.withExport == true}">
-	<html:checkbox styleId="withArchive" property="withArchive"/> Mit Archiv<br/>
+	<gwiki:checkbox styleId="withArchive" property="withArchive"/> Mit Archiv<br/>
 	<br/><br/><input type="button" id="doExport" name="" value="Exportieren"></input>
 </c:if>
 

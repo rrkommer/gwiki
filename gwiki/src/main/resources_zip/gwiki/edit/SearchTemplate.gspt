@@ -45,10 +45,10 @@ def showNextPrevious(wikiContext, form) {	%>
 
 <form id="SearchForm" method="POST">
 Suchausdruck:  
-<html:text size="40" property="searchExpression" />&nbsp;
+<gwiki:text size="40" property="searchExpression" />&nbsp;
 <input type="submit"	name="method_onSearch" value="Suchen" />
-<html:hidden styleId='searchOffset' property="searchOffset"/>
-<html:hidden styleId='pageSize' property="pageSize"/>
+<gwiki:hidden styleId='searchOffset' property="searchOffset"/>
+<gwiki:hidden styleId='pageSize' property="pageSize"/>
 <input type="hidden" id="formmethod" name=""/>
 </form>
 <small><c:out value="${form.searchMessage}"/></small>

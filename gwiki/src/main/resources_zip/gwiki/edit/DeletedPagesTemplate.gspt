@@ -9,7 +9,7 @@
 <gwiki:errors />
 <c:choose>
 <form id="listform" method="post">
-<html:hidden styleId="delPageId" property="pageId"/>
+<gwiki:hidden styleId="delPageId" property="pageId"/>
 <script>
 function viewDelPage(pageId)
 {
@@ -24,7 +24,7 @@ function viewDelPage(pageId)
 
 <c:when test="${form.list}">
 	
-		Filter pageId: <html:text property="listFilter"/>
+		Filter pageId: <gwiki:text property="listFilter"/>
 		<input type="submit" name="method_onFilter" value="Find"/>
 		<input id="formactionname" type="hidden" name="action"/>
 		

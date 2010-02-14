@@ -12,12 +12,12 @@
 
 <% form = pageContext.getRequest().getAttribute('form'); %>
 <form method="POST" enctype="multipart/form-data">
-  <html:hidden property="pageId" /> 
-  <html:hidden property="parentPageId" />
+  <gwiki:hidden property="pageId" /> 
+  <gwiki:hidden property="parentPageId" />
   
 <c:choose>
   <c:when test="${form.newPage == true}">
-    <h2>User: <html:text property="title"/></h2>
+    <h2>User: <gwiki:text property="title"/></h2>
   </c:when>
   <c:otherwise>
     <h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
@@ -25,7 +25,7 @@
 </c:choose>
 
 
-<html:hidden property="metaTemplatePageId" />
+<gwiki:hidden property="metaTemplatePageId" />
 
 <input type="submit" name="method_onSave" value="Speichern">
 
@@ -37,7 +37,7 @@
   </gwiki:authorize>
 </c:if>
 
-<html:hidden property="newPage" /> 
+<gwiki:hidden property="newPage" /> 
 <div id="tabs">
  <ul>
   <% for (me in form.editors) { %>
