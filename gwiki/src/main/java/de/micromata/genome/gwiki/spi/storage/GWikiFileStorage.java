@@ -370,7 +370,7 @@ public class GWikiFileStorage implements GWikiStorage
       if (fsobj == null)
         continue;
       long modtime = fsobj.getModifiedAt().getTime();
-      long now = System.currentTimeMillis();
+      // long now = System.currentTimeMillis();
       if (modtime > ei.getLoadedTimeStamp())
         return loadElement(ei);
     }
