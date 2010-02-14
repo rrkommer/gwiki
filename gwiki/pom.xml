@@ -196,6 +196,7 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>struts</groupId>
 			<artifactId>struts-el</artifactId>
@@ -216,13 +217,10 @@
 					<artifactId>oro</artifactId>
 					<groupId>oro</groupId>
 				</exclusion>
-				<!--  <exclusion>
-					<artifactId>antlr</artifactId>
-					<groupId>antlr</groupId>
-				</exclusion>
-				 -->
+				
 			</exclusions>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
@@ -245,12 +243,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- 	 
 		<dependency>
 			<groupId>net.sourceforge.stripes</groupId>
 			<artifactId>stripes</artifactId>
 			<version>1.4.3</version>
 			<scope>test</scope>
 		</dependency>
+	-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
