@@ -42,7 +42,6 @@ import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
-import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -265,14 +264,7 @@ public class GWikiWeb
       if (getAuthorization().isAllowToView(ctx, el.getElementInfo()) == false) {
         throw new AuthorizationFailedException("Page is not allowed to view: " + el.getElementInfo().getId());
       }
-      ctx.runElement(el, new CallableX<Void, RuntimeException>() {
-
-        public Void call() throws RuntimeException
-        {
-          el.serve(ctx);
-          return null;
-        }
-      });
+      el.serve(ctx);
     } finally {
       getAuthorization().clearThread(ctx);
     }

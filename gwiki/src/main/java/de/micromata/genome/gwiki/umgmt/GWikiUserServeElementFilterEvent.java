@@ -34,16 +34,28 @@ public class GWikiUserServeElementFilterEvent implements GWikiServeElementFilter
 {
   public static ThreadLocal<GWikiSimpleUser> CURRENT_USER = new ThreadLocal<GWikiSimpleUser>();
 
+  public static GWikiSimpleUser setUser(GWikiSimpleUser user)
+  {
+    GWikiSimpleUser prev = CURRENT_USER.get();
+    CURRENT_USER.set(user);
+    return prev;
+  }
+
+  public static GWikiSimpleUser getUser()
+  {
+    return CURRENT_USER.get();
+  }
+
   public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain, GWikiServeElementFilterEvent event)
   {
     try {
       GWikiSimpleUser user = GWikiSimpleUserAuthorization.getSingleUser(event.getWikiContext());
       if (user != null) {
-        CURRENT_USER.set(user);
+        setUser(user);
       }
       return chain.nextFilter(event);
     } finally {
-      CURRENT_USER.set(null);
+      setUser(null);
 
     }
   }

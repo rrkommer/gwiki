@@ -91,7 +91,7 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 
   public void serve(GWikiContext ctx)
   {
-    if (ctx.getWikiElement() == null) {// TODO gwiki ist das richtig so?
+    if (ctx.getWikiElement() == null) {
       ctx.setWikiElement(this);
     }
     String parentWikiID = (String) ctx.getRequestAttribute(WIKIPAGEID);

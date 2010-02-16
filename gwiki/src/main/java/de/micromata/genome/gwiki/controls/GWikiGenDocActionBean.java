@@ -316,10 +316,13 @@ public class GWikiGenDocActionBean extends ActionBeanBase
           .append(StringEscapeUtils.escapeHtml(wikiContext.getTranslatedProp(el.getElementInfo().getTitle())))//
           .append("</h").append(offset).append(">\n");
     }
-    wikiContext.setWikiElement(el);
-    el.serve(wikiContext);
-    wikiContext.flush();
-
+    wikiContext.pushWikiElement(el);
+    try {
+      el.serve(wikiContext);
+      wikiContext.flush();
+    } finally {
+      wikiContext.popWikiElement();
+    }
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(el.getElementInfo().getId());
     Collections.sort(childs, new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator("ORDER", 0)));
     wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);

@@ -49,7 +49,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
    */
   public static boolean isOwnUser(GWikiContext wikiContext)
   {
-    GWikiSimpleUser user = GWikiUserServeElementFilterEvent.CURRENT_USER.get();
+    GWikiSimpleUser user = GWikiUserServeElementFilterEvent.getUser();
     if (user == null || user.isAnon() == true) {
       return false;
     }
@@ -132,7 +132,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
 
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
-    GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.CURRENT_USER.get();
+    GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.getUser();
     GWikiSimpleUser su = findUser(wikiContext, user);
     if (su == null) {
       throw new AuthorizationFailedException("User doesn't exits: " + user);
@@ -140,10 +140,10 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
 
     try {
 
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(su);
+      GWikiUserServeElementFilterEvent.setUser(su);
       return callback.call();
     } finally {
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(pu);
+      GWikiUserServeElementFilterEvent.setUser(pu);
     }
   }
 
@@ -160,7 +160,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
     }
 
     setSingleUser(ctx, su);
-    GWikiUserServeElementFilterEvent.CURRENT_USER.set(su);
+    GWikiUserServeElementFilterEvent.setUser(su);
     GWikiLog.note("User logged in: " + user);
     return true;
   }

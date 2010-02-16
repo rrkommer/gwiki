@@ -89,7 +89,8 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
         });
   }
 
-  public boolean createNewIndex(GWikiContext wikiContext, GWikiStorage storage, GWikiElement element, Map<String, GWikiArtefakt< ? >> parts)
+  public boolean createNewIndex(final GWikiContext wikiContext, GWikiStorage storage, GWikiElement element,
+      Map<String, GWikiArtefakt< ? >> parts)
   {
     if (element.getElementInfo().isIndexed() == false) {
       return true;
@@ -98,18 +99,27 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
       return true;
     }
     boolean hasIndexArtefakt = false;
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     sb.append("<html><body>\n");
-    GWikiElement pel = wikiContext.getWikiElement();
-    wikiContext.setWikiElement(element);
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-      if (me.getValue() instanceof GWikiIndexedArtefakt) {
-        GWikiIndexedArtefakt ia = (GWikiIndexedArtefakt) me.getValue();
-        ia.getPreview(wikiContext, AppendableUtils.create(sb));
-        hasIndexArtefakt = true;
+    try {
+      wikiContext.pushWikiElement(element);
+      for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+        if (me.getValue() instanceof GWikiIndexedArtefakt) {
+          final GWikiIndexedArtefakt ia = (GWikiIndexedArtefakt) me.getValue();
+          wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+
+            public Void call() throws RuntimeException
+            {
+              ia.getPreview(wikiContext, AppendableUtils.create(sb));
+              return null;
+            }
+          });
+          hasIndexArtefakt = true;
+        }
       }
+    } finally {
+      wikiContext.popWikiElement();
     }
-    wikiContext.setWikiElement(pel);
     if (hasIndexArtefakt == false) {
       return true;
     }

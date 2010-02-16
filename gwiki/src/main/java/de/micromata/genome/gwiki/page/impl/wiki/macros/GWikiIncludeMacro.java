@@ -75,7 +75,7 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
       return true;
     }
     if (complete == true) {
-      ctx.getWikiWeb().reloadPage(pageId);
+      ctx.getWikiWeb().serveWiki(pageId, ctx);
       return true;
     }
     Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();

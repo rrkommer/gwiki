@@ -209,13 +209,15 @@ public class ConfluenceImporter implements GWikiPropKeys
     body = patchInternalLinks(wikiContext, body, pathPrefix);
     wikiArt.setStorageData(body);
     elementToEdit.getElementInfo().setId(getIdFromPage(wikiContext, page, storePath));
-    wikiContext.setWikiElement(elementToEdit);
+    wikiContext.pushWikiElement(elementToEdit);
     try {
       wikiArt.compileFragements(wikiContext);
     } catch (Exception ex) {
       System.out.println("Syntax failure in : " + elementToEdit.getElementInfo().getId());
       ex.printStackTrace();
       return null;
+    } finally {
+      wikiContext.popWikiElement();
     }
     return elementToEdit;
   }
@@ -263,7 +265,6 @@ public class ConfluenceImporter implements GWikiPropKeys
     String id = storePath + GWikiContext.getPageIdFromTitle(page.getFileName());
     ;
     elementToEdit.getElementInfo().setId(id);
-    wikiContext.setWikiElement(elementToEdit);
 
     return elementToEdit;
   }
@@ -283,7 +284,12 @@ public class ConfluenceImporter implements GWikiPropKeys
     if (el == null) {
       return;
     }
-    wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, true);
+    try {
+      wikiContext.pushWikiElement(el);
+      wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, true);
+    } finally {
+      wikiContext.popWikiElement();
+    }
   }
 
   public void doImport(GWikiContext wikiContext, String storePath, String pathPrefix)
