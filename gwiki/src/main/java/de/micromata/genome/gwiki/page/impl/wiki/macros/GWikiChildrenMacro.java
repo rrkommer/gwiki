@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
@@ -161,7 +160,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
                 }
               }
               ctx.append("<li><a href=\"").append(ctx.localUrl(ci.getId())).append("#");
-              ctx.append(hf.getLinkText(ctx)).append("\">").append(StringEscapeUtils.escapeHtml(hf.getLinkText(ctx))).append("</a></li>");
+              ctx.append(hf.getLinkText(ctx)).append("\">").append(hf.getLinkText(ctx)).append("</a></li>");
               lastLevel = cl;
             }
             for (int l = lastLevel; l > 1; --l) {

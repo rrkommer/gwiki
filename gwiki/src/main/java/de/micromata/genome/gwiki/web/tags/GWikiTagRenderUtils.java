@@ -41,7 +41,16 @@ public class GWikiTagRenderUtils
 {
   public static final String FORM_ATTR_NAME = "form";
 
-  public static String readFormValue(PageContext pageContext, String name)
+  public static String readFormStringValue(PageContext pageContext, String name)
+  {
+    Object o = readFormValue(pageContext, name);
+    if (o == null) {
+      return null;
+    }
+    return ObjectUtils.toString(o);
+  }
+
+  public static Object readFormValue(PageContext pageContext, String name)
   {
     Object bean = pageContext.getRequest().getAttribute(FORM_ATTR_NAME);
     if (bean == null) {
@@ -49,10 +58,7 @@ public class GWikiTagRenderUtils
     }
     try {
       Object o = PropertyUtils.getProperty(bean, name);
-      if (o == null) {
-        return null;
-      }
-      return ObjectUtils.toString(o);
+      return o;
     } catch (Exception ex) {
       throw new RuntimeException("Cannot read property '" + FORM_ATTR_NAME + "'." + name + ": " + ex.getMessage(), ex);
     }

@@ -66,8 +66,8 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
   @SuppressWarnings("unchecked")
   protected Iterator getIterator(Object collection) throws JspException
   {
-
-    if (collection.getClass().isArray()) {
+    Class< ? > clcls = collection.getClass();
+    if (clcls.isArray()) {
       collection = Arrays.asList((Object[]) collection);
     }
 
@@ -130,7 +130,7 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
       }
       String stringLabel = beanLabel.toString();
       String stringValue = beanValue.toString();
-      sb.append("<option value=\"").append(escapeHtml ? StringEscapeUtils.escapeHtml(value) : value).append("\"");
+      sb.append("<option value=\"").append(escapeHtml ? StringEscapeUtils.escapeHtml(stringValue) : stringValue).append("\"");
       if (selTag.hasValue(stringValue) == true) {
         sb.append(" selected=\"selected\"");
       }
