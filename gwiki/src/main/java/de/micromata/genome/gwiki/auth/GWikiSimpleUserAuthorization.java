@@ -55,12 +55,12 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
-    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.CURRENT_USER.get();
+    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
     try {
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(defaultConfig.getUser("gwikisu"));
+      GWikiUserServeElementFilterEvent.setUser(defaultConfig.getUser("gwikisu"));
       return callback.call();
     } finally {
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(su);
+      GWikiUserServeElementFilterEvent.setUser(su);
     }
   }
 
@@ -70,12 +70,12 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     if (su == null) {
       throw new AuthorizationFailedException("User doesn't exits: " + user);
     }
-    GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.CURRENT_USER.get();
+    GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.getUser();
     try {
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(su);
+      GWikiUserServeElementFilterEvent.setUser(su);
       return callback.call();
     } finally {
-      GWikiUserServeElementFilterEvent.CURRENT_USER.set(pu);
+      GWikiUserServeElementFilterEvent.setUser(pu);
     }
   }
 
@@ -90,13 +90,13 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     if (su == null || StringUtils.equals(su.getUser(), "anon") == true) {
       return false;
     }
-    GWikiUserServeElementFilterEvent.CURRENT_USER.set(su);
+    GWikiUserServeElementFilterEvent.setUser(su);
     return true;
   }
 
   public void clearThread(GWikiContext ctx)
   {
-    GWikiUserServeElementFilterEvent.CURRENT_USER.set(null);
+    GWikiUserServeElementFilterEvent.setUser(null);
   }
 
   public static GWikiSimpleUserConfig getConfig(GWikiContext ctx)
@@ -157,7 +157,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public static GWikiSimpleUser getSingleUser(GWikiContext ctx)
   {
-    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.CURRENT_USER.get();
+    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
     if (su != null) {
       return su;
     }

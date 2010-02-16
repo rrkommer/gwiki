@@ -40,6 +40,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.collections15.ArrayStack;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -91,7 +92,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   protected GWikiWeb wikiWeb;
 
-  private GWikiElement wikiElement;
+  private ArrayStack<GWikiElement> wikiElements = new ArrayStack<GWikiElement>();
 
   private HttpServletRequest request;
 
@@ -240,6 +241,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     if (wikiWeb.findElement(lurl) == null) {
       if (lurl.startsWith("/") == false) {
+        GWikiElement wikiElement = getWikiElement();
         if (wikiElement != null) {
           String pa = getParentDirPathFromPageId(wikiElement.getElementInfo().getId());
           pa = pa + lurl;
@@ -262,6 +264,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
     String res = url;
     if (lurl.indexOf("/") == -1 && wikiWeb.findElementInfo(res) == null) {
+      GWikiElement wikiElement = getWikiElement();
       if (wikiElement != null) {
         String pa = getParentDirPathFromPageId(wikiElement.getElementInfo().getId());
         pa = pa + lurl;
@@ -465,12 +468,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public void runElement(GWikiElement el, CallableX<Void, RuntimeException> cb)
   {
-    GWikiElement pe = getWikiElement();
     try {
-      setWikiElement(el);
+      pushWikiElement(el);
       cb.call();
     } finally {
-      setWikiElement(pe);
+      popWikiElement();
     }
   }
 
@@ -511,12 +513,36 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public GWikiElement getWikiElement()
   {
-    return wikiElement;
+    if (wikiElements.isEmpty() == true) {
+      return null;
+    }
+    return wikiElements.peek();
+  }
+
+  public void pushWikiElement(GWikiElement wikiElement)
+  {
+    this.wikiElements.push(wikiElement);
+  }
+
+  public GWikiElement popWikiElement()
+  {
+    return this.wikiElements.pop();
   }
 
   public void setWikiElement(GWikiElement wikiElement)
   {
-    this.wikiElement = wikiElement;
+    if (wikiElements.isEmpty() == false) {
+      wikiElements.pop();
+    }
+    wikiElements.push(wikiElement);
+  }
+
+  public GWikiElement getParentWikiElement()
+  {
+    if (wikiElements.size() < 2) {
+      return null;
+    }
+    return wikiElements.peek(1);
   }
 
   public HttpServletRequest getRequest()

@@ -112,11 +112,19 @@ public class GWikiFilters
         storageDeleteElementFilters).nextFilter(event);
   }
 
-  public void serveElement(GWikiContext ctx, GWikiElement el, GWikiServeElementFilter target)
+  public void serveElement(final GWikiContext ctx, final GWikiElement el, final GWikiServeElementFilter target)
   {
-    ctx.setWikiElement(el);
-    GWikiServeElementFilterEvent event = new GWikiServeElementFilterEvent(ctx, el);
-    new GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter>(this, target, serveElementFilters).nextFilter(event);
+    ctx.runElement(el, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        GWikiServeElementFilterEvent event = new GWikiServeElementFilterEvent(ctx, el);
+
+        new GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter>(GWikiFilters.this, target, serveElementFilters)
+            .nextFilter(event);
+        return null;
+      }
+    });
+
   }
 
   public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageArtefakt artefakt, GWikiWikiPageRenderFilter target)
