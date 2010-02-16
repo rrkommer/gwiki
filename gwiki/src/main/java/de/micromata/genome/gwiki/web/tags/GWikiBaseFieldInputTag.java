@@ -48,7 +48,7 @@ public abstract class GWikiBaseFieldInputTag extends GWikiBasePropertyHtmlTag
   public void prepare()
   {
     if (value == null) {
-      value = GWikiTagRenderUtils.readFormValue(pageContext, property);
+      value = GWikiTagRenderUtils.readFormStringValue(pageContext, property);
     }
   }
 
