@@ -758,6 +758,76 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return getStringListRequestAttribute(CONTENT_CSS);
   }
 
+  public String getRealContextPath()
+  {
+    String cp = (String) request.getAttribute("javax.servlet.include.servlet_path");
+    if (cp != null) {
+      return cp;
+    }
+    cp = (String) request.getAttribute("javax.servlet.forward.servlet_path");
+    if (cp != null) {
+      return cp;
+    }
+    cp = request.getContextPath();
+    return cp;
+  }
+
+  public String getRealPathInfo()
+  {
+    String cp = (String) request.getAttribute("javax.servlet.include.path_info");
+    if (cp != null) {
+      return cp;
+    }
+    cp = (String) request.getAttribute("javax.servlet.forward.path_info");
+    if (cp != null) {
+      return cp;
+    }
+    cp = request.getPathInfo();
+    return cp;
+  }
+
+  public String getRealServletPath()
+  {
+    String cp = (String) request.getAttribute("javax.servlet.include.servlet_path");
+    if (cp != null) {
+      return cp;
+    }
+    cp = (String) request.getAttribute("javax.servlet.forward.servlet_path");
+    if (cp != null) {
+      return cp;
+    }
+    cp = request.getServletPath();
+    return cp;
+  }
+
+  public String getRealRequestUri()
+  {
+    String cp = (String) request.getAttribute("javax.servlet.include.request_uri");
+    if (cp != null) {
+      return cp;
+    }
+    cp = (String) request.getAttribute("javax.servlet.forward.request_uri");
+    if (cp != null) {
+      return cp;
+    }
+    cp = request.getRequestURI();
+    return cp;
+  }
+
+  public String getRealQueryString()
+  {
+    String cp = (String) request.getAttribute("javax.servlet.include.query_string");
+    if (cp != null) {
+      return cp;
+    }
+    cp = (String) request.getAttribute("javax.servlet.forward.query_string");
+    if (cp != null) {
+      return cp;
+    }
+    cp = request.getQueryString();
+    return cp;
+  }
+
   public GWikiWeb getWikiWeb()
   {
     return wikiWeb;

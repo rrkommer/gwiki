@@ -40,7 +40,6 @@ import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
 import de.micromata.genome.util.bean.SoftCastPropertyUtilsBean;
 import de.micromata.genome.util.types.Pair;
 
-
 /**
  * PageContext with extensions for GWARs
  * 
@@ -151,11 +150,11 @@ public abstract class ChildPageContext extends PageContext
   {
     // TODO still problem. in JspWiki included buffers will flushed to late
     if (internalGroovyOut != null) {
-      //try {
-        internalGroovyOut.flush();
-//      } catch (IOException ex) {
-//        ex.printStackTrace(); // TODO
-//      }
+      // try {
+      internalGroovyOut.flush();
+      // } catch (IOException ex) {
+      // ex.printStackTrace(); // TODO
+      // }
     }
     parentPageContext.release();
   }
@@ -234,7 +233,7 @@ public abstract class ChildPageContext extends PageContext
       if (swriter instanceof BodyFlusher) {
         ((BodyFlusher) swriter).flushBody();
       } else {
-        System.out.println("no bodyflusher");
+        // System.out.println("no bodyflusher");
       }
     }
     parentPageContext.include(arg0, flush);

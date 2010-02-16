@@ -55,6 +55,11 @@ public class GWikiMetaTemplate implements Serializable
    */
   private boolean viewable = true;
 
+  /**
+   * should not display in children tocs.
+   */
+  private boolean noToc = false;
+
   private boolean cachable = true;
 
   private boolean noSearchIndex = false;
@@ -209,6 +214,16 @@ public class GWikiMetaTemplate implements Serializable
   public void setElementLifeTime(long lifeTime)
   {
     this.elementLifeTime = lifeTime;
+  }
+
+  public boolean isNoToc()
+  {
+    return noToc;
+  }
+
+  public void setNoToc(boolean noToc)
+  {
+    this.noToc = noToc;
   }
 
 }

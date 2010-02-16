@@ -114,6 +114,16 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
     return metaTemplate.isViewable();
   }
 
+  public boolean isNoToc()
+  {
+    if (props.getBooleanValue(GWikiPropKeys.NOTOC) == true)
+      return false;
+    if (metaTemplate == null) {
+      return true;
+    }
+    return metaTemplate.isNoToc();
+  }
+
   /**
    * 
    * @return -1 if order is not definied

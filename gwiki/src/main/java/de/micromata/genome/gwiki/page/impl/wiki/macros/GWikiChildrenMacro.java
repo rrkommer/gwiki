@@ -182,12 +182,18 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei) == false) {
       return;
     }
+    if (ei.isNoToc() == true) {
+      return;
+    }
     boolean allTypes = StringUtils.equals(type, "all");
     List<GWikiElementInfo> cl = ctx.getElementFinder().getDirectChilds(ei);
     if (allTypes == false) {
       List<GWikiElementInfo> ncl = new ArrayList<GWikiElementInfo>();
       for (GWikiElementInfo ci : cl) {
         if (StringUtils.equals(ci.getProps().getStringValue(GWikiPropKeys.TYPE), type) == false) {
+          continue;
+        }
+        if (ci.isNoToc() == true) {
           continue;
         }
         ncl.add(ci);
