@@ -1,3 +1,25 @@
 {pageintro}
 You have an web application with dynamic content. This pages are written with traditional technologies, like jsp with MVC-Model (like Struts, Stripes, Spring) and just want to integrate some static conent - like help text snippets.
 {pageintro}
+
+GWiki can be used to maintain little snippets inside a traditional jsp web or servlet page.
+
+# Think about folder structure to store the snippets.
+# Use Wiki Fragment Template - or create an own Element type - to store the fragments
+# In the GSPT/JSP page you can insert a link:
+
+{code}
+pageContext = wikiContext.getPageContext();
+pageContext.getRequest().setAttribute("parentwel", "/gwikidocs/howtos/en/IntegrateGWikiSnippetsinyourownPage");
+pageContext.include("/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");
+{code}
+
+Looks like:
+
+{groovy}
+pageContext = wikiContext.getPageContext();
+pageContext.getRequest().setAttribute("parentwel", "/gwikidocs/howtos/en/IntegrateGWikiSnippetsinyourownPage");
+pageContext.include("/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");
+{groovy}
+
+The reason to set {{parentwel}} is that after Editing the original page will be shown.
