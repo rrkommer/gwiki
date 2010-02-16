@@ -84,6 +84,8 @@ public interface GWikiPropKeys
    */
   public static final String NOVIEW = "NOVIEW";
 
+  public static final String NOTOC = "NOTOC";
+
   public static final String MACRO_WITH_BODY = "MACRO_WITH_BODY";
 
   public static final String MACRO_EVAL_BODY = "MACRO_EVAL_BODY";

@@ -119,8 +119,9 @@ public class GWikiServlet extends HttpServlet
 
   protected String getWikiPage(GWikiContext ctx)
   {
-    String servPath = ctx.getRequest().getServletPath();
-    String pathInfo = ctx.getRequest().getPathInfo();
+
+    String servPath = ctx.getRealServletPath();
+    String pathInfo = ctx.getRealPathInfo();
     String page = servPath;
     if (StringUtils.isNotEmpty(pathInfo) == true) {
       page = pathInfo;
