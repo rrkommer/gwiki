@@ -26,9 +26,7 @@ Libraries used by GWiki
 |dom4j|1.4|Confluence Data import (Optional)|
 |jstl|1.1.2|Standard JSP taglibrary|
 |javax.servlet.jsp|2.1|API for JSP. Used by GSPT|
-|struts,struts-el|1.2.9|Only the tag libary is used. Nothing from the MVC-framework. May be replaced later|
 |commons-dbcp|1.2.1|Optional used for DataSources. May be removed if no database is used or replaced by container implemenation|
-|net.sourceforge.stripes|1.4.3|Only used for Testcases. May be removed later|
 |junit|4.7|JUnits|
 |com.lowagie.itext|2.1.4|Writing PDF. Experimtel only|
 
