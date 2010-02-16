@@ -109,9 +109,12 @@ public class StandAlonePageContext extends PageContext
   }
 
   @Override
-  public void forward(String arg0) throws ServletException, IOException
+  public void forward(String path) throws ServletException, IOException
   {
-    throw new UnsupportedOperationException("Svgt; SvgtPageContext.forward not supported");
+    if (request == null) {
+      throw new UnsupportedOperationException("StandAlonePageContext.forward not supported");
+    }
+    request.getRequestDispatcher(path).forward(request, response);
   }
 
   @Override
@@ -174,15 +177,21 @@ public class StandAlonePageContext extends PageContext
   }
 
   @Override
-  public void include(String arg0, boolean arg1) throws ServletException, IOException
+  public void include(String path, boolean flush) throws ServletException, IOException
   {
-    throw new UnsupportedOperationException("Svgt; SvgtPageContext.getRequest not implemented");
+    if (request == null) {
+      throw new UnsupportedOperationException("Svgt; StandAlonePageContext.include() not implemented");
+    }
+    request.getRequestDispatcher(path).include(request, response);
+    if (flush == true) {
+      response.flushBuffer();
+    }
   }
 
   @Override
-  public void include(String arg0) throws ServletException, IOException
+  public void include(String path) throws ServletException, IOException
   {
-    throw new RuntimeException("Svgt; SvgtPageContext.getRequest not implemented");
+    include(path, true);
   }
 
   @Override
