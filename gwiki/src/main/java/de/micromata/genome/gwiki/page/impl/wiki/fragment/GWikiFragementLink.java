@@ -160,6 +160,9 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
     } else {
       targetExists = true;
     }
+    if (targetExists == false && RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      targetExists = true;
+    }
     if (targetExists == false) {
       if (allowToCreate == true) {
         ctx.append("<a href='")//

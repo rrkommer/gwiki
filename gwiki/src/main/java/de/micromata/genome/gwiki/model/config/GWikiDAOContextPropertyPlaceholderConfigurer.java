@@ -85,6 +85,10 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
   protected String resolvePlaceholder(String key, Properties props)
   {
     String val;
+    val = resolveBySystemProperties(key);
+    if (val != null) {
+      return val;
+    }
     val = resolveByJndi(key);
     if (val != null) {
       return val;
@@ -97,10 +101,7 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
     if (val != null) {
       return val;
     }
-    val = resolveBySystemProperties(key);
-    if (val != null) {
-      return val;
-    }
+
     return super.resolvePlaceholder(key, props);
   }
 

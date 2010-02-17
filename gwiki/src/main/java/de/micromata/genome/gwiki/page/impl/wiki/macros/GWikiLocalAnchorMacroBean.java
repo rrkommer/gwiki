@@ -46,5 +46,4 @@ public class GWikiLocalAnchorMacroBean extends GWikiMacroBean
     ctx.append("<a name='", StringEscapeUtils.escapeXml(localAnchor), "' />");
     return true;
   }
-
 }

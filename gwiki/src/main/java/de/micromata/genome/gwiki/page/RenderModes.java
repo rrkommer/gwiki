@@ -50,8 +50,13 @@ public enum RenderModes
    * no page decoration with navication, etc.
    */
   NoPageDecoration(0x0200), //
-
+  /**
+   * Generating HTML for text extraction.
+   */
   ForText(0x1000), //
+  /**
+   * Generating HTML for Rich text editor.
+   */
   ForRichTextEdit(0x2000), //
   ForIndex(combine(NoLinks, NoToc, InMem, ForText, NoPageDecoration)), //
   ;

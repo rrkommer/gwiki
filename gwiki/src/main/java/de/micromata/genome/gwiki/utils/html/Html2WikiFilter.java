@@ -243,7 +243,10 @@ public class Html2WikiFilter extends DefaultFilter
     if (href != null && wikiContext != null) {
       String ctxpath = wikiContext.getRequest().getContextPath();
       if (href.startsWith(ctxpath) == true) {
-        String id = href.substring(ctxpath.length() + 1);
+        String id = href;
+        if (ctxpath.length() > 0) {
+          id = href.substring(ctxpath.length() + 1);
+        }
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(id);
         // if (ei != null) {
         // TODO title and other attributes...
