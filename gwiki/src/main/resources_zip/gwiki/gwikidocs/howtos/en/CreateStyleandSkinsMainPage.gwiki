@@ -1,0 +1,40 @@
+{pageintro}
+GWiki defines two skins: {{gwiki}} and {{naked}}. GWiki allows to use the wiki itself to define own skins.
+{pageintro}
+
+h2. What is skin
+Skins are templates, which do not only define colors and layout of a page, but also the functions, like navigation or menu to common functions.
+So a skin is not only a collections of css, images and a layout definition, but also can contain functionality written in jsp.
+
+h2. Steps to create a new skin named {{myskin}}.
+
+The files for a skin are GWiki elements in with a path prefix {{inc/myskin/}}.
+
+Use one of the existant styles directories and copy all files in the new directory {{inc/myskin}}.
+
+Via GWiki open the WikiConfig dialog. Add the skin to the comma seperated list of 'Available Skins'.
+
+Open your profile and select the myskin.
+
+Until now you only have made a copy of another skin, so the web pages should not changed.
+
+Now take a look at following elements inside your new skin folder:
+h3. standardtemplate.gspt
+This template will be used for normal pages with navigation and menu.
+{code}
+<@include file="inc/naked/standardhead.gspt"@>
+<%
+	MainPage.render(wikiContext);
+%>
+<@include file="inc/naked/standardfoot.gspt"@>
+{code}
+Normally you only need to ajust the include pathes.
+
+h3. standardhead.gspt
+This is the standard head section of a page. It defines the layout and includes some other utility gspt, like {{inc/headMenu.gspt}} or {{inc/navMenu}}.
+
+h3. standardfoot.gspt
+This include is used just to close the page and put functionality on the bottom of the page.
+
+h2. overwite css
+A skin should include the standard {{inc/gwiki.css}} but include also an own css to overwrite the standard css definitions.

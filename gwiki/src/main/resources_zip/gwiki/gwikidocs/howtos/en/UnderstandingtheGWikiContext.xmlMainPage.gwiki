@@ -1,0 +1,240 @@
+{pageintro}
+The {{GWikiContext.xml}} defines the basic configuration for the GWiki. For setting up GWiki for your needs, you probably have to edit/understand this file.
+{pageintro}
+
+The {{GWikiContext.xml}} is a xml file using Spring Application Context format. The implemention of internal interfaces of the GWiki are directly refereing to the implementation classes.
+
+General information about Spring Application Context XML files can be found [here|http://static.springsource.org/spring/docs/2.5.x/reference/beans.html].
+
+
+h2. Beans/Interfaces.
+The main purpose of the GWikiContext is to setup the {{de.micromata.genome.gwiki.model.config.GWikiDAOContext}} class, which contains all service interface used by gwiki.
+
+For many services default/standard implementation can be used. If you don't want use other implementation, they should not be defined in the GWikiContext.
+
+Some service - like storage service - must be initialized via the GWikiContext.
+
+h2. Sample 1
+Here a full sample:
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<property name="staticContentFromClassPath" value="true" />
+		<property name="enableWebDav" value="true" />
+		<property name="webDavUserName" value="gwikidavadmin" />
+		<property name="webDavPasswordHash" value="yfrNAF5Bp7m/lm+ywXpD92uRNKc=" />
+		<property name="storage">
+			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+								<constructor-arg>
+									<value>./gwiki</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+								<constructor-arg>
+									<value>GWikiContent.zip</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+        <bean id="GwikiMimeTypes" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key=".txt" value="text/text" />
+				<entry key=".properties" value="text/properties" />
+				<entry key="Settings.properties" value="text/gwikisettings" />
+				<entry key="TextExtract.txt" value="text/gwikitextextract" />
+				<entry key="TextIndex.txt" value="text/gwikitextindex" />
+				<entry key=".gwiki" value="text/gwiki" />
+				<entry key=".gspt" value="text/gspt" />
+				<entry key=".xml" value="text/xml" />
+				<entry key=".js" value="text/javascipt" />
+				<entry key=".css" value="text/css" />
+				<entry key=".gif" value="image/gif" />
+				<entry key=".jpgeg" value="image/jpeg" />
+				<entry key=".jpg" value="image/jpeg" />
+				<entry key=".png" value="image/png" />
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>
+{code}
+
+On top level two beans are defined: GWikiBootstrapConfig and GwikiMimeTypes.
+
+The GWikiBootstrapConfig  key defines a bean of the {{GWikiDAOContext}} class:
+Simple variables:
+
+||Bean attribute||Default||Description||
+|boolean staticContentFromClassPath|false|GWiki read the static content from classpath static/* instead of the {{<gwikiservletpath>/static}} from the Web content directory.|
+|boolean enableWebDav|false|Enable Webdav access|
+|String webDavUserName|null|The user name for the web dav user. This user can also be used as system administrator for GWiki|
+|String webDavPasswordHash|null|Hash value of the web dav user password.|
+
+Service interfaces.
+||Bean attribute||Default||Description||
+| {{GWikiStorage storage}}| none | Load and Store elements. {{GWikiFileStorage}} is the only implementation. \\
+The {{GWikiStorage}} holds also the virtual {{FileSystem}}, which provides files for the Wiki.|
+| {{GWikiJspProcessor jspProcessor}}|GenomeJspProcessor| Provides JSP-Support for Groovy.\\
+  Normally you don't need to define this in the GWikiContext|
+| {{GWikiAuthorization authorization}}| GWikiUserAuthorization| User based authorization.\\
+ The standard implementation uses the user manangement integrated in the GWiki. If you want to integrate your own user management, you can implement an adapter class.|
+|{{ContentSearcher contentSearcher}}|SearchExpressionContentSearcher|Search Engine implementation.\\
+  Normally you don't need to define this in the GWikiContext|
+|{{GWikiLogging logging}}|GWikiLoggingLog4J|Logging service. The default implementation logs via log4j.|
+|{{GWikiSessionProvider sessionProvider}}|GWikiStandardSessionProvider|: Storage of session data.\\
+  Normally you don't need to define this in the GWikiContext|
+| {{GWikiI18nProvider i18nProvider}}|GWikiI18nStandardProvider| I18N-Service.\\
+  Normally you don't need to define this in the GWikiContext|
+|{{GWikiSchedulerProvider schedulerProvider}}|GWikiStandardSchedulerProvider| Jobs executed asynchron.\\
+  Normally you don't need to define this in the GWikiContext|
+|{{GWikiEmailProvider emailProvider}}|GWikiStandardEmailProvider|Send emails.\\
+  Normally you don't need to define this in the GWikiContext|
+|{{GWikiPageCache pageCache}}|GWikiPageCacheTimedImpl|Caching compiled pages.\\
+  Normally you don't need to define this in the GWikiContext|
+|{{Session mailSession}}|null|Mail Session object used by emailProvider.\\
+TODO mailSession.|
+
+
+h3. Storage
+The {{GWikiStorage storage}} is a container for all GWiki content based on a virtual file system.
+
+GWiki provides different implementation of a virtual file system:
+
+*de.micromata.genome.gdbfs.StdFileSystem*
+The {{StdFileSystem}} mounts a local directory. It needs a {{root}} attribute with a directory name, which will be used as root directory for the file system.
+{code}
+<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+    <constructor-arg>
+     <value>/MyProjectRoot/src/main/external_resources/gwiki_tmp</value>
+   </constructor-arg>
+</bean>
+{code}
+
+*de.micromata.genome.gdbfs.db.DbFileSystemImpl*
+The {{DbFileSystemImpl}} uses a data base as virtual file system. Currently it is only tested with Oracle, but should be easely ported to other data base systems.
+{code}
+<!-- Define a datasource -->
+      <bean id="dsGWiki" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="resourceRef" ref="jndiLongnames" />
+		<property name="jndiName">
+			<value>pop/jdbc/popWebDomainAdmin</value>
+		</property>
+	</bean>
+<!-- define the data base file system -->
+          <bean id="primaryFs" class="de.micromata.genome.gdbfs.db.DbFileSystemImpl">
+		<property name="dbTarget">
+			<bean class="de.micromata.genome.gdbfs.db.DbTarget">
+				<property name="dbDialectName" value="Oracle10" />
+				<property name="dataSource">
+					<ref bean="dsGWiki" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+{code}
+
+*de.micromata.genome.gdbfs.RamFileSystem*
+Provides an - initial empty - file system in memory.
+
+*de.micromata.genome.gdbfs.CpZipRamFileSystem*
+Is a {{RamFileSystem}} initally filled with the files of  a zip file loaded from the classpath.
+The zip file has to be passed via constructor. 
+Sample:
+{code}
+<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+								<constructor-arg>
+									<value>GWikiContent.zip</value>
+								</constructor-arg>
+							</bean>
+{code}
+
+*de.micromata.genome.gdbfs.FileZipRamFileSystem*
+Is a {{RamFileSystem}} initally filled with the files of  a zip file loaded from a local directory.
+The zip file has to be passed via constructor. 
+
+*de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem*
+This file system combines two file system, where the {{primary}} file system is used to read and write and the {{secondary}} is used read only.
+A standard gwiki Installation usually use this combined file system, to provide the standard GWiki pages and configurations via secondary
+CpZipRamFileSystem, embedded in the gwiki.jar and as primary file system either a file system on local directory or the database.
+If a page readed from the secondary file system will be edited a copy of this page will be created in the primary file system.
+
+
+*de.micromata.genome.gdbfs.MountCombinedFileSystem*
+This file system also combine two file system, but both will be used for read and write access.
+The file system has not only a primary and a secondary file system, but also a rule set, which files should be read/write from the primary file system.
+Different to traditionally mounts, this rule sets can declare also single files, directories or files identified by file extensions.
+
+Sample:
+{code}
+<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
+								<constructor-arg>
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+										</constructor-arg>
+									</bean>
+								</constructor-arg>
+								<constructor-arg>
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+										</constructor-arg>
+									</bean>
+								</constructor-arg>
+								<property name="primaryMountsRule"
+									value="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*" />
+							</bean>
+{code}
+all elements (pageIds) matching to {{admin/*}}, but not {{admin/user/*}} and all matching {{edit/*}}, {{gwikidocs/*}} or {{inc/*}} will be read and write from/to the primary file system,
+all other files from/to the secondary file system.
+
+Another sample fro the primaryMountRule:
+{code}
+<property name="primaryMountsRule" value="+*,-tmp/*,-arch/*,-*/arch/*,-*TextExtract.txt,-*TextIndex.txt,-admin/GlobalTextIndexSettings.properties" />
+{code}
+This rule will read/write all file from primary ({{+*}}) but all temporary files, archive files and files for the full text index will be read/write from the secondary file system.
+
+h2. Using placeholder in the GWikiContext.xml
+Initializing GWiki with a GWikiContext.xml with f.e. a StdFileSystem needs an path as argument. This can differ for every machine - either developer, test or production.
+This variable parts of the GWikiContext.xml can be managed outside the GWikiContext.xml using {{${\}}}-Expression.
+
+Example:
+{code}
+bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+										</constructor-arg>
+									</bean>
+{code}
+While evaluating the XML all Expressions marked with {{${\}}} - in the example {{${gwiki.dev.path\}} will be replaced by following defintions sets:
+*System properties*
+System properties can be defined via start command line via {{-Dgwiki.dev.path=C:/Users/roger/d/dhl/gwiki/gwiki}}.
+
+*JNDI*
+Variables defined in the container JNDI context.
+*ServletContext*
+For example you can define a servet context in a tomcat context.xml file:
+{code}
+<Context reloadable="false" debug="0" cookies="true" >
+	<Parameter name="gwiki.dev.path" value="C:/Users/roger/d/dhl/gwiki/gwiki" />
+</Context>
+{code}
+Alternativelly the context variables can be defined in the web.xml via {{context-param}} elements.
+
+*ServletConfig*
+Variables defined in the web.xml as {{init-param}}.
+
+The variables can also be used to define user names, password hashes, database connection parameter and so on.
+
