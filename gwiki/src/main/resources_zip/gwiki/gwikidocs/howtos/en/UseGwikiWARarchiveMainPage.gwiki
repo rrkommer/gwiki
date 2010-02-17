@@ -2,4 +2,4 @@
 How to deploy GWiki as WAR in an Servlet Container or Application Server.
 {pageintro}
 
-
+The GWiki WAR contains all necessary libraries, pages etc. to start a Wiki.

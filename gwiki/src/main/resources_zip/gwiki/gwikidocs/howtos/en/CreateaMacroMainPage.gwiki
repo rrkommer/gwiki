@@ -1,0 +1,107 @@
+{pageintro}
+With Macros new dynamic parts and layout components can be introduced.
+{pageintro}
+The best way to learn how to write Macros is just to look, how existant Macros are written.
+
+h2. Macro written in Java
+h3. Overview of Interfaces
+A Macro has to implement the interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro}}. 
+If a macro has a body, like the code macro with starting {noformat}{code}body{code}{noformat}, the macro should also implement the marker interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro}}.
+If the body of the macro itself is wiki code, the Macro should implement the marker interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro}}.
+
+
+Standard Macros also implement the interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro}}:
+
+The interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro}} is mainly used to produce new
+{{GWikiFragment}}s at compile time.
+
+For convinience, some base classes are provided:
+{{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean}} works like an ActionBean. In the Macro class extending this 
+class the Macro attributes will be set to bean properties of the macro.
+
+Macros, which represents itself in Rich Text exitor as WYSIWYG Element should also implement the {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte}}
+interface, which provides some information how to transate HTML back to the macro definition.
+
+h3. Sample Simple Macro.
+
+Hier as sample the code for generating a local anchor:
+{code}
+public class GWikiLocalAnchorMacroBean extends GWikiMacroBean
+{
+
+  private static final long serialVersionUID = -8790099016295725015L;
+
+  @Override
+  public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
+  {
+    if (RenderModes.NoToc.isSet(ctx.getRenderMode()) == true) {
+      return true;
+    }
+    String localAnchor = attrs.getArgs().getStringValue("defaultValue");
+    ctx.append("<a name='", StringEscapeUtils.escapeXml(localAnchor), "' />");
+    return true;
+  }
+}
+{code}
+The macro has only a unnamed default value. This can be read via MacroAttributes via the key "defaultValue".
+
+Before rendering the anchor via {{ctx.append()}}, there is a test if a {{RenderMode.NoToc}} is set. 
+If the content should be rendered without any embedded table of contents - for example for printing document export -
+this flag is set and the macro simply doesn't produce any output.
+
+Please refer to {{RenderMode}} for more Flags.
+
+Macros implementing the {{GWikiCompileTimeMacro}} interface can produce new GWikiFragements at compile time.
+
+{code}
+public class GWikiNoFormatBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro
+{
+  private static final long serialVersionUID = 335691916315972801L;
+
+  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  {
+    Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
+    GWikiHtmlBodyTagMacro tagMacro = new GWikiHtmlBodyTagMacro();
+    GWikiMacroFragment preFrag = new GWikiMacroFragment(tagMacro, new MacroAttributes("pre:style=border=1;"));
+    preFrag.addChild(new GWikiFragmentText(macroFrag.getAttrs().getBody()));
+    macroFrag.addChild(preFrag);
+    frags.add(macroFrag);
+    return frags;
+  }
+}
+
+{code}
+h3. Security
+Macros itself can be used to secure the users input, not allowing all possible html but only a defined subset.
+But some Macros can be used to inject HTML, java script or even server side executed code into a page.
+For this a Macro can implement the method {{ensureRight}} to check if the current editor of the page make 
+usage of a Macro or use attributes of the Macro he is not allowed.
+{code}
+public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro
+{
+  // ...
+  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  {
+    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
+      throw new AuthorizationFailedException("Unsecure usage of HTML Macro.");
+    }
+  }
+
+}
+{code}
+The {{html}} macro check, if the editor of a page, which uses the macro has the right to edit raw HTML pages. If not
+it throws an {{AuthorizationFailedException}} exception.
+
+Note: An editor without this GWIKI_EDITHTML right may edit the page with the macro containg, but receives an error message, if he tries to save the page. Of course he can remove the usage of the html Macro and after that he can save the modified page. If you don't want, that an editor without the GWIKI_EDITHTML right can modifiy the page, define the right GWIKI_EDITHTML as edit right to the GWikiElement via Settings in the GWiki Editor.
+
+h3. Render Modes
+
+h3. Test the macro
+
+The global available macros can be registered in the WikiConfig.
+
+If you don't want to register macro globally, you first can use the {{usemacro}} to make a macro available only for one test page:
+
+
+
+h2. Macros written with GSPT/jsp

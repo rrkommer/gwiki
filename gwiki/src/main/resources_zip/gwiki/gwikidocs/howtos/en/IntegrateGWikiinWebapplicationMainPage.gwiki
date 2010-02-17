@@ -1,3 +1,46 @@
 {pageintro}
 How to integrate the GWiki Servlet into your web application
 {pageintro}
+
+h2. Register GWiki Servlet in the web.xml
+To integrate GWiki into your Java Web application, you need to add a servlet to your web.xml.
+
+h3. Add the servlet definition
+
+{code}
+          <servlet>
+		<servlet-name>WikiService</servlet-name>
+
+		<servlet-class>de.micromata.genome.gwiki.web.GWikiServlet
+		</servlet-class>
+		<init-param>
+			<!--  Register class, loading the GWikiDAOContext -->
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className
+			</param-name>
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+{code}
+The GWikiBootstrapConfigLoader is responsible to load the GWiki Context, which defines implementation of basic services used by GWiki.
+
+
+For parameter {{de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className}} two implementation are given:
+- {{de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader}}: Looks for {{GWikiContext.xml}} in the class path of the application.
+- {{de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader}}: Looks for GWikiContext.xml in the file system. It uses the initparameter {{de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName}} to locate the file.
+
+h3. Add the servlet mapping
+In the web.xml you have to add also the servlet mapping:
+{code}
+    <servlet-mapping>
+		<servlet-name>WikiService</servlet-name>
+		<url-pattern>/gwiki</url-pattern>
+	</servlet-mapping>
+	
+{code}
+If you want to register the wiki as root/default-Servlet use {{/}} instead of {{/*}}.
+
+h2. Edit your GWikiContext.xml file
+The GWikiConfig.xml is a Spring application context file. 
+Please refer to [gwikidocs/howtos/en/UnderstandingtheGWikiContext.xml].
