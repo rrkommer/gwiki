@@ -84,6 +84,10 @@ public class GWikiChildrenMacro extends GWikiMacroBean
    */
   private boolean withPageTocs = false;
 
+  private boolean viewAll = false;
+
+  private boolean withEditLinks = false;
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
@@ -126,6 +130,16 @@ public class GWikiChildrenMacro extends GWikiMacroBean
   {
 
     ctx.append("<li>").append(ctx.renderLocalUrl(ci.getId()));
+    if (withEditLinks == true) {
+      if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == true) {
+        ctx.append("&nbsp;<a href=\"")//
+            .append(ctx.localUrl("edit/EditPage?pageId=")).append(ci.getId())//
+            .append("&backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">Edit</a>");
+      }
+      ctx.append("&nbsp;<a href=\"")//
+          .append(ctx.localUrl("edit/PageInfo?pageId=")).append(ci.getId())//
+          .append("&backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">Info</a>&nbsp;");
+    }
     if (withPageIntro == true || withPageTocs == true) {
 
       GWikiWikiPageArtefakt wiki = getWikiFromElement(ci, ctx);
@@ -193,7 +207,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
         if (StringUtils.equals(ci.getProps().getStringValue(GWikiPropKeys.TYPE), type) == false) {
           continue;
         }
-        if (ci.isNoToc() == true) {
+        if (viewAll == true || ci.isNoToc() == true) {
           continue;
         }
         ncl.add(ci);
@@ -333,6 +347,26 @@ public class GWikiChildrenMacro extends GWikiMacroBean
   public void setWithPageTocs(boolean withPageTocs)
   {
     this.withPageTocs = withPageTocs;
+  }
+
+  public boolean isViewAll()
+  {
+    return viewAll;
+  }
+
+  public void setViewAll(boolean viewAll)
+  {
+    this.viewAll = viewAll;
+  }
+
+  public boolean isWithEditLinks()
+  {
+    return withEditLinks;
+  }
+
+  public void setWithEditLinks(boolean withEditLinks)
+  {
+    this.withEditLinks = withEditLinks;
   }
 
 }

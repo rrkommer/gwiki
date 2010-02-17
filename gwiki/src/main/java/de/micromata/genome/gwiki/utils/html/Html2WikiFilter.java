@@ -71,18 +71,10 @@ import de.micromata.genome.gwiki.utils.StringUtils;
  */
 public class Html2WikiFilter extends DefaultFilter
 {
-  // protected StringBuilder resultText = new StringBuilder();
 
-  // protected Html2WikiElementStack elementStack = new Html2WikiElementStack();
   protected GWikiWikiParserContext parseContext = new GWikiWikiParserContext();
 
-  // protected boolean ulSeen = false;
-
-  // protected String currentList = "";
-
   private Set<String> supportedHtmlTags = new HashSet<String>();
-
-  // private String[] supportedHtmlTagsArray = new String[] {};
 
   private boolean ignoreWsNl = true;
 
