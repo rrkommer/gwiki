@@ -1,11 +1,13 @@
 <@include file="inc/stdtags.gspt"@>
 <div>
 <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) {
-		pel = wikiContext.getParentWikiElement();
-		if (pel != null) {
-			pageContext.setAttribute("parentwel", pel.elementInfo.id);
+		if (pageContext.getAttribute("parentwel") == null) {
+			pel = wikiContext.getParentWikiElement();
+			if (pel != null) {
+				pageContext.setAttribute("parentwel", pel.elementInfo.id);
+			}
 		}
-
+		
 %>
 <div class="gwikifrageditbox"><gwiki:link pageId="edit/EditPage"	title="ED"	urlParams="?pageId=${wikiPage.elementInfo.id}&backUrl=${parentwel}" /></div>
 <%
