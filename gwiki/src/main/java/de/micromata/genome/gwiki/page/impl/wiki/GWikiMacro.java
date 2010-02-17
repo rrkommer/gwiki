@@ -30,10 +30,26 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public interface GWikiMacro
 {
+  /**
+   * 
+   * @return true if the macro expexts a body.
+   */
   public boolean hasBody();
 
+  /**
+   * 
+   * @return true, if the body is not plain text, but itself should be parsed as wiki text.
+   */
   public boolean evalBody();
 
+  /**
+   * Will be called if a wiki artefakt will be safed by the user. The implementation should throw AuthorizationFailedException if the
+   * current user has not the right to make usage of this macro or use invalid attributes.
+   * 
+   * @param attrs the attributes of the macro.
+   * @param ctx Context.
+   * @throws AuthorizationFailedException
+   */
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException;
 
   /**

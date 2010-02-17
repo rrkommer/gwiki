@@ -20,7 +20,6 @@ package de.micromata.genome.gwiki.page.impl.i18n;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;

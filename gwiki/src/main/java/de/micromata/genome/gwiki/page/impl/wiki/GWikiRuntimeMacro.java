@@ -22,8 +22,21 @@ import java.io.Serializable;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * Macro will evaluated at runtime.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
 public interface GWikiRuntimeMacro extends GWikiMacro, Serializable
 {
+  /**
+   * render method.
+   * 
+   * @param attrs Macro attributes.
+   * @param ctx Context.
+   * @return true if page should be evaluated after macro processing.
+   */
   public boolean render(MacroAttributes attrs, final GWikiContext ctx);
 
 }
