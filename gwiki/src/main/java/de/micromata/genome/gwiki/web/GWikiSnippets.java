@@ -34,6 +34,8 @@ public class GWikiSnippets
 {
   private GWikiWeb wikiWeb;
 
+  private PageContext pageContext;
+
   private HttpServletRequest request;
 
   private HttpServletResponse response;
@@ -47,14 +49,28 @@ public class GWikiSnippets
     if (this.wikiWeb == null) {
       this.wikiWeb = GWikiWeb.get();
     }
-    if (this.wikiWeb == null) {
-      throw new RuntimeException("Cannot initialize GWikiSnippets because no GWikiWeb can be found");
-    }
     if (GWikiServlet.INSTANCE == null) {
       throw new RuntimeException("Cannot initialize GWikiSnippets because no GWikiServlet.INSTANCE can be found");
     }
+    if (this.wikiWeb == null) {
+      GWikiServlet.INSTANCE.initWiki(request, response);
+      this.wikiWeb = GWikiWeb.get();
+    }
+    if (this.wikiWeb == null) {
+      throw new RuntimeException("Cannot initialize GWikiSnippets because no GWikiWeb can be found");
+    }
     this.request = request;
     this.response = response;
+    if (backUrl == null && request != null) {
+      // String contextPath = request.getContextPath();
+      String reqUri = request.getRequestURI();
+      this.backUrl = reqUri;
+      // if (StringUtils.length(contextPath) > 1) {
+      // this.backUrl = reqUri.substring(contextPath.length());
+      // }
+      this.backUrl = "/" + this.backUrl; // double // that gwiki doesn't interpret as page id.
+
+    }
 
   }
 
@@ -71,6 +87,7 @@ public class GWikiSnippets
   public GWikiSnippets(GWikiWeb wikiWeb, PageContext pageContext, String backUrl)
   {
     this(wikiWeb, backUrl, (HttpServletRequest) pageContext.getRequest(), (HttpServletResponse) pageContext.getResponse());
+    this.pageContext = pageContext;
   }
 
   public void include(String pageId)
@@ -80,8 +97,11 @@ public class GWikiSnippets
     }
     // GWikiStandaloneContext wikiContext = new GWikiStandaloneContext(wikiWeb, );
     GWikiContext wikiContext = new GWikiContext(wikiWeb, GWikiServlet.INSTANCE, request, response);
+    if (pageContext != null) {
+      wikiContext.setPageContext(pageContext);
+    }
+
     wikiWeb.serveWiki(wikiContext, pageId);
-    // return wikiContext.getOutString();
   }
 
   public GWikiWeb getWikiWeb()

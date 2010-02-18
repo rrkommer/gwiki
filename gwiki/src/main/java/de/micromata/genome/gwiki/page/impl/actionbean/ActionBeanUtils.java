@@ -177,6 +177,7 @@ public class ActionBeanUtils
   {
     try {
       if (pageId.startsWith("//") == true) {
+        pageId = pageId.substring(1);
         ctx.getResponse().sendRedirect(pageId);
       } else {
         if (pageId.startsWith("/") == true) {
