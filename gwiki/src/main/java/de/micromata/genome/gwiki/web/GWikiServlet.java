@@ -76,6 +76,8 @@ public class GWikiServlet extends HttpServlet
 
   public static GWikiServlet INSTANCE;
 
+  public String servletPath;
+
   public GWikiServlet()
   {
     INSTANCE = this;
@@ -85,6 +87,7 @@ public class GWikiServlet extends HttpServlet
   public void init(ServletConfig config) throws ServletException
   {
     super.init(config);
+    servletPath = config.getInitParameter("servletPath");
     if (daoContext == null) {
       String className = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className");
       if (StringUtils.isBlank(className) == true) {
@@ -106,9 +109,11 @@ public class GWikiServlet extends HttpServlet
       GWikiWeb nwiki = new GWikiWeb(daoContext);
       try {
         GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
-        String servPath = req.getServletPath();
+        if (servletPath == null) {
+          servletPath = req.getServletPath();
+        }
         GWikiContext.setCurrent(ctx);
-        nwiki.setServletPath(servPath);
+        nwiki.setServletPath(servletPath);
         nwiki.loadWeb();
       } finally {
         GWikiContext.setCurrent(null);
