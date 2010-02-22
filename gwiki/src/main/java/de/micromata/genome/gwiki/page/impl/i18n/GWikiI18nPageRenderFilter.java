@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.page.impl.i18n;
 
 import java.util.Locale;
 
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.jstl.core.Config;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
@@ -48,11 +49,19 @@ public class GWikiI18nPageRenderFilter implements GWikiServeElementFilter
     if (loc == null) {
       loc = Locale.getDefault();
     }
-    wikiContext.getCreatePageContext().setAttribute(CTAG_PAGE_FMT_LOCALE_KEY, loc);
-    wikiContext.getCreatePageContext().setAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY,
-        new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));
-    // wikiContext.getPageContext().setAttribute(Config.FMT_LOCALIZATION_CONTEXT,
-    // new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));
-    return chain.nextFilter(event);
+    PageContext pageContext = wikiContext.getCreatePageContext();
+    Object prevfml = pageContext.getAttribute(CTAG_PAGE_FMT_LOCALE_KEY);
+    Object prevlocaiz = pageContext.getAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY);
+    try {
+      pageContext.setAttribute(CTAG_PAGE_FMT_LOCALE_KEY, loc);
+      pageContext
+          .setAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY, new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));
+      // wikiContext.getPageContext().setAttribute(Config.FMT_LOCALIZATION_CONTEXT,
+      // new LocalizationContext(new GWikiI18nResourcenBundle(wikiContext, loc), loc));
+      return chain.nextFilter(event);
+    } finally {
+      pageContext.setAttribute(CTAG_PAGE_FMT_LOCALE_KEY, prevfml);
+      pageContext.setAttribute(CTAG_PAGE_FMT_LOCALIZATION_KEY, prevlocaiz);
+    }
   }
 }
