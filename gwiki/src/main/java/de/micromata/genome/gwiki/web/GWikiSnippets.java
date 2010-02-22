@@ -18,6 +18,7 @@
 package de.micromata.genome.gwiki.web;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
@@ -69,9 +70,17 @@ public class GWikiSnippets
       // this.backUrl = reqUri.substring(contextPath.length());
       // }
       this.backUrl = "/" + this.backUrl; // double // that gwiki doesn't interpret as page id.
-
     }
+    if (pageContext != null) {
+      request = new HttpServletRequestWrapper(request) {
 
+        @Override
+        public String getContextPath()
+        {
+          return pageContext.getServletContext().getContextPath();
+        }
+      };
+    }
   }
 
   public GWikiSnippets(PageContext pageContext, String backUrl)
@@ -92,6 +101,7 @@ public class GWikiSnippets
 
   public void include(String pageId)
   {
+
     if (request != null && backUrl != null) {
       request.setAttribute("parentwel", backUrl);
     }
