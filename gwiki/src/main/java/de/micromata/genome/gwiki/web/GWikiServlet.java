@@ -100,7 +100,7 @@ public class GWikiServlet extends HttpServlet
 
   }
 
-  protected void initWiki(HttpServletRequest req, HttpServletResponse resp)
+  public void initWiki(HttpServletRequest req, HttpServletResponse resp)
   {
     if (wiki != null && wiki.getWikiConfig() != null) {
       return;
