@@ -83,7 +83,7 @@ public class GWikiI18NServletFilter implements Filter
       loc = (Locale) ploc;
     }
     LocalizationContext prevLocContext = null;
-    Object plc = hreq.getAttribute(LOC_KEY);
+    Object plc = hreq.getAttribute(LOCALIZATION_KEY);
     if (plc instanceof LocalizationContext) {
       prevLocContext = (LocalizationContext) plc;
     }
@@ -108,6 +108,7 @@ public class GWikiI18NServletFilter implements Filter
    */
   public void init(FilterConfig filterConfig) throws ServletException
   {
+  
     String moduless = filterConfig.getInitParameter("I18NModules");
     if (StringUtils.isEmpty(moduless) == true) {
       throw new ServletException("Filter needs init parameter I18NModules");
