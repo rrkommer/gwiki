@@ -95,4 +95,13 @@ public class GWikiElementFinder
     );
     return childs;
   }
+
+  public List<GWikiElementInfo> getAllDirectChilds(GWikiElementInfo ei)
+  {
+    String pageId = ei.getId();
+    List<GWikiElementInfo> childs = getPageInfos(//
+    new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
+    );
+    return childs;
+  }
 }
