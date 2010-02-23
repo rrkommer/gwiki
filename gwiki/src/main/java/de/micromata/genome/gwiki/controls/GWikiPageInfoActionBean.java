@@ -272,7 +272,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
                       + pageId
                       + "&method_onRestore=true"), //
                       text("Wiederherstellen")//
-                  )) //
+                      )) //
           ));
     }
     XmlElement np = Html.p(cmd, Html.br(), ta);
@@ -337,7 +337,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       wikiContext.addSimpleValidationError("select two versions to compare");
       return null;
     }
-    String rd = wikiContext.localUrl("/edit/ComparePages")
+    String rd = "/edit/ComparePages"
         + "?leftPageId="
         + WebUtils.encodeUrlParam(compareVersions[0])
         + "&rightPageId="
