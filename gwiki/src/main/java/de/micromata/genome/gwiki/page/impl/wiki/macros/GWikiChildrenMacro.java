@@ -200,7 +200,12 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       return;
     }
     boolean allTypes = StringUtils.equals(type, "all");
-    List<GWikiElementInfo> cl = ctx.getElementFinder().getDirectChilds(ei);
+    List<GWikiElementInfo> cl;
+    if (viewAll == false) {
+      cl = ctx.getElementFinder().getDirectChilds(ei);
+    } else {
+      cl = ctx.getElementFinder().getAllDirectChilds(ei);
+    }
     if (allTypes == false) {
       List<GWikiElementInfo> ncl = new ArrayList<GWikiElementInfo>();
       for (GWikiElementInfo ci : cl) {
@@ -227,7 +232,13 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     ctx.append("<ul>");
     for (GWikiElementInfo ci : cl) {
       if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ci) == false) {
-        continue;
+        if (viewAll == true && withEditLinks == true) {
+          if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == false) {
+            continue;
+          }
+        } else {
+          continue;
+        }
       }
       renderChild(ci, ctx);
 
