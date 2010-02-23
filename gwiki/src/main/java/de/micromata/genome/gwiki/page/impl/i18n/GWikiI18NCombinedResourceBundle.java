@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
 
@@ -66,11 +67,11 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
     for (String module : modules) {
       GWikiElement el = wikiWeb.findElement(module);
       if (el == null) {
-        // TODO gwiki warn
+        GWikiLog.warn("I18N Module not found: " + module);
         continue;
       }
       if ((el instanceof GWikiI18nElement) == false) {
-        // TODO gwiki warn
+        GWikiLog.warn("Element is not a I18N Module: " + module);
         continue;
       }
       GWikiI18nElement i18nel = (GWikiI18nElement) el;
