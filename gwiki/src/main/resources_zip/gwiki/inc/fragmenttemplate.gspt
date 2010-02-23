@@ -2,9 +2,9 @@
 <div>
 <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) {
 		if (pageContext.getAttribute("parentwel") == null) {
-			pel = wikiContext.getParentWikiElement();
+			pel = "/" + pageContext.getRequest().getRequestURI();//wikiContext.getParentWikiElement();
 			if (pel != null) {
-				pageContext.setAttribute("parentwel", pel.elementInfo.id);
+				pageContext.setAttribute("parentwel",pel);
 			}
 		}
 		
