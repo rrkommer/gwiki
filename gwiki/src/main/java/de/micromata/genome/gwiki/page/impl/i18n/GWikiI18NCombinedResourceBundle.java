@@ -22,12 +22,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
+
+import org.apache.commons.lang.ObjectUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -57,6 +62,39 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
     return null;
   }
 
+  protected Object decorateWiki(GWikiI18nElement i18nel, String key, Object value)
+  {
+    if ((value instanceof String) == false && GWikiI18NServletFilter.HTTPCTX.get() == null) {
+      return value;
+    }
+    if (GWikiWeb.get() == null) {
+      return value;
+    }
+    HttpServletRequest req = GWikiI18NServletFilter.HTTPCTX.get().getFirst();
+    if (ObjectUtils.toString(req.getAttribute("gwiki18ndeco")).equals("false") == true) {
+      return value;
+    }
+    GWikiWeb wikiWeb = GWikiWeb.get();
+    GWikiContext wikiContext = new GWikiContext(wikiWeb, GWikiServlet.INSTANCE, req, GWikiI18NServletFilter.HTTPCTX.get().getSecond());
+    if (GWikiWeb.get().getAuthorization().isAllowToEdit(wikiContext, i18nel.getElementInfo()) == false) {
+      return value;
+    }
+    String gewikiBase = req.getContextPath() + wikiWeb.getServletPath();
+    String sval = (String) value;
+    String ret = "<span class=\"gwiki18nk\" oncontextmenu=\"return gwikiI18NCtxMenu(this, '"
+        + i18nel.getElementInfo().getId()
+        + "', '"
+        + key
+        + "', '"
+        + req.getRequestURI()
+        + "', '"
+        + gewikiBase
+        + "')\">"
+        + sval
+        + "</span>";
+    return ret;
+  }
+
   protected Object getFromWiki(String key)
   {
     GWikiWeb wikiWeb = GWikiWeb.get();
@@ -78,7 +116,7 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
 
       String v = i18nel.getMessage(locale.getLanguage(), key);
       if (v != null) {
-        return v;
+        return decorateWiki(i18nel, key, v);
       }
     }
     return null;
