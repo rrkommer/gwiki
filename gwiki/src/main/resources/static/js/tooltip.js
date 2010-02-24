@@ -1,13 +1,9 @@
 function browsererkennung()
 {
 	this.version = navigator.appVersion;
-
-	if (document.getElementById)
-	{
+	if (document.getElementById)	{
 		this.dom = true;
-	}
-	else
-	{
+	}	else	{
 		this.dom = false;
 	}
 

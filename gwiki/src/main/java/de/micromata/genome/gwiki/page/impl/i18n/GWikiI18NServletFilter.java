@@ -37,6 +37,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.types.Converter;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Servlet Filter for using GWiki I18N Modules.
@@ -46,6 +47,8 @@ import de.micromata.genome.util.types.Converter;
  */
 public class GWikiI18NServletFilter implements Filter
 {
+  public static ThreadLocal<Pair<HttpServletRequest, HttpServletResponse>> HTTPCTX = new ThreadLocal<Pair<HttpServletRequest, HttpServletResponse>>();
+
   private List<String> modules;
 
   public static final String REQUEST_SCOPE_SUFFIX = ".request";
@@ -76,6 +79,7 @@ public class GWikiI18NServletFilter implements Filter
   {
     HttpServletRequest hreq = (HttpServletRequest) request;
     HttpServletResponse hresp = (HttpServletResponse) response;
+    HTTPCTX.set(Pair.make(hreq, hresp));
     initWiki(hreq, hresp);
     Locale loc = hreq.getLocale();
     Object ploc = request.getAttribute(LOC_KEY);
@@ -98,6 +102,7 @@ public class GWikiI18NServletFilter implements Filter
     } finally {
       hreq.setAttribute(LOC_KEY, prevfml);
       hreq.setAttribute(LOCALIZATION_KEY, prevlocaiz);
+      HTTPCTX.set(null);
     }
   }
 
@@ -108,7 +113,7 @@ public class GWikiI18NServletFilter implements Filter
    */
   public void init(FilterConfig filterConfig) throws ServletException
   {
-  
+
     String moduless = filterConfig.getInitParameter("I18NModules");
     if (StringUtils.isEmpty(moduless) == true) {
       throw new ServletException("Filter needs init parameter I18NModules");

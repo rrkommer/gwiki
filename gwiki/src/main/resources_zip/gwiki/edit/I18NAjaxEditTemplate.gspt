@@ -1,0 +1,36 @@
+<@include file="inc/stdtags.gspt" @>
+<gwiki:errors />
+<script type="text/javascript">
+<!--
+function gwikii18nStoreChanges() 
+{
+	var sf = jQuery("#gwikii18neditform").serialize();
+	//alert("store: " + sf);
+	jQuery.ajax({
+		async: false,
+		cache: false,
+		type: "POST",
+		url: '<gwiki:url value="/edit/I18NAjaxEdit"/>',
+		data: sf,
+		complete: function(req, textStatus) {
+			//alert('completed: ' + textStatus);
+			gwikiCloseI18NCtxMenu();
+		}
+		});
+}
+//-->
+</script>
+<form id="gwikii18neditform">
+<input type="hidden" value="x" name="method_onStore"/>
+<gwiki:hidden property="key"/>
+<gwiki:hidden property="pageId"/>
+<label title="Internationalization">
+Key: <c:out value="${form.key}"/> (<c:out value="${form.pageId}"/>)<br/>
+<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<c:out value="${form.pageId}"/>&backUrl=/<c:out value="${form.backUrl}"/>">Edit all properties</a><br/>
+<c:forEach var="p" items="${form.langValues}">
+	<c:out value="${p.first}"/>: <input size="100" type="text" name="<c:out value="${p.first}"/>_value" value="<c:out value="${p.second}"/>"/><br/>
+</c:forEach>
+<input type="button" value="Cancel" onclick="gwikiCloseI18NCtxMenu();"/>&nbsp;<input type="button" onclick="gwikii18nStoreChanges()" value="OK"/>
+
+</label>
+</form>
