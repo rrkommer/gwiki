@@ -10,7 +10,6 @@ GWiki can be used to maintain little snippets inside a traditional jsp web or se
 
 {code}
 pageContext = wikiContext.getPageContext();
-pageContext.getRequest().setAttribute("parentwel", "/gwikidocs/howtos/en/IntegrateGWikiSnippetsinyourownPage");
 pageContext.include("/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");
 {code}
 
@@ -18,8 +17,7 @@ Looks like:
 
 {groovy}
 pageContext = wikiContext.getPageContext();
-pageContext.getRequest().setAttribute("parentwel", "/gwikidocs/howtos/en/IntegrateGWikiSnippetsinyourownPage");
-pageContext.include("/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");
+pageContext.include(wikiContext.wikiWeb.servletPath + "/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");
 {groovy}
 
-The reason to set {{parentwel}} is that after Editing the original page will be shown.
+You can see a small "ED" link on the right side. With this link, you can directly edit the fragment.
