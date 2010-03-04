@@ -15,7 +15,7 @@
 		    width="750" height="700"
 		    >
 		    
-		   <PARAM name="java_code" value="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet">
+		   <PARAM name="java_code" value="de.micromata.genome.gwiki.uploader.UploaderApplet">
 			<PARAM name="java_codebase" value="<gwiki:url value="${form.appletUrl}"/>">
 			<PARAM name="java_archive" value="<gwiki:url value="${form.appletUrl}"/>">
 			<PARAM name="type" value="application/x-java-applet;version=1.5">
@@ -31,7 +31,7 @@
 	    <comment>
 			<embed	type="application/x-java-applet;version=1.4" width="750" height="700" 
 					pluginspage="https://java.sun.com/products/plugin/index.html#download" 
-					java_code="de.micromata.genome.gwiki.kcbaltz.imageAttacher.ImageAttacherApplet" 
+					java_code="de.micromata.genome.gwiki.uploader.UploaderApplet" 
 					java_codebase="<gwiki:url value="${form.appletUrl}"/>" 
 					java_archive="<gwiki:url value="${form.appletUrl}"/>" bgcolor="#ffffff" 
 					pageId="<c:out value="${form.pageId}"/>"
