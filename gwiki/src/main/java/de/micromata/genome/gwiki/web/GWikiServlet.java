@@ -110,7 +110,7 @@ public class GWikiServlet extends HttpServlet
       try {
         GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
         if (servletPath == null) {
-          servletPath = req.getServletPath();
+          servletPath = ctx.getRealServletPath();
         }
         GWikiContext.setCurrent(ctx);
         nwiki.setServletPath(servletPath);
