@@ -36,7 +36,7 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 });
 </script>
 <% nextSibl = GWikiScrollNextPrevPageMacro.getNextSilbling(wikiContext, null); %>
-
+<%wikiContext.includeArtefakt(wikiContext.wikiElement.elementInfo.parentId, "Header");  %>
 <h1 id="presentationtitle" <% if (nextSibl != null) { %> ondblclick="document.location.href='<%= wikiContext.localUrl(nextSibl.id) %>';" <%}%> style="font-size:2.0em;text-align: center;"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
 <div <% if (nextSibl != null) { %> ondblclick="document.location.href='<%= wikiContext.localUrl(nextSibl.id) %>';" <%}%>  id="presentationlayer" style="font-size:2.0em">
 <div id="prescorr">
@@ -64,6 +64,8 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 <@include embedd="false" file="inc/naked/standardfoot"@>
 <% } else { %>
 </div>
+<%wikiContext.includeArtefakt(wikiContext.wikiElement.elementInfo.parentId, "Footer"); %>
+
 </body>
 </html>
 <% } %>
