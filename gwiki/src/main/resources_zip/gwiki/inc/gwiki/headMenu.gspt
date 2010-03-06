@@ -3,9 +3,9 @@
  
  
  		<%-- PAGE INFO --%>
- 		
+ 		<gwiki:authorize pageId="edit/PageInfo">
  		<li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>');"><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span></li>
- 		
+ 		</gwiki:authorize>
  		<%-- EDIT PAGE --%>
  		
  		<%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
@@ -37,9 +37,13 @@
     
        
        <%-- USER MENU --%>
+       <gwiki:authorize ifHasNot="GWIKI_VIEWPAGES">
+       	<li class="gwikiMenumain"><a href="<gwiki:url value="/admin/Login"/>"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" >Login</span></a></li>
+       </gwiki:authorize>
+       <gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">
        
-       
-       <li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" ><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
+       <li class="gwikiMenumain">
+       	<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" ><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
            <ul>
            <li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
            
@@ -57,6 +61,8 @@
              <li><gwiki:link title="Logout" pageId="admin/Logout"/></li>  
            </ul>  
        </li>  
+       </gwiki:authorize>
+       
        <gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
        <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Admin"/></span>
            <ul>
