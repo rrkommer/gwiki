@@ -1,7 +1,9 @@
 <!-- headMenu.gspt START --> 
- <ul id="menuone" class="menu" style="text-align: right">  
+ <ul id="menuone" class="menu" style="text-align: right">
+ 			<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">  
         <li class="menumain"><fmt:message key="gwiki.page.headmenu.Page"/>
             <ul>
+            
             	<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
             	<li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
             <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
@@ -19,6 +21,7 @@
      						<% } %>
         </ul>  
        </li>  
+       </gwiki:authorize>
        <li class="menumain"><fmt:message key="gwiki.page.headmenu.Search"/>  
            <ul>
            <li style="height: 100px">
@@ -44,6 +47,10 @@
              </gwiki:authorize>
            </ul>  
        </li>  
+        <gwiki:authorize ifHasNot="GWIKI_VIEWPAGES">
+       	<li class="menumain"><a href="<gwiki:url value="/admin/Login"/>">Login</a></li>
+       </gwiki:authorize>
+       <gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">
        <li class="menumain"><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %>
            <ul>
            <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
@@ -59,6 +66,7 @@
              <li><gwiki:link title="Logout" pageId="admin/Logout"/></li>  
            </ul>  
        </li>  
+       </gwiki:authorize>
        <gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
        <li class="menumain"><fmt:message key="gwiki.page.headmenu.Admin"/>
            <ul>

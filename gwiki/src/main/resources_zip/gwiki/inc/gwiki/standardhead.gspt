@@ -40,7 +40,6 @@ function gwikiToggleExplorer()
  </div>
 </div>
 		<div id="gwikiWrapperWrapper">
-
 			<div id="gwikiWrapper">
 			
 				<div id="gwikiHead">
