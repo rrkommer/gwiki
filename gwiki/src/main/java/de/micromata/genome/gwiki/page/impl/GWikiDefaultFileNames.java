@@ -30,5 +30,7 @@ public interface GWikiDefaultFileNames
 
   public static final String FRAGMENT_METATEMPLATE = "admin/templates/intern/FragmentWikiPageMetaTemplate";
 
+  public static final String COMMENT_METATEMPLATE = "admin/templates/intern/CommentWikiPageMetaTemplate";
+
   public static final String ATTACHMENT_METATEMPLATE = "admin/templates/FileWikiPageMetaTemplate";
 }

@@ -52,6 +52,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementFinder;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiTextArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
@@ -219,6 +220,20 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     GWikiElement el = wikiWeb.getElement(id);
     el.serve(this);
+  }
+
+  public void includeArtefakt(String pageId, String partName)
+  {
+    GWikiElement el = wikiWeb.getElement(pageId);
+    if (el == null) {
+      return;
+    }
+    GWikiArtefakt< ? > art = el.getPart(partName);
+    if (art == null || (art instanceof GWikiExecutableArtefakt< ? >) == false) {
+      return;
+    }
+    GWikiExecutableArtefakt< ? > exart = (GWikiExecutableArtefakt< ? >) art;
+    exart.render(this);
   }
 
   public void includeText(String id)
@@ -407,6 +422,26 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     String df = getWikiWeb().getAuthorization().getUserProp(this, GWikiUserAuthorization.USER_DATEFORMAT);
     df = StringUtils.defaultIfEmpty(df, TimeUtils.ISO_DATETIME);
     return TimeUtils.parseDate(ds, df, tz);
+  }
+
+  public String getUserStringProp(String key)
+  {
+    return getUserStringProp(key, "");
+  }
+
+  public String getUserStringProp(String key, String defaultValue)
+  {
+    return StringUtils.defaultString(getWikiWeb().getAuthorization().getUserProp(this, key), defaultValue);
+  }
+
+  public boolean getUserBooleanProp(String key)
+  {
+    return getUserBooleanProp(key, false);
+  }
+
+  public boolean getUserBooleanProp(String key, boolean defaultValue)
+  {
+    return StringUtils.equals("true", getUserStringProp(key, defaultValue ? "true" : "false"));
   }
 
   /**

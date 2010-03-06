@@ -193,6 +193,10 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public String getUserProp(GWikiContext ctx, String key)
   {
+    String val = ctx.getCookie(key);
+    if (val != null) {
+      return val;
+    }
     GWikiSimpleUser su = getSingleUser(ctx);
     if (su == null) {
       return null;
@@ -208,7 +212,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     }
     su.getProps().put(key, value);
     if (persist == true) {
-      // TODO gwiki
+      ctx.setCookie(key, value);
     }
   }
 
