@@ -2,20 +2,22 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
 <!-- head.gspt START -->
 <head>
 
 <@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
+<link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/gwiki/css/gwiki.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/gwiki/css/reset.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/gwiki/css/main.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />
+ <link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />  
 <link href="<gwiki:url value="/inc/gwiki/css/menu.css"/>" rel="stylesheet" type="text/css" />
 
 </head>
 
-<body>
+<body class="gwikibody<%= wikiContext.getUserBooleanProp("WITH_NAVBAR") ? "" : " gwikibodyNoNav" %>">
 
 <script src='<gwiki:url value="/static/skins/dhl2009/js/wz_tooltip.js"/>' type="text/javascript"></script>
 <!-- head.gspt END -->

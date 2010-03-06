@@ -23,7 +23,9 @@
 			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
      			<li class="gwikiMenumain">
 					<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/paperplus32.png'/>');">
-						<gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/></span>
+					<fmt:message key="gwiki.page.headmenu.page.NewPage"/>
+						<%-- <gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/> --%>
+						</span> 
      				<ul>
      					<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
      					<% wikiContext.setRequestAttribute("wktp", pair); %>
@@ -39,8 +41,6 @@
        
        <li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" ><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
            <ul>
-           
-           
            <li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
            
            

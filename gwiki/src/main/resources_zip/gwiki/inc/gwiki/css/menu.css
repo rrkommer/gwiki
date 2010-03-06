@@ -31,8 +31,10 @@
 		color:#5C6970;
 		border: 1px solid transparent;
 		background:transparent;
+		/*
 		-moz-border-radius: 1em;
 		-webkit-border-radius: 1em;
+		*/
 		text-decoration:none;		
 	}
 	
@@ -54,7 +56,7 @@
 		z-index: 1000;
 		position:absolute;
 		right:1.2em;
-		top:11em;
+		top:7em;
 	}
 	
 	ul#gwikiMenuone li.gwikiMenumain{
@@ -69,8 +71,10 @@
 		border: 1px solid #CFD7D9;
 		background: #f9f9f9 url("../img/icons/heart16.png") no-repeat 0.5em 50%;
 		color:#919CA9;
+		/*
 		-moz-border-radius: 0.8em;
 		-webkit-border-radius: 0.8em;
+		*/
 	}
 	ul#gwikiMenuone li.gwikiMenumain span a{
 		color:#919CA9;
@@ -98,7 +102,7 @@
 	ul#gwikiMenuone li ul{
 		display:none;
 		position:absolute;
-		top:2.5em;
+		top:1.7em;
 		right:0;
 		background: transparent url("../img/gui/menu.gif") no-repeat -7em 0%;
 		margin:0;

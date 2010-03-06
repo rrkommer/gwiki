@@ -1,11 +1,17 @@
 
 </div> <!-- .gwikiContent END -->
+<div class="clearAll"> &nbsp; </div>
 <div id="gwikiComments">
+
 	<@include file="/inc/gwiki/footer.gspt"@>
 </div><!-- gwikiComments END -->				
 </div> <!-- container END -->
 
 				<div id="gwikiFooter">
+<small>Last modified <%= wikiContext.getUserDateString(wikiContext.wikiElement.elementInfo.props.getDateValue("MODIFIEDAT")) %>
+by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %> 
+(ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFilter.getUseCounter(wikiContext, wikiContext.wikiElement.elementInfo.id) %> )
+				
 <%--
 					<dl class="gwikiFooter">
 						<dt>

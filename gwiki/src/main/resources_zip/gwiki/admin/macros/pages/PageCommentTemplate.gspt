@@ -55,10 +55,10 @@ function onSaveComment()
 			
 			<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
 				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
-					<img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
+					<img src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
 				</a>
 				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
-					<img src="<gwiki:url value='/inc/GracefulUndressed/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
+					<img src="<gwiki:url value='/inc/gwiki/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
 				</a>
 			<% } %>
 			</div><!-- gwikiNewshead END -->
