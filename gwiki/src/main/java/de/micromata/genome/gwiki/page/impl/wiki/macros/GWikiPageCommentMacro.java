@@ -71,24 +71,6 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
         .append("</script>\n") //
     ;
     ctx.append(sb.toString());
-    // $(tdd).load(url +" #loaded_content",null, function(){$(togglerImg).attr("src",oldSrc);});
-    // var url = ctx.localUrl("/admin/macros/page/PageComment");
-    //    
-    // var param = $(button).attr('id');
-    // param = param.substring(2);
-    // url = url + "?pk="+encodeURIComponent(param);
-    // var td = document.createElement("td");
-    // $(td).attr('colspan','7');
-    // $(td).attr('style','background-color:#fff;');
-    // $(td).attr('id','id_'+param);
-    // var tr = document.createElement("tr");
-    // $(tr).attr('class','hideme');
-    // tr.appendChild(td);
-    // $(currentRow).after(tr);
-    // var id ='id_'+param;
-    // var tdd = document.getElementById(id);
-
-    // TODO Auto-generated method stub
     return false;
   }
 }

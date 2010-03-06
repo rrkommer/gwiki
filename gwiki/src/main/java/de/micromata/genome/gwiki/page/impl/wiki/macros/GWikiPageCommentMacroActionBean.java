@@ -81,7 +81,6 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   {
     collectComments();
     return null;
-
   }
 
   protected GWikiMetaTemplate initMetaTemplate()
@@ -103,7 +102,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     GWikiProps props = new GWikiProps();
     GWikiMetaTemplate metaTemplate = initMetaTemplate();
     props.setStringValue(TYPE, metaTemplate.getElementType());
-    props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.FRAGMENT_METATEMPLATE);
+    props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.COMMENT_METATEMPLATE);
     props.setStringValue(TITLE, "Comment");
     props.setStringValue(CREATEDBY, wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
     props.setDateValue(CREATEDAT, new Date());
@@ -116,8 +115,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     }
 
     props.setStringValue(AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
-    GWikiElementInfo ei = new GWikiElementInfo(props, wikiContext.getWikiWeb()
-        .findMetaTemplate(GWikiDefaultFileNames.FRAGMENT_METATEMPLATE));
+    GWikiElementInfo ei = new GWikiElementInfo(props, wikiContext.getWikiWeb().findMetaTemplate(GWikiDefaultFileNames.COMMENT_METATEMPLATE));
 
     GWikiElement elementToEdit = getWikiContext().getWikiWeb().getStorage().createElement(ei);
     // elementToEdit.setMetaTemplate(metaTemplate);
@@ -127,11 +125,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
   public void renderCommentBody(GWikiElementInfo ei)
   {
-
     GWikiElement el = wikiContext.getWikiWeb().getElement(ei.getId());
-    // Date modat = el.getElementInfo().getModifiedAt();
-    // String modBy = el.getElementInfo().getModifiedBy();
-
     wikiContext.getWikiWeb().serveWiki(wikiContext, el);
   }
 
