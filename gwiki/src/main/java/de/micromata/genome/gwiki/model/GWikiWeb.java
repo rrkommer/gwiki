@@ -79,6 +79,11 @@ public class GWikiWeb
    */
   private boolean disableReload = false;
 
+  /**
+   * Is only necessary using genome plugins.
+   */
+  private String contextPath;
+
   private String servletPath;
 
   private ThreadLocal<Set<String>> devModeChecked = new ThreadLocal<Set<String>>() {
@@ -635,5 +640,15 @@ public class GWikiWeb
   public void setServletPath(String servletPath)
   {
     this.servletPath = servletPath;
+  }
+
+  public String getContextPath()
+  {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath)
+  {
+    this.contextPath = contextPath;
   }
 }
