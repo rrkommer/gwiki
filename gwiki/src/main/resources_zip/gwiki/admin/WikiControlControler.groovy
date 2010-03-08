@@ -1,6 +1,7 @@
 import de.micromata.genome.gwiki.page.impl.actionbean.*;
 import de.micromata.genome.gwiki.model.*;
 import de.micromata.genome.gwiki.auth.*;
+import javax.servlet.http.Cookie;
 
 class WikiControlActionBean extends ActionBeanBase
 {
@@ -43,8 +44,8 @@ class WikiControlActionBean extends ActionBeanBase
   }
   public Object onRebuildIndex()
   {
-  	wikiContext.wikiWeb.rebuildIndex();
-  	return null;
+    wikiContext.wikiWeb.rebuildIndex();
+    return null;
   }
   public Object onReIndexPage()
   {
@@ -58,7 +59,7 @@ class WikiControlActionBean extends ActionBeanBase
   }
   public Object onSetRights()
   {
-	  GWikiSimpleUserAuthorization auth = new GWikiSimpleUserAuthorization();
+    GWikiSimpleUserAuthorization auth = new GWikiSimpleUserAuthorization();
 
     try {
       singleUser.setRightsMatcherRule(authRightsRule);
@@ -70,7 +71,22 @@ class WikiControlActionBean extends ActionBeanBase
     wikiContext.getWikiWeb().setAuthorization(auth);
     return null;
   }
-
+  public Object onClearCookies()
+  {
+     Cookie[] cookies = wikiContext.getRequest().getCookies();
+     int cookieLenght = cookies.length;
+      
+      for (Cookie cookie in cookies) {
+    	if (cookie.getName().equals("JSESSIONID") == true) {
+    		continue;
+    	}
+        wikiContext.addSimpleValidationError("Clear cookie: " + cookie.getName() + "=" + cookie.getValue() + ";" + cookie.getPath());
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        //cookie.setDomain(request.getHeader("host"));
+        wikiContext.getResponse().addCookie(cookie);
+       } 
+  }  
   public String getAuthRightsRule()
   {
     return authRightsRule;
