@@ -339,6 +339,12 @@ public class GWikiWeb
     return newEle;
   }
 
+  /**
+   * Load element from underlying storage - not using the cache.
+   * 
+   * @param path
+   * @return
+   */
   public GWikiElement loadNewElement(String path)
   {
     return findElement(path, false);

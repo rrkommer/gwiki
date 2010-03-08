@@ -66,6 +66,11 @@ public interface GWikiStorage
 
   GWikiElement createElement(GWikiElementInfo ei);
 
+  /**
+   * Load all pageinfos.
+   * 
+   * @param map
+   */
   void loadPageInfos(Map<String, GWikiElementInfo> map);
 
   /**
@@ -83,10 +88,32 @@ public interface GWikiStorage
    */
   GWikiElement hasModifiedArtefakts(GWikiElementInfo ei);
 
+  /**
+   * Loads element
+   * 
+   * @param pageId
+   * @return null if not found
+   */
   GWikiElement loadElement(String pageId);
 
+  /**
+   * Loads element
+   * 
+   * @param pageId
+   * @return null if not found
+   */
   GWikiElement loadElement(GWikiElementInfo id);
 
+  /**
+   * Store element.
+   * 
+   * In most cases you have GWikiWeb.saveElement() instead of calling this method directly.
+   * 
+   * @param wikiContext
+   * @param elm
+   * @param keepModifiedAt
+   * @return stored element.
+   */
   GWikiElement storeElement(GWikiContext wikiContext, GWikiElement elm, boolean keepModifiedAt);
 
   /**

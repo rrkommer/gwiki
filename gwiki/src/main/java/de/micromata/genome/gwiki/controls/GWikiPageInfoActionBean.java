@@ -23,6 +23,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.Xml.code;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.element;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.br;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.li;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.nbsp;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
@@ -39,9 +40,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -74,6 +77,11 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   private String restoreId;
 
   private String[] compareVersions;
+
+  /**
+   * used for renaming.
+   */
+  private String newPageId;
 
   private String getDisplayDate(Date date)
   {
@@ -203,10 +211,22 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   protected String buildBaseInfo()
   {
     XmlElement ta = getStandardTable();
+    XmlNode changeId = code("");
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementInfo) == true
+        && wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementInfo) == true
+        && wikiContext.isAllowTo(GWikiAuthorizationRights.GWIKI_DELETEPAGES.name())) {
+      changeId = element("div", //
+          element("form", //
+              element("input", attrs("type", "text", "size", "50", "value", StringEscapeUtils.escapeXml(elementInfo.getId()), "name",
+                  "newPageId")), br(), //
+              element("input", attrs("type", "submit", "name", "method_onRename", "value", "Rename")),//
+              element("script", code("")) //
+          ));
+    }
     ta.nest(//
         tr(//
             th(text("PageId:")),// 
-            td(text(elementInfo.getId())) //
+            td(text(elementInfo.getId()), changeId) //
         ), //
         tr(//
             th(text("Titel:")),// 
@@ -345,7 +365,48 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
         + "&backUrl="
         + WebUtils.encodeUrlParam(wikiContext.localUrl("/edit/PageInfo&pageId=") + this.pageId);
     return rd;
-    // return null;
+  }
+
+  public Object onRename()
+  {
+    initialize();
+    wikiContext.ensureAllowTo(GWikiAuthorizationRights.GWIKI_DELETEPAGES.name());
+    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementInfo) == false) {
+      wikiContext.addSimpleValidationError("Insufficent right to rename elementInfo");
+      return null;
+    }
+    if (StringUtils.isBlank(newPageId) == true) {
+      wikiContext.addSimpleValidationError("New PageId is empty");
+      return null;
+    }
+    GWikiElementInfo ti = wikiContext.getWikiWeb().findElementInfo(newPageId);
+    if (ti != null) {
+      wikiContext.addSimpleValidationError("Target pageId already exists: " + newPageId);
+      return null;
+    }
+    for (GWikiElementInfo ci : childs) {
+      if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, ci) == false) {
+        wikiContext.addSimpleValidationError("Insufficent right to change child: " + ci.getId());
+        return null;
+      }
+    }
+    GWikiElement el = wikiContext.getWikiWeb().loadNewElement(pageId);
+    el.getElementInfo().setId(newPageId);
+    // wikiContext.getWikiWeb().
+    wikiContext.getWikiWeb().saveElement(wikiContext, el, true);
+    for (GWikiElementInfo ci : childs) {
+      GWikiElement cel = wikiContext.getWikiWeb().loadNewElement(ci.getId());
+      cel.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, newPageId);
+      wikiContext.getWikiWeb().saveElement(wikiContext, cel, true);
+    }
+    el = wikiContext.getWikiWeb().loadNewElement(pageId);
+    wikiContext.getWikiWeb().getStorage().deleteElement(wikiContext, el);
+    pageId = newPageId;
+    infoBoxen.clear();
+    elementInfo = null;
+    initialize();
+    return null;
   }
 
   public String getPageId()
@@ -396,5 +457,15 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   public void setCompareVersions(String[] compareVersions)
   {
     this.compareVersions = compareVersions;
+  }
+
+  public String getNewPageId()
+  {
+    return newPageId;
+  }
+
+  public void setNewPageId(String newPageId)
+  {
+    this.newPageId = newPageId;
   }
 }

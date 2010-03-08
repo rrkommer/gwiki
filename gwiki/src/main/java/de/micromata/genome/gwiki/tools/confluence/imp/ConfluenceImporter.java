@@ -275,6 +275,7 @@ public class ConfluenceImporter implements GWikiPropKeys
     if (el == null) {
       return;
     }
+    // not using getWikiWeb().safeElement()?
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, true);
   }
 
