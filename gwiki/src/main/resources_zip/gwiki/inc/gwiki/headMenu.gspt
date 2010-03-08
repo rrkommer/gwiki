@@ -5,6 +5,7 @@
  		<%-- PAGE INFO --%>
  		<gwiki:authorize pageId="edit/PageInfo">
  		<li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>');"><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span></li>
+ 		
  		</gwiki:authorize>
  		<%-- EDIT PAGE --%>
  		
@@ -15,10 +16,8 @@
              	</span>
              </li>
 		<% } %>
- 
+
    <%--CREATE THINGS --%>
-            	
-            	
             
 			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
      			<li class="gwikiMenumain">
@@ -65,7 +64,7 @@
        
        <gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
        <li class="gwikiMenumain"><span><fmt:message key="gwiki.page.headmenu.Admin"/></span>
-           <ul>
+                 <ul>
            	<li><gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
            	<li></li> 
            	<li><gwiki:link pageId="edit/ListUsers" /></li>
@@ -79,10 +78,10 @@
        				<li><a target="_blank" href="<gwiki:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
        			</gwiki:authorize>
            </ul>  
-       </li>
+          </li>
        </gwiki:authorize>
    </ul>  
-   <!-- script type="text/javascript">
+ <script type="text/javascript">
   // \$(document).ready(function(){
    var options = {showDelay: 0, 
 		   hoverOpenDelay: 100, 
@@ -91,6 +90,6 @@
     }*/};  
    \$('#menuone').menu(options);
   //});
-</script-->
+</script>
 
 <!-- headMenu.gspt END -->

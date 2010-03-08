@@ -21,7 +21,7 @@ function gwikiToggleExplorer()
 		gwikiSaveUserPrev('WITH_NAVBAR', false, true);
 	}
 }
-<% def gwikiWithNavBar = wikiContext.getUserBooleanProp("WITH_NAVBAR", true) %>
+
 //-->
 </script>
 
@@ -92,9 +92,7 @@ function gwikiToggleExplorer()
 					</form-->
 						
 					<div class="clearAll"> &nbsp; </div>
-						
 						<@include file="inc/gwiki/headMenu.gspt" @>
-						
 						<div id="gwikiBreadcrumb">
 							<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext); %>
 						</div><!-- gwikiBreadcrumb END -->
