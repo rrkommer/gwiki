@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiLog;
@@ -79,7 +80,11 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
     if (GWikiWeb.get().getAuthorization().isAllowToEdit(wikiContext, i18nel.getElementInfo()) == false) {
       return value;
     }
-    String gewikiBase = req.getContextPath() + wikiWeb.getServletPath();
+    String contextPath = wikiWeb.getContextPath();
+    if (StringUtils.isEmpty(contextPath) == true) {
+      contextPath = wikiContext.getRealContextPath();
+    }
+    String gewikiBase = contextPath + wikiWeb.getServletPath();
     String sval = (String) value;
     String ret = "<span class=\"gwiki18nk\" oncontextmenu=\"return gwikiI18NCtxMenu(this, '"
         + i18nel.getElementInfo().getId()
