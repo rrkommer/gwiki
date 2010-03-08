@@ -1,3 +1,7 @@
+h2. 2010-03-08
+* gwiki skin erstellt. Noch nicht perfekt (IE6, aber schon wesentlich besser).
+* Unter PageInfo kann man den Pfad einer Seite ändern.
+
 h2. 2010-01-24
 * FileSystem. Neue FileSysteme, MountCombinedFileSystem, ReadWriteCombinedFileSystem, CpZipRamFileSystem und FileZipRamFileSystem
 ** MountCombinedFileSystem: Mit dieser FileSystem-Implementierungen kann man mehrere FileSysteme ineinander mounten. Ein Matcher gibt an, an welchen Stellen (Verzeichnisse oder auch einzelnen Dateien, bzw. Dateitypen) vom Primary-Filesystem gelesen und geschrieben werden sollen. Alle anderen Zugriffe gehen auf das Secondary-FileSystem.

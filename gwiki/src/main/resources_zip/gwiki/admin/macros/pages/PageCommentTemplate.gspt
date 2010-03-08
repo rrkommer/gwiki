@@ -4,6 +4,11 @@
 <% 
 	def form = wikiContext.pageContext.request.getAttribute('form');
 	String pageCommentUrl = wikiContext.localUrl("/admin/macros/pages/PageComment");
+	boolean showComments = wikiContext.getUserBooleanProp("WITH_COMMENTS");
+	String hidden = "";
+	if (showComments == false) {
+		hidden = " style='display: none;'";
+	}
 %>
 <script>
 function createNewCommentShow()
@@ -17,6 +22,17 @@ function createNewCommentHide()
 	\$('#PageComment_NewComment').toggle();
 	document.getElementById('PageComment_method').name = '';
 }
+function gwikiToggleShowComments(){
+	if ($('#GWikiComentsContent').is(':hidden') == true) {
+		$('#GWikiComentsContent').show();
+		$('#GWikiShowHideLink').html("Hide Comments");
+		gwikiSaveUserPrev('WITH_COMMENTS', true, true);
+	} else {
+		$('#GWikiComentsContent').hide();
+		$('#GWikiShowHideLink').html("Show Comments");
+		gwikiSaveUserPrev('WITH_COMMENTS', false, true);
+	}
+}
 
 function onSaveComment()
 {
@@ -29,14 +45,16 @@ function onSaveComment()
   \$(pc).load(url);
 }
 </script>
-
+<hr></hr>
 <gwiki:errors />
 
 <form name='PageComment_form' id='PageComment_form' method="post">
-<h2>Kommentare 
+<b>Comments</b> (<a id="GWikiShowHideLink" href="javascript:gwikiToggleShowComments()">
+	<%= showComments ? "Hide Comments" : "Show Comments" %></a>)<br/>
+<div id="GWikiComentsContent"<%= hidden %>>
 	<a href="javascript:createNewCommentShow()" title="Neuen Kommentar schreiben">
-		<img class="gwikiIcon" src="<gwiki:url value='/inc/GracefulUndressed/img/icons/commentblack16.png'/>" alt="Neuen Kommentar schreiben" />
-	</a> <!--  onclick='createNewCommentShow()' --></h2>
+		Create Comment
+	</a> <!--  onclick='createNewCommentShow()' -->
 	<gwiki:hidden property="pageId" /><!-- TODO:gwikifizieren der Namen -->
 	<input type="hidden" id="PageComment_method" name="method_onInit"/> 
 	<div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
@@ -66,3 +84,4 @@ function onSaveComment()
 	</div><!-- div ."gwikiPagecommentcontent" END -->
 	<% } %> 
 </form>
+</div>

@@ -59,6 +59,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
     pageCommentUrl += "?pageId=" + pageId;
 
     StringBuilder sb = new StringBuilder();
+
     sb.append("<div id='PageComments'></div>\n")
     //
         .append("<script>\n") //
