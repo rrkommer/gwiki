@@ -720,6 +720,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     tsc.setPath("/");
     // tsc.setVersion(1);
     response.addCookie(tsc);
+
   }
 
   public void clearCookie(String key)
