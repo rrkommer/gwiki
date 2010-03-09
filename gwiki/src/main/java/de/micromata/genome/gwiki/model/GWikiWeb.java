@@ -252,17 +252,26 @@ public class GWikiWeb
     }
   }
 
+  protected boolean isIncluded(final GWikiContext ctx)
+  {
+    return ctx.getRequest().getAttribute("javax.servlet.include.servlet_path") != null;
+  }
+
   protected void serveWikiIntern(final GWikiContext ctx, final GWikiElement el)
   {
     try {
       if (getAuthorization().initThread(ctx) == false) {
         if (getAuthorization().isAllowToView(ctx, el.getElementInfo()) == false) {
-          String url = "admin/Login";
-          if (el != null) {
-            url += "?pageId=" + el.getElementInfo().getId();
+          if (isIncluded(ctx) == true) {
+            return;
+          } else {
+            String url = "admin/Login";
+            if (el != null) {
+              url += "?pageId=" + el.getElementInfo().getId();
+            }
+            ActionBeanUtils.redirect(ctx, url);
+            return;
           }
-          ActionBeanUtils.redirect(ctx, url);
-          return;
         }
       }
 

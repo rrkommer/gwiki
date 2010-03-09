@@ -51,6 +51,11 @@ public class GWikiPageNotFound extends GWikiCreateOrShowPage
     return null;
   }
 
+  public Object onUnbound()
+  {
+    return onInit();
+  }
+
   public boolean isAllowCreatePage()
   {
     return allowCreatePage;
