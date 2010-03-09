@@ -97,21 +97,31 @@ public class ActionBeanUtils
     return ret;
   }
 
+  private static Method findMethod(ActionBean bean, String methodName)
+  {
+    for (Method m : bean.getClass().getMethods()) {
+      if (m.getName().equals(methodName) == true) {
+        return m;
+      }
+    }
+    return null;
+
+  }
+
   private static Object dispatchToMethodImpl(ActionBean bean, String methodName, GWikiContext ctx)
   {
     if (methodName.startsWith("on") == false) {
       throw new IllegalArgumentException("Invalid method specified " + methodName);
     }
-    Method method = null;
+    Method method;
     try {
-      for (Method m : bean.getClass().getMethods()) {
-        if (m.getName().equals(methodName) == true) {
-          method = m;
-          break;
-        }
+      method = findMethod(bean, methodName);
+      if (method == null) {
+        method = findMethod(bean, "onUnbound");
       }
-      if (method == null)
+      if (method == null) {
         throw new RuntimeException("Cannot find method " + methodName + " in class " + bean.getClass().getName());
+      }
     } catch (SecurityException ex) {
       throw new RuntimeException("Cannot find accessable method " + methodName + " in class " + bean.getClass().getName(), ex);
     }
