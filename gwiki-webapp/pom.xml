@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	
