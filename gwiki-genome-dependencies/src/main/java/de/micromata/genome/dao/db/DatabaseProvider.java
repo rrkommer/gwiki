@@ -23,5 +23,7 @@ public enum DatabaseProvider
   {
     this.spi = spi;
   }
-
+  public static DatabaseProvider get(String name) {
+    return valueOf(name);
+  }
 }

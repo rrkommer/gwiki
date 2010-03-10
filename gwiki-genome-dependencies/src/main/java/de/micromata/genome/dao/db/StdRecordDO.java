@@ -36,6 +36,21 @@ public class StdRecordDO implements Serializable
 
   private Integer updateCounter;
 
+  public StdRecordDO()
+  {
+
+  }
+
+  public StdRecordDO(StdRecordDO other)
+  {
+    this.pk = other.pk;
+    this.createdAt = other.createdAt;
+    this.createdBy = other.createdBy;
+    this.modifiedAt = other.modifiedAt;
+    this.modifiedBy = other.modifiedBy;
+    this.updateCounter = other.updateCounter;
+  }
+
   public String getModifiedBy()
   {
     return modifiedBy;

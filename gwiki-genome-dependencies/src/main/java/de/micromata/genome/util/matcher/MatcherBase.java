@@ -10,6 +10,11 @@ import java.util.Collection;
  */
 public abstract class MatcherBase<T> implements Matcher<T>
 {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7157263544470217750L;
+
   public MatchResult apply(T token)
   {
     return match(token) ? MatchResult.MatchPositive : MatchResult.NoMatch;

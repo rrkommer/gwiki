@@ -151,4 +151,24 @@ public abstract class AbstractSimpleRowMapper<T> implements RowMapper
     return readBoolean(type.name());
   }
 
+  /**
+   * Mappt den Wert <code>FALSE</code> auf <code>null</code>.
+   */
+  protected Boolean readTrueBoolean(FieldType type) throws SQLException
+  {
+    return readTrueBoolean(type.name());
+  }
+
+  /**
+   * Mappt den Wert <code>FALSE</code> auf <code>null</code>.
+   */
+  protected Boolean readTrueBoolean(String colname) throws SQLException
+  {
+    Boolean result = this.rs.getBoolean(prefix + colname);
+    if (this.rs.wasNull() == true || Boolean.FALSE.equals(result)) {
+      result = null;
+    }
+    return result;
+  }
+
 }

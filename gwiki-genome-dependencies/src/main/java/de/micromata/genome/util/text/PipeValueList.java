@@ -54,6 +54,7 @@ public class PipeValueList
   };
 
 
+
   protected static String trim(String text)
   {
     if (text.length() < 3) {
@@ -82,6 +83,18 @@ public class PipeValueList
     // return text;
   }
 
+
+
+  /**
+   * der Text wird getrimmt. Es sei denn, an letzter Stelle ist ein escapetes(mit Backsclash) Zeichen.
+   * 
+   * aus "a=b|c=d\\\n" wird a=b|c=d\n und aus "a=b|c=d\n" wird a=b|c=d
+   * 
+   * 
+   * 
+   * @param text
+   * @return
+   */
   public static Map<String, String> decode(String text)
   {
     Map<String, String> map = new HashMap<String, String>();
