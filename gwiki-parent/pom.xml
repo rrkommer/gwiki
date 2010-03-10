@@ -101,6 +101,13 @@
 			<id>central</id>
 			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>snapshots</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<distributionManagement>
@@ -112,7 +119,7 @@
 		<snapshotRepository>
 			<id>gwiki-snapshots</id>
 			<name>gwiki-snapshots</name>
-			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki</url>
+			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki-snapshot</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
