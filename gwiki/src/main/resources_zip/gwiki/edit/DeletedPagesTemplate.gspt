@@ -10,7 +10,7 @@
 <c:choose>
 <form id="listform" method="post">
 <gwiki:hidden styleId="delPageId" property="pageId"/>
-<script>
+<script type="text/javascript">
 function viewDelPage(pageId)
 {
 	jQuery('#delPageId').attr('value', pageId);

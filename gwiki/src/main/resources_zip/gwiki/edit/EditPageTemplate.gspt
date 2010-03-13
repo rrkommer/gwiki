@@ -19,7 +19,7 @@
 */
 </style>
 
-<script>
+<script type="text/javascript">
 var gwikiCurrentPart = '';
 var gwikiParts = new Array();
 <% for (me in form.editors) { %>
@@ -58,7 +58,7 @@ function onSave()
 
 
 <c:if test="${form.launchPreview}">
-<script>
+<script type="text/javascript">
 
 function openPreviewWindow(url) {
     myWindow = open(url, "preview",
@@ -80,7 +80,7 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 	<gwiki:hidden property="parentPageId" /><br/>
 	
 
-<script>gwikiContentChanged=false;</script>
+<script type="text/javascript">gwikiContentChanged=false;</script>
 
 <% if (form.chooseMetaTemplate == true) { %>
 <p>
@@ -91,7 +91,7 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 	<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.edit.EditPage.button.create"/>">
 	<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 <% } else if (form.initalBackup == true) { %>
-<script>
+<script type="text/javascript">
 function viewBackupDiff()
 {
 	var url = '<gwiki:url value="/edit/ComparePages"/>?rightPageId=<c:out value="${form.pageId}"/>&leftPageId=<c:out value="${form.backupElementInfo.id}"/>';

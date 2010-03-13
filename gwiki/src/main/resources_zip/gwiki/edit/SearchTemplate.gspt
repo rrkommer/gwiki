@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @>
 <% form = wikiContext.getRequestAttribute("form");  %> 
-<script>
+<script type="text/javascript">
 		function submitNextSearch()
 		{
 				document.getElementById("searchOffset").value = "<%= form.searchOffset + form.pageSize %>";

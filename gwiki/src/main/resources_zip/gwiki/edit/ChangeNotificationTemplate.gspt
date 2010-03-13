@@ -19,7 +19,7 @@
     </c:choose></form>
 
     <hr></hr>
-    <script>
+    <script type="text/javascript">
 function submitDelete(myId)
 {
   //document.getElementById('chPageId').value = myId;
