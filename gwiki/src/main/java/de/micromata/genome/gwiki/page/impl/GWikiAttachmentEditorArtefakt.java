@@ -136,7 +136,7 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     String parentPageId = editBean.getParentPageId();
     StringBuilder html = new StringBuilder();
     html.append("<input id=\"appletTmpFileName\" type=\"hidden\" name=\"" + partName + ".appletTmpFileName\">");
-    html.append("<script>") //
+    html.append("<script type=\"text/javascript\">") //
         .append("function swithFileUploadToStd() {\n") //
         .append("jQuery(\"#gwikiattappfrm\").hide();") //
         .append("jQuery(\"#gwikiattappexists\").hide();") //
@@ -197,13 +197,13 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
         .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(Xml.text("Switch to applet upload"))) //
     ;
     if (attmentExists == true) {
-      html.append("<script>switchFileExists();</script>\n");
+      html.append("<script type=\"text/javascript\">switchFileExists();</script>\n");
     } else {
-      html.append("<script>swithFileUploadToStd();</script>\n");
+      html.append("<script type=\"text/javascript\">swithFileUploadToStd();</script>\n");
     }
     String pageId = editBean.getPageId();
 
-    //String url = ctx.localUrl("/edit/UploadAppletWindow?");
+    // String url = ctx.localUrl("/edit/UploadAppletWindow?");
     StringBuilder sb = new StringBuilder();
     if (StringUtils.isNotEmpty(pageId) == true) {
       if (sb.length() > 0) {
