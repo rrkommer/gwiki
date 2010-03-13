@@ -10,7 +10,7 @@
 		hidden = " style='display: none;'";
 	}
 %>
-<script>
+<script type="text/javascript">
 function createNewCommentShow()
 {
 	\$('#PageComment_NewComment').toggle();
