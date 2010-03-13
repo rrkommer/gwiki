@@ -62,7 +62,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
 
     sb.append("<div id='PageComments'></div>\n")
     //
-        .append("<script>\n") //
+        .append("<script type=\"text/javascript\">\n") //
         .append("$(document).ready(function(){\n")//
         // .append("alert('ready');\n")
         .append("var url = '").append(pageCommentUrl).append("';\n") //
