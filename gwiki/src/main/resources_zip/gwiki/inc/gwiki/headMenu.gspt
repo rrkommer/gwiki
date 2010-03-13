@@ -23,12 +23,12 @@
      			<li class="gwikiMenumain">
 					<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/paperplus32.png'/>');">
 					<fmt:message key="gwiki.page.headmenu.page.NewPage"/>
-						<%-- <gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/> --%>
+						<%-- <gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&amp;parentPageId=${wikiPage.elementInfo.id}"/> --%>
 						</span> 
      				<ul>
      					<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
      					<% wikiContext.setRequestAttribute("wktp", pair); %>
-     						<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=${wktp.second}"/>
+     						<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&amp;parentPageId=${wikiPage.elementInfo.id}&amp;metaTemplatePageId=${wktp.second}"/></li>
      					<% } %>
      				</ul>
      			</li>

@@ -29,9 +29,9 @@ function gwikiToggleExplorer()
 			<div style="float: right; ">
 				<a href="javascript:gwikiToggleExplorer()">
 				<% if (gwikiWithNavBar) { %>
-				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>"/>
+				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>" alt=""/>
 				<% } else { %>
-				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>"/>
+				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>" alt=""/>
 				<% } %>
 				</a>
 			</div>

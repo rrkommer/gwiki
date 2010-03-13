@@ -29,7 +29,7 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 	}
 	%>
 </div>
-<script>
+<script type="text/javascript">
 \$(document).ready(function(){
 	$('#presentationlayer').contextMenu('#editmenu');
 	$('#presentationtitle').contextMenu('#editmenu');
@@ -45,7 +45,7 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 	MainPage.render(wikiContext);
 %>
 </div>
-<script>
+<script type="text/javascript">
 \$(document).ready(function() {
 		var th = 400;
 	  var l = $("#presentationlayer");
