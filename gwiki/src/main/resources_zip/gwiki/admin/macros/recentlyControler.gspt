@@ -38,7 +38,7 @@ for (SearchResult sr in qr.getResults()) {
 	
 	<tr class="<%=zebra%>">
 		<th><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></th>
-		<td nowrap><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + " Uhr" + "</td><td> " + sr.elementInfo.getModifiedBy() %></td></tr>
+		<td nowrap="nowrap"><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + " Uhr" + "</td><td> " + sr.elementInfo.getModifiedBy() %></td></tr>
 	<% c += 1; } %>
 </tbody>
 </table>
