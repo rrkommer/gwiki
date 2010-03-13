@@ -3,7 +3,7 @@
     
 <div class="searchbox" style="border-width: 1px;">
 
-<form class="quick-search" action="<gwiki:url value="/edit/Search"/>?childs=<c:out value="${wikiPage.elementInfo.id}"/>" method="POST">
+<form class="quick-search" action="<gwiki:url value="/edit/Search"/>?childs=<c:out value="${wikiPage.elementInfo.id}"/>" method="post">
 	<fieldset>
 	<legend>Suche</legend>
 	<input id="quick-search-query" class="quick-search-query placeholded" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>
