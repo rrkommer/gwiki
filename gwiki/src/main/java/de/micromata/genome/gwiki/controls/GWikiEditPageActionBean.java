@@ -596,9 +596,10 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     elementToEdit.getElementInfo().setId(tid);
 
     getWikiContext().getWikiWeb().saveElement(wikiContext, elementToEdit, false);
-    wikiContext.append("Letzte Sicherung vom "
-        + wikiContext.getUserDateString(elementToEdit.getElementInfo().getModifiedAt())
-        + ". <a href=\"javascript:restoreBackup();\">Wieder herstellen</a><br/>");
+    wikiContext.append("<a href=\"javascript:restoreBackup();\">"
+        + wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.edit.EditPage.onlinebackup", "",
+            wikiContext.getUserDateString(elementToEdit.getElementInfo().getModifiedAt()))
+        + "</a><br/>");
     wikiContext.flush();
     return noForward();
   }

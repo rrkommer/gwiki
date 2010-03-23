@@ -160,6 +160,9 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
     }
     String space = ctx.getWikiElement().getElementInfo().getWikiSpace(ctx);
     Map<String, Pair<Pattern, List<GWikiElementInfo>>> spaceKeyWords = fe.getKeywords(ctx).get(space);
+    if (spaceKeyWords == null) {
+      return nested.render(ctx);
+    }
     String html = nested.getHtml();
     KeyWordRanges kranges = new KeyWordRanges();
     for (Map.Entry<String, Pair<Pattern, List<GWikiElementInfo>>> me : spaceKeyWords.entrySet()) {

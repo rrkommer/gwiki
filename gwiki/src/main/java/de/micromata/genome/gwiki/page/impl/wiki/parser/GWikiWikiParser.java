@@ -76,10 +76,14 @@ public class GWikiWikiParser
         if (tag.startsWith(pl.getListTag()) == true) {
           pl.addChild(listfrag);
         } else {
-          ctx.addFragment(listfrag);
+          pl.addChild(listfrag);
+          // ctx.addFragment(listfrag);
+          // listfrag = pl;
+          // ctx.addFragment(listfrag);
+          // lfrag = listfrag;
+          // listfrag = pl;
         }
       }
-
     } else {
       ctx.addFragment(listfrag);
     }
