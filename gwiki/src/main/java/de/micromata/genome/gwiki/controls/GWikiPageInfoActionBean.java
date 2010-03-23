@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -82,6 +83,11 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
    * used for renaming.
    */
   private String newPageId;
+
+  /**
+   * Comma seperated list of box elements to show. if null or empty, show all.
+   */
+  private String[] showBoxElements = new String[0];
 
   private String getDisplayDate(Date date)
   {
@@ -162,7 +168,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     return getBoxFrame("Ausgehende Links", ta).toString();
   }
 
-  protected String buildAttachmentsBox()
+  public String buildAttachmentsBox()
   {
     // wikiContext.g
     // StringBuilder sb = new StringBuilder();
@@ -180,6 +186,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
         tr(//
             th(text("Name")), //
             th(text("Size")), //
+            th(text("Version")), //
             th(text("Action")) //
         )//
         );
@@ -189,6 +196,8 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
           tr(//
               td(code(wikiContext.renderLocalUrl(ce.getId()))), //
               td(text(ce.getProps().getStringValue(GWikiPropKeys.SIZE, "-1"))), //
+              td(text("Modified at: " + wikiContext.getUserDateString(ce.getModifiedAt()) + " by " + ce.getModifiedBy())),
+              // TODO last user/modified
               td(//
                   a(attrs("href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam), text("Edit")),//
                   // br(), //
@@ -219,7 +228,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
           element("form", //
               element("input", attrs("type", "text", "size", "50", "value", StringEscapeUtils.escapeXml(elementInfo.getId()), "name",
                   "newPageId")), br(), //
-              element("input", attrs("type", "submit", "name", "method_onRename", "value", "Rename")),//
+              element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onRename", "value", "Rename")),//
               element("script", code("")) //
           ));
     }
@@ -265,7 +274,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     });
     versionInfos.add(0, elementInfo);
     // versionInfos.add(0, elementInfo);
-    XmlElement cmd = element("input", attrs("type", "submit", "name", "method_onCompare", "value", "Compare"));
+    XmlElement cmd = element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onCompare", "value", "Compare"));
 
     XmlElement ta = getStandardTable();
     ta.nest(//
@@ -299,6 +308,14 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     return getBoxFrame("Versionen", np).toString();
   }
 
+  protected boolean showInfo(String boxName)
+  {
+    if (showBoxElements == null || showBoxElements.length == 0) {
+      return true;
+    }
+    return ArrayUtils.indexOf(showBoxElements, boxName) != -1;
+  }
+
   protected void initialize()
   {
     if (StringUtils.isEmpty(pageId) == true) {
@@ -310,10 +327,18 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       wikiContext.addSimpleValidationError("Cannot find PageId: " + pageId);
       return;
     }
-    infoBoxen.put("BaseInfo", buildBaseInfo());
-    infoBoxen.put("VersionInfo", loadVersionInfos());
-    infoBoxen.put("OutLinks", buildOutgoingLinks());
-    infoBoxen.put("Attachments", buildAttachmentsBox());
+    if (showInfo("BaseInfo") == true) {
+      infoBoxen.put("BaseInfo", buildBaseInfo());
+    }
+    if (showInfo("VersionInfo") == true) {
+      infoBoxen.put("VersionInfo", loadVersionInfos());
+    }
+    if (showInfo("OutLinks") == true) {
+      infoBoxen.put("OutLinks", buildOutgoingLinks());
+    }
+    if (showInfo("Attachments") == true) {
+      infoBoxen.put("Attachments", buildAttachmentsBox());
+    }
   }
 
   public Object onInit()
@@ -467,5 +492,15 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   public void setNewPageId(String newPageId)
   {
     this.newPageId = newPageId;
+  }
+
+  public String[] getShowBoxElements()
+  {
+    return showBoxElements;
+  }
+
+  public void setShowBoxElements(String[] showBoxElements)
+  {
+    this.showBoxElements = showBoxElements;
   }
 }

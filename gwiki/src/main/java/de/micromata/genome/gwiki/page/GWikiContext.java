@@ -546,12 +546,24 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * use getCurrentElement()
+   * 
+   * @return
+   */
+  @Deprecated
   public GWikiElement getWikiElement()
+  {
+    return getCurrentElement();
+  }
+
+  public GWikiElement getCurrentElement()
   {
     if (wikiElements.isEmpty() == true) {
       return null;
     }
     return wikiElements.peek();
+
   }
 
   public void pushWikiElement(GWikiElement wikiElement)
