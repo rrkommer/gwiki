@@ -64,10 +64,10 @@ h2. Listen
 \*\*UnterListe 1\\
 \*\*UnterListe 2\\
 \*Liste 3{td}{td}
-* Liste 1\\
-* Liste 2\\
-** UnterListe 1\\
-** UnterListe 2\\
+* Liste 1
+* Liste 2
+** UnterListe 1
+** UnterListe 2
 * Liste 3
 {td}{tr}{table}
 
@@ -80,10 +80,10 @@ h2. Listen Bullet
 \-\*UnterListe 1\\
 \-\*UnterListe 2\\
 \-Liste 3{td}{td}
-- Liste 1\\
-- Liste 2\\
-*- UnterListe 1\\
-*- UnterListe 2\\
+- Liste 1
+- Liste 2
+*- UnterListe 1
+*- UnterListe 2
 - Liste 3
 {td}{tr}{table}
 
@@ -96,10 +96,10 @@ h2. Numerierte Listen
 \*\#UnterListe 1\\
 \*\#UnterListe 2\\
 \#Liste 3{td}{td}
-# Liste 1\\
-# Liste 2\\
-*# UnterListe 1\\
-*# UnterListe 2\\
+# Liste 1
+# Liste 2
+*# UnterListe 1
+*# UnterListe 2
 # Liste 3
 {td}{tr}{table}
 

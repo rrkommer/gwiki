@@ -3,21 +3,25 @@
 
 <c:choose>
   <c:when test="${form.validUser}">
-    <p>Sie k&ouml;nnen Sich bei &Auml;nderungen an der Seite
-    automatisch eine Email zusenden lassen.</p>
-    <form id="mainform" method="post">Seite <gwiki:link
-      pageId="${form.pageId}" /> Abonieren. <gwiki:hidden property="pageId" />
-    <gwiki:hidden styleId="chPageId" property="delPageId" /> <input
-      type="hidden" id="formcommand" name="command" /> <c:choose>
+    <p><fmt:message key="gwiki.page.edit.ChangeNotification.intro"/></p>
+    <form id="mainform" method="post">
+    <fieldset>
+<legend><fmt:message key="gwiki.page.edit.ChangeNotification.label.page"/></legend>
+		
+		<gwiki:link  pageId="${form.pageId}" /> <br/>
+		<gwiki:hidden property="pageId" />
+    <gwiki:hidden styleId="chPageId" property="delPageId" /> 
+    <input type="hidden" id="formcommand" name="command" /> <c:choose>
       <c:when test="${form.alreadyRegistered}">
-        <input type="submit" name="method_onUnregister" value="Abo aufheben" />
+        <input class="wikiButton reset"  type="submit" name="method_onUnregister" value="<fmt:message key="gwiki.page.edit.ChangeNotification.button.unregister"/>" />
       </c:when>
       <c:otherwise>
         <gwiki:checkbox property="recursive" /> Recursive<br />
-        <input type="submit" name="method_onRegister" value="Abonieren" />
+        <input class="wikiButton main" type="submit" name="method_onRegister" value="<fmt:message key="gwiki.page.edit.ChangeNotification.button.register"/>" />
       </c:otherwise>
     </c:choose></form>
-
+		</fieldset>
+		
     <hr></hr>
     <script type="text/javascript">
 function submitDelete(myId)
@@ -28,12 +32,16 @@ function submitDelete(myId)
   jQuery('#mainform').submit();
 }
 </script>
-Bestehende Notifications f&uuml;r <c:out value="${form.userName}" />:
+<fieldset>
+<legend><fmt:message key="gwiki.page.edit.ChangeNotification.label.existantnots">
+	<fmt:param value="${form.userName}"/>
+</fmt:message>
+</legend>
 <table border="1" cellpadding="2" cellspacing="0">
       <tr>
-        <th>PageId</th>
-        <th>Titel</th>
-        <th>Rekursiv</th>
+        <th><fmt:message key="gwiki.page.edit.ChangeNotification.label.pageId"/></th>
+        <th><fmt:message key="gwiki.page.edit.ChangeNotification.label.title"/></th>
+        <th><fmt:message key="gwiki.page.edit.ChangeNotification.label.recursive"/></th>
         </ht>
         <th>&nbsp;</th>
       </tr>
@@ -45,14 +53,14 @@ Bestehende Notifications f&uuml;r <c:out value="${form.userName}" />:
         <td><c:out value="${me.value.first}" /></td>
         <td><c:out value="${me.value.second}" /></td>
         <td><a
-          href="javascript:submitDelete('<c:out value="${me.key}"/>'); ">Abo
-        aufheben</a></td>
+          href="javascript:submitDelete('<c:out value="${me.key}"/>'); ">"<fmt:message key="gwiki.page.edit.ChangeNotification.button.unregister"/></a></td>
       </tr>
       <% } %>
     </table>
+ </fieldset>
   </c:when>
   <c:otherwise>
-Zur&uuml;ck <gwiki:url value="${form.pageId}" />.
+<fmt:message key="gwiki.page.edit.ChangeNotification.link.back"/> <gwiki:url value="${form.pageId}" />.
 </c:otherwise>
 </c:choose>
 
