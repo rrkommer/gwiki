@@ -2,7 +2,6 @@
 <@include file="inc/stdtags.gspt" @> 
 
 
-
 <gwiki:errors />
 <div>
 <p>
@@ -10,14 +9,25 @@ Zur&uuml;ck: <gwiki:link pageId="${form.pageId}"/>
 </p>
 
 <form method="post">
-<% form = pageContext.getRequest().getAttribute('form'); %>
-<%= form.infoBoxen.get('Attachments')  %><br/>
+<% form = pageContext.getRequest().getAttribute('form'); 
+void renderBox(String boxName, String prefix, String postfix)
+{
+	if (form.infoBoxen.containsKey(boxName) == false) {
+		return;
+	}
+	%><%= prefix + form.infoBoxen.get(boxName) + postfix %><%
+}
+renderBox('Attachments', '', '<br/>');
+%>
+
 <table border="0" cellpadding="0" cellspacing="0" align="left" width="100%">
 <tr><td valign="top">
-<%= form.infoBoxen.get('BaseInfo')  %><br/>
-<%= form.infoBoxen.get('OutLinks')  %>
+<% renderBox('BaseInfo', '', '<br/>');
+	renderBox('OutLinks', '', '');
+%>
+
 </td>
-<td valign="top"><%= form.infoBoxen.get('VersionInfo')  %></td>
+<% renderBox('VersionInfo', '<td valign="top">', '</td>'); %>
 </tr>
 </table>
 </form>

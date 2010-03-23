@@ -1,15 +1,5 @@
 <@include file="inc/stdgfuncs.gspt" @>
-
-<table border="0" cellpadding="0" cellspacing="0">
-<thead>
-	<tr>
-		<th>Seite / Element</th>
-		<th>&Auml;nderungsdatum</th>
-		<th>User</th>
-	</tr>
-</thead>
-<tbody>
-
+<@include file="inc/stdtags.gspt" @>
 <%
 import de.micromata.genome.gwiki.model.*;
 import de.micromata.genome.gwiki.page.search.*;
@@ -17,7 +7,17 @@ import de.micromata.genome.gwiki.page.*;
 if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
 	return ;
 }
-
+%>
+<table border="0" cellpadding="0" cellspacing="0">
+<thead>
+	<tr>
+		<th><fmt:message key="gwiki.macro.recently.label.page"/></th>
+		<th><fmt:message key="gwiki.macro.recently.label.moddate"/></th>
+		<th><fmt:message key="gwiki.macro.recently.label.user"/></th>
+	</tr>
+</thead>
+<tbody>
+<%
 int c = 1;
 String queryexpr = "order by prop:MODIFIEDAT desc";
 SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
@@ -37,8 +37,8 @@ for (SearchResult sr in qr.getResults()) {
 	} %>
 	
 	<tr class="<%=zebra%>">
-		<th><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></th>
-		<td nowrap="nowrap"><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + " Uhr" + "</td><td> " + sr.elementInfo.getModifiedBy() %></td></tr>
+		<td><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></td>
+		<td nowrap="nowrap"><%=wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + "</td><td> " + sr.elementInfo.getModifiedBy() %></td></tr>
 	<% c += 1; } %>
 </tbody>
 </table>
