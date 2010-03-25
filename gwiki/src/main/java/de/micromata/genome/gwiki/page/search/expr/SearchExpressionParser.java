@@ -134,6 +134,8 @@ public class SearchExpressionParser
     buildInCommandExpressions.put("space", SearchExpressionComandWikiSpace.class);
     buildInCommandExpressions.put("pageid", SearchExpressionComandPageIdMatcher.class);
     buildInCommandExpressions.put("prop", SearchExpressionPropSelektorCommand.class);
+    buildInCommandExpressions.put("lang", SearchExpressionComandLangMatcher.class);
+    buildInCommandExpressions.put("keyword", SearchExpressionCommandKeywordMatcher.class);
   }
 
   public static class TokenResultList

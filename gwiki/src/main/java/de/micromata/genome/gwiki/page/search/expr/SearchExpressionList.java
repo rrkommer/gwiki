@@ -40,7 +40,10 @@ public abstract class SearchExpressionList implements SearchExpression
   {
     List<String> ret = new ArrayList<String>();
     for (SearchExpression sr : list) {
-      ret.addAll(sr.getLookupWords());
+      List<String> lw = sr.getLookupWords();
+      if (lw != null) {
+        ret.addAll(lw);
+      }
     }
     return ret;
   }
