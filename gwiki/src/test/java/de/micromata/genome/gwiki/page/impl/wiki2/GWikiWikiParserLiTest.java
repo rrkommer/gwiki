@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
@@ -59,6 +56,7 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
   {
     w2htest("* bla\\\\\nx\n* blub", "<ul class=\"star\"><li>bla<br/>\nx</li><li>blub</li></ul>");
   }
+
   public void testNested()
   {
     w2htest("* bla\n** blub", "<ul class=\"star\"><li>bla</li><ul class=\"star\"><li>blub</li></ul></ul>");
@@ -66,7 +64,7 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testLiCh()
   {
-    w2htest("- bla\n* blub", "<ul class=\"minus\" type=\"square\"><li>bla</li></ul><ul class=\"star\"><li>blub</li></ul>");
+    w2htest("- bla\n* blub", "<ul class=\"minus\" type=\"square\"><li>bla</li><ul class=\"star\"><li>blub</li></ul></ul>");
   }
 
   public void testLi5()
