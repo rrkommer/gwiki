@@ -11,6 +11,8 @@ h2. Überblick:
 |childs:pageId|Sucht nach pageId und allen untergeordneten Seiten|
 |space:WIKISPACENAME|Sucht nach allen Seiten, die dem Space-Namen zugeordnet sind|
 |pageid:pageId|Findet nur die angegebene PageId|
+|lang:SprachId|Zeigt nur Seiten mit der anagegeben Sprache an (z.B. {{lang:en}} für Englische Seiten|
+|keyword:keyword|Findet die Elemente, die angegebenes Schlüsselwort definiert haben|
 
 ||*Kombinierte Suche*|| ||
 |bla blub|Volltextsuche. Sucht nach bla, Bla und blub, Blubber. Die Ergebnisse werden gewichtet summiert, so dass i.d.R. Seiten die sowohl bla und blub enthalten zuerst dargestellt werden|
@@ -38,14 +40,17 @@ h2. Einfache Suche
 Eine einfache Suche macht eine Volltextsuche. 
 Die Suchergebnisse werden gewichtet dargestellt.
 h2. Weiche OR-Suche
-TODO
+Werden mehrere Suchausdrücke mit Leerzeichen getrennt, wird eine Weiche Oder Suche durchgeführt. Also es werden alle Seiten gefunden, die einer der Suchausdrücke entspricht. Werden in einer Seite gleich mehrere Suchausdrücke gefunden, werden diese höher gewichtet.
+
+{HTMLcomment}
+
 h2. Schlüsselwortsuche
 TODO
 Siehe auch [http://confluence.atlassian.com/display/DOC/Confluence+Search+Fields].
 
 h2. Suchsyntax
 Siehe auch [http://confluence.atlassian.com/display/DOC/Confluence+Search+Syntax].
-{HTMLcomment}
+
 h1. Confluence-Auszug
 {info:title=Purpose of this document}
 This page is intended for *developers and advanced users* of Confluence. It gives an overview of the [Apache Lucene|http://lucene.apache.org/java/docs/index.html] search fields used in Confluence.{info}

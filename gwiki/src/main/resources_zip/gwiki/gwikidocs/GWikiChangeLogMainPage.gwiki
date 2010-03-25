@@ -1,3 +1,7 @@
+h2. 2010-03-23
+* Macro {{pageattachments}} eingeführt.
+* Mehr internationalisiert.
+
 h2. 2010-03-08
 * gwiki skin erstellt. Noch nicht perfekt (IE6, aber schon wesentlich besser).
 * Unter PageInfo kann man den Pfad einer Seite ändern.
