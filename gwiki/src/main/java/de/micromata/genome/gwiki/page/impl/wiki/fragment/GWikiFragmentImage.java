@@ -159,6 +159,8 @@ public class GWikiFragmentImage extends GWikiFragementBase
     }
     if (StringUtils.isNotEmpty(alt) == true) {
       ctx.append(" alt=\"", alt, "\"");
+    } else {
+      ctx.append(" alt=\"\"");
     }
     if (StringUtils.isNotEmpty(hspace) == true) {
       ctx.append(" hspace=\"", hspace, "\"");
@@ -172,6 +174,7 @@ public class GWikiFragmentImage extends GWikiFragementBase
     if (StringUtils.isNotEmpty(styleClass) == true) {
       ctx.append(" class=\"", styleClass, "\"");
     }
+    ctx.append("/>");
     return true;
   }
 
