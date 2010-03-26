@@ -30,18 +30,27 @@ import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
  */
 public class GspJspWriter extends JspWriter implements BodyFlusher
 {
-  PrintWriterPatched out;
+  protected PrintWriterPatched out;
 
-  int bufferSize = 1024;
+  protected int bufferSize = 1024;
 
-  boolean wasOverflow = false;
+  protected boolean wasOverflow = false;
 
-  StringBuilder buffer = new StringBuilder(bufferSize);
+  protected StringBuilder buffer = new StringBuilder(bufferSize);
+
+  public GspJspWriter(PrintWriterPatched out, int buffSize)
+  {
+    super(0, false);
+    this.bufferSize = buffSize;
+    this.out = out;
+    if (bufferSize == 0) {
+      wasOverflow = true;
+    }
+  }
 
   public GspJspWriter(PrintWriterPatched out)
   {
-    super(0, true);
-    this.out = out;
+    this(out, 1024);
   }
 
   public PrintWriterPatched getUnderlyingWriter()

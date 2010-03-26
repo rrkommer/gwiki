@@ -37,11 +37,19 @@ import org.apache.commons.io.IOUtils;
  */
 public class BodyContentImpl extends BodyContent implements BodyFlusher
 {
-  StringWriter sw = new StringWriter();
+  protected StringWriter sw = new StringWriter();
 
-  protected BodyContentImpl(JspWriter e)
+  public BodyContentImpl(JspWriter e)
   {
     super(e);
+  }
+
+  public BodyContentImpl(JspWriter e, int bufferSize, boolean autoFlush)
+  {
+    this(e);
+    this.autoFlush = autoFlush;
+    this.bufferSize = bufferSize;
+
   }
 
   public BodyContentImpl()
@@ -70,7 +78,11 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
   @Override
   public void clear() throws IOException
   {
-    sw = new StringWriter();
+    if (bufferSize == NO_BUFFER) {
+      getEnclosingWriter().clear();
+    } else {
+      sw = new StringWriter();
+    }
   }
 
   @Override
@@ -88,22 +100,27 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
   @Override
   public void flush() throws IOException
   {
-    flushBody();
-    // super.flush(); // otherwise java.io.IOException: Illegal to flush within a custom tag
+    if (bufferSize == NO_BUFFER) {
+      getEnclosingWriter().flush();
+    } else {
+      flushBody();
+    }
+
   }
 
   public void flushBody() throws IOException
   {
     if ((getEnclosingWriter() instanceof NullJspWriter) == false) {
-      write(sw.getBuffer().toString());
+      this.getEnclosingWriter().write(sw.getBuffer().toString());
       sw = new StringWriter();
+
     }
   }
 
   @Override
   public int getBufferSize()
   {
-    return 4096;
+    return UNBOUNDED_BUFFER;
   }
 
   @Override
@@ -125,71 +142,91 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
     return 4096;
   }
 
+  public void write(String s) throws IOException
+  {
+    if (bufferSize == NO_BUFFER) {
+      getEnclosingWriter().write(s);
+    } else {
+      sw.append(s);
+    }
+  }
+
+  @Override
+  public void write(char[] cbuf, int off, int len) throws IOException
+  {
+    if (bufferSize == NO_BUFFER) {
+      write(cbuf, off, len);
+    } else {
+      sw.write(cbuf, off, len);
+    }
+  }
+
   @Override
   public void newLine() throws IOException
   {
-    sw.append("\n");
+    write("\n");
   }
 
   @Override
   public void print(boolean arg0) throws IOException
   {
-    sw.append(Boolean.toString(arg0));
+    write(Boolean.toString(arg0));
   }
 
   @Override
   public void print(char arg0) throws IOException
   {
-    sw.append(Character.toString(arg0));
+    write(Character.toString(arg0));
   }
 
   @Override
   public void print(int arg0) throws IOException
   {
-    sw.append(Integer.toString(arg0));
+    write(Integer.toString(arg0));
   }
 
   @Override
   public void print(long arg0) throws IOException
   {
-    sw.append(Long.toString(arg0));
+    write(Long.toString(arg0));
   }
 
   @Override
   public void print(float arg0) throws IOException
   {
-    sw.append(Float.toString(arg0));
+    write(Float.toString(arg0));
   }
 
   @Override
   public void print(double arg0) throws IOException
   {
-    sw.append(Double.toString(arg0));
+    write(Double.toString(arg0));
   }
 
   @Override
   public void print(char[] arg0) throws IOException
   {
-    sw.append(new String(arg0));
+    write(new String(arg0));
   }
 
   @Override
   public void print(String arg0) throws IOException
   {
-    sw.append(arg0);
+    write(arg0);
   }
 
   @Override
   public void print(Object arg0) throws IOException
   {
-    if (arg0 != null)
-      sw.append(arg0.toString());
+    if (arg0 != null) {
+      write(arg0.toString());
+    }
   }
 
   @Override
   public void println() throws IOException
   {
-    sw.append("\n");
+    write("\n");
   }
 
   @Override
@@ -255,9 +292,4 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
     println();
   }
 
-  @Override
-  public void write(char[] cbuf, int off, int len) throws IOException
-  {
-    sw.write(cbuf, off, len);
-  }
 }
