@@ -108,6 +108,7 @@
 				<enabled>false</enabled>
 			</releases>
 		</pluginRepository>
+
 	</pluginRepositories>
 
 	<distributionManagement>
