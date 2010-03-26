@@ -66,11 +66,7 @@ public class GenomeTemplateUtils
   public static PageContext initPageContext(GWikiContext ctx)
   {
     if (IN_UNITEST == false) {
-      JspFactory fac = JspFactory.getDefaultFactory();
-      if (fac == null) {
-        fac = new StandaloneJspFactory();
-      }
-        return initPageContext2(ctx, fac);
+      return initPageContext2(ctx, JspFactory.getDefaultFactory());
     }
     return initPageContext2(ctx, new StandaloneJspFactory());
 
