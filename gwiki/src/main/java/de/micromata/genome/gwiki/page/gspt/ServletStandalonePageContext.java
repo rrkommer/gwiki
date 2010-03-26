@@ -441,29 +441,19 @@ public class ServletStandalonePageContext extends PageContext
   @Override
   public JspWriter pushBody(java.io.Writer writer)
   {
-    topOfWriterStack = new BodyContentImpl(new GspJspWriter(new PrintWriterPatched(writer)));
+    topOfWriterStack = new BodyContentImpl(new GspJspWriter(new PrintWriterPatched(writer), JspWriter.NO_BUFFER), JspWriter.NO_BUFFER,
+        false);
     return topOfWriterStack;
   }
 
   @Override
   public JspWriter popBody()
   {
-    // try {
-    // getOut().flush();
-    // } catch (IOException ex) {
-    // throw new RuntimeException(ex);
-    // }
     if (topOfWriterStack == null) {
       throw new EmptyStackException();
     }
+
     JspWriter parent = topOfWriterStack.getEnclosingWriter();
-    // try {
-    // topOfWriterStack.writeOut(parent);
-    // topOfWriterStack.clearBody(); // hmm...
-    // } catch (IOException ex) {
-    // // TODO Auto-generated catch block
-    // ex.printStackTrace();
-    // }
     if (parent instanceof BodyContent) {
       topOfWriterStack = (BodyContent) parent;
     } else {
