@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+	version="2.4">
+	<display-name>Genome Wiki Web</display-name>
+	<filter>
+		<filter-name>gwiki18n</filter-name>
+		<filter-class>de.micromata.genome.gwiki.page.impl.i18n.GWikiI18NServletFilter
+		</filter-class>
+		<init-param>
+			<param-name>I18NModules</param-name>
+			<param-value>edit/StandardI18n</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>HelloWorldApplication</filter-name>
+		<filter-class>de.micromata.genome.gwiki.sample.wicket.MyWicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationClassName</param-name>
+			<param-value>de.micromata.genome.gwiki.sample.wicket.HelloWorldApplication</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>HelloWorldApplication</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>gwiki18n</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>WikiService</servlet-name>
+
+		<servlet-class>de.micromata.genome.gwiki.web.GWikiServlet
+		</servlet-class>
+		<init-param>
+			<!--  Register class, loading the GWikiDAOContext -->
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className
+			</param-name>
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>servletPath</param-name>
+			<param-value>/gwiki</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextPath</param-name>
+			<param-value>/gwiki-wicket</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>WikiService</servlet-name>
+		<url-pattern>/gwiki/*</url-pattern>
+	</servlet-mapping>
+
+	<!--
+		<servlet-mapping> <servlet-name>StaticFilesService</servlet-name>
+		<url-pattern>/static/*</url-pattern> </servlet-mapping>
+	-->
+</web-app>
