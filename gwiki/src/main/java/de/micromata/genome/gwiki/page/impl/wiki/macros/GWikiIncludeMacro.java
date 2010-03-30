@@ -56,11 +56,24 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
   private String partName;
 
   /**
+   * if given the chunk inside the Wiki page.
+   */
+  private String chunk;
+
+  /**
    * Does not include only artefakt of element, but the complate page.
    * 
    * Default is false.
    */
   private boolean complete;
+
+  protected void renderPart(GWikiContext ctx, MacroAttributes attrs, GWikiArtefakt< ? > art)
+  {
+    if (StringUtils.isEmpty(chunk) == false) {
+      ctx.setRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK, chunk);
+    }
+    ((GWikiExecutableArtefakt) art).render(ctx);
+  }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -75,6 +88,9 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
       return true;
     }
     if (complete == true) {
+      if (StringUtils.isEmpty(chunk) == false) {
+        ctx.setRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK, chunk);
+      }
       ctx.getWikiWeb().serveWiki(pageId, ctx);
       return true;
     }
@@ -90,11 +106,11 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
         renderErrorMessage(ctx, "include; Part is not executable: " + partName + " in  " + pageId, attrs);
         return true;
       }
-      ((GWikiExecutableArtefakt) art).render(ctx);
+      renderPart(ctx, attrs, art);
     } else {
       String lPart = "MainPage";
       if (parts.get(lPart) instanceof GWikiExecutableArtefakt) {
-        ((GWikiExecutableArtefakt) parts.get(lPart)).render(ctx);
+        renderPart(ctx, attrs, parts.get(lPart));
       } else {
         renderErrorMessage(ctx, "include; Cannot find executable Part MainPage in  " + pageId, attrs);
       }
@@ -130,6 +146,16 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
   public void setComplete(boolean complete)
   {
     this.complete = complete;
+  }
+
+  public String getChunk()
+  {
+    return chunk;
+  }
+
+  public void setChunk(String chunk)
+  {
+    this.chunk = chunk;
   }
 
 }

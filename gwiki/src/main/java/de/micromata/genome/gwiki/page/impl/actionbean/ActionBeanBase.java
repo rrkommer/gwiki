@@ -58,4 +58,15 @@ public class ActionBeanBase implements ActionBean
   {
     return wikiContext.getRequestParameter(key);
   }
+
+  /**
+   * Little helper method.
+   * 
+   * @param key
+   * @return translated.
+   */
+  protected String translate(String key, Object... args)
+  {
+    return wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, key, null, args);
+  }
 }
