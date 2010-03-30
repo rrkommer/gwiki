@@ -75,6 +75,9 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
     if (ObjectUtils.toString(req.getAttribute("gwiki18ndeco")).equals("false") == true) {
       return value;
     }
+    if (GWikiMessageTag.getDomId4I18N(req, key) != null) {
+      return value;
+    }
     GWikiWeb wikiWeb = GWikiWeb.get();
     GWikiContext wikiContext = new GWikiContext(wikiWeb, GWikiServlet.INSTANCE, req, GWikiI18NServletFilter.HTTPCTX.get().getSecond());
     if (GWikiWeb.get().getAuthorization().isAllowToEdit(wikiContext, i18nel.getElementInfo()) == false) {
