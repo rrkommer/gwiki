@@ -47,6 +47,7 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
@@ -91,6 +92,9 @@ public class GWikiServlet extends HttpServlet
     super.init(config);
     servletPath = config.getInitParameter("servletPath");
     contextPath = config.getInitParameter("contextPath");
+    if (contextPath == null) {
+      contextPath = config.getServletContext().getContextPath();
+    }
     if (daoContext == null) {
       String className = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className");
       if (StringUtils.isBlank(className) == true) {
@@ -126,6 +130,30 @@ public class GWikiServlet extends HttpServlet
         GWikiContext.setCurrent(null);
       }
       wiki = nwiki;
+    }
+  }
+
+  /**
+   * Init GWiki without any request/response
+   */
+  public void initWiki()
+  {
+    if (wiki != null && wiki.getWikiConfig() != null) {
+      return;
+    }
+    if (servletPath == null || contextPath == null) {
+      throw new RuntimeException("servletPath and contextPath has to be set in GWikiServlet web.xml declaration");
+    }
+    GWikiWeb nwiki = new GWikiWeb(daoContext);
+    GWikiStandaloneContext wikiContext = new GWikiStandaloneContext(nwiki, this, contextPath, servletPath);
+    try {
+      GWikiContext.setCurrent(wikiContext);
+      nwiki.setContextPath(contextPath);
+      nwiki.setServletPath(servletPath);
+      nwiki.loadWeb();
+      wiki = nwiki;
+    } finally {
+      GWikiContext.setCurrent(null);
     }
   }
 
