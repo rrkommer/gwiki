@@ -49,6 +49,9 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
   public void setSessionAttribute(GWikiContext wikiContext, String key, Serializable object)
   {
     HttpSession session = wikiContext.getSession(true);
+    if (session == null) {
+      return;
+    }
     Set<String> keys = (Set<String>) session.getAttribute(SESSKEYS);
     if (keys == null) {
       keys = new HashSet<String>();

@@ -42,6 +42,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -96,6 +97,21 @@ public class GWikiWeb
 
   };
 
+  /**
+   * Initialize GWiki if and return global GWikiWeb instance.
+   * 
+   * @return
+   */
+  public static GWikiWeb getWiki()
+  {
+    if (GWikiServlet.INSTANCE == null) {
+      throw new RuntimeException("Cannot initialize GWikiWeb because no GWikiServlet.INSTANCE can be found");
+    }
+
+    GWikiServlet.INSTANCE.initWiki();
+    return GWikiWeb.get();
+  }
+
   public GWikiWeb(GWikiDAOContext daoContext)
   {
     this.daoContext = daoContext;
@@ -109,6 +125,11 @@ public class GWikiWeb
     // filter.registerFilter(this, GWikiConfigChangedListener.class);
   }
 
+  /**
+   * return global GWiki instance. Use getWiki
+   * 
+   * @return null if not initialized.
+   */
   public static GWikiWeb get()
   {
     return INSTANCE;
