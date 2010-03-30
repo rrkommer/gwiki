@@ -1,3 +1,131 @@
-Hier Weiterer Text.
 
-* [edit/ViewAllPages]
+{chunk:name=backlinkprefix:en}
+Back to page: 
+{chunk}
+{chunk:name=backlinkprefix:de}
+Zurück zur Seite: 
+{chunk}
+
+
+{chunk:name=configuration.title:en}
+GWiki Configuration
+{chunk}
+{chunk:name=configuration.title:de}
+GWiki Konfiguration
+{chunk}
+
+{chunk:name=configuration.allpages:en}
+All elements
+{chunk}
+{chunk:name=configuration.allpages:de}
+Alle Elemente
+{chunk}
+
+
+{chunk:name=configuration.gwikiconfig:en}
+GWiki global configuration
+{chunk}
+{chunk:name=configuration.gwikiconfig:de}
+Wiki Globale Konfiguration
+{chunk}
+
+{chunk:name=configuration.userconfig:en}
+GWiki user configuration 
+{chunk}
+{chunk:name=configuration.userconfig:de}
+Wiki Benutzer Konfiguration
+{chunk}
+
+{chunk:name=reload.legend:en}
+Reload GWiki
+{chunk}
+{chunk:name=reload.legend:de}
+GWiki neu laden
+{chunk}
+
+{chunk:name=reload.description:en}
+To clear and reload the *PageCache*.
+{chunk}
+{chunk:name=reload.description:de}
+Hier kann man den *PageCache* löschen bzw. neu laden.
+{chunk}
+
+{chunk:name=reload.pagecachebutton:en}
+Clear PageCache
+{chunk}
+{chunk:name=reload.pagecachebutton:de}
+PageCache Löschen
+{chunk}
+
+{chunk:name=reload.reloadpagebutton:en}
+Reload this page
+{chunk}
+{chunk:name=reload.reloadpagebutton:de}
+Diese Seite neu Laden
+{chunk}
+
+{chunk:name=reload.reloadpagedescription:en}
+Reload the current page.
+{chunk}
+{chunk:name=reload.reloadpagedescription:de}
+Hier kannst du vorliegende Seite neu laden lassen.
+{chunk}
+
+{chunk:name=reload.reloadwebdescription:en}
+Reload the complete GWiki.
+{chunk}
+{chunk:name=reload.reloadpagedescription:de}
+Hier kannst Du das gesamte Wiki neu laden lassen oder den Cache löschen, damit Änderungen z.B: am CSS sichtbar werden.
+{chunk}
+
+{chunk:name=reload.reloadwebbutton:en}
+Reload GWiki
+{chunk}
+{chunk:name=reload.reloadwebbutton:de}
+Gesamtes GWikiWeb neu Laden
+{chunk}
+
+
+{chunk:name=index.title:en}
+Index management
+{chunk}
+{chunk:name=index.title:de}
+Index management
+{chunk}
+
+{chunk:name=index.legend:en}
+Index
+{chunk}
+{chunk:name=index.legend:de}
+Index
+{chunk}
+
+{chunk:name=index.indexpagedescription:en}
+Reindex the Current page: 
+{chunk}
+{chunk:name=index.indexpagedescription:de}
+Indiziere Seite neu: 
+{chunk}
+
+
+{chunk:name=index.indexpagebutton:en}
+Reindex 
+{chunk}
+{chunk:name=index.indexpagebutton:de}
+Neu indizieren 
+{chunk}
+
+{chunk:name=index.indexwebdescription:en}
+Reindex the complete GWiki Web.
+{chunk}
+{chunk:name=index.indexwebdescription:de}
+Das vollständige GWiki Web neu indizieren.
+{chunk}
+
+
+{chunk:name=index.indexwebbutton:en}
+Reindex 
+{chunk}
+{chunk:name=index.indexwebbutton:de}
+Neu indizieren 
+{chunk}
