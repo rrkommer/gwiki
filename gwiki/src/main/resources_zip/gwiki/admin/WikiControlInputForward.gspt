@@ -4,47 +4,48 @@
 <gwiki:errors />
 
 <c:if test="${form.pageId != null}">
-  Zurueck: <gwiki:link pageId="${form.pageId}"/>
+  <gwiki:include part="MainPage" chunk="backlinkprefix"/> <gwiki:link pageId="${form.pageId}"/>
 </c:if>
 
 
-<h2>gWiki Konfiguration</h2>
+<h2><% MainPage.renderChunk(wikiContext, "configuration.title") %></h2>
   <ul>
-    <li><a href="<gwiki:url value="/edit/ViewAllPages"/>">Alle Seiten des Wikis</a></li>
-    <li><a href="<gwiki:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig">Wiki Globale Configuration</a></li>
-    <li><a href="<gwiki:url value="/edit/ListUsers"/>">Wiki Users Configuration</a></li>
+    <li><a href="<gwiki:url value="/edit/ViewAllPages"/>"><% MainPage.renderChunk(wikiContext, "configuration.allpages") %></a></li>
+    <li><a href="<gwiki:url value="/edit/EditPage"/>?pageId=admin/config/GWikiConfig"><gwiki:include part="MainPage" chunk="configuration.gwikiconfig"/></a></li>
+    <li><a href="<gwiki:url value="/edit/ListUsers"/>"><gwiki:include part="MainPage" chunk="configuration.userconfig"/></a></li>
   </ul>
 
 
 <form method="POST" class="visible">
 <fieldset>
-<legend>gWiki neu laden</legend>
-  <p class="description">Hier kannst du den <strong>PageCache für das WIKI löschen.</strong></p>
+<legend><% MainPage.renderChunk(wikiContext, "reload.legend") %></legend>
+  <p class="description"><% MainPage.renderChunk(wikiContext, "reload.description") %></strong></p>
   <gwiki:hidden property="pageId"/>
-  <input class="gwikiButton reset" type="submit" name="method_onClearPageCache" value="Page Cache L&ouml;schen"/>
+  <input class="gwikiButton reset" type="submit" name="method_onClearPageCache" value="<gwiki:include part="MainPage" chunk="reload.pagecachebutton"/>"/>
   <div class="clearAll">&nbsp;</div>
 
   <c:if test="${form.pageId != null}">
-     <p class="description">Hier kannst du dvorliegende Seite neu laden lassen.</p>
-     <input class="gwikiButton" type="submit" name="method_onReloadPage" value="Diese Seite neu Laden"><p/>
+     <p class="description"><gwiki:include part="MainPage" chunk="reload.reloadpagedescription"/></p>
+     <input class="gwikiButton" type="submit" name="method_onReloadPage" value="<gwiki:include part="MainPage" chunk="reload.reloadpagebutton"/>"><p/>
      <div class="clearAll">&nbsp;</div>
   </c:if>
 
-<p class="description">Hier kannst Du das gesamte Wiki neu laden lassen oder den Cache löschen, damit Änderungen z.B: am CSS sichtbar werden.</p>
-  <input class="gwikiButton" type="submit" name="method_onReloadWiki" value="Gesamtes WikiWeb neu Laden" />
+<p class="description"><gwiki:include part="MainPage" chunk="reload.reloadwebdescription"/></p>
+
+  <input class="gwikiButton" type="submit" name="method_onReloadWiki" value="<gwiki:include part="MainPage" chunk="reload.reloadwebbutton"/>" />
 <div class="clearAll">&nbsp;</div>
 </fieldset>
 
-
+<h2><gwiki:include part="MainPage" chunk="index.title"/></h2>
 <fieldset>
-<legend>Baue Index neu</legend>
+<legend><gwiki:include part="MainPage" chunk="index.legend"/></legend>
   <c:if test="${form.pageId != null}">
-    <label for="reindexpage">Indiziere die Seite <c:out value="${form.pageId}"/>: </label>
-    <input class="gwikiButton main" id="reindexpage" type="submit" name="method_onReIndexPage" value="Diese Seite neu indizieren"/>
+    <p><label for="reindexpage"><gwiki:include part="MainPage" chunk="index.indexpagedescription"/> <c:out value="${form.pageId}"/>: </label></p>
+    <input class="gwikiButton main" id="reindexpage" type="submit" name="method_onReIndexPage" value="<gwiki:include part="MainPage" chunk="index.indexpagebutton"/>"/>
   </c:if>
 <div class="clearAll">&nbsp;</div>
-  <label for="reindexwiki" >Es das komplette Wiki neue indiziert.</label>
-  <input class="gwikiButton" id="reindexwiki" type="submit" name="method_onRebuildIndex" value="Suchindex Neu Aufbauen" />
+  <p><label for="reindexwiki" ><gwiki:include part="MainPage" chunk="index.indexwebdescription"/></label></p>
+  <input class="gwikiButton" id="reindexwiki" type="submit" name="method_onRebuildIndex" value="<gwiki:include part="MainPage" chunk="index.indexwebbutton"/>" />
 
 </fieldset>
 <fieldset>
@@ -53,18 +54,6 @@
     <input class="gwikiButton" id="clearCookies" type="submit" name="method_onClearCookies" value="Clear Cookies"/>
 </fieldset>
 </form>
-<%--
-<h2>Rechte Testen</h2>
-Name: <gwiki:text size="80" property="singleUser.user" /><br />
-Email: <gwiki:text size="80" property="singleUser.email" /><br />
-RightRule: <gwiki:text size="80" property="authRightsRule" /><br />
-<input type="submit" name="method_onSetRights"
-  value="User und Rechte setzen">
-<hr>
-<h2>GWiki Download</h2>
-<a href="<gwiki:url value="/admin/WrappOurSelf"/>">Wiki Download</a>
---%>
 
-<h2>Sonstiges</h2>
-<%  MainPage.render(wikiContext); %>
+
 <% wikiContext.skinInclude('standardfoot'); %>
