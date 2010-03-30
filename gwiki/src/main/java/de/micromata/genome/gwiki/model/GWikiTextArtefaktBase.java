@@ -39,6 +39,7 @@ public abstract class GWikiTextArtefaktBase<T extends Serializable> extends GWik
   public boolean renderWithParts(GWikiContext ctx)
   {
     ctx.append(getStorageData());
+    ctx.flush();
     return true;
 
   }
