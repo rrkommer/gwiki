@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.gspt.BodyContentImpl;
 import de.micromata.genome.gwiki.page.gspt.StandAlonePageContext;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.gwiki.web.StandaloneHttpServletRequest;
 import de.micromata.genome.gwiki.web.StandaloneHttpServletResponse;
 
@@ -78,9 +79,26 @@ public class GWikiStandaloneContext extends GWikiContext
     this("/", "/");
   }
 
+  protected static String getContextPath(GWikiWeb wikiWeb, String contextPath)
+  {
+    if (contextPath != null) {
+      return contextPath;
+    }
+    return wikiWeb.getContextPath();
+  }
+
+  protected static String getServletPath(GWikiWeb wikiWeb, String servletPath)
+  {
+    if (servletPath != null) {
+      return servletPath;
+    }
+    return wikiWeb.getServletPath();
+  }
+
   public GWikiStandaloneContext(GWikiWeb wikiWeb, HttpServlet servlet, String contextPath, String servletPath)
   {
-    super(wikiWeb, servlet, new StandaloneHttpServletRequest(contextPath, servletPath), new StandaloneHttpServletResponse());
+    super(wikiWeb, servlet, new StandaloneHttpServletRequest(getContextPath(wikiWeb, contextPath), getServletPath(wikiWeb, servletPath)),
+        new StandaloneHttpServletResponse());
     ServletContext servletContext = null;
     if (servlet != null) {
       servletContext = servlet.getServletContext();
@@ -96,6 +114,14 @@ public class GWikiStandaloneContext extends GWikiContext
     this(wikiContext.getWikiWeb(), wikiContext.getServlet(), wikiContext.getRequest().getContextPath(), wikiContext.getRequest()
         .getServletPath());
 
+  }
+
+  public static GWikiStandaloneContext create()
+  {
+    GWikiWeb wikiWeb = GWikiWeb.getWiki();
+    GWikiStandaloneContext ctx = new GWikiStandaloneContext(wikiWeb, GWikiServlet.INSTANCE, wikiWeb.getContextPath(), wikiWeb
+        .getServletPath());
+    return ctx;
   }
 
   public HttpSession getSession(boolean create)
