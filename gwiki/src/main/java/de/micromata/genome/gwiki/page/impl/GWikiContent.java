@@ -18,12 +18,18 @@
 
 package de.micromata.genome.gwiki.page.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChunkMacro;
 
 /**
  * Content of an elemenent.
@@ -52,8 +58,41 @@ public class GWikiContent extends GWikiFragmentChildContainer
     return new GWikiContent(this);
   }
 
+  public boolean renderChunk(GWikiContext ctx, String chunkName)
+  {
+    Map<String, String> attrMap = new HashMap<String, String>();
+    Locale loc = ctx.getWikiWeb().getAuthorization().getCurrentUserLocale(ctx);
+    String lang = loc.getLanguage();
+    attrMap.put("name", chunkName + ":" + lang);
+    GWikiCollectMacroFragmentVisitor v = new GWikiCollectMacroFragmentVisitor("chunk", attrMap);
+    this.iterate(v);
+    if (v.getFound().isEmpty() == true) {
+      attrMap.put("name", chunkName);
+      v = new GWikiCollectMacroFragmentVisitor("chunk", attrMap);
+      this.iterate(v);
+      if (v.getFound().isEmpty() == true) {
+        return true;
+      }
+    }
+    for (GWikiFragment frag : v.getFound()) {
+      GWikiFragmentChildsBase child = (GWikiFragmentChildsBase) frag;
+      child.renderChilds(ctx);
+    }
+    if (RenderModes.InMem.isSet(ctx.getRenderMode()) == false) {
+      ctx.flush();
+    }
+    return true;
+  }
+
   public boolean render(GWikiContext ctx)
   {
+    Object chunk = ctx.getRequestParameter(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK);
+    if (chunk == null) {
+      chunk = ctx.getRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK);
+    }
+    if (chunk instanceof String) {
+      return renderChunk(ctx, (String) chunk);
+    }
     for (GWikiFragment f : childs) {
       if (f.render(ctx) == false)
         return false;

@@ -121,6 +121,17 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
     return getCompiledObject() != null;
   }
 
+  public boolean renderChunk(final GWikiContext ctx, String chunkName)
+  {
+    ctx.setRequestAttribute("gwikichunk", chunkName);
+    return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {
+      public Boolean call()
+      {
+        return renderWithParts(ctx);
+      }
+    });
+  }
+
   public boolean renderWithParts(final GWikiContext ctx)
   {
 

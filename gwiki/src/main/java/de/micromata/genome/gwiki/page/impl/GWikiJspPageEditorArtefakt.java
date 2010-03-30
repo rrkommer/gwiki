@@ -64,7 +64,7 @@ public class GWikiJspPageEditorArtefakt extends GWikiCodePageEditorArtefakt
     try {
       jspPage.compile(ctx);
     } catch (Throwable ex) {
-      ctx.addSimpleValidationError("Failure to compile JSP: " + getCompileError(ex));
+      ctx.addValidationError("gwiki.artefakt.jsppage.message.compileerror", getCompileError(ex));
     }
   }
 
