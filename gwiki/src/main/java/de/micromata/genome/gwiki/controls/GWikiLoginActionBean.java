@@ -45,13 +45,13 @@ public class GWikiLoginActionBean extends ActionBeanBase
   public Object onLogin()
   {
     if (StringUtils.isBlank(user) == true || StringUtils.isBlank(password) == true) {
-      wikiContext.addSimpleValidationError("Sowohl Nutzer als auch Passwort sind erforderlich");
+      wikiContext.addValidationError("gwiki.page.admin.Login.message.userandpasswordneeded");
       return null;
     }
 
     boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(password));
     if (success == false) {
-      wikiContext.addSimpleValidationError("Unbekannter Nutzer oder Passwort");
+      wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
       return null;
     }
     if (StringUtils.isBlank(pageId) == false) {

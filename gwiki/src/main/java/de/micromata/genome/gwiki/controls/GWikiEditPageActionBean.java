@@ -248,7 +248,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   protected boolean initElement()
   {
     if (newPage == false && pageId == null) {
-      wikiContext.addSimpleValidationError("keine PageID gesetzt");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.nopageidset");
       newPage = true;
       return false;
     }
@@ -259,7 +259,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         elementToEdit = getWikiContext().getWikiWeb().getStorage().loadElement(ei);
       }
       if (elementToEdit == null) {
-        wikiContext.addSimpleValidationError("Page to edit cannot be found: " + pageId);
+        wikiContext.addValidationError("gwiki.edit.EditPage.message.pagenotfound", pageId);
         return false;
       }
       metaTemplate = elementToEdit.getMetaTemplate();
@@ -289,7 +289,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       return false;
     }
     if (metaTemplate == null) {
-      wikiContext.addSimpleValidationError("Kann zu dem Element(typ) kein MetaTemplate ermitteln werden");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.nometatemplate");
       return false;
     }
     if (elementToEdit instanceof GWikiAttachment) {
@@ -398,7 +398,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     saveParts();
     if (StringUtils.isBlank(title) == true) {
-      wikiContext.addSimpleValidationError("Titel darf nicht leer sein");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.titlemustnotempty");
       return null;
     }
     if (StringUtils.isEmpty(pageId) == true) {
@@ -466,7 +466,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     GWikiWeb wikiWeb = getWikiContext().getWikiWeb();
     for (GWikiElementInfo ei : wikiWeb.getPageInfos().values()) {
       if (StringUtils.equals(ei.getParentId(), elementToEdit.getElementInfo().getId()) == true) {
-        wikiContext.addSimpleValidationError("Seite kann nicht gelöscht werden, da noch Childs darauf verweisen (" + ei.getId() + ")");
+        wikiContext.addValidationError("gwiki.edit.EditPage.message.cannotdeletebecausechilds", ei.getId());
         break;
       }
     }
@@ -486,7 +486,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     saveParts();
 
     if (StringUtils.isBlank(title) == true) {
-      wikiContext.addSimpleValidationError("Titel darf nicht leer sein");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.titlemustnotempty");
       return null;
     }
     if (newPage == true) {
@@ -497,7 +497,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       return null;
     }
     if (elementToEdit == null) {
-      wikiContext.addSimpleValidationError("Kein Preview möglich");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.previewnotpossible");
       return null;
     }
     if (wikiContext.hasValidationErrors() == true) {
@@ -529,7 +529,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     initBackup();
     if (backupElementInfo == null) {
-      wikiContext.addSimpleValidationError("No backup available");
+      wikiContext.addValidationError("gwiki.edit.EditPage.message.nobackupavailable");
       return onInit();
     }
     GWikiElement backupElement = wikiContext.getWikiWeb().getDaoContext().getStorage().loadElement(backupElementInfo);
