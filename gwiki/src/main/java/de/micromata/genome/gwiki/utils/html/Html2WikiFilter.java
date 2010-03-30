@@ -491,9 +491,11 @@ public class Html2WikiFilter extends DefaultFilter
       createThTd(element, attributes);
     } else if (en.equals("td") == true) {
       createThTd(element, attributes);
-    } else if (supportedHtmlTags.contains(en) == true) {
-      parseContext.addFragment(convertToBodyMacro(element, attributes, 0));
-      parseContext.pushFragList();
+    } else {
+      if (supportedHtmlTags.contains(en) == true) {
+        parseContext.addFragment(convertToBodyMacro(element, attributes, 0));
+        parseContext.pushFragList();
+      }
     }
     super.startElement(element, attributes, augs);
   }
