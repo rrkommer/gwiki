@@ -5,7 +5,7 @@
 <gwiki:errors />
 <div>
 <p>
-Zur&uuml;ck: <gwiki:link pageId="${form.pageId}"/>
+<fmt:message key="gwiki.page.edit.PageInfo.link.back"/> <gwiki:link pageId="${form.pageId}"/>
 </p>
 
 <form method="post">
