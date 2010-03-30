@@ -65,6 +65,29 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>include</name>
+		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiIncludeTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			Include content of a wiki page or parts.
+    </description>
+		<attribute>
+			<name>pageId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>part</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>chunk</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>errors</name>
 		<tag-class>de.micromata.genome.gwiki.page.impl.actionbean.GWikiErrorsTag</tag-class>
 		<body-content>empty</body-content>
