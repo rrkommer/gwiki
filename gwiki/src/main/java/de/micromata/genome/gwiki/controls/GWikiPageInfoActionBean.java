@@ -165,7 +165,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
         ta.nest(li(code(wikiContext.renderLocalUrl(url))));
       }
     }
-    return getBoxFrame("Ausgehende Links", ta).toString();
+    return getBoxFrame(translate("gwiki.page.edit.PageInfo.outlinks.title"), ta).toString();
   }
 
   public String buildAttachmentsBox()
@@ -184,10 +184,10 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     XmlElement ta = getStandardTable();
     ta.nest(//
         tr(//
-            th(text("Name")), //
-            th(text("Size")), //
-            th(text("Version")), //
-            th(text("Action")) //
+            th(text(translate("gwiki.page.edit.PageInfo.attachment.label.name"))), //
+            th(text(translate("gwiki.page.edit.PageInfo.attachment.label.size"))), //
+            th(text(translate("gwiki.page.edit.PageInfo.attachment.label.version"))), //
+            th(text(translate("gwiki.page.edit.PageInfo.attachment.label.action"))) //
         )//
         );
     for (GWikiElementInfo ce : childs) {
@@ -196,25 +196,30 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
           tr(//
               td(code(wikiContext.renderLocalUrl(ce.getId()))), //
               td(text(ce.getProps().getStringValue(GWikiPropKeys.SIZE, "-1"))), //
-              td(text("Modified at: " + wikiContext.getUserDateString(ce.getModifiedAt()) + " by " + ce.getModifiedBy())),
-              // TODO last user/modified
+              td(text(translate("gwiki.page.edit.PageInfo.attachment.label.versioninfo", wikiContext.getUserDateString(ce.getModifiedAt()),
+                  ce.getModifiedBy()))),
+
               td(//
-                  a(attrs("href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam), text("Edit")),//
+                  a(attrs("href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam),
+                      text(translate("gwiki.page.edit.PageInfo.attachment.label.edit"))),//
                   // br(), //
                   a(attrs("href", wikiContext.localUrl("/edit/EditPage")
                       + "?pageId="
                       + ce.getId()
                       + "&method_onDelete=true&"
-                      + backUrlParam), text("Delete")), //
-                  // br(), //
-                  a(attrs("href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()), text("Info")) //
+                      + backUrlParam), text(translate("gwiki.page.edit.PageInfo.attachment.label.delete")), //
+                      // br(), //
+                      a(attrs("onclick", "return confirm('"
+                          + translate("gwiki.page.edit.PageInfo.attachment.message.deleteconfirm")
+                          + "');", "href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
+                          text(translate("gwiki.page.edit.PageInfo.attachment.label.info")))) //
               )//
           ) //
           );
 
     }
 
-    return getBoxFrame("Attachments", addNode, ta).toString();
+    return getBoxFrame(translate("gwiki.page.edit.PageInfo.attachment.title"), addNode, ta).toString();
   }
 
   protected String buildBaseInfo()
@@ -228,37 +233,38 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
           element("form", //
               element("input", attrs("type", "text", "size", "50", "value", StringEscapeUtils.escapeXml(elementInfo.getId()), "name",
                   "newPageId")), br(), //
-              element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onRename", "value", "Rename")),//
+              element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onRename", "value",
+                  translate("gwiki.page.edit.PageInfo.info.button.rename"))),//
               element("script", code("")) //
           ));
     }
     ta.nest(//
         tr(//
-            th(text("PageId:")),// 
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.pageId"))),// 
             td(text(elementInfo.getId()), changeId) //
         ), //
         tr(//
-            th(text("Titel:")),// 
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.title"))),// 
             td(text(wikiContext.getTranslatedProp(elementInfo.getTitle()))) //
         ), //
         tr( //
-            th(text("Autor:")), //
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.author"))), //
             td(text(elementInfo.getProps().getStringValue(CREATEDBY)))//
         ), //
         tr(//
-            th(text("Erstellt:")), //
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.createdat"))), //
             td(text(getDisplayDate(elementInfo.getProps().getDateValue(CREATEDAT)))) //
         ), //
         tr( //
-            th(text("Letzter Editor:")), //
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.modifiedby"))), //
             td(text(elementInfo.getProps().getStringValue(MODIFIEDBY)))//
         ), //
         tr(//
-            th(text("Letzte Änderung:")), //
+            th(text(translate("gwiki.page.edit.PageInfo.info.label.modifiedat"))), //
             td(text(getDisplayDate(elementInfo.getProps().getDateValue(MODIFIEDAT)))) //
         ) //
         );
-    return getBoxFrame("Informationen", ta).toString();
+    return getBoxFrame(translate("gwiki.page.edit.PageInfo.info.title"), ta).toString();
   }
 
   protected String loadVersionInfos()
@@ -274,15 +280,16 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     });
     versionInfos.add(0, elementInfo);
     // versionInfos.add(0, elementInfo);
-    XmlElement cmd = element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onCompare", "value", "Compare"));
+    XmlElement cmd = element("input", attrs("type", "submit", "class", "gwikiButton main", "name", "method_onCompare", //
+        "value", translate("gwiki.page.edit.PageInfo.version.button.compare")));
 
     XmlElement ta = getStandardTable();
     ta.nest(//
         tr(//
             th(code("&nbsp;")), //
-            th(text("Author")), //
-            th(text("Zeit")), //
-            th(text("Action")) //
+            th(text(translate("gwiki.page.edit.PageInfo.version.label.author"))), //
+            th(text(translate("gwiki.page.edit.PageInfo.version.label.time"))), //
+            th(text(translate("gwiki.page.edit.PageInfo.version.label.action"))) //
         )//
         );
     for (GWikiElementInfo ei : versionInfos) {
@@ -293,19 +300,19 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
               td(text(StringUtils.defaultString(ei.getProps().getStringValue(MODIFIEDBY), "Unknown"))), //
               td(text(getDisplayDate(ei.getProps().getDateValue(MODIFIEDAT)))), //
               td(//
-                  a(attrs("href", wikiContext.localUrl(ei.getId())), text("Ansehen")), //
+                  a(attrs("href", wikiContext.localUrl(ei.getId())), text(translate("gwiki.page.edit.PageInfo.version.button.view"))), //
                   ei == elementInfo ? nbsp() : a(attrs("href", wikiContext.localUrl("edit/PageInfo")
                       + "?restoreId="
                       + ei.getId()
                       + "&pageId="
                       + pageId
                       + "&method_onRestore=true"), //
-                      text("Wiederherstellen")//
+                      text(translate("gwiki.page.edit.PageInfo.version.button.restore"))//
                       )) //
           ));
     }
     XmlElement np = Html.p(cmd, Html.br(), ta);
-    return getBoxFrame("Versionen", np).toString();
+    return getBoxFrame(translate("gwiki.page.edit.PageInfo.version.title"), np).toString();
   }
 
   protected boolean showInfo(String boxName)
@@ -319,12 +326,12 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   protected void initialize()
   {
     if (StringUtils.isEmpty(pageId) == true) {
-      wikiContext.addSimpleValidationError("PageId not set");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.pageIdNotSet");
       return;
     }
     elementInfo = wikiContext.getWikiWeb().findElementInfo(pageId);
     if (elementInfo == null) {
-      wikiContext.addSimpleValidationError("Cannot find PageId: " + pageId);
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.cannotFindPageId", pageId);
       return;
     }
     if (showInfo("BaseInfo") == true) {
@@ -357,12 +364,12 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   {
     initialize();
     if (StringUtils.isEmpty(restoreId) == true) {
-      wikiContext.addSimpleValidationError("No pageId to restore");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.noPageIdToRestore");
       return null;
     }
     GWikiElement rei = wikiContext.getWikiWeb().findElement(restoreId);
     if (rei == null) {
-      wikiContext.addSimpleValidationError("pageId cannot be found: " + restoreId);
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.cannotFindRestorePageId", restoreId);
       return null;
     }
     wikiContext.getWikiWeb().restoreWikiPage(wikiContext, rei);
@@ -374,12 +381,12 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   {
     if (compareVersions == null) {
       initialize();
-      wikiContext.addSimpleValidationError("no version selected to compare");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.noversionforcompare");
       return null;
     }
     if (compareVersions.length != 2) {
       initialize();
-      wikiContext.addSimpleValidationError("select two versions to compare");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.selecttwoversionsforcompare");
       return null;
     }
     String rd = "/edit/ComparePages"
@@ -398,21 +405,21 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     wikiContext.ensureAllowTo(GWikiAuthorizationRights.GWIKI_DELETEPAGES.name());
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
     if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementInfo) == false) {
-      wikiContext.addSimpleValidationError("Insufficent right to rename elementInfo");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.norighttorename");
       return null;
     }
     if (StringUtils.isBlank(newPageId) == true) {
-      wikiContext.addSimpleValidationError("New PageId is empty");
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.renamenonewpageid");
       return null;
     }
     GWikiElementInfo ti = wikiContext.getWikiWeb().findElementInfo(newPageId);
     if (ti != null) {
-      wikiContext.addSimpleValidationError("Target pageId already exists: " + newPageId);
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.renameTargetExists", newPageId);
       return null;
     }
     for (GWikiElementInfo ci : childs) {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, ci) == false) {
-        wikiContext.addSimpleValidationError("Insufficent right to change child: " + ci.getId());
+        wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.norighttochangechild", ci.getId());
         return null;
       }
     }
