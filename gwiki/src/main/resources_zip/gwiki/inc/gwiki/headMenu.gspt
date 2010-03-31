@@ -54,10 +54,10 @@
              <li></li>  
            	</gwiki:authorize>
            	<% if (de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization.isOwnUser(wikiContext) == true) { %>
-           	<li><gwiki:link pageId="edit/UserProfile" urlParams="?backUrl=${wikiPage.elementInfo.id}" title="Profil" /></li>
+           	<li><gwiki:link pageId="edit/UserProfile" urlParams="?backUrl=${wikiPage.elementInfo.id}" /></li>
            	<% } %>
            	<li></li>  
-             <li><gwiki:link title="Logout" pageId="admin/Logout"/></li>  
+             <li><gwiki:link pageId="admin/Logout"/></li>  
            </ul>  
        </li>  
        </gwiki:authorize>
@@ -70,12 +70,12 @@
            	<li><gwiki:link pageId="edit/ListUsers" /></li>
            	<li></li> 
            	<li><gwiki:link pageId="edit/PageImporter" /></li>
-           	<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="Seiten Exportieren"/></li>
+           	<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="I{gwiki.page.AllPages.menu.export}"/></li>
            	<li><gwiki:link pageId="edit/DeletedPages"/></li>
            	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
-           	<li><gwiki:link title="WikiConfig" pageId="edit/EditPage" urlParams="?pageId=admin/config/GWikiConfig"/></li>
+           	<li><gwiki:link pageId="edit/EditPage" urlParams="?pageId=admin/config/GWikiConfig" title="WikiConfig"/></li>
        			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
-       				<li><a target="_blank" href="<gwiki:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
+       				<li><a target="_blank" href="<gwiki:url value="/dav/"/>"><fmt:message key="gwiki.page.AllPages.menu.webdav"/></a></li>
        			</gwiki:authorize>
            </ul>  
           </li>
