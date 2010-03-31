@@ -23,7 +23,8 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
 	<gwiki:link pageId="${wikiContext.wikiElement.elementInfo.parentId}"/>
 	<hr></hr>
 	<%
-	directChilds = wikiContext.getElementFinder().getDirectChilds(wikiPage.elementInfo.getParent(wikiContext));
+	directChilds = wikiContext.getElementFinder().getPageDirectPages(wikiPage.elementInfo.getParentId());
+	
 	for (child in directChilds) {
 		wikiContext.append(wikiContext.renderLocalUrl(child.id, null, null) + "<br/>");	
 	}
