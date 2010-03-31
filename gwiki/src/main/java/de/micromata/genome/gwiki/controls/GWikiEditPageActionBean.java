@@ -328,11 +328,13 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   {
     if (newPage == true) {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementToEdit.getElementInfo()) == false) {
-        throw new AuthorizationFailedException("Page cannot be created: " + elementToEdit.getMetaTemplate().getElementType());
+        throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannotcreatepage", elementToEdit.getMetaTemplate()
+            .getElementType()));
       }
     } else {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementToEdit.getElementInfo()) == false) {
-        throw new AuthorizationFailedException("Page cannot be edited: " + elementToEdit.getMetaTemplate().getElementType());
+        throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannoteditpage", elementToEdit.getMetaTemplate()
+            .getElementType()));
       }
     }
   }

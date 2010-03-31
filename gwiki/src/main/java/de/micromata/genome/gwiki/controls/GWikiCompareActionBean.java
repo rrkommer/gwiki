@@ -321,7 +321,7 @@ public class GWikiCompareActionBean extends ActionBeanBase
     switch (diffset.getStatus()) {
       case Incompatible:
         sb.append("<h3>").append(esc(name)).append("</h3>\n");
-        sb.append("Cannot compare because incompatible");
+        sb.append(translate("gwiki.page.edit.Compare.message.cannotcompare"));
         break;
       case Unsupported:
         // sb.append("Cannot compare because format ist not supported");
@@ -345,26 +345,24 @@ public class GWikiCompareActionBean extends ActionBeanBase
   public Object onInit()
   {
     if (StringUtils.isEmpty(leftPageId) == true || StringUtils.isEmpty(rightPageId) == true) {
-      wikiContext.addSimpleValidationError("Left or right pageId is not set");
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftorrightpageidnotset");
       return null;
     }
     leftEl = wikiContext.getWikiWeb().findElement(leftPageId);
     rightEl = wikiContext.getWikiWeb().findElement(rightPageId);
     if (leftEl == null) {
-      wikiContext.addSimpleValidationError("Cannot find left pageId: " + leftPageId);
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftpageidnotfound", leftPageId);
     }
     if (rightEl == null) {
-      wikiContext.addSimpleValidationError("Cannot find right pageId: " + rightPageId);
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.rightpageidnotfound", rightPageId);
     }
     if (wikiContext.hasValidationErrors() == true) {
       return null;
     }
     if (StringUtils.equals(rightEl.getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE), leftEl.getElementInfo()
         .getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)) == false) {
-      wikiContext.addSimpleValidationError("Can only compare elements with same meta template. Left: "
-          + leftEl.getElementInfo().getMetaTemplate().getPageId()
-          + "; Right: "
-          + leftEl.getElementInfo().getMetaTemplate().getPageId());
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.canonlycompareequalmetas", leftEl.getElementInfo().getMetaTemplate()
+          .getPageId(), leftEl.getElementInfo().getMetaTemplate().getPageId());
       return null;
     }
     diffSets = buildElDiffset();

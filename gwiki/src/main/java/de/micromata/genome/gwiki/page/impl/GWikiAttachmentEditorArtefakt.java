@@ -103,14 +103,14 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
         data = bout.toByteArray();
         attachment.setStorageData(data);
       } catch (IOException ex) {
-        ctx.addSimpleValidationError("Failed to upload: " + ex.getMessage());
+        ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", ex.getMessage());
       }
     } else {
       FileSystem fs = ctx.getWikiWeb().getStorage().getFileSystem();
       byte[] data = fs.readBinaryFile(appletTmpFileName);
       if (data == null || data.length == 0) {
         if (attachment.getStorageData() == null) {
-          ctx.addSimpleValidationError("no data to upload/empty file");
+          ctx.addValidationError("gwiki.edit.EditPage.attach.message.nouploaddata");
         }
         return;
       }
@@ -119,6 +119,11 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     if (attachment.getStorageData() != null) {
       elementToEdit.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, attachment.getStorageData().length);
     }
+  }
+
+  private String translate(GWikiContext ctx, String key)
+  {
+    return ctx.getWikiWeb().getI18nProvider().translate(ctx, key);
   }
 
   public boolean renderWithParts(GWikiContext ctx)
@@ -182,19 +187,27 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     }
     html.append("</span><br/>") //
     ;
-    html.append(Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(Xml.text("Upload new file via standard file upload")))//
+
+    html.append(
+        Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
+            Xml.text(translate(ctx, "Ugwiki.edit.EditPage.attach.message.nouploaddata"))))//
         .append("<br/>")//
-        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(Xml.text("Upload new File via applet upload"))) //
+        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()"))//
+            .nest(Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.uploadviaapplet")))) //
         .append("</div>") //
     ;
     html.append("<div id=\"gwikiattappfrm\" >\n")//
-        .append(Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(Xml.text("Switch to standard file upload"))) //
+        .append(
+            Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
+                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
         .append("<div id=\"gwikiattpapplet\">&nbsp;</div>") //
         .append("</div>\n") //
         .append("<div id=\"gwikiattstd\">\n") //
         .append(Html.input(Xml.attrs("type", "file", "value", value, "name", partName + ".attachment"))) //
         .append("<br/>\n") //
-        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(Xml.text("Switch to applet upload"))) //
+        .append(
+            Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(
+                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
     ;
     if (attmentExists == true) {
       html.append("<script type=\"text/javascript\">switchFileExists();</script>\n");

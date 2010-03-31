@@ -79,7 +79,7 @@ public class GWikiDeletedPagesActionBean extends ActionBeanBase
   public Object onViewItem()
   {
     if (StringUtils.isEmpty(pageId) == true) {
-      wikiContext.addSimpleValidationError("No pageId selected");
+      wikiContext.addValidationError("gwiki.page.edit.DeletedPages.message.pageidnotset");
       list = true;
       return null;
     }
@@ -95,9 +95,9 @@ public class GWikiDeletedPagesActionBean extends ActionBeanBase
     XmlElement ta = GWikiPageInfoActionBean.getStandardTable();
     ta.nest(//
         tr(//
-            th(text("Author")), //
-            th(text("Zeit")), //
-            th(text("Action")) //
+            th(text(translate("gwiki.page.edit.DeletedPages.col.author"))), //
+            th(text(translate("gwiki.page.edit.DeletedPages.col.time"))), //
+            th(text(translate("gwiki.page.edit.DeletedPages.col.action"))) //
         )//
         );
     for (GWikiElementInfo ei : versionsInfos) {
@@ -107,14 +107,14 @@ public class GWikiDeletedPagesActionBean extends ActionBeanBase
               td(text(StringUtils.defaultString(ei.getProps().getStringValue(GWikiPropKeys.MODIFIEDBY), "Unknown"))), //
               td(text(getDisplayDate(ei.getProps().getDateValue(GWikiPropKeys.MODIFIEDAT)))), //
               td(//
-                  a(attrs("href", wikiContext.localUrl(ei.getId())), text("Ansehen")), //
+                  a(attrs("href", wikiContext.localUrl(ei.getId())), text(translate("gwiki.page.edit.DeletedPages.link.view"))), //
                   a(attrs("href", wikiContext.localUrl("edit/PageInfo")
                       + "?restoreId="
                       + ei.getId()
                       + "&pageId="
                       + pageId
                       + "&method_onRestore=true"), //
-                      text("Wiederherstellen")//
+                      text(translate("gwiki.page.edit.DeletedPages.link.restore"))//
                   )) //
           ));
     }

@@ -153,7 +153,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         }
       }
       if (ids.size() == 0) {
-        wikiContext.append("Keine Elemente ausgew&auml;hlt").flush();
+        wikiContext.append("No elements selected/Keine Elemente ausgew&auml;hlt").flush();
         return noForward();
       }
       // TODO gwiki parentIds patchen!
@@ -209,7 +209,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
   protected QueryResult query()
   {
     if (StringUtils.isBlank(tmpDirName) == true) {
-      writeXmlErrorResponse("Keine Dateien gefunden");
+      writeXmlErrorResponse("No data found");
       return null;
     }
     String searchExpr = "";

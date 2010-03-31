@@ -130,7 +130,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     String reqValue = pct.getPropsValue();
     if (pct.getPropDescriptor().isRequiresValue() == true) {
       if (StringUtils.isBlank(reqValue) == true) {
-        pct.addSimpleValidationError("Property Wert " + pct.getPropName() + " muss einen Wert haben");
+        pct.getWikiContext().addValidationError("gwiki.edit.EditPage.message.propmusthavevalue", pct.getPropName());
       }
     }
   }
