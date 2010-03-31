@@ -237,6 +237,14 @@ def onRender(pct)
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="CHILDORDER" />
+					<property name="label" value="I{gwiki.settings.CHILDORDER.label}" />
+					<property name="description" value="I{gwiki.settings.CHILDORDER.description}" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="STRINGLIST" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKIMETATEMPLATE" />
 					<property name="label" value="I{gwiki.settings.WIKIMETATEMPLATE.label}" />
 					<property name="description" value="I{gwiki.settings.WIKIMETATEMPLATE.description}" />

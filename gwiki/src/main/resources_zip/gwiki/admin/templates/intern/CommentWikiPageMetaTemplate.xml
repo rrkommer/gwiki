@@ -6,6 +6,7 @@
 		singleton="false">
 		<property name="elementType" value="gwiki" />
 		<property name="noToc" value="true" />
+		<property name="noNewPage" value="true"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
