@@ -20,13 +20,13 @@ def showNextPrevious(wikiContext, form) {	%>
 	<table border="0" width="100%"><tr>
 	<td align="left">
 	<% if (form.searchOffset > 0) { %>
-		<a href="javascript:submitPrevSearch();">Zur&uuml;ck</a>
+		<a href="javascript:submitPrevSearch();"><fmt:message key="gwiki.page.edit.Search.link.back"/></a>
 	<% } else { %>
 		&nbsp;
 	<%  } %>
 	</td><td align="right">
 	<% if (form.totalFound > form.searchOffset + form.pageSize) { %>
-		<a href="javascript:submitNextSearch();">Weiter</a>
+		<a href="javascript:submitNextSearch();"><fmt:message key="gwiki.page.edit.Search.link.next"/></a>
 	<% } else { %>
 	&nbsp;
 	<% } %>
@@ -38,15 +38,15 @@ def showNextPrevious(wikiContext, form) {	%>
 <gwiki:errors />
 
 <c:if test="${form.backUrl != null}">
-	Zur&uuml;ck zu: <gwiki:link pageId="${form.backUrl}"/>
+	<fmt:message key="gwiki.page.edit.Search.link.backtopage"/> <gwiki:link pageId="${form.backUrl}"/>
 </c:if>
 <table>
 <tr><td>
 
 <form id="SearchForm" method="POST">
-Suchausdruck:  
+<fmt:message key="gwiki.page.edit.Search.label.searchexpression"/>  
 <gwiki:text size="40" property="searchExpression" />&nbsp;
-<input type="submit"	name="method_onSearch" value="Suchen" />
+<input class="gwikiButton main" type="submit"	name="method_onSearch" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" />
 <gwiki:hidden styleId='searchOffset' property="searchOffset"/>
 <gwiki:hidden styleId='pageSize' property="pageSize"/>
 <input type="hidden" id="formmethod" name=""/>
@@ -63,7 +63,13 @@ Suchausdruck:
 	<c:forEach var="sr" items="${form.foundPages}">
 	<% sr = wikiContext.pageContext.getAttribute('sr'); %>
 	<div style="float:right; width: auto; border-bottom: 1px solid rgb(0, 0, 0); -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">
-	<small><%= wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()) + " von " +  sr.elementInfo.getModifiedBy() %></small>
+	<% pageContext.setAttribute("modat", wikiContext.getUserDateString(sr.elementInfo.getModifiedAt()));
+		pageContext.setAttribute("modby",  sr.elementInfo.getModifiedBy());
+	%>
+	<small><fmt:message key="gwiki.page.edit.Search.label.modatby">
+		<fmt:param value="${modat}"/>
+		<fmt:param value="${modby}"/>
+	</fmt:message></small>
 	</div>
 		<h2><gwiki:link pageId="${sr.pageId}" urlParams="${form.pageUrlArgs}"/><span style="font-size:50%;font-weight:lighter"><br/>(<gwiki:link pageId="${sr.pageId}" urlParams="${form.pageUrlArgs}" title="${sr.pageId}"/>)</span></h2>
 		
