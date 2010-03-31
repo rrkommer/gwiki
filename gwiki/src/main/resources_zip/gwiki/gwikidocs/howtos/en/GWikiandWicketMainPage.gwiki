@@ -1,0 +1,122 @@
+{pageintro}
+How to make useage of  GWiki with the Apache Wicket Framework.
+{pageintro}
+h2. Intro
+GWiki and Wicket can be combined to make parts of normal Wicket applications editable online.
+- Use GWiki Internationalization
+- Use GWiki Fragments to embedd editable parts in the Wicket page
+- Use GWiki to manage HTML files used by Wicket as template to render the view.
+
+
+h2. Configuration
+You need the gwiki-wicket sample web/jar.
+
+Create a normal web application with GWiki Servlet and Wicket filter.
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+	version="2.4">
+	<display-name>Genome Wicket Sample</display-name>
+	
+	<filter>
+		<filter-name>HelloWorldApplication</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationClassName</param-name>
+			<param-value>de.micromata.genome.gwiki.sample.wicket.HelloWorldApplication</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>HelloWorldApplication</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>WikiService</servlet-name>
+		<servlet-class>de.micromata.genome.gwiki.web.GWikiServlet
+		</servlet-class>
+		<init-param>
+			<!--  Register class, loading the GWikiDAOContext -->
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className
+			</param-name>
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>servletPath</param-name>
+			<param-value>/gwiki</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextPath</param-name>
+			<param-value>/gwiki-wicket</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>WikiService</servlet-name>
+		<url-pattern>/gwiki/*</url-pattern>
+	</servlet-mapping>
+</web-app>
+{code}
+
+h2. Internationalization
+
+In your application class - in the sample above {{HelloWorldApplication}} add following initialization:
+{code}
+public class HelloWorldApplication extends WebApplication
+{
+//...
+  @Override
+  protected void init()
+  {
+
+    getResourceSettings().setLocalizer(new GWikiLocalizer("edit/StandardI18n"));
+    ///...
+  }
+}
+{code}
+The GWikiLocalizer accepts multiple localization pageIds.
+If an key cannot be found in the GWiki, {{GWikiLocalizer}} delegates to the Wicket Localizer.
+
+h2. Using Fragments inside Wicket
+To use HTML fragments inside Wicket, which are served from the GWiki, you can use the GWikiLabel class.
+{code}
+public class HelloWorld extends WebPage
+{
+  /// ...
+  public HelloWorld()
+  {
+    add(new GWikiLabel("text", "home/rkommer/WikiFragmentBeispiel"));
+  }
+}
+{code}
+Inside the HTML Template just define:
+{code}
+<html>
+<body>
+    <span wicket:id="text" id="text">This text will be replaced by the GWiki Page</span>
+</body>
+</html>
+{code}
+
+h2. Provide Wicket HTML Templates by GWiki
+The HTML templates used by Wicket normally are stored in the class path of the controler class.
+To manage and edit these HTML files with GWiki you can overwrite the resolving of these resources
+in the init method of Application class:
+
+{code}
+public class HelloWorldApplication extends WebApplication
+{
+//...
+  @Override
+  protected void init()
+  {
+    final IResourceStreamLocator oldResLoc = getResourceSettings().getResourceStreamLocator();
+    getResourceSettings().setResourceStreamLocator(new GWikiResourceStreamLocator(oldResLoc));
+    ///...
+  }
+}
+{code}
+TODO describe creating page.
