@@ -1,15 +1,14 @@
 <% wikiContext.skinInclude("standardhead"); %>
-
+<@include file="inc/stdtags.gspt" @> 
 
 <gwiki:errors />
 
-<p>Es ist ein interner Fehler entstanden.</p>
-<p>Bitte wenden Sie sich an Ihren Adminstrator.</p>
+<p><fmt:message key="gwiki.page.admin.InternalError.text.main"/></p>
 <% if (wikiContext.wikiWeb.wikiConfig.showErrorStackTrace() == true) {
 		Throwable ex = wikiContext.getRequest().getAttribute("exception");
 		
 %>
-<h2>Stacktrace</h2>
+<h2><fmt:message key="gwiki.page.admin.InternalError.label.stacktrace"/></h2>
 <pre>
 	<%= de.micromata.genome.gwiki.utils.ThrowableUtils.getExceptionStacktraceForHtml(ex) %>
 </pre>
