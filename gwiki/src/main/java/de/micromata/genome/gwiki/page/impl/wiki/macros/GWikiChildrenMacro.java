@@ -224,7 +224,8 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     } else if (StringUtils.equalsIgnoreCase(sort, "modifiedat") == true) {
       Collections.sort(cl, new GWikiElementByOrderComparator(new GWikiElementByPropComparator("MODIFIEDAT")));
     } else {
-      Collections.sort(cl, new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator("ORDER", 0)));
+      Collections.sort(cl, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+          "ORDER", 0))));
     }
 
     if (cl.isEmpty() == true)

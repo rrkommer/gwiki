@@ -19,12 +19,16 @@
 package de.micromata.genome.gwiki.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.matcher.GWikiViewableMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.util.matcher.AndMatcher;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.matcher.Matcher;
@@ -81,6 +85,8 @@ public class GWikiElementFinder
         new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
             new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)),//
             new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.TYPE, new EqualsMatcher<String>("gwiki")))));
+    Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+        "ORDER", 0))));
     return childs;
   }
 

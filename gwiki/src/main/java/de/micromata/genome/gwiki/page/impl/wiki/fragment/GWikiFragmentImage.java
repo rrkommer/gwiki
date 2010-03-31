@@ -148,8 +148,8 @@ public class GWikiFragmentImage extends GWikiFragementBase
       }
     }
     ctx.append("<img src=\"", ltarget, "\"");
-    if (StringUtils.isNotEmpty(width) == true) {
-      ctx.append(" width=\"", width, "\"");
+    if (StringUtils.isNotEmpty(lwidth) == true) {
+      ctx.append(" width=\"", lwidth, "\"");
     }
     if (StringUtils.isNotEmpty(height) == true) {
       ctx.append(" height=\"", height, "\"");
