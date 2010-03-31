@@ -13,11 +13,13 @@
 	<gwiki:text size="80" property="filterExpression"/>
 	<gwiki:hidden property="withExport"/>
 	<input type="hidden" id="command" name="" value=""/>
+	
 	<input type="hidden" id="filterparams" name="filterparams" value=""/>
-	<input onclick="jQuery('#command').attr('name', '');" type="submit" name="method_onInit" value="Filtern"/>
+	<input class="gwikiButton main" onclick="jQuery('#command').attr('name', '');" type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.AllPages.button.filter"/>"/>
 	<c:if test="${form.withExport == true}">
-	<gwiki:checkbox styleId="withArchive" property="withArchive"/> Mit Archiv<br/>
-	<br/><br/><input type="button" id="doExport" name="" value="Exportieren"></input>
+	<gwiki:checkbox styleId="withArchive" property="withArchive"/><fmt:message key="gwiki.page.AllPages.checkbox.label.witharchive"/><br/>
+	<br/><br/>
+	<input class="gwikiButton " type="button" id="doExport" name="" value="<fmt:message key="gwiki.page.AllPages.button.export"/>"></input>
 </c:if>
 
 </form>
@@ -64,7 +66,15 @@ jQuery(document).ready(function() {
 			{ url:'<gwiki:url value="/edit/ViewAllPages?fields=PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|operations"/>' 
 					+ '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
 				datatype: "xml",
-				colNames:['id', 'pageId', 'Titel', "Typ", "Erstellt von", "Erstellt am","Ge&auml;ndert von", "Ge&auml;ndert am", "Operationen"], 
+				colNames:['<fmt:message key="gwiki.page.AllPages.col.id"/>', 
+				  				'<fmt:message key="gwiki.page.AllPages.col.pageid"/>', 
+				  				'<fmt:message key="gwiki.page.AllPages.col.title"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.type"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.createdby"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.createdat"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.modifiedby"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.modifiedat"/>',
+				  				'<fmt:message key="gwiki.page.AllPages.col.operation"/>' ],
 				colModel:[
 								{name:'id',index:'id', width:12},  
 								{name:'pageId',index:'PAGEID', width:200},
@@ -90,7 +100,7 @@ jQuery(document).ready(function() {
 				//sortname: 'pageId', 
 				viewrecords: true, 
 				//sortorder: "desc", 
-				caption:"Alle Seiten",
+				caption:"<fmt:message key="gwiki.page.AllPages.caption"/>",
 				loadError : function(xhr,st,err) { 
 					 jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
 				}

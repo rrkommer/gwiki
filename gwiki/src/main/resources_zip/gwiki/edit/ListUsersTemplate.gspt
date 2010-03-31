@@ -9,7 +9,7 @@
 <form method="post">
   <a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers"><fmt:message key="gwiki.page.edit.ListUsers.link.createnewuser"/></a><p/>
   <gwiki:text size="80" property="filterExpression"/>
-  <input type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ListUsers.link.filter"/>"/>
+  <input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ListUsers.link.filter"/>"/>
 </form>
 <br/>
 <span id="rsperror" style="color:red"></span> 

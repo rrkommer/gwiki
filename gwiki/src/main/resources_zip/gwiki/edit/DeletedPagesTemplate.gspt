@@ -24,8 +24,8 @@ function viewDelPage(pageId)
 
 <c:when test="${form.list}">
 	
-		Filter pageId: <gwiki:text property="listFilter"/>
-		<input type="submit" name="method_onFilter" value="Find"/>
+		<fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/><gwiki:text property="listFilter"/>
+		<input type="submit" name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
 		<input id="formactionname" type="hidden" name="action"/>
 		
 	<ul>
@@ -35,7 +35,7 @@ function viewDelPage(pageId)
 	</ul>
 </c:when>
 <c:otherwise>
-Page: <c:out value="${form.pageId}"/>
+<fmt:message key="gwiki.page.edit.DeletedPages.label.page"/> <c:out value="${form.pageId}"/>
 <c:out value="${form.versionBox}" escapeXml="false"/>
 </c:otherwise>
 </c:choose>
