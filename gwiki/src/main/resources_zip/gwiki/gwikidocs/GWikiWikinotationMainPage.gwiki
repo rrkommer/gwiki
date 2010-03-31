@@ -275,6 +275,25 @@ oder
 - pageId (oder defaultValue): Name der Zielseite.
 - complete: Es wird nicht nur der Content, bzw. Part MainPage der Seite inkludiert, sondern die kompelette Seite. Standard ist false.
 - partName: Name des Seitenparts. Standard ist "MainPage".
+- chunk: Inkludiert nur die Teile der Wiki-Seite, die mit dem {{chunk}} mit dem entsprechenden Namen geklammert sind.
+
+h3. chunk
+Mit dem Macro {{chunk}} wird ein Bereich der Seite mit einem Namen versehen:
+{noformat}
+{chunk:name=NamedChunk}
+Das ist der Inhalt.
+{chunk}
+{noformat}
+So sieht es aus:
+{chunk:name=NamedChunk}
+Das ist der Inhalt.
+{chunk}
+
+Mittels des include Macros oder JSP-Tag {{gwiki:include}} kann das wieder referenziert werden.
+
+Optionen:
+- name: Name des Chunks
+- noDecoration: default false. Falls true, wird der Chunk in der Seite nicht mit einem <fieldset> umgeben.
 
 h3. HTMLcomment
 Schließt einen Bereich von der Anzeige aus.
