@@ -26,6 +26,9 @@ package de.micromata.genome.gwiki.model;
  */
 public interface GWikiPropKeys
 {
+  /**
+   * Pseudo properties.
+   */
   public static final String PAGEID = "PAGEID";
 
   public static final String TYPE = "TYPE";
@@ -51,6 +54,11 @@ public interface GWikiPropKeys
    * Standard-Ordnung bei der Darstellung der Unterseiten.
    */
   public static final String ORDER = "ORDER";
+
+  /**
+   * List of child elements for ordering.
+   */
+  public static final String CHILDORDER = "CHILDORDER";
 
   public static final String AUTH_VIEW = "AUTH_VIEW";
 

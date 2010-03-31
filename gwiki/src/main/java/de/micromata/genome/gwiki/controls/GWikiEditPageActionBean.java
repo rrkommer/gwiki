@@ -740,6 +740,59 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
   }
 
+  public Object onReorderChildsAsync()
+  {
+    elementToEdit = wikiContext.getWikiWeb().findElement(pageId);
+    if (elementToEdit == null) {
+      return noForward();
+    }
+    checkAccess();
+
+    String page1 = getReqParam("p1");
+    String page2 = getReqParam("p2");
+    if (StringUtils.isEmpty(page1) == true || StringUtils.isEmpty(page2) == true) {
+
+      return noForward();
+    }
+    String prefix = "chid_";
+    if (page1.startsWith(prefix) == true) {
+      page1 = page1.substring(prefix.length());
+    }
+    if (page2.startsWith(prefix) == true) {
+      page2 = page2.substring(prefix.length());
+    }
+    GWikiElementInfo c1 = wikiContext.getWikiWeb().findElementInfo(page1);
+    if (c1 == null) {
+      GWikiLog.note("Cannot find page: " + page1 + " for reordering");
+      return noForward();
+    }
+    GWikiElementInfo c2 = wikiContext.getWikiWeb().findElementInfo(page2);
+    if (c2 == null) {
+      GWikiLog.note("Cannot find page: " + page2 + " for reordering");
+      return noForward();
+    }
+    if (StringUtils.equals(c1.getParentId(), pageId) == false || StringUtils.equals(c1.getParentId(), pageId) == false) {
+      return noForward();
+    }
+    List<String> ochildList = elementToEdit.getElementInfo().getProps().getStringList(GWikiPropKeys.CHILDORDER);
+    List<String> childList = new ArrayList<String>();
+    if (ochildList != null) {
+      childList.addAll(ochildList);
+    }
+    GWikiLog.note("Reorder page " + page2 + " before " + page1);
+    childList.remove(page2);
+    int insPos = childList.indexOf(page1);
+    if (insPos == -1) {
+      childList.add(page2);
+      childList.add(page1);
+    } else {
+      childList.add(insPos, page2);
+    }
+    elementToEdit.getElementInfo().getProps().setStringList(GWikiPropKeys.CHILDORDER, childList);
+    wikiContext.getWikiWeb().saveElement(wikiContext, elementToEdit, false);
+    return noForward();
+  }
+
   public String getMetaTemplatePageId()
   {
     return metaTemplatePageId;

@@ -79,7 +79,8 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
     if (comparator != null) {
       Collections.sort(cl, comparator);
     } else {
-      Collections.sort(cl, new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator("ORDER", 0)));
+      Collections.sort(cl, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+          "ORDER", 0))));
     }
     int curIdx = cl.indexOf(el.getElementInfo());
     if (curIdx == -1) {

@@ -144,6 +144,11 @@ public class GWikiProps implements Serializable
     return CommaListParser.parseCommaList(map.get(key));
   }
 
+  public void setStringList(String key, List<String> list)
+  {
+    setStringValue(key, CommaListParser.encode(list));
+  }
+
   public GWikiProps getStringValueMap(String key)
   {
     String argstr = getStringValue(key);

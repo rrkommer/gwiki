@@ -58,6 +58,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.utils.StringUtils;
@@ -324,7 +325,8 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       wikiContext.popWikiElement();
     }
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(el.getElementInfo().getId());
-    Collections.sort(childs, new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator("ORDER", 0)));
+    Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+        "ORDER", 0))));
     wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);
     for (GWikiElementInfo ei : childs) {
       GWikiElement ce = wikiContext.getWikiWeb().getElement(ei);

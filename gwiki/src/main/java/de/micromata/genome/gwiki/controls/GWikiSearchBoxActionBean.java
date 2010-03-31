@@ -53,10 +53,10 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
   {
     StringBuilder sb = new StringBuilder();
     String searchUrl = wikiContext.localUrl("/edit/Search") + "?method_onSearch=go&se=" + WebUtils.encodeUrlParam(query);
-    sb.append(searchUrl).append("|").append(StringEscapeUtils.escapeHtml("Globale Suche nach \"" + query + "\"\n"));
+    sb.append(searchUrl).append("|").append(translate("gwiki.nav.searchbox.localsearch", StringEscapeUtils.escapeHtml(query)) + "\n");
     if (StringUtils.isNotBlank(pageId) == true) {
       searchUrl += "&childs=" + pageId;
-      sb.append(searchUrl).append("|").append(StringEscapeUtils.escapeHtml("Lokale Suche nach \"" + query + "\"\n"));
+      sb.append(searchUrl).append("|").append(translate("gwiki.nav.searchbox.globalsearch", StringEscapeUtils.escapeHtml(query)) + "\n");
     }
     wikiContext.append(sb.toString());
   }
