@@ -1,9 +1,8 @@
 <% wikiContext.skinInclude("standardhead"); %>
-
+<@include file="inc/stdtags.gspt" @> 
 
 <gwiki:errors />
 
-<p>Es ist ein Zugriffsfehler entstanden.</p>
-<p>Bitte wenden Sie sich an Ihren Adminstrator.</p>
+<p><fmt:message key="gwiki.page.admin.AccessDenied.text.main"/></p>
 
  <% wikiContext.skinInclude("standardfoot"); %>
