@@ -112,7 +112,7 @@ public class GWikiSearchActionBean extends ActionBeanBase
     initFromParams();
     String se = buildSearchExpression();
     if (StringUtils.isBlank(se) == true) {
-      wikiContext.addSimpleValidationError("Kein Suchausdruck angegeben");
+      wikiContext.addValidationError("gwiki.page.edit.Search.message.nosearchexpression");
       return null;
     }
     Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
@@ -130,16 +130,10 @@ public class GWikiSearchActionBean extends ActionBeanBase
       }
       foundPages = qr.getResults();
       totalFound = qr.getTotalFoundItems();
-      searchMessage = qr.getTotalFoundItems()
-          + " Seiten gefunden (von "
-          + wikiContext.getWikiWeb().getPageInfos().size()
-          + ") in "
-          + (qr.getSearchTime())
-          + " ms. Zeige "
-          + searchOffset
-          + " bis "
-          + (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages.size()))
-          + " an";
+
+      searchMessage = translate("gwiki.page.edit.Search.message.pagefound", qr.getTotalFoundItems(), wikiContext.getWikiWeb()
+          .getPageInfos().size(), (qr.getSearchTime()), searchOffset, (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages
+          .size())));
 
     } catch (InvalidMatcherGrammar ex) {
       wikiContext.addSimpleValidationError(ex.getMessage());

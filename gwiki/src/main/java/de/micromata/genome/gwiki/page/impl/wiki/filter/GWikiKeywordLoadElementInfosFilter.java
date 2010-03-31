@@ -63,7 +63,7 @@ public class GWikiKeywordLoadElementInfosFilter implements GWikiLoadElementInfos
         Pattern.compile(kw);
       }
     } catch (Exception ex) {
-      ctx.addSimpleValidationError("Keywords has not correct format: " + ex.getMessage());
+      ctx.addValidationError("gwiki.edit.EditPage.message.invalidkeywordformat", ex.getMessage());
     }
   }
 

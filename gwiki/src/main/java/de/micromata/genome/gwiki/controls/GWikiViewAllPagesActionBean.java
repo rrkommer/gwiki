@@ -136,7 +136,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     }
     QueryResult qr = filter(query);
     if (qr.getResults().isEmpty() == true) {
-      wikiContext.addSimpleValidationError("Keine Elemente zu exportieren");
+      wikiContext.addValidationError("gwiki.page.AllPages.message.noelementstoexport");
       return null;
     }
     wikiContext.getResponse().setContentType("application/zip");

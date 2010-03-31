@@ -554,7 +554,7 @@ public class GWikiWeb
   {
     GWikiElementInfo ei = findElementInfo(pageId);
     if (ei == null) {
-      ctx.addSimpleValidationError("PageId not found: " + pageId);
+      ctx.addValidationError("gwiki.page.admin.WikiControl.message.rebuildpageidnotfound", pageId);
       return;
     }
     getContentSearcher().rebuildIndex(ctx, pageId);

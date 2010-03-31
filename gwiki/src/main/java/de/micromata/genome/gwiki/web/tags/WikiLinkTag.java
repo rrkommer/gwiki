@@ -22,6 +22,8 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
@@ -39,13 +41,24 @@ public class WikiLinkTag extends WikiSimpleTagBase
 
   private String urlParams;
 
+  /**
+   * direkt title
+   */
   private String title;
+
+  /**
+   * i18n key for title
+   */
+  private String titleKey;
 
   @Override
   public int doEndTag() throws JspException
   {
     // JspContext jc = getJspContext();
     final GWikiContext wctx = getWikiContext();
+    if (StringUtils.isNotEmpty(titleKey) == true) {
+      title = wctx.getWikiWeb().getI18nProvider().translate(wctx, titleKey);
+    }
     String url = wctx.renderLocalUrl(pageId, title, urlParams);
     try {
       pageContext.getOut().print(url);
@@ -114,6 +127,16 @@ public class WikiLinkTag extends WikiSimpleTagBase
   public void setTitle(String title)
   {
     this.title = title;
+  }
+
+  public String getTitleKey()
+  {
+    return titleKey;
+  }
+
+  public void setTitleKey(String titleKey)
+  {
+    this.titleKey = titleKey;
   }
 
 }
