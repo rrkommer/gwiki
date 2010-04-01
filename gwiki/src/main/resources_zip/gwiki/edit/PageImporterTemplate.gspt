@@ -161,13 +161,13 @@ jQuery(document).ready(function() {
 			})
 			.navGrid('#pager2',{top:true, edit:false,add:false,del:false})
 			.navButtonAdd("#pager2",
-						{caption:"Toggle",
-					title:"Toggle Search Toolbar", buttonicon :'ui-icon-pin-s', 
+						{caption:"<fmt:message key="gwiki.page.edit.ListControls.label.toggle"/>",
+					title:"<fmt:message key="gwiki.page.edit.ListControls.title.toggle"/>", buttonicon :'ui-icon-pin-s', 
 					onClickButton: function(){ mygrid[0].toggleToolbar() } 
 			}) 
 			.navButtonAdd("#pager2",{
-					caption:"Clear",
-					title:"Clear Search",
+					caption:"<fmt:message key="gwiki.page.edit.ListControls.label.clear"/>",
+					title:"<fmt:message key="gwiki.page.edit.ListControls.title.clear"/>",
 					buttonicon :'ui-icon-refresh',
 					onClickButton:function(){ mygrid[0].clearToolbar() } 
 			})
