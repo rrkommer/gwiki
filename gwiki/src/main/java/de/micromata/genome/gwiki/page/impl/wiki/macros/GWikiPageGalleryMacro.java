@@ -98,7 +98,7 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
               ctx.getTranslatedProp(el.getElementInfo().getTitle())).append("</div></th></tr>");
       ctx.append("<tr height=\"" + rowHeight + "\"><td valign=\"top\">");
       /* oncontextmenu=\"alert('clicked');\" */
-      ctx.append("<div style=\"font-size:0.3em;size:0.3em;\"  ondblclick=\"document.location.href='"
+      ctx.append("<div style=\"font-size:0.6em;size:0.6em;\"  ondblclick=\"document.location.href='"
           + ctx.localUrl(el.getElementInfo().getId())
           + "';\">");
       // ctx.append("<iframe>");
@@ -121,9 +121,19 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
     if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == true) {
       ctx.append("<script type=\"text/javascript\">")//
           .append("jQuery(document).ready(function(){\n")//
-          .append("jQuery('.gwikioresdraggable').draggable();\n")//
+          .append("jQuery('.gwikioresdraggable').draggable( {\n") //
+          .append(" zIndex:     1000,\n") //
+          .append("ghosting:   true,\n") //
+          .append("revert: 'invalid',\n") //
+          .append("snap: true,\n") //
+          .append("opacity:    0.7\n") //
+          .append("});\n")//
           .append("jQuery('.gwikioresdraggable').droppable({\n")//
-          .append("drop: function(event, ui) { \n").append(
+          // .append(" accept : 'dropaccept',\n")//
+          .append("tolerance: 'touch',\n")//
+          .append("drop: function(event, ui) { \n")//
+          // .append("alert('dropped');\n")//
+          .append(
               "jQuery.ajax({\n"
                   + "cache: false,\n"
                   + "async: false,\n"
