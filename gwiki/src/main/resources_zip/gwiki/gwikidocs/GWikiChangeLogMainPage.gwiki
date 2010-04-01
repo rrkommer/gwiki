@@ -1,3 +1,8 @@
+h2. 2010-03-31
+* Neues Macro {{newelement}}. Damit kann man einen Link erstellen, dass ein neues Element erzeugt.
+* Presentationen überarbeitet. Man kann die Folien nun via drag'n drop umsortieren.
+* Mehr internationalisiert.
+
 h2. 2010-03-30
 * Neues Macro {{chunk}} eingeführt. Dadurch kann man innerhalb einer Wiki-Seite Sektionen einführen. 
   Wesentlicher Zweck ist, das man diese Sektionen von aussen wieder referenzieren kann.
