@@ -1,3 +1,6 @@
 {usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
+{usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
 
-{pagegallery:columns=3|rowHeight=170px|columnWidth=300px}
+{newelement:text=Neue Folie|metaTemplate=admin/templates/PresentationWikiPageMetaTemplate}
+
+{pagegallery:columns=3|rowHeight=170px|columnWidth=300px|part=MainPage}

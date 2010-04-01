@@ -1,5 +1,4 @@
 - Java 1.5 oder 1.6
 - Desktop (Jetty)
-- Tomcat, BEA oder anderer Servletcontainer
-- Standalone & Integriert
-- Ablage in Dateisystem, Speicher (ZIP) oder Datenbank.
+- Tomcat, BEA or other Servlet container
+- Store pages in file system, Memory (ZIP) or data base

@@ -1,0 +1,6 @@
+Each Element has a collection of properties. 
+The Metatemplate defines the collection of properties.
+Each property can have 
+- How to display the property (Editor)
+- Validators 
+- Required rights to view and edit the property value.
