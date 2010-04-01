@@ -1,7 +1,8 @@
-
 {note:title=Hinweis zur Benutzung}
 Innerhalb der Presentation kann man über doppelklick auf Titel oder Text zur nächsten Folie wechseln.
 Für weitere Operationen, Kontextmenü über rechte Mausklick verwenden.
+
+In der Presentationsübersicht kann man die Reihenfolge der Folien durch Drag-n-Drop der Seitentitel vornehmen. Die "Drag"-Seite wird dabei vor die "Drop"-Seite einsortiert.
 {note}
 
 {children}
