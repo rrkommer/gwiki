@@ -247,6 +247,13 @@
 			<id>central</id>
 			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
 		</pluginRepository>
+		<pluginRepository>
+			<id>snapshots</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
 	</pluginRepositories>
 
 </project>
