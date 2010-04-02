@@ -56,10 +56,19 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
    */
   private String part;
 
+  private String parentPage;
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     GWikiElementInfo ci = ctx.getWikiElement().getElementInfo();
+    if (StringUtils.isNotEmpty(parentPage) == true) {
+      ci = ctx.getWikiWeb().findElementInfo(parentPage);
+      if (ci == null) {
+        // TODO error
+        return true;
+      }
+    }
     List<GWikiElementInfo> childs = ctx.getElementFinder().getDirectChilds(ci);
     Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
         "ORDER", 0))));
@@ -105,6 +114,7 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
       // rowHeight
 
       exec.render(ctx);
+      GWikiContext.setCurrent(ctx);
       // ctx.append("</iframe>");
       ctx.append("</div>");
       ctx.append("</td></tr></table>");
@@ -196,6 +206,16 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
   public void setPart(String part)
   {
     this.part = part;
+  }
+
+  public String getParentPage()
+  {
+    return parentPage;
+  }
+
+  public void setParentPage(String parentPage)
+  {
+    this.parentPage = parentPage;
   }
 
 }

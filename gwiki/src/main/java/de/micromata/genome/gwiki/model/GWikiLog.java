@@ -28,63 +28,76 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public class GWikiLog
 {
+  protected static GWikiWeb getWikiWeb(GWikiContext ctx)
+  {
+    if (ctx != null) {
+      return ctx.getWikiWeb();
+    }
+    return GWikiWeb.getWiki();
+  }
+
+  protected static GWikiLogging getLogging(GWikiContext ctx)
+  {
+    return getWikiWeb(ctx).getLogging();
+  }
+
   public static void debug(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().debug(message, ctx, keyValues);
+    getLogging(ctx).debug(message, ctx, keyValues);
   }
 
   public static void info(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().info(message, ctx, keyValues);
+    getLogging(ctx).info(message, ctx, keyValues);
   }
 
   public static void note(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().note(message, ctx, keyValues);
+    getLogging(ctx).note(message, ctx, keyValues);
   }
 
   public static void warn(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().warn(message, ctx, keyValues);
+    getLogging(ctx).warn(message, ctx, keyValues);
   }
 
   public static void error(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().error(message, ctx, keyValues);
+    getLogging(ctx).error(message, ctx, keyValues);
   }
 
   public static void fatal(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().fatal(message, ctx, keyValues);
+    getLogging(ctx).fatal(message, ctx, keyValues);
   }
 
   public static void note(String message, Throwable ex, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().note(message, ctx, ex, keyValues);
+    getLogging(ctx).note(message, ctx, ex, keyValues);
   }
 
   public static void warn(String message, Throwable ex, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().warn(message, ctx, ex, keyValues);
+    getLogging(ctx).warn(message, ctx, ex, keyValues);
   }
 
   public static void error(String message, Throwable ex, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().error(message, ctx, ex, keyValues);
+    getLogging(ctx).error(message, ctx, ex, keyValues);
   }
 
   public static void fatal(String message, Throwable ex, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    ctx.getWikiWeb().getLogging().fatal(message, ctx, ex, keyValues);
+    getLogging(ctx).fatal(message, ctx, ex, keyValues);
   }
 }

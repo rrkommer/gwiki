@@ -30,6 +30,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 
 /**
  * Includes another Page.
@@ -67,6 +69,11 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
    */
   private boolean complete;
 
+  /**
+   * if set include the title of the included page with given heading
+   */
+  private int titleHeading = 0;
+
   protected void renderPart(GWikiContext ctx, MacroAttributes attrs, GWikiArtefakt< ? > art)
   {
     if (StringUtils.isEmpty(chunk) == false) {
@@ -93,6 +100,11 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
       }
       ctx.getWikiWeb().serveWiki(pageId, ctx);
       return true;
+    }
+    if (titleHeading != 0) {
+      GWikiFragmentHeading heading = new GWikiFragmentHeading(titleHeading);
+      heading.addChild(new GWikiFragmentText(ctx.getTranslatedProp(el.getElementInfo().getTitle())));
+      heading.render(ctx);
     }
     Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
     el.collectParts(parts);
@@ -156,6 +168,16 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
   public void setChunk(String chunk)
   {
     this.chunk = chunk;
+  }
+
+  public int getTitleHeading()
+  {
+    return titleHeading;
+  }
+
+  public void setTitleHeading(int titleHeading)
+  {
+    this.titleHeading = titleHeading;
   }
 
 }
