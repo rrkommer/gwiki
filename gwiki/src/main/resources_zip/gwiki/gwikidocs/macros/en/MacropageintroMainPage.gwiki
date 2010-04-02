@@ -1,0 +1,8 @@
+{pageintro}
+The Macro {{pageintro}} markes a section of wiki text, which will be used as short abstract of the page.
+This text can also be used to be displayed in [children|gwikidocs/macros/en/Macrochildren] Macros.
+{pageintro}
+
+The text above is such a {{pageintro}} section.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean}}.

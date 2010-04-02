@@ -1,0 +1,22 @@
+{pageintro}
+The Macro {{msg}} prints a message using the Gwiki Internationalization (I18N).
+{pageintro}
+
+Sample:
+{code}
+{msg:key=gwiki.page.edit.Search.title}
+{code}
+
+Result:
+{msg:key=gwiki.page.edit.Search.title}
+
+Options:
+- key. Required. The key for the internationalization text
+- module: Optional. page id for the i18n files to used. if not set, uses the standard I18N modules for this page.
+- escapeHtml: Optional. boolean, default false. Escape output for HTML.
+- lang: Optional. Default is the current language for the current user.
+- defaultValue: Optional. String. Use this string, if key cannot be found.
+- args: (Currently not supported).
+
+
+Java class: {{de.micromata.genome.gwiki.page.impl.i18n.GWikiI18nMacroBean}}.

@@ -1,0 +1,14 @@
+{pageintro}
+With Macro {{if}} conditional output can be created.
+{pageintro}
+
+The macro has following test attributes:
+- lang: render block if language is set.
+- right: render block if current user has right.
+- renderMode: render block if render mode is set.
+
+{note:title=TODO}
+Introduce alias to macro with name {{ifnot}}.
+{note}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIfMacro}}.

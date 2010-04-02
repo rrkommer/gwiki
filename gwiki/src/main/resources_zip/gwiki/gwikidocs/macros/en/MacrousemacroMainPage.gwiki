@@ -1,0 +1,24 @@
+{pageintro}
+Macros - implemented in Java - have to be register globally in the GWiki Configuration.
+With the {{usemacro}} other Macros can be used.
+{pageintro}
+
+{code}
+{usemacro:localName=script|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTextTagMacro}
+
+{script}
+alert('hallo');
+{script}
+{code}
+
+With this macro the macro class {{GWikiHtmlBodyTextTagMacro}} will be registered as macro with the name {{script}}. 
+This new macro definition is only visible in the current page.
+
+Options:
+- localName: Name of macro used in this page.
+- pageId: If the macro is implemented by an element, the page id containing the macro.
+- macroClass: If the macro is implemented by a Java class, the fully qualified Java class name.
+
+To use the {{usemacro}} Macro you need the right {{GWIKI_DEVELOPER}}.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseMacroMacro}}.

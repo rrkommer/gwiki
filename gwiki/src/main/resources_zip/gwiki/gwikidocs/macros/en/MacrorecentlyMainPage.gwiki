@@ -1,0 +1,11 @@
+{pageintro}
+The macro {{recently}} list the elements recently was modified.
+{pageintro}
+
+Sample:
+
+{recently}
+
+
+
+Implementation page: admin/macros/recently.

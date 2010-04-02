@@ -1,0 +1,27 @@
+{pageintro}
+The Macro {{newelement}} create a link to create a new element.
+{pageintro}
+
+Sample:
+{code}
+{usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
+
+{newelement:text=Wiki page|metaTemplate=admin/templates/StandardWikiPageMetaTemplate}
+
+{code}
+
+Result:
+{usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
+
+{newelement:text=Wiki page|metaTemplate=admin/templates/StandardWikiPageMetaTemplate}
+
+
+Options:
+- metaTemplate: Optional. Metatemplate page id of the type of the new Element. If not set uses {{"admin/templates/StandardWikiPageMetaTemplate"}}.
+- title: Optional. Title of the new element. If not set, title will be initial empty.
+- pageId: Optional. The pageId of the new created element.
+- text: Optional. Text to display in the button link.
+- linkClass: Optional. CSS class used to render button link. Default is {{gwikiButton}}.
+- parentPage: Optional. Parent page id to use for the new page. If not set, uses the current page as parent.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}}.

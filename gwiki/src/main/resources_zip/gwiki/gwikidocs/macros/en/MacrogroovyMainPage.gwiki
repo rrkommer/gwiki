@@ -1,0 +1,22 @@
+{pageintro}
+With the {{groovy}} macro a groovy snipped can be included in the wiki page.
+{pageintro}
+
+{code}
+{groovy}
+for (int i in 1..10) {
+ out.println("Hello " + i + "<br/>");
+}
+{groovy}
+{code}
+
+Result in:
+{groovy}
+for (int i in 1..10) {
+ out.println("Hello " + i + "<br/>");
+}
+{groovy}
+
+A user, which want to use this macro in a page, needs the {{GWIKI_DEVELOPER}} right.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiGroovyScriptMacro}}.

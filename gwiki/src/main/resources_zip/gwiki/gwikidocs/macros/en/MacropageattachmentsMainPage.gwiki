@@ -1,0 +1,13 @@
+{pageintro}
+With the Macro {{pageattachments}} a shortcut to the attachments of current page will be created.
+{pageintro}
+
+Sample:
+{code}
+{pageattachments}
+{code}
+
+Result:
+{pageattachments}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageAttachmentsMacro}}.
