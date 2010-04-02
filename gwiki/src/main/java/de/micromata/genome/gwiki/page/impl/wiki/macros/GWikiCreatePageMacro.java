@@ -31,9 +31,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
+ *         See
  */
+@Deprecated
 public class GWikiCreatePageMacro extends GWikiMacroBean implements GWikiPropKeys
 {
+
+  private static final long serialVersionUID = -771481764519301485L;
+
   private String metaTemplate;
 
   private String parent;

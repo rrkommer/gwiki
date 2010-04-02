@@ -29,16 +29,34 @@ public class GWikiI18nMacroBean extends GWikiMacroBean
 
   private static final long serialVersionUID = -3628546889099798125L;
 
+  /**
+   * Optional page id
+   */
   private String module;
 
+  /**
+   * escape content HTML
+   */
   private boolean escapeHtml = false;
 
+  /**
+   * Use language.
+   */
   private String lang;
 
+  /**
+   * Key
+   */
   private String key;
 
+  /**
+   * default value
+   */
   private String defaultValue;
 
+  /**
+   * Additionally args.
+   */
   private Object[] args;
 
   @Override
