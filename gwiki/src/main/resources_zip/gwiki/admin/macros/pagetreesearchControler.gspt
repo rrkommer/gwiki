@@ -5,9 +5,9 @@
 
 <form class="quick-search" action="<gwiki:url value="/edit/Search"/>?childs=<c:out value="${wikiPage.elementInfo.id}"/>" method="post">
 	<fieldset>
-	<legend>Suche</legend>
+	<legend><fmt:message key="gwiki.page.edit.Search.button.search"/></legend>
 	<input id="quick-search-query" class="quick-search-query placeholded" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>
-	<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
+	<input id="quick-search-submit" class="quick-search-submit" type="submit" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" name="method_onSearch"/>
 	</fieldset>
 </form>
 </div>
