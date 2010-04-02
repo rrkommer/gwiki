@@ -1,0 +1,26 @@
+{pageintro}
+The macro {{html}} marks a region of text as pure HTML.
+{pageintro}
+
+All text inside a HTML block will be passed through as html.
+
+{warn}
+The editor has to ensure, that the HTML result is correct.
+Because also javascript can be used, dynamic content can be defined.
+{warn}
+
+To save a page containing the {{html}} macro the user requires the right {{GWIKI_EDITHTML}}.
+
+Sample:
+{code:lang=XML}
+{html}
+<b>bold</b><i>italic</i>.
+{html}
+{code}
+
+Result:
+{html}
+<b>bold</b><i>italic</i>.
+{html}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyMacro}}.

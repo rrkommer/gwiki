@@ -1,0 +1,20 @@
+{pageintro}
+With the macro HTMLcomment parts of the wiki page can be hidden.
+{pageintro}
+
+{noformat}
+{HTMLcomment}
+Not visible, but still in HTML source as XML comment.
+{HTMLcomment}
+or
+
+{HTMLcomment:hidden}
+Not visible
+{HTMLcomment}
+{noformat}
+
+Parameter:
+defaultValue: hidden.
+
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHTMLcommentMacro}}.

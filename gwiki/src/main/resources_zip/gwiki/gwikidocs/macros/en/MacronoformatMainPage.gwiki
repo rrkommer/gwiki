@@ -1,0 +1,20 @@
+{pageintro}
+The macro {{noformat}} wrapps a section of text to supress evaluation of wiki code.
+{pageintro}
+
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{noformat}
+h2. [nolink]
+{noformat}
+
+{html}{td}{td}
+Ignoriert alle Macros und Formatierungen im Block.
+{noformat}
+h2. [nolink]
+{noformat}
+{td}{tr}
+{table}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNoFormatBodyMacro}}.

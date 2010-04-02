@@ -1,0 +1,22 @@
+{pageintro}
+With the Macro {{jsptaglib}} Taglibraries, developed for JSP-Pages, can be used in the wiki page.
+{pageintro}
+
+Sample:
+{code}
+{jsptaglib:prefix=c|uri=/WEB-INF/tlds/c-rt.tld}
+Now use the macro:
+{cset:var=x|value=Hallo}{cset}
+
+{cout:value="This will printed via jsp: ${x}"}{cout}
+{code}
+
+Result:
+{usemacro:localName=jsptaglib|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseJspTagLibMacro}
+{jsptaglib:prefix=c|uri=/WEB-INF/tlds/c-rt.tld}
+Now use the macro:
+{cset:var=x|value=Hallo}{cset}
+
+{cout:value="This will printed via jsp: ${x}"}{cout}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseJspTagLibMacro}}.

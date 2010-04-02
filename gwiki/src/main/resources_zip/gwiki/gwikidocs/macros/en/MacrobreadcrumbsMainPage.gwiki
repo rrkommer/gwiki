@@ -1,0 +1,19 @@
+{pageintro}
+The Macro {{breadcrumbs}} includes a list of links of recent visited pages.
+{pageintro}
+
+Sample:
+{code}
+{breadcrumbs:maxItems=20}
+{code}
+Result:
+{breadcrumbs:maxItems=20}
+
+Options:
+- maxItems: Optional. Default 20. Number of items.
+
+{warn}
+Currently it works only, if {{breadcrumbs}} is always defined with same maxItems
+{warn}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean}}.

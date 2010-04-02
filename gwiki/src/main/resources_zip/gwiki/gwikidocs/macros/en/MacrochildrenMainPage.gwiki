@@ -1,0 +1,17 @@
+{pageintro}
+The macro {{children}} create a table content of the children pages.
+{pageintro}
+
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{children:depth=2|sort=title}
+{html}{td}{td}
+Create a table of content with the children pages.
+- depth: Optional. Integer. Maximal depth. If not set, use all nested pages
+- sort: Optional. String. One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER.
+- withPageIntro: Boolean true or false. Default false. If true, include the \{pageintro\} sections of the children page.  See also: [gwikidocs/macros/en/Macropageintro].
+- withPageTocs: true or false. Default false. If true, all internal headings of the children pages will be included in the table of content. (See also [gwikidocs/macros/en/Macrotoc]).
+{td}{tr}{table}
+
+Java Class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro}}.

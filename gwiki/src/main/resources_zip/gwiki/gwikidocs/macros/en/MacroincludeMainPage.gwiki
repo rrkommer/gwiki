@@ -1,0 +1,12 @@
+{pageintro}
+With include Macro the content of other pages can be included.
+{pageintro}
+
+- pageId: Required. Page to include
+- partName: Optional. String. Default null. If only a part (name of an artefakt) should be included) //
+  If not set, it include the main part.
+- chunk: Optional. String. default null. If set, include only text of the included page, which are bracket by the chunk macro with given name. See also: [gwikidocs/macros/en/Macrochunk].
+- complete: Optional. boolean. default false. Does not include only a part, but the complete page. Be carefully, that the included page only provide HTML fragment, not a complete HTML page.
+- titleHeading: Optional. integer. default 0. If not 0 does not only include body content of the included page, but also the title on given heading level.
+
+Java Class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIncludeMacro}}

@@ -1,0 +1,11 @@
+{pageintro}
+The Macro {{ScrollNextPrevPage}} generates a link to next or previos page.
+{pageintro}
+
+{warn}
+This macro will probably be revised.
+- register macro with name {{nextpage}} and {{prevpage}} and check for name inside macro implementation.
+{warn}
+
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiScrollNextPrevPageMacro}}.

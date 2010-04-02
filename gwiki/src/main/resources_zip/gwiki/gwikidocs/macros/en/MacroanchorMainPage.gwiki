@@ -1,0 +1,43 @@
+{pageintro} 
+The Macro {{anchor}} defines a local anchor in the current page.
+{pageintro}
+
+
+Sample:
+{code}
+[#ToLocalAnchor]
+...
+{anchor:ToLocalAnchor} Here is the target.
+{code}
+
+Result:
+[#ToLocalAnchor]
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+{anchor:ToLocalAnchor} Here is the target.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiLocalAnchorMacroBean}}.

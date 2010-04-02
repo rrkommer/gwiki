@@ -1,0 +1,21 @@
+{pageintro}
+The {{chunk}} macro marks a named portion of Wiki text. Optional it displays it as fieldset.
+{pageintro}
+
+{noformat}
+{chunk:name=NamedChunk}
+This is the content.
+{chunk}
+{noformat}
+
+Looks like:
+{chunk:name=NamedChunk}
+This is the content.
+{chunk}
+
+Parameter:
+- noDecoration: Optional. boolean, default false: If set to true, no field set will be used.
+
+This macro can be used in connection the [gwikidocs/macros/en/Macroinclude] to include only a named chunk.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChunkMacro}}

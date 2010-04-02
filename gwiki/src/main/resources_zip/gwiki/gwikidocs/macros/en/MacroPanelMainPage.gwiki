@@ -1,0 +1,28 @@
+{pageintro}
+The panel macro wrapp an text with a box.
+{pageintro}
+
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}REsult{th}{tr}
+{tr}{td}{html}
+{panel}
+This is a panel.
+{panel}
+
+{html}{td}{td}
+{panel}
+This is a panel.
+{panel}
+{td}{tr}
+{tr}{td}{html}
+{panel:title=Hallo}
+This is a panel with title.
+{panel}
+
+{html}{td}{td}
+{panel:title=Hallo}
+This is a panel with title.
+{panel}
+{td}{tr}{table}
+
+implementation page: {{admin/macros/panel}}.

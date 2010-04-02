@@ -1,0 +1,26 @@
+{pageintro}
+The Macro {{pagegallery}} include a gallery of children pages.
+{pageintro}
+
+Options:
+- columns: Optional. Integer. Default 2. number of columns in the gallery
+- columnWidth: Optional. String. Default "300px". Width of a column.
+- rowHeight: Optional. String. Default "200px". Minimum height of a column.
+- part: Optional. Only render the named Artefakt of a page. All children has to have such a part.
+- parentPage: Optional. page id. Default current page. Parent page used to retrieve page.
+
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}}
+
+
+
+Sample:
+{code}
+{usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
+{pagegallery:part=MainPage|parentPage=gwikidocs/howtos/en/HowTos}
+{code}
+
+Result:
+{usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
+{pagegallery:part=MainPage|parentPage=gwikidocs/howtos/en/HowTos}
+

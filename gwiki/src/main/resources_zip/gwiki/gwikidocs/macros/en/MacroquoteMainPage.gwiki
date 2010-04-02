@@ -1,0 +1,18 @@
+{pageintro}
+The macro {{quote}} marks a section of wiki text as quoted text.
+{pageintro}
+
+Sample:
+{html}
+{quote}<br/>
+This is *quoted* text.<br/>
+{quote}
+{html}
+
+Result:
+{quote}
+This is *quoted* text.
+{quote}
+
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean}}.

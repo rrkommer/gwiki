@@ -1,0 +1,26 @@
+{pageintro}
+The macro {{code}} wrap a text as source code.
+{pageintro}
+
+Sample:
+
+{html}
+<pre>
+{code}
+String foo()
+{
+   return "bar";
+}
+{code}
+</pre>
+{html}
+
+Result in:
+{code}
+String foo()
+{
+   return "bar";
+}
+{code}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro}}.

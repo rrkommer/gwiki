@@ -1,0 +1,13 @@
+{pageintro}
+With the macro {{toc}} a table of content of the local page headings can be created.
+{pageintro}
+
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Result{th}{tr}
+{tr}{td}{html}
+{toc}
+{html}{td}{td}
+Create a table of content of the current page, using the \h1. to\h5. headings.
+{td}{tr}{table}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTocMacro}}.
