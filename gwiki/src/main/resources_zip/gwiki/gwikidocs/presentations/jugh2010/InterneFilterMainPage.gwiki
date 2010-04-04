@@ -1,0 +1,6 @@
+Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Filter unterstützt:
+
+- Pesistenz (Laden, Schreiben, Löschen)
+- Ausführen auf Elementebene
+- Parsen des Wikiquelltextes
+- Ausführen auf Wikiebene

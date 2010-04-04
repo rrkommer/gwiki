@@ -1,0 +1,10 @@
+- Einfach zu erstellen
+-- Java Klasse (Bean)
+-- JSP/GSPT-Seite
+
+Macros mit
+- mit/ohne Body
+- mit Wiki-Text als Body, oder vom Macro selbst ausgewertet
+- RTE-Fähig
+- Compiletime Macro manipuliert DOM oder führt neue Macros ein (usemacro, jsptaglib)
+- Runtime Macro
