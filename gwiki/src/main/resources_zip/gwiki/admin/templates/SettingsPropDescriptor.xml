@@ -229,6 +229,13 @@ def onRender(pct)
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="HELP_PAGE" />
+					<property name="label" value="I{gwiki.settings.HELP_PAGE.label}" />
+					<property name="description" value="I{gwiki.settings.HELP_PAGE.description}" />
+					<property name="readOnly" value="false" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="ORDER" />
 					<property name="label" value="I{gwiki.settings.ORDER.label}" />
 					<property name="description" value="I{gwiki.settings.ORDER.description}" />
