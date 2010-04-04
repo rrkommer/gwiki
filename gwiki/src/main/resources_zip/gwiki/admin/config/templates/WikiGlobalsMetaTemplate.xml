@@ -96,6 +96,15 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_COMMON_HELP" />
+											<property name="label" value="Default Help page" />
+											<property name="description" value="Default Help page." />
+											<property name="readOnly" value="false" />
+											<property name="type" value="PAGEID" />
+											<property name="defaultValue" value="gwikidocs/help/WikiHelp" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FILTER_CLASSES" />
 											<property name="label" value="Filter" />
 											<property name="description"
