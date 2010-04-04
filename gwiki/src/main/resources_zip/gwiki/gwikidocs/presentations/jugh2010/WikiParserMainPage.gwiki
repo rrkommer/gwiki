@@ -1,0 +1,7 @@
+- Erster Wurf registrieren von Regular Expressions
+-- Bei großer Wiki-Seite (ca. 10 DIN-A 4) 4 Sekunden für Parsen.
+-- Syntax-Probleme bei einigen Confluence Syntaxelementen
+- Zweiter Wurf, hart kodierter Drill-Down-Parser
+-- 4 ms fürs parsen.
+
+Kern relativ klein, Rest sind Macros.

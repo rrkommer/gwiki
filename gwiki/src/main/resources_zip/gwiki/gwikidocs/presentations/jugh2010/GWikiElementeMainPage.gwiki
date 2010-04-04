@@ -1,0 +1,11 @@
+*Alles ist Wiki*
+
+Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
+- Konfigurationen, Metatemplates
+- Seiten, Attachments, Kommentare
+- Interne Seiten, I18N-Dateien
+- Templates, Skins, Macros
+- User
+- Suchindice, Temparäre Daten
+
+und haben dadurch einen kanonischen Namen.

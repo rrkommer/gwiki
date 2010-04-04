@@ -1,0 +1,5 @@
+- GWiki liefert eigene Implemtierung mit User-Management
+- Einfaches Interface
+- Rechte sind einfache Strings
+- Kann gegen eigene Implementierung ersetzt werden
+- Kann mit eigener Implementierung kombiniert werden

@@ -1,0 +1,9 @@
+- Groovy Server Pages
+- Unterstützt alle JSP-Features:
+-- Scriptlets
+-- Taglibaries
+
+- Keine "Sorge" um unterschiedliche Containerimplementierung
+- Kein Dateisystem notwendig (wie bei Jasper)
+- Performant
+
