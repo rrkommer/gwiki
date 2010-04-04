@@ -86,6 +86,11 @@ public class GWikiMetaTemplate implements Serializable
    */
   private long elementLifeTime = TimeInMillis.HOUR;
 
+  /**
+   * Help page associated with this type of page.
+   */
+  private String helpPageId = null;
+
   public GWikiMetaTemplate()
   {
 
@@ -224,6 +229,16 @@ public class GWikiMetaTemplate implements Serializable
   public void setNoToc(boolean noToc)
   {
     this.noToc = noToc;
+  }
+
+  public String getHelpPageId()
+  {
+    return helpPageId;
+  }
+
+  public void setHelpPageId(String helpPageId)
+  {
+    this.helpPageId = helpPageId;
   }
 
 }

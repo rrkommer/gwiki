@@ -407,7 +407,12 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       getPageIdFromTitle();
     }
     if (newPage == true) {
+      if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
+        wikiContext.addValidationError("gwiki.edit.EditPage.message.pageidalreadyexists", pageId);
+        return null;
+      }
       elementToEdit.getElementInfo().setId(pageId);
+
     }
     if (wikiContext.hasValidationErrors() == true) {
       return null;
@@ -420,6 +425,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public Object onCancel()
   {
+    init();
     wikiContext.getWikiWeb().setPreviewPage(wikiContext, null);
     removeBackup();
     return goBack(true);

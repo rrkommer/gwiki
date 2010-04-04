@@ -111,4 +111,6 @@ public interface GWikiPropKeys
    * Language of the page.
    */
   public static final String LANG = "LANG";
+
+  public static final String HELP_PAGE = "HELP_PAGE";
 }

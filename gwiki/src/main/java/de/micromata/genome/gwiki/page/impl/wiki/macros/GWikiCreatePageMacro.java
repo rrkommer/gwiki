@@ -31,7 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
- *         See
+ *         See GWikiNewElementMacro
  */
 @Deprecated
 public class GWikiCreatePageMacro extends GWikiMacroBean implements GWikiPropKeys
