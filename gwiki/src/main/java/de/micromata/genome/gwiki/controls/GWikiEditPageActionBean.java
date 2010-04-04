@@ -54,6 +54,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
@@ -199,10 +200,22 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
   }
 
+  protected void initHelpPageLink()
+  {
+    if (metaTemplate == null) {
+      return;
+    }
+    if (metaTemplate.getEditHelpPageId() == null) {
+      return;
+    }
+    wikiContext.setRequestAttribute(GWikiHelpLinkMacro.REQATTR_HELPPAGE, metaTemplate.getEditHelpPageId());
+  }
+
   protected GWikiElement createNewElement()
   {
     if (initMetaTemplate() == null)
       return null;
+
     if (StringUtils.isEmpty(pageId) == true) {
       getPageIdFromTitle();
     }
@@ -292,6 +305,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       wikiContext.addValidationError("gwiki.edit.EditPage.message.nometatemplate");
       return false;
     }
+    initHelpPageLink();
     if (elementToEdit instanceof GWikiAttachment) {
       disableBackup = true;
     }

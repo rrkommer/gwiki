@@ -91,6 +91,11 @@ public class GWikiMetaTemplate implements Serializable
    */
   private String helpPageId = null;
 
+  /**
+   * Help page if this element will be edited.
+   */
+  private String editHelpPageId = null;
+
   public GWikiMetaTemplate()
   {
 
@@ -239,6 +244,16 @@ public class GWikiMetaTemplate implements Serializable
   public void setHelpPageId(String helpPageId)
   {
     this.helpPageId = helpPageId;
+  }
+
+  public String getEditHelpPageId()
+  {
+    return editHelpPageId;
+  }
+
+  public void setEditHelpPageId(String editHelpPageId)
+  {
+    this.editHelpPageId = editHelpPageId;
   }
 
 }

@@ -43,6 +43,8 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
 
   private static final long serialVersionUID = -5790766666703611334L;
 
+  public static final String REQATTR_HELPPAGE = "de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro.REQATTR_HELPPAGE";
+
   /**
    * Page id of the help page. Optional.
    * 
@@ -78,6 +80,11 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
   public String getCoreHelpPage(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (helpPageId != null) {
+      return helpPageId;
+    }
+    Object ra = ctx.getRequestAttribute(REQATTR_HELPPAGE);
+    if (ra instanceof String) {
+      helpPageId = (String) ra;
       return helpPageId;
     }
     String localHelpPageId = null;
