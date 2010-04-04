@@ -1,1 +1,3 @@
-[gwikidocs/GWikiSuche]
+{usemacro:localName=helplink|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro}
+{helplink:title=Help}
+
