@@ -120,4 +120,23 @@ public class NormalizeUtils
     ret = matcher.replaceAll("");
     return ret;
   }
+
+  private static ThreadLocal<Pattern> LINK_TARGET = new ThreadLocal<Pattern>() {
+    @Override
+    protected Pattern initialValue()
+    {
+      return Pattern.compile("[^A-Za-z0-9#/\\.]");
+    }
+  };
+
+  public static String normalizeToTarget(final String Name)
+  {
+    if (Name == null) {
+      return null;
+    }
+    String ret = cleanString(Name);
+    final Matcher matcher = LINK_TARGET.get().matcher(ret);
+    ret = matcher.replaceAll("");
+    return ret;
+  }
 }

@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
 
@@ -44,6 +45,8 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
 
   private boolean titleDefined = false;
 
+  private String linkClass = null;
+
   public GWikiFragementLink(String target)
   {
     this.originTarget = target;
@@ -52,7 +55,7 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
       target = "";
     } else if (elems.size() == 1) {
       if (isGlobalUrl(target) == false) {
-        this.target = GWikiContext.getPageIdFromTitle(target);
+        this.target = normalizeToTarget(target);
       } else {
         this.target = target;
       }
@@ -68,6 +71,13 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
       titleDefined = true;
     }
 
+  }
+
+  protected String normalizeToTarget(String title)
+  {
+    String id = StringUtils.replace(StringUtils.replace(StringUtils.replace(title, "\t", "_"), " ", "_"), "\\", "/");
+    id = NormalizeUtils.normalizeToTarget(id);
+    return id;
   }
 
   public boolean isTitleDefined()
@@ -134,28 +144,37 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
       parentUrl = ctx.getWikiElement().getElementInfo().getId();
     }
     if (isGlobalUrl(url) == false) {
-      if (url.indexOf('#') != -1) {
-        url = url.substring(0, url.indexOf('#'));
-        localAnchor = url.substring(url.indexOf('#'));
+      int li = url.indexOf('#');
+      if (li != -1) {
+        localAnchor = url.substring(li);
+        url = url.substring(0, li);
       }
-      GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo(url);
-      if (url.indexOf('/') == -1 && ei == null && ctx.getWikiElement() != null) {
-        String pp = GWikiContext.getParentDirPathFromPageId(ctx.getWikiElement().getElementInfo().getId());
-        String np = pp + url;
-        ei = ctx.getWikiWeb().findElementInfo(np);
-        if (ei != null) {
-          url = ei.getId();
+      GWikiElementInfo ei = null;
+      if (StringUtils.isNotEmpty(url) == true) {
+        ei = ctx.getWikiWeb().findElementInfo(url);
+        if (url.indexOf('/') == -1 && ei == null && ctx.getWikiElement() != null) {
+          String pp = GWikiContext.getParentDirPathFromPageId(ctx.getWikiElement().getElementInfo().getId());
+          String np = pp + url;
+          ei = ctx.getWikiWeb().findElementInfo(np);
+          if (ei != null) {
+            url = ei.getId();
+          }
         }
       }
       if (ei != null && isTitleDefined() == false) {
         ttitel = ctx.getTranslatedProp(ei.getTitle());
       }
-      if (ei != null) {
-        targetExists = true;
-        allowToView = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
-        url = ctx.localUrl(url);
+      if (StringUtils.isNotEmpty(url) == true) {
+        if (ei != null) {
+          targetExists = true;
+          allowToView = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
+          url = ctx.localUrl(url);
+        } else {
+          allowToCreate = ctx.getWikiWeb().getAuthorization().isAllowToCreate(ctx, ctx.getWikiElement().getElementInfo());
+        }
       } else {
-        allowToCreate = ctx.getWikiWeb().getAuthorization().isAllowToCreate(ctx, ctx.getWikiElement().getElementInfo());
+        targetExists = true;
+        allowToView = true;
       }
     } else {
       targetExists = true;
@@ -188,13 +207,16 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
       } else {
         String turl = url;
         if (localAnchor != null) {
-          turl = turl + "#" + localAnchor;
+          turl = turl + localAnchor;
         }
         ctx.append("<a href=\"", turl, "\"");
         if (StringUtils.isNotEmpty(tip) == true) {
           ctx.append(" title='", StringEscapeUtils.escapeHtml(tip), "'");
         } else {
           ctx.append(" title='", StringEscapeUtils.escapeHtml(ttitel), "'");
+        }
+        if (linkClass != null) {
+          ctx.append(" class=\"").append(StringEscapeUtils.escapeXml(linkClass)).append("\"");
         }
         ctx.append(">");
         renderTitle(ctx, ttitel);
@@ -224,6 +246,7 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
   public void setTitle(String title)
   {
     this.title = title;
+    this.titleDefined = title != null;
   }
 
   public String getTip()
@@ -234,5 +257,15 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
   public void setTip(String tip)
   {
     this.tip = tip;
+  }
+
+  public String getLinkClass()
+  {
+    return linkClass;
+  }
+
+  public void setLinkClass(String linkClass)
+  {
+    this.linkClass = linkClass;
   }
 }

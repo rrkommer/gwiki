@@ -75,6 +75,8 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_WIKI_LANGUAGES = "GWIKI_WIKI_LANGUAGES";
 
+  public static final String GWIKI_COMMON_HELP = "GWIKI_COMMON_HELP";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
