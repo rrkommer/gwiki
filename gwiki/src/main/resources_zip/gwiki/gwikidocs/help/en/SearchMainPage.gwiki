@@ -1,0 +1,36 @@
+h2. Overview
+
+
+||SearchExpression||Description||
+||*SingleExpression*|| ||
+|bla|Full text search. Finds also BLA or blatt|
+|"Bla"|Find only "Bla". (Not yet implemented)|
+
+||*Spezial Expressions*|| ||
+|parentpageid:pageId|Finds all direct child of given pageId|
+|childs:pageId|Finds pageId an all direct and indirect childs|
+|space:WIKISPACENAME|Finds pages with given WIKISPACENAME|
+|pageid:pageId|Finds only given pageId|
+|lang:SprachId|Finds pages with given language (f.e. {{lang:en}} for english pages|
+|keyword:keyword|Finds pages which defines keyword|
+
+||*Combined Search*|| ||
+|bla blub|Full text search. Finds pages with bla, Bla und blub, Blubber. The result will be sorted by weight. Pages, including both expressions bla and blub will be rated higher|
+|bla or blub|Lik {{bla blub}} but all found pages will be ratet equally|
+|bla and blub|Only pages, containing both expressions.|
+|not bla|Only pages, not including bla.|
+|bla and (blub or bli)|Group logical search expression with round brackets.|
+
+||*Comparing Search*|| ||
+|prop:TITLE = "My Titel" \\
+title: = "My Title"|Finds pages with exact "My Title".|
+|prop:TITLE ~ My|The title must containing My.|
+|prop:TITLE like "\*GWiki\*"|The title must contain GWiki enthalten. Search Exression is a Matcher (TODO Doku Matcher)|
+|prop:CREATEDAT < 20091011000|Comparing. The compare operations are <, >, <=, >=|
+
+||*Sorting result*|| ||
+|bla order by relevance|Sorting the found pages by relevance. This is the default order if no other order by criteria is given.|
+|bla order by relevance asc \\
+ bla order by relevance desc|Sort ascending and descending. asc is default|
+|bla order by prop:MODIFIEDAT|Sort by modification date. You can also use other values from element settings.|
+

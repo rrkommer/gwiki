@@ -1,0 +1,312 @@
+{pageintro}
+Die in Wikiseiten verfügbare Formatierungselmente.
+
+Innerhalb des Wikis werden im Wesentlichen die Tags vom Confluence unterstützt.
+{pageintro}
+
+{toc}
+
+h2. Quoting
+Will mein ein besonderes Formatzeichen quoten, kann man ein
+einfaches \\ vorstellen.
+
+h2. Überschriften
+||Wiki||Resultat||
+|\h1.Überschrift 1|{html}<h1>Überschrift 1</h1>{html}|
+|\h2.Überschrift 2|{html}<h2>Überschrift 2</h2>{html}|
+|\h3.Überschrift 3|{html}<h3>Überschrift 3</h3>{html}|
+|\h4.Überschrift 4|{html}<h4>Überschrift 4</h4>{html}|
+|\h5.Überschrift 5|{html}<h5>Überschrift 5</h5>{html}|
+
+h2. Texteffekte
+||Wiki||Resultat||
+|\*FetteSchrift\*|*FetteSchrift*|
+|\_Hervorgehoben\_|_Hervorgehoben_|
+|\-Durchgestrichen\-|-Durchgestrichen-|
+|\+Unterstrichen\+|+Unterstrichen+|
+|\^Hochgestellt\^|^Hochgestellt^|
+|\~Tiefgestellt\~|~Tiefgestellt~|
+|\{\{Feste Breite}}|{{Feste Breite}}|
+|\{\{quote}}\\
+Zitierter Block\\
+\{\{quote}}|{{quote}}\\
+Zitierter Block\\
+{{quote}}|
+
+h2. Absätze
+h3. Zeilenumbrüche
+Endet eine Zeile mit .,:!? wird ein automischer kleiner (einzeiligen) Zeilenumbruch eingeführt.
+Leere Zeilen führen zu einem großen (zweizeiligen) Zeilenumbruch.
+
+Mit {noformat}\\{noformat} und neue Zeile kann ein Zeilenumbruch erzwungen werden.
+ 
+h3. Teilen
+{{\----}} erzeugt einen horizontalen Trenner.
+
+
+h2. Verlinkung
+||Wiki||Resultat||
+|\[EinLinkAufSeite\]|[EinLinkAufSeite]|
+|\[Titel\|EinLinkAufSeite\]|[Titel|EinLinkAufSeite]|
+|\[http://www.micromata.de\]|[http://www.micromata.de]|
+|\[Micromata Home\|http://www.micromata.de\]|[Micromata Home\|http://www.micromata.de]|
+|\!EinBild.png\!|!EinBild.png!|
+
+
+Siehe [Confluence Syntax|http://confluence.atlassian.com/renderer/notationhelp.action?section=all].
+
+h2. Listen
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}
+\*Liste 1\\
+\*Liste 2\\
+\*\*UnterListe 1\\
+\*\*UnterListe 2\\
+\*Liste 3{td}{td}
+* Liste 1
+* Liste 2
+** UnterListe 1
+** UnterListe 2
+* Liste 3
+{td}{tr}{table}
+
+h2. Listen Bullet
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}
+\-Liste 1\\
+\-Liste 2\\
+\-\*UnterListe 1\\
+\-\*UnterListe 2\\
+\-Liste 3{td}{td}
+- Liste 1
+- Liste 2
+*- UnterListe 1
+*- UnterListe 2
+- Liste 3
+{td}{tr}{table}
+
+h2. Numerierte Listen
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}
+\#Liste 1\\
+\#Liste 2\\
+\*\#UnterListe 1\\
+\*\#UnterListe 2\\
+\#Liste 3{td}{td}
+# Liste 1
+# Liste 2
+*# UnterListe 1
+*# UnterListe 2
+# Liste 3
+{td}{tr}{table}
+
+h2. Tabellen
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+||heading 1||heading 2||heading 3||<br/>
+|col A1|col A2|col A3|<br/>
+|col B1|col B2|col B3| <br/>
+{html}{td}{td}
+||heading 1||heading 2||heading 3||
+|col A1|col A2|col A3|
+|col B1|col B2|col B3| 
+
+{td}{tr}{table}
+
+h2. Blöcke
+h3. Code
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}
+\{code}\\
+// hency fency \\
+public boolean doIt() \\
+\{ \\
+    return foo; \\
+}
+\{code}
+{td}{td}
+{code}
+// hency fency
+public boolean doIt()
+{
+    return foo;
+}
+{code}
+{td}{tr}{table}
+
+h3. noformat
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{noformat}
+h2. [nolink]
+{noformat}
+
+{html}{td}{td}
+Ignoriert alle Macros und Formatierungen im Block.
+{noformat}
+h2. [nolink]
+{noformat}
+{td}{tr}
+{table}
+
+h3. Panel
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{panel}
+Das ist ein Panel.
+{panel}
+
+{html}{td}{td}
+{panel}
+Das ist ein Panel.
+{panel}
+{td}{tr}
+{tr}{td}{html}
+{panel:title=Hallo}
+Das ist ein Panel mit Titel.
+{panel}
+
+{html}{td}{td}
+{panel:title=Hallo}
+Das ist ein Panel mit Titel.
+{panel}
+
+{td}{tr}
+{tr}{td}{html}
+{note:title=Hallo}
+Das ist ein Panel mit Titel.
+{note}
+
+{html}{td}{td}
+{note:title=Hallo}
+Das ist ein Panel mit Titel.
+{note}
+{td}{tr}
+
+{tr}{td}{html}
+{warn:title=Hallo}
+Das ist ein Panel mit Titel.
+{warn}
+{html}{td}{td}
+{warn:title=Hallo}
+Das ist ein Panel mit Titel.
+{warn}
+{td}{tr}
+
+{table}
+
+
+h2. Inhaltsverzeichnisse
+h3. toc
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{toc}
+{html}{td}{td}
+Liefert ein Inhaltsverzeichnisse der aktuellen Seite, die mit \h1. bis \h5. gekennzeichnet sind.
+{td}{tr}{table}
+
+h3. children
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+{children:depth=2|sort=title}
+{html}{td}{td}
+Liefert ein Inhaltsverzeichnis aller untergeordneter Seiten.
+- depth: Optional. Maximale Tiefe. Wenn nicht angegeben, werden alle gelistet.
+- sort: Sortierung. Wenn nicht angegeben, sortiert nach ORDER.
+- withPageIntro: true or false. Default false. Wenn true, wird in den Zielseiten nach \{pageintro\} Sektionen gesucht und diese im Inhaltverzeichnis mit angezeigt.
+- withPageTocs: true or false. Default false. Wenn true, werden die Headings der Zeilseite mit im Verzeichnis aufgenommen (siehe auch {{\{toc\}}}.
+{td}{tr}{table}
+
+h3. Index über Schlüsselworte
+Das Macro {noformat}{listlabel}{noformat} erstellt ein Indexverzeichnis über alle Schlüsselworte.
+
+[Siehe Schlüsselworte|edit/Keywords].
+
+h3. Zuletzt geänderte Daten
+
+Das Macro \{recently} zeigt die zuletzt editierten Seiten an.
+
+
+h2. Suche
+h3. pagetreesearch
+Das Macro \{pagetreesearch}  zeigt eine Suchbox an, mit der man untergeordnete Seiten durchsuchen kann.
+h2. Html-Tags
+Es können HTML-Tags als Macros verwendet - soweit sie durch den Administrator eingerichtet sind.
+Beispiel:
+{code}
+{pre:style=background-color:red}
+Text
+{pre}
+{code}
+
+Sieht so aus:
+{pre:style=background-color:red}
+Text
+{pre}
+
+Verfügbare Tags:
+- pre
+- table, tr, td, th
+- div
+- span
+- ol, ul, li
+
+
+
+h2. Sonstiges
+h3. include
+Mit dem Macro {include} können andere Seiten inkludiert werden.
+{code}
+{include:MyPage}
+oder
+{include:pageId=MyPage}
+
+{include:MyPage|complete=true|partName=MyPart}
+{code}
+- pageId (oder defaultValue): Name der Zielseite.
+- complete: Es wird nicht nur der Content, bzw. Part MainPage der Seite inkludiert, sondern die kompelette Seite. Standard ist false.
+- partName: Name des Seitenparts. Standard ist "MainPage".
+- chunk: Inkludiert nur die Teile der Wiki-Seite, die mit dem {{chunk}} mit dem entsprechenden Namen geklammert sind.
+
+h3. chunk
+Mit dem Macro {{chunk}} wird ein Bereich der Seite mit einem Namen versehen:
+{noformat}
+{chunk:name=NamedChunk}
+Das ist der Inhalt.
+{chunk}
+{noformat}
+So sieht es aus:
+{chunk:name=NamedChunk}
+Das ist der Inhalt.
+{chunk}
+
+Mittels des include Macros oder JSP-Tag {{gwiki:include}} kann das wieder referenziert werden.
+
+Optionen:
+- name: Name des Chunks
+- noDecoration: default false. Falls true, wird der Chunk in der Seite nicht mit einem <fieldset> umgeben.
+
+h3. HTMLcomment
+Schließt einen Bereich von der Anzeige aus.
+
+{code}
+{HTMLcomment}
+Nicht sichtbar aber als HTML-Kommentar im Quelltext noch vorhanden.
+{HTMLcomment}
+oder 
+{HTMLcomment:hidden}
+Nicht sichtbar.
+{HTMLcomment}
+{code}
+
+Parameter:
+defaultValue: hidden.
