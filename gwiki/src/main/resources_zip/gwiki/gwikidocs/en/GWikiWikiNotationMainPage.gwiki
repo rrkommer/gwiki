@@ -1,8 +1,0 @@
-{pageintro}
-Syntax of the Wiki language.
-{pageintro}
-{toc}
-
-h2. Macros
-{include:pageId=gwikidocs/macros/en/MacroPanel|titleHeading=3}
-{include:pageId=gwikidocs/macros/en/Macroinclude|titleHeading=3}
