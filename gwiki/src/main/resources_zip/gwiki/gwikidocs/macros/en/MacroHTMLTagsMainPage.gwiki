@@ -1,0 +1,14 @@
+{pageintro}
+There are a collection of Macros to make usage of HTML tags in Wiki text.
+{pageintro}
+
+
+hr: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro
+pre: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTextTagMacro
+blockquote: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro
+
+{note}
+Descripe usage
+{note}
+
+See also: [gwikidocs/macros/en/Macrohtml].

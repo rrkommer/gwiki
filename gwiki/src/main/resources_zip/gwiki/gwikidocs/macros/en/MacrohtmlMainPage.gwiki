@@ -23,4 +23,6 @@ Result:
 <b>bold</b><i>italic</i>.
 {html}
 
+See also: [gwikidocs/macros/en/MacroHTMLTags].
+
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyMacro}}.

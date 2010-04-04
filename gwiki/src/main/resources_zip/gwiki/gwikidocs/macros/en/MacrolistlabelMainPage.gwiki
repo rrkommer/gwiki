@@ -1,0 +1,9 @@
+{pageintro}
+The Macro {{listlabel}} list all Keywords.
+{pageintro}
+
+{note}
+This macro has to be implemented.
+{note}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiListLabelsMacroBean}}.
