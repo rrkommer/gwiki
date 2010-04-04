@@ -8,7 +8,8 @@
 <fmt:message key="gwiki.page.edit.PageInfo.link.back"/> <gwiki:link pageId="${form.pageId}"/>
 </p>
 
-<form method="post">
+<form action="<gwiki:url value="/edit/PageInfo"/>" method="post">
+<gwiki:hidden property="pageId" />
 <% form = pageContext.getRequest().getAttribute('form'); 
 void renderBox(String boxName, String prefix, String postfix)
 {
