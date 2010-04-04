@@ -18,8 +18,12 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
+import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
 /**
@@ -47,5 +51,12 @@ public class GWikiHtmlBodyTextTagMacro extends GWikiHtmlTagMacro implements GWik
   {
     // no transform needed
     return null;
+  }
+
+  @Override
+  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  {
+    super.ensureRight(attrs, ctx);
+    ctx.ensureAllowTo(GWikiAuthorizationRights.GWIKI_EDITHTML.name());
   }
 }
