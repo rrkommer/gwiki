@@ -8,6 +8,7 @@
 		<property name="noNewPage" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<property name="elementType" value="gwiki" />
+		<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig"/>
 		<property name="parts">
 			<map>
 				<entry key="">

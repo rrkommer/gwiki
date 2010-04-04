@@ -2,13 +2,47 @@
 There are a collection of Macros to make usage of HTML tags in Wiki text.
 {pageintro}
 
+To make usage of HTML tags inside GWiki you can make usage of  following
+macros:
 
-hr: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro
-pre: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTextTagMacro
-blockquote: de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro
+{{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro}}
+For simple tags, which has no body, like {{<hr/>}}.
 
-{note}
-Descripe usage
-{note}
+{{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro}}
+For HTML tags, which has a body, like {{<div></div>}}. The body of these tags
+will be interpreted as wiki text.
+
+{{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTextTagMacro}}
+For HTML tags, which has body, but should passed as raw HTML.
+The usage of this macro needs the {{GWIKI_EDITHTML}} right.
+
+h2. Register macros
+Either use the [gwikidocs/macros/en/Macrousemacro] to introduce the corresponding
+macro with an alias of the html macro or register the macro in [Wikis global config|gwikidocs/help/en/GWikiConfig].
+
+Sample:
+{code}
+{usemacro:localName=div|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro}
+{div:style=font-size:2em}
+This is large.
+{div}
+{code}
+Result:
+{usemacro:localName=div|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro}
+{div:style=font-size:2em}
+This is large.
+{div}
+
+h2. Security
+Because some attributes of HTML tags may be danger in use, declaring some attributes are restricted with the {{GWIKI_EDITHTML}} right.
+
+- all attributes starting with "on"
+- Attributes, which are listet GWikiHtmlTagMacro.restrictedTags
+-- script
+-- frame
+-- body
+-- html
+-- iframe
+-- href if content starts with "javascript:"
 
 See also: [gwikidocs/macros/en/Macrohtml].

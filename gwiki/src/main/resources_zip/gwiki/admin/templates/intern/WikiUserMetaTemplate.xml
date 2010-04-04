@@ -13,6 +13,7 @@
 			name="requiredViewRight" value="GWIKI_PRIVATE" />
 		-->
 		<property name="elementType" value="gwiki" />
+		<property name="editHelpPageId" value="gwikidocs/help/Profile"/>
 		<property name="parts">
 			<map>
 				<entry key="">
