@@ -1,0 +1,125 @@
+{pageintro}
+Syntax of the Wiki language.
+{pageintro}
+{toc}
+
+{toc}
+
+h2. Quoting
+To quote a character, which may interpreted as Wiki control character prepend  a single \\.
+
+Sample:
+{code}
+\h1. This is not a heading.
+{code}
+Result:
+\h1. This is not a heading.
+
+h2. Headings
+||Wiki||Resultat||
+|\h1.Heading 1|{html}<h1>Heading1</h1>{html}|
+|\h2.Heading 2|{html}<h2>Heading 2</h2>{html}|
+|\h3.Heading 3|{html}<h3>Heading 3</h3>{html}|
+|\h4.Heading 4|{html}<h4>Heading 4</h4>{html}|
+|\h5.Heading 5|{html}<h5>Heading 5</h5>{html}|
+
+h2. Text effects
+||Wiki||Result||
+|\*BoldFont\*|*BoldFont*|
+|\_Emphased\_|_Emphased_|
+|\-StrikeThrough\-|-StrikeThrough-|
+|\+Underlined\+|+Underlined+|
+|\^Superscript\^|^Superscript^|
+|\~Subscript\~|~Subscript~|
+|\{\{Fixed font}}|{{Fixed font}}|
+|\{\{quote}}\\
+Quoted blockBlock\\
+\{\{quote}}|{{quote}}\\
+Quoted Block\\
+{{quote}}|
+
+h2. Paragraph
+h3. Line Break
+If a line ends with a sentence mark like .,:!? automatically an one line break will be inserted.
+Empty lines between two paragraphs will inserted an paragraph.
+
+With {noformat}\\{noformat} an a new line, a new line will be forced.
+ 
+h3. Separators
+{{\----}} creates an horizontal ruler.
+
+h2. Links
+||Wiki||Result||
+|\[AFullyQualifiedPageId\]|[AFullyQualifiedPageId]|
+|\[Title\|AFullyQualifiedPageId\]|[Titel|AFullyQualifiedPageId]|
+|\[http://www.micromata.de\]|[http://www.micromata.de]|
+|\[Micromata Home\|http://www.micromata.de\]|[Micromata Home\|http://www.micromata.de]|
+|\!EinBild.png\!|!EinBild.png!|
+
+
+h2. Lists
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Result{th}{tr}
+{tr}{td}
+\*List 1\\
+\*List 2\\
+\*\*SubListe 1\\
+\*\*SubListe 2\\
+\*List 3{td}{td}
+* List 1
+* List 2
+** SubListe 1
+** SubListe 2
+* List 3
+{td}{tr}{table}
+
+h2. Bullet List
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Result{th}{tr}
+{tr}{td}
+\-List 1\\
+\-List 2\\
+\-\*SubListe 1\\
+\-\*SubListe 2\\
+\-List 3{td}{td}
+- List 1
+- List 2
+*- SubListe 1
+*- SubListe 2
+- List 3
+{td}{tr}{table}
+
+h2. Numbered Lists
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Result{th}{tr}
+{tr}{td}
+\#List 1\\
+\#List 2\\
+\*\#SubListe 1\\
+\*\#SubListe 2\\
+\#List 3{td}{td}
+# List 1
+# List 2
+*# SubListe 1
+*# SubListe 2
+# List 3
+{td}{tr}{table}
+
+h2. Tables
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Resultat{th}{tr}
+{tr}{td}{html}
+||heading 1||heading 2||heading 3||<br/>
+|col A1|col A2|col A3|<br/>
+|col B1|col B2|col B3| <br/>
+{html}{td}{td}
+||heading 1||heading 2||heading 3||
+|col A1|col A2|col A3|
+|col B1|col B2|col B3| 
+
+{td}{tr}{table}
+
+
+
+h2. Macros
+For more formatting features, please refer to [gwikidocs/macros/en/GWikiMacros].
