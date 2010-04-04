@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
@@ -77,7 +78,7 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
         throw new AuthorizationFailedException("Java Script methods in Macros are not allowed");
       }
       if (k.equals("href") == true || k.equals("src") == true) {
-        String v = me.getValue().toLowerCase();
+        String v = StringUtils.trim(me.getValue().toLowerCase());
         if (v.startsWith("javascript:") == true) {
           throw new AuthorizationFailedException("Java Script methods in Macros are not allowed");
         }
