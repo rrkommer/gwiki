@@ -65,8 +65,8 @@ function gwikiCreateTiny(partName, content) {
 				theme_advanced_toolbar_align : "left",
 				theme_advanced_resizing : true,
 				paste_auto_cleanup_on_paste : true,
-				force_br_newlines : true,
-				force_p_newlines : false,
+				/*force_br_newlines : true,
+				force_p_newlines : false, */
 				forced_root_block : '',
 				inline_styles : false,
 				// external_link_list_url :
