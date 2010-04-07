@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +13,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
-public class GWikiWikiParserNlTest extends GWikiWikiParserTestBase
+/**
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
+public class GWikiWikiParserPTest extends GWikiWikiParserTestBase
 {
-  public void testhr()
+  // public void testOneLine()
+  // {
+  // w2htest("a.", "<p>a.</p>");
+  // }
+  public void testPandBr()
   {
-    w2htest("x\n----\nb", "x<br/>\n<hr/>\n<p>b</p>\n");
+    w2htest("T1\nT2\n\nT3\n", "<p>T1<br/>\nT2</p>\n<p>T3</p>\n");
   }
 
-  public void testBr()
+  public void test2LineAfterHeading()
   {
-    w2htest("a.\nb", "a.<br/>\n<p>b</p>\n");
+    w2htest("h1. U\n\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>b</p>\n");
   }
 
-  public void testExpliciteNl()
+  public void test1LineAfterHeading()
   {
-    w2htest("a\\\\\nb", "<p>a<br/>\nb</p>\n");
-  }
-
-  public void testNonExpliciteNl()
-  {
-    w2htest("a\nb", "a<br/>\n<p>b</p>\n");
+    w2htest("h1. U\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>b</p>\n");
   }
 
 }

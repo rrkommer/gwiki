@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
@@ -57,23 +54,35 @@ public class GWikiWikiParserTableTest extends GWikiWikiParserTestBase
 {
   public void testTableNested()
   {
-    //w2htest("||K1||", "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th>\n</tr></tbody></table>");
-    w2htest("||* K1||", "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\"><ul class=\"star\"><li>K1</li></ul></th>\n</tr></tbody></table>");
+    // w2htest("||K1||", "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th>\n</tr></tbody></table>");
+    w2htest("||* K1||",
+        "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\"><ul class=\"star\"><li>K1</li></ul></th>\n</tr></tbody></table>");
   }
+
   public void testTableFail1()
   {
-    w2htest("||K1", "||K1");
+    w2htest("||K1", "<p>||K1</p>\n");
   }
+
   public void testTable4()
   {
-    w2htest("||K1||K2||\n|Z1\\\\\nY|Z2|\n", //
+    w2htest(
+        "||K1||K2||\n|Z1\\\\\nY|Z2|\n", //
         "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\">Z1<br/>\nY</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table>");
   }
+
+  public void testTable3a()
+  {
+    w2htest(
+        "|h1. Z1|Z2|\n", //
+        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\"><h1><a name=\"Z1\" target=\"_top\"></a>Z1</h1>\n</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table>");
+  }
+
   public void testTable3()
   {
     w2htest(
         "werden.\n||K1||K2||\n|h1. Z1|Z2|\n", //
-        "werden.<br/>\n<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\"><h1><a name=\"Z1\" target=\"_top\"></a>Z1</h1>\n</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table>");
+        "<p>werden.<br/>\n<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\"><h1><a name=\"Z1\" target=\"_top\"></a>Z1</h1>\n</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table></p>\n");
   }
 
   public void testTableWithHeading()
@@ -85,7 +94,8 @@ public class GWikiWikiParserTableTest extends GWikiWikiParserTestBase
 
   public void testSimpleTable()
   {
-    w2htest("||K1||K2||\n|Z1|Z2|\n", //
+    w2htest(
+        "||K1||K2||\n|Z1|Z2|\n", //
         "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\">Z1</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table>");
   }
 

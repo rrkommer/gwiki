@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
@@ -65,6 +62,7 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
   public void testSingleLinkWithEscapedTitel()
   {
     List<GWikiFragment> frags = parseText("[Ein\\|Titel|ein/link]");
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragementLink);
     GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
@@ -74,9 +72,11 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
     assertTrue(frags.get(0) instanceof GWikiFragmentText);
     assertEquals("Ein|Titel", ((GWikiFragmentText) frags.get(0)).getSource());
   }
+
   public void testSingleLinkWithBoldTitle()
   {
     List<GWikiFragment> frags = parseText("[*Ein Titel*|ein/link]");
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragementLink);
     GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
@@ -94,6 +94,7 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
   public void testSingleLinkWithTitle()
   {
     List<GWikiFragment> frags = parseText("[Ein Titel|ein/link]");
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragementLink);
     GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
@@ -107,6 +108,7 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
   public void testSingleLink()
   {
     List<GWikiFragment> frags = parseText("[ein/link]");
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragementLink);
     GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
