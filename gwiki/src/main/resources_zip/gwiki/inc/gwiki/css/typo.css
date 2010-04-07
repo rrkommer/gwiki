@@ -135,37 +135,41 @@ body {
 	-webkit-border-radius: 1em;
 }
 */ /*TODO: move to tabs css */
+
 #gwikiContent #tabs ul,#PageComments #tabs ul {
 	list-style: none;
 	font-size: 1em;
 	margin: 0;
 }
-
+/*
 #gwikiContent ul li,#PageComments ul li {
 	margin: 0;
 	padding: 0;
 }
-
+*/
 /*disable endocrine growth... */
+/*
 #gwikiContent ul li a,#PageComments ul li a {
 	font-size: 1em;
 }
-
+*/
+/*
 #gwikiContent ul li ul li,#gwikiContent ul li ul li ul li,#gwikiContent ul li ul li ul li ul li,#gwikiContent ul li ul li ul li ul li ul li,#PageComments ul li ul li,#PageComments ul li ul li ul li,#PageComments ul li ul li ul li ul li,#PageComments ul li ul li ul li ul li ul li
 	{
 	margin: 0;
 	padding: 0;
 	opacity: 0.6;
 }
-
+*/
 /* disable endocrine growth... */
+/*
 #gwikiContent ul li ul,#gwikiContent ul ul,#gwikiContent ul li ul li ul,#gwikiContent ul ul ul,#gwikiContent ul li ul li ul li ul,#gwikiContent ul ul ul ul,#gwikiContent ul li ul,#PageComments ul ul,#PageComments ul li ul li ul,#PageComments ul ul ul,#PageComments ul li ul li ul li ul,#PageComments ul ul ul ul
 	{
 	font-size: 1em;
 	margin: 0 0 0 2em;
 	padding: 0;
 }
-
+*/
 /* Ordered */ /*
 #gwikiContent ol, #PageComments ol {
 	margin: 1.5em 0 1.5em 2em;
@@ -181,20 +185,22 @@ body {
 }
 
 */ /* disable child growth... */
+/*
 #gwikiContent ol li ol li,#gwikiContent ol li ol li ol li,#gwikiContent ol li ol li ol li ol li,#gwikiContent ol li ol li ol li ol li ol li,#PageComments ol li ol li,#PageComments ol li ol li ol li,#PageComments ol li ol li ol li ol li,#PageComments ol li ol li ol li ol li ol li
 	{
 	margin: 0;
 	opacity: 0.6;
 }
-
+*/
 /* disable child growth... */
+/*
 #gwikiContent ol li ol,#gwikiContent ol li ol li ol,#gwikiContent ol li ol li ol li ol,#PageComments ol li ol,#PageComments ol li ol li ol,#PageComments ol li ol li ol li ol
 	{
 	font-size: 1em;
 	margin: 0 0 0 2em;
 	padding: 0;
 }
-
+*/
 /*
 #gwikiContent dl, #PageComments dl {
 	background:#CFD7D9 url("../img/gui/line.gif") repeat-x top left;
