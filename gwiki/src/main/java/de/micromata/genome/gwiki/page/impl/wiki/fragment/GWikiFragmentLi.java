@@ -20,7 +20,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 import java.util.List;
 
-
 /**
  * list elements inside a list.
  * 
@@ -50,6 +49,8 @@ public class GWikiFragmentLi extends GWikiFragmentDecorator
   {
     sb.append(listfrag.getListTag()).append(" ");
     getChildSouce(sb);
-    sb.append("\n");
+    if (childs.isEmpty() == false && (childs.get(childs.size() - 1) instanceof GWikiFragmentList) == false) {
+      sb.append("\n");
+    }
   }
 }

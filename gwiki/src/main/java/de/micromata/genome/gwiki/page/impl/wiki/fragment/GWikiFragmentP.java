@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
+import java.util.List;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 
@@ -27,14 +29,19 @@ import de.micromata.genome.gwiki.page.RenderModes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiFragmentP extends GWikiFragmentHtml
+public class GWikiFragmentP extends GWikiFragmentChildsBase
 {
 
   private static final long serialVersionUID = -8245596367479475761L;
 
   public GWikiFragmentP()
   {
-    super("<p/>\n");
+    // super("<p/>\n");
+  }
+
+  public GWikiFragmentP(List<GWikiFragment> childs)
+  {
+    super(childs);
   }
 
   @Override
@@ -43,13 +50,21 @@ public class GWikiFragmentP extends GWikiFragmentHtml
     sb.append("\n\n");
   }
 
-  @Override
+  // @Override
   public boolean render(GWikiContext ctx)
   {
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      renderChilds(ctx);
       ctx.append("<br/>\n<br/>\n");
       return true;
     }
-    return super.render(ctx);
+    if (childs != null && childs.size() > 0) {
+      ctx.append("<p>");
+      renderChilds(ctx);
+      ctx.append("</p>\n");
+    } else {
+      ctx.append("<p/>\n");
+    }
+    return true;
   }
 }

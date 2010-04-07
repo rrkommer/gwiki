@@ -81,9 +81,14 @@ public class GWikiWikiParserContext
     if (frags.size() == 0) {
       return null;
     }
-    final List<GWikiFragment> top = frags.get(frags.size() - 1);
+    List<GWikiFragment> top = frags.get(frags.size() - 1);
     if (top.size() == 0) {
-      return null;
+      if (frags.size() > 1) {
+        top = frags.get(frags.size() - 2);
+        if (top.size() == 0) {
+          return null;
+        }
+      }
     }
     return top.get(top.size() - 1);
   }
@@ -114,6 +119,11 @@ public class GWikiWikiParserContext
   public void pushFragList()
   {
     frags.add(new ArrayList<GWikiFragment>());
+  }
+
+  public void pushFragList(List<GWikiFragment> l)
+  {
+    frags.add(l);
   }
 
   public List<GWikiFragment> popFragList()

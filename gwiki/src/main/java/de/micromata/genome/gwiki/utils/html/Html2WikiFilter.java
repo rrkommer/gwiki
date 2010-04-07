@@ -194,6 +194,7 @@ public class Html2WikiFilter extends DefaultFilter
         if (lr instanceof GWikiFragmentList) {
           GWikiFragmentList lf = (GWikiFragmentList) lr;
           tag += lf.getListTag();
+          break;
         }
       }
     }
