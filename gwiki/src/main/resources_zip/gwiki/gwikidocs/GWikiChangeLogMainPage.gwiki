@@ -1,3 +1,8 @@
+h2. 2010-04-07
+* Listen  (ul, ol) gefixt bei Rendern und HTML.
+* Umstellung des Rendern von <br/>s auf <p>s.
+
+
 h2. 2010-04-04
 * Hilfe für GWiki eingeführt. Ist bei GWiki Style oben im Menü.
 * Englische Doku angefangen
@@ -76,7 +81,6 @@ h2. 2009-12-13
 
 h2. 2009-12-10
 * Suche: Filter für das Hervorheben in der Zielseite mit gelbem Marker der gesuchten Ausdrücke. 
-
 * Validierung von Parentpage beim Anlegen auf recursive Strukturen. Auch beim Löschen wird validiert, dass keine Parent-Verweise verweist sind.
 
 h2. 2009-12-09
