@@ -77,9 +77,9 @@ class WikiControlActionBean extends ActionBeanBase
      int cookieLenght = cookies.length;
       
       for (Cookie cookie in cookies) {
-    	if (cookie.getName().equals("JSESSIONID") == true) {
-    		continue;
-    	}
+      if (cookie.getName().equals("JSESSIONID") == true) {
+        continue;
+      }
         wikiContext.addSimpleValidationError("Clear cookie: " + cookie.getName() + "=" + cookie.getValue() + ";" + cookie.getPath());
         cookie.setMaxAge(0);
         cookie.setPath("/");
