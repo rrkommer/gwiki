@@ -1,4 +1,3 @@
-
 {chunk:name=backlinkprefix:en}
 Back to page: 
 {chunk}
@@ -75,7 +74,7 @@ Hier kannst du vorliegende Seite neu laden lassen.
 Reload the complete GWiki.
 {chunk}
 {chunk:name=reload.reloadpagedescription:de}
-Hier kannst Du das gesamte Wiki neu laden lassen oder den Cache löschen, damit Änderungen z.B: am CSS sichtbar werden.
+Hier kannst Du das gesamte Wiki neu laden lassen oder den Cache löschen, damit Ä„nderungen z.B: am CSS sichtbar werden.
 {chunk}
 
 {chunk:name=reload.reloadwebbutton:en}
