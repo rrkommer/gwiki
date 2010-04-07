@@ -56,6 +56,77 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
  */
 public class GWikiWikiParser
 {
+  protected GWikiFragmentList getNestedLiChild(GWikiFragmentList pl)
+  {
+    if (pl.getChilds().isEmpty() == true) {
+      return pl;
+    }
+    GWikiFragment lifr = pl.getChilds().get(pl.getChilds().size() - 1);
+    if ((lifr instanceof GWikiFragmentLi) == false) {
+      return pl;
+    }
+    GWikiFragmentLi lifrl = (GWikiFragmentLi) lifr;
+    if (lifrl.getChilds().isEmpty() == true) {
+      return pl;
+    }
+    GWikiFragment nlc = lifrl.getChilds().get(lifrl.getChilds().size() - 1);
+    if (nlc instanceof GWikiFragmentList) {
+      return getNestedLiChild((GWikiFragmentList) nlc);
+    }
+    return pl;
+  }
+
+  protected GWikiFragmentList findNestedListChild(GWikiFragmentList pl, String tag)
+  {
+    if (pl.getListTag().equals(tag) == true) {
+      return pl;
+    }
+    if (pl.getChilds().isEmpty() == true) {
+      return null;
+    }
+    GWikiFragment nlc = pl.getChilds().get(pl.getChilds().size() - 1);
+    if ((nlc instanceof GWikiFragmentLi) == false) {
+      return null;
+    }
+    GWikiFragmentLi nli = (GWikiFragmentLi) nlc;
+    if (nli.getChilds().isEmpty() == true || (nli.getChilds().get(nli.getChilds().size() - 1) instanceof GWikiFragmentList) == false) {
+      return null;
+    }
+    GWikiFragmentList rn = (GWikiFragmentList) nli.getChilds().get(nli.getChilds().size() - 1);
+    return findNestedListChild(rn, tag);
+  }
+
+  protected GWikiFragmentList findBestNestedListChildN(GWikiFragmentList pl, String tag)
+  {
+    if (pl.getChilds().isEmpty() == true) {
+      return null;
+    }
+    GWikiFragment lifr = pl.getChilds().get(pl.getChilds().size() - 1);
+    if ((lifr instanceof GWikiFragmentLi) == false) {
+      return null;
+    }
+    GWikiFragmentLi nli = (GWikiFragmentLi) lifr;
+    if (nli.getChilds().isEmpty() == true) {
+      return null;
+    }
+    if ((nli.getChilds().get(nli.getChilds().size() - 1) instanceof GWikiFragmentList) == false) {
+      return null;
+    }
+    GWikiFragmentList nlc = (GWikiFragmentList) nli.getChilds().get(nli.getChilds().size() - 1);
+    return findBestNestedListChild(nlc, tag);
+  }
+
+  protected GWikiFragmentList findBestNestedListChild(GWikiFragmentList pl, String tag)
+  {
+    GWikiFragmentList ret = findBestNestedListChildN(pl, tag);
+    if (ret != null) {
+      return ret;
+    }
+    if (tag.startsWith(pl.getListTag()) == true) {
+      return pl;
+    }
+    return null;
+  }
 
   protected void parseLi(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
@@ -70,18 +141,22 @@ public class GWikiWikiParser
     GWikiFragmentList listfrag = new GWikiFragmentList(tag);
     if (lfrag instanceof GWikiFragmentList) {
       GWikiFragmentList pl = (GWikiFragmentList) lfrag;
-      if (pl.sameType(listfrag) == true) {
-        listfrag = (GWikiFragmentList) lfrag;
+      GWikiFragmentList prevlist = findNestedListChild(pl, tag);
+      if (prevlist != null) {
+        listfrag = prevlist;
       } else {
-        if (tag.startsWith(pl.getListTag()) == true) {
-          pl.addChild(listfrag);
+        prevlist = findBestNestedListChild(pl, tag);
+        if (prevlist != null) {
+          if (prevlist.getChilds().isEmpty() == false
+              && prevlist.getChilds().get(prevlist.getChilds().size() - 1) instanceof GWikiFragmentLi) {
+            GWikiFragmentLi lc = (GWikiFragmentLi) prevlist.getChilds().get(prevlist.getChilds().size() - 1);
+            lc.addChild(listfrag);
+            // prevlist.addChild(listfrag);
+          } else {
+            prevlist.addChild(listfrag);
+          }
         } else {
           pl.addChild(listfrag);
-          // ctx.addFragment(listfrag);
-          // listfrag = pl;
-          // ctx.addFragment(listfrag);
-          // lfrag = listfrag;
-          // listfrag = pl;
         }
       }
     } else {
@@ -93,6 +168,9 @@ public class GWikiWikiParser
     tks.addStopToken('\n');
     parseLine(tks, ctx);
     List<GWikiFragment> childs = ctx.popFragList();
+    if (childs.size() > 0 && childs.get(childs.size() - 1) instanceof GWikiFragmentBr) {
+      childs = childs.subList(0, childs.size() - 1);
+    }
     if (childs.size() == 1 && childs.get(0) instanceof GWikiFragmentList) {
       listfrag.addChilds(childs);
     } else {
@@ -263,7 +341,7 @@ public class GWikiWikiParser
   {
     for (int i = childs.size() - 1; i >= 0; --i) {
       GWikiFragment frag = childs.get(i);
-      if (frag instanceof GWikiFragmentP || frag instanceof GWikiFragmentBr) {
+      if (/* frag instanceof GWikiFragmentP || */frag instanceof GWikiFragmentBr) {
         childs.remove(i);
         continue;
       }
@@ -579,6 +657,10 @@ public class GWikiWikiParser
 
     if (nextToken == '\n') {
       nextToken = tks.nextToken();
+      // GWikiFragmentP p = new GWikiFragmentP(ctx.popFragList());
+      // ctx.pushFragList();
+      // ctx.addFragment(p);
+
       ctx.addFragment(new GWikiFragmentP());
     } else if (isSentenceTerminator(preToken)) {
       ctx.addFragment(new GWikiFragmentBr());
@@ -604,7 +686,9 @@ public class GWikiWikiParser
         parseWords(tks, ctx);
         hf.addChilds(ctx.popFragList());
         ctx.addFragment(hf);
-        ctx.addTextFragement("\n");
+        // ctx.addTextFragement("\n");
+        tk = tks.skipWsNl();
+        tks.pushBack();
         return;
       }
     }
@@ -727,7 +811,7 @@ public class GWikiWikiParser
     switch (ct) {
       case '\n': {
         char nt = tks.peekToken(1);
-        if (nt == '\n') {
+        if (nt == '\n' || nt == -1) {
           tks.nextToken();
           ctx.addFragment(new GWikiFragmentP());
         } else {
@@ -751,6 +835,7 @@ public class GWikiWikiParser
     parseContext.getMacroFactories().putAll(wikiContext.getWikiWeb().getWikiConfig().getWikiMacros(wikiContext));
     String ntext = StringUtils.replace(text, "\n\r", "\n");
     ntext = StringUtils.replace(ntext, "\r\n", "\n");
+    // ntext = "\n" + ntext;
     parseFrags(ntext, parseContext);
     return new GWikiContent(parseContext.popFragList());
 
@@ -773,15 +858,125 @@ public class GWikiWikiParser
     }
   }
 
+  protected boolean isParagraphLike(GWikiFragment ff)
+  {
+    return ff instanceof GWikiFragmentP
+        || ff instanceof GWikiFragmentHeading
+        || ff instanceof GWikiFragmentTable
+        || ff instanceof GWikiFragmentHr
+        || ff instanceof GWikiFragmentList
+        || ff instanceof GWikiFragmentLi;
+
+  }
+
+  protected List<GWikiFragment> removeBrsAfterParagraph(List<GWikiFragment> l)
+  {
+    if (l.size() <= 1) {
+      return l;
+    }
+    GWikiFragment ff = l.get(0);
+    if (isParagraphLike(ff) == false) {
+      return l;
+    }
+    if (l.size() == 3) {
+      if (l.get(2) instanceof GWikiFragmentBr) {
+        l = l.subList(0, 2);
+      } else {
+        return l;
+      }
+    }
+    if (l.get(1) instanceof GWikiFragmentBr) {
+      l = l.subList(0, 1);
+    }
+    return l;
+  }
+
   public void parseText(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
+    // so geht das nicht, da li nicht mehr geht
+    // List<GWikiFragment> plist = new ArrayList<GWikiFragment>();
+    int startPlIdx = -1;
     while (tks.hasNext() == true) {
       tks.nextToken();
+      ctx.pushFragList();
       parseLine(tks, ctx);
+      List<GWikiFragment> l = ctx.popFragList();
+      boolean pprocessed = false;
+      if (l.size() > 0) {
+        boolean wrapP = false;
+        GWikiFragment ff = l.get(0);
+        l = removeBrsAfterParagraph(l);
+        // if (l.size() == 2 && isParagraphLike(ff) == true && l.get(1) instanceof GWikiFragmentBr) {
+        // l = l.subList(0, 1);
+        // }
+        boolean toPList = false;
+        if ((l.size() > 1 || tks.eof()) && isParagraphLike(ff) == false) {
+          toPList = true;
+        }
+        GWikiFragment lf = l.get(l.size() - 1);
+        if (lf instanceof GWikiFragmentP || (tks.eof() && lf instanceof GWikiFragmentBr)) {
+          l = l.subList(0, l.size() - 1);
+          wrapP = true;
+        }
+        if (wrapP == true) {
+          if (l.size() > 0 && l.get(l.size() - 1) instanceof GWikiFragmentBr) {
+            l = l.subList(0, l.size() - 1);
+          }
+          List<GWikiFragment> addList = l;
+          if (startPlIdx != -1) {
+            List<GWikiFragment> plist = ctx.popFragList();
+            List<GWikiFragment> rl = plist.subList(0, startPlIdx);
+            ctx.pushFragList(rl);
+            List<GWikiFragment> ll = plist.subList(startPlIdx, plist.size());
+            addList = new ArrayList<GWikiFragment>();
+            addList.addAll(ll);
+            addList.addAll(l);
+            l = addList;
+            startPlIdx = -1;
+          }
+          // plist.addAll(l);
+          ctx.addFragment(new GWikiFragmentP(l));
+          // plist = new ArrayList<GWikiFragment>();
+          pprocessed = true;
+        } else if (toPList == true) {
+          startPlIdx = ctx.peek(0).size();
+          // plist.addAll(l);
+          // pprocessed = true;
+        }
+      }
+      if (pprocessed == false) {
+        ctx.addFragments(l);
+      }
       if (tks.eof() == true) {
         break;
       }
     }
+    if (startPlIdx != -1) {
+      List<GWikiFragment> plist = ctx.popFragList();
+      List<GWikiFragment> rl = plist.subList(0, startPlIdx);
+      ctx.pushFragList(rl);
+      List<GWikiFragment> ll = plist.subList(startPlIdx, plist.size());
+      if (ll.size() > 0 && ll.get(ll.size() - 1) instanceof GWikiFragmentBr) {
+        ll = ll.subList(0, ll.size() - 1);
+      }
+      List<GWikiFragment> addList = new ArrayList<GWikiFragment>();
+      addList.addAll(ll);
+      // addList.addAll(l);
+      // l = addList;
+      startPlIdx = -1;
+      ctx.addFragment(new GWikiFragmentP(addList));
+    }
+    // if (plist.isEmpty() == false) {
+    // if (plist.get(plist.size() - 1) instanceof GWikiFragmentBr) {
+    // plist = plist.subList(0, plist.size() - 1);
+    // }
+    // ctx.addFragment(new GWikiFragmentP(plist));
+    // }
+  }
+
+  public void reworkPs(GWikiWikiParserContext ctx)
+  {
+
   }
 
   public void parseFrags(String text, GWikiWikiParserContext ctx)
@@ -790,5 +985,6 @@ public class GWikiWikiParser
     String delimiter = "\n \t \\-*_|{}=#+^~[]!.:?;,\"";
     GWikiWikiTokens tks = new GWikiWikiTokens(delimiter, text);
     parseText(tks, ctx);
+    reworkPs(ctx);
   }
 }

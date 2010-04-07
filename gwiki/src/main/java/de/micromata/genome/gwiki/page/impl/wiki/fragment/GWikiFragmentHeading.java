@@ -82,7 +82,7 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
       ctx.append("<a name=\"", getLinkText(ctx), "\" target=\"_top\"></a>");
     }
     renderBody(ctx);
-    ctx.append("</h", Integer.toString(level), ">");
+    ctx.append("</h", Integer.toString(level), ">\n");
     return true;
   }
 

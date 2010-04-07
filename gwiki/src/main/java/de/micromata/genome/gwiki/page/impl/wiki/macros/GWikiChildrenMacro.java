@@ -99,6 +99,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       ei = ctx.getWikiWeb().findElementInfo(page);
     }
     renderChildToc(ei, 1, ctx);
+    // ctx.append("</li>\n");
     return true;
   }
 
@@ -129,7 +130,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
   protected void renderChild(GWikiElementInfo ci, GWikiContext ctx)
   {
 
-    ctx.append("<li>").append(ctx.renderLocalUrl(ci.getId()));
+    ctx.append("\n<li>").append(ctx.renderLocalUrl(ci.getId()));
     if (withEditLinks == true) {
       if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == true) {
         ctx.append("&nbsp;<a href=\"")//
@@ -173,7 +174,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
                   ctx.append("</ul>");
                 }
               }
-              ctx.append("<li><a href=\"").append(ctx.localUrl(ci.getId())).append("#");
+              ctx.append("\n<li><a href=\"").append(ctx.localUrl(ci.getId())).append("#");
               ctx.append(hf.getLinkText(ctx)).append("\">").append(hf.getLinkText(ctx)).append("</a></li>");
               lastLevel = cl;
             }
@@ -184,7 +185,6 @@ public class GWikiChildrenMacro extends GWikiMacroBean
         }
       }
     }
-    ctx.append("</li>\n");
 
   }
 
@@ -230,7 +230,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
 
     if (cl.isEmpty() == true)
       return;
-    ctx.append("<ul>");
+    ctx.append("\n<ul>\n");
     for (GWikiElementInfo ci : cl) {
       if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ci) == false) {
         if (viewAll == true && withEditLinks == true) {
@@ -244,11 +244,13 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       renderChild(ci, ctx);
 
       if (level + 1 > depth) {
+        ctx.append("</li>\n"); // close child
         continue;
       }
       renderChildToc(ci, level + 1, ctx);
+      ctx.append("</li>\n"); // close child
     }
-    ctx.append("</ul>");
+    ctx.append("\n</ul>\n");
   }
 
   public boolean isAll()
