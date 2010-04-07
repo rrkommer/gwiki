@@ -35,7 +35,7 @@ def renderMenu(wikiPage, wikiContext)
 <% 
 	}
 	%></ul>
-<br />
+<br/>
 <%
 	List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
 	if (cel.isEmtpy() == false) {
