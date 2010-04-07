@@ -687,8 +687,10 @@ public class GWikiWikiParser
         hf.addChilds(ctx.popFragList());
         ctx.addFragment(hf);
         // ctx.addTextFragement("\n");
-        tk = tks.skipWsNl();
-        tks.pushBack();
+        tk = tks.skipWsNl(false);
+        if (tk != -1) {
+          tks.pushBack();
+        }
         return;
       }
     }
