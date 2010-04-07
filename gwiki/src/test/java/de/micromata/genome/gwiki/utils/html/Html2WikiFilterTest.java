@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.utils.html;
 
@@ -73,19 +70,32 @@ public class Html2WikiFilterTest extends TestCase
     }
     return Html2WikiFilter.html2Wiki(html, s);
   }
+
+  public void testNestedLi()
+  {
+    String html = "<ul class=\"minus\" type=\"square\"><li>1a<ul class=\"minus\" type=\"square\"><li>2a<ul class=\"minus\" type=\"square\"><li>3a</li></ul></li><li>2b</li><li>2c</li></ul></li><li>1b</li></ul>";
+    String wiki = transform(html);
+    System.out.println(wiki);
+  }
+
   public void testTable4Nested2()
   {
     String html = "<table><tr><td><table><tr><td>x</td></tr></table></td></tr></table>";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}", wiki);
+    assertEquals(
+        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}",
+        wiki);
   }
+
   public void testTable4Nested()
   {
     String html = "<table class=\"gwikiTable\"><tr><td class=\"gwikitd\"><table class=\"gwikiTable\"><tr><td class=\"gwikitd\">x</td></tr></table></td></tr></table>";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}", wiki);
+    assertEquals(
+        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}",
+        wiki);
   }
 
   public void testImage2()
@@ -95,6 +105,7 @@ public class Html2WikiFilterTest extends TestCase
     System.out.println(wiki);
     assertEquals("!Image.gif|alt=Mein Bild!", wiki);
   }
+
   public void testImage1()
   {
     String html = "<img src=\"Image.gif\"/>";
@@ -102,7 +113,7 @@ public class Html2WikiFilterTest extends TestCase
     System.out.println(wiki);
     assertEquals("!Image.gif!", wiki);
   }
-  
+
   public void testTable3()
   {
     String html = "<table class=\"gwikiTable\"><tr><td class=\"gwikitd\">a<br/>b</td></tr></table>";

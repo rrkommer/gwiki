@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
@@ -62,6 +59,7 @@ import junit.framework.TestCase;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 
@@ -105,8 +103,16 @@ public abstract class GWikiWikiParserTestBase extends TestCase
   {
     String genHtml = wiki2html(wiki);
     if (html.equals(genHtml) == false) {
-      System.out.println("exp:[" + html + "]\nrec:[" + genHtml + "]");
+      System.out.println("wiki: " + wiki + "\nexp:[" + html + "]\nrec:[" + genHtml + "]");
     }
     assertEquals(html, genHtml);
+  }
+
+  protected List<GWikiFragment> unwrapP(List<GWikiFragment> frags)
+  {
+    if (frags.get(0) instanceof GWikiFragmentP) {
+      return ((GWikiFragmentP) frags.get(0)).getChilds();
+    }
+    return frags;
   }
 }

@@ -52,14 +52,26 @@ package de.micromata.genome.gwiki.page.impl.wiki2;
 
 public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 {
-  public void testNl()
+  public void testNested3()
   {
-    w2htest("* bla\\\\\nx\n* blub", "<ul class=\"star\"><li>bla<br/>\nx</li><li>blub</li></ul>");
+    String wiki = "- Ein Absatzx.\n" + "-- Ein weiterer Absatz.\n" + "--- U3\n";
+    String html = "<ul class=\"minus\" type=\"square\"><li>Ein Absatzx.<ul class=\"minus\" type=\"square\"><li>Ein weiterer Absatz.<ul class=\"minus\" type=\"square\"><li>U3</li></ul></li></ul></li></ul>";
+    w2htest(wiki, html);
+  }
+
+  public void testNested2()
+  {
+    w2htest("* bla\n** blub\n** b2", "<ul class=\"star\"><li>bla<ul class=\"star\"><li>blub</li><li>b2</li></ul></li></ul>");
   }
 
   public void testNested()
   {
-    w2htest("* bla\n** blub", "<ul class=\"star\"><li>bla</li><ul class=\"star\"><li>blub</li></ul></ul>");
+    w2htest("* bla\n** blub", "<ul class=\"star\"><li>bla<ul class=\"star\"><li>blub</li></ul></li></ul>");
+  }
+
+  public void testNl()
+  {
+    w2htest("* bla\\\\\nx\n* blub", "<ul class=\"star\"><li>bla<br/>\nx</li><li>blub</li></ul>");
   }
 
   public void testLiCh()

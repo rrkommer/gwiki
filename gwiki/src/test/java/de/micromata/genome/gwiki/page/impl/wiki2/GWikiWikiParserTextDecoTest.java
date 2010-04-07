@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl.wiki2;
 
@@ -58,6 +55,7 @@ import java.util.List;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentDecorator;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 
 public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
@@ -66,50 +64,65 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   {
     // -Effekten-
     String html = wiki2html("Durchgestrichen -Effekt-.");
-    assertEquals("Durchgestrichen <del>Effekt</del>.<br/>\n", html);
+    assertEquals("<p>Durchgestrichen <del>Effekt</del>.</p>\n", html);
   }
+
   public void testDeco5()
   {
     // -Effekten-
     String html = wiki2html("Durchgestrichen -Effekt-");
-    assertEquals("Durchgestrichen <del>Effekt</del>", html);
+    assertEquals("<p>Durchgestrichen <del>Effekt</del></p>\n", html);
   }
+
   public void testDeco4()
   {
     String html = wiki2html("Doc -Node und -x");
-    assertEquals("Doc -Node und -x", html);
+    assertEquals("<p>Doc -Node und -x</p>\n", html);
   }
+
   public void testDeco3()
   {
     String html = wiki2html("Doc -Node und -");
-    assertEquals("Doc -Node und -", html);
+    assertEquals("<p>Doc -Node und -</p>\n", html);
   }
+
   public void testDeco2()
   {
     String html = wiki2html("Doc-Node und -");
-    assertEquals("Doc-Node und -", html);
+    assertEquals("<p>Doc-Node und -</p>\n", html);
   }
+
   public void testPreFormat()
   {
     String html = wiki2html("{{asdf}}");
-    assertEquals("<span style=\"font-family:monospace\">asdf</span>", html);
+    assertEquals("<p><span style=\"font-family:monospace\">asdf</span></p>\n", html);
   }
+
   public void testUnterminatedDecHtml()
   {
     String html = wiki2html("_a\nx");
-    assertEquals("_a<br/>\nx", html);
+    assertEquals("_a<br/>\n<p>x</p>\n", html);
   }
 
   public void testNestedDecHtml()
   {
     String html = wiki2html("*_a_*");
-    assertEquals("<b><em>a</em></b>", html);
+    assertEquals("<p><b><em>a</em></b></p>\n", html);
+  }
+
+  protected List<GWikiFragment> unwrapP(List<GWikiFragment> frags)
+  {
+    if (frags.get(0) instanceof GWikiFragmentP) {
+      return ((GWikiFragmentP) frags.get(0)).getChilds();
+    }
+    return frags;
   }
 
   public void testNestedDec()
   {
     String wikiText = "*_a_*";
     List<GWikiFragment> frags = parseText(wikiText);
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragmentDecorator);
     GWikiFragmentDecorator fragDec = (GWikiFragmentDecorator) frags.get(0);
@@ -127,6 +140,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   {
     String wikiText = "*a*";
     List<GWikiFragment> frags = parseText(wikiText);
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragmentDecorator);
     GWikiFragmentDecorator fragDec = (GWikiFragmentDecorator) frags.get(0);
@@ -148,6 +162,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   {
     String wikiText = "a";
     List<GWikiFragment> frags = parseText(wikiText);
+    frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragmentText);
     assertTrue(((GWikiFragmentText) frags.get(0)).getHtml().equals("a"));
