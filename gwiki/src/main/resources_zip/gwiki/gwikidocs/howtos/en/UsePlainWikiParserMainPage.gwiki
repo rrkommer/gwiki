@@ -7,35 +7,13 @@ h2. Wiki2HTML
 See this code example {{wiki2html}} how to use the GWiki just to translate Wiki to HTML.
 
 {code}
- protected List<GWikiFragment> parseText(String wikiText, Map<String, GWikiMacroFactory> macroFactories)
-  {
-    GWikiWikiParserContext ctx = new GWikiWikiParserContext();
-    ctx.getMacroFactories().putAll(macroFactories);
-    GWikiWikiParser parser = new GWikiWikiParser();
-    parser.parseFrags(wikiText, ctx);
-    List<GWikiFragment> frags = ctx.popFragList();
-    return frags;
-  }
- protected List<GWikiFragment> parseText(String wikiText)
-  {
-    Map<String, GWikiMacroFactory> macroFactories = Collections.emptyMap();
-    return parseText(wikiText, macroFactories);
-  }
-
-  protected String wiki2html(String wikiText)
-  {
-    List<GWikiFragment> fr = parseText(wikiText);
-    GWikiStandaloneContext ctx = new GWikiStandaloneContext();
-    for (GWikiFragment f : fr) {
-      f.render(ctx);
-    }
-    return ctx.getJspWriter().getString();
-  }
+  String html = WikiParserUtils.wiki2html(wikiText);
 {code}
-This code can be find in the {{GWikiWikiParserTestBase}} unit test base class.
+
 
 h2. HTML2Wiki
 To parse HTMOL back to Wiki you can following method:
 {code}
-String wiki = Html2WikiFilter.html2Wiki(html);
+String wiki = WikiParserUtils.html2wiki(html);
 {code}
+
