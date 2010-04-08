@@ -690,8 +690,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         return noForward();
       }
       GWikiWikiPageArtefakt wiki = (GWikiWikiPageArtefakt) parts.get(partName);
-
+      wikiContext.append("<div class=\"gwikiContent\">");
       wiki.render(wikiContext);
+      wikiContext.append("</div>\n");
       return noForward();
     } catch (Exception ex) {
       GWikiLog.error("Failure onAsyncRteCode: " + ex.getMessage(), ex);

@@ -30,7 +30,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 
 /**
  * 
- * Utils to convert Wiki to html.
+ * Utils to convert Wiki to html and vice versa.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
