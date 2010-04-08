@@ -14,7 +14,12 @@
 <link href="<gwiki:url value="/inc/gwiki/css/main.css"/>" rel="stylesheet" type="text/css" />
  <link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />  
 <link href="<gwiki:url value="/inc/gwiki/css/menu.css"/>" rel="stylesheet" type="text/css" />
-
+<% wikiContext.addContentCss("/inc/gwiki/css/gwiki.css");
+	wikiContext.addContentCss("/inc/gwiki/css/reset.css");
+	wikiContext.addContentCss("/inc/gwiki/css/main.css");
+	wikiContext.addContentCss("/inc/gwiki/css/typo.css");
+	
+%>
 </head>
 <% def gwikiWithNavBar = wikiContext.getUserBooleanProp("WITH_NAVBAR", true); %>
 <body class="gwikibody<%= gwikiWithNavBar ? "" : " gwikibodyNoNav" %>">
