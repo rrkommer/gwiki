@@ -98,7 +98,7 @@ public class GWikiTagRenderUtils
   {
     sb.append("<").append(tagName);
     renderTagAttributes(tag, sb);
-    sb.append(">");
+    sb.append("/>");
   }
 
   public static void write(PageContext pageContext, String data) throws JspException

@@ -227,13 +227,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       String fdate = pct.getWikiContext().getUserDateString(date);
       List<String> attrs = Xml.asList("type", "text", "size", "30", "name", pct.getRequestKey(), "value", fdate);
       if (pct.isReadOnly() == true) {
-        Xml.add(attrs, "disabled", "true");
+        Xml.add(attrs, "disabled", "disabled");
       }
       controlNodes = Xml.nodes(Html.input(Xml.listAsAttrs(attrs)));
     } else {
       List<String> attrs = Xml.asList("type", "text", "size", "40", "name", pct.getRequestKey(), "value", value);
       if (pct.isReadOnly() == true) {
-        Xml.add(attrs, "disabled", "true");
+        Xml.add(attrs, "disabled", "disabled");
       }
       if (StringUtils.equals(type, "PAGEID") == true) {
         Xml.add(attrs, "class", "wikiPageEditText");
