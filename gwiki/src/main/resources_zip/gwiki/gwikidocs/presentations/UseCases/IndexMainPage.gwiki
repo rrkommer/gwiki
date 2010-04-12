@@ -1,10 +1,10 @@
 {pageintro}
-Vorstellung der Kernarchitektur von GWiki.
+GWiki is designed for many different use cases. 
 {pageintro}
 
 {usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
 {usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
 
-{newelement:text=Neue Folie|metaTemplate=admin/templates/PresentationWikiPageMetaTemplate}
+{newelement:text=New Presentation|metaTemplate=admin/templates/PresentationWikiPageMetaTemplate}
 
 {pagegallery:columns=3|rowHeight=170px|columnWidth=300px|part=MainPage}
