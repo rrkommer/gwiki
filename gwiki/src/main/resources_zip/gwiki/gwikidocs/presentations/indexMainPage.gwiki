@@ -5,4 +5,4 @@ Für weitere Operationen, Kontextmenü über rechte Mausklick verwenden.
 In der Presentationsübersicht kann man die Reihenfolge der Folien durch Drag-n-Drop der Seitentitel vornehmen. Die "Drag"-Seite wird dabei vor die "Drop"-Seite einsortiert.
 {note}
 
-{children}
+{children:depth=1|sort=title|withPageIntro=true}
