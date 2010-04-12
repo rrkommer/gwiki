@@ -1,0 +1,22 @@
+
+<% import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+	import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude('standardhead'); %>
+
+<% MainPage.render(wikiContext); %>
+
+<table width="100%" border="0">
+	<tr>
+		<td valign="top">
+		<% def form = wikiContext.getRequestAttribute("form");
+	form.renderBlogs(); 
+%>
+		</td>
+		<td width="100em" align="right" valign="top">
+		<% form.renderCalendar(); %>
+		</td>
+	</tr>
+</table>
+<% wikiContext.skinInclude('standardfoot'); %>
+
