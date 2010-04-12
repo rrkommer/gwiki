@@ -56,8 +56,8 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragementBase
   public void iterate(GWikiFragmentVisitor visitor)
   {
     visitor.begin(this);
-    for (GWikiFragment c : childs) {
-      c.iterate(visitor);
+    for (int i = 0; i < childs.size(); ++i) {
+      childs.get(i).iterate(visitor);
     }
     visitor.end(this);
   }
@@ -74,6 +74,25 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragementBase
     for (GWikiFragment c : childs) {
       c.render(ctx);
     }
+  }
+
+  /**
+   * 
+   * @param search
+   * @param replace
+   * @return true if replaced
+   */
+  public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
+  {
+    int idx = childs.indexOf(search);
+    if (idx == -1) {
+      return false;
+    }
+    childs.remove(idx);
+    for (GWikiFragment ins : replace) {
+      childs.add(idx++, ins);
+    }
+    return true;
   }
 
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,51 +13,37 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.gwiki.page.impl.wiki.tform;
 
-package de.micromata.genome.gwiki.page.impl.wiki.filter;
-
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilterEvent;
-import de.micromata.genome.gwiki.page.RenderModes;
-import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
-import de.micromata.genome.util.types.Pair;
 
 /**
+ * Filter to parse form elements.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiWikiPageRenderKeywordLinkFilter implements GWikiWikiPageCompileFilter
+public class GWikiPageRenderFormFieldsFilter implements GWikiWikiPageCompileFilter
 {
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain,
+   * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
+   */
   public Void filter(GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter> chain,
       GWikiWikiPageCompileFilterEvent event)
   {
+    GWikiWikiPageArtefakt w = event.getWikiPageArtefakt();
+    GWikiFormReplacerVisitor rp = new GWikiFormReplacerVisitor();
     chain.nextFilter(event);
-    int renderMode = event.getWikiContext().getRenderMode();
-    if (RenderModes.NoLinks.isSet(renderMode) == true
-        || RenderModes.ForText.isSet(renderMode) == true
-        || RenderModes.ForRichTextEdit.isSet(renderMode) == true) {
-      return null;
-    }
-    GWikiWikiPageArtefakt a = event.getWikiPageArtefakt();
-    GWikiContent content = a.getCompiledObject();
-    GWikiKeywordLoadElementInfosFilter fe = GWikiKeywordLoadElementInfosFilter.getInstance();
-    if (fe != null && content != null) {
-      String space = event.getElement().getElementInfo().getWikiSpace(event.getWikiContext());
-      Map<String, Pair<Pattern, List<GWikiElementInfo>>> spaceKeyWords = fe.getKeywords(event.getWikiContext()).get(space);
-      if (spaceKeyWords != null) {
-        content.iterate(new KeyWordReplaceVisitor(spaceKeyWords));
-      }
-    }
+    w.getCompiledObject().iterate(rp);
     return null;
   }
 

@@ -473,9 +473,14 @@ public class GWikiWeb
     if (el == null)
       return null;
     GWikiConfigElement metaConfig = (GWikiConfigElement) el;
-    GWikiMetaTemplate template = (GWikiMetaTemplate) metaConfig.getConfig().getCompiledObject();
-    template.setPageId(pageId);
-    return template;
+    try {
+      GWikiMetaTemplate template = (GWikiMetaTemplate) metaConfig.getConfig().getCompiledObject();
+      template.setPageId(pageId);
+      return template;
+    } catch (Exception ex) {
+      GWikiLog.error("Failed to load metatemplate: " + pageId + "; " + ex.getMessage(), ex);
+      return null;
+    }
   }
 
   public List<GWikiElementInfo> getVersions(GWikiElementInfo ei)
