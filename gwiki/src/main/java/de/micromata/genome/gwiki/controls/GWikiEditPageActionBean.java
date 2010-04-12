@@ -135,6 +135,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
     for (GWikiElementInfo ei : ret) {
       GWikiMetaTemplate template = wikiContext.getWikiWeb().findMetaTemplate(ei.getId());
+      if (template == null) {
+        continue;
+      }
       if (template.isNoNewPage() == true) {
         continue;
       }

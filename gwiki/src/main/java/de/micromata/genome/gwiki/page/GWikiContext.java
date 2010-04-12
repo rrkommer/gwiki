@@ -412,6 +412,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return TimeUtils.formatDate(date, df, tz);
   }
 
+  public TimeZone getUserTimeZone()
+  {
+    String tz = getWikiWeb().getAuthorization().getUserProp(this, GWikiUserAuthorization.USER_TZ);
+    tz = StringUtils.defaultIfEmpty(tz, TimeZone.getDefault().getID());
+    TimeZone timeZone = TimeZone.getTimeZone(tz);
+    return timeZone;
+  }
+
   public Date parseUserDateString(String ds)
   {
     if (StringUtils.isBlank(ds) == true) {

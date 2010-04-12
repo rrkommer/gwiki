@@ -76,6 +76,7 @@ public interface GWikiAuthorization
   public void logout(GWikiContext ctx);
 
   public String getEffectiveRight(GWikiContext ctx, GWikiElementInfo ei, String pageRight);
+
   /**
    * 
    * @param ctx
