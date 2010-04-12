@@ -1,3 +1,7 @@
+{pageintro}
+Overview of GWiki features from Users view.
+{pageintro}
+
 {usemacro:localName=pagegallery|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageGalleryMacro}
 {usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
 
