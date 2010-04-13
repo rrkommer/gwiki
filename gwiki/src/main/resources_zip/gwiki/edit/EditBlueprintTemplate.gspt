@@ -1,0 +1,42 @@
+<% wikiContext.skinInclude('popuphead'); %>
+<@include file="inc/stdtags.gspt" @>
+
+<form method="post" action="<gwiki:url value="/edit/EditBlueprint"/>">
+<gwiki:hidden property="pageId"/>
+<c:choose>
+<c:when test="${form.evaluatedWiki != null}">
+	<pre>
+	<c:out value="${form.evaluatedWiki}"/>
+	</pre>
+	<script type="text/javascript">
+	// TODO escape evalwi
+	if (window.opener) {
+		window.opener.gwikiEditInsertTemplate('<c:out value="${form.escapedEvaluatedWiki}" escapeXml="false"/>');
+		self.close();
+	} else {
+		alert('no window opener');
+	}
+	
+	</script>
+</c:when>
+<c:when test="${MainPage == null}">
+<h2>Select Template</h2>
+ <gwiki:select property="templateId" >
+      <gwiki:optionsCollection property="templates" label="key" value="value" />
+    </gwiki:select><p/>
+<input class="gwikiButton main" type="submit" value="Select"/> 
+<input onclick="self.close()" class="gwikiButton reset" type="submit" value="Close"/>
+</c:when>
+<c:otherwise>
+Render Template
+
+<gwiki:hidden property="templateId"/>
+
+<% pageContext.getRequest().getAttribute("MainPage").render(wikiContext); %> 
+<input class="gwikiButton main" type="submit" name="method_onEvaluate" value="Insert"/>
+<input onclick="self.close()" class="gwikiButton reset" type="submit" value="Close"/>
+<p/>
+</c:otherwise>
+</c:choose>
+</form>
+<% wikiContext.skinInclude('popupfoot'); %>
