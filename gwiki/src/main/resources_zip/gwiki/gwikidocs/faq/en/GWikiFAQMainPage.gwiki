@@ -1,0 +1,27 @@
+{pageintro}
+Frequent asked Questions for GWiki.
+{pageintro}
+
+{toc}
+
+h2. Edit Pages
+h3. Rename a pageId
+The function to rename a pageId can be found on the *Info* page.
+Renaming a pageId also fixes all parentPageId references on the child pages.
+
+h3.Import Word into Wiki Page
+
+The Best way to import Word documents is to use the Rich Text editor.
+
+ First open the source document in Word and copy the content text to import
+ into the clipboard.
+
+ Open an existing or new Wiki page and switch to Rich Text view. 
+
+!gwikidocs/faq/en/PasteFromWordIcon.png!
+
+ In the dialog box use Ctrl+V (or equavavilent on your operation system) to paste
+ the word content from clipboard.
+
+ Finally select Insert Button to insert the text in your Wiki page.
+
