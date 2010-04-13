@@ -90,7 +90,7 @@ function gwikiEditInsertTemplate(templateText)
 							accessKey : "",
 							callBack : "insertAttachment"// ,
 						}, {
-							label : "Template",
+							label : "Blueprint",
 							tooltip : "Insert a template",
 							accessKey : "",
 							callBack : "insertTemplate"// ,
