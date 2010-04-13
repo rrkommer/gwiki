@@ -1,0 +1,11 @@
+<@include file="/inc/gwiki/head.gspt" @>
+<style>
+<!--
+.gwikibody {
+background:repeat-x scroll 1em -1em #FFFFFF;
+margin:0;
+padding:0 1em 0 14em;
+}
+-->
+</style>
+<div class="gwikiContent">
