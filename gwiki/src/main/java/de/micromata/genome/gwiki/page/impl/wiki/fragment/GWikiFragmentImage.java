@@ -32,7 +32,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributesUtils;
 
-public class GWikiFragmentImage extends GWikiFragementBase
+public class GWikiFragmentImage extends GWikiFragmentBase
 {
 
   private static final long serialVersionUID = 4699829156802232146L;
@@ -138,7 +138,7 @@ public class GWikiFragmentImage extends GWikiFragementBase
       set.add(ltarget);
     }
 
-    if (GWikiFragementLink.isGlobalUrl(target) == true) {
+    if (GWikiFragmentLink.isGlobalUrl(target) == true) {
       // ctx.append("<img src='", target, "'>");
     } else {
       if (RenderModes.GlobalImageLinks.isSet(ctx.getRenderMode()) == true) {

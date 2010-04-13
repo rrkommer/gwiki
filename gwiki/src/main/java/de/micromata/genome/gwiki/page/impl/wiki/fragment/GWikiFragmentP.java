@@ -48,6 +48,7 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   public void getSource(StringBuilder sb)
   {
     sb.append("\n\n");
+    getChildSouce(sb);
   }
 
   // @Override

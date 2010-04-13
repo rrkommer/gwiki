@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 
 /**
  * Render a help link.
@@ -186,7 +186,7 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     if (link == null) {
       return true;
     }
-    GWikiFragementLink lf = new GWikiFragementLink(link);
+    GWikiFragmentLink lf = new GWikiFragmentLink(link);
     lf.setTitle(title);
     lf.setLinkClass(linkClass);
     lf.render(ctx);

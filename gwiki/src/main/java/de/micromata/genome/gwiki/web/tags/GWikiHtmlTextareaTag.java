@@ -53,7 +53,7 @@ public class GWikiHtmlTextareaTag extends GWikiBasePropertyHtmlTag
   {
     prepare();
     StringBuilder sb = new StringBuilder();
-    GWikiTagRenderUtils.renderSimpleHtmlTag(this, "textarea", sb);
+    GWikiTagRenderUtils.renderOpenHtmlTag(this, "textarea", sb);
     GWikiTagRenderUtils.write(pageContext, sb.toString());
     GWikiTagRenderUtils.write(pageContext, StringEscapeUtils.escapeHtml(StringUtils.defaultString(value)));
     GWikiTagRenderUtils.write(pageContext, "</textarea>");

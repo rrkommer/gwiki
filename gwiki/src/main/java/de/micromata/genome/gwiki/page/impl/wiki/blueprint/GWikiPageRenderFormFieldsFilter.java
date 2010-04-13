@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.page.impl.wiki.tform;
+package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilter;
@@ -25,9 +25,12 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 /**
  * Filter to parse form elements.
  * 
+ * Note: This filter has be register before Keyword filter.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiPageRenderFormFieldsFilter implements GWikiWikiPageCompileFilter
 {
 

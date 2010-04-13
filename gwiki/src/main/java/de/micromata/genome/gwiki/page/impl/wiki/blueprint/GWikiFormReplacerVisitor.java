@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.page.impl.wiki.tform;
+package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +23,15 @@ import java.util.List;
 import org.apache.commons.collections15.ArrayStack;
 
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentUnsecureHtml;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiFormReplacerVisitor implements GWikiFragmentVisitor
 {
   private ArrayStack<GWikiFragment> stack = new ArrayStack<GWikiFragment>();
@@ -79,11 +79,11 @@ public class GWikiFormReplacerVisitor implements GWikiFragmentVisitor
       return;
     }
     String vardef = text.substring(sidx + 1, eidx + sidx + 1);
-    // TODO analyse.
+    // TODO input type.
     if (sidx != 0) {
       frags.add(new GWikiFragmentText(text.substring(0, sidx)));
     }
-    frags.add(new GWikiFragmentUnsecureHtml("<input type=\"text\" name=\"" + vardef + "\"/>"));
+    frags.add(new GWikiFragmentFormElement(vardef));
     String lt = text.substring(sidx + eidx + 2);
     if (lt.length() > 0) {
       parseFormElements(frags, lt);
@@ -113,8 +113,8 @@ public class GWikiFormReplacerVisitor implements GWikiFragmentVisitor
       List<GWikiFragment> frags = parseFormElements(t);
       if (frags.isEmpty() == false) {
         GWikiFragment pf = stack.peek();
-        if (pf instanceof GWikiFragmentChildsBase) {
-          ((GWikiFragmentChildsBase) pf).replaceChilds(fragment, frags);
+        if (pf instanceof GWikiNestableFragment) {
+          ((GWikiNestableFragment) pf).replaceChilds(fragment, frags);
         }
       }
     }

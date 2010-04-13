@@ -94,6 +94,16 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
   @Override
   public void getSource(StringBuilder sb)
   {
+    if (macro instanceof GWikiMacroSourceable) {
+      ((GWikiMacroSourceable) macro).toSource(this, sb);
+    } else {
+      getMacroSource(sb);
+    }
+
+  }
+
+  public void getMacroSource(StringBuilder sb)
+  {
     renderSourceHead(sb);
     if (macro.hasBody() == false) {
       return;
@@ -131,7 +141,7 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
         return true;
       }
       sb = new StringBuilder();
-      
+
       if (macro.evalBody() == true) {
         if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
           attrs.getChildFragment().render(ctx);

@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChunkMacro;
 
 /**
@@ -75,7 +75,7 @@ public class GWikiContent extends GWikiFragmentChildContainer
       }
     }
     for (GWikiFragment frag : v.getFound()) {
-      GWikiFragmentChildsBase child = (GWikiFragmentChildsBase) frag;
+      GWikiNestableFragment child = (GWikiNestableFragment) frag;
       child.renderChilds(ctx);
     }
     if (RenderModes.InMem.isSet(ctx.getRenderMode()) == false) {

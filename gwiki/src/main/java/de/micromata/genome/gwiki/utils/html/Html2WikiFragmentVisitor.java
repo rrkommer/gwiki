@@ -26,9 +26,9 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTable;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.util.types.Holder;
 
@@ -187,8 +187,8 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
       if (StringUtils.equals("div", mf.getAttrs().getCmd()) == true
           && StringUtils.equals("gwikiContent", mf.getAttrs().getArgs().getStringValue("class")) == true) {
         GWikiFragment pf = stack.peek(1);
-        if (pf instanceof GWikiFragmentChildsBase) {
-          ((GWikiFragmentChildsBase) pf).replaceChilds(fragment, mf.getChilds());
+        if (pf instanceof GWikiNestableFragment) {
+          ((GWikiNestableFragment) pf).replaceChilds(fragment, mf.getChilds());
         }
       }
     }

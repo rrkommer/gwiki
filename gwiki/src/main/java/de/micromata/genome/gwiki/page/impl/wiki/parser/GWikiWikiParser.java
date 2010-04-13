@@ -31,7 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBrInLine;
@@ -539,7 +539,7 @@ public class GWikiWikiParser
       return;
     }
     String target = ((GWikiFragmentText) frags.get(0)).getSource();
-    GWikiFragementLink link = new GWikiFragementLink(target);
+    GWikiFragmentLink link = new GWikiFragmentLink(target);
     if (titelFrags != null) {
       link.addChilds(titelFrags);
     }

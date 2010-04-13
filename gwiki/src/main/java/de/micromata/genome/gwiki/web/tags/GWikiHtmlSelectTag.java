@@ -60,7 +60,7 @@ public class GWikiHtmlSelectTag extends GWikiBasePropertyHtmlTag
   {
     prepare();
     StringBuilder sb = new StringBuilder();
-    GWikiTagRenderUtils.renderSimpleHtmlTag(this, "select", sb);
+    GWikiTagRenderUtils.renderOpenHtmlTag(this, "select", sb);
     GWikiTagRenderUtils.write(pageContext, sb.toString());
     pageContext.setAttribute(GWikiHtmlSelectTag_KEY, this);
     return BodyTag.EVAL_BODY_BUFFERED;

@@ -53,7 +53,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.utils.WebUtils;
@@ -122,8 +122,8 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
 
       public void begin(GWikiFragment fragment)
       {
-        if (fragment instanceof GWikiFragementLink) {
-          ret.add(((GWikiFragementLink) fragment).getTarget());
+        if (fragment instanceof GWikiFragmentLink) {
+          ret.add(((GWikiFragmentLink) fragment).getTarget());
         }
       }
 
