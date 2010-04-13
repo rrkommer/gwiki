@@ -30,7 +30,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public abstract class GWikiFragmentChildsBase extends GWikiFragementBase
+public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implements GWikiNestableFragment
 {
 
   private static final long serialVersionUID = -167135240006781273L;

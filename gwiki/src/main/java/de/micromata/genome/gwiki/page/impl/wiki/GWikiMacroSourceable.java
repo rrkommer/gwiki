@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,33 +13,22 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.gwiki.page.impl.wiki;
 
-package de.micromata.genome.gwiki.page.impl.wiki.fragment;
-
-public abstract class GWikiFragementBase implements GWikiFragment
+/**
+ * Interface to retreive source from macro. Most macros doesnt' implement this.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
+public interface GWikiMacroSourceable
 {
-
-  private static final long serialVersionUID = -1842371131960720605L;
-
-  public abstract void getSource(StringBuilder sb);
-
-  public String getSource()
-  {
-    StringBuilder sb = new StringBuilder();
-    getSource(sb);
-    return sb.toString();
-  }
-
-  public String toString()
-  {
-    return getSource();
-  }
-
-  public void iterate(GWikiFragmentVisitor visitor)
-  {
-    visitor.begin(this);
-    visitor.end(this);
-  }
+  /**
+   * render to source
+   * 
+   * @param sb
+   */
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb);
 }

@@ -44,20 +44,20 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBrInLine;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLi;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTable;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
@@ -243,7 +243,7 @@ public class Html2WikiFilter extends DefaultFilter
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(id);
         // if (ei != null) {
         // TODO title and other attributes...
-        parseContext.addFragment(new GWikiFragementLink(id));
+        parseContext.addFragment(new GWikiFragmentLink(id));
         return;
         // }
       }
@@ -251,13 +251,13 @@ public class Html2WikiFilter extends DefaultFilter
     if (href == null) {
       href = "";
     }
-    parseContext.addFragment(new GWikiFragementLink(href));
+    parseContext.addFragment(new GWikiFragmentLink(href));
   }
 
   protected void finalizeLink()
   {
     List<GWikiFragment> frags = parseContext.popFragList();
-    GWikiFragementLink lf = (GWikiFragementLink) parseContext.lastFragment();
+    GWikiFragmentLink lf = (GWikiFragmentLink) parseContext.lastFragment();
     // if (wasForeignLink == true) {
     lf.addChilds(frags);
     // }
@@ -431,8 +431,8 @@ public class Html2WikiFilter extends DefaultFilter
     }
     GWikiFragment pfrag = autoCloseTagStack.pop();
     List<GWikiFragment> cfrags = parseContext.popFragList();
-    if (pfrag instanceof GWikiFragmentChildsBase) {
-      ((GWikiFragmentChildsBase) pfrag).addChilds(cfrags);
+    if (pfrag instanceof GWikiNestableFragment) {
+      ((GWikiNestableFragment) pfrag).addChilds(cfrags);
     }
     return true;
   }

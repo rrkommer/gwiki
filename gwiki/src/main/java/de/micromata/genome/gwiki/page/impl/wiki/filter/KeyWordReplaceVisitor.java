@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.collections15.ArrayStack;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHtml;
@@ -47,7 +47,7 @@ public class KeyWordReplaceVisitor implements GWikiFragmentVisitor
   {
     for (int i = 0; i < stack.size(); ++i) {
       GWikiFragment frag = stack.peek(i);
-      if (frag instanceof GWikiFragementLink || frag instanceof GWikiFragmentHeading) {
+      if (frag instanceof GWikiFragmentLink || frag instanceof GWikiFragmentHeading) {
         return true;
       }
     }

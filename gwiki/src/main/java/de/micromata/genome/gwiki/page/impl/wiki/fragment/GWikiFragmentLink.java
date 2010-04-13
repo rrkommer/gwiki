@@ -30,7 +30,7 @@ import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
 
-public class GWikiFragementLink extends GWikiFragmentChildsBase
+public class GWikiFragmentLink extends GWikiFragmentChildsBase
 {
 
   private static final long serialVersionUID = 7539226429764305415L;
@@ -47,7 +47,7 @@ public class GWikiFragementLink extends GWikiFragmentChildsBase
 
   private String linkClass = null;
 
-  public GWikiFragementLink(String target)
+  public GWikiFragmentLink(String target)
   {
     this.originTarget = target;
     List<String> elems = Converter.parseStringTokens(target, "|", false);

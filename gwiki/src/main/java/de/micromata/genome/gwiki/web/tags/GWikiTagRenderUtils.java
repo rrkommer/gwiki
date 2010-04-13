@@ -101,6 +101,13 @@ public class GWikiTagRenderUtils
     sb.append("/>");
   }
 
+  public static void renderOpenHtmlTag(Object tag, String tagName, StringBuilder sb)
+  {
+    sb.append("<").append(tagName);
+    renderTagAttributes(tag, sb);
+    sb.append(">");
+  }
+
   public static void write(PageContext pageContext, String data) throws JspException
   {
     try {
