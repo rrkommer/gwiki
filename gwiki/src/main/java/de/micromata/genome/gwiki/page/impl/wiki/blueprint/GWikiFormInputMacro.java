@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
@@ -36,7 +36,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
+public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSourceable
 {
 
   private static final long serialVersionUID = -5170233131716774400L;
@@ -103,9 +103,6 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiBodyEval
       renderStandardAttr("rows", ctx, attrs);
       renderStandardAttr("wrap", ctx, attrs);
       String v = value;
-      if (StringUtils.isEmpty(v) == true) {
-        v = " ";
-      }
       ctx.append(">" + StringEscapeUtils.escapeHtml(v) + "</textarea>");
     } else if (StringUtils.equals(inputType, "checkbox") == true) {
       ctx.append("<input type=\"checkbox\" name=\"" + name + "\"");
@@ -190,8 +187,9 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiBodyEval
   @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
-    // TODO Auto-generated method stub
-    super.ensureRight(attrs, ctx);
+    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
+      throw new AuthorizationFailedException("Unsecure usage of form Macro.");
+    }
   }
 
   public String getName()

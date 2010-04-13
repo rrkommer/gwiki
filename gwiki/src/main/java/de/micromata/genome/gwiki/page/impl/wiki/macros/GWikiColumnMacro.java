@@ -50,6 +50,9 @@ public class GWikiColumnMacro extends GWikiMacroBean implements GWikiBodyEvalMac
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
+    if (StringUtils.isEmpty(styleClass) == true && StringUtils.isNotEmpty(attrs.getArgs().getStringValue("class")) == true) {
+      styleClass = attrs.getArgs().getStringValue("class");
+    }
     ctx.append("<td");
     if (StringUtils.isNotEmpty(width) == true) {
       ctx.append(" width=\"").append(width).append("\"");

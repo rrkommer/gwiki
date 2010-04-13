@@ -50,6 +50,9 @@ public class GWikiSectionMacro extends GWikiMacroBean implements GWikiBodyEvalMa
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
+    if (StringUtils.isEmpty(styleClass) == true && StringUtils.isNotEmpty(attrs.getArgs().getStringValue("class")) == true) {
+      styleClass = attrs.getArgs().getStringValue("class");
+    }
     ctx.append("<table width=\"100%\"");
     if (border == true) {
       ctx.append(" border=\"1\"");
