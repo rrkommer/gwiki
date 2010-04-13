@@ -1,3 +1,13 @@
+h2. 2010-04-13
+* Macro column und section analog Confluence umgesetzt.
+* Wiki Editor nun auch mit Einfügen-Menüpunkt für Attachments
+* Man kann nun Blueprints oder Templates defineren, die im Wiki-Editor eingefügt werden können. Diese können auch Formularelemente enthalten.
+
+
+h2. 2010-04-10
+* Blog-Funktionalität angefangen.
+** Kalendar
+
 h2. 2010-04-07
 * Listen  (ul, ol) gefixt bei Rendern und HTML.
 * Umstellung des Rendern von <br/>s auf <p>s.
