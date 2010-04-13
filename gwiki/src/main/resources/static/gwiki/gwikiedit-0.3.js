@@ -10,10 +10,16 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 	}
 }
 
+function gwikiEditInsertTemplate(templateText)
+{
+	gwikiEditField.focus();
+	insertIntoTextArea(gwikiEditField, templateText, '');
+}
+
 (function($) {
 	$.fn.gwikiedit = function(settings) {
 		var field = this;
-		//alert("field: " + $(field).attr('id'));
+		// alert("field: " + $(field).attr('id'));
 		gwikiEditField = field;
 		var currentSearchType = '';
 		var maximized = false;
@@ -78,6 +84,16 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 					accessKey : "",
 					callBack : "insertImage"// ,
 				// altKeyCode : 73
+						}, {
+							label : "Attachment",
+							tooltip : "Insert existing Attachment",
+							accessKey : "",
+							callBack : "insertAttachment"// ,
+						}, {
+							label : "Template",
+							tooltip : "Insert a template",
+							accessKey : "",
+							callBack : "insertTemplate"// ,
 						} ]
 			}
 		};
@@ -104,13 +120,15 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 			var oName = $$.attr("name") || "";
 
 			// wrap textfield in a container div
-				var t = "<div id=\"gwikiwed" + pn + "\" style=\"padding-right: 8px\"></div>";
+				var t = "<div id=\"gwikiwed" + pn
+						+ "\" style=\"padding-right: 8px\"></div>";
 				var tewrap = $(field).wrap(t);
-				
+
 				var editdiv = $("#gwikiwed" + pn).wrap(
-						"<div id=\"" + "gwikiwed2" + oId + "\" title=\"" + oTitle + "\" class=\""
-								+ oClassName + "\" width=\"100%\" height=\"100%\"></div>");
-				
+						"<div id=\"" + "gwikiwed2" + oId + "\" title=\"" + oTitle
+								+ "\" class=\"" + oClassName
+								+ "\" width=\"100%\" height=\"100%\"></div>");
+
 				// add the toolbar et statusbar
 				var toolbar = $(
 						"<div class=\"" + options.toolBarClassName + "\"></div>")
@@ -140,7 +158,7 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 								return false;
 							}).appendTo(toolbar);
 						});
-				
+
 				if (!$.browser.opera)
 					$(field).keydown(keyEvent);
 				else
@@ -304,7 +322,14 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 				}
 				function showSuggest() {
 					wikiEditShowSuggest(options, field, pageType, linkstart, linkend);
-
+				}
+				function insertAttachment() {
+					wikiEditShowSuggest(options, field, 'attachment', '[', ']');
+				}
+				function insertTemplate() {
+					gwikiEditField = field;
+					WREF = window.open(gwikiHomeUrl + "/edit/EditBlueprint","Blueprint Template",'width=1200,height=900');
+					if(!WREF.opener){ WREF.opener = this.window; }
 				}
 				function keyEvent(evt) {
 					gwikiSetContentChanged();
