@@ -52,7 +52,7 @@ package de.micromata.genome.gwiki.page.impl.wiki2;
 
 import java.util.List;
 
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragementLink;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentDecorator;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
@@ -64,8 +64,8 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
     List<GWikiFragment> frags = parseText("[Ein\\|Titel|ein/link]");
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
-    assertTrue(frags.get(0) instanceof GWikiFragementLink);
-    GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
+    assertTrue(frags.get(0) instanceof GWikiFragmentLink);
+    GWikiFragmentLink l = (GWikiFragmentLink) frags.get(0);
     assertEquals("ein/link", l.getTarget());
     frags = l.getChilds();
     assertEquals(1, frags.size());
@@ -78,8 +78,8 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
     List<GWikiFragment> frags = parseText("[*Ein Titel*|ein/link]");
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
-    assertTrue(frags.get(0) instanceof GWikiFragementLink);
-    GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
+    assertTrue(frags.get(0) instanceof GWikiFragmentLink);
+    GWikiFragmentLink l = (GWikiFragmentLink) frags.get(0);
     assertEquals("ein/link", l.getTarget());
     frags = l.getChilds();
     assertEquals(1, frags.size());
@@ -96,8 +96,8 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
     List<GWikiFragment> frags = parseText("[Ein Titel|ein/link]");
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
-    assertTrue(frags.get(0) instanceof GWikiFragementLink);
-    GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
+    assertTrue(frags.get(0) instanceof GWikiFragmentLink);
+    GWikiFragmentLink l = (GWikiFragmentLink) frags.get(0);
     assertEquals("ein/link", l.getTarget());
     frags = l.getChilds();
     assertEquals(1, frags.size());
@@ -110,8 +110,8 @@ public class GWikiWikiParserLinkTest extends GWikiWikiParserTestBase
     List<GWikiFragment> frags = parseText("[ein/link]");
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
-    assertTrue(frags.get(0) instanceof GWikiFragementLink);
-    GWikiFragementLink l = (GWikiFragementLink) frags.get(0);
+    assertTrue(frags.get(0) instanceof GWikiFragmentLink);
+    GWikiFragmentLink l = (GWikiFragmentLink) frags.get(0);
     assertEquals("ein/link", l.getTarget());
   }
 
