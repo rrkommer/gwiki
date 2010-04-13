@@ -17,7 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 
+import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
@@ -27,7 +30,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiMacroSourceable
+public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
 {
 
   private static final long serialVersionUID = 8655893189760899090L;
@@ -58,6 +61,14 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiMacroSou
   {
     if (GWikiFormMacro.evalForm() == false) {
       macroFragment.getSource(sb);
+    }
+  }
+
+  @Override
+  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  {
+    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
+      throw new AuthorizationFailedException("Unsecure usage of form Macro.");
     }
   }
 

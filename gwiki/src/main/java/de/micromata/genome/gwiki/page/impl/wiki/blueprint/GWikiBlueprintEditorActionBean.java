@@ -117,7 +117,7 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
     }
     // TODO validate form.
     wikiContext.setRequestAttribute(GWikiFormInputMacro.EVAL_FORM, Boolean.TRUE);
-    evaluatedWiki = wikiTemplate.getCompiledObject().getSource();
+    evaluatedWiki = StringUtils.trim(wikiTemplate.getCompiledObject().getSource());
     return null;
   }
 

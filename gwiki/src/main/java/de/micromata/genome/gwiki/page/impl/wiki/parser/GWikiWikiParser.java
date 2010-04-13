@@ -31,7 +31,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBrInLine;
@@ -41,6 +40,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLi;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentParseError;
@@ -955,9 +955,10 @@ public class GWikiWikiParser
     }
     if (startPlIdx != -1) {
       List<GWikiFragment> plist = ctx.popFragList();
-      List<GWikiFragment> rl = plist.subList(0, startPlIdx);
+      int minpidx = Math.min(startPlIdx, plist.size());
+      List<GWikiFragment> rl = plist.subList(0, minpidx);
       ctx.pushFragList(rl);
-      List<GWikiFragment> ll = plist.subList(startPlIdx, plist.size());
+      List<GWikiFragment> ll = plist.subList(minpidx, plist.size());
       if (ll.size() > 0 && ll.get(ll.size() - 1) instanceof GWikiFragmentBr) {
         ll = ll.subList(0, ll.size() - 1);
       }
