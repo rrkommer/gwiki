@@ -72,7 +72,7 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
       return value;
     }
     HttpServletRequest req = GWikiI18NServletFilter.HTTPCTX.get().getFirst();
-    if (ObjectUtils.toString(req.getAttribute("gwiki18ndeco")).equals("false") == true) {
+    if (ObjectUtils.toString(req.getAttribute("gwiki18ndeco")).equals("true") == false) {
       return value;
     }
     if (GWikiMessageTag.getDomId4I18N(req, key) != null) {
