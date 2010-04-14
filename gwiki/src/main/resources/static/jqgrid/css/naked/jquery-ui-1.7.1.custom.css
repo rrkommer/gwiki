@@ -93,8 +93,7 @@
 	font-size: 1.1em;
 }
 
-.ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button
-	{
+.ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button {
 	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
 	font-size: 1em;
 }
@@ -102,7 +101,7 @@
 .ui-widget-content {
 	border: 1px solid #a6c9e2;
 	background: #fcfdfd url(images/ui-bg_inset-hard_100_fcfdfd_1x100.png)
-		50% bottom repeat-x;
+	50% bottom repeat-x;
 	color: #222222;
 }
 
@@ -112,8 +111,7 @@
 
 .ui-widget-header {
 	border: 1px solid #111111;
-	background: #EEEEEE// url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png)
-		50% 50% repeat-x;
+	background: #EEEEEE// url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x;
 	color: #ffffff;
 	font-weight: bold;
 }
@@ -127,24 +125,22 @@
 .ui-state-default,.ui-widget-content .ui-state-default {
 	border: 1px solid #c5dbec;
 	background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	font-weight: bold;
 	color: #2e6e9e;
 	outline: none;
 }
 
-.ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited
-	{
+.ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited {
 	color: #2e6e9e;
 	text-decoration: none;
 	outline: none;
 }
 
-.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus
-	{
+.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus {
 	border: 1px solid #79b7e7;
 	background: #d0e5f5 url(images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	font-weight: bold;
 	color: #1d5987;
 	outline: none;
@@ -159,7 +155,7 @@
 .ui-state-active,.ui-widget-content .ui-state-active {
 	border: 1px solid #79b7e7;
 	background: #f5f8f9 url(images/ui-bg_inset-hard_100_f5f8f9_1x100.png)
-		50% 50% repeat-x;
+	50% 50% repeat-x;
 	font-weight: bold;
 	color: #e17009;
 	outline: none;
@@ -176,7 +172,7 @@
 .ui-state-highlight,.ui-widget-content .ui-state-highlight {
 	border: 1px solid #fad42e;
 	background: #fbec88 url(images/ui-bg_flat_55_fbec88_40x100.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	color: #363636;
 }
 
@@ -187,7 +183,7 @@
 .ui-state-error,.ui-widget-content .ui-state-error {
 	border: 1px solid #cd0a0a;
 	background: #fef1ec url(images/ui-bg_glass_95_fef1ec_1x400.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	color: #cd0a0a;
 }
 
@@ -1002,7 +998,7 @@
 /* Overlays */
 .ui-widget-overlay {
 	background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	opacity: .30;
 	filter: Alpha(Opacity = 30);
 }
@@ -1011,12 +1007,13 @@
 	margin: -8px 0 0 -8px;
 	padding: 8px;
 	background: #aaaaaa url(images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50%
-		repeat-x;
+	repeat-x;
 	opacity: .30;
 	filter: Alpha(Opacity = 30);
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
-}  /* Accordion
+}
+/* Accordion
 ----------------------------------*/
 .ui-accordion .ui-accordion-header {
 	cursor: pointer;
@@ -1059,7 +1056,8 @@
 
 .ui-accordion .ui-accordion-content-active {
 	display: block;
-}  /* Datepicker
+}
+/* Datepicker
 ----------------------------------*/
 .ui-datepicker {
 	width: 17em;
@@ -1078,8 +1076,7 @@
 	height: 1.8em;
 }
 
-.ui-datepicker .ui-datepicker-prev-hover,.ui-datepicker .ui-datepicker-next-hover
-	{
+.ui-datepicker .ui-datepicker-prev-hover,.ui-datepicker .ui-datepicker-next-hover {
 	top: 1px;
 }
 
@@ -1099,8 +1096,7 @@
 	right: 1px;
 }
 
-.ui-datepicker .ui-datepicker-prev span,.ui-datepicker .ui-datepicker-next span
-	{
+.ui-datepicker .ui-datepicker-prev span,.ui-datepicker .ui-datepicker-next span {
 	display: block;
 	position: absolute;
 	left: 50%;
@@ -1125,8 +1121,7 @@
 	width: 100%;
 }
 
-.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year
-	{
+.ui-datepicker select.ui-datepicker-month,.ui-datepicker select.ui-datepicker-year {
 	width: 49%;
 }
 
@@ -1258,8 +1253,7 @@
 	float: left;
 }
 
-.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current
-	{
+.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current {
 	float: right;
 }
 
@@ -1278,90 +1272,90 @@
 }
 
 /* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
-.ui-datepicker-cover {
-	display: none; /*sorry for IE5*/
-	display /**/: block; /*sorry for IE5*/
-	position: absolute; /*must have*/
-	z-index: -1; /*must have*/
-	filter: mask(); /*must have*/
-	top: -4px; /*must have*/
-	left: -4px; /*must have*/
-	width: 200px; /*must have*/
-	height: 200px; /*must have*/
-}  /* Dialog
-----------------------------------*/
-.ui-dialog {
-	position: relative;
-	padding: .2em;
-	width: 300px;
-}
+	.ui-datepicker-cover {
+		display: none; /*sorry for IE5*/
+		display /**/: block; /*sorry for IE5*/
+		position: absolute; /*must have*/
+		z-index: -1; /*must have*/
+		filter: mask(); /*must have*/
+		top: -4px; /*must have*/
+		left: -4px; /*must have*/
+		width: 200px; /*must have*/
+		height: 200px; /*must have*/
+	}
+	/* Dialog
+	----------------------------------*/
+	.ui-dialog {
+		position: relative;
+		padding: .2em;
+		width: 300px;
+	}
 
-.ui-dialog .ui-dialog-titlebar {
-	padding: .5em .3em .3em 1em;
-	position: relative;
-}
+	.ui-dialog .ui-dialog-titlebar {
+		padding: .5em .3em .3em 1em;
+		position: relative;
+	}
 
-.ui-dialog .ui-dialog-title {
-	float: left;
-	margin: .1em 0 .2em;
-}
+	.ui-dialog .ui-dialog-title {
+		float: left;
+		margin: .1em 0 .2em;
+	}
 
-.ui-dialog .ui-dialog-titlebar-close {
-	position: absolute;
-	right: .3em;
-	top: 50%;
-	width: 19px;
-	margin: -10px 0 0 0;
-	padding: 1px;
-	height: 18px;
-}
+	.ui-dialog .ui-dialog-titlebar-close {
+		position: absolute;
+		right: .3em;
+		top: 50%;
+		width: 19px;
+		margin: -10px 0 0 0;
+		padding: 1px;
+		height: 18px;
+	}
 
-.ui-dialog .ui-dialog-titlebar-close span {
-	display: block;
-	margin: 1px;
-}
+	.ui-dialog .ui-dialog-titlebar-close span {
+		display: block;
+		margin: 1px;
+	}
 
-.ui-dialog .ui-dialog-titlebar-close:hover,.ui-dialog .ui-dialog-titlebar-close:focus
-	{
-	padding: 0;
-}
+	.ui-dialog .ui-dialog-titlebar-close:hover,.ui-dialog .ui-dialog-titlebar-close:focus {
+		padding: 0;
+	}
 
-.ui-dialog .ui-dialog-content {
-	border: 0;
-	padding: .5em 1em;
-	background: none;
-	overflow: auto;
-	zoom: 1;
-}
+	.ui-dialog .ui-dialog-content {
+		border: 0;
+		padding: .5em 1em;
+		background: none;
+		overflow: auto;
+		zoom: 1;
+	}
 
-.ui-dialog .ui-dialog-buttonpane {
-	text-align: left;
-	border-width: 1px 0 0 0;
-	background-image: none;
-	margin: .5em 0 0 0;
-	padding: .3em 1em .5em .4em;
-}
+	.ui-dialog .ui-dialog-buttonpane {
+		text-align: left;
+		border-width: 1px 0 0 0;
+		background-image: none;
+		margin: .5em 0 0 0;
+		padding: .3em 1em .5em .4em;
+	}
 
-.ui-dialog .ui-dialog-buttonpane button {
-	float: right;
-	margin: .5em .4em .5em 0;
-	cursor: pointer;
-	padding: .2em .6em .3em .6em;
-	line-height: 1.4em;
-	width: auto;
-	overflow: visible;
-}
+	.ui-dialog .ui-dialog-buttonpane button {
+		float: right;
+		margin: .5em .4em .5em 0;
+		cursor: pointer;
+		padding: .2em .6em .3em .6em;
+		line-height: 1.4em;
+		width: auto;
+		overflow: visible;
+	}
 
-.ui-dialog .ui-resizable-se {
-	width: 14px;
-	height: 14px;
-	right: 3px;
-	bottom: 3px;
-}
+	.ui-dialog .ui-resizable-se {
+		width: 14px;
+		height: 14px;
+		right: 3px;
+		bottom: 3px;
+	}
 
-.ui-draggable .ui-dialog-titlebar {
-	cursor: move;
-}
+	.ui-draggable .ui-dialog-titlebar {
+		cursor: move;
+	}
 
 /* Progressbar
 ----------------------------------*/
@@ -1373,7 +1367,8 @@
 .ui-progressbar .ui-progressbar-value {
 	margin: -1px;
 	height: 100%;
-}  /* Resizable
+}
+/* Resizable
 ----------------------------------*/
 .ui-resizable {
 	position: relative;
@@ -1386,8 +1381,7 @@
 	display: block;
 }
 
-.ui-resizable-disabled .ui-resizable-handle,.ui-resizable-autohide .ui-resizable-handle
-	{
+.ui-resizable-disabled .ui-resizable-handle,.ui-resizable-autohide .ui-resizable-handle {
 	display: none;
 }
 
@@ -1453,7 +1447,8 @@
 	height: 9px;
 	right: -5px;
 	top: -5px;
-}  /* Slider
+}
+/* Slider
 ----------------------------------*/
 .ui-slider {
 	position: relative;
@@ -1520,7 +1515,8 @@
 
 .ui-slider-vertical .ui-slider-range-max {
 	top: 0;
-}  /* Tabs
+}
+/* Tabs
 ----------------------------------*/
 .ui-tabs {
 	padding: .2em;
@@ -1552,17 +1548,15 @@
 	border-bottom-width: 0;
 }
 
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected a,.ui-tabs .ui-tabs-nav li.ui-state-disabled a,.ui-tabs .ui-tabs-nav li.ui-state-processing a
-	{
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a,.ui-tabs .ui-tabs-nav li.ui-state-disabled a,.ui-tabs .ui-tabs-nav li.ui-state-processing a {
 	cursor: text;
 }
 
-.ui-tabs .ui-tabs-nav li a,.ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a
-	{
+.ui-tabs .ui-tabs-nav li a,.ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
 	cursor: pointer;
 }
-	
-	/* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+
+/* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel {
 	padding: 1em 1.4em;
 	display: block;

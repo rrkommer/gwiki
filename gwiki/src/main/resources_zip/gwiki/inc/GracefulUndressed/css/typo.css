@@ -592,6 +592,8 @@ a:hover {
 	width:60%;
 }
 
+
+
 #gwikiContent table.gwikiProperties, 
 #gwikiContent table.gwikiProperties tr td,
 #gwikiContent table.gwikiProperties tr th,
@@ -605,6 +607,14 @@ a:hover {
 	font-size:1em;
 	
 }
+
+.gwikiProperties input.text {
+	margin:0;
+	padding:0;
+	
+}
+
+
 
 #gwikiContent form label {
 	display:block;

@@ -12,7 +12,7 @@
 </td>
 </tr>
 <tr><td>
-<hr/>
+
 <small><%
 	 de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext);
 %></small>

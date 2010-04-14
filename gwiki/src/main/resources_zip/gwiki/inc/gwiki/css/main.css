@@ -4,66 +4,85 @@
 	/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
 	/* ================================================================================= */
 .gwikibody {
-	padding: 0 1em 0em 14em;
+	padding: 0;
 	margin: 0;
 	background: #fff url('../img/gui/headbg.gif') repeat-x 1em -1em;
 }
 
-.gwikibodyNoNav {
-	padding: 0 1em 0em 1em;
-}
+
 
 #gwikiWrapperWrapper {
 	position: relative;
 	padding-left: 1.0em;
-	margin: 0 auto;
-	/*width:90em;*/
-	background: transparent url("../img/gui/contentbg_left.png") no-repeat
-		0em 6em;
+	margin: 0 3em;
+	
+	background: transparent url("../img/gui/contentbg_left.png") no-repeat 0em 6em;
+}
+
+.gwikibody #gwikiWrapperWrapper{
+	margin-left:24em;
+}
+
+.gwikibodyNoNav #gwikiWrapperWrapper{
+	margin-left:3em;
 }
 
 #gwikiWrapper {
 	padding-right: 0.0em;
-	background: transparent url("../img/gui/contentbg.png") no-repeat 100%
-		6em;
+	background: transparent url("../img/gui/contentbg.png") no-repeat 100% 6em;
 }
 
 .gwikiExplorer {
-	top: 10em;
-	left: 0em;
-	width: 13em;
-	height: 100%;
-	margin: 0em auto;
-	background-color: #f9f9f9;
-	position: absolute;
-	padding-top: 1em;
-	padding-left: 1em;
-	/*padding-right: 1em;
-		*/
-	/*background: transparent url("../img/gui/contentbg.png") no-repeat 100%;*/
+	background: #fff url("../img/gui/contentbg_left.png") no-repeat 20.3em -6em;
+	left:-20.45em;
+	border:1px solid #ccc;
+	border-right:none;
+	padding:0.5em;
+	position:absolute;
+	top:11em;
+	width:20em;
+	-moz-border-radius: 0.5em 0 0 0.5em;
+	-webkit-border-radius: 0.5em 0 0 0.5em;
 }
 
 .gwikiExplorerNoNav {
-	width: 1.0em;
-	padding-left: 0em;
+	background-position: 2.4em -6em;
+	left:-2.45em;
+	width:2em;
 }
+
+ul .gwikiNavMenu {}
 
 ul.gwikiNavMenu {
 	background-color: #f9f9f9;
 }
 
-li.gwikiNavMenu {
-	background-color: #f9f9f9;
+ul.gwikiNavMenu li {
+	margin:0;
+	padding:0;
+}
+
+ul.gwikiNavMenu li a {
+	background: #fff;
+	display:block;
+	border-top: 1px solid #efefef;
+	padding:0.5em;
+}
+
+ul.gwikiNavMenu li a:hover {
+	background:#D6EDF6;
 }
 
 #gwikiHead {
 	margin: 0;
 	padding: 0;
-	height: 4.0em;
+	height: 16em;
 }
 
 #gwikiMasthead {
 	float: left;
+	height:3em;
+	padding:0.8em 0 1.2em 0;
 }
 
 #gwikiMasthead img {
@@ -84,8 +103,7 @@ li.gwikiNavMenu {
 #gwikiQuicksearchSubmit {
 	text-indent: -9999px;
 	border: none;
-	background: transparent url("../img/icons/search16.png") no-repeat
-		center center;
+	background: transparent url("../img/icons/search16.png") no-repeat center center;
 	font-size: 1.0em;
 	width: 1.6em;
 	height: 1.6em;
@@ -94,8 +112,9 @@ li.gwikiNavMenu {
 }
 
 #gwikiBreadcrumb {
-	margin: 1.3em 0 0;
-	font-size: 0.8em;
+	margin: 1.8em 0 0 0.5em;
+	font-size: 1.4em;
+	color: #CFD7D9;
 }
 
 #gwikiQuicksearchSubmit:hover {
@@ -104,13 +123,14 @@ li.gwikiNavMenu {
 }
 
 #gwikiSearchmenu {
-	width: 20em;
+	width: 25em;
+	margin: 2em 0 0 0;
 }
 
 #gwikiSearchmenu ul li {
 	float: left;
 	padding: 0.2em;
-	list-style: none outside none;
+	list-style: none;
 }
 
 #gwikiSearchmenu ul li a {
@@ -141,6 +161,7 @@ ul#gwikiMenuone,#gwikiMenuone ul {
 }
 
 /* gwiki Head content END + + + + + + + + + + + + + + + + */
+
 #gwikiContainer { /*width:89.6em;*/
 	background: transparent;
 	margin: 0 auto;
