@@ -9,7 +9,7 @@ function gwikii18nStoreChanges()
 	jQuery.ajax({
 		async: false,
 		cache: false,
-		type: "POST",
+		type: "post",
 		url: '<gwiki:url value="/edit/I18NAjaxEdit"/>',
 		data: sf,
 		complete: function(req, textStatus) {

@@ -211,12 +211,12 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     XmlNode[] controlNodes = new XmlNode[0];
     String type = pct.getControlType();
     if (StringUtils.equals(type, "BOOLEAN") == true) {
-      List<String> attrs = Xml.asList("type", "checkbox", "name", pct.getRequestKey(), "value", "true");
+      List<String> attrs = Xml.asList("type", "checkbox", "name", pct.getRequestKey(), "value", "true", "class", "checkbox");
       if (pct.isReadOnly() == true) {
-        attrs = Xml.add(attrs, "disabled", "true");
+        attrs = Xml.add(attrs, "disabled", "true", "class", "checkbox");
       }
       if (StringUtils.equals(pct.getPropsValue(), "true") == true) {
-        attrs = Xml.add(attrs, "checked", "true");
+        attrs = Xml.add(attrs, "checked", "true", "class", "checkbox");
       }
       controlNodes = Xml.nodes(Html.input(Xml.listAsAttrs(attrs)));
     } else if (StringUtils.equals(type, "OPTION") == true) {
@@ -225,13 +225,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       String dates = pct.getPropsValue();
       Date date = GWikiProps.parseTimeStamp(dates);
       String fdate = pct.getWikiContext().getUserDateString(date);
-      List<String> attrs = Xml.asList("type", "text", "size", "30", "name", pct.getRequestKey(), "value", fdate);
+      List<String> attrs = Xml.asList("type", "text", "size", "30", "name", pct.getRequestKey(), "value", fdate, "class", "text");
       if (pct.isReadOnly() == true) {
         Xml.add(attrs, "disabled", "disabled");
       }
       controlNodes = Xml.nodes(Html.input(Xml.listAsAttrs(attrs)));
     } else {
-      List<String> attrs = Xml.asList("type", "text", "size", "40", "name", pct.getRequestKey(), "value", value);
+      List<String> attrs = Xml.asList("type", "text", "size", "40", "name", pct.getRequestKey(), "value", value, "class", "text");
       if (pct.isReadOnly() == true) {
         Xml.add(attrs, "disabled", "disabled");
       }
@@ -260,9 +260,9 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
   {
     XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
         Html.tr( //
-            Html.th(Xml.attrs("width", "70", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
-            Html.th(Xml.attrs("width", "300", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
-            Html.th(Xml.attrs("align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.description")))));
+            Html.th(Xml.attrs("width", "70"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
+            Html.th(Xml.attrs("width", "300"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
+            Html.th(Xml.attrs(), Xml.code(ctx.getTranslated("gwiki.propeditor.title.description")))));
     GWikiEditPageActionBean bean = ((GWikiEditPageActionBean) ctx.getRequest().getAttribute("form"));
     String metaTemplateId = bean.getMetaTemplate().getPageId();
     // String metaTemplateId = el.getMetaTemplate().getPageId();
@@ -281,7 +281,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       }
       table.add( //
           Html.tr( //
-              Html.td(Xml.code(label)), //
+              Html.td(Xml.code(label)),//
               Html.td(Xml.code(nested)), //
               Html.td(Xml.code(ctx.getTranslatedProp(d.getDescription())))));
     }

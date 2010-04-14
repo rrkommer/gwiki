@@ -22,7 +22,7 @@
     </c:choose></form>
 		</fieldset>
 		
-    <hr></hr>
+    
     <script type="text/javascript">
 function submitDelete(myId)
 {

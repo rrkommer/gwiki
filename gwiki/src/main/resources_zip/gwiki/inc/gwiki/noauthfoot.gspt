@@ -6,7 +6,7 @@
 
 				<div id="gwikiFooter">
 
-<%--
+
 					<dl class="gwikiFooter">
 						<dt>
 							<a href="#">Pageinfo</a>
@@ -55,7 +55,7 @@
 							<a href="#">Lorem Ipsum</a>
 						</dd>
 					</dl>
-		--%>
+	
 					<div class="clearAll"> &nbsp; </div>
 					<p class="imprint"> By Roger Rene Kommer <a href="mailto:r.kommer@micromata.de">r.kommer@micromata.de</a> and <a href="http://www.micromata.de">Micromata</a> <a href="http://www.micromata.de"
 							title="http://www.micromata.de">www.micromata.de</a> | <a

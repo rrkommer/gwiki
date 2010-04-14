@@ -3,45 +3,35 @@
 
 <% boolean wikiWithNavNavigation = true; %>
 <script type="text/javascript">
-<!--
-function gwikiToggleExplorer()
-{
+/* <![CDATA[ */
+
+function gwikiToggleExplorer() {
 	if ($('#gwikiNavContent').is(':hidden') == true) {
 		$('#gwikiNavContent').show();
 		$('body').removeClass('gwikibodyNoNav');
 		$('#gwikiExplorer').removeClass('gwikiExplorerNoNav');
-		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>');
+		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/gui/tools.gif"/>');
 		gwikiSaveUserPrev('WITH_NAVBAR', true, true);
-		
 	} else {
 		$('#gwikiNavContent').hide();
 		$('body').addClass('gwikibodyNoNav');
 		$('#gwikiExplorer').addClass('gwikiExplorerNoNav');
-		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>');
+		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/gui/tools.gif"/>');
 		gwikiSaveUserPrev('WITH_NAVBAR', false, true);
 	}
 }
 
-//-->
+
+\$(document).ready(function(){
+  	gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+ });
+
+/*]]>*/
 </script>
 
-<div id="gwikiExplorer" class="gwikiExplorer <%= gwikiWithNavBar ? "" : " gwikiExplorerNoNav" %>">
-			<div style="float: right; ">
-				<a href="javascript:gwikiToggleExplorer()">
-				<% if (gwikiWithNavBar) { %>
-				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>" alt=""/>
-				<% } else { %>
-				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>" alt=""/>
-				<% } %>
-				</a>
-			</div>
-<div id="gwikiNavContent" style="<%= gwikiWithNavBar  ? "" : "display: none;" %>">
- <@include file="inc/navMenu" @>
- </div>
-</div>
+
 		<div id="gwikiWrapperWrapper">
 			<div id="gwikiWrapper">
-			
 				<div id="gwikiHead">
 					<div id="gwikiMasthead">
 						<div id="gwikiLogo">
@@ -58,13 +48,15 @@ function gwikiToggleExplorer()
 						<div id="gwikiSearchmenu">
            					<ul>
 					           	<gwiki:authorize pageId="edit/SiteMap">
-					             	<li><a href="<gwiki:url value="/edit/SiteMap"/>">
+					             	<li><a href="<gwiki:url value="/edit/SiteMap" />">
 					             	<img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"  /></a></li>
 					            </gwiki:authorize>
+					            
 								<gwiki:authorize pageId="edit/ViewAllPages">
 	             					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">
 	             						<img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a></li>
 	             				</gwiki:authorize>
+	             				
 	             				<gwiki:authorize pageId="edit/Keywords">
 	             					<li><a href="<gwiki:url value="/edit/Keywords"/>">
 	             					<img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a></li>
@@ -77,12 +69,7 @@ function gwikiToggleExplorer()
 						</div> <!-- gwikiSearchmenu END -->
 					</form>
 					
-					<script type="text/javascript">
-					  \$(document).ready(function(){
-					  	gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
-					   
-					 });
-					</script>
+				
 					
 					<!-- form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
 						<fieldset>
@@ -99,11 +86,28 @@ function gwikiToggleExplorer()
 					<div class="clearAll"> &nbsp; </div>
 
 				</div> <!-- head END -->
+					<div class="clearAll"> &nbsp; </div>
+					<div id="gwikiExplorer" class="gwikiExplorer <%= gwikiWithNavBar ? "" : " gwikiExplorerNoNav" %>">
+						<div>
+							<a href="javascript:gwikiToggleExplorer()">
+							<% if (gwikiWithNavBar) { %>
+							<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/gui/tools.gif"/>" alt=""/>
+							<% } else { %>
+							<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/gui/tools.gif"/>" alt=""/>
+							<% } %>
+							</a>
+						</div>
+						
+						<div id="gwikiNavContent" style="<%= gwikiWithNavBar  ? "" : "display: none;" %>">
+							<@include file="inc/navMenu" @>
+					 	</div><!-- gwikiNavContent END -->
+					</div><!-- #gwikiExplorer END -->	
 				
-				<div id="gwikiContainer">
+					<div id="gwikiContainer">
 					
-					<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
-							
 					<!-- pagenav END -->
 					
-					<div id="gwikiContent">
+					<div id="gwikiNonContent">
+					
+					
+						<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>

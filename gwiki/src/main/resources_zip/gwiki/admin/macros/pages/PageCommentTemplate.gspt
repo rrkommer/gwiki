@@ -45,7 +45,7 @@ function onSaveComment()
   \$(pc).load(url);
 }
 </script>
-<hr></hr>
+
 <gwiki:errors />
 
 <form name='PageComment_form' id='PageComment_form' method="post">

@@ -16,10 +16,10 @@
   </ul>
 
 
-<form method="POST" class="visible">
+<form method="post" class="visible" action="">
 <fieldset>
 <legend><% MainPage.renderChunk(wikiContext, "reload.legend") %></legend>
-  <p class="description"><% MainPage.renderChunk(wikiContext, "reload.description") %></strong></p>
+  <p class="description"><% MainPage.renderChunk(wikiContext, "reload.description") %></p>
   <gwiki:hidden property="pageId"/>
   <input class="gwikiButton reset" type="submit" name="method_onClearPageCache" value="<gwiki:include part="MainPage" chunk="reload.pagecachebutton"/>"/>
   <div class="clearAll">&nbsp;</div>
