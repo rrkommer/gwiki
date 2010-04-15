@@ -258,7 +258,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
 
   public void renderViaDescriptor(GWikiContext ctx)
   {
-    XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
+    XmlElement table = Html.table(Xml.attrs("class", "gwikiProperties"), //
         Html.tr( //
             Html.th(Xml.attrs("width", "70"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
             Html.th(Xml.attrs("width", "300"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //

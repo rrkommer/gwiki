@@ -13,41 +13,42 @@
 
 <script type="text/javascript">
 /* <![CDATA[ */
- 
-	var gwikiCurrentPart = '';
-	var gwikiParts = new Array();
-	<% for (me in form.editors) { %>
-		gwikiParts.push('<%= me.key %>');
-	<% } %>
 
-	gwikiCurrentPart = gwikiParts[0];
+  var gwikiCurrentPart = '';
+  var gwikiParts = new Array();
+  
+  <% for (me in form.editors) { %>
+    gwikiParts.push('<%= me.key %>');
+  <% } %>
 
-	var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
-	var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
-	
-	<%
- 		StringBuilder localCsse = new StringBuilder();
- 			for (String lp : wikiContext.getContentCsse()) {
-   				if (localCsse.length() > 0) {
-     				localCsse.append(",");
-   				}
-   				localCsse.append(wikiContext.localUrl(lp));
- 			}
-	%>
+  gwikiCurrentPart = gwikiParts[0];
 
-	var gwikiContentCss = '<%= localCsse.toString() %>';
-	var codepressteaids = new Array();
-	var saveHandlers = new Array();
+  var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
+  var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
+  
+  <%
+    StringBuilder localCsse = new StringBuilder();
+      for (String lp : wikiContext.getContentCsse()) {
+          if (localCsse.length() > 0) {
+            localCsse.append(",");
+          }
+          localCsse.append(wikiContext.localUrl(lp));
+      }
+  %>
 
-	function onSave(){
-  		gwikiContentChanged=false;
-  		for (var i = 0; i < saveHandlers.length; ++i) {
-    		saveHandlers[i]();
-  		}
+  var gwikiContentCss = '<%= localCsse.toString() %>';
+  var codepressteaids = new Array();
+  var saveHandlers = new Array();
 
-  		\$("#formmn").attr("name", "method_onSave");
-  		\$("#editForm").submit();
-	}
+  function onSave(){
+      gwikiContentChanged=false;
+      for (var i = 0; i < saveHandlers.length; ++i) {
+        saveHandlers[i]();
+      }
+
+      \$("#formmn").attr("name", "method_onSave");
+      \$("#editForm").submit();
+  }
 /*]]>*/
 </script>
 
@@ -56,24 +57,24 @@
 <gwiki:errors />
 
 <c:if test="${form.launchPreview}">
-	<script type="text/javascript">
-	/* <![CDATA[ */
-	function openPreviewWindow(url) {
-	    myWindow = open(url, "preview","dependend=yes,resizable=yes,scrollbars=yes");
-	
-	    if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
-	      /*myWindow.outerWidth = 1200;
-	      myWindow.outerHeight = 800;*/
-	    }
-	
-	    //myWindow.moveTo(40, 40);
-	    myWindow.focus();
-	}  
-	
-	openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
-	
-	/*]]>*/
-	</script>
+  <script type="text/javascript">
+  /* <![CDATA[ */
+  function openPreviewWindow(url) {
+      myWindow = open(url, "preview","dependend=yes,resizable=yes,scrollbars=yes");
+  
+      if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
+        /*myWindow.outerWidth = 1200;
+        myWindow.outerHeight = 800;*/
+      }
+  
+      //myWindow.moveTo(40, 40);
+      myWindow.focus();
+  }  
+  
+  openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
+  
+  /*]]>*/
+  </script>
 </c:if>
 
 <form id="editForm" method="post" enctype="multipart/form-data">
@@ -84,41 +85,41 @@
 
 <script type="text/javascript">
 /* <![CDATA[ */
-	gwikiContentChanged=false;
+  gwikiContentChanged=false;
 /*]]>*/
 </script>
 
 <% if (form.chooseMetaTemplate == true) { %>
 
 
-	<p>
-	    <gwiki:select property="metaTemplatePageId" >
-	      <gwiki:optionsCollection property="availableMetaTemplates" label="key" value="value" />
-	    </gwiki:select>
-	</p>
-	
-  	<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.edit.EditPage.button.create"/>"/>
-  	<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>"/>
+  <p>
+      <gwiki:select property="metaTemplatePageId" >
+        <gwiki:optionsCollection property="availableMetaTemplates" label="key" value="value" />
+      </gwiki:select>
+  </p>
+  
+    <input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.edit.EditPage.button.create"/>"/>
+    <input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>"/>
   
   
 <% } else if (form.initalBackup == true) { %>
 
 
-	<script type="text/javascript">
-	/* <![CDATA[ */
-	function viewBackupDiff() {
-	  var url = '<gwiki:url value="/edit/ComparePages"/>?rightPageId=<c:out value="${form.pageId}"/>&leftPageId=<c:out value="${form.backupElementInfo.id}"/>';
-	
-	  myWindow = open(url, "preview", "dependend=yes,resizable=yes,scrollbars=yes");
-	  if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
-	    /*myWindow.outerWidth = 1200;
-	    myWindow.outerHeight = 800;*/
-	  }
-	  //myWindow.moveTo(40, 40);
-	  myWindow.focus();
-	}
-	/*]]>*/
-	</script>
+  <script type="text/javascript">
+  /* <![CDATA[ */
+  function viewBackupDiff() {
+    var url = '<gwiki:url value="/edit/ComparePages"/>?rightPageId=<c:out value="${form.pageId}"/>&leftPageId=<c:out value="${form.backupElementInfo.id}"/>';
+  
+    myWindow = open(url, "preview", "dependend=yes,resizable=yes,scrollbars=yes");
+    if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
+      /*myWindow.outerWidth = 1200;
+      myWindow.outerHeight = 800;*/
+    }
+    //myWindow.moveTo(40, 40);
+    myWindow.focus();
+  }
+  /*]]>*/
+  </script>
 
     <% pageContext.setAttribute('backupdt', wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt())); %>
     <fmt:message key="gwiki.edit.EditPage.backupnotice1" >
@@ -162,7 +163,19 @@
 <gwiki:hidden property="backUrl" />
 <gwiki:hidden property="storePath" />
 <input id="formCommand" type="hidden" name="formCommand" value="true"/>
+<div id="tabs" style="min-height: 600px">
+  <ul>
+    <% for (me in form.editors) { %>
+      <li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
+    <% } %>
+  </ul>
 
+  <% for (me in form.editors) { %>
+      <div id="Editor<%= me.key %>">
+        <% me.value.render(wikiContext); %>
+      </div><!-- #Editor<%= me.key %> -->
+  <%  }  %>
+</div><!-- #tabs END -->
 
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
   <input id="gwikieditpreviewbutton" type="submit" class="gwikiButton"  onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>"/>
@@ -181,19 +194,7 @@
 
 
 
-<div id="tabs" style="min-height: 600px">
-	<ul>
-	  <% for (me in form.editors) { %>
-	    <li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
-	  <% } %>
-	</ul>
 
-	<% for (me in form.editors) { %>
-      <div id="Editor<%= me.key %>">
-        <% me.value.render(wikiContext); %>
-      </div><!-- #Editor<%= me.key %> -->
-	<%  }  %>
-</div><!-- #tabs END -->
 
 <script type="text/javascript">
 function restoreBackup()

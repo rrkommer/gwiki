@@ -4,9 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <!-- head.gspt START -->
-<head>
+<head> <@include file="/inc/htmlHead.gspt" @>
 
-<@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
 
 <link href="<gwiki:url value="/inc/gwiki/css/gwiki.css"/>" rel="stylesheet" type="text/css" />

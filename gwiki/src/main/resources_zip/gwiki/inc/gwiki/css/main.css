@@ -165,7 +165,7 @@ ul#gwikiMenuone,#gwikiMenuone ul {
 #gwikiContainer { /*width:89.6em;*/
 	background: transparent;
 	margin: 0 auto;
-	padding: 2em 0 0 0;
+	padding: 2em 1.5em 0 0;
 }
 
 div.clearAll {
