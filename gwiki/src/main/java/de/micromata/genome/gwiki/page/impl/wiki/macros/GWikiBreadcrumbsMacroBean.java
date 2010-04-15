@@ -45,7 +45,7 @@ public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
 
   public static final String GWikiBreadcrumbsFilterKEY = "de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.key";
 
-  private int maxItems = 10;
+  private int maxItems = 5;
 
   public static GWikiMacroFactory getFactory()
   {
@@ -110,11 +110,15 @@ public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
       registerPage(ctx);
       return true;
     }
+    
+    String sep = "";
+    
     synchronized (list) {
       for (String id : list) {
         GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo(id);
-        if (ei != null && ei.isViewable() == true && ei.isIndexed() == true) {
-          ctx.append(ctx.renderLocalUrl(id), " | ");
+        if (ei != null && ei.isViewable() == true && ei.isIndexed() == true ) {
+          ctx.append(sep, ctx.renderLocalUrl(id));
+          sep = " | ";
         }
       }
     }
