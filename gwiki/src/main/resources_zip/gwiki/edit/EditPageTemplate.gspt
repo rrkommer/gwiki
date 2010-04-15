@@ -177,9 +177,9 @@
   <%  }  %>
 </div><!-- #tabs END -->
 
-<c:if test="${form.elementToEdit.elementInfo.viewable}">
-  <input id="gwikieditpreviewbutton" type="submit" class="gwikiButton"  onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>"/>
-</c:if>
+
+
+<fieldset class="buttons">
 
 
 <input id="gwikieditsavebutton" class="gwikiButton main" type="button" name="method_onSave" onclick="onSave();" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>"/>
@@ -188,10 +188,15 @@
 <input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy" value="<fmt:message key="gwiki.edit.button.copy"/>"/>
 <input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;return confirm('<fmt:message key="gwiki.edit.message.confirmdelete"/>')" name="method_onDelete" value="<fmt:message key="gwiki.edit.button.delete"/>"/>
 </c:if> 
+
+<c:if test="${form.elementToEdit.elementInfo.viewable}">
+  <input id="gwikieditpreviewbutton" type="submit" class="gwikiButton"  onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>"/>
+</c:if>
+
 <gwiki:checkbox property="noNotificationEmails"/><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails"/> 
 <gwiki:hidden property="newPage" />
 
-
+</fieldset>
 
 
 
