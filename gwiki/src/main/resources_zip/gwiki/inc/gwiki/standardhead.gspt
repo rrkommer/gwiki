@@ -1,6 +1,8 @@
 <@include file="/inc/gwiki/head.gspt"@>
 
 
+
+
 <% boolean wikiWithNavNavigation = true; %>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -28,8 +30,6 @@ function gwikiToggleExplorer() {
 
 /*]]>*/
 </script>
-
-
 		<div id="gwikiWrapperWrapper">
 			<div id="gwikiWrapper">
 				<div id="gwikiHead">

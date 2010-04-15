@@ -33,8 +33,8 @@
 }
 
 .gwikiExplorer {
-	background: #fff url("../img/gui/contentbg_left.png") no-repeat 20.3em -6em;
-	left:-20.45em;
+	background: #fff url("../img/gui/contentbg_left.png") no-repeat 20.4em -6em;
+	left:-20.5em;
 	border:1px solid #ccc;
 	border-right:none;
 	padding:0.5em;
@@ -76,7 +76,7 @@ ul.gwikiNavMenu li a:hover {
 #gwikiHead {
 	margin: 0;
 	padding: 0;
-	height: 16em;
+	height: 8em;
 }
 
 #gwikiMasthead {
