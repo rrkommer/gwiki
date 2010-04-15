@@ -8,19 +8,20 @@
 
 <@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
-<link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
+
 <link href="<gwiki:url value="/inc/gwiki/css/gwiki.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/gwiki/css/reset.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/gwiki/css/main.css"/>" rel="stylesheet" type="text/css" />
  <link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />  
 <link href="<gwiki:url value="/inc/gwiki/css/menu.css"/>" rel="stylesheet" type="text/css" />
+
 <% wikiContext.addContentCss("/inc/gwiki/css/gwiki.css");
 	wikiContext.addContentCss("/inc/gwiki/css/reset.css");
 	wikiContext.addContentCss("/inc/gwiki/css/main.css");
 	wikiContext.addContentCss("/inc/gwiki/css/typo.css");
 	
 %>
-
+<!-- hallo -->
 <link rel="stylesheet" type="text/css" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
 
 </head>
@@ -31,4 +32,4 @@
 <div id='modalBg'></div><div id='modalContent'></div><div id='loading'></div>
 <div id='editDialogBox'></div>
 <script src='<gwiki:url value="/static/skins/dhl2009/js/wz_tooltip.js"/>' type="text/javascript"></script>
-<!-- head.gspt END -->
+<!-- head.gspt ENDE -->

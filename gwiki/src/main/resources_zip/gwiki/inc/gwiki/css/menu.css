@@ -70,9 +70,19 @@ ul#gwikiMenuone li.gwikiMenumain span {
 	-webkit-border-radius: 0.8em;
 }
 
+* html ul#gwikiMenuone li.gwikiMenumain span{
+	border:none;
+	background-color:#fff;
+}
+
 ul#gwikiMenuone li.gwikiMenumain span a {
 	color: #919CA9;
 	text-decoration: none;
+}
+
+* html ul#gwikiMenuone li.gwikiMenumain span a:visited, 
+* html ul#gwikiMenuone li.gwikiMenumain span a {
+	color:#2274AC;
 }
 
 ul#gwikiMenuone li.gwikiMenumain span a:hover,ul#gwikiMenuone li.gwikiMenumain span:hover a
@@ -80,13 +90,20 @@ ul#gwikiMenuone li.gwikiMenumain span a:hover,ul#gwikiMenuone li.gwikiMenumain s
 	color: #333;
 }
 
-ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.over span
-	{
+ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.over span{ 
 	border: 1px solid #666;
 	background-color: #999;
 	color: #333;
 	opacity: 0.5;
 	cursor: pointer;
+}
+
+* html ul#gwikiMenuone li.gwikiMenumain:hover span,
+* html ul#gwikiMenuone li.gwikiMenumain.over span {
+	border:none;
+	background-color:#fff;
+	cursor:hand;
+	color:#2274AC;
 }
 
 ul#gwikiMenuone li.gwikiMenumain:hover ul {

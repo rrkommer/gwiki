@@ -44,12 +44,12 @@ body {
 }
 
 /* gwikiContent */
-#gwikiContent,.gwikiContent {
+#gwikiContent, .gwikiContent, #gwikiNonContent {
 	padding: 0 2em;
 	color: #5C6970;
 }
 
-#gwikiContent inst,#PageComments inst,.gwikiContent inst {
+#gwikiContent inst ,#PageComments inst, .gwikiContent inst {
 	color: #009C0E;
 	text-decoration: underline;
 }
