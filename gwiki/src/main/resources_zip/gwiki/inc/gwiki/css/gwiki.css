@@ -332,7 +332,8 @@ a.gwikiButton:hover {
 #gwikiNonContent #editPageTitle{
 	border:2px solid #DEDEDE;
 	font-size:2em;
-	width:98%;
+	margin:0 0 1em;
+	width:99.7%;
 }
 
 #gwikiNonContent fieldset{

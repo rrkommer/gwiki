@@ -109,5 +109,7 @@ function gwikiToggleExplorer() {
 					
 					<div id="gwikiNonContent">
 					
-					
+					<c:if test="${wikiPage.elementInfo.id ne 'edit/EditPage'}">
 						<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+					</c:if>
+						
