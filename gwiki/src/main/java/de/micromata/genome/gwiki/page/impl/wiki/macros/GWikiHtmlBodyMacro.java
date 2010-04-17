@@ -57,7 +57,6 @@ public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWi
     Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
     macroFrag.addChild(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
     frags.add(macroFrag);
-    // frags.add(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
     return frags;
   }
 }
