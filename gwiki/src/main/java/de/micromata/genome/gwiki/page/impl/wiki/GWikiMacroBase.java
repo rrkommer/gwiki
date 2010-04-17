@@ -25,6 +25,9 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 public abstract class GWikiMacroBase implements GWikiMacro
 {
+  /**
+   * combinations of GWikiMacroRenderFlags
+   */
   private int renderModes = 0;
 
   public boolean hasBody()
