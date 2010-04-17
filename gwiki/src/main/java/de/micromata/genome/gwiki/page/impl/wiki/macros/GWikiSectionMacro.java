@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
 /**
@@ -40,6 +41,11 @@ public class GWikiSectionMacro extends GWikiMacroBean implements GWikiBodyEvalMa
   private String styleClass;
 
   private String style;
+
+  public GWikiSectionMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+  }
 
   /*
    * (non-Javadoc)

@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
 /**
@@ -40,6 +41,11 @@ public class GWikiColumnMacro extends GWikiMacroBean implements GWikiBodyEvalMac
   private String styleClass;
 
   private String style;
+
+  public GWikiColumnMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+  }
 
   /*
    * (non-Javadoc)
@@ -68,7 +74,7 @@ public class GWikiColumnMacro extends GWikiMacroBean implements GWikiBodyEvalMac
       attrs.getChildFragment().render(ctx);
     }
     ctx.append("\n</td>");
-    return false;
+    return true;
   }
 
   public String getWidth()
