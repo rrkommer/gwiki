@@ -26,6 +26,13 @@ package de.micromata.genome.gwiki.page;
  */
 public class GWikiContextUtils
 {
+  public static void renderRequiredHtmlHeaders(GWikiContext wikiContext)
+  {
+    for (String s : wikiContext.getRequiredHeader()) {
+      wikiContext.append(s);
+    }
+  }
+
   public static void renderRequiredJs(GWikiContext wikiContext)
   {
     for (String s : wikiContext.getRequiredJs()) {

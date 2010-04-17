@@ -129,6 +129,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   private Set<String> requiredJs = new ArraySet<String>();
 
+  /**
+   * Additionally required html header lines.
+   */
+  private List<String> requiredHeader = new ArrayList<String>();
+
   public GWikiContext(GWikiWeb wikiWeb, HttpServlet servlet, HttpServletRequest request, HttpServletResponse response)
   {
     this.request = request;
@@ -1003,6 +1008,16 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void setRequiredJs(Set<String> requiredJs)
   {
     this.requiredJs = requiredJs;
+  }
+
+  public List<String> getRequiredHeader()
+  {
+    return requiredHeader;
+  }
+
+  public void setRequiredHeader(List<String> requiredHeader)
+  {
+    this.requiredHeader = requiredHeader;
   }
 
 }
