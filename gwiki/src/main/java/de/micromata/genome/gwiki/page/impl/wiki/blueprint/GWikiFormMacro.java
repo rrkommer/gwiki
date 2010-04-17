@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -32,6 +33,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  */
 public class GWikiFormMacro extends GWikiMacroBean implements GWikiMacroSourceable
 {
+  public GWikiFormMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+  }
 
   public static boolean evalForm()
   {

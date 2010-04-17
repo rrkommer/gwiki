@@ -24,6 +24,11 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
 {
   private Class< ? extends GWikiMacro> clazz;
 
+  /**
+   * combinations of GWikiMacroRenderFlags.
+   * 
+   * if 0, take getRenderModes() from macro class.
+   */
   private int renderModes = 0;
 
   public GWikiMacroClassFactory()

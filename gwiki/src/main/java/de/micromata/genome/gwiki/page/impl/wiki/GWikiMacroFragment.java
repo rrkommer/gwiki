@@ -27,8 +27,9 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 
 /**
  * A wiki fragment containing a macro.
@@ -36,7 +37,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiMacroFragment extends GWikiFragmentChildsBase
+public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestableFragment
 {
 
   private static final long serialVersionUID = 3598133547184060289L;
@@ -51,14 +52,11 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
     this.attrs = attrs;
   }
 
-  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     macro.ensureRight(attrs, ctx);
-    super.ensureRight(ctx);
   }
 
-  @Override
   public void addChilds(List<GWikiFragment> childs)
   {
     GWikiFragmentChildContainer frag = attrs.getChildFragment();
@@ -67,10 +65,8 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
     } else {
       attrs.getChildFragment().addChilds(childs);
     }
-    super.addChilds(childs);
   }
 
-  @Override
   public void addChild(GWikiFragment child)
   {
     GWikiFragmentChildContainer frag = attrs.getChildFragment();
@@ -78,7 +74,6 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
       attrs.setChildFragment(new GWikiFragmentChildContainer());
     }
     attrs.getChildFragment().addChild(child);
-    super.addChild(child);
   }
 
   public void renderSourceHead(StringBuilder sb)
@@ -164,6 +159,52 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
     }
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#addChilds(de.micromata.genome.gwiki.page.impl.wiki.fragment
+   * .GWikiFragment)
+   */
+  public void addChilds(GWikiFragment child)
+  {
+    getChilds().add(child);
+
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#renderChilds(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void renderChilds(GWikiContext ctx)
+  {
+    for (GWikiFragment frag : getChilds()) {
+      frag.render(ctx);
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#replaceChilds(de.micromata.genome.gwiki.page.impl.wiki.fragment
+   * .GWikiFragment, java.util.List)
+   */
+  public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
+  {
+    List<GWikiFragment> lchilds = getChilds();
+    int idx = lchilds.indexOf(search);
+    if (idx == -1) {
+      return false;
+    }
+    lchilds.remove(idx);
+    for (GWikiFragment ins : replace) {
+      lchilds.add(idx++, ins);
+    }
+    return true;
+  }
+
   public MacroAttributes getAttrs()
   {
     return attrs;
@@ -182,6 +223,11 @@ public class GWikiMacroFragment extends GWikiFragmentChildsBase
   public void setMacro(GWikiMacro macro)
   {
     this.macro = macro;
+  }
+
+  public List<GWikiFragment> getChilds()
+  {
+    return attrs.getChildFragment().getChilds();
   }
 
 }

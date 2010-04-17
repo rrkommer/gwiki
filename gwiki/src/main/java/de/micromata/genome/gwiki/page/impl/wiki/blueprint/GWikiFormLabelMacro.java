@@ -23,6 +23,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -34,6 +35,11 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
 {
 
   private static final long serialVersionUID = 8655893189760899090L;
+
+  public GWikiFormLabelMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+  }
 
   /*
    * (non-Javadoc)

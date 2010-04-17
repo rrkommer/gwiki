@@ -56,22 +56,25 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
   public void iterate(GWikiFragmentVisitor visitor)
   {
     visitor.begin(this);
-    for (int i = 0; i < childs.size(); ++i) {
-      childs.get(i).iterate(visitor);
+    List<GWikiFragment> lchilds = getChilds();
+    for (int i = 0; i < lchilds.size(); ++i) {
+      lchilds.get(i).iterate(visitor);
     }
     visitor.end(this);
   }
 
   public void getChildSouce(StringBuilder sb)
   {
-    for (GWikiFragment c : childs) {
+    List<GWikiFragment> lchilds = getChilds();
+    for (GWikiFragment c : lchilds) {
       c.getSource(sb);
     }
   }
 
   public void renderChilds(GWikiContext ctx)
   {
-    for (GWikiFragment c : childs) {
+    List<GWikiFragment> lchilds = getChilds();
+    for (GWikiFragment c : lchilds) {
       c.render(ctx);
     }
   }
@@ -84,37 +87,42 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
    */
   public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
   {
-    int idx = childs.indexOf(search);
+    List<GWikiFragment> lchilds = getChilds();
+    int idx = lchilds.indexOf(search);
     if (idx == -1) {
       return false;
     }
-    childs.remove(idx);
+    lchilds.remove(idx);
     for (GWikiFragment ins : replace) {
-      childs.add(idx++, ins);
+      lchilds.add(idx++, ins);
     }
     return true;
   }
 
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
-    for (GWikiFragment c : childs) {
+    List<GWikiFragment> lchilds = getChilds();
+    for (GWikiFragment c : lchilds) {
       c.ensureRight(ctx);
     }
   }
 
   public void addChilds(List<GWikiFragment> childs)
   {
-    this.childs.addAll(childs);
+    List<GWikiFragment> lchilds = getChilds();
+    lchilds.addAll(childs);
   }
 
   public void addChilds(GWikiFragment child)
   {
-    childs.add(child);
+    List<GWikiFragment> lchilds = getChilds();
+    lchilds.add(child);
   }
 
   public void addChild(GWikiFragment child)
   {
-    childs.add(child);
+    List<GWikiFragment> lchilds = getChilds();
+    lchilds.add(child);
   }
 
   public List<GWikiFragment> getChilds()
