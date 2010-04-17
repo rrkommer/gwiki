@@ -186,8 +186,8 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
       GWikiMacroFragment mf = (GWikiMacroFragment) fragment;
       if (StringUtils.equals("div", mf.getAttrs().getCmd()) == true
           && StringUtils.equals("gwikiContent", mf.getAttrs().getArgs().getStringValue("class")) == true) {
-        if (stack.size() > 1) {
-          GWikiFragment pf = stack.peek(1);
+        if (stack.size() > 0) {
+          GWikiFragment pf = stack.peek(0);
           if (pf instanceof GWikiNestableFragment) {
             ((GWikiNestableFragment) pf).replaceChilds(fragment, mf.getChilds());
           }
