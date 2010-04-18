@@ -1,18 +1,16 @@
-{usemacro:localName=input|macroClass=de.micromata.genome.gwiki.page.impl.wiki.blueprint.GWikiFormInputMacro}
-{usemacro:localName=label|macroClass=de.micromata.genome.gwiki.page.impl.wiki.blueprint.GWikiFormLabelMacro}
-Hier Name: 
-- {input:text|name=name|size=40|maxlength=10}.
+{formlabel}
+Fill this form for your template.
+{formlabel}
+Name:  {input:text|name=name|size=40|maxlength=10}.
 {input:inputType=label|value=This is only a label and will not be included in resolved blueprint}
-{label}
+{formlabel}
 This text will not shown in the evaluated wiki.
-{label}
-
-Hier eine Textarea:
+{formlabel}
+A Textarea:
 {input:textarea|name=thetext|cols=50|rows=10}
-
+{formlabel}
 {input:radio|value=First|name=radio} {input:label|value=First}
 {input:radio|value=Second|name=radio|checked=true}{input:label|value=Second}
-
 {input:checkbox|name=checkboxp|checked=true}{input:label|value=Choose it.}
-
 {input:select|name=selectp|value=Second|values=First, Second, Third}
+{formlabel}
