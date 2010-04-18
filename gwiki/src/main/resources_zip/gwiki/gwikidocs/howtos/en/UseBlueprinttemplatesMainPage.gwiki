@@ -1,0 +1,29 @@
+{pageintro}
+Blueprint templates a wiki templates with optional formular elements, which can be inserted in the Wiki Editor.
+{pageintro}
+
+h2. Use Blueprint
+
+In the Wiki Editor you can select a Blueprint template.
+
+!gwikidocs/howtos/en/WikiEditorBlueprintMenu.png!
+
+Clicking on this menu, a new window will be open with a selection of defined Blueprint templates.
+
+After fill out the input form elements - if any - click to insert to insert the Blueprint template into your 
+wiki text.
+
+h2. Define Blueprint templates
+h3. Create new template
+Blueprint templates are simple Wiki elements, which are located in the {{admin/blueprints/}} folder.
+
+To create a new Blueprint template just create Wiki page with the path to this folder.
+
+h3. Use form elements in template
+You can define placeholder in the Blueprint templates.
+Therefore you can the [gwikidocs/macros/en/Macroinput]. 
+
+These Macros will be replaces by the input given by the user when inserting template into the Wiki editor.
+
+h3. Wiki text only in the formular view
+If you want embedd wiki text, which should be shown, when the user fill out the form, but not included in the wiki editor, wrapp this text with the [gwikidocs/macros/en/Macroformlabel].
