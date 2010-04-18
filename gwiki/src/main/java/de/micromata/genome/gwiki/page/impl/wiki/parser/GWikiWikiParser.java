@@ -382,6 +382,10 @@ public class GWikiWikiParser
         ctx.addFragment(new GWikiFragmentParseError("Macro is neither Compile nor Runtime Macro: " + frag.getMacro().getClass().getName()));
       }
       return;
+    } else if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
+      // compile time
+      Collection<GWikiFragment> nfrags = ((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx);
+      ctx.addFragments(nfrags);
     }
     tk = tks.curToken();
     int tkn = (int) tk;
@@ -454,7 +458,7 @@ public class GWikiWikiParser
       tks.setTokenPos(endToken + 3);
     }
     if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
-      ctx.addFragments(((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx));
+      // ctx.addFragments(((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx));
     } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
       ctx.addFragment(frag);
     } else {
@@ -867,7 +871,9 @@ public class GWikiWikiParser
         || ff instanceof GWikiFragmentTable
         || ff instanceof GWikiFragmentHr
         || ff instanceof GWikiFragmentList
-        || ff instanceof GWikiFragmentLi;
+        || ff instanceof GWikiFragmentLi
+        || (ff instanceof GWikiMacroFragment && GWikiMacroRenderFlags.NoWrapWithP.isSet(((GWikiMacroFragment) ff).getMacro()
+            .getRenderModes()));
 
   }
 
