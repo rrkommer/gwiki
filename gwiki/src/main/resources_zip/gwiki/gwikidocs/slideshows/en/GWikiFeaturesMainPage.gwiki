@@ -1,0 +1,83 @@
+{slideshow}
+{slideheader}
+{table:border=0|width=100%}{tr}{td:width=30%}!inc/gwiki/img/gui/gwikiLogo.png!{td}{td:width=30%}{center}h1. GWiki Features{center}{td}{td:align=right}!inc/gwiki/img/gui/micromataLogo.png!{td}{tr}{table}
+{slideheader}
+{slidefooter}
+\\
+{div:style=font-size:0.8em}Micromata GmbH (c) 2010{div}
+{slidefooter}
+{slide:title=GWiki Features}
+\\
+\\
+Introduction to GWiki Features.
+{slide}
+{slide:title=Webpages}
+{incremental}
+- Manage Webpages
+- Content Management System
+- HTML Pages
+- Wiki Pages
+- Images 
+- multi media content
+{incremental}
+{slide}
+
+{slide:title=Extendable Element Types}
+Insert different content types, page layouts and templates.
+- Templates can be created itself inside GWiki
+- Different rights for Element types
+
+{center}!gwikidocs/presentations/features/NewElement.png!{center}
+{slide}
+
+{slide:title=GWiki Wiki Syntax}
+- Easy to learn and fast to type standard content
+- Syntax similar to Confluence or Textile
+- Many macros for automatic text format and structure
+- Can be mixed with HTML and groovy
+- Secure to use - Dangerous HTML or macros needs spezial rights
+- Extendable with macros written in Wiki or Java.
+
+{slide}
+{slide:title=Wiki Edit Wiki}
+{center}!gwikidocs/presentations/features/WikiEditWiki.png!{center}
+
+{slide}
+{slide:title=Wiki Edit Richtext}
+{center}!gwikidocs/presentations/features/WikiEditRichText.png!{center}
+{slide}
+{slide:title=Wiki and Rich Text Edit Links and Images}
+Autocomple functions for inserting links and images in the wiki and rich text editor.
+!gwikidocs/presentations/features/WikiEditInsertLinkWithAutocomple.png!
+{slide}
+{slide:title=Wiki Edit Preview}
+{center}!gwikidocs/presentations/features/GWikiEditInternalPreview.png!{center}
+{slide}
+
+{slide:title=Attachments and Screenshot}
+{section}
+{column:width=50%}
+- Use Drag'n Drop to upload files
+- Directly copy paste from clipboard to insert screenshots into text:
+{column}
+{column:width=50%}
+{center}!gwikidocs/presentations/features/ScreenshotDialog.png!{center}
+{column}
+{section}
+{slide}
+{slide:title=Dritte}
+
+{slide}
+{slide:title=Dritte}
+
+{slide}
+{slide:title=Dritte}
+
+{slide}
+{slide:title=Dritte}
+
+{slide}
+{slide:title=Dritte}
+
+{slide}
+{slideshow}
