@@ -1,0 +1,13 @@
+{pageintro}
+The Macro {{section}} can be used in connection with Macro {{column}} to define a multiple column layout.
+{pageintro}
+
+In the body of the {{section}} Macro define [column|gwikidocs/macros/en/Macrocolumn] Macros for the columns.
+
+Options:
+- width: Optional String, width (px, % or em) of the column.
+- styleClass: or class. Optional. CSS class attribute of the Column <td>.
+- style: Optional. CSS style attribute
+- border: Border attribute of the <table> element.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiSectionMacro}}.

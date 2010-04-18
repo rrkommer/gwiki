@@ -1,0 +1,34 @@
+{pageintro}
+The Macro {{input}} renders an input control.
+{pageintro}
+
+- inputType (or default value): Type of control:
+-- text (default) \\
+     attributes: size, maxlength, value
+-- textarea \\
+    cols, rows, wrap, value
+-- radio \\
+    attributes: value, checked (true, false)
+-- checkbox \\
+     attributes: value, checked (true, false)
+-- select
+     attributes: value, values (comma seperated list for the selected attribute)
+
+
+Common attributes
+- name: name of the request variable.
+- class, style, accesskey, disabled, tabindex: corresponding HTML attributes.
+
+
+
+{note:TODO}
+Implement of inputType
+- button
+- submit
+- reset
+- list
+
+Validation rules for controls.
+{note}
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.blueprint.GWikiFormInputMacro}}.
