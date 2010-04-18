@@ -159,6 +159,10 @@ def onValidate(pct)
 		pct.wikiContext.addValidationError("gwiki.profile.message.password_not_equal");
 		return;
 	}
+	if (GWikiSimpleUserAuthorization.rankPasswort(p1) < 1000) {
+		pct.wikiContext.addValidationError("gwiki.profile.message.password_too_simple");
+		return;
+	}
 	String cp = GWikiSimpleUserAuthorization.encrypt(p1);
 	pct.setValue(cp);
 }
