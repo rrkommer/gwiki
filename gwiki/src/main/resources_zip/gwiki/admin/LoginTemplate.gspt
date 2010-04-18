@@ -6,6 +6,7 @@
 		<gwiki:hidden property="pageId"/>
 		<center>
 		<gwiki:errors />
+		<div id="login">
 		<table border="0"><tr>
    	<td><label for="user"><fmt:message key="gwiki.page.admin.Login.label.user"/></label></td>
    	<td><gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="user" size="20" property="user" /></td>
@@ -13,8 +14,19 @@
    	<td><label for="pass"><fmt:message key="gwiki.page.admin.Login.label.password"/></label></td>
    	<td><gwiki:password errorStyleClass="text error" styleClass="text" style="width: 20em;"  styleId="pass" size="20" property="password" /></td>
    	</tr>
+   	<tr><td></td><td><a href="#" onclick="jQuery('#login').hide(); jQuery('#passreset').show();">Passwort vergessen</a></td></tr>
    </table>
    	<input  class="submit main" type="submit" name="method_onLogin" value="<fmt:message key="gwiki.page.admin.Login.button.login"/>">
+   
+   </div>
+   <div id="passreset" style="display: none">
+   <table border="0">
+   <tr><td colspan="2"><fmt:message key="gwiki.page.admin.Login.message.resetpassw.intro"/></td></tr>
+   	<tr><td><label for="resetuser"><fmt:message key="gwiki.page.admin.Login.label.user"/></label></td><td>
+   	<gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="resetuser" size="20" property="passwordForgottenUser" /></td></tr>
+   	<tr><td>&nbsp;</td><td><input  class="submit main" type="submit" name="method_onResetPassword" value="<fmt:message key="gwiki.page.admin.Login.button.resetPassword"/>"/></td></tr>
+   	</table>
+   </div>
    </center>
 	</form>
 
