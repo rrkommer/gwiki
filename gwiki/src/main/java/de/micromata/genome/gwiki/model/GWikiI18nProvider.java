@@ -41,8 +41,25 @@ public interface GWikiI18nProvider
    */
   public String translateProp(GWikiContext ctx, String key);
 
+  /**
+   * See other translate
+   * 
+   * @param ctx
+   * @param key
+   * @param defaultValue
+   * @return
+   */
   public String translate(GWikiContext ctx, String key, String defaultValue);
 
+  /**
+   * Translates
+   * 
+   * @param ctx wiki context
+   * @param key i18n key
+   * @param defaultValue return this, if no key was found. it returns ???key???
+   * @param args optional args
+   * @return
+   */
   public String translate(GWikiContext ctx, String key, String defaultValue, Object... args);
 
 }
