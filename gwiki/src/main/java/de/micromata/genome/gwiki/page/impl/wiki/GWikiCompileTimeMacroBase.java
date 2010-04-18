@@ -29,7 +29,7 @@ public abstract class GWikiCompileTimeMacroBase extends GWikiMacroBase implement
 
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
-    if (attrs.getChildFragment() != null) {
+    if (this instanceof GWikiBodyEvalMacro && attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
     } else if (StringUtils.isNotEmpty(attrs.getBody()) == true) {
       ctx.append(attrs.getBody());

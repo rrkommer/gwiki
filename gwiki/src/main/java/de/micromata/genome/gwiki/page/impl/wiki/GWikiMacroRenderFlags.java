@@ -38,6 +38,12 @@ public enum GWikiMacroRenderFlags
    * Wenn parsing macro body, remove white spaces before tokenize.
    */
   TrimTextContent(0x0010), //
+  /**
+   * This macro should not be wrapped into a paragraph (
+   * <p/>
+   * )
+   */
+  NoWrapWithP(0x0020), //
   ;
   private int flag;
 
