@@ -31,6 +31,8 @@ public class GWikiFragmentList extends GWikiFragmentChildsBase
 
   private String listTag;
 
+  private String addClass;
+
   public GWikiFragmentList(String listTag)
   {
     this.listTag = listTag;
@@ -84,12 +86,20 @@ public class GWikiFragmentList extends GWikiFragmentChildsBase
 
   protected String attrForList(char tk)
   {
+    String ac = "";
+
+    if (addClass != null) {
+      ac = " " + addClass;
+    }
     switch (tk) {
       case '-':
-        return " class=\"minus\" type=\"square\"";
+        return " class=\"minus" + ac + "\" type=\"square\"";
       case '*':
-        return " class=\"star\"";
+        return " class=\"star" + ac + "\"";
       default:
+        if (addClass != null) {
+          return " class=\"" + addClass + "\"";
+        }
         return "";
     }
   }
@@ -102,6 +112,16 @@ public class GWikiFragmentList extends GWikiFragmentChildsBase
   public void setListTag(String listTag)
   {
     this.listTag = listTag;
+  }
+
+  public String getAddClass()
+  {
+    return addClass;
+  }
+
+  public void setAddClass(String addClass)
+  {
+    this.addClass = addClass;
   }
 
 }
