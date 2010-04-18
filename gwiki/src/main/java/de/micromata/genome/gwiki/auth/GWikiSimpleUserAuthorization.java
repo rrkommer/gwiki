@@ -238,4 +238,60 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       throw new RuntimeException("Error while executing hashing encryption: " + ex.getMessage(), ex);
     }
   }
+
+  /**
+   * 
+   * @param plainText
+   * @return possible combinations of password.
+   */
+  public static long getPasswortCombinations(String plainText)
+  {
+    if (plainText == null) {
+      return 0;
+    }
+    int r = 0;
+    boolean lc = false;
+    boolean uc = false;
+    boolean dig = false;
+    boolean other = false;
+    char[] chars = plainText.toCharArray();
+    for (int c : chars) {
+      if (Character.isLowerCase(c) == true) {
+        if (lc == false) {
+          r += 26;
+        }
+        lc = true;
+      } else if (Character.isUpperCase(c) == true) {
+        if (uc == false) {
+          r += 26;
+          uc = true;
+        }
+      } else if (Character.isDigit(c) == true) {
+        if (dig == false) {
+          r += 10;
+          dig = true;
+        }
+      } else {
+        if (other == false) {
+          r += 50;
+          other = true;
+        }
+      }
+    }
+    return (long) Math.pow(r, plainText.length());
+  }
+
+  /**
+   * 
+   * @param plainText
+   * @return password crack possibiltity in percent
+   */
+  public static int rankPasswort(String plainText)
+  {
+    long combinations = getPasswortCombinations(plainText);
+    // asume 20 passwort hacks per second
+    long timeInDays = combinations / (400L * 86400L);
+    long lifetime = 365;
+    return (int) (((double) timeInDays / (double) lifetime) * 100);
+  }
 }

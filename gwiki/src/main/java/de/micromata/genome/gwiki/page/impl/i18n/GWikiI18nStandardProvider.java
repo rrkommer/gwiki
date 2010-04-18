@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
@@ -88,6 +89,13 @@ public class GWikiI18nStandardProvider implements GWikiI18nProvider
   public String translate(GWikiContext ctx, String key, String defaultValue, Object... args)
   {
     String value = getI18nValue(ctx, key, defaultValue);
+    if (value == null) {
+      if (defaultValue == null) {
+        GWikiLog.warn("Message key has no translation: " + key);
+        return "???" + key + "???";
+      }
+      return defaultValue;
+    }
     return MessageFormat.format(value, args);
   }
 
