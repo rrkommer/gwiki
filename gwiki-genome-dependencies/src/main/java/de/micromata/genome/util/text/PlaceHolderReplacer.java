@@ -9,6 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.util.text;
 
+import java.util.Map;
+
+/**
+ * Utility to replace variables.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
 public class PlaceHolderReplacer
 {
   public static String resolveReplace(String text, String start, String end, StringResolver resolver)
@@ -36,5 +44,23 @@ public class PlaceHolderReplacer
     } while (idx != -1);
     sb.append(text.substring(eidx));
     return sb.toString();
+  }
+
+  /**
+   * replaces ${} variables with map content.
+   * 
+   * @param text
+   * @param context
+   * @return
+   */
+  public static String resolveReplaceDollarVars(String text, final Map<String, String> context)
+  {
+    return resolveReplace(text, "${", "}", new StringResolver() {
+
+      public String resolve(String placeholder)
+      {
+        return context.get(placeholder);
+      }
+    });
   }
 }
