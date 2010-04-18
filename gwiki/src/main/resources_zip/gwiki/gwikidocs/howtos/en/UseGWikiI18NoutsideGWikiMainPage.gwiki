@@ -63,6 +63,11 @@ This is a <fmt:message key="gwiki.page.headmenu.Page" /> and a message: <fmt:mes
 {code}
 
 h2. Inline Editing
+To enable Inline editing set in request the variable gwiki18ndeco to true:
+{code}
+pageContext.getRequest().setAttribute("gwiki18ndeco", "true");
+{code}
+
 If the current user has the right to edit the underlying I18N element, the values can directly edited by the right context menu.
 You can use the gwiki18nk style to higlight the used i18n Keys.
 
