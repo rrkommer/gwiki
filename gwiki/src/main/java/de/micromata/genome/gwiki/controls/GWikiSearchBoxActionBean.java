@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.controls;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -25,6 +27,7 @@ import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.utils.WebUtils;
+import de.micromata.genome.util.types.Converter;
 
 /**
  * Ajax ActionBean for searching.
@@ -63,12 +66,30 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
 
   public Object onLinkAutocomplete()
   {
-    String q = wikiContext.getRequestParameter("q");
+    String q = StringUtils.trim(wikiContext.getRequestParameter("q"));
     String pageType = wikiContext.getRequestParameter("pageType");
-    String queryexpr = "prop:NOINDEX = false and (prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\")";
+    List<String> tokens = Converter.parseStringTokens(q, " \t", false);
+    String queryexpr = "prop:NOINDEX != true and (prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\")";
+    if (tokens.size() > 1) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("prop:NOINDEX != true and (");
+      boolean first = true;
+      for (String tk : tokens) {
+        if (first == false) {
+          sb.append(" or ");
+        }
+        first = false;
+        sb.append("(").append("prop:PAGEID ~ \"" + tk + "\" or prop:TITLE ~ \"" + tk + "\")");
+      }
+      sb.append(")");
+      queryexpr = sb.toString();
+
+    }
+
     if (StringUtils.isNotEmpty(pageType) == true) {
       queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
     }
+    System.out.println(queryexpr);
     renderSearchOps(q);
 
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
