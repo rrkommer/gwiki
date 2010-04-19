@@ -89,7 +89,6 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     if (StringUtils.isNotEmpty(pageType) == true) {
       queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
     }
-    System.out.println(queryexpr);
     renderSearchOps(q);
 
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
