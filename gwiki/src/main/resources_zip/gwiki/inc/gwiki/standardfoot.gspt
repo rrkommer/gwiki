@@ -6,17 +6,13 @@
 	<@include file="/inc/gwiki/footer.gspt"@>
 </div><!-- gwikiComments END -->				
 </div> <!-- container END -->
-			</div> <!-- gwikiWrapper END -->
-			
-			
-		</div><!-- #gwikiWrapperWrapper END -->
-		
-		<div id="gwikiFooter">
+
+				<div id="gwikiFooter">
 <small>Last modified <%= wikiContext.getUserDateString(wikiContext.wikiElement.elementInfo.props.getDateValue("MODIFIEDAT")) %>
 by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %> 
 (ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFilter.getUseCounter(wikiContext, wikiContext.wikiElement.elementInfo.id) %> )
 </small>				
-
+<%--
 					<dl class="gwikiFooter">
 						<dt>
 							<a href="#">Pageinfo</a>
@@ -65,14 +61,17 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 							<a href="#">Lorem Ipsum</a>
 						</dd>
 					</dl>
-		
+		--%>
 					<div class="clearAll"> &nbsp; </div>
-					
 					<p class="imprint"> By Roger Rene Kommer <a href="mailto:r.kommer@micromata.de">r.kommer@micromata.de</a> and <a href="http://www.micromata.de">Micromata</a> <a href="http://www.micromata.de"
 							title="http://www.micromata.de">www.micromata.de</a> | <a
 							href="http://labs.micromata.de/gwiki/license" title="http://labs.micromata.de/gwiki/license"
 							>License</a>
 					</p>
+	
 				</div> <!-- gwikiFooter END -->
+
+			</div> <!-- gwikiWrapper END -->
+		</div><!-- #gwikiWrapperWrapper END -->
 	</body>
 </html>

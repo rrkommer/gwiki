@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
 
-/* ================================================================================== */
-	/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun!  = */
-	/* ================================================================================== */
+/* ================================================================================= */
+	/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
+	/* ================================================================================= */
 	/* ++++++ gwiki metanav topmost navigation  ++++++++++++++++++++ */
 #gwikiMetanav {
 	position: absolute;
@@ -27,8 +27,10 @@
 	color: #5C6970;
 	border: 1px solid transparent;
 	background: transparent;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
+	/*
+		-moz-border-radius: 1em;
+		-webkit-border-radius: 1em;
+		*/
 	text-decoration: none;
 }
 
@@ -41,12 +43,13 @@
 
 /* ++++++ gwiki main navigation ++++++++++++++++++++ */
 #gwikimenubar {
-	
+
 }
 
-ul#gwikiMenuone { /* not in gwikimenubar otherwise flickering ie */
-	height: 3em;
-	z-index: 1;
+ul#gwikiMenuone {
+	/* not in gwikimenubar otherwise flickering ie */
+		height: 3em;
+	/*z-index: 1;*/
 	position: absolute;
 	right: 1.2em;
 	top: 7em;
@@ -59,20 +62,17 @@ ul#gwikiMenuone li.gwikiMenumain {
 }
 
 ul#gwikiMenuone li.gwikiMenumain span {
-	font-size: 1.4em;
+	font-size: 1.0em;
 	display: block;
 	padding: 0.2em 0.5em 0.2em 2em;
 	margin: 0.2em;
 	border: 1px solid #CFD7D9;
 	background: #f9f9f9 url("../img/icons/heart16.png") no-repeat 0.5em 50%;
 	color: #919CA9;
-	-moz-border-radius: 0.8em;
-	-webkit-border-radius: 0.8em;
-}
-
-* html ul#gwikiMenuone li.gwikiMenumain span{
-	border:none;
-	background-color:#fff;
+	/*
+		-moz-border-radius: 0.8em;
+		-webkit-border-radius: 0.8em;
+		*/
 }
 
 ul#gwikiMenuone li.gwikiMenumain span a {
@@ -80,30 +80,18 @@ ul#gwikiMenuone li.gwikiMenumain span a {
 	text-decoration: none;
 }
 
-* html ul#gwikiMenuone li.gwikiMenumain span a:visited, 
-* html ul#gwikiMenuone li.gwikiMenumain span a {
-	color:#2274AC;
-}
-
 ul#gwikiMenuone li.gwikiMenumain span a:hover,ul#gwikiMenuone li.gwikiMenumain span:hover a
 	{
 	color: #333;
 }
 
-ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.over span{ 
+ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.over span
+	{
 	border: 1px solid #666;
 	background-color: #999;
 	color: #333;
 	opacity: 0.5;
-	cursor: pointer;
-}
-
-* html ul#gwikiMenuone li.gwikiMenumain:hover span,
-* html ul#gwikiMenuone li.gwikiMenumain.over span {
-	border:none;
-	background-color:#fff;
-	cursor:hand;
-	color:#2274AC;
+	cursor: pointer; 
 }
 
 ul#gwikiMenuone li.gwikiMenumain:hover ul {
@@ -113,13 +101,12 @@ ul#gwikiMenuone li.gwikiMenumain:hover ul {
 ul#gwikiMenuone li ul {
 	display: none;
 	position: absolute;
-	top: 1.9em;
-	font-size:1.3em;
-	left:0.4em;
-	background: transparent url("../img/gui/menu.gif") no-repeat -16.6em 0%;
+	top: 1.7em;
+	z-index: 10;
+	right: 0;
+	background: transparent url("../img/gui/menu.gif") no-repeat -7em 0%;
 	margin: 0;
 	padding: 0.85em 0 0 0;
-	
 }
 
 ul#gwikiMenuone li ul li {
