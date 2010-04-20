@@ -1,0 +1,19 @@
+{pageintro}
+Create a HTML slide show with GWiki.
+{pageintro}
+
+{note:title=TODO}
+Document here how to do this.
+{note}
+
+h2. Create new slideshow
+
+h2. Define header, footer and style
+
+h2. use incremental features.
+
+h2. Images
+To make images automatically scalable to the size of the screen, use the width= Attribute with % of the full screen with.
+{code}
+!image.gif|width=80%!
+{code}
