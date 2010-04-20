@@ -5,4 +5,5 @@ The macro {{pagetreesearch}} a search box will be show, to search on children pa
 Sample:
 {pagetreesearch}
 
+
 Implementation page: {{admin/macros/pagetreesearch}}.
