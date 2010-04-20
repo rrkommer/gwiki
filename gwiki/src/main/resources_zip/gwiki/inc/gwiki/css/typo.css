@@ -1,14 +1,13 @@
 @CHARSET "UTF-8";
 
+/* ================================================================================= */
+	/* = Author:  © 02010 Micromata GmbH | Have a lot of fun! = */
 	/* ================================================================================= */
-	/* =  Author:  ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  2010 Micromata GmbH | Have a lot of fun!     = */
-	/* ================================================================================= */
-
+	/*
 body {
 	font: normal 62.5% Helvetica, Arial, sans-serif;
 }
-
-/* +++++ gwikiMasthead typography ++++++++++++++++++++++ */
+*/ /* +++++ gwikiMasthead typography ++++++++++++++++++++++ */
 #gwikiMasthead h1 {
 	color: #5C6970;
 	font: bold 1.4em Helvetica, Arial, sans-serif;
@@ -31,24 +30,24 @@ body {
 	border-bottom: 0.1em solid #CFD7D9;
 }
 
-
+/*
 #gwikiPageinfo h3 {
 	font-size:2em;
 	line-height:1.25em;
 	margin: 0 0 1em 0;
 }
-
+*/ /*
 #gwikiPageinfo p{
 	font-size:1.6em;
 	line-height:1.5em;
 }
-
-/* gwikiContent */
-#gwikiContent, .gwikiContent, #gwikiNonContent {
+*/ /* gwikiContent */
+#gwikiContent,.gwikiContent {
+	padding: 0 2em;
 	color: #5C6970;
 }
 
-#gwikiContent inst ,#PageComments inst, .gwikiContent inst {
+#gwikiContent inst,#PageComments inst,.gwikiContent inst {
 	color: #009C0E;
 	text-decoration: underline;
 }
@@ -58,15 +57,14 @@ body {
 	text-decoration: line-through;;
 }
 
-/* All your prose... */ 
+/* All your prose... */ /*
 #gwikiContent p{
 	font-size:1.6em;
 	padding:0;
 	margin:0 0 1.5em 0;
 	line-height:1.5;
 }
-
-/* All the pretty headings... */ 
+*/ /* All the pretty headings... */ /*
 #gwikiContent h1,
 #gwikiContent h2,
 #gwikiContent h3,
@@ -87,7 +85,7 @@ body {
 	font-weight: normal;
 	color:#33434C;
 }
-
+*/ /*
 #gwikiContent h1, #PageComments h1 {
 	margin: 3em 0 0 0;
 	font-size:2.4em;
@@ -125,8 +123,7 @@ body {
 	font-weight:bold;
 }
 
- /* Cute little lists... */ 
-	/* Unordered */
+*/ /* Cute little lists... */ /* Unordered */ /*
 #gwikiContent ul, #PageComments ul {
 	margin:0;
 	padding: 1.5em 1.5em 1.5em 3em; 
@@ -137,38 +134,37 @@ body {
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 }
-/*TODO: move to tabs css */
+*/ /*TODO: move to tabs css */
 #gwikiContent #tabs ul,#PageComments #tabs ul {
 	list-style: none;
 	font-size: 1em;
 	margin: 0;
-	padding: 1em 0 0 0;
 }
 
-
+/*
 #gwikiContent ul li,#PageComments ul li {
 	margin: 0;
 	padding: 0;
 }
-/*disable endocrine growth... */ 
+*/ /*disable endocrine growth... */ /*
 #gwikiContent ul li a,#PageComments ul li a {
 	font-size: 1em;
 }
-
+*/ /*
 #gwikiContent ul li ul li,#gwikiContent ul li ul li ul li,#gwikiContent ul li ul li ul li ul li,#gwikiContent ul li ul li ul li ul li ul li,#PageComments ul li ul li,#PageComments ul li ul li ul li,#PageComments ul li ul li ul li ul li,#PageComments ul li ul li ul li ul li ul li
 	{
 	margin: 0;
 	padding: 0;
 	opacity: 0.6;
 }
- /* disable endocrine growth... */
+*/ /* disable endocrine growth... */ /*
 #gwikiContent ul li ul,#gwikiContent ul ul,#gwikiContent ul li ul li ul,#gwikiContent ul ul ul,#gwikiContent ul li ul li ul li ul,#gwikiContent ul ul ul ul,#gwikiContent ul li ul,#PageComments ul ul,#PageComments ul li ul li ul,#PageComments ul ul ul,#PageComments ul li ul li ul li ul,#PageComments ul ul ul ul
 	{
 	font-size: 1em;
 	margin: 0 0 0 2em;
 	padding: 0;
 }
-/* Ordered */ 
+*/ /* Ordered */ /*
 #gwikiContent ol, #PageComments ol {
 	margin: 1.5em 0 1.5em 2em;
 	padding: 0;
@@ -182,20 +178,20 @@ body {
 	padding:0;
 }
 
- /* disable child growth... */ 
+*/ /* disable child growth... */ /*
 #gwikiContent ol li ol li,#gwikiContent ol li ol li ol li,#gwikiContent ol li ol li ol li ol li,#gwikiContent ol li ol li ol li ol li ol li,#PageComments ol li ol li,#PageComments ol li ol li ol li,#PageComments ol li ol li ol li ol li,#PageComments ol li ol li ol li ol li ol li
 	{
 	margin: 0;
 	opacity: 0.6;
 }
- /* disable child growth... */ 
+*/ /* disable child growth... */ /*
 #gwikiContent ol li ol,#gwikiContent ol li ol li ol,#gwikiContent ol li ol li ol li ol,#PageComments ol li ol,#PageComments ol li ol li ol,#PageComments ol li ol li ol li ol
 	{
 	font-size: 1em;
 	margin: 0 0 0 2em;
 	padding: 0;
 }
-
+*/ /*
 #gwikiContent dl, #PageComments dl {
 	background:#CFD7D9 url("../img/gui/line.gif") repeat-x top left;
 	margin: 0 0 1.5em 0;
@@ -206,7 +202,7 @@ body {
 	border-left: 1px solid #CFD7D9;
 	border-right: 1px solid #CFD7D9;
 }
-
+*/
 #gwikiContent dl dt,#PageComments dl dt,.gwikiContent dl dt {
 	margin: 0;
 	padding: 0 0.5em 0 0.5em;
@@ -244,7 +240,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-/* tabelle */
+/* tabelle */ /*
 #gwikiContent table, #PageComments table {
 	border: none;
 	border-right: 0.6em solid #fff;
@@ -266,7 +262,7 @@ a:hover {
 #gwikiContent table tfoot {}
 
 #gwikiContent table tbody {}
-
+*/ /*
 #gwikiContent table thead tr td,
 #gwikiContent table thead tr th,
 #gwikiContent table tfoot tr td,
@@ -281,7 +277,7 @@ a:hover {
 	font-weight:normal;
 	vertical-align: top;
 }
-
+*/ /*
 #PageComments table thead tr td,
 #PageComments table thead tr th,
 #PageComments table tfoot tr td,
@@ -338,7 +334,7 @@ a:hover {
 	background-color:#f9f9f9;
 	color: #33434C;
 }
- /* take care of the inglorious-layout-table-basterds */ 
+*/ /* take care of the inglorious-layout-table-basterds */ /*
 #gwikiContent table.layout thead tr td,
 #gwikiContent table.layout thead tr th,
 #gwikiContent table.layout tfoot tr td,
@@ -358,9 +354,9 @@ a:hover {
 	font-weight:normal;
 	vertical-align: top;
 }
-
+*/
 	/* due to the typographic impact of imagecontent you'll find em here now */
-	
+	/*
 #gwikiContent img, #PageComments img {
 	max-width:40em;
 	max-height:13.9em;
@@ -371,16 +367,16 @@ a:hover {
 	font-size:1.6em;
 	line-height:1.5em;
 }
-
+*/
 	/*used icons in gwikiContent have to behave like icons, not like images.*/
 #gwikiContent img.gwikiIcon,#PageComments img.gwikiIcon,.gwikiContent img.gwikiIcon
 	{
 	margin: 0;
 	padding: 0.1em;
 	border: 1px solid #eaeeed;
-	-moz-border-radius: 0.2em;
+	/*-moz-border-radius: 0.2em;
 	-webkit-border-radius: 0.2em;
-	
+	*/
 }
 
 #gwikiContent img.icon,#PageComments img.icon,.gwikiContent img.icon {
@@ -388,8 +384,9 @@ a:hover {
 	padding: 0.1em;
 	border: 1px solid #eaeeed;
 	float: right;
-	-moz-border-radius: 0.2em;
+	/*-moz-border-radius: 0.2em;
 	-webkit-border-radius: 0.2em;
+	*/
 	width: 0.5em;
 }
 
@@ -413,7 +410,7 @@ a:hover {
 
 /* rendering the alt-text as imagefootnote */
 #gwikiContent div.imgfoot,#PageComments div.imgfoot, .gwikiContent div.imgfoot {
-	font-size:1.2em;
+	/* font-size:1.2em; */
 	padding: 1em 0.6em;
 	background: #fff;
 	color: #CCCCD1;
@@ -442,26 +439,27 @@ a:hover {
 
 /* Prettyfy all the code snippets */
 #gwikiContent div.panel,#PageComments div.panel, .gwikiContent div.panel {
-	margin:0 2.4em 2.4em 0;
+	/* margin:0 2.4em 2.4em 0;
 	max-width: 24em;
 	height: 19.6em;
-	padding: 0 0 2em 0;
+	 padding: 0 0 2em 0;
+	 */
 	background: #f9f9f9;
-	-moz-border-radius: 1.6em;
+	/*-moz-border-radius: 1.6em;
 	-webkit-border-radius: 1.6em;
 	float:left;
-	
+	*/
 }
 
 #gwikiContent div.panel h3,#PageComments div.panel h3, .gwikiContent div.panel h3 {
 	border-bottom: 1px solid #CFD7D9;
-	font-size:1.3em;
+	/* font-size:1.3em; */
 	margin: 0;
 	padding: 0.25em 1em 0 1em;
 }
 
 #gwikiContent div.panel pre,#PageComments div.panel pre, .gwikiContent div.panel pre {
-	font-size: 0.8em; 
+	/* font-size: 0.8em; */
 	overflow: auto;
 	margin: 3em;
 	max-height: 22em;
@@ -478,7 +476,8 @@ a:hover {
 
 #gwikiContent .sitemap ul li,#PageComments .sitemap ul li, .gwikiContent .sitemap ul li {
 	padding: 0 0 0 2em;
-	background: transparent url("../img/gui/file.png") no-repeat scroll 0em -0.3em;
+	background: transparent url("../img/gui/file.png") no-repeat scroll 0em
+		-0.3em;
 }
 
 #gwikiContent .sitemap ul ul,#PageComments .sitemap ul ul, .gwikiContent .sitemap ul ul {
@@ -488,18 +487,18 @@ a:hover {
 }
 
 #gwikiComments {
-	
+	border-top: medium double;
 }
 
 #gwikiComments h2, .gwikiComments h2 {
-	/*font-size: 1.0em;*/
+	font-size: 1.0em;
 }
 
 .gwikiPagecommentcontent {
-	
+	border: thin solid;
 }
 
-
+/*
 #gwikiContent form.visible {
 	background-color: #EAEEED;
 	border-top: 1px solid #CFD7D9;
@@ -525,7 +524,7 @@ a:hover {
 #gwikiContent form fieldset p.description {
 	float:right;
 	font-size:1.4em; 
-	
+	width:60%;
 }
 
 #gwikiContent table.gwikiProperties, 
@@ -541,11 +540,7 @@ a:hover {
 	font-size:1em;
 	
 }
-
-#gwikiContent table.gwikiProperties input.text {
-	width:100%;
-}
-
+*/ /*
 #gwikiContent form label {
 	display:block;
 	float:left;
@@ -553,7 +548,7 @@ a:hover {
 	margin:0.5em 0;
 	width:20em;
 }
-
+*/ /*
 .gwikiTextarea {
 	font-size: 1.2em;
 	width: 68.3em;
@@ -564,16 +559,18 @@ a:hover {
 	padding:1.5em;
 	font-family: "Andale Mono", "Monaco", Courier, monospace;
 }
-
-input.gwikiButton {
+*/
+input
+.gwikiButton {
 	background-color: #ADB4B7;
 	border: 1px solid #5C6970;
 	color: #5C6970;
-	font-size:1.4em; 
+	/* font-size:1.4em; */
 	margin: 0 0.5em 0 0;
 	padding: 0.2em 0.5em 0.1em 0.5em;
-	-moz-border-radius: 1em;
+	/*-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
+	*/
 }
 
 .buttons .gwikiButton {
@@ -625,13 +622,7 @@ input.reset:hover {
 	padding: 1.5em;
 }
 
-
-#EditorSettings {
-	
-}
-
-/* The headings and paragraph formatting is defined on top.  */
-
+/* The headings and paragraph formatting is defined on top.  */ /*
 #PageComments p, #PageComments .gwikiNewshead {
 	font-size:1.6em;
 	padding:0;
