@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.slideshow;
 
+import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
@@ -56,5 +58,12 @@ public class GWikiSlideStyleMacro extends GWikiMacroBean implements GWikiRuntime
   public void prepareHeader(GWikiContext ctx, MacroAttributes attrs)
   {
     ctx.getRequiredHeader().add(attrs.getBody());
+  }
+
+  @Override
+  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  {
+    super.ensureRight(attrs, ctx);
+    ctx.ensureAllowTo(GWikiAuthorizationRights.GWIKI_EDITHTML.name());
   }
 }
