@@ -1,3 +1,10 @@
+h2. 2010-04-21
+* In der Wiki Config kann man nun die Welcome Page festlegen.
+* Vorlage für S5-Basierte Slideshows (Siehe Beispiel: [gwikidocs/slideshows/en/GWikiFeatures] oder das Howto: [gwikidocs/howtos/en/CreateaSlideshow]). \\
+  Diese werden aller Wahrscheinlichkeit nach die Presentation-Vorlagen ersetzen.
+* Schnellsuche verbessert. Falls man nach zwei Teilausdrücken sucht, die mit Leerzeichen getrennt sind, werden beide mit einer OR verknüpft. So kann man auch schnell Titel suchen, die "GWiki Macro" enthalten, wobei es egal ist, ob Macro zuerst kommt oder als zweites.
+* Beim Tag {{<gwiki:url>}} kann man \{SKIN} (ohne $) einbetten. {{<gwiki:url value="/inc/\{SKIN}/img/myimage.gif">}} versucht nun zunächst auf {{/inc/gwiki/img/myimage.gif}} aufzulösen (wenn gwiki der aktuelle Skin ist) und dann als Fallback auf {{/inc/img/myimage.gif}}. Dies funktioniert auch für Resourcen, die unter /static liegen.
+ 
 h2. 2010-04-18
 * Passwort vergessen Funktion eingebaut.
 * Zu einfache Passworte werden abgewiesen.
