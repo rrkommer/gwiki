@@ -372,7 +372,9 @@ public class GWikiWikiParser
       tks.setTokenPos(curTokePos + 1);
       return;
     }
+    ctx.pushFragList();
     if (frag.getMacro().hasBody() == false) {
+      ctx.addFragments(ctx.popFragList());
       if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
         Collection<GWikiFragment> nfrags = ((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx);
         ctx.addFragments(nfrags);
@@ -428,6 +430,7 @@ public class GWikiWikiParser
           parseMacro(tks, ctx);
           continue;
         } else {
+          ctx.popFragList();
           String source = frag.getSource();
           ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + frag.getMacro().getClass().getName() + "; " + source));
           return;
@@ -446,6 +449,7 @@ public class GWikiWikiParser
     } else {
       int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
       if (endToken == -1) {
+        ctx.popFragList();
         ctx
             .addFragment(new GWikiFragmentParseError("Missing macro end for  " + frag.getMacro().getClass().getName() + "; " + ma.getBody()));
         return;
@@ -457,6 +461,7 @@ public class GWikiWikiParser
       frag.getAttrs().setBody(body);
       tks.setTokenPos(endToken + 3);
     }
+    ctx.addFragments(ctx.popFragList());
     if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
       // ctx.addFragments(((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx));
     } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
