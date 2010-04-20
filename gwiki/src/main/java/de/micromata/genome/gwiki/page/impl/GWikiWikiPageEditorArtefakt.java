@@ -70,24 +70,33 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     }
     String pn = partName;
     String html = Html.textarea(
-        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText"), // 
+        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText",
+            "style", "width:100%;height:100%"), // 
         Xml.text(textPage.getStorageData())).toString();
     String commands = // "<span class=\"mceEditor defaultSkin\">"
-      "<a title=\"Save\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-      +"  <span class=\"gwikiToolbarIcon gwikiIcon_save\" onclick=\"gwikiEditSave()\">Sichern</span>"
-      +"</a>"
-      +"<a title=\"Cancel\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-      +"  <span class=\"gwikiToolbarIcon gwikiIcon_cancel\" onclick=\"gwikiEditCancel()\">Abbrechen</span>"
-      +"</a>"
-      +"<a class=\"mceButton mceButtonEnabled\" title=\"Fullscreen\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-      +"  <span class=\"gwikiToolbarIcon gwikiIcon_fullscreen\" onclick=\"gwikiFullscreen('gwikiWikiEditorFrame')\">Fullscreen</span>"
-      +"</a>"
-      +"<a class=\"mceButton mceButtonEnabled\" title=\"GWiki Help\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-      +"  <span class=\"gwikiToolbarIcon gwikiIcon_help\" onclick=\"gwikiHelp()\">Hilfe</span>"
-      +"</a>";
+    "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n"
+        + "<tr>"
+        + "<td style=\"position: relative;\" >\n"
+        + "<table class=\"gwikiToolBar\" cellspacing=\"0\" cellpadding=\"0\" ><tr>\n"
+        + "<td style=\"position: relative;\"><a title=\"Save\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<span class=\"gwikiToolbarIcon gwikiIcon_save\" onclick=\"gwikiEditSave()\"/>"
+        + "</a></td>\n"
+        + "<td style=\"position: relative;\"><a title=\"Cancel\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<span class=\"gwikiToolbarIcon gwikiIcon_cancel\" onclick=\"gwikiEditCancel()\"/>"
+        + "</a></td>\n"
+        + "<td style=\"position: relative;\"><a class=\"mceButton mceButtonEnabled\" title=\"Fullscreen\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<span class=\"gwikiToolbarIcon gwikiIcon_fullscreen\" onclick=\"gwikiFullscreen('gwikiWikiEditorFrame')\"/>"
+        + "</a></td>"
+        + "<td style=\"position: relative;\">"
+        + "<a class=\"mceButton mceButtonEnabled\" title=\"GWiki Help\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<span class=\"gwikiToolbarIcon gwikiIcon_help\" onclick=\"gwikiHelp()\"/>"
+        + "</a></td>\n"
+        + "<td>&nbsp;</td>\n"
+        + "</tr></table>"
+        + "</td><td>&nbsp;</td></tr></table>";
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
-        //+ "\" style=\"width: 100%; height: 100%\">"
+        + "\" style=\"width: 100%; height: 100%\">"
         + commands
         + "<div id='gwikiwktabs"
         + pn
@@ -110,7 +119,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "'></div>"
         + "<div id='WikiPreview"
         + pn
-        + "' style=\"overflow: auto;\">" // overflow: scroll;
+        + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
         + "</div>"
         + "</div>"
         + "</div>";
