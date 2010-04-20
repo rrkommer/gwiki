@@ -25,12 +25,12 @@ boolean editMode = wikiContext.getRequestParameter("editMode") != null;
  <% nm = new GWikiScrollNextPrevPageMacro("<<<<", true);
  		nm.renderImpl(wikiContext, null);
  %>
-
+ 	<hr></hr>
  <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
 		<gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/><br/>
 <% } %>
 	<gwiki:link pageId="${wikiContext.wikiElement.elementInfo.parentId}"/>
-	
+	<hr></hr>
 	<%
 	directChilds = wikiContext.getElementFinder().getPageDirectPages(wikiPage.elementInfo.getParentId());
 	
