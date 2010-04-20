@@ -27,7 +27,7 @@ Insert different content types, page layouts and templates.
 - Templates can be created itself inside GWiki
 - Different rights for Element types
 
-{center}!gwikidocs/presentations/features/NewElement.png!{center}
+{center}!gwikidocs/presentations/features/NewElement.png|width=80%!{center}
 {slide}
 
 {slide:title=GWiki Wiki Syntax}
