@@ -43,7 +43,7 @@ def showNextPrevious(wikiContext, form) { %>
 <table>
 <tr><td>
 
-<form id="SearchForm" method="post">
+<form id="SearchForm" method="POST">
 <fmt:message key="gwiki.page.edit.Search.label.searchexpression"/>  
 <gwiki:text size="40" property="searchExpression" />&nbsp;
 <input class="gwikiButton main" type="submit" name="method_onSearch" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" />
@@ -57,7 +57,7 @@ def showNextPrevious(wikiContext, form) { %>
 </td>
 </tr>
 </table>
-
+<hr/>
 <% showNextPrevious(wikiContext,form); %>
 <ul>
   <c:forEach var="sr" items="${form.foundPages}">
@@ -79,9 +79,10 @@ def showNextPrevious(wikiContext, form) { %>
       <c:out value="${sr.textExerpt}" escapeXml="false"/>
     </p>
     </c:if>
-    
+    <hr/>
   </c:forEach>
 </ul>
 <% showNextPrevious(wikiContext, form); %>
+<hr/>
 <% wikiContext.skinInclude('standardfoot'); %>
 
