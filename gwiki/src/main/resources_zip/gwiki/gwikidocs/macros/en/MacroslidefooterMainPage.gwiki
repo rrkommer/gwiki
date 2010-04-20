@@ -1,0 +1,5 @@
+{pageintro}
+The Macro {{slidefooter}} defines a footer for a slideshow.
+{pageintro}
+
+Usage of {{slidefooter}} is only valid inside the Macro [slideshow|gwikidocs/macros/en/Macroslideshow].

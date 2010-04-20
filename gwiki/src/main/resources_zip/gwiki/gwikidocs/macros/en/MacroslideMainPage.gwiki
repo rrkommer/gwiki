@@ -1,0 +1,5 @@
+{pageintro}
+The Macro {{slide}} defines a slide inside a slideshow.
+{pageintro}
+
+Usage of {{slide}} is only valid inside the Macro [slideheader|gwikidocs/macros/en/Macroslideshow].

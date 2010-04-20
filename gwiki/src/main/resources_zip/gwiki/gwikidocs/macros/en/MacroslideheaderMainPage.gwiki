@@ -1,0 +1,5 @@
+{pageintro}
+The Macro {{slideheader}} defines a header for a slideshow.
+{pageintro}
+
+Usage of {{slideheader}} is only valid inside the Macro [slideshow|gwikidocs/macros/en/Macroslideshow].

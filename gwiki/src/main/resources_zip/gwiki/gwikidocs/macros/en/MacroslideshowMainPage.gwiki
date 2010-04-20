@@ -1,0 +1,55 @@
+{pageintro}
+ With the Macro {span:style=font-family: monospace;}slideshow{span}, you can create a HTML based slideshow.
+{pageintro}
+
+
+ {note:title=TODO}
+ Document.
+ {note}
+ 
+h4. Keyboard commands inside
+(from: [http://meyerweb.com/eric/tools/s5/features.html]).
+
+The following apply in any supporting browser besides Opera, which uses  the default Opera Show controls instead.
+
+{table:class=chart|cellspacing=0}
+{tr}
+{th}Action{th}{th}Key(s){th}
+{tr}{tr}
+{td}Go to next slide{td}{td}* Space bar
+* Return
+* Enter
+* Right arrow
+* Down arrow
+* Page down
+* Click left mouse button outside of control area, Flash object, or  movie
+{td}
+{tr}{tr}
+{td}Go to previous slide{td}{td}* Left arrow
+* Up arrow
+* Page up
+{td}
+{tr}{tr}
+{td}Go to title (first) slide{td}{td}* Home
+{td}
+{tr}{tr}
+{td}Go to last slide{td}{td}* End
+{td}
+{tr}{tr}
+{td}Jump directly to slide{td}{td}* Type slide number, then hit Return or Enter
+{td}
+{tr}{tr}
+{td}Skip forward _n_ slides{td}{td}* Type number of slides to skip, hit any "go to next" key *except* Return or Enter
+{td}
+{tr}{tr}
+{td}Skip backward _n_ slides{td}{td}* Type number of slides to skip, hit any "go to previous" key
+{td}
+{tr}{tr}
+{td}Switch between slideshow and outline view{td}{td}* T
+{td}
+{tr}{tr}
+{td}Show / hide slide controls{td}{td}* C
+* Move mouse pointer over control area
+{td}
+{tr}
+{table}
