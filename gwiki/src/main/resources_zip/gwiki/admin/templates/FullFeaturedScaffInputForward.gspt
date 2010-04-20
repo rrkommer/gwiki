@@ -5,7 +5,7 @@ Hallo
 <c:if test="${form.input != null}">
 	Hallo: <c:out value="${form.input}"/>
 </c:if>
-
+<hr>
 <h2>Formular</h2>
 <form method="post">
 
