@@ -231,6 +231,9 @@ public class GWikiWeb
     }
     daoContext.getStorage().getFileSystem().checkEvents(false);
     initStandardReqParams(ctx);
+    if (StringUtils.isEmpty(pageId) == true) {
+      pageId = wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE);
+    }
     GWikiElement el = findElement(pageId);
     if (el == null) {
       GWikiLog.note("PageNot Found: " + pageId);

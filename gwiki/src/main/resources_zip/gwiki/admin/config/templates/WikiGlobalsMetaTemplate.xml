@@ -97,6 +97,15 @@
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WELCOME_PAGE" />
+											<property name="label" value="Welcome Page" />
+											<property name="description" value="Welcome page shown if opened /" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="PAGEID" />
+											<property name="defaultValue" value="index" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_COMMON_HELP" />
 											<property name="label" value="Default Help page" />
 											<property name="description" value="Default Help page." />

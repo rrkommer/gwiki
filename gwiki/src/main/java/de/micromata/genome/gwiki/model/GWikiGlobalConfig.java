@@ -77,6 +77,8 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_COMMON_HELP = "GWIKI_COMMON_HELP";
 
+  public static final String GWIKI_WELCOME_PAGE = "GWIKI_WELCOME_PAGE";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
