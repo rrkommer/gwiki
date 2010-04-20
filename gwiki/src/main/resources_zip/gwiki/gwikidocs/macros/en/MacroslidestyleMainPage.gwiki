@@ -1,0 +1,23 @@
+{pageintro}
+Macro to define slide style for a slide show.
+{pageintro}
+
+This Macro is only valid inside a {{slideshow}} macro body.
+
+The content body of the Macro {{slidestyle}} will be copied into the header section of the HTML page.
+
+Sample:
+{code}
+{slidestyle}
+<style>
+.slide {
+  color: #AAAAA;
+}
+ 
+</style>
+{slidestyle}
+{code}
+
+See [gwikidocs/macros/en/Macroslideshow].
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideStyleMacro}}.
