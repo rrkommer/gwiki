@@ -90,6 +90,10 @@ public abstract class GWikiAbstractElement implements GWikiElement, GWikiPropKey
   // }
   // return ret;
   // }
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+
+  }
 
   public void saveParts(final GWikiContext ctx, final Map<String, GWikiEditorArtefakt< ? >> editors)
   {

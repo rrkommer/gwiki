@@ -19,6 +19,7 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -35,6 +36,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableI;
@@ -52,6 +54,8 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
 
   private static final long serialVersionUID = 4468622483428547577L;
 
+  private List<GWikiFragment> prepareHeaderFragments = null;
+
   public String getFileSuffix()
   {
     return ".gwiki";
@@ -62,8 +66,19 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
     return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
   }
 
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    if (prepareHeaderFragments == null) {
+      return;
+    }
+    for (GWikiFragment frag : prepareHeaderFragments) {
+      frag.prepareHeader(wikiContext);
+    }
+  }
+
   public void getPreview(GWikiContext ctx, final AppendableI sb)
   {
+
     compileFragements(ctx);
     String contextPath = ctx.getRequest().getContextPath();
     String servletPath = ctx.getRequest().getServletPath();
@@ -118,6 +133,22 @@ public class GWikiWikiPageArtefakt extends GWikiTextArtefaktBase<GWikiContent> i
           }
         });
     wctx.getWikiWeb().getDaoContext().getLogging().addPerformance("GWikiParse.parse", System.currentTimeMillis() - start, 0);
+    if (getCompiledObject() == null) {
+      return false;
+    }
+    prepareHeaderFragments = new ArrayList<GWikiFragment>();
+    getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
+
+      public void begin(GWikiFragment fragment)
+      {
+        if (fragment.requirePrepareHeader(wctx) == true) {
+          prepareHeaderFragments.add(fragment);
+        }
+      }
+    });
+    if (prepareHeaderFragments.isEmpty() == true) {
+      prepareHeaderFragments = null;
+    }
     return getCompiledObject() != null;
   }
 

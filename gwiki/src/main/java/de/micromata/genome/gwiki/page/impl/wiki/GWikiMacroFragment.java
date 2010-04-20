@@ -29,6 +29,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 
 /**
@@ -228,6 +229,30 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   public List<GWikiFragment> getChilds()
   {
     return attrs.getChildFragment().getChilds();
+  }
+
+  @Override
+  public void prepareHeader(GWikiContext ctx)
+  {
+    if (macro instanceof GWikiWithHeaderPrepare) {
+      ((GWikiWithHeaderPrepare) macro).prepareHeader(ctx, attrs);
+    }
+  }
+
+  @Override
+  public boolean requirePrepareHeader(GWikiContext ctx)
+  {
+    return macro instanceof GWikiWithHeaderPrepare;
+  }
+
+  @Override
+  public void iterate(GWikiFragmentVisitor visitor)
+  {
+    visitor.begin(this);
+    if (attrs != null && attrs.getChildFragment() != null) {
+      attrs.getChildFragment().iterate(visitor);
+    }
+    visitor.end(this);
   }
 
 }

@@ -70,6 +70,7 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
     ctx.getMacroFactories().put("slideheader",
         new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent)));
     ctx.getMacroFactories().put("incremental", new GWikiMacroClassFactory(GWikiSlideIncrementalMacro.class));
+    ctx.getMacroFactories().put("slidestyle", new GWikiMacroClassFactory(GWikiSlideStyleMacro.class));
 
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>(1);
     ret.add(macroFrag);

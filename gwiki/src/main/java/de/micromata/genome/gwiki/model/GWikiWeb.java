@@ -302,6 +302,7 @@ public class GWikiWeb
       if (getAuthorization().isAllowToView(ctx, el.getElementInfo()) == false) {
         throw new AuthorizationFailedException("Page is not allowed to view: " + el.getElementInfo().getId());
       }
+      el.prepareHeader(ctx);
       el.serve(ctx);
     } finally {
       getAuthorization().clearThread(ctx);

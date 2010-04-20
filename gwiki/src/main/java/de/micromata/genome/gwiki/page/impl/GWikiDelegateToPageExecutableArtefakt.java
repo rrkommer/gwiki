@@ -18,6 +18,9 @@
 
 package de.micromata.genome.gwiki.page.impl;
 
+import java.util.Map;
+
+import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiArtefaktBase;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
@@ -57,6 +60,19 @@ public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<Str
   public void setPageId(String pageId)
   {
     this.pageId = pageId;
+  }
+
+  @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+      GWikiArtefakt< ? > art = me.getValue();
+      if (art instanceof GWikiExecutableArtefakt< ? >) {
+        ((GWikiExecutableArtefakt< ? >) art).prepareHeader(wikiContext);
+      }
+    }
+    GWikiElement el = wikiContext.getWikiWeb().getElement(getResolvePageId(wikiContext));
+    el.prepareHeader(wikiContext);
   }
 
 }
