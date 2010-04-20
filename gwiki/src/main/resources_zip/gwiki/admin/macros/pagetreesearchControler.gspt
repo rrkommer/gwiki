@@ -1,12 +1,13 @@
 <@include file="inc/stdtags.gspt" @>
 <% if (de.micromata.genome.gwiki.page.RenderModes.NoToc.isSet(wikiContext.renderMode) == true) { return; } %>
     
-<div class="searchbox" class="inlineformwrapper">
-	<form class="quick-search" action="<gwiki:url value="/edit/Search"/>?childs=<c:out value="${wikiPage.elementInfo.id}"/>" method="post">
-		<fieldset>
-		<legend><fmt:message key="gwiki.page.edit.Search.button.search"/></legend>
-		<input id="quick-search-query" class="quick-search-query placeholded" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>
-		<input id="quick-search-submit" class="quick-search-submit" type="submit" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" name="method_onSearch"/>
-		</fieldset>
-	</form>
+<div class="searchbox" style="border-width: 1px;">
+
+<form class="quick-search" action="<gwiki:url value="/edit/Search"/>?childs=<c:out value="${wikiPage.elementInfo.id}"/>" method="post">
+	<fieldset>
+	<legend><fmt:message key="gwiki.page.edit.Search.button.search"/></legend>
+	<input id="quick-search-query" class="quick-search-query placeholded" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>
+	<input id="quick-search-submit" class="quick-search-submit" type="submit" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" name="method_onSearch"/>
+	</fieldset>
+</form>
 </div>
