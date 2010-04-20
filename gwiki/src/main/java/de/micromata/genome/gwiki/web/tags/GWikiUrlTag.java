@@ -49,6 +49,7 @@ import org.apache.taglibs.standard.tag.common.core.ParamSupport;
 import org.apache.taglibs.standard.tag.common.core.Util;
 
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.page.GWikiContextUtils;
 
 /**
  * Tag for url rendering to other pages.
@@ -166,15 +167,19 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
 
   // *********************************************************************
   // Utility methods
-
+  /**
+   * /inc/{SKIN}/img/image.gif
+   */
   public static String resolveUrl(String url, String context, PageContext pageContext) throws JspException
   {
     // don't touch absolute URLs
-    if (ImportSupport.isAbsoluteUrl(url))
+    if (ImportSupport.isAbsoluteUrl(url) == true) {
       return url;
+    }
     if (url == null) {
       return "";
     }
+    url = GWikiContextUtils.resolveSkinLink(url);
     // GWikiContext wikiContext = GWikiContext.getCurrent();
     final String servletPath = GWikiWeb.get().getServletPath();
     // normalize relative URLs against a context root

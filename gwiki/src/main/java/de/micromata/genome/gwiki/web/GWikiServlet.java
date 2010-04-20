@@ -204,7 +204,7 @@ public class GWikiServlet extends HttpServlet
     }
   }
 
-  protected InputStream getStaticResource(String res, GWikiContext wikiContext) throws ServletException, IOException
+  public InputStream getStaticResource(String res, GWikiContext wikiContext) throws ServletException, IOException
   {
     FileSystem fs = daoContext.getStaticContentFileSystem();
     if (fs != null) {
@@ -219,6 +219,31 @@ public class GWikiServlet extends HttpServlet
     } else {
       return getServletContext().getResourceAsStream(res);
     }
+  }
+
+  public boolean hasStaticResource(String res, GWikiContext wikiContexte)
+  {
+    FileSystem fs = daoContext.getStaticContentFileSystem();
+    if (fs != null) {
+      return fs.exists(res);
+    }
+
+    InputStream is;
+    if (daoContext.isStaticContentFromClassPath() == true) {
+      is = GWikiServlet.class.getResourceAsStream(res);
+    } else {
+      is = getServletContext().getResourceAsStream(res);
+    }
+    if (is == null) {
+      return false;
+    }
+    try {
+      is.close();
+    } catch (IOException ex) {
+      // ignore
+
+    }
+    return true;
   }
 
   protected void serveStatic(String page, GWikiContext wikiContext) throws ServletException, IOException
