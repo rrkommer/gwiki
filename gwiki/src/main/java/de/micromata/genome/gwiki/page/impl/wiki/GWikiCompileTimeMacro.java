@@ -24,9 +24,23 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
+/**
+ * Macro will be evaluated at compile time.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
 public interface GWikiCompileTimeMacro extends GWikiMacro, GWikiRuntimeMacro
 {
+  /**
+   * Get Fragments at compile time.
+   * 
+   * @param macroFrag
+   * @param tks
+   * @param ctx
+   * @return list of fragments puting into DOM. In case this macro should be inserted into dom too, wrapp macroFrag into a list and return
+   *         it.
+   */
   Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx);
-  
 
 }

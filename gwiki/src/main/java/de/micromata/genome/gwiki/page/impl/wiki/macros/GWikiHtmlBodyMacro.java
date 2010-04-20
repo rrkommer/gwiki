@@ -21,6 +21,8 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -55,7 +57,7 @@ public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWi
   public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
-    macroFrag.addChild(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
+    macroFrag.addChild(new GWikiFragmentUnsecureHtml(StringUtils.defaultString(macroFrag.getAttrs().getBody())));
     frags.add(macroFrag);
     return frags;
   }
