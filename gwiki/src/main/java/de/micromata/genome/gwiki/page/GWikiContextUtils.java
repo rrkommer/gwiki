@@ -18,6 +18,10 @@
 
 package de.micromata.genome.gwiki.page;
 
+import org.apache.commons.lang.StringUtils;
+
+import de.micromata.genome.gwiki.web.GWikiServlet;
+
 /**
  * Utitilies for dealing with GWikiContext.
  * 
@@ -45,5 +49,50 @@ public class GWikiContextUtils
     for (String s : wikiContext.getRequiredCss()) {
       wikiContext.append("<link rel=\"stylesheet\" type=\"text/css\"  src=\"" + wikiContext.localUrl(s) + "\"/>\n");
     }
+  }
+
+  /**
+   * 
+   * @param path pageId or static
+   * @return
+   */
+  public static String resolveSkinLink(String path)
+  {
+    GWikiContext wikiContext = GWikiContext.getCurrent();
+    if (wikiContext == null) {
+      return path;
+    }
+    return resolveSkinLink(wikiContext, path);
+
+  }
+
+  public static String resolveSkinLink(GWikiContext wikiContext, String path)
+  {
+    int idx = path.indexOf("{SKIN}/");
+    if (idx == -1) {
+      return path;
+    }
+    String skin = wikiContext.getSkin();
+    String rurl = StringUtils.replace(path, "{SKIN}", skin);
+    if (rurl.startsWith("/") == true) {
+      rurl = rurl.substring(1);
+    }
+    if (rurl.startsWith("static/") == true) {
+      if (GWikiServlet.INSTANCE == null) {
+        return rurl;
+      }
+      if (GWikiServlet.INSTANCE.hasStaticResource(rurl, wikiContext) == true) {
+        return rurl;
+      }
+      rurl = StringUtils.replace(path, "{SKIN}/", "");
+      return rurl;
+    } else {
+      if (wikiContext.getWikiWeb().findElementInfo(rurl) != null) {
+        return rurl;
+      }
+      rurl = StringUtils.replace(path, "{SKIN}/", "");
+      return rurl;
+    }
+
   }
 }
