@@ -276,6 +276,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
           // RenderModes.GlobalImageLinks, //
           RenderModes.NoPageDecoration//
           ));
+      el.prepareHeader(simContext);
       el.serve(simContext);
       simContext.getJspWriter().flush();
       simContext.flush();
@@ -319,6 +320,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     }
     wikiContext.pushWikiElement(el);
     try {
+      el.prepareHeader(wikiContext);
       el.serve(wikiContext);
       wikiContext.flush();
     } finally {

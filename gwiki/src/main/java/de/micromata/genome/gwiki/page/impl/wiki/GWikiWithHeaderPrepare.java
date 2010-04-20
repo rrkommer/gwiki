@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,45 +13,25 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
-package de.micromata.genome.gwiki.page.impl.wiki.fragment;
+package de.micromata.genome.gwiki.page.impl.wiki;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
-public abstract class GWikiFragmentBase implements GWikiFragment
+/**
+ * Macros, which requires to add Html-Header should implement this interface.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
+public interface GWikiWithHeaderPrepare
 {
-
-  private static final long serialVersionUID = -1842371131960720605L;
-
-  public abstract void getSource(StringBuilder sb);
-
-  public String getSource()
-  {
-    StringBuilder sb = new StringBuilder();
-    getSource(sb);
-    return sb.toString();
-  }
-
-  public String toString()
-  {
-    return getSource();
-  }
-
-  public void iterate(GWikiFragmentVisitor visitor)
-  {
-    visitor.begin(this);
-    visitor.end(this);
-  }
-
-  public boolean requirePrepareHeader(GWikiContext ctx)
-  {
-    return false;
-  }
-
-  public void prepareHeader(GWikiContext ctx)
-  {
-
-  }
+  /**
+   * Will be called before rendering page to add html header informations. simply provide empty implementaiton, if requirePrepareHeader(ctx)
+   * doesn't return true;
+   * 
+   * @param ctx
+   */
+  void prepareHeader(GWikiContext ctx, MacroAttributes attrs);
 }

@@ -108,13 +108,17 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
     renderParts(ctx);
   }
 
-  protected boolean renderParts(final GWikiContext ctx)
+  public void prepareHeader(GWikiContext wikiContext)
   {
     for (GWikiArtefakt< ? > art : parts.values()) {
       if (art instanceof GWikiExecutableArtefakt< ? >) {
-        ((GWikiExecutableArtefakt< ? >) art).prepareHeader(ctx);
+        ((GWikiExecutableArtefakt< ? >) art).prepareHeader(wikiContext);
       }
     }
+  }
+
+  protected boolean renderParts(final GWikiContext ctx)
+  {
     return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {
 
       public Boolean call() throws RuntimeException

@@ -67,4 +67,20 @@ public interface GWikiFragment extends Serializable
   public List<GWikiFragment> getChilds();
 
   public void iterate(GWikiFragmentVisitor visitor);
+
+  /**
+   * return true, if requires to call prepareHeader.
+   * 
+   * @param ctx
+   * @return
+   */
+  boolean requirePrepareHeader(GWikiContext ctx);
+
+  /**
+   * Will be called before rendering page to add html header informations. simply provide empty implementaiton, if requirePrepareHeader(ctx)
+   * doesn't return true;
+   * 
+   * @param ctx
+   */
+  void prepareHeader(GWikiContext ctx);
 }

@@ -18,23 +18,22 @@
 package de.micromata.genome.gwiki.page.impl.wiki.slideshow;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 
 /**
+ * For slide shows will be inserted into the head sections.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-@Deprecated
-public class GWikiSlidesMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiRuntimeMacro
+public class GWikiSlideStyleMacro extends GWikiMacroBean implements GWikiRuntimeMacro, GWikiWithHeaderPrepare, GWikiBodyMacro
 {
 
-  private static final long serialVersionUID = -7833799251865329225L;
+  private static final long serialVersionUID = -815738777375318294L;
 
   /*
    * (non-Javadoc)
@@ -45,27 +44,17 @@ public class GWikiSlidesMacro extends GWikiMacroBean implements GWikiBodyEvalMac
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    boolean asSlide = "true".equals(ctx.getRequestParameter("asSlide"));
-    if (asSlide == false) {
-      attrs.getChildFragment().render(ctx);
-      return true;
-    }
-    GWikiFragmentChildContainer cc = attrs.getChildFragment();
-    for (GWikiFragment cf : cc.getChilds()) {
-      if (cf instanceof GWikiMacroFragment) {
-        GWikiMacroFragment mf = (GWikiMacroFragment) cf;
-        String cmd = mf.getAttrs().getCmd();
-        if ("slide".equals(cmd) == true) {
-          cf.render(ctx);
-        } else {
-          ctx.append("<div class=\"handout\">");
-          cf.render(ctx);
-          ctx.append("</div>");
-
-        }
-      }
-    }
+    // nothing here
     return true;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare#prepareHeader(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void prepareHeader(GWikiContext ctx, MacroAttributes attrs)
+  {
+    ctx.getRequiredHeader().add(attrs.getBody());
+  }
 }

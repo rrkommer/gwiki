@@ -76,6 +76,13 @@ public interface GWikiElement extends Serializable
   GWikiMetaTemplate getMetaTemplate();
 
   /**
+   * Called before rending content to set http or html header.
+   * 
+   * @param wikiContext
+   */
+  void prepareHeader(GWikiContext wikiContext);
+
+  /**
    * Render/Serve this element. Basically has the same functionality of a servlet.
    * 
    * @param ctx
