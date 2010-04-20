@@ -1,6 +1,4 @@
 <% wikiContext.skinInclude('standardhead'); %>
-
-
 <@include file="inc/stdtags.gspt" @>
 
 
@@ -26,7 +24,6 @@
 
 </form>
 <br/>
-
 <span id="rsperror" style="color:red"></span> 
 
 <table id="list2" class="scroll" cellpadding="0" cellspacing="0"></table>
@@ -35,7 +32,6 @@
 
 
 <script type="text/JavaScript">
-
 <c:if test="${form.withExport == true}">
 function collectQueryParams()
 {
@@ -60,7 +56,6 @@ function onExport(mygrid)
 	
 }
 </c:if>
-
 jQuery(document).ready(function() {
 	//alert("data start");
 	var gridimgpath = '<gwiki:url value="/static/jqgrid/css/redmond/images"/>';
