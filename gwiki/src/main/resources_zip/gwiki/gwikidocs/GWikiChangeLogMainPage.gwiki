@@ -1,3 +1,9 @@
+h2. 2010-04-18
+* Passwort vergessen Funktion eingebaut.
+* Zu einfache Passworte werden abgewiesen.
+* Fehler beim Parsen von HTML gefixt (bestand seit 2010-04-13)
+
+
 h2. 2010-04-13
 * Macro column und section analog Confluence umgesetzt.
 * Wiki Editor nun auch mit Einfügen-Menüpunkt für Attachments
