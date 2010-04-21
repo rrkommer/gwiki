@@ -4,5 +4,15 @@ The Macro {{slidehandout}} can be used inside a {{slide}} section to mark wiki t
 
 This macro is only valid inside a {{slideshow}} and {{slide}} section.
 
+Sample:
+{code}
+{slidehandout}Text only visibile in non-slide view{slidehandout}
+{code}
+
+As alternative you can use 
+{code}
+{div:class=handout}Text only visibile in non-slide view{div}
+{code}
+
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideHandoutMacro}}.
 
