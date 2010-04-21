@@ -43,11 +43,8 @@ public class GWikiSlideHandoutMacro extends GWikiMacroBean implements GWikiBodyE
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    boolean asSlide = "true".equals(ctx.getRequestParameter("asSlide"));
-    if (asSlide == true) {
-      return true;
-    }
-    ctx.append("<div class=\"gwikiSlideHandout\">");
+
+    ctx.append("<div class=\"handout\">");
     attrs.getChildFragment().render(ctx);
     ctx.append("</div>");
     return true;
