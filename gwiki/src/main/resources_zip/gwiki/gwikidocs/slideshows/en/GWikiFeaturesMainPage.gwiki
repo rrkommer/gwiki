@@ -28,6 +28,9 @@ Introduction to GWiki Features.
 - Images 
 - multi media content
 {incremental}
+{slidehandout}
+Das ist eine Anmerkung für den Vortragenden.
+{slidehandout}
 {slide}
 
 {slide:title=Extendable Element Types}
