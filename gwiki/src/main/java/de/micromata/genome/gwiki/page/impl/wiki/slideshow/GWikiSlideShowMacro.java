@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
@@ -43,6 +45,8 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
 {
 
   private static final long serialVersionUID = 3025588244594913253L;
+
+  public static String GWIKI_SLIDESHOW_SECTION = "GWIKI_SLIDESHOW_SECTION";
 
   public GWikiSlideShowMacro()
   {
@@ -71,7 +75,7 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
         new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent)));
     ctx.getMacroFactories().put("incremental", new GWikiMacroClassFactory(GWikiSlideIncrementalMacro.class));
     ctx.getMacroFactories().put("slidestyle", new GWikiMacroClassFactory(GWikiSlideStyleMacro.class));
-
+    ctx.getMacroFactories().put("slidehandout", new GWikiMacroClassFactory(GWikiSlideHandoutMacro.class));
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>(1);
     ret.add(macroFrag);
     return ret;
@@ -92,13 +96,15 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
       if (cf instanceof GWikiMacroFragment) {
         GWikiMacroFragment mf = (GWikiMacroFragment) cf;
         String cmd = mf.getAttrs().getCmd();
-        if ("slide".equals(cmd) == true || "slideheader".equals(cmd) == true || "slidefooter".equals(cmd) == true) {
-          cf.render(ctx);
-        } else {
-          ctx.append("<div class=\"handout\">");
-          cf.render(ctx);
-          ctx.append("</div>");
-
+        String slideSection = (String) ctx.getRequestAttribute(GWIKI_SLIDESHOW_SECTION);
+        if (StringUtils.equals(slideSection, "layout") == true) {
+          if ("slideheader".equals(cmd) == true || "slidefooter".equals(cmd) == true) {
+            cf.render(ctx);
+          }
+        } else if (StringUtils.equals(slideSection, "slides") == true) {
+          if ("slide".equals(cmd) == true) {
+            cf.render(ctx);
+          }
         }
       }
     }
