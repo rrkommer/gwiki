@@ -1,0 +1,8 @@
+{pageintro}
+The Macro {{slidehandout}} can be used inside a {{slide}} section to mark wiki text shown only in non-slide view.
+{pageintro}
+
+This macro is only valid inside a {{slideshow}} and {{slide}} section.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideHandoutMacro}}.
+
