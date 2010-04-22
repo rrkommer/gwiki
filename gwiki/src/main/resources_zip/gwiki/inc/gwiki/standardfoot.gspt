@@ -27,7 +27,7 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 					</dl>
 					<dl class="gwikiFooter">
 						<dt>
-							<a href="#">Über gWiki</a>
+							<a href="#">Ãœber gWiki</a>
 						</dt>
 						<dd>
 							<a href="#">Lorem Ipsum</a>
@@ -35,7 +35,7 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 					</dl>
 					<dl class="gwikiFooter">
 						<dt>
-							<a href="#">Über gWiki</a>
+							<a href="#">ï¿½ber gWiki</a>
 						</dt>
 						<dd>
 							<a href="#">Lorem Ipsum</a>
@@ -43,7 +43,7 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 					</dl>
 					<dl class="gwikiFooter">
 						<dt>
-							Über gWiki
+							ï¿½ber gWiki
 						</dt>
 						<dd>
 							<a href="#">Ja gibt es nichts als Lorem Ipsum?</a>
