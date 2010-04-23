@@ -3,6 +3,7 @@
 <beans>
 	<bean id="config"
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"  singleton="false">
+		<property name="elementType" value="gwiki"/>
 		<property name="parts">
 			<map>
 				<entry key="Controler">
