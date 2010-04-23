@@ -41,6 +41,9 @@ public class GWikiMetaTemplate implements Serializable
    */
   private String pageId;
 
+  /**
+   * Short name of the element type.
+   */
   private String elementType;
 
   /**

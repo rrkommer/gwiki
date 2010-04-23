@@ -26,6 +26,10 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
+import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
+import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPage;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
@@ -79,11 +83,23 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_WELCOME_PAGE = "GWIKI_WELCOME_PAGE";
 
+  public static final String GWIKI_WIKI_ELEMENTS = "GWIKI_WIKI_ELEMENTS";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
 
+  private Map<String, GWikiElementFactory> elementFactories;
+
+  private static Map<String, GWikiElementFactory> defaultElementFactories = new HashMap<String, GWikiElementFactory>();
+
   private List<String> availableSkins = null;
+  static {
+    defaultElementFactories.put("gwiki", new GWikiClassElementFactory(GWikiWikiPage.class));
+    defaultElementFactories.put("config", new GWikiClassElementFactory(GWikiConfigElement.class));
+    defaultElementFactories.put("attachment", new GWikiClassElementFactory(GWikiFileAttachment.class));
+    defaultElementFactories.put("i18n", new GWikiClassElementFactory(GWikiI18nElement.class));
+  }
 
   public GWikiGlobalConfig()
   {
@@ -245,5 +261,26 @@ public class GWikiGlobalConfig extends GWikiProps
     }
     initScriptMacros(wikiContext, facs);
     return wikiFactories = facs;
+  }
+
+  public Map<String, GWikiElementFactory> getElementFactories()
+  {
+    if (elementFactories != null) {
+      return elementFactories;
+    }
+    elementFactories = new HashMap<String, GWikiElementFactory>();
+    elementFactories.putAll(defaultElementFactories);
+    GWikiProps macros = getStringValueMap(GWIKI_WIKI_ELEMENTS);
+    for (Map.Entry<String, String> me : macros.getMap().entrySet()) {
+      String key = StringUtils.trim(me.getKey());
+      String v = StringUtils.trim(me.getValue());
+      Class< ? > cls = ClassUtils.classForName(v);
+      if (GWikiElementFactory.class.isAssignableFrom(cls) == true) {
+        elementFactories.put(key, ClassUtils.createDefaultInstance(v, GWikiElementFactory.class));
+      } else if (GWikiElement.class.isAssignableFrom(cls) == true) {
+        elementFactories.put(key, new GWikiClassElementFactory((Class< ? extends GWikiElement>) cls));
+      }
+    }
+    return elementFactories;
   }
 }

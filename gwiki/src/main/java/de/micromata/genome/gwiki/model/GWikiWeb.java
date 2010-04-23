@@ -476,8 +476,8 @@ public class GWikiWeb
     GWikiElement el = findElement(pageId);
     if (el == null)
       return null;
-    GWikiConfigElement metaConfig = (GWikiConfigElement) el;
     try {
+      GWikiConfigElement metaConfig = (GWikiConfigElement) el;
       GWikiMetaTemplate template = (GWikiMetaTemplate) metaConfig.getConfig().getCompiledObject();
       template.setPageId(pageId);
       return template;

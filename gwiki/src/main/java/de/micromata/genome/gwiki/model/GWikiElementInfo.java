@@ -60,6 +60,9 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
   {
     this.props = props;
     this.metaTemplate = metaTemplate;
+    if (metaTemplate != null) {
+      this.props.setStringValue(GWikiPropKeys.TYPE, metaTemplate.getElementType());
+    }
   }
 
   public GWikiElementInfo(GWikiElementInfo other)

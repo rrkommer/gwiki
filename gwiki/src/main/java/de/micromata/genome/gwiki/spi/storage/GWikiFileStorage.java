@@ -39,6 +39,7 @@ import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiBinaryArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementFactory;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPersistArtefakt;
@@ -83,7 +84,6 @@ public class GWikiFileStorage implements GWikiStorage
 
   private FileSystem storage;
 
-  /** TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist */
   private Map<String, String> pageTypes = new HashMap<String, String>();
 
   /** TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist */
@@ -95,10 +95,10 @@ public class GWikiFileStorage implements GWikiStorage
   {
     this.storage = storage;
     // TODO gwiki read /overwrite following from config
-    pageTypes.put("gwiki", "de.micromata.genome.gwiki.page.impl.GWikiWikiPage");
     pageTypes.put("config", "de.micromata.genome.gwiki.page.impl.GWikiConfigElement");
-    pageTypes.put("attachment", "de.micromata.genome.gwiki.page.impl.GWikiFileAttachment");
-    pageTypes.put("i18n", "de.micromata.genome.gwiki.page.impl.GWikiI18nElement");
+    pageTypes.put("gwiki", "de.micromata.genome.gwiki.page.impl.GWikiWikiPage");
+    // pageTypes.put("attachment", "de.micromata.genome.gwiki.page.impl.GWikiFileAttachment");
+    // pageTypes.put("i18n", "de.micromata.genome.gwiki.page.impl.GWikiI18nElement");
 
     artefaktTypes.put("gwiki", "de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt");
     artefaktTypes.put("html", "de.micromata.genome.gwiki.page.impl.GWikiHtmlArtefakt");
@@ -315,6 +315,22 @@ public class GWikiFileStorage implements GWikiStorage
     ei.setMetaTemplate(template);
   }
 
+  protected GWikiElement createHardWiredElement(String type, GWikiElementInfo ei)
+  {
+    try {
+      String typeClass = pageTypes.get(type);
+      if (typeClass == null) {
+        throw new RuntimeException("Unknown element type: " + type + " in id " + ei.getId());
+      }
+      Class< ? extends GWikiElement> cls = (Class< ? extends GWikiElement>) Class.forName(typeClass);
+      Constructor< ? extends GWikiElement> constr = cls.getConstructor(new Class< ? >[] { GWikiElementInfo.class});
+      GWikiElement el = (GWikiElement) constr.newInstance(new Object[] { ei});
+      return el;
+    } catch (Throwable ex) {
+      throw new RuntimeException("Cannot instantiate: " + type + " in id " + ei.getId() + "; " + ex.getMessage(), ex);
+    }
+  }
+
   @SuppressWarnings("unchecked")
   public GWikiElement createElement(GWikiElementInfo ei)
   {
@@ -323,20 +339,20 @@ public class GWikiFileStorage implements GWikiStorage
     if (StringUtils.isBlank(type) == true && ei.getMetaTemplate() != null) {
       type = ei.getMetaTemplate().getElementType();
     }
-    String id = ei.getId();
-    String typeClass = pageTypes.get(type);
-    if (typeClass == null) {
-      throw new RuntimeException("Unknown element type: " + type + " in id " + id);
+    // String id = ei.getId();
+    GWikiElement el;
+    if (pageTypes.containsKey(type) == true) {
+      el = createHardWiredElement(type, ei);
+    } else {
+      GWikiElementFactory elf = wikiWeb.getWikiConfig().getElementFactories().get(type);
+      if (elf == null) {
+        throw new RuntimeException("Cannot find GWikiElementFactory for type: " + type);
+
+      }
+      el = elf.createElement(ei, GWikiContext.getCurrent());
     }
-    try {
-      Class< ? extends GWikiElement> cls = (Class< ? extends GWikiElement>) Class.forName(typeClass);
-      Constructor< ? extends GWikiElement> constr = cls.getConstructor(new Class< ? >[] { GWikiElementInfo.class});
-      GWikiElement el = (GWikiElement) constr.newInstance(new Object[] { ei});
-      initMetaTemplate(el.getElementInfo());
-      return el;
-    } catch (Throwable ex) {
-      throw new RuntimeException("Cannot instantiate: " + type + " in id " + id + "; " + ex.getMessage(), ex);
-    }
+    return el;
+
   }
 
   byte[] readBinaryIfExists(String fname)
