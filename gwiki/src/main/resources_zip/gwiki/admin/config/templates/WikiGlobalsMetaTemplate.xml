@@ -165,6 +165,23 @@ def onRender(pct)
 											]]></value>
 											</property>
 										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_WIKI_ELEMENTS" />
+											<property name="label" value="Wiki Element types" />
+											<property name="description" value="Classes for GWiki Elements" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="STRING" />
+											<property name="controlerScript">
+												<value><![CDATA[
+import org.apache.commons.lang.*;
+def onRender(pct)
+{
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+}
+											]]></value>
+											</property>
+										</bean>
 									</list>
 								</property>
 							</bean>
