@@ -40,20 +40,20 @@ div#header,div#footer,.slide {
 
 div#header {
 	top: 0;
-	height: 3em;
+	height: 8%;
 	z-index: 1;
 }
 
 div#footer {
 	top: auto;
 	bottom: 0;
-	height: 2.5em;
+	height: 8%;
 	z-index: 5;
 }
 
 .slide {
 	width: 90%;
-	margin: 3em 0 0 0;
+	margin-top:10%;
 	padding: 0 5%;
 	z-index: 2;
 	list-style: none;
@@ -247,7 +247,6 @@ img.incremental {
 div#footer {
 	font-size: 45%;
 	font-weight: bold;
-	padding: 1em 0;
 }
 
 #footer h1,#footer h2 {
@@ -258,7 +257,6 @@ div#footer {
 #footer h2 {
 	font-style: italic;
 }
-
 /**
  * @section        Controls
  *
