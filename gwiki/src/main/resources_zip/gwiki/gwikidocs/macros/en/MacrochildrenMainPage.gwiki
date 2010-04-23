@@ -12,6 +12,7 @@ Create a table of content with the children pages.
 - sort: Optional. String. One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER.
 - withPageIntro: Boolean true or false. Default false. If true, include the \{pageintro\} sections of the children page.  See also: [gwikidocs/macros/en/Macropageintro].
 - withPageTocs: true or false. Default false. If true, all internal headings of the children pages will be included in the table of content. (See also [gwikidocs/macros/en/Macrotoc]).
+- type: Optional, default {{gwiki}}. Type of Element. {{all}} return all types.
 {td}{tr}{table}
 
 Java Class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro}}.
