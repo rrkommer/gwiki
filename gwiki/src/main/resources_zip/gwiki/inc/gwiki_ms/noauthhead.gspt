@@ -1,0 +1,46 @@
+<@include file="/inc/gwiki/head.gspt"@>
+
+		<div id="gwikiWrapperWrapper">
+
+			<div id="gwikiWrapper">
+			
+				<div id="gwikiHead">
+					<div id="gwikiMasthead">
+						<div id="gwikiLogo">
+							<a href="<gwiki:url value="/index"/>" title="<gwiki:url value="/index"/>">
+								<img src="<gwiki:url value='/inc/gwiki/img/gui/gwikiLogo.png'/>" alt="gWWWWWWiki"/>
+							</a>
+						</div>
+						<!-- gwikiLogo END 
+						<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+						-->
+					</div> <!-- gwikiMasthead END -->
+					
+					<script type="text/javascript">
+					  \$(document).ready(function(){
+					  	gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+					   
+					 });
+					</script>
+					
+					<!-- form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
+						<fieldset>
+						<legend>Schnellsuche</legend>
+						<input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
+						</fieldset>
+					</form-->
+						
+					<div class="clearAll"> &nbsp; </div>
+						
+						
+
+				</div> <!-- head END -->
+				
+				<div id="gwikiContainer">
+					
+					<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+							
+					<!-- pagenav END -->
+					
+					<div id="gwikiContent">
+
