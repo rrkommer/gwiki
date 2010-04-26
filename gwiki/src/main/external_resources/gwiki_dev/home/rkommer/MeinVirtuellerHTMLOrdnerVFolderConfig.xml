@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="de.micromata.genome.gwiki.page.impl.vfolder.GWikiVFolderNode">
+					<property name="matcherRule" value="home/rkommer/htmlfiles/*.html" />
+					
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

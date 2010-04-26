@@ -1,0 +1,24 @@
+<% 
+import de.micromata.genome.gwiki.web.GWikiSnippets;
+GWikiSnippets wikisnip = new GWikiSnippets(wikiContext.pageContext, "/home/rkommer/MeineFFTest");
+%>
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+<gwiki:errors />
+Hallo test
+<c:if test="${form.input != null}">
+  Hallo: <c:out value="${form.input}"/>
+</c:if>
+<hr>
+<h2>Formular</h2>
+<form method="POST">
+
+<gwiki:text property="input"/>
+<input type="submit" name="method_onOk" value="OK"><p/>
+
+<% 
+  
+%>
+<% wikisnip.include("home/rkommer/WikiFragmentBeispiel") %>
+<%  MainPage.render(wikiContext); %>
+<% wikiContext.skinInclude('standardfoot'); %>
