@@ -137,6 +137,11 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     if (lang == null) {
       return helpPageId;
     }
+    return getHelpPage(helpPageId, lang, ctx);
+  }
+
+  public static String getHelpPage(String helpPageId, String lang, GWikiContext ctx)
+  {
     String hp = FileNameUtils.getParentDir(helpPageId);
     String fp = FileNameUtils.getNamePart(helpPageId);
     String lp = FileNameUtils.join(hp, lang, fp);

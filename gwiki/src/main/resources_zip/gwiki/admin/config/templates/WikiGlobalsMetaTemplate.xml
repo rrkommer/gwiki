@@ -8,7 +8,7 @@
 		<property name="noNewPage" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<property name="elementType" value="gwiki" />
-		<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig"/>
+		<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
 		<property name="parts">
 			<map>
 				<entry key="">
@@ -21,9 +21,10 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_PUBLIC_URL" />
-											<property name="label" value="URL des Wiki" />
-											<property name="description"
-												value="Beispiel: https://www.sample.org/gwiki/" />
+											<property name="label" value="Public URL" />
+											
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_PUBLIC_URL" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="" />
@@ -31,9 +32,9 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_SEND_EMAIL" />
-											<property name="label"
-												value="Email, die für das Versenden verwendet wird." />
-											<property name="description" value="gwiki-noreply@micromata.de" />
+											<property name="label" value="Sender Email" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_SEND_EMAIL" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="EMAIL" />
 											<property name="defaultValue" value="" />
@@ -42,8 +43,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_ERROR_SHOW_STACK_TRACE" />
 											<property name="label" value="Show Stacktrace" />
-											<property name="description"
-												value="Soll auf der admin/InternalError ein Stacktrace angezeigt werden." />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_ERROR_SHOW_STACK_TRACE" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
@@ -51,9 +52,9 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
-											<property name="label" value="Check external FS mods." />
-											<property name="description"
-												value="Sollen Änderungen ausserhalb des Wikis (Dateisystem) überprüft werden? Nicht zu empfehlen in Produktivumgebungen." />
+											<property name="label" value="Check external FS mods" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
@@ -62,8 +63,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_CHECK_STORAGE_MODTIMEOUT" />
 											<property name="label" value="Timeout FS check" />
-											<property name="description"
-												value="Timeout nachdem auf externe Veränderungen im Filesystem geprüft werden." />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_CHECK_STORAGE_MODTIMEOUT" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="LONG" />
 											<property name="defaultValue" value="60000" />
@@ -72,7 +73,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_USER_SKINS" />
 											<property name="label" value="Available Skins" />
-											<property name="description" value="List of comma seperated skins" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_USER_SKINS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRINGLIST" />
 											<property name="defaultValue" value="naked" />
@@ -81,7 +83,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_DEFAULT_SKIN" />
 											<property name="label" value="Default Skin" />
-											<property name="description" value="Default Skin." />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_DEFAULT_SKIN" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="naked" />
@@ -90,7 +93,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_LANGUAGES" />
 											<property name="label" value="Languages" />
-											<property name="description" value="Available Languages" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_LANGUAGES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRINGLIST" />
 											<property name="defaultValue" value="en,de" />
@@ -99,7 +103,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WELCOME_PAGE" />
 											<property name="label" value="Welcome Page" />
-											<property name="description" value="Welcome page shown if opened /" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WELCOME_PAGE" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="index" />
@@ -108,7 +113,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_COMMON_HELP" />
 											<property name="label" value="Default Help page" />
-											<property name="description" value="Default Help page." />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_COMMON_HELP" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="gwikidocs/help/WikiHelp" />
@@ -117,8 +123,8 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FILTER_CLASSES" />
 											<property name="label" value="Filter" />
-											<property name="description"
-												value="Kommaseparierte Liste von Classen, die GWikiFilter implementieren. Die zuletzt gelisteten Filter werden zuerst aufgerufen." />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_FILTER_CLASSES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -135,7 +141,8 @@ def onRender(pct)
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FS_WRITE_ACCESSRULES" />
 											<property name="label" value="Write AccessRules" />
-											<property name="description" value="Rechteregeln für den Schreibzugriff" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_FS_WRITE_ACCESSRULES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -152,7 +159,8 @@ def onRender(pct)
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_MACROS" />
 											<property name="label" value="Wiki Macros" />
-											<property name="description" value="Klassen für WikiMacros" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_MACROS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -169,7 +177,8 @@ def onRender(pct)
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_WIKI_ELEMENTS" />
 											<property name="label" value="Wiki Element types" />
-											<property name="description" value="Classes for GWiki Elements" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_ELEMENTS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
