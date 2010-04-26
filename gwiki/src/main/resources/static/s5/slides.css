@@ -292,9 +292,7 @@ div#controls form {
 #controls #navLinks a {
 	padding: 0;
 	margin: 0 0.5em;
-	/*background: #005; */
 	border: none;
-	/*color: #779; */
 	cursor: pointer;
 }
 
