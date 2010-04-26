@@ -1,0 +1,72 @@
+{pageintro}
+Every GWiki Element has common settings.
+{pageintro}
+
+h2. CREATEDAT
+Time when this element was created.
+
+h2. CREATEDBY
+User this elemented created.
+
+h2. MODIFIEDAT
+Last modification time.
+
+h2. MODIFIEDBY
+User this element last modified.
+
+h2. Type
+{anchor:TYPE}
+Type of element. 
+
+h2. Parent Element
+{anchor:PARENTPAGE}
+PageId of the parent element.
+
+h2. NOINDEX
+If true, this element should not be indexed.
+
+h2. AUTH_VIEW
+Authorization needed to view this element.
+
+{note:title=TODO}
+link to common rights help page
+{note}
+
+h2. AUTH_EDIT
+Authorization needed to edit this element.
+
+h2. CONTENTYPE
+Typ of content of this element.
+In most cases this can be empty, because the element itself knows what content type it contains.
+
+h2. LANG
+Language of this element. 
+If empty the element has same language as the parent element.
+h2. HELP_PAGE
+
+h2. ORDER
+
+h2. CHILDORDER
+Deprecated.
+
+h2. WIKIMETATEMPLATE
+
+h2. WIKICONTROLERCLASS
+
+h2. WIKISPACE
+
+h2. KEYWORDS
+
+h2. I18NMODULES
+
+h2. NOVIEW
+
+h2. MACRO_WITH_BODY
+
+h2. MACRO_EVAL_BODY
+
+h2. MACRO_WITH_PREVIEW
+
+h2. MACRO_ARGUMENTS
+
+h2. SIZE

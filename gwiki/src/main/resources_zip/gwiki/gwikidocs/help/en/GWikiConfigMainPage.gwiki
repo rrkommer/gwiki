@@ -2,6 +2,85 @@
 The GWikiConfig is to configure global settings for the GWiki instance.
 {pageintro}
 
-{note}
-Document me
-{note}
+h2. Public URL
+{anchor:GWIKI_PUBLIC_URL}
+
+Public URL for this GWiki.
+
+Sample: https://www.sample.org/gwiki/
+
+If you use the GWiki upload applet, this value has to be the point to the Gwiki root, otherwise upload will not work.
+ 
+
+h2. Send Email
+{anchor:GWIKI_SEND_EMAIL}
+Sender Email adress used by GWiki when sending system email.
+
+h2. Show Stacktrac
+{anchor:GWIKI_ERROR_SHOW_STACK_TRACE}
+Display the stack traces on the admin/InternalError. Running GWiki on a production system, you should disable this.
+
+h2. Check external FS mods
+{anchor:GWIKI_CHECK_EXTERNAL_MODIFICATIONS}
+Check at runtime if external file system modification should reload gwiki.
+
+h2. Timeout FS check
+{anchor:GWIKI_CHECK_STORAGE_MODTIMEOUT}
+Timeout after external file system modification should be regarded.
+
+
+h2. Available Skins
+{anchor:GWIKI_WIKI_USER_SKINS}
+List of comma seperated skins available for users to choose in the users profile.
+
+
+h2. Default Skin
+{anchor:GWIKI_WIKI_DEFAULT_SKIN}
+Default skin for users.
+
+h2. Languages
+{anchor:GWIKI_WIKI_LANGUAGES}
+Available Languages. Comma seperated list of language codes. 
+
+Sample: en,de
+
+
+h2. Welcome Page
+{anchor:GWIKI_WELCOME_PAGE}
+Welcome page shown if opened without any page url.
+
+
+h2. Default Help page
+{anchor:GWIKI_COMMON_HELP}
+Default Help page.
+
+The URL is without language part.
+The URL {{gwikidocs/help/WikiHelp}} will be resolved as {{gwikidocs/help/en/WikiHelp}} if page or users language is English.
+If  {{gwikidocs/help/en/WikiHelp}} cannot be found as page, it resolves to  {{gwikidocs/help/WikiHelp}}.
+
+h2. Filter
+{anchor:GWIKI_FILTER_CLASSES}
+Comma seperated list of classes, implementing a GWikiFilter. 
+The filter will be called in reverse order (last filter at first).
+
+
+h2. Write AccessRules
+{anchor:GWIKI_FS_WRITE_ACCESSRULES}
+Right rules for accessing the virtual file system.
+
+
+h2. Wiki Macros
+{achor:GWIKI_WIKI_MACROS}
+Registered GWiki Macro classes.
+A pipe seperated list of key=values. 
+The key is the name of the macro how used in the Wiki text.
+value is the Java class or pageId implementing the Macro.
+
+
+h2. GWiki Element Factories
+{anchor:GWIKI_WIKI_ELEMENTS}
+A pipe seperated list of key=values. 
+The key is the short name of the element type used in the {{TYPE}} property of Element Settings.
+The value is the Java class implementing either {{GWikiElement}} or  {{GWikiElementFactory}} .
+
+

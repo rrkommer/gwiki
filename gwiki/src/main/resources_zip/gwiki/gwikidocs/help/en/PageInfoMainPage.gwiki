@@ -1,0 +1,30 @@
+{pageintro}
+The Page Info page provides detailed information about a page.
+{pageintro}
+
+See also: [gwikidocs/help/en/EditPage].
+
+h2. Attachments
+On this section the attachments of this page are listet.
+
+h3. Add an Attachment
+You can add an attachment to the page.
+Another way to add an attachment to a page is just add an New Element "Attachment" via page menu.
+
+h3. Operation on existant Attachments.
+- Edit: Edit the attachment
+- Delete: Delete the attachment
+- Info: Show Page Info for the attachment itself
+
+h2. Information
+In this section common information about the element will be shown.
+
+h3. Rename PageId
+To rename the pageId of the current page, change the pageId and click the button Rename.
+This function will also correct all parent references in child elements to the new page id.
+You may receive an error message, if you have not the right to edit one of the child elements.
+
+h2. Versions
+In this section you can view, compare and restore older version of the referenced page.
+
+h2. Outgoing Links
