@@ -1,0 +1,25 @@
+{pageintro}
+With EditPage all type of Elements can be edited.
+{pageintro}
+
+h2. Basic Operations
+h3. Preview
+The Preview Button at the top of the page, a full preview of the element will be provided. The preview will be shown in a new window.
+
+h3. Save
+Save the element. 
+If you hold down the Ctrl-Key while clicking the Save Button, you can continue edit the page.
+
+h3. Cancel
+Cancel editing this page. All changes will be discarged and also all backups will be removed.
+
+h3. Copy
+Copy current element and save it under another name.
+
+h3. Delete
+Delete the current element.
+
+h3. Rename
+To rename a page title simple edit the title field at the top of the page.
+Sometimes you may also want to rename the pageId of the page. 
+This operation is available on [gwikidocs/help/en/PageInfo].
