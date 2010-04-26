@@ -408,6 +408,15 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     return onSaveImpl();
   }
 
+  public Object onSaveEdit()
+  {
+    if (init() == false) {
+      return null;
+    }
+    onSaveImpl();
+    return null;
+  }
+
   protected Object onSaveImpl()
   {
 

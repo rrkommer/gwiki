@@ -40,6 +40,11 @@ public class GWikiPropsDescriptorValue implements Serializable
 
   private String description;
 
+  /**
+   * Local link to help page.
+   */
+  private String helpLink;
+
   /*
    * <ul> <li>STRING: No restriction</li> <li>PAGEID</li> <li>PAGEIDLIST</li> <li>CLASSNAME</li> <li>BOOLEAN</li> <li>RIGHT</li>
    * <li>STRINGLIST</li> <li>TIMESTAMP</li> <li>OPTION</li>
@@ -196,6 +201,16 @@ public class GWikiPropsDescriptorValue implements Serializable
   public void setLabel(String label)
   {
     this.label = label;
+  }
+
+  public String getHelpLink()
+  {
+    return helpLink;
+  }
+
+  public void setHelpLink(String helpLink)
+  {
+    this.helpLink = helpLink;
   }
 
 }
