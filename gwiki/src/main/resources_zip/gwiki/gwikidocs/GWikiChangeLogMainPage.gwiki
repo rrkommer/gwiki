@@ -1,5 +1,8 @@
+h2. 2010-04-25
+* Edit Page: Beim Speichern wird geprüft, ob es Syntaxfehler im Wikitext gibt und dann das Speichern verhindert.
+
 h2. 2010-04-24 
-* PageEdit: Klickt man auf Speicher und hält die Ctrl-Taste wird die Seite gespeichert und gleich weiter bearbeitet.
+* Edit Page: Klickt man auf Speicher und hält die Ctrl-Taste wird die Seite gespeichert und gleich weiter bearbeitet.
 
 h2. 2010-04-21
 * In der Wiki Config kann man nun die Welcome Page festlegen.

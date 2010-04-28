@@ -43,30 +43,50 @@ h2. LANG
 Language of this element. 
 If empty the element has same language as the parent element.
 h2. HELP_PAGE
+Help page specific to this page.
+If no help page is given, the standard gwiki help page will be opened.
 
 h2. ORDER
-
+Number. Order position of this childs. 
+ 
 h2. CHILDORDER
 Deprecated.
 
 h2. WIKIMETATEMPLATE
+Meta template element this element is based on. 
+This property is read only.
 
 h2. WIKICONTROLERCLASS
+In case of an element with java controler class, the full qualified java class which implements the ActionBean interface.
 
 h2. WIKISPACE
+Space the element belows to. If value is given, the element derives the WIKISPACE from parent elements.
 
 h2. KEYWORDS
+Keywords for this element.
+Keywords are seperated with comma. 
+Optional parts of the keyword name are wrapped with round brackets. Sample: {{Sample(s)}} matches against Sample and Samples.
 
 h2. I18NMODULES
+If the element uses internationalization the comma seperated list of I18N-Elements.
 
 h2. NOVIEW
+True, if this element should be be viewable. 
 
 h2. MACRO_WITH_BODY
+Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
+True, if the macro has a body.
 
 h2. MACRO_EVAL_BODY
+Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
+True, if the macro has a body with wiki text.
 
 h2. MACRO_WITH_PREVIEW
+Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
+True, if the macro supports preview.
 
 h2. MACRO_ARGUMENTS
+For future usage.
 
 h2. SIZE
+Read only variable with the size of an attachment element.
