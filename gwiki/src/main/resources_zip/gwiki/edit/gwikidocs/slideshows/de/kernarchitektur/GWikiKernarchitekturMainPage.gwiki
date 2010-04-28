@@ -1,0 +1,303 @@
+{slideshow}
+{slideheader}
+{div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Features
+{slideheader}
+{slidefooter}
+{div}Micromata GmbH (c) 2010{div}
+{slidefooter}
+
+{slide:title=GWiki Kernarchitektur}
+\\
+\\
+Vorstellung der Kernarchitektur von GWiki.
+{slide}
+{slide:title=GWiki Motivation}
+- Einsatz im Java (EE)-Feld.
+- Clusterfähig
+- Skalierbar
+- Integrierbar
+- Adaptierbar
+- Erweiterbar
+- = "Die Gute Architektur"
+- Passende OpenSource Lizenz
+{slide}
+
+{slide:title=Einsatzszenarien}
+- Vollwertiges Wiki-basiertes CMS
+- Desktop Wiki für persönlichen Einsatz.
+- CMS-Zusätz für tradionelle Java basierte Webanwendungen
+- Dynamischer Content, Wiki/Rapid Development.
+{slide}
+
+{slide:title=Rahmenbedingungen}
+- Java 1.5 oder höher
+- Servlet Container (Jetty, Tomcat, BEA, JBoss, etc.)
+- Bis ca. 10.000 Seiten
+- Rendern komplexer Wikiseiten < 10 ms (ca. 4 ms)
+{slide}
+
+{slide:title=Architekturprinzipien}
+- Wenige Entwurfsmuster
+- Alles ist Wiki
+- Wiki ist nicht hart kodiert
+- gesteuert über Meta-Daten
+- Wiki-Element ist eine Datei im virtuellen Dateisystem
+- Abstraktion der Serviceschnittstellen
+- Interseptoren für die wichtigen Prozesse 
+- Das Wiki ist im Wiki selbst implementiert.
+{slide}
+
+{slide:title=Sonstige Prinzipien}
+- Bekannte Technologien
+- Relativ wenige Abhängigkeiten
+- Soweit möglich, stateless
+- Performant und Skallierbar
+{slide}
+
+{slide:title=GWiki Services}
+Interne Services von GWiki werden durch eine XML-Contextdatei definiert.
+- Storage
+- Suche
+- Authorization
+- Internationalisierung
+- Scheduling
+- Email
+- Logging
+- Session
+- Cache
+{slide}
+
+{slide:title=Persistanz}
+Wahl der Persistenz
+
+- Universell, Flexibel
+- FileSystem
+
+- Standard Dateisystem.
+- RAM/ZIP
+- Datenbank.
+
+- FileSystem Event für Clustering
+{slide}
+
+{slide:title=Suchengine}
+- Volltextsuche
+- Clusterfähig
+- Datenbank oder Dateisystem
+=> Standardlösung Lucene passt nicht.
+- HTML
+- Wiki (mit Gewichtung)
+- PDF, Word, Texte
+Annahmen
+- Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)
+- Seltene Updates.
+{slide}
+
+{slide:title=Mounted Filesystem}
+Virtuelle Dateisysteme können kombiniert werden.
+- ROM/RAM: ROM als ZIP im jar enthält Basisseiten. Copy-On-Write in RAM (z.B. DB)
+- Multimount
+
+Beispiele:
+- directory/-: Lese/Schreibe alle Elemente unter directory oder
+- TextIndex.txt: Lese/Schreibe alle Elemente die mit TextIndex.txt enden
+
+in ein spezielles Dateisystem.
+{slide}
+
+{slide:title=Authorizaiton}
+- GWiki liefert eigene Implemtierung mit User-Management
+- Einfaches Interface
+- Rechte sind einfache Strings
+- Kann gegen eigene Implementierung ersetzt werden
+- Kann mit eigener Implementierung kombiniert werden
+{slide}
+
+{slide:title=Interne Filter}
+Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Filter unterstützt:
+- Pesistenz (Laden, Schreiben, Löschen)
+- Ausführen auf Elementebene
+- Parsen des Wikiquelltextes
+- Ausführen auf Wikiebene
+{slide}
+
+{slide:title=Filter Hirarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/WikiFilterHierarchie.png!{center}
+{slide}
+
+{slide:title=GWiki Elemente}
+-Alles ist Wiki-
+
+Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
+- Konfigurationen, Metatemplates
+- Seiten, Attachments, Kommentare
+- Interne Seiten, I18N-Dateien
+- Templates, Skins, Macros
+- User
+- Suchindice, Temparäre Daten
+und haben dadurch einen kanonischen Namen.
+{slide}
+
+{slide:title=GWikiElement Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png!{center}
+{slide}
+
+{slide:title=Settings Artefakt}
+- Ein Element besteht aus mehren Artefakte
+- Jedes Element hat das Artefakt Settings.properties
+-- Versionsinfos
+-- Parent verlinkung
+-- Rechte
+-- Elementtyp 
+-- -Metatemplate-
+{slide}
+
+{slide:title=Metatemplate}
+- Metatemplate ist selbst ein Wiki-Element
+- XML/Bean
+- allgemeine Eigenschaften (Rechte, Sichtbarkeit, etc.)
+- Aus welchen Artefakte - zusätzlich zu den Settings - das Element besteht.
+- Alle Metatemplate im Verzeichnis {{admin/templates}} können über Menü erzeugt werden.
+{slide}
+
+{slide:title=Metatemplate WikiProg}
+{code}
+<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="gwiki" />
+		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+		<!--  1 Week -->
+		<property name="elementLifeTime" value="604800000" />
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="forward">
+							<bean
+								class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt">
+								<property name="parts">
+									<map>
+										<entry key="MainPage">
+											<bean
+												class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+										</entry>
+									</map>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+{code}
+{slide}
+
+{slide:title=GWikiArtefakt}
+- Eine Javaklasse
+- Kann sich rendern
+- Kann sich von und zu Text oder binären Daten transformieren.
+- Kooperiert mit anderen Artefakten im Element.
+- Ist eine Factory für einen GWikiEditorArtefakt, der eine GUI für das Editieren zur Verfügung stellt.
+{slide}
+
+{slide:title=GWikiArtefakt Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiArtefaktHierarchie.png!{center}
+{slide}
+
+{slide:title=GWikiEditorArtefakt Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiEditorArtefaktHierarchie.png!{center}
+{slide}
+
+{slide:title=GSPT Artefakte}
+- Groovy Server Pages
+- Unterstützt alle JSP-Features:
+-- Scriptlets
+-- Taglibaries
+- Keine "Sorge" um unterschiedliche Containerimplementierung
+- Kein Dateisystem notwendig (wie bei Jasper)
+- Performant
+{slide}
+
+{slide:title=GSPT Editor}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GSPTEditor.png!{center}
+{slide}
+
+{slide:title=Controler Artefakte}
+- Stripes/Struts ähnliches Framework (ActionBeans)
+- Java Klasse
+- Groovy Class
+{slide}
+
+{slide:title=Groovy ActionBean Editor}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GroovyActionBeanEditor.png!{center}
+{slide}
+
+{slide:title=Gwiki Wiki}
+\\
+\\
+\\
+\\
+\\
+\\
+{center}Architekur Wiki der Wiki-Engine{center}
+{slide}
+
+{slide:title=Wiki Verlinkung}
+- Klassisches Wiki mit CamelCase. 
+- Hierarchisch aufgebaute Seiten.
+- Rechtemodell einfacher mit Hierarchischen Modell.
+- Parent/Childs/Silblings
+- Spaces, Sprache werden rekursiv über Parents aufgelöst.
+{slide}
+
+{slide:title=Wiki Parser}
+- Erster Wurf registrieren von Regular Expressions
+-- Bei großer Wiki-Seite (ca. 10 DIN-A 4) 4 Sekunden für Parsen.
+-- Syntax-Probleme bei einigen Confluence Syntaxelementen
+- Zweiter Wurf, hart kodierter Drill-Down-Parser
+-- 4 ms fürs parsen.
+Kern relativ klein, Rest sind Macros.
+{slide}
+
+{slide:title=Wiki DOM 1}
+{center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png!{center}
+{slide}
+
+{slide:title=Wiki DOM 2}
+Parser erzeugt eine Art DOM (WikiFragment)
+- Rechte
+- Dynamisch
+- Render Modes 
+- Rich Text Editor
+{slide}
+
+{slide:title=Macros}
+Einfach zu erstellen
+- Java Klasse (Bean)
+- JSP/GSPT-Seite
+Macros mit
+- mit/ohne Body
+- mit Wiki-Text als Body, oder vom Macro selbst ausgewertet
+- RTE-Fähig
+- Compiletime Macro manipuliert DOM oder führt neue Macros ein (usemacro, jsptaglib)
+- Runtime Macro
+{slide}
+
+{slide:title=Macro Hierarchie}
+
+{center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png!{center}
+{slide}
+
+{slide:title=Entwicklung}
+- 2009 Q3 - 2010 Q1
+- Ca. 3 MM für Kern und 3 MM für Doku, Style, etc.
+- Nervfaktoren: 
+-- Javascript
+-- CSS
+-- Rich Text Editor
+- Spassfaktor:
+-- Konzept "Alles ist Wiki" geht auf.
+{slide}
+{slideshow}
