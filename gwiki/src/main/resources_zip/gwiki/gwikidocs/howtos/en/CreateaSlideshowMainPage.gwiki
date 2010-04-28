@@ -7,6 +7,20 @@ Document here how to do this.
 {note}
 
 h2. Create new slideshow
+Click on the Button 'New Element' and select 'slide show' to start with a blank new slideshow. The slideshow starts with following code:
+
+{code}
+{slideshow}
+ <!-- Slideshow Content -->
+{slideshow}
+{code}
+
+To create a new slide you start with following code:
+{code}
+{slide}
+{slide:title=Slide Headline}
+Slide Content
+{code}
 
 h2. Define header, footer and style
 
