@@ -44,6 +44,10 @@ public enum GWikiMacroRenderFlags
    * )
    */
   NoWrapWithP(0x0020), //
+  /**
+   * The evaled macro body is a text block, which may wrapped in a p.
+   */
+  ContainsTextBlock(0x0040), //
   ;
   private int flag;
 
