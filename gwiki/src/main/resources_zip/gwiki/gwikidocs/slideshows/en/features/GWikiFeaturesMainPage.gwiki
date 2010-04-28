@@ -1,35 +1,26 @@
 {slideshow}
-{slidestyle}
-<style>
-.slide {
-  color: #AAAAAA;
-}
- 
-</style>
-{slidestyle}
 {slideheader}
-{table:border=0|width=100%}{tr}{td:width=30%}!inc/gwiki/img/gui/gwikiLogo.png!{td}{td:width=30%}{center}h1. GWiki Features{center}{td}{td:align=right}!inc/gwiki/img/gui/micromataLogo.png!{td}{tr}{table}
+{div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Features
 {slideheader}
 {slidefooter}
-\\
 {div:style=font-size:0.8em}Micromata GmbH (c) 2010{div}
 {slidefooter}
+
 {slide:title=GWiki Features}
 \\
 \\
 Introduction to GWiki Features.
 {slide}
+
 {slide:title=Webpages}
-{incremental}
 - Manage Webpages
 - Content Management System
 - HTML Pages
 - Wiki Pages
 - Images 
 - multi media content
-{incremental}
 {slidehandout}
-Das ist eine Anmerkung für den Vortragenden.
+Besseres Bild. Ggf. von Energiefrosch, etc.
 {slidehandout}
 {slide}
 
@@ -37,8 +28,7 @@ Das ist eine Anmerkung für den Vortragenden.
 Insert different content types, page layouts and templates.
 - Templates can be created itself inside GWiki
 - Different rights for Element types
-
-{center}!gwikidocs/presentations/features/NewElement.png|width=80%!{center}
+{center}!gwikidocs/slideshows/en/features/NewElement.png!{center}
 {slide}
 
 {slide:title=GWiki Wiki Syntax}
@@ -48,47 +38,198 @@ Insert different content types, page layouts and templates.
 - Can be mixed with HTML and groovy
 - Secure to use - Dangerous HTML or macros needs spezial rights
 - Extendable with macros written in Wiki or Java.
-
 {slide}
+
 {slide:title=Wiki Edit Wiki}
-{center}!gwikidocs/presentations/features/WikiEditWiki.png!{center}
 
+{center}!gwikidocs/slideshows/en/features/WikiEditWiki.png!{center}
 {slide}
+
 {slide:title=Wiki Edit Richtext}
-{center}!gwikidocs/presentations/features/WikiEditRichText.png!{center}
+
+{center}!gwikidocs/slideshows/en/features/WikiEditRichText.png!{center}
 {slide}
+
 {slide:title=Wiki and Rich Text Edit Links and Images}
 Autocomple functions for inserting links and images in the wiki and rich text editor.
-!gwikidocs/presentations/features/WikiEditInsertLinkWithAutocomple.png!
-{slide}
-{slide:title=Wiki Edit Preview}
-{center}!gwikidocs/presentations/features/GWikiEditInternalPreview.png!{center}
+
+{center}!gwikidocs/slideshows/en/features/WikiEditInsertLinkWithAutocomple.png!{center}
 {slide}
 
-{slide:title=Attachments and Screenshot}
-{section}
-{column:width=50%}
+{slide:title=Wiki Edit Preview}
+
+{center}!gwikidocs/slideshows/en/features/GWikiEditInternalPreview.png!{center}
+{slide}
+
+{slide:title=Attachments and Screenshots}
 - Use Drag'n Drop to upload files
 - Directly copy paste from clipboard to insert screenshots into text:
-{column}
-{column:width=50%}
-{center}!gwikidocs/presentations/features/ScreenshotDialog.png!{center}
-{column}
-{section}
-{slide}
-{slide:title=Dritte}
 
+{center}!gwikidocs/slideshows/en/features/ScreenshotDialog.png!{center}
 {slide}
-{slide:title=Dritte}
 
+{slide:title=Versioning}
+- Versions of pages and files
+
+{center}!gwikidocs/slideshows/en/features/PageInfoWithVersions.png!{center}
 {slide}
-{slide:title=Dritte}
 
+{slide:title=Compare Versions}
+- Compare all artefakts of a Page/Element: 
+
+{center}!gwikidocs/slideshows/en/features/Compare Versions.png!{center}
 {slide}
-{slide:title=Dritte}
 
+#{slide:title=Element Properties}
+Each Element has a collection of properties.
+The Metatemplate defines the collection of properties.
+Each property can have
+- How to display the property (Editor)
+- Validators
+- Required rights to view and edit the property value.
 {slide}
-{slide:title=Dritte}
 
+{slide:title=Element Standard Properties}
+
+{center}!gwikidocs/slideshows/en/features/SettingsProperties.png!{center}
+{slide}
+
+{slide:title=GWiki Rights}
+Each element (Page, Attachment, etc.) can have rights for
+- View element
+- Edit element
+Rights for View or Edit Element
+- private: Only author can view/edit element
+- public: All users - including anonymous users - can view pages
+- derived: Same right as parent element
+- named: a named right 
+The underlying Metatemplate can also restrict, which rights are required to create an element.
+{slide}
+
+{slide:title=Search Content}
+
+{center}!gwikidocs/slideshows/en/features/SearchResult.png!{center}
+{slide}
+
+{slide:title=Full text Search}
+Support Search for
+- Wiki Text pages
+- Html Text files
+- Attachments
+-- Office Documents
+-- PDF
+- Highligh found text in search overview and target page (HTML and Wiki pages)
+{slide}
+
+{slide:title=Keywords}
+- Define Keywords for whole GWiki or Space
+- Automatic linking in Pages, containing the Keyword
+{center}!gwikidocs/slideshows/en/features/KeywordsSmartTags.png!{center}
+{slide}
+
+{slide:title=Table of Keywords}
+
+{center}!gwikidocs/slideshows/en/features/TableOfKeywords.png!{center}
+{slide}
+
+{slide:title=Site Map}
+
+{center}!gwikidocs/slideshows/en/features/SiteMap.png!{center}
+{slide}
+
+{slide:title=Comments}
+Create Comments for a page.
+
+{center}!gwikidocs/slideshows/en/features/PageComments.png!{center}
+{slide}
+
+{slide:title=Change Notifications}
+Receive automatic Change Notifications for pages including recursive childs.
+
+{center}!gwikidocs/slideshows/en/features/ChangeNotifications.png!{center}
+{slide}
+
+{slide:title=User Management}
+- Easy to use internal User management available
+-- user name
+-- password
+-- language settings
+-- preferred skin
+-- Settings rights
+-- User profile page
+- Easy to integrate own application user management
+{slide}
+
+{slide:title=List Users}
+
+{center}!gwikidocs/slideshows/en/features/ListUsers.png!{center}
+{slide}
+
+{slide:title=Edit Users Settings}
+
+{center}!gwikidocs/slideshows/en/features/EditUserSettings.png!{center}
+{slide}
+
+{slide:title=Skinable GUI}
+Easy to create own skins for pages
+- Modify CSS
+- Integrate standard functions
+- User can choose skin
+- Skin is just a standard template used by standard pages
+- Different skin can be created for parts of the GWiki web.
+- Sample: This presentation
+{slide}
+
+{slide:title=Skin Sample GWiki}
+
+{center}!gwikidocs/slideshows/en/features/SkinSampleGWiki.png!{center}
+{slide}
+
+{slide:title=Skin Sample Naked}
+
+{center}!gwikidocs/slideshows/en/features/SkinSampleNaked.png!{center}
+{slide}
+
+{slide:title=Skin Sample DHL}
+
+{center}!gwikidocs/slideshows/en/features/SkinSampleDHL.png!{center}
+{slide}
+
+{slide:title=Skin Sample Deutsche Post}
+
+{center}!gwikidocs/slideshows/en/features/SkinSampleDeutschePost2009.png!{center}
+{slide}
+
+{slide:title=All Elements}
+View and edit all Elements - including non-viewable.
+
+{center}!gwikidocs/slideshows/en/features/AllElements.png!{center}
+{slide}
+
+{slide:title=Admin Pages}
+- Global Wiki Configurations
+- Export Wiki as ZIP File
+- Import Wiki Pages, inkluding version resolving
+- Import Confluence Pages
+- Generate Word documents from page tree.
+- Manage Cache and Indice for development
+- WebDAV access to underlying virtual file system
+{slide}
+
+{slide:title=WebDAV Access}
+For admistrational purposes a WEB-DAV Access to the underlying virtual file system is available.
+
+{center}!gwikidocs/slideshows/en/features/WebDAVListing.png!{center}
+{slide}
+
+{slide:title=Runtime}
+- Java 1.5 oder 1.6
+- Desktop (Jetty)
+- Tomcat, BEA or other Servlet container
+- Store pages in file system, Memory (ZIP) or data base
+{slide}
+
+{slide:title=End}
+Thank you for your interest
 {slide}
 {slideshow}
