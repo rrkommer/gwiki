@@ -139,45 +139,49 @@ public class GWikiWikiParser
 
     GWikiFragment lfrag = ctx.lastFragment();
     GWikiFragmentList listfrag = new GWikiFragmentList(tag);
-    if (lfrag instanceof GWikiFragmentList) {
-      GWikiFragmentList pl = (GWikiFragmentList) lfrag;
-      GWikiFragmentList prevlist = findNestedListChild(pl, tag);
-      if (prevlist != null) {
-        listfrag = prevlist;
-      } else {
-        prevlist = findBestNestedListChild(pl, tag);
+    try {
+      ctx.pushFragStack(listfrag);
+      if (lfrag instanceof GWikiFragmentList) {
+        GWikiFragmentList pl = (GWikiFragmentList) lfrag;
+        GWikiFragmentList prevlist = findNestedListChild(pl, tag);
         if (prevlist != null) {
-          if (prevlist.getChilds().isEmpty() == false
-              && prevlist.getChilds().get(prevlist.getChilds().size() - 1) instanceof GWikiFragmentLi) {
-            GWikiFragmentLi lc = (GWikiFragmentLi) prevlist.getChilds().get(prevlist.getChilds().size() - 1);
-            lc.addChild(listfrag);
-            // prevlist.addChild(listfrag);
-          } else {
-            prevlist.addChild(listfrag);
-          }
+          listfrag = prevlist;
         } else {
-          pl.addChild(listfrag);
+          prevlist = findBestNestedListChild(pl, tag);
+          if (prevlist != null) {
+            if (prevlist.getChilds().isEmpty() == false
+                && prevlist.getChilds().get(prevlist.getChilds().size() - 1) instanceof GWikiFragmentLi) {
+              GWikiFragmentLi lc = (GWikiFragmentLi) prevlist.getChilds().get(prevlist.getChilds().size() - 1);
+              lc.addChild(listfrag);
+              // prevlist.addChild(listfrag);
+            } else {
+              prevlist.addChild(listfrag);
+            }
+          } else {
+            pl.addChild(listfrag);
+          }
         }
+      } else {
+        ctx.addFragment(listfrag);
       }
-    } else {
-      ctx.addFragment(listfrag);
+      ctx.pushFragList();
+      tk = tks.nextToken(); // *
+      tk = tks.skipWs();
+      tks.addStopToken('\n');
+      parseLine(tks, ctx);
+      List<GWikiFragment> childs = ctx.popFragList();
+      if (childs.size() > 0 && childs.get(childs.size() - 1) instanceof GWikiFragmentBr) {
+        childs = childs.subList(0, childs.size() - 1);
+      }
+      if (childs.size() == 1 && childs.get(0) instanceof GWikiFragmentList) {
+        listfrag.addChilds(childs);
+      } else {
+        listfrag.addChild(new GWikiFragmentLi(listfrag, childs));
+      }
+      tks.removeStopToken('\n');
+    } finally {
+      ctx.popFragStack();
     }
-    ctx.pushFragList();
-    tk = tks.nextToken(); // *
-    tk = tks.skipWs();
-    tks.addStopToken('\n');
-    parseLine(tks, ctx);
-    List<GWikiFragment> childs = ctx.popFragList();
-    if (childs.size() > 0 && childs.get(childs.size() - 1) instanceof GWikiFragmentBr) {
-      childs = childs.subList(0, childs.size() - 1);
-    }
-    if (childs.size() == 1 && childs.get(0) instanceof GWikiFragmentList) {
-      listfrag.addChilds(childs);
-    } else {
-      listfrag.addChild(new GWikiFragmentLi(listfrag, childs));
-    }
-    tks.removeStopToken('\n');
-
   }
 
   protected boolean isDecorateStart(GWikiWikiTokens tks)
@@ -358,6 +362,41 @@ public class GWikiWikiParser
     return childs;
   }
 
+  protected List<GWikiFragment> wrappBodyWithP(List<GWikiFragment> body)
+  {
+    if (body.isEmpty() == true) {
+      return body;
+    }
+    int endP = 0;
+    for (; endP < body.size(); ++endP) {
+      GWikiFragment frag = body.get(endP);
+      if (isParagraphLike(frag) == true && (frag instanceof GWikiFragmentBr) == false) {
+        break;
+      }
+    }
+    if (endP == 0) {
+      return body;
+    }
+    GWikiFragmentP p = new GWikiFragmentP(body.subList(0, endP));
+
+    List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
+    ret.add(p);
+    if (endP < body.size()) {
+      ret.addAll(body.subList(endP + 1, body.size()));
+    }
+    return ret;
+  }
+
+  protected boolean isPAllowedInDom(GWikiWikiParserContext ctx)
+  {
+    for (GWikiFragment frag : ctx.getFragStack()) {
+      if (isParagraphLike(frag) == false) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   protected void parseMacro(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     int curTokePos = tks.getTokenPos();
@@ -373,103 +412,112 @@ public class GWikiWikiParser
       return;
     }
     ctx.pushFragList();
-    if (frag.getMacro().hasBody() == false) {
-      ctx.addFragments(ctx.popFragList());
-      if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
+    try {
+      ctx.pushFragStack(frag);
+      if (frag.getMacro().hasBody() == false) {
+        ctx.addFragments(ctx.popFragList());
+        if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
+          Collection<GWikiFragment> nfrags = ((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx);
+          ctx.addFragments(nfrags);
+        } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
+          ctx.addFragment(frag);
+        } else {
+          ctx.addFragment(new GWikiFragmentParseError("Macro is neither Compile nor Runtime Macro: " + macroName, tks
+              .getLineNoFromTokenOffset(curTokePos)));
+        }
+        return;
+      } else if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
+        // compile time
         Collection<GWikiFragment> nfrags = ((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx);
         ctx.addFragments(nfrags);
-      } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
-        ctx.addFragment(frag);
-      } else {
-        ctx.addFragment(new GWikiFragmentParseError("Macro is neither Compile nor Runtime Macro: " + frag.getMacro().getClass().getName()));
       }
-      return;
-    } else if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
-      // compile time
-      Collection<GWikiFragment> nfrags = ((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx);
-      ctx.addFragments(nfrags);
-    }
-    tk = tks.curToken();
-    int tkn = (int) tk;
-    int startToken = tks.getTokenPos();
-    if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
-      tk = tks.skipWsNl();
+      tk = tks.curToken();
+      int tkn = (int) tk;
+      int startToken = tks.getTokenPos();
+      if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
+        tk = tks.skipWsNl();
 
-    }
-    if (frag.getMacro().evalBody() == true) {
-      ctx.pushFragList();
-      do {
-        tks.addStopToken('{');
-        parseBody(tks, ctx);
-        tk = tks.curToken(true);
-        if (tk == '{') {
-          if (tks.peekToken(1, true) == '{') {
-            tks.removeStopToken('{');
-            parseWords(tks, ctx);
-            tks.addStopToken('{');
-            continue;
-          }
-          int tkss = tks.getTokenPos();
-          tks.nextToken();
-          String nmacroName = tks.curTokenString();
-          if (nmacroName.equals(macroName) == false) {
+      }
+      if (frag.getMacro().evalBody() == true) {
+        ctx.pushFragList();
+        do {
+          tks.addStopToken('{');
+          parseMacroBody(tks, ctx);
+          tk = tks.curToken(true);
+          if (tk == '{') {
+            if (tks.peekToken(1, true) == '{') {
+              tks.removeStopToken('{');
+              parseWords(tks, ctx);
+              tks.addStopToken('{');
+              continue;
+            }
+            int tkss = tks.getTokenPos();
+            tks.nextToken();
+            String nmacroName = tks.curTokenString();
+            if (nmacroName.equals(macroName) == false) {
+              tks.setTokenPos(tkss);
+              tks.removeStopToken('{');
+              parseMacro(tks, ctx);
+              continue;
+            }
+            tks.nextToken();
+            MacroAttributes nma = new MacroAttributes(nmacroName);
+            GWikiMacroFragment nmf = parseMacroHead(nma, tks, ctx);
+            if (nmf.getAttrs().getArgs().isEmpty() == true) {
+              tks.removeStopToken('{');
+              break;
+            }
             tks.setTokenPos(tkss);
             tks.removeStopToken('{');
             parseMacro(tks, ctx);
             continue;
+          } else {
+            ctx.popFragList();
+            String source = frag.getSource();
+            ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName + "; " + source, tks
+                .getLineNoFromTokenOffset(curTokePos)));
+            return;
           }
-          tks.nextToken();
-          MacroAttributes nma = new MacroAttributes(nmacroName);
-          GWikiMacroFragment nmf = parseMacroHead(nma, tks, ctx);
-          if (nmf.getAttrs().getArgs().isEmpty() == true) {
-            tks.removeStopToken('{');
-            break;
-          }
-          tks.setTokenPos(tkss);
-          tks.removeStopToken('{');
-          parseMacro(tks, ctx);
-          continue;
-        } else {
+        } while (true);
+
+        // GWikiWikiTokens tnks = new GWikiWikiTokens(tks, endToken);
+        // tnks.setTokenPos(tnks.getTokenPos() - 1);
+        // parseText(tnks, ctx);
+        List<GWikiFragment> childs = ctx.popFragList();
+        if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
+          childs = removeWsTokensFromEnd(childs);
+        }
+        if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true && isPAllowedInDom(ctx)) {
+          childs = wrappBodyWithP(childs);
+        }
+        frag.addChilds(childs);
+        ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
+      } else {
+        int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
+        if (endToken == -1) {
           ctx.popFragList();
-          String source = frag.getSource();
-          ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + frag.getMacro().getClass().getName() + "; " + source));
+          ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName, tks.getLineNoFromTokenOffset(curTokePos)));
           return;
         }
-      } while (true);
-
-      // GWikiWikiTokens tnks = new GWikiWikiTokens(tks, endToken);
-      // tnks.setTokenPos(tnks.getTokenPos() - 1);
-      // parseText(tnks, ctx);
-      List<GWikiFragment> childs = ctx.popFragList();
-      if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
-        childs = removeWsTokensFromEnd(childs);
+        String body = tks.getTokenString(startToken, endToken);
+        if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
+          body = StringUtils.trim(body);
+        }
+        frag.getAttrs().setBody(body);
+        tks.setTokenPos(endToken + 3);
       }
-      frag.addChilds(childs);
-      ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
-    } else {
-      int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
-      if (endToken == -1) {
-        ctx.popFragList();
-        ctx
-            .addFragment(new GWikiFragmentParseError("Missing macro end for  " + frag.getMacro().getClass().getName() + "; " + ma.getBody()));
-        return;
+      ctx.addFragments(ctx.popFragList());
+      if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
+        // ctx.addFragments(((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx));
+      } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
+        ctx.addFragment(frag);
+      } else {
+        ctx.addFragment(new GWikiFragmentParseError("Macro is neither Compile nor Runtime Macro: " + macroName, tks
+            .getLineNoFromTokenOffset(curTokePos)));
       }
-      String body = tks.getTokenString(startToken, endToken);
-      if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
-        body = StringUtils.trim(body);
-      }
-      frag.getAttrs().setBody(body);
-      tks.setTokenPos(endToken + 3);
+    } finally {
+      ctx.popFragStack();
     }
-    ctx.addFragments(ctx.popFragList());
-    if (frag.getMacro() instanceof GWikiCompileTimeMacro) {
-      // ctx.addFragments(((GWikiCompileTimeMacro) frag.getMacro()).getFragments(frag, tks, ctx));
-    } else if (frag.getMacro() instanceof GWikiRuntimeMacro) {
-      ctx.addFragment(frag);
-    } else {
-      ctx.addFragment(new GWikiFragmentParseError("Macro is neither Compile nor Runtime Macro: " + frag.getMacro().getClass().getName()));
-    }
-
   }
 
   protected void parseFixedFontDecorator(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
@@ -543,7 +591,7 @@ public class GWikiWikiParser
     }
     tks.nextToken();
     if (frags.size() != 1 || (frags.get(0) instanceof GWikiFragmentText) == false) {
-      ctx.addFragment(new GWikiFragmentParseError("expect  text as link target"));
+      ctx.addFragment(new GWikiFragmentParseError("Expect text as link target", tks.getLineNoFromTokenOffset(oldPos)));
       tks.addStopToken(barStop);
       return;
     }
@@ -688,17 +736,22 @@ public class GWikiWikiParser
     if (l.length() == 2 && l.charAt(0) == 'h' && Character.isDigit(l.charAt(1)) == true) {
       if (tks.peekToken(1) == '.') {
         GWikiFragmentHeading hf = new GWikiFragmentHeading(Integer.valueOf(l.substring(1, 2)), "");
-        tk = tks.nextToken();
-        tk = tks.nextToken();
-        tk = tks.skipWs();
-        ctx.pushFragList();
-        parseWords(tks, ctx);
-        hf.addChilds(ctx.popFragList());
-        ctx.addFragment(hf);
-        // ctx.addTextFragement("\n");
-        tk = tks.skipWsNl(false);
-        if (tk != -1) {
-          tks.pushBack();
+        try {
+          ctx.pushFragStack(hf);
+          tk = tks.nextToken();
+          tk = tks.nextToken();
+          tk = tks.skipWs();
+          ctx.pushFragList();
+          parseWords(tks, ctx);
+          hf.addChilds(ctx.popFragList());
+          ctx.addFragment(hf);
+          // ctx.addTextFragement("\n");
+          tk = tks.skipWsNl(false);
+          if (tk != -1) {
+            tks.pushBack();
+          }
+        } finally {
+          ctx.popFragStack();
         }
         return;
       }
@@ -756,33 +809,37 @@ public class GWikiWikiParser
     char tk;
     int startToken = tks.getTokenPos();
     GWikiFragmentTable table = new GWikiFragmentTable();
-    // List<List<Pair<String, GWikiFragmentChildContainer>>> tbl = new ArrayList<List<Pair<String, GWikiFragmentChildContainer>>>();
-    do {
-      GWikiFragmentTable.Row tb = parseTableLine(tks, ctx);
-      if (tb == null) {
-        if (table.getRowSize() == 0) {
-          tks.setTokenPos(startToken);
-          tk = tks.curToken();
-          ctx.addTextFragement(tks.curTokenString());
-          tk = tks.nextToken();
-          if (tk == '|') {
+    try {
+      ctx.pushFragStack(table);
+      // List<List<Pair<String, GWikiFragmentChildContainer>>> tbl = new ArrayList<List<Pair<String, GWikiFragmentChildContainer>>>();
+      do {
+        GWikiFragmentTable.Row tb = parseTableLine(tks, ctx);
+        if (tb == null) {
+          if (table.getRowSize() == 0) {
+            tks.setTokenPos(startToken);
+            tk = tks.curToken();
             ctx.addTextFragement(tks.curTokenString());
             tk = tks.nextToken();
+            if (tk == '|') {
+              ctx.addTextFragement(tks.curTokenString());
+              tk = tks.nextToken();
+            }
+            parseLine(tks, ctx);
+            return;
           }
-          parseLine(tks, ctx);
-          return;
+          break;
         }
-        break;
-      }
-      table.addRow(tb);
-      tk = tks.curToken();
-      if (tk != '|') {
-        break;
-      }
-    } while (tks.eof() == false);
-    // table.setTable(tbl);
-    ctx.addFragment(table);
-
+        table.addRow(tb);
+        tk = tks.curToken();
+        if (tk != '|') {
+          break;
+        }
+      } while (tks.eof() == false);
+      // table.setTable(tbl);
+      ctx.addFragment(table);
+    } finally {
+      ctx.popFragStack();
+    }
   }
 
   public void parseLiLine(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
@@ -858,15 +915,99 @@ public class GWikiWikiParser
    * @param tks
    * @param ctx
    */
-  public void parseBody(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  public void parseMacroBody(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
+    boolean traditionell = true;
+    if (traditionell == true) {
+      while (tks.eof() == false) {
+        parseLine(tks, ctx);
+        if (tks.eof() == true) {
+          break;
+        }
+        tks.nextToken();
+      }
+      return;
+    }
+    // TODO remove this code. is not working...
+    boolean useParseText = true;
+    if (useParseText == true) {
+      tks.pushBack();
+      parseText(tks, ctx);
+      return;
+    }
+    int startPlIdx = -1;
     while (tks.eof() == false) {
+      ctx.pushFragList();
       parseLine(tks, ctx);
+      List<GWikiFragment> l = ctx.popFragList();
+      boolean pprocessed = false;
+      if (l.size() > 0) {
+        boolean wrapP = false;
+        GWikiFragment ff = l.get(0);
+        l = removeBrsAfterParagraph(l);
+        // if (l.size() == 2 && isParagraphLike(ff) == true && l.get(1) instanceof GWikiFragmentBr) {
+        // l = l.subList(0, 1);
+        // }
+        boolean toPList = false;
+        if ((l.size() > 1 || tks.eof()) && isParagraphLike(ff) == false) {
+          toPList = true;
+        }
+        GWikiFragment lf = l.get(l.size() - 1);
+        if (lf instanceof GWikiFragmentP || (tks.eof() && lf instanceof GWikiFragmentBr)) {
+          l = l.subList(0, l.size() - 1);
+          wrapP = true;
+        }
+        if (wrapP == true) {
+          if (l.size() > 0 && l.get(l.size() - 1) instanceof GWikiFragmentBr) {
+            l = l.subList(0, l.size() - 1);
+          }
+          List<GWikiFragment> addList = l;
+          if (startPlIdx != -1) {
+            List<GWikiFragment> plist = ctx.popFragList();
+            List<GWikiFragment> rl = plist.subList(0, startPlIdx);
+            ctx.pushFragList(rl);
+            List<GWikiFragment> ll = plist.subList(startPlIdx, plist.size());
+            addList = new ArrayList<GWikiFragment>();
+            addList.addAll(ll);
+            addList.addAll(l);
+            l = addList;
+            startPlIdx = -1;
+          }
+          // plist.addAll(l);
+          ctx.addFragment(new GWikiFragmentP(l));
+          // plist = new ArrayList<GWikiFragment>();
+          pprocessed = true;
+        } else if (toPList == true) {
+          startPlIdx = ctx.peek(0).size();
+          // plist.addAll(l);
+          // pprocessed = true;
+        }
+      }
+      if (pprocessed == false) {
+        ctx.addFragments(l);
+      }
       if (tks.eof() == true) {
         break;
       }
       tks.nextToken();
     }
+    if (startPlIdx != -1) {
+      List<GWikiFragment> plist = ctx.popFragList();
+      int minpidx = Math.min(startPlIdx, plist.size());
+      List<GWikiFragment> rl = plist.subList(0, minpidx);
+      ctx.pushFragList(rl);
+      List<GWikiFragment> ll = plist.subList(minpidx, plist.size());
+      if (ll.size() > 0 && ll.get(ll.size() - 1) instanceof GWikiFragmentBr) {
+        ll = ll.subList(0, ll.size() - 1);
+      }
+      List<GWikiFragment> addList = new ArrayList<GWikiFragment>();
+      addList.addAll(ll);
+      // addList.addAll(l);
+      // l = addList;
+      startPlIdx = -1;
+      ctx.addFragment(new GWikiFragmentP(addList));
+    }
+
   }
 
   protected boolean isParagraphLike(GWikiFragment ff)
@@ -915,6 +1056,7 @@ public class GWikiWikiParser
       parseLine(tks, ctx);
       List<GWikiFragment> l = ctx.popFragList();
       boolean pprocessed = false;
+
       if (l.size() > 0) {
         boolean wrapP = false;
         GWikiFragment ff = l.get(0);

@@ -44,6 +44,9 @@ public class GWikiWikiParserContext
 {
   private List<List<GWikiFragment>> frags = new ArrayList<List<GWikiFragment>>();
 
+  /**
+   * Current DOM path of parsing. 
+   */
   private ArrayStack<GWikiFragment> fragStack = new ArrayStack<GWikiFragment>();
 
   private Map<String, GWikiMacroFactory> macroFactories = new HashMap<String, GWikiMacroFactory>();
@@ -191,5 +194,15 @@ public class GWikiWikiParserContext
   public void setMacroFactories(Map<String, GWikiMacroFactory> macroFactories)
   {
     this.macroFactories = macroFactories;
+  }
+
+  public ArrayStack<GWikiFragment> getFragStack()
+  {
+    return fragStack;
+  }
+
+  public void setFragStack(ArrayStack<GWikiFragment> fragStack)
+  {
+    this.fragStack = fragStack;
   }
 }

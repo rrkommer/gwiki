@@ -18,10 +18,17 @@
 
 package de.micromata.genome.gwiki.page.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentParseError;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.utils.ThrowableUtils;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
@@ -142,11 +149,31 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     try {
       wikiPage.compileFragements(ctx);
       wikiPage.getCompiledObject().ensureRight(ctx);
+      final List<GWikiFragmentParseError> errors = new ArrayList<GWikiFragmentParseError>();
+      GWikiFragmentVisitor findCompileErrorVisitor = new GWikiSimpleFragmentVisitor() {
+
+        public void begin(GWikiFragment fragment)
+        {
+          if (fragment instanceof GWikiFragmentParseError) {
+            errors.add((GWikiFragmentParseError) fragment);
+          }
+        }
+      };
+      wikiPage.getCompiledObject().iterate(findCompileErrorVisitor);
+      if (errors.isEmpty() == false) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Wiki page has syntax errors: \n");
+        for (GWikiFragmentParseError e : errors) {
+          sb.append(e.getText()).append(" at line: ").append(e.getLineNo()).append("\n");
+        }
+        ctx.addSimpleValidationError(sb.toString());
+
+      }
     } catch (AuthorizationFailedException ex) {
       ctx.addSimpleValidationError(ex.getMessage());
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
-      ctx.addSimpleValidationError("Kann Wiki Seite nicht kompilieren: " + ex.getMessage() + "\n" + st);
+      ctx.addSimpleValidationError("Cannot compile Wiki page: " + ex.getMessage() + "\n" + st);
     }
 
   }

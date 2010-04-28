@@ -86,7 +86,7 @@ public class GWikiWikiTokens
   public String getTokens()
   {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i /*                                * 2 */< tokenOffsets.size(); ++i) {
+    for (int i = 0; i /*                                      * 2 */< tokenOffsets.size(); ++i) {
       String s = text.substring(tokenOffsets.getInt(i), tokenOffsets.getInt(i + 1));
       sb.append("[").append(s).append("]\n");
     }
@@ -313,6 +313,18 @@ public class GWikiWikiTokens
   public String getStringUntilOneOf(String tokens)
   {
     return getStringUntilOneOf(tokens, true);
+  }
+
+  public int getLineNoFromTokenOffset(int offset)
+  {
+    int nls = 1;
+    for (int i = 0; i < tokenOffsets.size() && i < offset; ++i) {
+      char c = text.charAt(tokenOffsets.getInt(i));
+      if (c == '\n') {
+        ++nls;
+      }
+    }
+    return nls;
   }
 
   public String getStringUntilNotOneOf(String tokens)

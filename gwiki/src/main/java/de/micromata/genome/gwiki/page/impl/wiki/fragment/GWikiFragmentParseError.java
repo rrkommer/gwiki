@@ -25,21 +25,51 @@ public class GWikiFragmentParseError extends GWikiFragmentDecorator
 
   private String text;
 
+  private int lineNo;
+
   public GWikiFragmentParseError(GWikiFragmentParseError other)
   {
     super(other);
+    this.text = other.text;
+    this.lineNo = other.lineNo;
   }
 
   public GWikiFragmentParseError(String text)
   {
+    this(text, 0);
+  }
+
+  public GWikiFragmentParseError(String text, int lineNo)
+  {
     super("<color=\"red\">", "</color>");
     this.text = text;
+    this.lineNo = lineNo;
     addChild(new GWikiFragmentText(text));
   }
 
   public void getSource(StringBuilder sb)
   {
     sb.append(text);
+  }
+
+  public String getText()
+  {
+    return text;
+  }
+
+  public void setText(String text)
+  {
+    this.text = text;
+  }
+
+  public int getLineNo()
+  {
+    return lineNo;
+  }
+
+  public void setLineNo(int lineNo)
+  {
+    this.lineNo = lineNo;
   }
 
 }
