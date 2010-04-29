@@ -7,22 +7,63 @@ Document here how to do this.
 {note}
 
 h2. Create new slideshow
-Click on the Button 'New Element' and select 'slide show' to start with a blank new slideshow. The slideshow starts with following code:
+Click on the Button 'New Element' and select 'slide show' to start with a blank new slideshow. A slideshow starts with following code:
 
 {code}
 {slideshow}
  <!-- Slideshow Content -->
 {slideshow}
+
 {code}
 
 To create a new slide you start with following code:
 {code}
-{slide}
 {slide:title=Slide Headline}
-Slide Content
+<!-- Slide Content -->
+{slide}
+
 {code}
 
 h2. Define header, footer and style
+
+There are different options for customizing the slideshow. The sections 'header' and 'footer' can be fill with individual information, like this example:
+
+{code}
+{slideshow}
+{slideheader}
+<!-- Header Content -->
+{slideheader}
+{slidefooter}
+<!-- Footer Content -->
+{slidefooter}
+(...)
+{slideshow}
+
+{code} 
+
+Further there is are two possibilities to add individual style informations. Put the css-code directly in the slideshow markup between the tag 'slidestyle':
+
+{code}
+{slideshow}
+{slidestyle}
+.slide {background: red;}
+{slidestyle}
+(...)
+{slideshow}
+
+{code}
+
+or import a externa css-document:
+
+{code}
+{slideshow}
+{slidestyle}
+@import url(mystyle.css);
+{slidestyle}
+(...)
+{slideshow}
+
+{code}
 
 h2. use incremental features.
 
