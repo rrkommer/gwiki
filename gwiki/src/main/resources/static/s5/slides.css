@@ -16,13 +16,12 @@
  * Do not edit or override these styles! The system will likely break if you do.
  *
  */
-div#header, div#footer, div#controls, div.slide {position: absolute;}
-html>body div#header, html>body div#footer, 
-  html>body div#controls, html>body div.slide {position: fixed;}
-.handout {display: none;}
-.layout {display: block;}
-div.slide, .hideme, .incremental {visibility: hidden;}
-#slide0 {visibility: visible;}
+div#header, div#footer, div#controls, div.slide {position:absolute;}
+html>body div#header, html>body div#footer, html>body div#controls, html>body div.slide {position:fixed;}
+.handout {display:none;}
+.layout {display:block;}
+div.slide, .hideme, .incremental {visibility:hidden;}
+#slide0 {visibility:visible;}
 
 /**
  * @section        Framing
@@ -54,7 +53,6 @@ sup {font-size: 0.75em; font-weight: normal; vertical-align: 0.5em; line-height:
 ul {margin-left: 1em; padding-left: 0;}
 li {margin-bottom: 0.66em;}
 li li {margin: 0.33em 0; font-size: smaller;}
-#header {padding:0.2em}
 #footer {color: #000;}
 #header {font-size: 0.8em; text-align:center;}
 #footer {font-size: 0.4em; text-align:left;margin:0.5em;}
@@ -78,6 +76,8 @@ li li {margin: 0.33em 0; font-size: smaller;}
  * Micromata specific style information
  *
  */
-#header div {float:left;width:25%;}
-#header div + div {float:right;width:25%;}
+#header div {float:left;width:25%; text-align:left;padding:0.3em}
+#header div + div {float:right;width:25%;text-align:right;}
+#header img {width:75%}
+#header h1 {margin-top: 0.3em;}
 .slide .panelContent {background-color:#F0F0F0;font-size:0.4em;margin:0;padding:12px;text-align:left;border:1px solid #000;}    
