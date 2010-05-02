@@ -13,33 +13,40 @@
 <script type="text/javascript">
 function viewDelPage(pageId)
 {
-	jQuery('#delPageId').attr('value', pageId);
-	//alert('del: ' + pageId + "; "+ jQuery('#delPageId').attr('value'));
-	
-	jQuery('#formactionname').attr('name', 'method_onViewItem');
-	jQuery('#listform').submit();
-	
+  jQuery('#delPageId').attr('value', pageId);
+  //alert('del: ' + pageId + "; "+ jQuery('#delPageId').attr('value'));
+  
+  jQuery('#formactionname').attr('name', 'method_onViewItem');
+  jQuery('#listform').submit();
+  
 }
 </script>
 
 <c:when test="${form.list}">
-	
-		<fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/><gwiki:text property="listFilter"/>
-		<input type="submit" name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
-		<input id="formactionname" type="hidden" name="action"/>
-		
-	<ul>
-	<c:forEach var="el" items="${form.deletedPages}">
-		<li><a href="javascript:viewDelPage('<c:out value="${el}"/>')"><c:out value="${el}"/></a></li>
-	</c:forEach>
-	</ul>
+   <p>
+On this page you can search elements, which are previosly deleted and restore it.<br/>
+For large virtual file systems searching for deleted elements may take a while.
+</p>
+<p>
+Optionally you can search for a pageId, if you only like to restore a known page or other element.
+</p>
+    <fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/> <gwiki:text property="listFilter"/>
+    <input type="submit" name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
+    <input id="formactionname" type="hidden" name="action"/>
+    
+  <ul>
+  <c:forEach var="el" items="${form.deletedPages}">
+    <li><a href="javascript:viewDelPage('<c:out value="${el}"/>')"><c:out value="${el}"/></a></li>
+  </c:forEach>
+  </ul>
 </c:when>
 <c:otherwise>
+
 <fmt:message key="gwiki.page.edit.DeletedPages.label.page"/> <c:out value="${form.pageId}"/>
 <c:out value="${form.versionBox}" escapeXml="false"/>
 </c:otherwise>
 </c:choose>
 </form>
-	
+  
 
 <% wikiContext.skinInclude('standardfoot'); %>
