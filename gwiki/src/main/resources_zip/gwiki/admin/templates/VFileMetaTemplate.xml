@@ -6,6 +6,7 @@
 		singleton="false">
 		<property name="elementType" value="vfile" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+		<property name="noNewPage" value="true"/>
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
