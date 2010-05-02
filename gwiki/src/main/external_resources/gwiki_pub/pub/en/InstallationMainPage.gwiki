@@ -1,0 +1,10 @@
+{pageintro}
+How to install GWiki.
+{pageintro}
+
+h2. Installation of GWiki Standalone
+GWiki provides a standalone desktop installation with nearly zero configuration effort.
+
+
+
+h2. Install GWiki as WAR archive in Java Servlet container
