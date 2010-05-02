@@ -8,6 +8,7 @@ The macro {{children}} create a table content of the children pages.
 {children:depth=2|sort=title}
 {html}{td}{td}
 Create a table of content with the children pages.
+- page: Optional. pageId of the parent element. If not set use the current page.
 - depth: Optional. Integer. Maximal depth. If not set, use all nested pages
 - sort: Optional. String. One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER.
 - withPageIntro: Boolean true or false. Default false. If true, include the \{pageintro\} sections of the children page.  See also: [gwikidocs/macros/en/Macropageintro].
