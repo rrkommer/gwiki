@@ -4,7 +4,9 @@
 <gwiki:errors />
 <br />
 <span id="rsperror" style="color: red"></span> 
-<span id="impmessage"style="color: red"></span>
+<span id="impmessage" style="color: red"></span>
+
+<p style="color: red">This function is pre-alpha and may not work</p>
 
 <form name="form" method="post" >
 
