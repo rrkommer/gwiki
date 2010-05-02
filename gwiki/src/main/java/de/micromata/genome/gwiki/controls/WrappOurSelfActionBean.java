@@ -59,7 +59,7 @@ public class WrappOurSelfActionBean extends ActionBeanBase
     }
     String rootdir = fs.getFileSystemName();
     File f = new File(rootdir);
-    System.out.println("RootDir is: " + f.getAbsolutePath());
+    // System.out.println("RootDir is: " + f.getAbsolutePath());
     File nf = f.getAbsoluteFile().getParentFile();
     StdFileSystem wfs = new StdFileSystem(nf.getAbsolutePath());
     if (wfs.exists("gwikiweb") == false) {

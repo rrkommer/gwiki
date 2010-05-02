@@ -350,17 +350,17 @@ public class ServletStandalonePageContext extends PageContext
         if (topOfWriterStack instanceof BodyFlusher) {
           ((BodyFlusher) topOfWriterStack).flushBody();
         } else {
-          System.out.println("No Bodyflusher: " + topOfWriterStack.getClass());
+          // System.out.println("No Bodyflusher: " + topOfWriterStack.getClass());
         }
       }
       JspWriter out = getOut();
       if (out instanceof BodyFlusher) {
         ((BodyFlusher) out).flushBody();
       } else {
-        System.out.println("No Bodyflusher: " + topOfWriterStack.getClass());
+        // System.out.println("No Bodyflusher: " + topOfWriterStack.getClass());
       }
     } else {
-      System.out.println("no flush");
+      // System.out.println("no flush");
     }
     request.getRequestDispatcher(page).include(request, response);
   }
@@ -484,7 +484,7 @@ public class ServletStandalonePageContext extends PageContext
       }
 
     } else {
-      System.out.println("No body flusher!");
+      // System.out.println("No body flusher!");
     }
 
   }

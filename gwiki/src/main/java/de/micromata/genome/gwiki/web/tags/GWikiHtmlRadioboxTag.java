@@ -37,7 +37,7 @@ public class GWikiHtmlRadioboxTag extends GWikiBasePropertyHtmlTag
   protected String checked;
 
   @ElementProperty
-  protected String type = "radiobox";
+  protected String type = "radio";
 
   @Override
   public void prepare()
