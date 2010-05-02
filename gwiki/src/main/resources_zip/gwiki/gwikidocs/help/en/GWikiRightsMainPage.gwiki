@@ -1,0 +1,49 @@
+{pageintro}
+About the GWiki Right concept.
+{pageintro}
+
+h2. What are rights
+In GWiki a right is just a simple string. GWiki defined itself some rights (see below), but it is possible to introduce new rights, just simple declare in Elements Settings or meta template.
+
+h2. Concept
+In GWiki are common operational rights and rights, which are attached to elements.
+Common rights are used to enable or disable operations - like to view or to edit a page.
+Element right are connected with elements or meta templates to protect the page for modification or viewing.
+
+If an element does not define a right to view or do edit the page, automatically the right from the parent element will
+be used.
+If the parent - recursivelly - does also not define a right, the common right {{GWIKI_VIEWPAGES}}  will be used.
+
+h2. Rights
+h2. Common Rechte 
+
+||Right||Description||
+|GWIKI_VIEWPAGES|Right to view pages/elements|
+|GWIKI_EDITPAGES|Right to edit pages/elements.|
+|GWIKI_CREATEPAGES|Right to create pages/elements |
+|GWIKI_DELETEAGES|Right to delete pages/elements|
+|GWIKI_FSWEBDAV|Enables access to the underlying virtual file system via WebDAV|
+
+h2. Administrational rights
+
+||Right||Description||
+|GWIKI_DEVELOPER|If an element or operation can harm the plattform and need developer skills. For example edit elements with gspt or groovy artefacts.|
+|GWIKI_ADMIN|Administration of GWiki.|
+|GWIKI_PRIVATE|Only the owner of the element (CREATEDBY) has the right.|
+|GWIKI_PUBLIC|All users, including anonymous user have the right.|
+
+{HTMLcomment}
+TODO later:
+h2. Rechte auf Verzeichnisebene
+Zusätzlich zu den Seitenrechte können in der globalen WikiConfig noch zusätzliche Rechteprüfungen auf Pfadnamen vorgenommen werden.
+Hierzu muss auch der Filter {{de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiWriteAccessStoreElementFilter}} hinterlegt sein.
+In jeder Zeile ist ein Recht, gefolgt von einem Doppelpunkt und einem Matcherausdruck.
+
+Beispiel:
+{code}
+NOBODY: *Settings.properties
+GWIKI_DEVELOPER: edit/*,inc
+GWIKI_ADMIN: admin/*
+{code}
+{HTMLcomment}
+
