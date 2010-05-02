@@ -98,7 +98,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
 
   public Object onUpload()
   {
-    GWikiElement thisElement = wikiContext.getWikiElement();
+    GWikiElement thisElement = wikiContext.getCurrentElement();
     try {
       String name = "dataFile_attachment";
       FileItem dataFile = wikiContext.getFileItem(name);

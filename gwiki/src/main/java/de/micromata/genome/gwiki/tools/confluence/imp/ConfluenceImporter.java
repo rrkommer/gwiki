@@ -196,7 +196,8 @@ public class ConfluenceImporter implements GWikiPropKeys
     for (String bcr : page.getContentRefs()) {
       BodyContent bc = bodyContentMap.get(bcr);
       if (bc == null) {
-        System.out.println("Has not body: " + page.getTitle());
+        wikiContext.addSimpleValidationError("Has not body: " + page.getTitle());
+        // System.out.println("Has not body: " + page.getTitle());
         continue;
       }
       List<String> bcsl = bc.getBodies();
