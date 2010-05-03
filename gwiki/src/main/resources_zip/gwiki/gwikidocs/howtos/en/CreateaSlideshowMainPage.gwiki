@@ -1,48 +1,35 @@
 {pageintro}
 Create a HTML slide show with GWiki.
 {pageintro}
-
-{note:title=TODO}
-Document here how to do this.
-{note}
-
-h2. Create new slideshow
-Click on the Button 'New Element' and select 'slide show' to start with a blank new slideshow. A slideshow starts with following code:
-
+The GWiki-Markup language is like other wikis, for example Confluence. Look at the [WikiSyntax] for further informations. 
+h2. Create new slide show 
+If you want to create a new slide show, click on the button 'New Element' and select 'Slide Show' to start with a blank new slide show. Every slide show starts with the following code:
 {code}
 {slideshow}
- <!-- Slideshow Content -->
-{slideshow}
-
+<!-- Slideshow Content --> 
+{slideshow} 
 {code}
-
-To create a new slide you start with following code:
+Between this syntax, you can create your single slides. Analogously to the first step, a slide starts and ends with the syntax: 
 {code}
 {slide:title=Slide Headline}
-<!-- Slide Content -->
+<!-- Slide Content --> 
 {slide}
-
 {code}
-
-h2. Define header, footer and style
-
-There are different options for customizing the slideshow. The sections 'header' and 'footer' can be fill with individual information, like this example:
-
+Put your headline as &nbsp;title attribute. Between the slide-tag you can fill in your own content with standard HTML-tags.
+h2. Define header, footer and style 
+You can customize your slide show in different ways. First you have a header and a footer section for specific informations like information about your person or copyright. You can add these areas with the following code:
 {code}
 {slideshow}
 {slideheader}
 <!-- Header Content -->
-{slideheader}
+ {slideheader}
 {slidefooter}
 <!-- Footer Content -->
 {slidefooter}
 (...)
 {slideshow}
-
-{code} 
-
-Further there is are two possibilities to add individual style informations. Put the css-code directly in the slideshow markup between the tag 'slidestyle':
-
+{code}
+The second way to customize your slide show is adding a css-code to your slide shows. You can put it directly into the slide show between the 'slidestyle'-tag or import it from an external css-file.  Example for input directly in the slide show:
 {code}
 {slideshow}
 {slidestyle}
@@ -50,25 +37,30 @@ Further there is are two possibilities to add individual style informations. Put
 {slidestyle}
 (...)
 {slideshow}
-
 {code}
-
-or import a externa css-document:
-
+Example for import of a css-fiel:
 {code}
 {slideshow}
 {slidestyle}
 @import url(mystyle.css);
 {slidestyle}
 (...)
-{slideshow}
-
+{slideshow} 
 {code}
 
-h2. use incremental features.
-
-h2. Images
-To make images automatically scalable to the size of the screen, use the width= Attribute with % of the full screen with.
+h2. Use incremental features
+You can display your content incremental step by step, as you are accustomed to from other software. All you need is to wrap your content with the 'incremental'-tag:
 {code}
-!image.gif|width=80%!
+{slide:title=Slide Headline}
+{incremental}
+<ul>
+<li>First Item</li>
+<li>Second Item</li>
+<li>Third Item</li>
+</ul> 
+{incremental}
+{slide}
 {code}
+h2. Images 
+To make images automatically scalable to the size of the screen, use the width= Attribute with % of the full screen width.
+{code} \!image.gif\|width=80%\! {code}
