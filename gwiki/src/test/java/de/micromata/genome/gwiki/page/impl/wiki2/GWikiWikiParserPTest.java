@@ -27,6 +27,14 @@ public class GWikiWikiParserPTest extends GWikiWikiParserTestBase
   // {
   // w2htest("a.", "<p>a.</p>");
   // }
+  public void testPanBr2()
+  {
+
+    w2htest("a\nb\n\nc\nd\n\ne\nf", "<p>a<br/>\nb</p>\n<p>c<br/>\nd</p>\n<p>e<br/>\nf</p>\n");
+    // geht
+    w2htest("a\nb\n\nc\nd\n\ne", "<p>a<br/>\nb</p>\n<p>c<br/>\nd</p>\n<p>e</p>\n");
+  }
+
   public void testPandBr()
   {
     w2htest("T1\nT2\n\nT3\n", "<p>T1<br/>\nT2</p>\n<p>T3</p>\n");
