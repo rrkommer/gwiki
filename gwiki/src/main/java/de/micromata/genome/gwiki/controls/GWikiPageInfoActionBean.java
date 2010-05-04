@@ -53,8 +53,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
@@ -203,15 +203,11 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
                   a(attrs("href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam),
                       text(translate("gwiki.page.edit.PageInfo.attachment.label.edit"))),//
                   // br(), //
-                  a(attrs("href", wikiContext.localUrl("/edit/EditPage")
-                      + "?pageId="
-                      + ce.getId()
-                      + "&method_onDelete=true&"
-                      + backUrlParam), text(translate("gwiki.page.edit.PageInfo.attachment.label.delete")), //
+                  a(attrs("onclick", "return confirm('" + translate("gwiki.page.edit.PageInfo.attachment.message.deleteconfirm") + "');",
+                      "href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&method_onDelete=true&" + backUrlParam),
+                      text(translate("gwiki.page.edit.PageInfo.attachment.label.delete")), //
                       // br(), //
-                      a(attrs("onclick", "return confirm('"
-                          + translate("gwiki.page.edit.PageInfo.attachment.message.deleteconfirm")
-                          + "');", "href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
+                      a(attrs("href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
                           text(translate("gwiki.page.edit.PageInfo.attachment.label.info")))) //
               )//
           ) //
