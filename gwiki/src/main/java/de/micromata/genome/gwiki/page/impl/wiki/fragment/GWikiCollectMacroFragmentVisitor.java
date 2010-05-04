@@ -56,6 +56,11 @@ public class GWikiCollectMacroFragmentVisitor extends GWikiCollectFragmentTypeVi
 
   }
 
+  protected void addFragment(GWikiFragment fragment)
+  {
+    found.add(fragment);
+  }
+
   @Override
   public void begin(GWikiFragment fragment)
   {
@@ -75,7 +80,7 @@ public class GWikiCollectMacroFragmentVisitor extends GWikiCollectFragmentTypeVi
       }
 
     }
-    found.add(fragment);
+    addFragment(fragment);
   }
 
   public String getMacroName()
