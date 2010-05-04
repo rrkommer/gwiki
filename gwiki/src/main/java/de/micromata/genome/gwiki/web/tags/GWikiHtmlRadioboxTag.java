@@ -31,6 +31,7 @@ public class GWikiHtmlRadioboxTag extends GWikiBasePropertyHtmlTag
 
   private static final long serialVersionUID = 7702172675783669646L;
 
+  @ElementProperty
   protected String value;
 
   @ElementProperty

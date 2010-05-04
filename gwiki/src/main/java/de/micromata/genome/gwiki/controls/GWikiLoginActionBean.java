@@ -51,6 +51,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
   public Object onInit()
   {
+    password = "";
     return null;
   }
 
@@ -58,14 +59,17 @@ public class GWikiLoginActionBean extends ActionBeanBase
   {
     if (StringUtils.isBlank(user) == true || StringUtils.isBlank(password) == true) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.userandpasswordneeded");
+      password = "";
       return null;
     }
 
     boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(password));
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
+      password = "";
       return null;
     }
+    password = "";
     if (StringUtils.isBlank(pageId) == false) {
       GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
       if (ei != null) {
@@ -78,6 +82,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
   public Object onLogout()
   {
     wikiContext.getWikiWeb().getAuthorization().logout(wikiContext);
+    password = "";
     return null;
   }
 

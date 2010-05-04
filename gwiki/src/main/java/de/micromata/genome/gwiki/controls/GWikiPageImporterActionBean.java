@@ -25,8 +25,10 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
@@ -134,12 +136,17 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
   {
     GWikiElement element = wikiContext.getWikiWeb().getStorage().loadElement(ei);
     element.getElementInfo().setId(newId);
+    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PAGEID, null);
+    // String pp = element.getElementInfo().getProps().getStringValue(GWikiPropKeys.PARENTPAGE);
+    // if (StringUtils.isNotEmpty(pp) == true) {
+    //
+    // }
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, element, true);
   }
 
   public Object onImport()
   {
-    GWikiElement thisElement = wikiContext.getWikiElement();
+    GWikiElement thisElement = wikiContext.getCurrentElement();
     try {
 
       final List<String> ids;
@@ -153,7 +160,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         }
       }
       if (ids.size() == 0) {
-        wikiContext.append("No elements selected/Keine Elemente ausgew&auml;hlt").flush();
+        wikiContext.append("No elements selected").flush();
         return noForward();
       }
       // TODO gwiki parentIds patchen!
@@ -172,6 +179,9 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
               continue;
             }
             String oei = getPageIdNoTemp(ei);
+            if (StringUtils.isNotBlank(targetDir) == true) {
+              oei = FileNameUtils.join(targetDir, oei);
+            }
             CompareStatus st = getCompareStatus(wikiContext, ei, oei);
             switch (st) {
               case OLDER:
@@ -218,6 +228,9 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
       List<SearchResult> sr = new ArrayList<SearchResult>(elems.size());
       for (GWikiElementInfo wi : elems) {
         String oei = getPageIdNoTemp(wi);
+        if (StringUtils.isNotBlank(targetDir) == true) {
+          oei = FileNameUtils.join(targetDir, oei);
+        }
         CompareStatus st = getCompareStatus(wikiContext, wi, oei);
         wi.getProps().setStringValue("IMPSTATUS", st.name());
         sr.add(new SearchResult(wi));

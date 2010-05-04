@@ -31,6 +31,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -110,7 +111,8 @@ public class ConfluenceImporter implements GWikiPropKeys
 
   protected String getIdFromPage(GWikiContext wikiContext, Page page, String pathPrefix)
   {
-    return pathPrefix + GWikiContext.getPageIdFromTitle(page.getTitle());
+
+    return FileNameUtils.join(pathPrefix, GWikiContext.getPageIdFromTitle(page.getTitle()));
   }
 
   protected String patchLink(GWikiContext wikiContext, String lnk, String pathPrefix)
@@ -121,7 +123,7 @@ public class ConfluenceImporter implements GWikiPropKeys
     if (lnk.startsWith("#") == true) {
       return lnk;
     }
-    return pathPrefix + GWikiContext.getPageIdFromTitle(lnk);
+    return FileNameUtils.join(pathPrefix, GWikiContext.getPageIdFromTitle(lnk));
   }
 
   protected String patchLinkBody(GWikiContext wikiContext, String lnkb, String pathPrefix)
@@ -178,7 +180,7 @@ public class ConfluenceImporter implements GWikiPropKeys
       Page pent = pageMap.get(page.getParent());
       Page pp = (Page) pent;
       if (pp != null) {
-        props.setStringValue(PARENTPAGE, getIdFromPage(wikiContext, pp, storePath));
+        props.setStringValue(PARENTPAGE, getIdFromPage(wikiContext, pp, pathPrefix));
       }
 
     }

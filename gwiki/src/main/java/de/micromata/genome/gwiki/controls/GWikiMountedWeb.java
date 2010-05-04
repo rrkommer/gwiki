@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FileSystemUtils;
@@ -97,9 +96,9 @@ public class GWikiMountedWeb implements Serializable
       ConfluenceImporter importer = new ConfluenceImporter(inFs);
       importer.parseDom();
       String targetDir = tmpDirName + "/";
-      if (StringUtils.isNotEmpty(pathPrefix) == true) {
-        targetDir = targetDir + pathPrefix + "/";
-      }
+      // if (StringUtils.isNotEmpty(pathPrefix) == true) {
+      // targetDir = FileNameUtils.join(targetDir, pathPrefix) + "/";
+      // }
       importer.doImport(wikiContext, targetDir, pathPrefix);
     } else {
       FileSystemUtils.copyFromZip(is, target);
