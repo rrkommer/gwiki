@@ -18,8 +18,18 @@
 
 package de.micromata.genome.gwiki.page;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.page.impl.GWikiContent;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
 /**
@@ -93,6 +103,80 @@ public class GWikiContextUtils
       rurl = StringUtils.replace(path, "{SKIN}/", "");
       return rurl;
     }
+  }
 
+  /**
+   * Find a wiki artefakt from given element.
+   * 
+   * @param ci
+   * @param ctx
+   * @return null if non found.
+   */
+  public static GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ci, GWikiContext ctx)
+  {
+    GWikiElement el = ctx.getWikiWeb().findElement(ci.getId());
+    if (el == null) {
+      return null;
+    }
+    GWikiArtefakt< ? > ma = el.getMainPart();
+    if (ma instanceof GWikiWikiPageArtefakt) {
+      return (GWikiWikiPageArtefakt) ma;
+    }
+    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    el.collectParts(map);
+    ma = map.get("MainPage");
+    if (ma instanceof GWikiWikiPageArtefakt) {
+      return (GWikiWikiPageArtefakt) ma;
+    }
+    for (GWikiArtefakt< ? > a : map.values()) {
+      if (a instanceof GWikiWikiPageArtefakt) {
+        return (GWikiWikiPageArtefakt) a;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * render pageintro section of given page.
+   * 
+   * @param wikiContext
+   * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
+   */
+  public static boolean renderPageIntro(String pageId, GWikiContext wikiContext)
+  {
+    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
+    if (ei == null) {
+      return false;
+    }
+    GWikiWikiPageArtefakt wiki = getWikiFromElement(ei, wikiContext);
+    if (wiki == null) {
+      return false;
+    }
+    GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor("pageintro");
+    if (wiki.compileFragements(wikiContext) == false) {
+      return false;
+    }
+    GWikiContent cont = wiki.getCompiledObject();
+    cont.iterate(col);
+    if (col.getFound().isEmpty() == false) {
+      GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
+      mf.renderChilds(wikiContext);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * render pageintro section of current page.
+   * 
+   * @param wikiContext
+   * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
+   */
+  public static boolean renderCurrentPageIntro(GWikiContext wikiContext)
+  {
+    if (wikiContext.getCurrentElement() == null) {
+      return false;
+    }
+    return renderPageIntro(wikiContext.getCurrentElement().getElementInfo().getId(), wikiContext);
   }
 }
