@@ -30,10 +30,10 @@ import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
-/**
- * Utitilies for dealing with GWikiContext.
+/* with GWikiContext.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
@@ -105,6 +105,15 @@ public class GWikiContextUtils
     }
   }
 
+  public static GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ei, GWikiContext ctx)
+  {
+    GWikiElement el = ctx.getWikiWeb().findElement(ei.getId());
+    if (el == null) {
+      return null;
+    }
+    return getWikiFromElement(el, ctx);
+  }
+
   /**
    * Find a wiki artefakt from given element.
    * 
@@ -112,9 +121,9 @@ public class GWikiContextUtils
    * @param ctx
    * @return null if non found.
    */
-  public static GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ci, GWikiContext ctx)
+
+  public static GWikiWikiPageArtefakt getWikiFromElement(GWikiElement el, GWikiContext ctx)
   {
-    GWikiElement el = ctx.getWikiWeb().findElement(ci.getId());
     if (el == null) {
       return null;
     }
@@ -137,46 +146,123 @@ public class GWikiContextUtils
   }
 
   /**
-   * render pageintro section of given page.
+   * Interface to iterate through visitor.
    * 
-   * @param wikiContext
-   * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
+   * @author Roger Rene Kommer (r.kommer@micromata.de)
+   * 
    */
-  public static boolean renderPageIntro(String pageId, GWikiContext wikiContext)
+  public static interface FragmentVisitor
   {
-    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
-    if (ei == null) {
+    /**
+     * 
+     * @param wikiContext
+     * @return false, if stop iterating.
+     */
+    boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt, GWikiFragment fragment);
+  }
+
+  /**
+   * Internal exception to stop callback loop.
+   * 
+   * @author Roger Rene Kommer (r.kommer@micromata.de)
+   * 
+   */
+  public static class StopSearchException extends RuntimeException
+  {
+
+    private static final long serialVersionUID = -8125005225862685066L;
+
+  }
+
+  /**
+   * 
+   * @param wikiContext required
+   * @param pageId if null, uses current page
+   * @param partName if null, try to figure out part with wiki.
+   * @param macroName Macro to find.
+   * @param attributeMatcher can be null.
+   * @param visitor
+   * @return
+   */
+  public static boolean doWithMacroFragment(final GWikiContext wikiContext, String pageId, String partName, String macroName,
+      Map<String, String> attributeMatcher, final FragmentVisitor visitor)
+  {
+    GWikiElement element = null;
+    if (StringUtils.isEmpty(pageId) == true) {
+      element = wikiContext.getCurrentElement();
+    } else {
+      element = wikiContext.getWikiWeb().findElement(pageId);
+    }
+    if (element == null) {
       return false;
     }
-    GWikiWikiPageArtefakt wiki = getWikiFromElement(ei, wikiContext);
+    final GWikiElement cel = element;
+    final GWikiWikiPageArtefakt wiki;
+    if (StringUtils.isEmpty(partName) == true) {
+      wiki = getWikiFromElement(element, wikiContext);
+    } else {
+      GWikiArtefakt< ? > art = element.getPart(partName);
+      if ((art instanceof GWikiWikiPageArtefakt) == false) {
+        return false;
+      }
+      wiki = (GWikiWikiPageArtefakt) art;
+    }
     if (wiki == null) {
       return false;
     }
-    GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor("pageintro");
     if (wiki.compileFragements(wikiContext) == false) {
       return false;
     }
-    GWikiContent cont = wiki.getCompiledObject();
-    cont.iterate(col);
-    if (col.getFound().isEmpty() == false) {
-      GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
-      mf.renderChilds(wikiContext);
+
+    GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor(macroName, attributeMatcher) {
+
+      @Override
+      protected void addFragment(GWikiFragment fragment)
+      {
+        if (visitor.visit(wikiContext, cel, wiki, fragment) == false) {
+          throw new StopSearchException();
+        }
+      }
+    };
+    try {
+      GWikiContent cont = wiki.getCompiledObject();
+      cont.iterate(col);
+    } catch (StopSearchException se) {
       return true;
     }
     return false;
   }
 
   /**
-   * render pageintro section of current page.
+   * render first macro body of given name of given page.
    * 
    * @param wikiContext
    * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
    */
-  public static boolean renderCurrentPageIntro(GWikiContext wikiContext)
+  public static boolean renderPageIntro(final String pageId, final GWikiContext wikiContext, final String macroName)
+  {
+    return doWithMacroFragment(wikiContext, null, null, macroName, null, new FragmentVisitor() {
+
+      public boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt, GWikiFragment fragment)
+      {
+        GWikiMacroFragment mf = (GWikiMacroFragment) fragment;
+        mf.renderChilds(wikiContext);
+        return false;
+      }
+    });
+  }
+
+  /**
+   * render first macro body of given name of current page.
+   * 
+   * @param wikiContext
+   * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
+   */
+  public static boolean renderCurrentMacroContent(GWikiContext wikiContext, String macroName)
   {
     if (wikiContext.getCurrentElement() == null) {
       return false;
     }
-    return renderPageIntro(wikiContext.getCurrentElement().getElementInfo().getId(), wikiContext);
+    return renderPageIntro(wikiContext.getCurrentElement().getElementInfo().getId(), wikiContext, macroName);
   }
 }
