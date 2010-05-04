@@ -22,12 +22,12 @@ public class GWikiWikiParserNlTest extends GWikiWikiParserTestBase
 {
   public void testhr()
   {
-    w2htest("x\n----\nb", "x<br/>\n<hr/>\n<p>b</p>\n");
+    w2htest("x\n----\nb", "<p>x<br/>\n<hr/>\nb</p>\n");
   }
 
   public void testBr()
   {
-    w2htest("a.\nb", "a.<br/>\n<p>b</p>\n");
+    w2htest("a.\nb", "<p>a.<br/>\nb</p>\n");
   }
 
   public void testExpliciteNl()
@@ -37,7 +37,7 @@ public class GWikiWikiParserNlTest extends GWikiWikiParserTestBase
 
   public void testNonExpliciteNl()
   {
-    w2htest("a\nb", "a<br/>\n<p>b</p>\n");
+    w2htest("a\nb", "<p>a<br/>\nb</p>\n");
   }
 
 }
