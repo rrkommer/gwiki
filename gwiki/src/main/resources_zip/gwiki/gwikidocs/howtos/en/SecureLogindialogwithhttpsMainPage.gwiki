@@ -1,0 +1,27 @@
+{pageintro}
+GWiki provides an login dialog. Running GWiki on Internet the login dialog should not be provided over http, but https.
+{pageintro}
+
+h2. Disalow http for Login
+
+In the GWikis {{web.xml}} insert following XML at the end:
+{code}
+<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gwiki-admin</web-resource-name>
+			<url-pattern>/admin/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gwiki-edit</web-resource-name>
+			<url-pattern>/edit/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+{code}
