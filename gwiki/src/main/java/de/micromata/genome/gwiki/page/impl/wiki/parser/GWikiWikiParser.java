@@ -1089,14 +1089,12 @@ public class GWikiWikiParser
             l = addList;
             startPlIdx = -1;
           }
-          // plist.addAll(l);
           ctx.addFragment(new GWikiFragmentP(l));
-          // plist = new ArrayList<GWikiFragment>();
           pprocessed = true;
         } else if (toPList == true) {
-          startPlIdx = ctx.peek(0).size();
-          // plist.addAll(l);
-          // pprocessed = true;
+          if (startPlIdx == -1) {
+            startPlIdx = ctx.peek(0).size();
+          }
         }
       }
       if (pprocessed == false) {
