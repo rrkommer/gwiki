@@ -70,18 +70,22 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
     ctx.getMacroFactories().put(
         "slide",
         new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
-            GWikiMacroRenderFlags.ContainsTextBlock)));
-    ctx.getMacroFactories().put("slidefooter",
-        new GWikiMacroClassFactory(GWikiSlideFooterMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent)));
-    ctx.getMacroFactories().put("slideheader",
-        new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent)));
+            GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
+    ctx.getMacroFactories().put(
+        "slidefooter",
+        new GWikiMacroClassFactory(GWikiSlideFooterMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
+            GWikiMacroRenderFlags.NoWrapWithP)));
+    ctx.getMacroFactories().put(
+        "slideheader",
+        new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
+            GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put("incremental",
         new GWikiMacroClassFactory(GWikiSlideIncrementalMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put("slidestyle", new GWikiMacroClassFactory(GWikiSlideStyleMacro.class));
     ctx.getMacroFactories().put(
         "slidehandout",
         new GWikiMacroClassFactory(GWikiSlideHandoutMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock,
-            GWikiMacroRenderFlags.ContainsTextBlock)));
+            GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>(1);
     ret.add(macroFrag);
     return ret;

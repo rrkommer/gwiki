@@ -59,7 +59,13 @@ public abstract class GWikiWikiParserTestBase extends TestCase
 
   protected String wiki2html(String wikiText)
   {
-    List<GWikiFragment> fr = parseText(wikiText);
+    Map<String, GWikiMacroFactory> macroFactories = Collections.emptyMap();
+    return wiki2html(wikiText, macroFactories);
+  }
+
+  protected String wiki2html(String wikiText, Map<String, GWikiMacroFactory> macroFactories)
+  {
+    List<GWikiFragment> fr = parseText(wikiText, macroFactories);
     GWikiStandaloneContext ctx = new GWikiStandaloneContext();
     for (GWikiFragment f : fr) {
       f.render(ctx);
@@ -69,7 +75,13 @@ public abstract class GWikiWikiParserTestBase extends TestCase
 
   protected void w2htest(String wiki, String html)
   {
-    String genHtml = wiki2html(wiki);
+    Map<String, GWikiMacroFactory> macroFactories = Collections.emptyMap();
+    w2htest(wiki, html, macroFactories);
+  }
+
+  protected void w2htest(String wiki, String html, Map<String, GWikiMacroFactory> macroFactories)
+  {
+    String genHtml = wiki2html(wiki, macroFactories);
     if (html.equals(genHtml) == false) {
       System.out.println("wiki: " + wiki + "\nexp:[" + html + "]\nrec:[" + genHtml + "]");
     }
