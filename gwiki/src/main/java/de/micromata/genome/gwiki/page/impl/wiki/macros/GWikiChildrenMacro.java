@@ -20,17 +20,14 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiArtefakt;
-import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.GWikiContextUtils;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
@@ -103,30 +100,6 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     return true;
   }
 
-  protected GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ci, GWikiContext ctx)
-  {
-    GWikiElement el = ctx.getWikiWeb().findElement(ci.getId());
-    if (el == null) {
-      return null;
-    }
-    GWikiArtefakt< ? > ma = el.getMainPart();
-    if (ma instanceof GWikiWikiPageArtefakt) {
-      return (GWikiWikiPageArtefakt) ma;
-    }
-    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
-    el.collectParts(map);
-    ma = map.get("MainPage");
-    if (ma instanceof GWikiWikiPageArtefakt) {
-      return (GWikiWikiPageArtefakt) ma;
-    }
-    for (GWikiArtefakt< ? > a : map.values()) {
-      if (a instanceof GWikiWikiPageArtefakt) {
-        return (GWikiWikiPageArtefakt) a;
-      }
-    }
-    return null;
-  }
-
   protected void renderChild(GWikiElementInfo ci, GWikiContext ctx)
   {
 
@@ -143,7 +116,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     }
     if (withPageIntro == true || withPageTocs == true) {
 
-      GWikiWikiPageArtefakt wiki = getWikiFromElement(ci, ctx);
+      GWikiWikiPageArtefakt wiki = GWikiContextUtils.getWikiFromElement(ci, ctx);
       if (wiki != null) {
         if (wiki.compileFragements(ctx) == true) {
           GWikiContent cont = wiki.getCompiledObject();
