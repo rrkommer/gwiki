@@ -1,0 +1,28 @@
+{pageintro}
+Macros are designed to be used in wiki files. In some cases you want to include functionality in gspt templates.
+{pageintro}
+
+h2. Use Java Macros
+To use a Java Macro in a gspt file you can use following fragment:
+
+Wiki:
+{noformat}
+{children:depth=2|sort=title|withPageIntro=true}
+{noformat}
+n gspt you can use scriptlet code:
+{code}
+<%
+de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes attrs = new de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes();
+attrs.getArgs().setStringValue("depth", "2");
+attrs.getArgs().setStringValue("sort", "title");
+attrs.getArgs().setStringValue("withPageIntro", "true");
+new de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro().render(attrs, wikiContext);
+%>
+{code}
+
+To pass argument to the macro
+
+h2. Use gspt Macros
+{note:title=TODO}
+Document
+{note}
