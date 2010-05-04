@@ -1,3 +1,7 @@
+h2. 2010-05-03
+* Aktualisierung auf jQuery 1.4.2
+* Aktualisierung auf jQuery UI 1.8.1
+
 h2. 2010-04-25
 * Edit Page: Beim Speichern wird geprüft, ob es Syntaxfehler im Wikitext gibt und dann das Speichern verhindert.
 
