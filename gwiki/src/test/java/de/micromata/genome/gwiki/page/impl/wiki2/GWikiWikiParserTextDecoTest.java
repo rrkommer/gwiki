@@ -101,7 +101,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   public void testUnterminatedDecHtml()
   {
     String html = wiki2html("_a\nx");
-    assertEquals("_a<br/>\n<p>x</p>\n", html);
+    assertEquals("<p>_a<br/>\nx</p>\n", html);
   }
 
   public void testNestedDecHtml()
