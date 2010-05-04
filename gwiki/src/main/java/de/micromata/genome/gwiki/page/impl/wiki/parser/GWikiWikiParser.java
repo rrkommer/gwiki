@@ -362,27 +362,42 @@ public class GWikiWikiParser
     return childs;
   }
 
-  protected List<GWikiFragment> wrappBodyWithP(List<GWikiFragment> body)
+  public static List<GWikiFragment> wrappBodyWithP(List<GWikiFragment> body)
   {
     if (body.isEmpty() == true) {
       return body;
     }
     int endP = 0;
+    List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
+
+    int lastS = endP;
     for (; endP < body.size(); ++endP) {
       GWikiFragment frag = body.get(endP);
       if (isParagraphLike(frag) == true && (frag instanceof GWikiFragmentBr) == false) {
-        break;
+        if ((frag instanceof GWikiFragmentP) == false) {
+          ret.add(frag);
+          lastS = endP + 1;
+          continue;
+        }
+        if (endP > lastS) {
+          List<GWikiFragment> lp = body.subList(lastS, endP);
+          GWikiFragmentP p = new GWikiFragmentP(lp);
+          ret.add(p);
+          if ((frag instanceof GWikiFragmentP) == true && frag.getChilds().isEmpty() == true) {
+            ; // nothing
+          } else {
+            ret.add(frag);
+          }
+          ++endP;
+          lastS = endP;
+          continue;
+        }
       }
     }
-    if (endP == 0) {
-      return body;
-    }
-    GWikiFragmentP p = new GWikiFragmentP(body.subList(0, endP));
-
-    List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
-    ret.add(p);
-    if (endP < body.size()) {
-      ret.addAll(body.subList(endP + 1, body.size()));
+    if (lastS < body.size()) {
+      List<GWikiFragment> lp = body.subList(lastS, body.size());
+      GWikiFragmentP p = new GWikiFragmentP(lp);
+      ret.add(p);
     }
     return ret;
   }
@@ -1010,7 +1025,7 @@ public class GWikiWikiParser
 
   }
 
-  protected boolean isParagraphLike(GWikiFragment ff)
+  public static boolean isParagraphLike(GWikiFragment ff)
   {
     return ff instanceof GWikiFragmentP
         || ff instanceof GWikiFragmentHeading
