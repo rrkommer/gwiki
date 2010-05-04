@@ -42,9 +42,16 @@ In most cases this can be empty, because the element itself knows what content t
 h2. LANG
 Language of this element. 
 If empty the element has same language as the parent element.
+
 h2. HELP_PAGE
 Help page specific to this page.
 If no help page is given, the standard gwiki help page will be opened.
+The lookup for help pages is:
+Your input: {{my/path/MyPage}}
+Lookup path if language is {{de}} (German):
+- {{my/path/de/MyPage}}
+- {{my/path/MyPage}}
+- {{my/path/en/MyPage}}
 
 h2. ORDER
 Number. Order position of this childs. 
