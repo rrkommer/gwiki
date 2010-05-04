@@ -1,0 +1,54 @@
+{pageintro}
+Inside the GWiki sometimes Matcher expression are allowed to define filter expressions.
+{pageintro}
+
+h2. About the Matcher framework
+The Matcher framework has following design principles
+- Simple Expressions can be written in simple syntax
+- Simple Expression are evaluated quickly.
+
+h2. Syntax
+
+{{MatcherList: MatcherExpression\[,MatcherExpression]+}}
+A MatcherList contains one or more MatcherExpression seperated with a comma.
+
+{{MatcherExpression: (\['+''-'])(LogicalExpression).}}
+See below.
+
+{{LogicalExpression: UnaryExpression '&&' LogicalExpression | }}
+{{                              UnaryExpression '||' LogicalExpression}}
+Expressions can be combined with logical and '&&' or or '||'.
+
+{{UnaryExpression: \['!'] BracketExpression}}
+An Expression can be negatated with '!'.
+
+{{BracketExpression: '(' LogicalExpression ')' | Expression}}
+Expression can be grouped with round brackets.
+
+{{Expression: ~RegExp | $\{GroovyExpression\} | FileNamePattern}}
+
+{{RegExp}}: a regular Expression
+
+{{GroovyExpression}}: A groovy Expression
+
+{{FileNamePattern}}: File name pattern can contain * and ? as wildcards. 
+At parse time the expression will optimized:
+- *: Match allways
+- *STRING: EndsWith STRING
+- STRING*: StartsWith STRING
+- \*STRING*: Contains STRING
+
+h2. How it works
+The MatcherList will be evaluated from right to left. 
+Each Expression can have an prefix. + means following expression has to match, - means following expression has not matched.
+If no prefix is given, automatically + will be used.
+The MatcherList works like a piped filter, where each Expression can add items to the result set (+) or remove elements from the result set (-).
+
+h2. Samples
+{{X}}: Match only for String X
+{{+X}}: Match only for String X
+{{+X,+Y}}: Match X and Y are accepted.
+{{+\*,-*X}}: Match all except the string ends with X.
+{{+\*,-(\*X || X*)}}: Match all exception string ends or starts with X.
+
+
