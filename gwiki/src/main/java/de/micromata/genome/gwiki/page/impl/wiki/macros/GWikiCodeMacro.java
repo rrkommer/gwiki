@@ -34,6 +34,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -57,6 +58,11 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
   public static GWikiMacroFactory getFactory()
   {
     return new GWikiMacroClassFactory(GWikiCodeMacro.class);
+  }
+
+  public GWikiCodeMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
   }
 
   @Override
