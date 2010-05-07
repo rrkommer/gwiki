@@ -23,6 +23,7 @@ import java.util.Map;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideMacro;
 
@@ -39,6 +40,15 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
     macroFactories.put("slide", new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(
         GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
     macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
+    macroFactories.put("code", new GWikiMacroClassFactory(GWikiCodeMacro.class));
+  }
+
+  public void testPageCodeMacros1()
+  {
+    w2htest(
+        "a\n\n{code}asdf{code}\ne\n",
+        "<p>a</p>\n<div class=\"preformatted panel\" style=\"border-width: 1px;\"><div class=\"preformattedContent panelContent\">\n\n<span class=\"java_plain\">asdf</span><br />\n</div></div><p>e</p>\n",
+        macroFactories);
   }
 
   public void testPageMacros1()
