@@ -56,7 +56,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
     }
     String pageId = ctx.getWikiElement().getElementInfo().getId();
     String pageCommentUrl = ctx.localUrl("/admin/macros/pages/PageComment");
-    pageCommentUrl += "?pageId=" + pageId + "&wcembedded=true";
+    pageCommentUrl += "?pageId=" + pageId;// + "&wcembedded=true";
 
     StringBuilder sb = new StringBuilder();
 
