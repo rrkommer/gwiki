@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
@@ -362,9 +363,12 @@ public class GWikiWikiParser
     return childs;
   }
 
-  public static List<GWikiFragment> wrappBodyWithP(List<GWikiFragment> body)
+  public static List<GWikiFragment> wrappBodyWithP(GWikiWikiParserContext ctx, List<GWikiFragment> body)
   {
     if (body.isEmpty() == true) {
+      return body;
+    }
+    if (isPAllowedInDom(ctx) == false) {
       return body;
     }
     int endP = 0;
@@ -396,13 +400,20 @@ public class GWikiWikiParser
     }
     if (lastS < body.size()) {
       List<GWikiFragment> lp = body.subList(lastS, body.size());
-      GWikiFragmentP p = new GWikiFragmentP(lp);
-      ret.add(p);
+      if (isParagraphLike(lp.get(0)) == true) {
+        if (lp.size() != 1) {
+          GWikiLog.warn("Internal Parser Error: unexpected text in wrappBodyWithP end is size != 1");
+        }
+        ret.add(lp.get(0));
+      } else {
+        GWikiFragmentP p = new GWikiFragmentP(lp);
+        ret.add(p);
+      }
     }
     return ret;
   }
 
-  protected boolean isPAllowedInDom(GWikiWikiParserContext ctx)
+  protected static boolean isPAllowedInDom(GWikiWikiParserContext ctx)
   {
     for (GWikiFragment frag : ctx.getFragStack()) {
       if (isParagraphLike(frag) == false) {
@@ -503,7 +514,7 @@ public class GWikiWikiParser
           childs = removeWsTokensFromEnd(childs);
         }
         if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true && isPAllowedInDom(ctx)) {
-          childs = wrappBodyWithP(childs);
+          childs = wrappBodyWithP(ctx, childs);
         }
         frag.addChilds(childs);
         ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
