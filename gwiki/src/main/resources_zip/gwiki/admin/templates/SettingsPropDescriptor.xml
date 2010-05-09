@@ -376,6 +376,18 @@ def onValidate(pec)
 				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="PARTOF" />
+					<property name="label" value="PartOf" />
+					<!--
+						<property name="description"
+						value="I{gwiki.settings.I18NMODULES.description}" />
+					-->
+					<property name="type" value="PAGEID" />
+					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
+					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+				</bean>
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="NOVIEW" />
 					<property name="label" value="I{gwiki.settings.NOVIEW.label}" />
 					<!--
