@@ -113,4 +113,9 @@ public interface GWikiPropKeys
   public static final String LANG = "LANG";
 
   public static final String HELP_PAGE = "HELP_PAGE";
+
+  /**
+   * This element is part of another element.
+   */
+  public static final String PARTOF = "PARTOF";
 }

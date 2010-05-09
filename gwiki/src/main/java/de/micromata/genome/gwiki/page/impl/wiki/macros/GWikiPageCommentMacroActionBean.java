@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
@@ -52,10 +53,22 @@ import de.micromata.genome.util.matcher.string.SimpleWildcardMatcherFactory;
  */
 public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements GWikiPropKeys
 {
+  public static final String PROP_REPLY_TO = "PAGECOMMENT_REPLYTO";
+
+  /**
+   * Flat view or thread view.
+   */
+  private boolean hierarchicThreadView = true;
+
   /**
    * Comments for page
    */
   private String pageId;
+
+  /**
+   * pageId replied to.
+   */
+  private String replyTo;
 
   /**
    * Comments currently edited by user.
@@ -63,6 +76,8 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   private String commentText;
 
   private List<GWikiElementInfo> commentElements = new ArrayList<GWikiElementInfo>();
+
+  private List<GWikiElementInfo> fullList = new ArrayList<GWikiElementInfo>();
 
   protected void collectComments()
   {
@@ -74,7 +89,19 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     List<GWikiElementInfo> l = wikiContext.getElementFinder().getPageInfos(
         new GWikiPageIdMatcher(wikiContext, new SimpleWildcardMatcherFactory<String>().createMatcher(matchRule)));
     Collections.sort(l, new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator(GWikiPropKeys.CREATEDAT)));
-    commentElements = l;
+    fullList = l;
+    // TODO find reply/to which are deleted.
+    if (hierarchicThreadView == true) {
+      List<GWikiElementInfo> nl = new ArrayList<GWikiElementInfo>();
+      for (GWikiElementInfo ei : l) {
+        if (StringUtils.isEmpty(ei.getProps().getStringValue(PROP_REPLY_TO)) == true) {
+          nl.add(ei);
+        }
+      }
+      commentElements = nl;
+    } else {
+      commentElements = l;
+    }
   }
 
   public Object onInit()
@@ -109,6 +136,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     props.setStringValue(MODIFIEDBY, wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
     props.setStringValue(AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
     props.setDateValue(MODIFIEDAT, new Date());
+    props.setStringValue(PARTOF, pageId);
     String viewRight = getViewRightFromParent();
     if (viewRight != null) {
       props.setStringValue(AUTH_VIEW, viewRight);
@@ -121,12 +149,6 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     // elementToEdit.setMetaTemplate(metaTemplate);
 
     return elementToEdit;
-  }
-
-  public void renderCommentBody(GWikiElementInfo ei)
-  {
-    GWikiElement el = wikiContext.getWikiWeb().getElement(ei.getId());
-    wikiContext.getWikiWeb().serveWiki(wikiContext, el);
   }
 
   public Object onSaveComment()
@@ -144,6 +166,9 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     String newPageId = FileNameUtils.join(parentPath, "comments", pageName, GWikiProps.formatTimeStamp(new Date()));
     GWikiElement cel = createNewElement();
     cel.getElementInfo().setId(newPageId);
+    if (StringUtils.isNotEmpty(replyTo) == true) {
+      cel.getElementInfo().getProps().setStringValue(PROP_REPLY_TO, replyTo);
+    }
     Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
     cel.collectParts(map);
     String partName = "MainPage";
@@ -159,6 +184,36 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     getWikiContext().getWikiWeb().saveElement(wikiContext, cel, false);
     commentText = "";
     return onInit();
+  }
+
+  /**
+   * called by gspt
+   * 
+   * @param ei
+   */
+  public void renderCommentBody(GWikiElementInfo ei)
+  {
+    GWikiElement el = wikiContext.getWikiWeb().getElement(ei.getId());
+    GWikiArtefakt< ? > art = el.getPart("MainPage");
+    if (art instanceof GWikiExecutableArtefakt< ? >) {
+      ((GWikiExecutableArtefakt< ? >) art).render(wikiContext);
+    } else {
+      wikiContext.getWikiWeb().serveWiki(wikiContext, el);
+    }
+  }
+
+  public List<GWikiElementInfo> getChildComments(GWikiElementInfo ei)
+  {
+    if (ei == null || hierarchicThreadView == false) {
+      return Collections.emptyList();
+    }
+    List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
+    for (GWikiElementInfo ci : fullList) {
+      if (ei.getId().equals(ci.getProps().getStringValue(PROP_REPLY_TO)) == true) {
+        ret.add(ci);
+      }
+    }
+    return ret;
   }
 
   public String getCommentText()
@@ -189,6 +244,36 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public void setCommentElements(List<GWikiElementInfo> commentElements)
   {
     this.commentElements = commentElements;
+  }
+
+  public boolean isHierarchicThreadView()
+  {
+    return hierarchicThreadView;
+  }
+
+  public void setHierarchicThreadView(boolean hierarchicThreadView)
+  {
+    this.hierarchicThreadView = hierarchicThreadView;
+  }
+
+  public String getReplyTo()
+  {
+    return replyTo;
+  }
+
+  public void setReplyTo(String replyTo)
+  {
+    this.replyTo = replyTo;
+  }
+
+  public List<GWikiElementInfo> getFullList()
+  {
+    return fullList;
+  }
+
+  public void setFullList(List<GWikiElementInfo> fullList)
+  {
+    this.fullList = fullList;
   }
 
 }
