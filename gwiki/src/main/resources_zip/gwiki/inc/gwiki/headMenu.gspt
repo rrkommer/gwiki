@@ -4,7 +4,11 @@
  
  		<%-- PAGE INFO --%>
  		<gwiki:authorize pageId="edit/PageInfo">
- 		<li class="gwikiMenumain"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>');"><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span></li>
+ 		
+ 			<li class="gwikiMenumain">
+ 				<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>');">
+ 					<gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></span>
+ 				</li>
  		
  		</gwiki:authorize>
  		<%-- EDIT PAGE --%>
