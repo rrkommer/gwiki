@@ -1,1 +1,9 @@
-<% MainPage.render(wikiContext);  %>
+<%
+	String partOf = wikiContext.getCurrentElement().getElementInfo().getProps().getStringValue("PARTOF");
+	if (partOf != null) {
+		wikiContext.getResponse().sendRedirect(wikiContext.localUrl(partOf));
+		return;
+	}
+	wikiContext.skinInclude("standardtemplate");	
+	  
+%>
