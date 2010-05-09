@@ -25,6 +25,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideMacro;
 
 /**
@@ -41,6 +42,12 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
         GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
     macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
     macroFactories.put("code", new GWikiMacroClassFactory(GWikiCodeMacro.class));
+    macroFactories.put("pageintro", new GWikiMacroClassFactory(GWikiPageIntroMacroBean.class));
+  }
+
+  public void testPageIntroMacros1()
+  {
+    w2htest("{pageintro}P{pageintro}\nT\n", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n", macroFactories);
   }
 
   public void testPageCodeMacros1()
