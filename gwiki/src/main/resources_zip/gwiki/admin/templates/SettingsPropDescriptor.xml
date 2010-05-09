@@ -451,7 +451,17 @@ def onValidate(pec)
 					<property name="type" value="STRINGLIST" />
 					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
 				</bean>
-				
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="MACRO_RENDERMODES" />
+					<property name="label" value="Render Modes" />
+					<!--  <property name="description"
+						value="I{gwiki.settings.MACRO_ARGUMENTS.description}" /> -->
+						<property name="helpLink" value="gwikidocs/help/ElementSettings#MACRO_RENDERMODES" />
+					<property name="readOnly" value="false" />
+					<property name="type" value="STRINGLIST" />
+					<property name="requiredMetaTemplateId" value="admin/templates/ScriptMacroMetaTemplate" />
+				</bean>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="SIZE" />
