@@ -100,7 +100,7 @@ public interface GWikiPropKeys
 
   public static final String MACRO_WITH_PREVIEW = "MACRO_WITH_PREVIEW";
 
-  public static final String MACRO_RENDER_MODES = "MACRO_RENDER_MODES";
+  public static final String MACRO_RENDERMODES = "MACRO_RENDERMODES";
 
   /**
    * List of pageIds with the I18N-Modudes used by the page.

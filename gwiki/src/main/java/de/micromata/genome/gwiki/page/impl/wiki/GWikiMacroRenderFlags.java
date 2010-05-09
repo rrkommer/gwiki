@@ -65,6 +65,21 @@ public enum GWikiMacroRenderFlags
     return flags;
   }
 
+  /**
+   * 
+   * @param rm
+   * @return 0 if not found;
+   */
+  public static int fromString(String rm)
+  {
+    for (GWikiMacroRenderFlags e : values()) {
+      if (e.name().equals(rm) == true) {
+        return e.flag;
+      }
+    }
+    return 0;
+  }
+
   public boolean isSet(int flags)
   {
     return (flags & flag) == flag;

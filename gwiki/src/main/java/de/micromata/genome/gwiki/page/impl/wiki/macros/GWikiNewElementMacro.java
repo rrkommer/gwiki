@@ -106,18 +106,18 @@ public class GWikiNewElementMacro extends GWikiMacroBean
     }
     ctx.append("<a class=\"" + linkClass + "\" href=\"" + ctx.localUrl("edit/EditPage") + "?newPage=true");
     if (title != null) {
-      ctx.append("&title=").append(StringEscapeUtils.escapeXml(title));
+      ctx.append("&amp;title=").append(StringEscapeUtils.escapeXml(title));
     }
     if (pageId != null) {
-      ctx.append("&pageId=").append(StringEscapeUtils.escapeXml(pageId));
+      ctx.append("&amp;pageId=").append(StringEscapeUtils.escapeXml(pageId));
     }
     if (StringUtils.isNotEmpty(metaTemplate) == true) {
-      ctx.append("&metaTemplatePageId=").append(StringEscapeUtils.escapeXml(metaTemplate));
+      ctx.append("&amp;metaTemplatePageId=").append(StringEscapeUtils.escapeXml(metaTemplate));
     }
     if (parentPage == null) {
       parentPage = el.getElementInfo().getId();
     }
-    ctx.append("&parentPageId=").append(StringEscapeUtils.escapeXml(parentPage));
+    ctx.append("&amp;parentPageId=").append(StringEscapeUtils.escapeXml(parentPage));
     ctx.append("\">");
     if (StringUtils.isEmpty(text) == true) {
       text = "New Element";
