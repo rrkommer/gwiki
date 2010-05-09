@@ -33,11 +33,13 @@ import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 
 /**
  * generates toc with children.
@@ -85,6 +87,11 @@ public class GWikiChildrenMacro extends GWikiMacroBean
 
   private boolean withEditLinks = false;
 
+  public GWikiChildrenMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
+  }
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
@@ -126,7 +133,13 @@ public class GWikiChildrenMacro extends GWikiMacroBean
             if (col.getFound().isEmpty() == false) {
               GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
               ctx.append("<small>");
-              mf.renderChilds(ctx);
+
+              if (mf.getChilds().size() == 1 && mf.getChilds().get(0) instanceof GWikiFragmentP) {
+                GWikiFragmentP p = (GWikiFragmentP) mf.getChilds().get(0);
+                p.renderChilds(ctx);
+              } else {
+                mf.renderChilds(ctx);
+              }
               ctx.append("</small><br/>");
             }
           }
