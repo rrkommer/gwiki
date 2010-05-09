@@ -28,3 +28,59 @@ with the database user you want to use.
 h2. Create modify the GWikiContext.xml
 To make usage of the database virtual file system you have to create/modify the GWikiContext.xml used by your GWiki instance.
 
+{code:lang=xml}
+      <bean id="jndiLongnames" class="java.lang.Boolean">
+		<constructor-arg value="true" /> <!-- depends on application server -->
+	</bean>
+       <!-- import data source from jndi -->
+	<bean id="dsGWiki" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="resourceRef" ref="jndiLongnames" />
+		<property name="jndiName">
+			<value>pop/jdbc/gwikiDs</value>
+		</property>
+	</bean>
+        <!-- define virtual file system in db -->
+        <bean id="primaryFs" class="de.micromata.genome.gdbfs.db.DbFileSystemImpl">
+		<property name="dbTarget">
+			<bean class="de.micromata.genome.gdbfs.db.DbTarget">
+				<property name="dbDialectName" value="Oracle10" />
+				<property name="dataSource">
+					<ref bean="dsGWiki" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+        <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+
+		<!--  DB -->
+		<property name="storage">
+			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+						<constructor-arg>
+							<ref bean="primaryFs" />
+						</constructor-arg>
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+								<constructor-arg>
+									<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+										<constructor-arg>
+											<value>GWikiPopContent.zip</value>
+										</constructor-arg>
+									</bean>
+								</constructor-arg>
+								<constructor-arg>
+									<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+										<constructor-arg>
+											<value>GWikiContent.zip</value>
+										</constructor-arg>
+									</bean>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+{code}

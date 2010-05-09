@@ -95,6 +95,25 @@ it throws an {{AuthorizationFailedException}} exception.
 Note: An editor without this GWIKI_EDITHTML right may edit the page with the macro containg, but receives an error message, if he tries to save the page. Of course he can remove the usage of the html Macro and after that he can save the modified page. If you don't want, that an editor without the GWIKI_EDITHTML right can modifiy the page, define the right GWIKI_EDITHTML as edit right to the GWikiElement via Settings in the GWiki Editor.
 
 h3. Render Modes
+With the macro render modes it is possible to control define render context in the HTML DOM. 
+The wiki parser don't know, if a macro generates a paragraf element or not.
+In Java Macros normally define the render modes in the constructor.
+
+Here a sample:
+
+{code}
+ public GWikiPageIntroMacroBean()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock));
+  }
+{code}
+A {{pageintro}} Macro the body text contains newlines, which should be ignored (trimed) before parsing the contains text.
+The {{pagentro}} Macro containing HTML elements, which are not allowed to be wrapped with a paragraf ({{p}} element).
+The wiki markup inside the {{pageintro}} Macro should generate paragraph elements for text.
+
+Please refer to GWikiMacroRenderFlags in the Java Doc or source code.
+
 
 h3. Test the macro
 
