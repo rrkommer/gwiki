@@ -25,6 +25,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
@@ -47,6 +48,11 @@ public class GWikiTocMacro extends GWikiMacroBean
   private int maxLevel = 7;
 
   private String exclude = null;
+
+  public GWikiTocMacro()
+  {
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
+  }
 
   protected int openCloseLevel(int lastLevel, int curLevel, GWikiContext sb)
   {
