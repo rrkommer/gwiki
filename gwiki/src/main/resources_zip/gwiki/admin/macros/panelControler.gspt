@@ -1,13 +1,13 @@
 <@include file="inc/stdgfuncs.gspt" @>
 <% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') == null) { %>
-	<div class="panel" style="border-width: 1px;">
+  <div class="panel" style="border-width: 1px;">
 <% } else { %>
-	<div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') %>">
+  <div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') %>">
 <% } %>
 <% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') == null) { %>
 <div class="panelContent">
 <% } else { %>
-	<div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') %>">
+  <div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') %>">
 <% } %>
 
 <% if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) { %>
