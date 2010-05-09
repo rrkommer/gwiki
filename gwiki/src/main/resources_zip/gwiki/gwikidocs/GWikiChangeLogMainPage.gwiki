@@ -1,3 +1,6 @@
+h2. 2010-05-09
+* Kommentare können nun hierarchisch angelegt werden. Damit könnten auch Foren implementiert werden.
+
 h2. 2010-05-03
 * Aktualisierung auf jQuery 1.4.2
 * Aktualisierung auf jQuery UI 1.8.1
