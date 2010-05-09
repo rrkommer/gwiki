@@ -19,6 +19,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.tagext.BodyContent;
@@ -28,6 +29,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
@@ -64,7 +66,12 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
     this.name = GWikiContext.getNamePartFromPageId(execPageId);
     this.withBody = executer.getElementInfo().getProps().getBooleanValue(GWikiPropKeys.MACRO_WITH_BODY);
     this.evalBody = executer.getElementInfo().getProps().getBooleanValue(GWikiPropKeys.MACRO_EVAL_BODY);
-    this.renderModes = executer.getElementInfo().getProps().getIntValue(GWikiPropKeys.MACRO_RENDER_MODES, 0);
+    List<String> rml = executer.getElementInfo().getProps().getStringList(GWikiPropKeys.MACRO_RENDERMODES);
+    if (rml != null) {
+      for (String rm : rml) {
+        this.renderModes |= GWikiMacroRenderFlags.fromString(rm);
+      }
+    }
   }
 
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
