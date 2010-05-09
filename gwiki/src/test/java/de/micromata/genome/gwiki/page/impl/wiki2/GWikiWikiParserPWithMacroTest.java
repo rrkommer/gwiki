@@ -45,6 +45,11 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
     macroFactories.put("pageintro", new GWikiMacroClassFactory(GWikiPageIntroMacroBean.class));
   }
 
+  public void testPageIntroMacros2()
+  {
+    w2htest("{pageintro}P{pageintro}\n\nT", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n", macroFactories);
+  }
+
   public void testPageMacros3()
   {
     String t = "{slide:title=T}\nA\n\n{center}x{center}\n{slide}";

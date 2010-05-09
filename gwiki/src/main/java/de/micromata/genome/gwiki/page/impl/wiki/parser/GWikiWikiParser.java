@@ -1071,6 +1071,32 @@ public class GWikiWikiParser
     return l;
   }
 
+  protected List<GWikiFragment> addWrappedP(List<GWikiFragment> l)
+  {
+    List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
+    int ls = 0;
+    for (int i = 0; i < l.size(); ++i) {
+      GWikiFragment f = l.get(i);
+      if (isParagraphLike(f) == true) {
+        if (i > ls) {
+          ret.add(new GWikiFragmentP(l.subList(ls, i)));
+        }
+        ret.add(f);
+        ls = i + 1;
+      }
+    }
+    if (ls < l.size()) {
+      ret.add(new GWikiFragmentP(l.subList(ls, l.size())));
+    }
+    return ret;
+  }
+
+  protected void addWrappedP(GWikiWikiParserContext ctx, List<GWikiFragment> l)
+  {
+    List<GWikiFragment> r = addWrappedP(l);
+    ctx.addFragments(r);
+  }
+
   public void parseText(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     // so geht das nicht, da li nicht mehr geht
@@ -1115,7 +1141,8 @@ public class GWikiWikiParser
             l = addList;
             startPlIdx = -1;
           }
-          ctx.addFragment(new GWikiFragmentP(l));
+          addWrappedP(ctx, l);
+
           pprocessed = true;
         } else if (toPList == true) {
           if (startPlIdx == -1) {
