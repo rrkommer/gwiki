@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyDivTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideMacro;
 
@@ -40,9 +40,15 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   {
     macroFactories.put("slide", new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(
         GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
-    macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
+    macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyDivTagMacro.class));
     macroFactories.put("code", new GWikiMacroClassFactory(GWikiCodeMacro.class));
     macroFactories.put("pageintro", new GWikiMacroClassFactory(GWikiPageIntroMacroBean.class));
+  }
+
+  public void testPageMacros3()
+  {
+    String t = "{slide:title=T}\nA\n\n{center}x{center}\n{slide}";
+    w2htest(t, "<h1>T</h1>\n<p>A</p>\n<center><p>x</p>\n</center>", macroFactories);
   }
 
   public void testPageIntroMacros1()
@@ -67,12 +73,6 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   public void testPageMacros2()
   {
     w2htest("{slide:title=asdf}\na\nb\n\nc\n{slide}", "<h1>asdf</h1>\n<p>a<br/>\nb</p>\n<p>c</p>\n", macroFactories);
-  }
-
-  public void testPageMacros3()
-  {
-    String t = "{slide:title=T}\nA\n\n{center}x{center}\n{slide}";
-    w2htest(t, "<h1>T</h1>\n<p>A</p>\n<p><center>x</center></p>\n", macroFactories);
   }
 
   public void testPageMacros4()
