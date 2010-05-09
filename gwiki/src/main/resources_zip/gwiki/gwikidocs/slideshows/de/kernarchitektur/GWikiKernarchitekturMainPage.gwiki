@@ -126,7 +126,7 @@ Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Fil
 {slide}
 
 {slide:title=GWiki Elemente}
--Alles ist Wiki-
+*Alles ist Wiki*
 
 Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
 - Konfigurationen, Metatemplates
