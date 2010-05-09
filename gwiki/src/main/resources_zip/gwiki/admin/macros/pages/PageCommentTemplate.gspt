@@ -11,25 +11,35 @@
 	}
 %>
 <script type="text/javascript">
+function gwikiCommentShow()
+{
+	jQuery('#PageComment_NewComment').toggle();
+	document.getElementById('PageComment_method').name = 'method_onCreateNew';
+}
 function createNewCommentShow()
 {
-	\$('#PageComment_NewComment').toggle();
-	document.getElementById('PageComment_method').name = 'method_onCreateNew';
-	
+	jQuery('#gwiki_pagecomment_replyTo').attr('value', '');
+	gwikiCommentShow();
+}
+
+function gwikiReplyComment(pageId)
+{
+	jQuery('#gwiki_pagecomment_replyTo').attr('value', pageId);
+	gwikiCommentShow();
 }
 function createNewCommentHide()
 {
-	\$('#PageComment_NewComment').toggle();
+	jQuery('#PageComment_NewComment').toggle();
 	document.getElementById('PageComment_method').name = '';
 }
 function gwikiToggleShowComments(){
-	if ($('#GWikiComentsContent').is(':hidden') == true) {
-		$('#GWikiComentsContent').show();
-		$('#GWikiShowHideLink').html("Hide Comments");
+	if (jQuery('#GWikiComentsContent').is(':hidden') == true) {
+		jQuery('#GWikiComentsContent').show();
+		jQuery('#GWikiShowHideLink').html("Hide Comments");
 		gwikiSaveUserPrev('WITH_COMMENTS', true, true);
 	} else {
-		$('#GWikiComentsContent').hide();
-		$('#GWikiShowHideLink').html("Show Comments");
+		jQuery('#GWikiComentsContent').hide();
+		jQuery('#GWikiShowHideLink').html("Show Comments");
 		gwikiSaveUserPrev('WITH_COMMENTS', false, true);
 	}
 }
@@ -40,9 +50,9 @@ function onSaveComment()
 	method.name = 'method_onSaveComment';
 	var pc = document.getElementById('PageComments');
 	var form = document.getElementById('PageComment_form');
-	var dataString = \$(form).serialize();
+	var dataString = jQuery(form).serialize();
 	var url = '<%= pageCommentUrl %>' +'?' + dataString;
-  \$(pc).load(url);
+  jQuery(pc).load(url);
 }
 </script>
 <hr></hr>
@@ -52,10 +62,11 @@ function onSaveComment()
 <b>Comments</b> (<a id="GWikiShowHideLink" href="javascript:gwikiToggleShowComments()">
 	<%= showComments ? "Hide Comments" : "Show Comments" %></a>)<br/>
 <div id="GWikiComentsContent"<%= hidden %>>
-	<a href="javascript:createNewCommentShow()" title="Neuen Kommentar schreiben">
+	<a href="javascript:createNewCommentShow()" title="Create new Comment">
 		Create Comment
 	</a> <!--  onclick='createNewCommentShow()' -->
-	<gwiki:hidden property="pageId" /><!-- TODO:gwikifizieren der Namen -->
+	<gwiki:hidden styleId="gwiki_pagecomment_replyTo" property="replyTo" />
+	<gwiki:hidden styleId="gwiki_pagecomment_pageId" property="pageId" /><!-- TODO:gwikifizieren der Namen -->
 	<input type="hidden" id="PageComment_method" name="method_onInit"/> 
 	<div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
 			<gwiki:textarea styleClass="gwikiTextarea" errorStyleClass="error gwikiTextarea" rows="10" cols="100" property="commentText"/><br/>
@@ -63,14 +74,10 @@ function onSaveComment()
 			<input  class="gwikiButton reset" onclick="createNewCommentHide()" type="button" value="Abbrechen">
 			<div class="clearAll">&nbsp;</div>
 	</div>
-	
-	
-	<% for (el in form.commentElements) { %> 
-	
+<%  void renderComments(wikiContext, form, el) { %>
 	<div class="gwikiPagecommentcontent">
 			<div class="gwikiNewshead">
 				<%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
-			
 			<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
 				<a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
 					<img src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
@@ -79,9 +86,20 @@ function onSaveComment()
 					<img src="<gwiki:url value='/inc/gwiki/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
 				</a>
 			<% } %>
+			<a href="javascript:gwikiReplyComment('<%= el.id %>')" title="Reply">Reply</a>
 			</div><!-- gwikiNewshead END -->
-		<% form.renderCommentBody(el); %>
+			
+		<% form.renderCommentBody(el); 
+			for (ce in form.getChildComments(el)) {
+				renderComments(wikiContext, form, ce);
+			}
+		%>
+		
 	</div><!-- div ."gwikiPagecommentcontent" END -->
-	<% } %> 
+<% } %>
+<%	for (el in form.commentElements) { 
+			renderComments(wikiContext, form, el);
+		}
+%>
 </form>
 </div>
