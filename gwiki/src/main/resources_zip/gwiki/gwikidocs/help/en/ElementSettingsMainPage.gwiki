@@ -92,6 +92,33 @@ h2. MACRO_WITH_PREVIEW
 Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
 True, if the macro supports preview.
 
+h2. MACRO_RENDERMODES
+Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
+A list of render flags. The string values has to be one of:
+{code}
+/**
+   * If rendered as source add new line after start of macro body.
+   */
+  NewLineAfterStart(0x0001), //
+  /**
+   * if rendered as source insert new line before end of macro body.
+   */
+  NewLineBeforeEnd(0x0002), //
+  /**
+   * Wenn parsing macro body, remove white spaces before tokenize.
+   */
+  TrimTextContent(0x0010), //
+  /**
+   * This macro should not be wrapped into a paragraph (
+   * <p/>
+   * )
+   */
+  NoWrapWithP(0x0020), //
+  /**
+   * The evaled macro body is a text block, which may wrapped in a p.
+   */
+  ContainsTextBlock(0x0040), //
+{code} 
 h2. MACRO_ARGUMENTS
 For future usage.
 

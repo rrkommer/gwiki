@@ -70,7 +70,7 @@ Right rules for accessing the virtual file system.
 
 
 h2. Wiki Macros
-{achor:GWIKI_WIKI_MACROS}
+{anchor:GWIKI_WIKI_MACROS}
 Registered GWiki Macro classes.
 A pipe seperated list of key=values. 
 The key is the name of the macro how used in the Wiki text.
