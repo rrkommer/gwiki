@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('#gwikiContent img').each(function() {
+	$('img.thumbnail').each(function() {
 		var maxWidth = 150;
 		var maxHeight = 150;
 		var ratio;
@@ -20,7 +20,7 @@ $(document).ready(function(){
 			width = width * ratio;
 		}
 	});
-	$("#gwikiContent img").each(function() {
+	$("img.thumbnail").each(function() {
 		var src = $(this).attr('src');
 		var a = $('<a class="showimage"/>').attr('href', src);
 		$(this).wrap(a);
