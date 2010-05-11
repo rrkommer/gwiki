@@ -64,6 +64,8 @@ public class GWikiFragmentImage extends GWikiFragmentBase
 
   private String styleClass;
 
+  private String thumbnail;
+
   public GWikiFragmentImage(String target)
   {
     this.target = target;
@@ -115,6 +117,9 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     if (StringUtils.isNotEmpty(styleClass) == true) {
       sb.append("|").append("class=").append(styleClass);
     }
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      sb.append("|").append("thumbnail=").append(thumbnail);
+    }
     sb.append("!");
   }
 
@@ -137,7 +142,9 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     if (set != null) {
       set.add(ltarget);
     }
-
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      ctx.append("<a class=\"showimage\" href=\"" + ltarget + "\">");
+    }
     if (GWikiFragmentLink.isGlobalUrl(target) == true) {
       // ctx.append("<img src='", target, "'>");
     } else {
@@ -171,11 +178,36 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     if (StringUtils.isNotEmpty(style) == true) {
       ctx.append(" style=\"", style, "\"");
     }
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      if (thumbnail.equals("small") == true || thumbnail.equals("large") == true) {
+        ctx.append(" class=\"" + thumbnail + "Thumb\"");
+      } else {
+        ctx.append(" class=\"mediumThumb\"");
+      }
+    }
     if (StringUtils.isNotEmpty(styleClass) == true) {
       ctx.append(" class=\"", styleClass, "\"");
     }
     ctx.append("/>");
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      ctx.append("</a>");
+    }
     return true;
+  }
+
+  @Override
+  public boolean requirePrepareHeader(GWikiContext ctx)
+  {
+    return StringUtils.isNotEmpty(thumbnail) == true;
+  }
+
+  @Override
+  public void prepareHeader(GWikiContext ctx)
+  {
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      ctx.getRequiredJs().add("static/js/jquery.thumbs.js");
+    }
+    super.prepareHeader(ctx);
   }
 
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
@@ -272,4 +304,15 @@ public class GWikiFragmentImage extends GWikiFragmentBase
   {
     this.styleClass = styleClass;
   }
+
+  public String getThumbnail()
+  {
+    return thumbnail;
+  }
+
+  public void setThumbnail(String thumpnail)
+  {
+    this.thumbnail = thumpnail;
+  }
+
 }
