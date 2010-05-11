@@ -31,7 +31,6 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
@@ -212,12 +211,12 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     XmlNode[] controlNodes = new XmlNode[0];
     String type = pct.getControlType();
     if (StringUtils.equals(type, "BOOLEAN") == true) {
-      List<String> attrs = Xml.asList("type", "checkbox", "name", pct.getRequestKey(), "value", "true");
+      List<String> attrs = Xml.asList("type", "checkbox", "name", pct.getRequestKey(), "value", "true", "class", "checkbox");
       if (pct.isReadOnly() == true) {
-        attrs = Xml.add(attrs, "disabled", "true");
+        attrs = Xml.add(attrs, "disabled", "true", "class", "checkbox");
       }
       if (StringUtils.equals(pct.getPropsValue(), "true") == true) {
-        attrs = Xml.add(attrs, "checked", "true");
+        attrs = Xml.add(attrs, "checked", "true", "class", "checkbox");
       }
       controlNodes = Xml.nodes(Html.input(Xml.listAsAttrs(attrs)));
     } else if (StringUtils.equals(type, "OPTION") == true) {
@@ -226,13 +225,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       String dates = pct.getPropsValue();
       Date date = GWikiProps.parseTimeStamp(dates);
       String fdate = pct.getWikiContext().getUserDateString(date);
-      List<String> attrs = Xml.asList("type", "text", "size", "30", "name", pct.getRequestKey(), "value", fdate);
+      List<String> attrs = Xml.asList("type", "text", "size", "30", "name", pct.getRequestKey(), "value", fdate, "class", "text");
       if (pct.isReadOnly() == true) {
         Xml.add(attrs, "disabled", "disabled");
       }
       controlNodes = Xml.nodes(Html.input(Xml.listAsAttrs(attrs)));
     } else {
-      List<String> attrs = Xml.asList("type", "text", "size", "40", "name", pct.getRequestKey(), "value", value);
+      List<String> attrs = Xml.asList("type", "text", "size", "40", "name", pct.getRequestKey(), "value", value, "class", "text");
       if (pct.isReadOnly() == true) {
         Xml.add(attrs, "disabled", "disabled");
       }
@@ -257,49 +256,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     return sout.getBuffer().toString();
   }
 
-  public String renderHelpLink(GWikiPropsDescriptorValue d, GWikiContext ctx)
-  {
-    String link = d.getHelpLink();
-    if (StringUtils.isEmpty(link) == true) {
-      return "&nbsp;";
-    }
-    String pageId = link;
-    int localp = link.indexOf('#');
-    if (localp != -1) {
-      pageId = link.substring(0, localp);
-    }
-    // GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo(pageId);
-    String lang = ctx.getWikiWeb().getAuthorization().getCurrentUserLocale(ctx).getLanguage();
-    String l = GWikiHelpLinkMacro.getHelpPage(pageId, lang, ctx);
-    if (StringUtils.isEmpty(l) == true) {
-      return "&nbsp;";
-    }
-    String t = l;
-    if (localp != -1) {
-      t = t + link.substring(localp);
-    }
-    String lurl = ctx.localUrl(t);
-    return "<a target=\"gwiki_help\" href=\"" + lurl + "\">?</a>";
-    // return t;
-
-  }
-
   public void renderViaDescriptor(GWikiContext ctx)
   {
-    boolean hasAnyDescription = false;
-    for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {
-      if (StringUtils.isNotBlank(d.getDescription()) == true) {
-        hasAnyDescription = true;
-        break;
-      }
-    }
-    XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
+    XmlElement table = Html.table(Xml.attrs("class", "gwikiProperties"), //
         Html.tr( //
-            Html.th(Xml.attrs("width", "70", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
-            Html.th(Xml.attrs("width", "300", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
-            Html.th(Xml.attrs("width", "16", "align", "left"), Xml.code("&nbsp;")), //
-            Html.th(Xml.attrs("align", "left"), Xml.code(hasAnyDescription == false ? "" : ctx
-                .getTranslated("gwiki.propeditor.title.description")))));
+            Html.th(Xml.attrs("class", "labelhead"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
+            Html.th(Xml.attrs("class", "entryhead"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
+            Html.th(Xml.attrs("class", "deschead"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.description")))));
     GWikiEditPageActionBean bean = ((GWikiEditPageActionBean) ctx.getRequest().getAttribute("form"));
     String metaTemplateId = bean.getMetaTemplate().getPageId();
     // String metaTemplateId = el.getMetaTemplate().getPageId();
@@ -318,10 +281,9 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       }
       table.add( //
           Html.tr( //
-              Html.td(Xml.code(label)), //
-              Html.td(Xml.code(nested)), //
-              Html.td(Xml.code(renderHelpLink(d, ctx))), //
-              Html.td(Xml.code(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))))));
+              Html.td(Xml.attrs("class", "label"), Xml.code(label)),//
+              Html.td(Xml.attrs("class", "entry"), Xml.code(nested)), //
+              Html.td(Xml.attrs("class", "desc"), Xml.code(ctx.getTranslatedProp(d.getDescription())))));
     }
     ctx.append(table.toString());
 
