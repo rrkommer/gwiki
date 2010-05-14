@@ -5,11 +5,13 @@
 def renderMenu(wikiPage, wikiContext)
 {
 	el = wikiContext.getWikiWeb().findElementInfo("index");
+	indexEl = el;
 	url = wikiContext.localUrl("/" + el.getId());
 	%>
 <ul class="gwikiNavMenu">
+<%if (indexEl.getId().equals(wikiPage.getElementInfo().getId()) == false) { %>
 <li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
-<%
+<%}
 	el = wikiPage.getElementInfo();
 
 	List idList = new ArrayList();
@@ -37,7 +39,9 @@ def renderMenu(wikiPage, wikiContext)
 			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
 <% 
 	}
-	%></ul>
+%>
+	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
+	</ul>
 <br />
 <% List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
 	if (cel.isEmpty() == false) {
