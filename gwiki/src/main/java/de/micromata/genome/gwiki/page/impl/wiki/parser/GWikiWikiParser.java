@@ -703,17 +703,25 @@ public class GWikiWikiParser
       return;
     }
     do {
+      boolean inFixedFont = false;
+      if (tk == 0) {
+        if (tks.curToken(true) == '{' && tks.peekToken(1, true) == '{') {
+          inFixedFont = true;
+          tks.removeStopToken('{');
+        } else {
+          break;
+        }
+      }
+
       parseWord(tks, ctx);
+      if (inFixedFont == true) {
+        tks.addStopToken('{');
+      }
       tk = tks.curToken();
       if (tk == '\n') {
         break;
       }
-      // if (tks.hasNext() == false) {
-      // return;
-      // }
-      //
-      // tks.nextToken();
-    } while (tk != 0);
+    } while (true/* tk != 0 */);
   }
 
   protected boolean isSentenceTerminator(char c)
