@@ -11,7 +11,7 @@
 <% } %>
 
 <% if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) { %>
-<center><b><%= esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title')) %></b></center><br />
+<div align="center"><b><%= esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title')) %></b></div><br />
 <% } %>
 <% GWIKI_MACRO_CHILD.render(wikiContext) %>
 </div>
