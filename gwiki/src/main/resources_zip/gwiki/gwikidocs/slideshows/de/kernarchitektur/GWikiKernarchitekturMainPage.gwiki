@@ -1,4 +1,9 @@
 {slideshow}
+{slidehandout}
+{pageintro}
+Vorstellung der Kernarchitektur von GWiki.
+{pageintro}
+{slidehandout}
 {slideheader}
 {div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Features
 {slideheader}
@@ -10,6 +15,16 @@
 \\
 \\
 Vorstellung der Kernarchitektur von GWiki.
+{slide}
+{slide:title=Was ist GWiki}
+Multipurpose Wiki.
+- Library
+-- Render/Parse Wiki
+- Framework Library
+-- Use content in Java Web App.
+- Application
+- Application Framework
+
 {slide}
 {slide:title=GWiki Motivation}
 - Einsatz im Java (EE)-Feld.
@@ -36,6 +51,13 @@ Vorstellung der Kernarchitektur von GWiki.
 - Rendern komplexer Wikiseiten < 10 ms (ca. 4 ms)
 {slide}
 
+{slide:title=Vorgeschichte}
+- ca. 1998: Perl Anwendung für das Generieren von HTML-Seiten mit Wiki (acdk.sourceforge.net mit > 10.000 Seiten).
+- User von Confluence/Jira bei Micromata
+- Abstimmung mit Kunde bzgl. Oberflächentexte nervt.
+- Kunde DHL bestellt integriertes Wiki in der DHL Online Frankierung.
+
+{slide}
 {slide:title=Architekturprinzipien}
 - Wenige Entwurfsmuster
 - Alles ist Wiki
@@ -50,8 +72,9 @@ Vorstellung der Kernarchitektur von GWiki.
 {slide:title=Sonstige Prinzipien}
 - Bekannte Technologien
 - Relativ wenige Abhängigkeiten
-- Soweit möglich, stateless
-- Performant und Skallierbar
+- Soweit möglich, stateless zum Browser, auch bei Änderungen
+- Performant und Skalierbar.
+- 98% Lesen, 2% Schreiben.
 {slide}
 
 {slide:title=GWiki Services}
@@ -121,8 +144,8 @@ Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Fil
 - Ausführen auf Wikiebene
 {slide}
 
-{slide:title=Filter Hirarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/WikiFilterHierarchie.png!{center}
+{slide:title=Filter Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/WikiFilterHierarchie.png|width=30%!{center}
 {slide}
 
 {slide:title=GWiki Elemente}
@@ -139,7 +162,7 @@ und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=GWikiElement Hierarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png|width=70%!{center}
 {slide}
 
 {slide:title=Settings Artefakt}
@@ -203,11 +226,11 @@ und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=GWikiArtefakt Hierarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiArtefaktHierarchie.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiArtefaktHierarchie.png|width=30%!{center}
 {slide}
 
 {slide:title=GWikiEditorArtefakt Hierarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiEditorArtefaktHierarchie.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiEditorArtefaktHierarchie.png|width=50%!{center}
 {slide}
 
 {slide:title=GSPT Artefakte}
@@ -221,7 +244,7 @@ und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=GSPT Editor}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GSPTEditor.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GSPTEditor.png|width=80%!{center}
 {slide}
 
 {slide:title=Controler Artefakte}
@@ -231,7 +254,7 @@ und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=Groovy ActionBean Editor}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GroovyActionBeanEditor.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GroovyActionBeanEditor.png|width=70%!{center}
 {slide}
 
 {slide:title=Gwiki Wiki}
@@ -254,15 +277,15 @@ und haben dadurch einen kanonischen Namen.
 
 {slide:title=Wiki Parser}
 - Erster Wurf registrieren von Regular Expressions
--- Bei großer Wiki-Seite (ca. 10 DIN-A 4) 4 Sekunden für Parsen.
+-- Bei großer Wikiseite (ca. 10 DIN-A 4) 4 Sekunden für Parsen.
 -- Syntax-Probleme bei einigen Confluence Syntaxelementen
-- Zweiter Wurf, hart kodierter Drill-Down-Parser
--- 4 ms fürs parsen.
+- Zweiter Wurf, hart kodierter Top-Down-Parser
+-- 4 ms fürs parsen einer großen Wikiseite.
 Kern relativ klein, Rest sind Macros.
 {slide}
 
 {slide:title=Wiki DOM 1}
-{center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png|width=70%!{center}
 {slide}
 
 {slide:title=Wiki DOM 2}
@@ -277,17 +300,20 @@ Parser erzeugt eine Art DOM (WikiFragment)
 Einfach zu erstellen
 - Java Klasse (Bean)
 - JSP/GSPT-Seite
+{div:style=font-size: 0.7em}
 Macros mit
 - mit/ohne Body
-- mit Wiki-Text als Body, oder vom Macro selbst ausgewertet
+- mit Wiki-Text als Body, oder vom Macro selbst ausgewertet.
+- XHTML-Position (p oder nicht p aussenrum/in childs)
 - RTE-Fähig
 - Compiletime Macro manipuliert DOM oder führt neue Macros ein (usemacro, jsptaglib)
 - Runtime Macro
+{div}
 {slide}
 
 {slide:title=Macro Hierarchie}
 
-{center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png!{center}
+{center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png|width=18%!{center}
 {slide}
 
 {slide:title=Entwicklung}

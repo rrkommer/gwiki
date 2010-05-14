@@ -4,6 +4,13 @@ Frequent asked Questions for GWiki.
 
 {toc}
 
+h2. Common
+h3. GWiki - why this name
+Originally GWiki was developed as a plugin for a enterprise application management system called Genome, developed by Micromata.
+See [http://www.micromata.de/produkte/genome.jsp].
+
+We shortened the name from Genome Wiki  to GWiki.
+
 h2. Edit Pages
 h3. Rename a pageId
 The function to rename a pageId can be found on the *Info* page.
