@@ -34,6 +34,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
@@ -47,6 +49,8 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
   private static final long serialVersionUID = 3025588244594913253L;
 
   public static String GWIKI_SLIDESHOW_SECTION = "GWIKI_SLIDESHOW_SECTION";
+
+  private boolean patchedIncremental = false;
 
   public GWikiSlideShowMacro()
   {
@@ -89,13 +93,38 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>(1);
     ret.add(macroFrag);
     return ret;
-    // return Collections.emptyList();
+  }
+
+  protected void checkIncremental(MacroAttributes attrs, GWikiContext ctx)
+  {
+    if (patchedIncremental == true || StringUtils.equals(attrs.getArgs().getStringValue("incremental"), "true") == false) {
+      return;
+    }
+    synchronized (this) {
+      if (patchedIncremental == true) {
+        return;
+      }
+
+      attrs.getChildFragment().iterate(new GWikiSimpleFragmentVisitor() {
+
+        public void begin(GWikiFragment fragment)
+        {
+          if (fragment instanceof GWikiFragmentList) {
+            GWikiFragmentList fl = (GWikiFragmentList) fragment;
+            if (fl.getAddClass() == null) {
+              fl.setAddClass("incremental");
+            }
+          }
+        }
+      });
+      patchedIncremental = true;
+    }
   }
 
   @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
-
+    checkIncremental(attrs, ctx);
     boolean asSlide = "true".equals(ctx.getRequestParameter("asSlide"));
     if (asSlide == false) {
       attrs.getChildFragment().render(ctx);

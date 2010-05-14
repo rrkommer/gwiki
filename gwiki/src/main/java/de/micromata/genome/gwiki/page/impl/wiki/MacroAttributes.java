@@ -54,6 +54,20 @@ public class MacroAttributes implements Serializable
 
   }
 
+  /**
+   * Make a deep copy except childFragment, which only be shallow copied.
+   * 
+   * @param other
+   */
+  public MacroAttributes(MacroAttributes other)
+  {
+    this.cmd = other.cmd;
+    this.body = other.body;
+    this.args = new GWikiProps(other.args);
+    this.childFragment = other.childFragment;
+    this.requestPrefix = other.requestPrefix;
+  }
+
   public MacroAttributes(String text)
   {
     parse(text);

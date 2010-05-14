@@ -107,11 +107,7 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
     }
     ctx.append(">");
     if (attrs.getChildFragment() != null) {
-      // if (preview == true) {
-      // attrs.getChildFragment().renderPreview(ctx, sb);
-      // } else {
       attrs.getChildFragment().render(ctx);
-      // }
     } else if (attrs.getBody() != null) {
       ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
     }
