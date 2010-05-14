@@ -60,6 +60,13 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 
 public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
 {
+  public void testDeco7()
+  {
+
+    String html = wiki2html("{{a\\}b}}");
+    assertEquals("<p><span style=\"font-family:monospace\">a}b</span></p>\n", html);
+  }
+
   public void testDeco6()
   {
     // -Effekten-
