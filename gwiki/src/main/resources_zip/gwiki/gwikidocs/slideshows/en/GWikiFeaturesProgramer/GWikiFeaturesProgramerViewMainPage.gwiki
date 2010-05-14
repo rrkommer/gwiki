@@ -1,0 +1,50 @@
+{slideshow:incremental=true}
+
+{slidehandout}
+{pageintro}
+GWiki is not only an wiki application, but also an plattform to develop web base applications.
+{pageintro}
+{slidehandout}
+{slideheader}
+{div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Features
+{slideheader}
+{slidefooter}
+{div:style=font-size:0.8em}Micromata GmbH (c) 2010{div}
+{slidefooter}
+
+{slide:title=GWiki Features for developer}
+\\
+\\
+Introduction to GWiki Features.
+{slide}
+{slide:title=Audience}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!{center}
+{slide}
+{slide:title=Customizing Goals}
+{incremental}
+- Change Look of Pages
+- Create public web pages with coperate style
+- Change way to do things.
+{incremental}
+{slide}
+{slide:title=Customize Tools}
+Knowledge:
+- HTML, CSS, Javascript
+- GWiki internals
+- JSP
+- Groovy (Java)
+
+{slide}
+{slide:title=Extending Goals}
+- Adapting to runtime environment
+- Organize your Content
+- Provide alternative Acess
+{slide}
+
+{slide:title=Extending Tools}
+- Create your own Macros
+- Implement services for GWiki infrastrukture.
+- Implement Filter to hook into core processes
+- Create own GWiki Element types.
+{slide}
+{slideshow}

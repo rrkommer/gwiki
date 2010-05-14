@@ -53,7 +53,23 @@ h2. Verlinkung
 |\!EinBild.png\!|!EinBild.png!|
 
 
-Siehe [Confluence Syntax|http://confluence.atlassian.com/renderer/notationhelp.action?section=all].
+h2. Images
+{table:width=100%|border=1|cellspacing=0}
+{tr}{th}Wiki{th}{th}Result{th}{tr}
+{tr}{td}\!gwikidocs/presentations/features/SkinSampleGWiki.png\!{td}{td}!gwikidocs/presentations/features/SkinSampleGWiki.png!{td}{tr}
+{tr}{td}\!gwikidocs/presentations/features/SkinSampleGWiki.png\|thumbnail=small\!{td}{td}!gwikidocs/presentations/features/SkinSampleGWiki.png|thumbnail=small!{td}{tr}
+{table}
+
+Options:
+- width: width attribute of the image with dimension (px, em, cm, etc.)
+- height: height attribute of the image
+- border: border attribute. 
+- alt: alt attribute
+- hspace;
+- vspace;
+- style;
+- styleClass: class attribute;
+- thumbnail. value can be either {{small}}, {{medium}} or {{large}}. If set, the image will be shown as thumbnail.
 
 h2. Listen
 {table:width=100%|border=1|cellspacing=0}

@@ -1,3 +1,8 @@
+h2. 2010-05-13
+* Bilder können als thumbnails dargestellt werden Siehe dazu auch [Images in Wiki Syntax|gwikidocs/help/en/WikiSyntax#Images]
+* Macro {{slideshow}} unterstützt Attribut incremental=true, so dass automatisch alle Listen innerhalb der slides inkrementell angezeigt werden.
+
+
 h2. 2010-05-09
 * Kommentare können nun hierarchisch angelegt werden. Damit könnten auch Foren implementiert werden.
 

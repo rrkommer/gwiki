@@ -2,17 +2,15 @@
  With the Macro {span:style=font-family: monospace;}slideshow{span}, you can create a HTML based slideshow.
 {pageintro}
 
+h2. Create a slideshow
+Please Refer to [gwikidocs/slideshows/en/Slideshows].
 
- {note:title=TODO}
- Document.
- {note}
- 
-h4. Keyboard commands inside
+h2. Keyboard commands inside
 (from: [http://meyerweb.com/eric/tools/s5/features.html]).
 
 The following apply in any supporting browser besides Opera, which uses  the default Opera Show controls instead.
 
-{table:class=chart|cellspacing=0}
+{table:class=chart|border=1|cellspacing=0}
 {tr}
 {th}Action{th}{th}Key(s){th}
 {tr}{tr}

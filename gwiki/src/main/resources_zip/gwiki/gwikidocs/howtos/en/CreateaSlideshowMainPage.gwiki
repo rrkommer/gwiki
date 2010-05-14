@@ -2,6 +2,9 @@
 Create a HTML slide show with GWiki.
 {pageintro}
 The GWiki-Markup language is like other wikis, for example Confluence. Look at the [WikiSyntax] for further informations. 
+
+For usage of a slide show, please refere to [gwikidocs/macros/en/Macroslideshow].
+
 h2. Create new slide show 
 If you want to create a new slide show, click on the button 'New Element' and select 'Slide Show' to start with a blank new slide show. Every slide show starts with the following code:
 {code}
@@ -33,7 +36,9 @@ The second way to customize your slide show is adding a css-code to your slide s
 {code}
 {slideshow}
 {slidestyle}
+<style>
 .slide {background: red;}
+</style>
 {slidestyle}
 (...)
 {slideshow}
@@ -42,7 +47,9 @@ Example for import of a css-fiel:
 {code}
 {slideshow}
 {slidestyle}
+<style>
 @import url(mystyle.css);
+</style>
 {slidestyle}
 (...)
 {slideshow} 
@@ -53,14 +60,40 @@ You can display your content incremental step by step, as you are accustomed to 
 {code}
 {slide:title=Slide Headline}
 {incremental}
-<ul>
-<li>First Item</li>
-<li>Second Item</li>
-<li>Third Item</li>
-</ul> 
+- First Item
+- Second Item
+- Third Item
 {incremental}
 {slide}
 {code}
+
+If you want to show all list in incremental manner, you can also add the incremental attribute to the slideshow macro.
+{code}
+{slideshow:incremental=true}
+.. slides inside
+{slideshow}
+{code}
+
 h2. Images 
 To make images automatically scalable to the size of the screen, use the width= Attribute with % of the full screen width.
 {code} \!image.gif\|width=80%\! {code}
+
+h2. Comments
+If you want to include nodes and additionally information on a slide, which should not be visibible in the slide show mode, wrapp the
+thext with the {{slidehandout}} Macro.
+
+{code}
+This text is visible in Slide and handout/web page version.
+{slidehandout}
+This text is only visible in handout handout/web page version
+{slidehandout}
+{code}
+
+h2. Ajust text size
+The slide show try to resize fonts for the given screen. In some cases - for example your list becomes longer and reaches the end of the page - you need an ajustment of the size. You can do this simply using div macro:
+{code}
+- Large
+{div:style=font-size:0.8em}
+- Smaller
+{div}
+{code}
