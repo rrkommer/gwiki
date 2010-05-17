@@ -5,6 +5,47 @@ How to install GWiki.
 h2. Installation of GWiki Standalone
 GWiki provides a standalone desktop installation with nearly zero configuration effort.
 
+After downloading the wiki standalone distribution, unzip the archive in a new directory.
+{info:title=Mac OS X}
+On a Mac OS X environment, ensure not to unpack archive on a network directory, because
+mounted file systems on Mac doesn't support locking operations.
+{info}
+
+
+
+Inside a shell / command line window, go to unpacked archive directory and type
+gwikiweb.cmd resp. 
+gwikiweb.sh
+.
+
+The shell script asumes, that a Java JDK 1.5 or higher can be located in the path environment.
+
+If java cannot be found or the java in the java in the path has wrong java version, please
+modify the script for your needs.
+
+
+After starting GWiki open a browser with following URL:
+
+http://localhost:8081/index
+{info:title=Port}
+If you want to modifiy the port of gwiki server, edit the {{GWikiContext.xml}} file, where you can change the listing port.
+{info}
+
+The standalone version provides following users:
+gwikisu
+gwikieditor
+gwikiview.
+
+All users has the password
+gwiki.
+
+
+{warn:title=Security}
+Before using GWiki with these default users on a server reachable via internet, change the passwords.
+{warn}
 
 
 h2. Install GWiki as WAR archive in Java Servlet container
+
+Please refer to [gwikidocs/howtos/en/UseGwikiWARarchive].
+
