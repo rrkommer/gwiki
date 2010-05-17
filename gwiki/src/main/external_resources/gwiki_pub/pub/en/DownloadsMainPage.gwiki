@@ -2,8 +2,11 @@
 GWiki for download.
 {pageintro}
 
-h2. Users of GWiki
-If you want to use GWiki as standalone GWiki simply to start.
+h2. Standalone Desktop Installation
+Take a look at the GWiki desktop installation.
+
+After downloading GWiki standalone distribution, please refer to [pub/en/Installation] to launch
+the GWiki server.
 
 h3. Releases
 Currenty no releases are available.
@@ -18,3 +21,4 @@ h3. Releases
 Currenty no releases are available.
 
 h3. Snapshots
+
