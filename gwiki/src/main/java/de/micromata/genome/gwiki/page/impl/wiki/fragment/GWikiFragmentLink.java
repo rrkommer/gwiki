@@ -110,6 +110,29 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
 
   }
 
+  /**
+   * return null if is only local jump or external link.
+   * 
+   * @return
+   */
+  public String getTargetPageId()
+  {
+    String t = getTarget();
+    if (t == null) {
+      return null;
+    }
+    if (t.contains(":") == true) {
+      return null;
+    }
+    int lp = t.indexOf('#');
+    if (lp == 0) {
+      return null;
+    } else if (lp != -1) {
+      t = t.substring(0, lp);
+    }
+    return t;
+  }
+
   public boolean render(GWikiContext ctx)
   {
 
