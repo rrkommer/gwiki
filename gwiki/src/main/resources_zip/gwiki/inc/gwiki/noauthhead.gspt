@@ -7,7 +7,8 @@
 				<div id="gwikiHead">
 					<div id="gwikiMasthead">
 						<div id="gwikiLogo">
-							<a href="<gwiki:url value="/index"/>" title="<gwiki:url value="/index"/>">
+						
+							<a href="<gwiki:url value="/${welcomePageId}"/>" title="<gwiki:url value="/${welcomePageId}"/>">
 								<img src="<gwiki:url value='/inc/gwiki/img/gui/gwikiLogo.png'/>" alt="gWWWWWWiki"/>
 							</a>
 						</div>
