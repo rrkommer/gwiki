@@ -214,9 +214,14 @@ public class GWikiChildrenMacro extends GWikiMacroBean
           "ORDER", 0))));
     }
 
-    if (cl.isEmpty() == true)
+    if (cl.isEmpty() == true) {
       return;
-    ctx.append("\n<ul>\n");
+    }
+    String xmlidattr = "";
+    if (level == 1) {
+      xmlidattr = " id='" + ctx.genHtmlId("childrentoc") + "'";
+    }
+    ctx.append("\n<ul" + xmlidattr + ">\n");
     for (GWikiElementInfo ci : cl) {
       if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ci) == false) {
         if (viewAll == true && withEditLinks == true) {
