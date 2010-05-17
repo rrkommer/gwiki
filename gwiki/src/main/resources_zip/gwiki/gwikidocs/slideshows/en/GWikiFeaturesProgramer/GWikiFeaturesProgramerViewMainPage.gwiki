@@ -47,4 +47,39 @@ Knowledge:
 - Implement Filter to hook into core processes
 - Create own GWiki Element types.
 {slide}
+{slide:title=Using Taglibs inside wiki}
+{slide}
+{slide:title=Using Groovy}
+{slide}
+
+{slide:title=Integrate Goals}
+- Make usage of GWiki functions in your web applications.
+- Embedd content centric pages in your application
+- Make gui parts editable by business department.
+{slide}
+{slide:title=Integrate for Internationalization}
+
+{slide}
+{slide:title=Integrate for GUI parts}
+
+{slide}
+{slide:title=Content Management}
+
+{slide}
+
+
+{slide:title=Developing}
+GWiki can be used as rapid development plattform.
+
+Using MVC Modell to create and edit Web forms online.
+
+{slide}
+
+{slide:title=Controler and View}
+
+{slide}
+
+{slide:title=Wicket Support}
+
+{slide}
 {slideshow}

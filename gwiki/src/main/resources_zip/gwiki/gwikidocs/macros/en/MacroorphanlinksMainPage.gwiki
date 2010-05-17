@@ -1,0 +1,17 @@
+{pageintro}
+With the Macro {{orphanlinks}} Pages can be found, which containing links, which has no pages.
+{pageintro}
+
+Sample:
+{code}
+{orphanlinks}
+{code}
+or
+{code}
+{orphanlinks:searchExpression="childs:myPage"}
+{code}
+
+Arguments
+- searchExpression: Optional. A search expression. Please refer to [gwikidocs/help/en/Search] for valid search expressions.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiOrphanLinksMacro}}.

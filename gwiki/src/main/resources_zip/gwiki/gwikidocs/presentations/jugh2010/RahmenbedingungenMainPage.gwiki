@@ -1,4 +1,0 @@
-- Java 1.5 oder höher
-- Servlet Container (Jetty, Tomcat, BEA, JBoss, etc.)
-- Bis ca. 10.000 Seiten
-- Rendern komplexer Wikiseiten < 10 ms (ca. 4 ms)

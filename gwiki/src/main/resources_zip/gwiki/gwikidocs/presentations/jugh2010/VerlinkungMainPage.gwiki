@@ -1,7 +1,0 @@
-- Klassisches Wiki mit CamelCase. 
-- Hierarchisch aufgebaute Seiten.
-- Rechtemodell einfacher mit Hierarchischen Modell.
-- Parent/Childs/Silblings
-- Spaces, Sprache werden rekursiv über Parents aufgelöst.
-
-
