@@ -54,6 +54,7 @@ wikiContext.setRequestAttribute('GWIKI_SLIDESHOW_SECTION', 'slides');
 	wikiContext.skinInclude('standardfoot'); 
 } else {
 %>
+</div>
 </body>
 </html>
 <%} %>

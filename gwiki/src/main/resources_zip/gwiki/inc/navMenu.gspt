@@ -4,7 +4,8 @@
 <%
 def renderMenu(wikiPage, wikiContext)
 {
-	el = wikiContext.getWikiWeb().findElementInfo("index");
+	String welcome = wikiContext.getRequestAttribute('welcomePageId');
+	el = wikiContext.getWikiWeb().findElementInfo(welcome);
 	indexEl = el;
 	url = wikiContext.localUrl("/" + el.getId());
 	%>
@@ -20,7 +21,7 @@ def renderMenu(wikiPage, wikiContext)
 		if (parentId == null) { 
 			break;
 		}
-		if (parentId.equals("index") == true)
+		if (parentId.equals(welcome) == true)
 			break;
 		el = wikiContext.getWikiWeb().findElementInfo(parentId);
 		if (el == null)
