@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -89,12 +90,20 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     return parmsMap;
   }
 
+  protected void initHelp()
+  {
+    if (withExport == true) {
+      wikiContext.setRequestAttribute(GWikiHelpLinkMacro.REQATTR_HELPPAGE, "gwikidocs/help/ExportElements");
+    }
+  }
+
   @Override
   public Object onInit()
   {
     if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
       withExport = false;
     }
+    initHelp();
     return null;
   }
 
@@ -129,6 +138,8 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
   public Object onExport()
   {
     inExport = true;
+    withExport = true;
+    initHelp();
     wikiContext.getWikiWeb().getAuthorization().ensureAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name());
     SearchQuery query = super.buildQuery();
     if (query == null) {

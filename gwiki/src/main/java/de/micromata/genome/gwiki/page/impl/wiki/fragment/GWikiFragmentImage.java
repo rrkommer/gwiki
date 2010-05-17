@@ -150,6 +150,8 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     } else {
       if (RenderModes.GlobalImageLinks.isSet(ctx.getRenderMode()) == true) {
         ltarget = ctx.globalUrl(target);
+      } else if (RenderModes.LocalImageLinks.isSet(ctx.getRenderMode()) == true) {
+        ltarget = target;
       } else {
         ltarget = ctx.localUrl(target);
       }

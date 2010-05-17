@@ -102,10 +102,11 @@ public class StandAlonePageContext extends PageContext
 
   protected void initScopes()
   {
-    scopes = new ArrayList<Map< ? super String, Object>>(3);
-    scopes.add(new HashMap<String, Object>());
-    scopes.add(new HashMap<String, Object>());
-    scopes.add(applicationScope);
+    scopes = new ArrayList<Map< ? super String, Object>>(4);
+    scopes.add(new HashMap<String, Object>()); // PAGE_SCOPE
+    scopes.add(new HashMap<String, Object>()); // REQUEST_SCOPE
+    scopes.add(new HashMap<String, Object>()); // SESSION_SCOPE
+    scopes.add(applicationScope); // APPLICATION_SCOPE
   }
 
   @Override
