@@ -2,4 +2,10 @@ h1. About GWiki
 
 GWiki is a wiki style content managment plattform and rapid develop environment for content based java application.
 
+You can view some [Slide shows|gwikidocs/slideshows/en/Slideshows] with screenshots of GWiki.
+
+h2. Get and Try out
+To try out GWiki, download the standalone version in [pub/en/Downloads] section. 
+
+
 {children:withPageIntro=true}
