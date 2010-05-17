@@ -60,6 +60,10 @@ ul#gwikiMenuone {
 ul#gwikiMenuone li.gwikiMenumain {
 	position: relative;
 }
+ul#gwikiMenuone li.gwikiMenuIcon {
+	position: relative;
+}
+
 
 ul#gwikiMenuone li.gwikiMenumain span {
 	font-size: 1.0em;
@@ -67,7 +71,7 @@ ul#gwikiMenuone li.gwikiMenumain span {
 	padding: 0.2em 0.5em 0.2em 2em;
 	margin: 0.2em;
 	border: 1px solid #CFD7D9;
-	background: #f9f9f9 url("../img/icons/heart16.png") no-repeat 0.5em 50%;
+	background: #f9f9f9 /*url("../img/icons/heart16.png") */no-repeat 0.5em 50%; 
 	color: #919CA9;
 	/*
 		-moz-border-radius: 0.8em;
@@ -75,12 +79,36 @@ ul#gwikiMenuone li.gwikiMenumain span {
 		*/
 }
 
+
 ul#gwikiMenuone li.gwikiMenumain span a {
 	color: #919CA9;
 	text-decoration: none;
 }
 
+ul#gwikiMenuone li.gwikiMenuIcon span {
+	font-size: 1.0em;
+	display: block;
+	padding: 0.2em 0.2em 0.2em 0.2em;
+	margin: 0.2em;
+	border: 1px solid #CFD7D9;
+	/*background: #f9f9f9 url("../img/icons/heart16.png") no-repeat 0.5em 50%; */ 
+	color: #919CA9;
+	/*
+		-moz-border-radius: 0.8em;
+		-webkit-border-radius: 0.8em;
+		*/
+}
+ul#gwikiMenuone li.gwikiMenuIcon span a {
+	color: #919CA9;
+	text-decoration: none;
+}
+
 ul#gwikiMenuone li.gwikiMenumain span a:hover,ul#gwikiMenuone li.gwikiMenumain span:hover a
+	{
+	color: #333;
+}
+
+ul#gwikiMenuone li.gwikiMenuIcon span a:hover,ul#gwikiMenuone li.gwikiMenuIcon span:hover a
 	{
 	color: #333;
 }
@@ -94,7 +122,20 @@ ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.ove
 	cursor: pointer; 
 }
 
+ul#gwikiMenuone li.gwikiMenuIcon:hover span,ul#gwikiMenuone li.gwikiMenuIcon.over span
+	{
+	border: 1px solid #666;
+	background-color: #999;
+	color: #333;
+	opacity: 0.5;
+	cursor: pointer; 
+}
+
 ul#gwikiMenuone li.gwikiMenumain:hover ul {
+	display: block;
+}
+
+ul#gwikiMenuone li.gwikiMenuIcon:hover ul {
 	display: block;
 }
 
