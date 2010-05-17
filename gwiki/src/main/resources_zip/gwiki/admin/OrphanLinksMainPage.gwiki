@@ -1,0 +1,7 @@
+{pageintro}
+All Pages with orphan links.
+{pageintro}
+
+{usemacro:localName=orphanlinks|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiOrphanLinksMacro}
+
+{orphanlinks}
