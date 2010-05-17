@@ -14,6 +14,7 @@ Create a table of content with the children pages.
 - withPageIntro: Boolean true or false. Default false. If true, include the \{pageintro\} sections of the children page.  See also: [gwikidocs/macros/en/Macropageintro].
 - withPageTocs: true or false. Default false. If true, all internal headings of the children pages will be included in the table of content. (See also [gwikidocs/macros/en/Macrotoc]).
 - type: Optional, default {{gwiki}}. Type of Element. {{all}} return all types.
+- withEditLinks: Optional. If {{true}} also render info and edit links for elements. This is usefull, if you want display a list with elements to edit, which are not directly viewable, resp. does not have itself an edit link in the HTML frame.
 {td}{tr}{table}
 
 Java Class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro}}.

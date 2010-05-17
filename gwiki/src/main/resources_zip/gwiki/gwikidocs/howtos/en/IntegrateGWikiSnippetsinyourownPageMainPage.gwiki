@@ -21,3 +21,7 @@ pageContext.include(wikiContext.wikiWeb.servletPath + "/gwikidocs/howtos/en/Inte
 {groovy}
 
 You can see a small "ED" link on the right side. With this link, you can directly edit the fragment.
+
+{todo}
+Describe chunk including.
+{todo}
