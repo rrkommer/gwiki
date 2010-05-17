@@ -497,7 +497,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
         getResponseOutputStream().flush();
       }
     } catch (IOException ex) {
-      throw new RuntimeIOException(ex);
+      // ignore it here.
+      // throw new RuntimeIOException(ex);
     }
     return this;
   }

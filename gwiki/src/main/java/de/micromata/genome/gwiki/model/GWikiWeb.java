@@ -231,8 +231,10 @@ public class GWikiWeb
     }
     daoContext.getStorage().getFileSystem().checkEvents(false);
     initStandardReqParams(ctx);
+    String welcomePage = StringUtils.defaultIfEmpty(wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE), "index");
+    ctx.getRequest().setAttribute("welcomePageId", welcomePage);
     if (StringUtils.isEmpty(pageId) == true) {
-      pageId = wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE);
+      pageId = welcomePage;
     }
     GWikiElement el = findElement(pageId);
     if (el == null) {

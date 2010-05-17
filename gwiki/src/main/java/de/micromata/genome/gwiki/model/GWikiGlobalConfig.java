@@ -146,6 +146,12 @@ public class GWikiGlobalConfig extends GWikiProps
     return StringUtils.defaultIfEmpty(getStringValue(GWIKI_WIKI_DEFAULT_SKIN), "naked");
   }
 
+  public String getWelcomePageId()
+  {
+    return StringUtils.defaultIfEmpty(getStringValue(GWIKI_WELCOME_PAGE), "index");
+
+  }
+
   public List<String> getAvailableSkins(GWikiContext wikiContext)
   {
     if (availableSkins != null) {
