@@ -12,7 +12,7 @@ See this code example {{wiki2html}} how to use the GWiki just to translate Wiki 
 
 
 h2. HTML2Wiki
-To parse HTMOL back to Wiki you can following method:
+To parse HTML back to Wiki you can following method:
 {code}
 String wiki = WikiParserUtils.html2wiki(html);
 {code}

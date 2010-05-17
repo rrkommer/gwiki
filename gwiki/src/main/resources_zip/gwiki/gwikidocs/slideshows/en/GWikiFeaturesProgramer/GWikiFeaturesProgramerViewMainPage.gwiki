@@ -38,7 +38,7 @@ Knowledge:
 {slide:title=Extending Goals}
 - Adapting to runtime environment
 - Organize your Content
-- Provide alternative Acess
+- Provide alternative Access
 {slide}
 
 {slide:title=Extending Tools}
@@ -47,6 +47,15 @@ Knowledge:
 - Implement Filter to hook into core processes
 - Create own GWiki Element types.
 {slide}
+{slide:title=Extending Sample Slide shows}
+{slide}
+{slide:title=Extending Sample Comments}
+{slide}
+{slide:title=Extending Sample Blog}
+{slide}
+{slide:title=Extending Sample Forum}
+{slide}
+
 {slide:title=Using Taglibs inside wiki}
 {slide}
 {slide:title=Using Groovy}
