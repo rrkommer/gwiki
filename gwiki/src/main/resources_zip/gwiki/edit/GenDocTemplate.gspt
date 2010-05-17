@@ -10,12 +10,13 @@
 
 <form name="form" method="post" >
 
-<gwiki:radio property="format" value="HTML"/> HTML.<br/>
-<gwiki:radio property="format" value="DOC"/> Word.<br/>
-<gwiki:radio property="format" value="PDF"/> PDF.<br/>
+<gwiki:radio property="format" value="HTML"/> One HTML without images.<br/>
+<gwiki:radio property="format" value="DOC"/> Word with images.<br/>
+<%--
+<gwiki:radio property="format" value="PDF"/> PDF (not really working).<br/>
+ --%>
+PageId: <gwiki:text property="rootPageId" length="40"/><br/>
 
-<gwiki:text property="rootPageId" length="40"/>
-
-<input type="submit" name="method_onExport" value="Dokument generieren"/>
+<input class="gwikiButton main" type="submit" name="method_onExport" value="Generate Document"/>
 </form>
 <% wikiContext.skinInclude('standardfoot'); %>

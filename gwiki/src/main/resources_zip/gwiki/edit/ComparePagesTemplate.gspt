@@ -10,8 +10,8 @@
 <gwiki:errors />
 
 <form method="post">
-<gwiki:checkbox property="fullDiff"/> Vollst&auml;ndig anzeigen.<br/>
-<input type="submit" name="method_onInit" value="Vergleichen"/>
+<gwiki:checkbox property="fullDiff"/> <fmt:message key="gwiki.page.edit.ComparePages.label.completeCompare"/><br/>
+<input type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ComparePages.button.compare"/>"/>
 </form>
 <% wikiContext.getRequestAttribute("form").doRenderDiffSets(); %>
 
