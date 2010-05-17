@@ -7,9 +7,11 @@
   <meta http-equiv="Cache-Control" content="no-cache" />
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="shortcut icon" href="<gwiki:url value='/inc/gwiki/img/icons/favicon.ico'/>" type="image/vnd.microsoft.icon" />
+
 <script type="text/javascript">
  //<!--
 var gwikiHomeUrl = '<gwiki:url value=""/>';
+var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
  //-->
 </script>
 
