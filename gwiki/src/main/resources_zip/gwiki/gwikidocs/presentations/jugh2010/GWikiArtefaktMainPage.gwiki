@@ -1,5 +1,0 @@
-- Eine Javaklasse
-- Kann sich rendern
-- Kann sich von und zu Text oder binären Daten transformieren.
-- Kooperiert mit anderen Artefakten im Element.
-- Ist eine Factory für einen GWikiEditorArtefakt, der eine GUI für das Editieren zur Verfügung stellt.

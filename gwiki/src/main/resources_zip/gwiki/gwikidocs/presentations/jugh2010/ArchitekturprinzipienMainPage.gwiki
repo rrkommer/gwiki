@@ -1,9 +1,0 @@
-- Wenige Entwurfsmuster
-- Alles ist Wiki
-- Wiki ist nicht hart kodiert
-- gesteuert über Meta-Daten
-- Wiki-Element ist eine Datei im virtuellen Dateisystem
-- Abstraktion der Serviceschnittstellen
-- Interseptoren für die wichtigen Prozesse
-
-- Das Wiki ist im Wiki selbst implementiert.

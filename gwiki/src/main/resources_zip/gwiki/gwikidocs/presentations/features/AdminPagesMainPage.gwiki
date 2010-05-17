@@ -1,8 +1,0 @@
-- Global Wiki Configurations
-- Export Wiki as ZIP File
-- Import Wiki Pages, inkluding version resolving
-- Import Confluence Pages
-- Generate Word documents from page tree.
-- Manage Cache and Indice for development
-- WebDAV access to underlying virtual file system
-
