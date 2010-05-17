@@ -42,36 +42,64 @@
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
-					<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
+					<bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
 						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
-								<constructor-arg>
+							<map>
+								<entry
+									key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+										</constructor-arg>
+									</bean>
+
+								</entry>
+								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
 										</constructor-arg>
 									</bean>
-								</constructor-arg>
-								<constructor-arg>
+								</entry>
+								<entry key="+pub/*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+								<entry key="*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
 										</constructor-arg>
 									</bean>
-								</constructor-arg>
-								<property name="primaryMountsRule"
-									value="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*" />
-							</bean>
+								</entry>
+							</map>
 						</constructor-arg>
-						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-								<constructor-arg>
-									<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-						<property name="primaryMountsRule" value="+*,-tmp/*,-arch/*,-*/arch/*,-*TextExtract.txt,-*TextIndex.txt,-admin/GlobalTextIndexSettings.properties" />
 					</bean>
+					<!--
+						<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
+						<constructor-arg> <bean
+						class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
+						<constructor-arg> <bean
+						class="de.micromata.genome.gdbfs.StdFileSystem"> <constructor-arg>
+						<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+						</constructor-arg> </bean> </constructor-arg> <constructor-arg>
+						<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg>
+						<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+						</constructor-arg> </bean> </constructor-arg> <property
+						name="primaryMountsRule"
+						value="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*" />
+						</bean> </constructor-arg> <constructor-arg> <bean
+						class="de.micromata.genome.gdbfs.StdFileSystem"> <constructor-arg>
+						<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+						</constructor-arg> </bean> </constructor-arg> <property
+						name="primaryMountsRule"
+						value="+*,-tmp/*,-arch/*,-*/arch/*,-*TextExtract.txt,-*TextIndex.txt,-admin/GlobalTextIndexSettings.properties"
+						/> </bean>
+					-->
 				</constructor-arg>
 			</bean>
 		</property>
