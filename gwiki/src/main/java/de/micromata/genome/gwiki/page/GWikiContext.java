@@ -157,6 +157,17 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return "gwiki" + (++domIdCounter) + suffix;
   }
 
+  /**
+   * return the last generated html id.
+   * 
+   * @param suffix
+   * @return
+   */
+  public String getLastHtmlId(String suffix)
+  {
+    return "gwiki" + (domIdCounter) + suffix;
+  }
+
   public void addSimpleValidationError(String message)
   {
     if (validationErrors == null)
