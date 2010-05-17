@@ -6,7 +6,7 @@
       'margin:10px 20px;overflow:hidden;background-color:#FFFFCE;border-width: 0px;');  %>
 <% 
 	if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == false) {
-		GWIKI_MACRO_ATTRIBUTES.getArgs().setStringVal('title', 'TODO');
+		GWIKI_MACRO_ATTRIBUTES.getArgs().setStringValue('title', 'TODO');
 	}
 %>
 <@include file="admin/macros/panel" @>
