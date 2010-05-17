@@ -46,7 +46,7 @@
 
 }
 
-ul#gwikiMenuone {
+ul.gwikiMenuone {
 	/* not in gwikimenubar otherwise flickering ie */
 		height: 3em;
 	/*z-index: 1;*/
@@ -57,15 +57,15 @@ ul#gwikiMenuone {
 	padding: 0;
 }
 
-ul#gwikiMenuone li.gwikiMenumain {
+ul.gwikiMenuone li.gwikiMenumain {
 	position: relative;
 }
-ul#gwikiMenuone li.gwikiMenuIcon {
+ul.gwikiMenuone li.gwikiMenuIcon {
 	position: relative;
 }
 
 
-ul#gwikiMenuone li.gwikiMenumain span {
+ul.gwikiMenuone li.gwikiMenumain span {
 	font-size: 1.0em;
 	display: block;
 	padding: 0.2em 0.5em 0.2em 2em;
@@ -80,12 +80,12 @@ ul#gwikiMenuone li.gwikiMenumain span {
 }
 
 
-ul#gwikiMenuone li.gwikiMenumain span a {
+ul.gwikiMenuone li.gwikiMenumain span a {
 	color: #919CA9;
 	text-decoration: none;
 }
 
-ul#gwikiMenuone li.gwikiMenuIcon span {
+ul.gwikiMenuone li.gwikiMenuIcon span {
 	font-size: 1.0em;
 	display: block;
 	padding: 0.2em 0.2em 0.2em 0.2em;
@@ -98,31 +98,22 @@ ul#gwikiMenuone li.gwikiMenuIcon span {
 		-webkit-border-radius: 0.8em;
 		*/
 }
-ul#gwikiMenuone li.gwikiMenuIcon span a {
+ul.gwikiMenuone li.gwikiMenuIcon span a {
 	color: #919CA9;
 	text-decoration: none;
 }
 
-ul#gwikiMenuone li.gwikiMenumain span a:hover,ul#gwikiMenuone li.gwikiMenumain span:hover a
+ul.gwikiMenuone li.gwikiMenumain span a:hover,ul.gwikiMenuone li.gwikiMenumain span:hover a
 	{
 	color: #333;
 }
 
-ul#gwikiMenuone li.gwikiMenuIcon span a:hover,ul#gwikiMenuone li.gwikiMenuIcon span:hover a
+ul.gwikiMenuone li.gwikiMenuIcon span a:hover,ul.gwikiMenuone li.gwikiMenuIcon span:hover a
 	{
 	color: #333;
 }
 
-ul#gwikiMenuone li.gwikiMenumain:hover span,ul#gwikiMenuone li.gwikiMenumain.over span
-	{
-	border: 1px solid #666;
-	background-color: #999;
-	color: #333;
-	opacity: 0.5;
-	cursor: pointer; 
-}
-
-ul#gwikiMenuone li.gwikiMenuIcon:hover span,ul#gwikiMenuone li.gwikiMenuIcon.over span
+ul.gwikiMenuone li.gwikiMenumain:hover span,ul.gwikiMenuone li.gwikiMenumain.over span
 	{
 	border: 1px solid #666;
 	background-color: #999;
@@ -131,15 +122,24 @@ ul#gwikiMenuone li.gwikiMenuIcon:hover span,ul#gwikiMenuone li.gwikiMenuIcon.ove
 	cursor: pointer; 
 }
 
-ul#gwikiMenuone li.gwikiMenumain:hover ul {
+ul.gwikiMenuone li.gwikiMenuIcon:hover span,ul.gwikiMenuone li.gwikiMenuIcon.over span
+	{
+	border: 1px solid #666;
+	background-color: #999;
+	color: #333;
+	opacity: 0.5;
+	cursor: pointer; 
+}
+
+ul.gwikiMenuone li.gwikiMenumain:hover ul {
 	display: block;
 }
 
-ul#gwikiMenuone li.gwikiMenuIcon:hover ul {
+ul.gwikiMenuone li.gwikiMenuIcon:hover ul {
 	display: block;
 }
 
-ul#gwikiMenuone li ul {
+ul.gwikiMenuone li ul {
 	display: none;
 	position: absolute;
 	top: 1.7em;
@@ -150,13 +150,13 @@ ul#gwikiMenuone li ul {
 	padding: 0.85em 0 0 0;
 }
 
-ul#gwikiMenuone li ul li {
+ul.gwikiMenuone li ul li {
 	float: none;
 	padding: 0;
 	margin: 0;
 }
 
-ul#gwikiMenuone li ul li a { /*font-size:1.0em; */
+ul.gwikiMenuone li ul li a { /*font-size:1.0em; */
 	display: block;
 	margin: 0;
 	padding: 0.4em 1em;
@@ -167,7 +167,7 @@ ul#gwikiMenuone li ul li a { /*font-size:1.0em; */
 	text-decoration: none;
 }
 
-ul#gwikiMenuone li ul li a:hover {
+ul.gwikiMenuone li ul li a:hover {
 	color: #33434C;
 	background-color: #FACE00;
 }

@@ -132,11 +132,11 @@ li.gwikiNavMenu {
 	top: -0.3em;
 }
 
-ul#gwikiMenuone,#gwikiMenuone ul {
+ul.gwikiMenuone,.gwikiMenuone ul {
 	list-style: none;
 }
 
-#gwikiMenuone li {
+.gwikiMenuone li {
 	float: left;
 }
 
