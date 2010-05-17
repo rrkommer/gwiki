@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHtml;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
@@ -156,6 +157,9 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
   {
     GWikiKeywordLoadElementInfosFilter fe = GWikiKeywordLoadElementInfosFilter.getInstance();
     if (fe == null) {
+      return nested.render(ctx);
+    }
+    if (RenderModes.NoPageDecoration.isSet(ctx.getRenderMode()) == true) {
       return nested.render(ctx);
     }
     String space = ctx.getWikiElement().getElementInfo().getWikiSpace(ctx);

@@ -202,6 +202,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       parser.setFeature("http://cyberneko.org/html/features/augmentations", true);
       parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { purifier, target});
       XMLInputSource source = new XMLInputSource(null, null, null, new StringReader(htmlData), "UTF-8");
+
       try {
         parser.parse(source);
         htmlData = sout.getBuffer().toString();
