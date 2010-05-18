@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
@@ -363,56 +362,57 @@ public class GWikiWikiParser
     return childs;
   }
 
-  /** TODO test if can replaced with addWrappedP */
-  public static List<GWikiFragment> wrappBodyWithP(GWikiWikiParserContext ctx, List<GWikiFragment> body)
-  {
-    if (body.isEmpty() == true) {
-      return body;
-    }
-    if (isPAllowedInDom(ctx) == false) {
-      return body;
-    }
-    int endP = 0;
-    List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
-
-    int lastS = endP;
-    for (; endP < body.size(); ++endP) {
-      GWikiFragment frag = body.get(endP);
-      if (isParagraphLike(frag) == true && (frag instanceof GWikiFragmentBr) == false) {
-        if ((frag instanceof GWikiFragmentP) == false) {
-          ret.add(frag);
-          lastS = endP + 1;
-          continue;
-        }
-        if (endP > lastS) {
-          List<GWikiFragment> lp = body.subList(lastS, endP);
-          GWikiFragmentP p = new GWikiFragmentP(lp);
-          ret.add(p);
-          if ((frag instanceof GWikiFragmentP) == true && frag.getChilds().isEmpty() == true) {
-            ; // nothing
-          } else {
-            ret.add(frag);
-          }
-          ++endP;
-          lastS = endP;
-          continue;
-        }
-      }
-    }
-    if (lastS < body.size()) {
-      List<GWikiFragment> lp = body.subList(lastS, body.size());
-      if (isParagraphLike(lp.get(0)) == true) {
-        if (lp.size() != 1) {
-          GWikiLog.warn("Internal Parser Error: unexpected text in wrappBodyWithP end is size != 1");
-        }
-        ret.add(lp.get(0));
-      } else {
-        GWikiFragmentP p = new GWikiFragmentP(lp);
-        ret.add(p);
-      }
-    }
-    return ret;
-  }
+  // /** TODO test if can replaced with addWrappedP */
+  // @Deprecated
+  // public static List<GWikiFragment> wrappBodyWithP(GWikiWikiParserContext ctx, List<GWikiFragment> body)
+  // {
+  // if (body.isEmpty() == true) {
+  // return body;
+  // }
+  // if (isPAllowedInDom(ctx) == false) {
+  // return body;
+  // }
+  // int endP = 0;
+  // List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
+  //
+  // int lastS = endP;
+  // for (; endP < body.size(); ++endP) {
+  // GWikiFragment frag = body.get(endP);
+  // if (isParagraphLike(frag) == true && (frag instanceof GWikiFragmentBr) == false) {
+  // if ((frag instanceof GWikiFragmentP) == false) {
+  // ret.add(frag);
+  // lastS = endP + 1;
+  // continue;
+  // }
+  // if (endP > lastS) {
+  // List<GWikiFragment> lp = body.subList(lastS, endP);
+  // GWikiFragmentP p = new GWikiFragmentP(lp);
+  // ret.add(p);
+  // if ((frag instanceof GWikiFragmentP) == true && frag.getChilds().isEmpty() == true) {
+  // ; // nothing
+  // } else {
+  // ret.add(frag);
+  // }
+  // ++endP;
+  // lastS = endP;
+  // continue;
+  // }
+  // }
+  // }
+  // if (lastS < body.size()) {
+  // List<GWikiFragment> lp = body.subList(lastS, body.size());
+  // if (isParagraphLike(lp.get(0)) == true) {
+  // if (lp.size() != 1) {
+  // GWikiLog.warn("Internal Parser Error: unexpected text in wrappBodyWithP end is size != 1");
+  // }
+  // ret.add(lp.get(0));
+  // } else {
+  // GWikiFragmentP p = new GWikiFragmentP(lp);
+  // ret.add(p);
+  // }
+  // }
+  // return ret;
+  // }
 
   protected static boolean isPAllowedInDom(GWikiWikiParserContext ctx)
   {
@@ -515,7 +515,9 @@ public class GWikiWikiParser
           childs = removeWsTokensFromEnd(childs);
         }
         if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true && isPAllowedInDom(ctx)) {
-          childs = wrappBodyWithP(ctx, childs);
+          // TODO frisst P
+          childs = addWrappedP(childs);
+          // childs = wrappBodyWithP(ctx, childs);
         }
         frag.addChilds(childs);
         ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
