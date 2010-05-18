@@ -30,15 +30,77 @@
 					</archive>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/maven/assembly/distribution.xml</descriptor>
+          </descriptors>
+          <!--	<finalName>final_name</finalName>-->
+          <outputDirectory>target/assembly/</outputDirectory>
+          <workDirectory>target/assembly/work</workDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/assembly/gwiki-standalone-0.3.1-SNAPSHOT-bin.zip</file>
+                  <type>zip</type>
+                  <classifier></classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+			
+<!-- 			
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-beta-5</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/maven/assembly/distribution.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+
 				<configuration>
 					<descriptors>
 						<descriptor>src/maven/assembly/distribution.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
+			 -->
 		</plugins>
 	</build>
 
