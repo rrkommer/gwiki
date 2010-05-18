@@ -18,25 +18,42 @@
 
 package de.micromata.genome.gwiki.jetty;
 
-public class JettyConfig {
-	private int port = 8081;
+public class JettyConfig
+{
+  private int port = 8081;
 
-	private String contextRoot;
+  private String contextRoot;
 
-	public int getPort() {
-		return port;
-	}
+  private String contextPath = "/";
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+  public int getPort()
+  {
+    return port;
+  }
 
-	public String getContextRoot() {
-		return contextRoot;
-	}
+  public void setPort(int port)
+  {
+    this.port = port;
+  }
 
-	public void setContextRoot(String contextRoot) {
-		this.contextRoot = contextRoot;
-	}
+  public String getContextRoot()
+  {
+    return contextRoot;
+  }
+
+  public void setContextRoot(String contextRoot)
+  {
+    this.contextRoot = contextRoot;
+  }
+
+  public String getContextPath()
+  {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath)
+  {
+    this.contextPath = contextPath;
+  }
 
 }
