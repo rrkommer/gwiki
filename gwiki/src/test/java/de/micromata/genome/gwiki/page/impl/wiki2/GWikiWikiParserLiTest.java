@@ -91,7 +91,7 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testLi3()
   {
-    w2htest("* bla\n\n* blub", "<ul class=\"star\"><li>bla</li></ul><br/>\n<ul class=\"star\"><li>blub</li></ul>");
+    w2htest("* bla\n\n* blub", "<ul class=\"star\"><li>bla</li></ul><p/>\n<ul class=\"star\"><li>blub</li></ul>");
   }
 
   public void testLi2()

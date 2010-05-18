@@ -18,18 +18,14 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import org.apache.commons.lang.StringEscapeUtils;
 
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
 /**
  * GWiki macro to implement the noformat macro.
@@ -37,18 +33,27 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiNoFormatBodyMacro extends GWikiCompileTimeMacroBase implements GWikiBodyMacro, GWikiCompileTimeMacro
+public class GWikiNoFormatBodyMacro extends GWikiMacroBase implements GWikiBodyMacro, GWikiRuntimeMacro
 {
   private static final long serialVersionUID = 335691916315972801L;
 
-  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  public GWikiNoFormatBodyMacro()
   {
-    Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
-    GWikiHtmlBodyTagMacro tagMacro = new GWikiHtmlBodyTagMacro();
-    GWikiMacroFragment preFrag = new GWikiMacroFragment(tagMacro, new MacroAttributes("pre:style=border=1;"));
-    preFrag.addChild(new GWikiFragmentText(macroFrag.getAttrs().getBody()));
-    macroFrag.addChild(preFrag);
-    frags.add(macroFrag);
-    return frags;
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
   }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro#render(de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes,
+   * de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public boolean render(MacroAttributes attrs, GWikiContext ctx)
+  {
+    ctx.append("<pre style=\"border=1;\">");
+    ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+    ctx.append("</pre>");
+    return true;
+  }
+
 }
