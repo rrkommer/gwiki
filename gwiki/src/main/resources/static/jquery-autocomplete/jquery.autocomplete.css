@@ -1,4 +1,7 @@
 .ac_results {
+	position:absolute;
+	top:40px;
+	right:60px;
 	padding: 0px;
 	border: 1px solid #ADB4B7;
 	background-color: #fff;
@@ -32,12 +35,12 @@
 	*/
 	/*width: 100%;*/
 	font: menu;
-	font-size: 1.2em;
+	font-size: 0.8em;
 	/* 
 	it is very important, if line-height not setted or setted 
 	in relative units scroll will be broken in firefox
 	*/
-	line-height: 1.6em;
+	line-height: 1.2em;
 	overflow: hidden;
 }
 
