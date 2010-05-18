@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,31 +13,29 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.util.xml.xmlbuilder.html;
 
-package de.micromata.genome.gwiki.page.impl.wiki2;
+import junit.framework.TestCase;
+import de.micromata.genome.util.xml.xmlbuilder.Xml;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
-public class GWikiWikiParserNlTest extends GWikiWikiParserTestBase
+/**
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
+public class HtmlInputTest extends TestCase
 {
-  public void testhr()
+  public void testInput()
   {
-    w2htest("x\n----\nb", "<p>x</p>\n<hr/>\n<p>b</p>\n");
-  }
+    XmlElement xe = Html.input();
+    String s = xe.toString();
+    System.out.println(s);
 
-  public void testBr()
-  {
-    w2htest("a.\nb", "<p>a.<br/>\nb</p>\n");
+    xe = Html.input("type", "text");
+    xe.nest(Xml.text("asdfasdf"));
+    s = xe.toString();
+    System.out.println(s);
   }
-
-  public void testExpliciteNl()
-  {
-    w2htest("a\\\\\nb", "<p>a<br/>\nb</p>\n");
-  }
-
-  public void testNonExpliciteNl()
-  {
-    w2htest("a\nb", "<p>a<br/>\nb</p>\n");
-  }
-
 }

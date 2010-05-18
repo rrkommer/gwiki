@@ -33,7 +33,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 public interface GWikiCompileTimeMacro extends GWikiMacro, GWikiRuntimeMacro
 {
   /**
-   * Get Fragments at compile time.
+   * Get Fragments at compile time. Will be called before body is be evaluated.
    * 
    * @param macroFrag
    * @param tks

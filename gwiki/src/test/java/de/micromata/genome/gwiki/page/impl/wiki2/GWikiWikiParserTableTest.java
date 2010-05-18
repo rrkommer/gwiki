@@ -82,7 +82,7 @@ public class GWikiWikiParserTableTest extends GWikiWikiParserTestBase
   {
     w2htest(
         "werden.\n||K1||K2||\n|h1. Z1|Z2|\n", //
-        "<p>werden.<br/>\n<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\"><h1><a name=\"Z1\" target=\"_top\"></a>Z1</h1>\n</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table></p>\n");
+        "<p>werden.</p>\n<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th><th class=\"gwikith\">K2</th>\n</tr><tr>\n<td class=\"gwikitd\"><h1><a name=\"Z1\" target=\"_top\"></a>Z1</h1>\n</td><td class=\"gwikitd\">Z2</td>\n</tr></tbody></table>");
   }
 
   public void testTableWithHeading()

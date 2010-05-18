@@ -48,7 +48,7 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   public void testPageIntroMacros4()
   {
     w2htest(
-        "{pageintro}- a {{m}} b\n- c{pageintro}\n\n",
+        "{pageintro}- a {{m}} b\n- c{pageintro}\n",
         "<div class=\"wikiPageIntro\"><ul class=\"minus\" type=\"square\"><li>a <span style=\"font-family:monospace\">m</span> b</li><li>c</li></ul></div>",
         macroFactories);
   }
@@ -72,7 +72,7 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   public void testPageCodeMacros1()
   {
     w2htest(
-        "a\n\n{code}asdf{code}\ne\n",
+        "a\n{code}asdf{code}\ne\n",
         "<p>a</p>\n<div class=\"preformatted panel\" style=\"border-width: 1px;\"><div class=\"preformattedContent panelContent\">\n\n<span class=\"java_plain\">asdf</span><br />\n</div></div><p>e</p>\n",
         macroFactories);
   }
