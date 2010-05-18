@@ -35,10 +35,16 @@ public class GWikiParserNoformatMacroTest extends GWikiWikiParserTestBase
   public GWikiParserNoformatMacroTest()
   {
     macroFactories.put("noformat", new GWikiMacroClassFactory(GWikiNoFormatBodyMacro.class));
+    macroFactories.put("div", new GWikiMacroClassFactory(GWikiHtmlBodyDivTagMacro.class));
   }
 
   public void testPut()
   {
     w2htest("{noformat}<{noformat}", "<pre style=\"border=1;\">&lt;</pre>", macroFactories);
+  }
+
+  public void testNested()
+  {
+    w2htest("{div}a{noformat}b{noformat}{div}", "<div><p>a</p>\n<pre style=\"border=1;\">b</pre></div>", macroFactories);
   }
 }
