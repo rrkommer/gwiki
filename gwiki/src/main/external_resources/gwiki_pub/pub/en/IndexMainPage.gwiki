@@ -8,4 +8,4 @@ h2. Get and Try out
 To try out GWiki, download the standalone version in [pub/en/Downloads] section. 
 
 
-{children:withPageIntro=true}
+{children:withPageIntro=true|depth=2}
