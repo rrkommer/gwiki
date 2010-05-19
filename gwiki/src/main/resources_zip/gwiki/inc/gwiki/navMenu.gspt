@@ -1,15 +1,19 @@
 <!-- navMenu.gspt Start -->
 
 <div id="menu">
+
 <%
 def renderMenu(wikiPage, wikiContext)
 {
+	
 	String index = wikiContext.getRequestAttribute("welcomePageId");
 	el = wikiContext.getWikiWeb().findElementInfo(index);
-	url = wikiContext.localUrl("/" + el.getId());
+	url = wikiContext.localUrl("/" + (el != null ? el.getId() : ""));
 	%>
 <ul class="gwikiNavMenu"> 
+<%if (el != null)  {%>
 <li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
+<% } %>
 <%
 	el = wikiPage.getElementInfo();
 
@@ -34,7 +38,7 @@ def renderMenu(wikiPage, wikiContext)
 			url = wikiContext.localUrl("/" + pi.getId());
 			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
 <% 
-	}
+		}
 	%></ul>
 <br/>
 <%
