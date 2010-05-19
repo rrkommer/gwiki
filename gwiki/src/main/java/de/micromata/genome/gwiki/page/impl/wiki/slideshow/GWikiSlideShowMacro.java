@@ -67,10 +67,6 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
    */
   public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
-    // ctx.getMacroFactories().put(
-    // "slides",
-    // new GWikiMacroClassFactory(GWikiSlidesMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
-    // GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put(
         "slide",
         new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
@@ -104,7 +100,6 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
       if (patchedIncremental == true) {
         return;
       }
-
       attrs.getChildFragment().iterate(new GWikiSimpleFragmentVisitor() {
 
         public void begin(GWikiFragment fragment)

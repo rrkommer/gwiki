@@ -132,7 +132,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
             cont.iterate(col);
             if (col.getFound().isEmpty() == false) {
               GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
-              ctx.append("<small>");
+              ctx.append("<small><br/>");
 
               if (mf.getChilds().size() == 1 && mf.getChilds().get(0) instanceof GWikiFragmentP) {
                 GWikiFragmentP p = (GWikiFragmentP) mf.getChilds().get(0);
@@ -140,7 +140,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
               } else {
                 mf.renderChilds(ctx);
               }
-              ctx.append("</small><br/>");
+              ctx.append("<br/></small><br/>");
             }
           }
           if (withPageTocs == true) {

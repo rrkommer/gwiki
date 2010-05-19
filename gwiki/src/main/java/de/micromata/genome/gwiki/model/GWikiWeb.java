@@ -321,7 +321,7 @@ public class GWikiWeb
         return el;
       }
     }
-    return findElement("index");
+    return findElement(getWikiConfig().getWelcomePageId());
   }
 
   public GWikiElementInfo findElementInfo(String path)

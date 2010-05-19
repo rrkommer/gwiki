@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.model.config;
 
+import javax.servlet.ServletConfig;
+
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -31,7 +33,7 @@ public class GwikiFileContextBootstrapConfigLoader extends GWikiAbstractSpringCo
 {
 
   @Override
-  protected ConfigurableApplicationContext createApplicationContext(String fileName)
+  protected ConfigurableApplicationContext createApplicationContext(ServletConfig config, String fileName)
   {
     return new FileSystemXmlApplicationContext(new String[] { fileName}, false, null);
   }

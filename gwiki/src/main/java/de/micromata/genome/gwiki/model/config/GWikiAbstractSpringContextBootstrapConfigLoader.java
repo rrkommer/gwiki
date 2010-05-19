@@ -34,7 +34,13 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
 {
   protected String fileName;
 
-  protected abstract ConfigurableApplicationContext createApplicationContext(String fileName);
+  /**
+   * 
+   * @param config may null if not loaded in a servlet container.
+   * @param fileName
+   * @return
+   */
+  protected abstract ConfigurableApplicationContext createApplicationContext(ServletConfig config, String fileName);
 
   protected BeanFactory beanFactory;
 
@@ -52,7 +58,7 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
     if (config != null) {
       fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
     }
-    ConfigurableApplicationContext actx = createApplicationContext(getApplicationContextName());
+    ConfigurableApplicationContext actx = createApplicationContext(config, getApplicationContextName());
     actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
     actx.refresh();
     beanFactory = actx;
