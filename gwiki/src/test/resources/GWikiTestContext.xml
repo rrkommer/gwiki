@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-<!-- 
-	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
-		<property name="port" value="8081" />
-
-		<property name="contextRoot" value="./gwikiweb" />
-	</bean>
- -->
+	<!--
+		<bean id="JettyConfig"
+		class="de.micromata.genome.gwiki.jetty.JettyConfig"> <property
+		name="port" value="8081" /> <property name="contextRoot"
+		value="./gwikiweb" /> </bean>
+	-->
 
 	<bean id="GwikiMimeTypes" class="java.util.HashMap">
 		<constructor-arg>
@@ -34,49 +33,53 @@
 		<!--  FILE -->
 		<property name="staticContentFromClassPath" value="true" />
 		<property name="staticContentFileSystem">
-		<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-			<constructor-arg value="${gwiki.dev.path}/src/main/resources"/>
-		</bean>
+			<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+				<constructor-arg value="${gwiki.dev.path}/src/main/resources" />
+			</bean>
 		</property>
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
-					<bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
+					<bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
 						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-								<constructor-arg>
-									<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-						<constructor-arg>
-							<value>+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*</value>
-						</constructor-arg>
-						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-								<constructor-arg>
-									<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
-								</constructor-arg>
-							</bean>
+							<map>
+								<entry
+									key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+										</constructor-arg>
+									</bean>
+
+								</entry>
+								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+								<entry key="+pub/*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+								<entry key="*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+							</map>
 						</constructor-arg>
 					</bean>
 				</constructor-arg>
 			</bean>
 		</property>
-		<!--
-			Production <property name="storage"> <bean
-			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.StdFileSystem"> <constructor-arg>
-			<value>${basedir}/src/main/external_resources/gwiki_dev</value>
-			</constructor-arg> </bean> </constructor-arg> <constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
-			<constructor-arg> <value>${gwiki.content}GWikiContent.zip</value>
-			</constructor-arg> </bean> </constructor-arg> </bean>
-			</constructor-arg> </bean> </property>
-		-->
+
 		<!--  DB -->
 		<!--
 			<property name="storage"> <bean
