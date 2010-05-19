@@ -19,9 +19,7 @@ if (showSlide) {
 	wikiContext.getRequiredHeader().add(s5h);
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
 <head>
 <%
 	wikiContext.include("inc/htmlHead");
@@ -41,7 +39,8 @@ if (showSlide) {
 } else {
 	wikiContext.skinInclude('standardhead');
 %>	<a target="slideshow" href="#" 
-	onclick="window.open('<%=wikiContext.localUrl(wikiContext.getCurrentElement().getElementInfo().getId()) %>?asSlide=true', 'gwiki_slideshow', 'resizable, scrollbars'); return false;">As Slide</a><br/>
+	onclick="window.open('<%=wikiContext.localUrl(wikiContext.getCurrentElement().getElementInfo().getId()) %>?asSlide=true', 'gwiki_slideshow', 'resizable, scrollbars'); return false;">
+	Show this page as slide show</a><br/>
 <%
 }
 %>
