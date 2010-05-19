@@ -1,0 +1,8 @@
+h1. Welcome to GWiki
+
+GWiki is a wiki style content managment plattform and rapid develop environment for content based java application.
+
+You can view some [Slide shows|gwikidocs/slideshows/en/Slideshows] with screenshots of GWiki.
+
+
+{children:withPageIntro=true|depth=2}
