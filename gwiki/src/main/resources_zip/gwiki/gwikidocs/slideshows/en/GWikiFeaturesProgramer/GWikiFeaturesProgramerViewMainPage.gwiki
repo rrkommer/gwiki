@@ -12,6 +12,7 @@ GWiki is not only an wiki application, but also an plattform to develop web base
 {div:style=font-size:0.8em}Micromata GmbH (c) 2010{div}
 {slidefooter}
 
+
 {slide:title=GWiki Features for developer}
 \\
 \\
@@ -46,19 +47,194 @@ Knowledge:
 - Implement services for GWiki infrastrukture.
 - Implement Filter to hook into core processes
 - Create own GWiki Element types.
+- Write dynamic pages.
 {slide}
-{slide:title=Extending Sample Slide shows}
+{slide:title=Blueprint template}
+Define a form, which filled by the user.
+A Blueprint template is a wiki page located in {{admin/blueprints}}.
+{code}
+{formlabel}
+Fill this form for your template.
+{formlabel}
+Name:  {input:text|name=name|size=40|maxlength=10}.
+{input:inputType=label|value=This is only a label and will not be included in resolved blueprint}
+{formlabel}
+This text will not shown in the evaluated wiki.
+{formlabel}
+A Textarea:
+{input:textarea|name=thetext|cols=50|rows=10}
+{formlabel}
+{input:radio|value=First|name=radio} {input:label|value=First}
+{input:radio|value=Second|name=radio|checked=true}{input:label|value=Second}
+{input:checkbox|name=checkboxp|checked=true}{input:label|value=Choose it.}
+{input:select|name=selectp|value=Second|values=First, Second, Third}
+{formlabel}
+{code}
+{slide}
+{slide:title=Blueprint insert}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintEditMask.png|width=40%!{center}
+{hr}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintSelectBluprint.png|width=20%!{center}
+{hr}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/Blueprintmask.png|width=35%!{center}
+{slide}
+{slide:title=Blueprint result}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintResult.png|width=50%!{center}
+{slide}
+{slide:title=Extending Sample Slide shows 1}
+Defining a new Meta template.
+{div:style=font-size:0.7em;}
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="gwiki" />
+		<!--  1 Hour -->
+		<property name="elementLifeTime" value="3600000" />
+		<!--  no controlerId -->
+		<!--  no controlerClass -->
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean
+						class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
+						<property name="pageId" value="inc/s5template" />
+						<property name="parts">
+							<map>
+								<entry key="MainPage">
+									<bean
+										class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+								</entry>
+							</map>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
+{code}
+{div}
+{{"inc/s5template"}} defines a new template
+{slide}
+{slide:title=Extending Sample Slide shows 2}
+The JSP Template
+{div:style=font-size:0.4em;}
+{code}
+boolean showSlide = "true".equals(wikiContext.getRequestParameter('asSlide'));
+if (showSlide) {
+	String s5f = wikiContext.localUrl("static/s5");
+	String s5h = """
+		<meta name=\"version\" content=\"S5 1.1\" />
+		<meta name=\"defaultView\" content=\"slideshow\" />
+		<meta name=\"controlVis\" content=\"hidden\" />
+	<link rel=\"stylesheet\" href=\"${s5f}/slides.css\" type=\"text/css\" media=\"projection\" id=\"slideProj\" />
+	<link rel=\"stylesheet\" href=\"${s5f}/outline.css\" type=\"text/css\" media=\"screen\" id=\"outlineStyle\" />
+	<link rel=\"stylesheet\" href=\"${s5f}/print.css\" type=\"text/css\" media=\"print\" id=\"slidePrint\" />
+	<link rel=\"stylesheet\" href=\"${s5f}/opera.css\" type=\"text/css\" media=\"projection\" id=\"operaFix\" />
+	<script src=\"${s5f}/slides.js\" type=\"text/javascript\"></script>
+	"""
+	;
+	wikiContext.getRequiredHeader().add(s5h);
+%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<%
+	wikiContext.include("inc/htmlHead");
+%>
+</head>
+<body>
+<div class="layout">
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<%
+	wikiContext.setRequestAttribute('GWIKI_SLIDESHOW_SECTION', 'layout');
+	MainPage.render(wikiContext);
+%>
+</div>
+<div class="presentation">
+<%	
+} else {
+	wikiContext.skinInclude('standardhead');
+%>	<a target="slideshow" href="#" 
+	onclick="window.open('<%=wikiContext.localUrl(wikiContext.getCurrentElement().getElementInfo().getId()) %>?asSlide=true', 'gwiki_slideshow', 'resizable, scrollbars'); return false;">As Slide</a><br/>
+<%
+}
+%>
+<%
+wikiContext.setRequestAttribute('GWIKI_SLIDESHOW_SECTION', 'slides');
+	MainPage.render(wikiContext);
+%>
+
+<% if (showSlide == false) {
+	wikiContext.skinInclude('standardfoot'); 
+} else {
+%>
+</div>
+</body>
+</html>
+<%} %>
+{code}
+{div}
+{slide}
+{slide:title=Extending Sample Slide shows 3}
+Create some Macros
+- slideshow, slideheader, slidefooter, slide, ...
+
 {slide}
 {slide:title=Extending Sample Comments}
+- Comments specific Macros.
+- Inserted into wiki or in template.
+- ActionBean handling macro command (create, edit, delete)
+- Inserted into host page via Ajax
+- Comments itself wiki elements organized in file system.
 {slide}
-{slide:title=Extending Sample Blog}
-{slide}
-{slide:title=Extending Sample Forum}
+{slide:title=Extending More}
+- Blog
+- Forum
+- name it.
 {slide}
 
 {slide:title=Using Taglibs inside wiki}
+{code}
+{jsptaglib:prefix=c|uri=/WEB-INF/tlds/c-rt.tld}
+Now use the macro:
+{cset:var=x|value=Hallo}{cset}
+
+{cout:value="This will printed via jsp: ${x}"}{cout}
+{code}
+
+Result:
+{usemacro:localName=jsptaglib|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseJspTagLibMacro}
+{jsptaglib:prefix=c|uri=/WEB-INF/tlds/c-rt.tld}
+Now use the macro:
+{cset:var=x|value=Hallo}{cset}
+
+{cout:value="This will printed via jsp: ${x}"}{cout}
 {slide}
 {slide:title=Using Groovy}
+{code}
+{groovy}
+for (int i in 1..10) {
+ out.println("Hello " + i + "<br/>");
+}
+{groovy}
+{code}
+
+{slide}
+{slide:title=All is GWiki}
+- All internal pages in GWiki are implemented using GWiki.
+
+- With sufficient rights you can also edit the edit page.
+- Open the Admin/ Wiki Control and edit it
+-- Controler: ActionBean
+-- InputForward: JSP
+-- MainPage (optional) text parts
+-- Settings
 {slide}
 
 {slide:title=Integrate Goals}

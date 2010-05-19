@@ -7,8 +7,8 @@ The macro has following test attributes:
 - right: render block if current user has right.
 - renderMode: render block if render mode is set.
 
-{note:title=TODO}
+{todo}
 Introduce alias to macro with name {{ifnot}}.
-{note}
+{todo}
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIfMacro}}.
