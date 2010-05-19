@@ -82,13 +82,16 @@ public class GWikiDAOContext
 
   private String webDavPasswordHash;
 
+  /**
+   * if true, read the static/ from class path and not from web context path.
+   */
   private boolean staticContentFromClassPath = false;
 
   /**
    * if set, serve static content from this location.
    */
   private FileSystem staticContentFileSystem;
-  
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
