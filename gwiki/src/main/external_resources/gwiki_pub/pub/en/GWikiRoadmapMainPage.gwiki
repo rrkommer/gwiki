@@ -10,13 +10,17 @@ h3. Features
 - Forum Plugin. Create Forums inside GWiki.
 - Virtual Content Folder Macro: To integrate external HTML files - for example Java Doc and own gwiki element will be provided.
 - Support something like a draft version. Include a release mechanism for publish drafts.
+- Register process for new users.
 
 h3. Known Bugs
 - UI improvments for IE
 - Diff-View could be better
 - Editor improvments
+- etc.
 
 h2. Infrastructure
+Comming soon
 - Public SVN
+- Public Bug Tracking
 - Public Forum
 

@@ -12,6 +12,7 @@ h3. Releases
 Currenty no releases are available.
 
 h3. Snapshots
+[gwiki-standalone-0.3.1-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT/gwiki-standalone-0.3.1-SNAPSHOT.zip]
 
 
 h2. Developer of GWiki
@@ -22,3 +23,10 @@ Currenty no releases are available.
 
 h3. Snapshots
 
+If you use maven, please check our nexus repository at:
+[http://labs.micromata.de/nexus]
+
+for gwiki related snapshots.
+
+For direct download please refer to: 
+[http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/]
