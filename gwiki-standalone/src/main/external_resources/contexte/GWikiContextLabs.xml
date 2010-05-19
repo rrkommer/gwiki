@@ -6,7 +6,7 @@
 		<property name="port" value="8081" />
 
 		<property name="contextRoot" value="./gwikiweb" />
-		<property name="contextPath" value="/" />
+		<property name="contextPath" value="${gwiki.jetty.contextpath}" />
 	</bean>
 
 
@@ -62,20 +62,14 @@
 										</constructor-arg>
 									</bean>
 								</entry>
-								<entry key="+pub/*">
+								<entry key="*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
 										</constructor-arg>
 									</bean>
 								</entry>
-								<entry key="*">
-									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-										<constructor-arg>
-											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
-										</constructor-arg>
-									</bean>
-								</entry>
+								
 							</map>
 						</constructor-arg>
 					</bean>
@@ -83,31 +77,7 @@
 			</bean>
 		</property>
 
-		<!--
-			Production <property name="storage"> <bean
-			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.StdFileSystem"> <constructor-arg>
-			<value>${basedir}/src/main/external_resources/gwiki_dev</value>
-			</constructor-arg> </bean> </constructor-arg> <constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
-			<constructor-arg> <value>${gwiki.content}GWikiContent.zip</value>
-			</constructor-arg> </bean> </constructor-arg> </bean>
-			</constructor-arg> </bean> </property>
-		-->
-		<!--  DB -->
-		<!--
-			<property name="storage"> <bean
-			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.DbFileSystemImpl" />
-			</constructor-arg> <property name="beforePersistHandler"> <list>
-			<bean
-			class="de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler"
-			/> </list> </property> </bean> </property>
-		-->
+	
 		<property name="enableWebDav" value="true" />
 		<property name="webDavUserName" value="gwikidavadmin" />
 		<property name="webDavPasswordHash" value="yfrNAF5Bp7m/lm+ywXpD92uRNKc=" />
