@@ -26,13 +26,15 @@ import javax.servlet.ServletConfig;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+import de.micromata.genome.util.text.StringResolver;
+
 /**
  * Place holder implementation that ${} expressions can be used in spring xml context files.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer
+public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements StringResolver
 {
   protected ServletConfig servletConfig;
 
@@ -101,8 +103,11 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
     if (val != null) {
       return val;
     }
-
-    return super.resolvePlaceholder(key, props);
+    if (props != null) {
+      return super.resolvePlaceholder(key, props);
+    } else {
+      return "";
+    }
   }
 
   public ServletConfig getServletConfig()
@@ -113,5 +118,15 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
   public void setServletConfig(ServletConfig servletConfig)
   {
     this.servletConfig = servletConfig;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.util.text.StringResolver#resolve(java.lang.String)
+   */
+  public String resolve(String placeholder)
+  {
+    return resolvePlaceholder(placeholder, null);
   }
 }

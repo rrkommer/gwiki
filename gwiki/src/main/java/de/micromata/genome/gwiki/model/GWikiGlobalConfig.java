@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
+
+import de.micromata.genome.gwiki.model.config.GWikiDAOContextPropertyPlaceholderConfigurer;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
@@ -39,6 +42,7 @@ import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.string.StartWithMatcher;
+import de.micromata.genome.util.text.PlaceHolderReplacer;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 import de.micromata.genome.util.types.TimeInMillis;
@@ -116,14 +120,31 @@ public class GWikiGlobalConfig extends GWikiProps
     super(map);
   }
 
+  protected String resolve(String value)
+  {
+    if (value == null) {
+      return value;
+    }
+    if (value.indexOf("${") == -1) {
+      return value;
+    }
+    ServletConfig servletConfig = null;
+    if (GWikiContext.getCurrent() != null) {
+      servletConfig = GWikiContext.getCurrent().getServlet().getServletConfig();
+    }
+    GWikiDAOContextPropertyPlaceholderConfigurer cf = new GWikiDAOContextPropertyPlaceholderConfigurer(servletConfig);
+
+    return PlaceHolderReplacer.resolveReplace(value, "${", "}", cf);
+  }
+
   public String getPublicURL()
   {
-    return getStringValue(GWIKI_PUBLIC_URL);
+    return resolve(getStringValue(GWIKI_PUBLIC_URL));
   }
 
   public String getSendEmail()
   {
-    return getStringValue(GWIKI_SEND_EMAIL);
+    return resolve(getStringValue(GWIKI_SEND_EMAIL));
   }
 
   public boolean showErrorStackTrace()
@@ -148,7 +169,7 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public String getWelcomePageId()
   {
-    return StringUtils.defaultIfEmpty(getStringValue(GWIKI_WELCOME_PAGE), "index");
+    return resolve(StringUtils.defaultIfEmpty(getStringValue(GWIKI_WELCOME_PAGE), "index"));
 
   }
 
