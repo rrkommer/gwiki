@@ -142,8 +142,9 @@ public class GWikiInitialSetup
         + "You are running GWiki the first time.\nPlease answer following questions.\n"
         + "If the prompt has [defaultValue] you can also accept the defaultValue by hitting enter.\n\n");
     Properties props = new Properties();
+    String port;
     do {
-      String port = getInput("HTTP Port", "8081");
+      port = getInput("HTTP Port", "8081");
       try {
         Integer.parseInt(port);
       } catch (NumberFormatException ex) {
@@ -153,8 +154,9 @@ public class GWikiInitialSetup
       props.put("gwiki.jetty.port", port);
       break;
     } while (true);
+    String contextPath;
     do {
-      String contextPath = getInput("Context path", "/");
+      contextPath = getInput("Context path", "/");
       if (contextPath.length() == 0 //
           || (contextPath.length() > 0 && contextPath.startsWith("/") == false)
           || (contextPath.length() > 1 && contextPath.endsWith("/") == true)) {
@@ -164,7 +166,16 @@ public class GWikiInitialSetup
       props.put("gwiki.jetty.contextpath", contextPath);
       break;
     } while (true);
-
+    do {
+      String pubUrl = getInput("Public Url", "http://localhost:" + port + contextPath);
+      props.put("gwiki.public.url", pubUrl);
+      break;
+    } while (true);
+    do {
+      String pubemail = getInput("Public Sender Email", "gwiki-noreply@labs.micromata.de");
+      props.put("gwiki.public.email", pubemail);
+      break;
+    } while (true);
     String defaultPath = new File("./gwiki").getAbsolutePath();
     do {
       message("Where to store gwiki files? Please select an empty directory.");
