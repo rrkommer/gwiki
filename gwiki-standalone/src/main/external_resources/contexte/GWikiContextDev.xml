@@ -3,12 +3,22 @@
 <beans>
 
 	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
-		<property name="port" value="8081" />
+		<property name="port" value="${gwiki.jetty.port}" />
 
 		<property name="contextRoot" value="./gwikiweb" />
 		<property name="contextPath" value="/" />
 	</bean>
-
+	<bean id="mailSession" class="de.micromata.genome.gwiki.utils.SessionBeanFactory">
+		<constructor-arg>
+			<map>
+				<entry key="mail.smtp.auth" value="${mail.smtp.auth}" />
+				<entry key="mail.smtp.host" value="${mail.smtp.host}" />
+				<entry key="mail.smtp.port" value="${mail.smtp.port}" />
+				<entry key="mail.smtp.user" value="${mail.smtp.user}" />
+				<entry key="mail.smtp.password" value="${mail.smtp.password}" />
+			</map>
+		</constructor-arg>
+	</bean>
 
 	<bean id="GwikiMimeTypes" class="java.util.HashMap">
 		<constructor-arg>
@@ -32,6 +42,10 @@
 	</bean>
 
 	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<property name="enableWebDav" value="${gwiki.enable.webdav}" />
+		<property name="webDavUserName" value="${gwiki.sys.user}" />
+		<property name="webDavPasswordHash" value="${gwiki.sys.passwordhash}" />
+
 		<!--  FILE -->
 		<property name="staticContentFromClassPath" value="true" />
 		<property name="staticContentFileSystem">
@@ -39,7 +53,9 @@
 				<constructor-arg value="${gwiki.dev.path}/src/main/resources" />
 			</bean>
 		</property>
-
+		<property name="mailSession">
+			<ref bean="mailSession" />
+		</property>
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
@@ -83,33 +99,5 @@
 			</bean>
 		</property>
 
-		<!--
-			Production <property name="storage"> <bean
-			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.StdFileSystem"> <constructor-arg>
-			<value>${basedir}/src/main/external_resources/gwiki_dev</value>
-			</constructor-arg> </bean> </constructor-arg> <constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
-			<constructor-arg> <value>${gwiki.content}GWikiContent.zip</value>
-			</constructor-arg> </bean> </constructor-arg> </bean>
-			</constructor-arg> </bean> </property>
-		-->
-		<!--  DB -->
-		<!--
-			<property name="storage"> <bean
-			class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-			<constructor-arg> <bean
-			class="de.micromata.genome.gdbfs.DbFileSystemImpl" />
-			</constructor-arg> <property name="beforePersistHandler"> <list>
-			<bean
-			class="de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler"
-			/> </list> </property> </bean> </property>
-		-->
-		<property name="enableWebDav" value="true" />
-		<property name="webDavUserName" value="gwikidavadmin" />
-		<property name="webDavPasswordHash" value="yfrNAF5Bp7m/lm+ywXpD92uRNKc=" />
 	</bean>
 </beans>
