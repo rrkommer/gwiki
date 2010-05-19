@@ -24,7 +24,18 @@ public class JettyConfig
 
   private String contextRoot;
 
+  /**
+   * Context path with leading, but no ending /.
+   */
   private String contextPath = "/";
+
+  /**
+   * add / after path.
+   * 
+   * Sample / or /gwiki/
+   * 
+   */
+  private String servletPath = "/";
 
   public int getPort()
   {
@@ -54,6 +65,16 @@ public class JettyConfig
   public void setContextPath(String contextPath)
   {
     this.contextPath = contextPath;
+  }
+
+  public String getServletPath()
+  {
+    return servletPath;
+  }
+
+  public void setServletPath(String servletPath)
+  {
+    this.servletPath = servletPath;
   }
 
 }

@@ -26,8 +26,12 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
+import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
 /**
@@ -38,9 +42,30 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
  */
 public class GWikiJettyStarter
 {
+  public void buildIndex(JettyConfig jettyConfig, GWikiServlet wikiServlet)
+  {
+    GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
+
+    try {
+      GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), "/");
+      GWikiContext.setCurrent(ctx);
+      nwiki.loadWeb();
+      SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
+      scb.rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
+      // nwiki.rebuildIndex();
+      // nwiki.getStorage().rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
+    } finally {
+      GWikiContext.setCurrent(null);
+    }
+
+  }
+
   public void start()
   {
     try {
+      GWikiInitialSetup initSetup = new GWikiInitialSetup();
+      boolean firstStart = initSetup.readCheckBasicSettings();
+
       String contextFile = System.getProperty("de.micromata.genome.gwiki.contextfile");
       GwikiFileContextBootstrapConfigLoader cfgLoader = new GwikiFileContextBootstrapConfigLoader();
       if (StringUtils.isNotBlank(contextFile) == true) {
@@ -65,9 +90,16 @@ public class GWikiJettyStarter
       GWikiServlet wikiServlet = new GWikiServlet();
       ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
       wikiServlet.setDAOContext(wikibootcfg);
-      context.addServlet(wikiServletHolder, "/*");
+      context.addServlet(wikiServletHolder, jettyConfig.getServletPath() + "*");
       server.setHandler(context);
+
       server.start();
+      if (firstStart == true) {
+        System.out.println("First time starting GWiki.\nBuild index. This can take a few minutes...");
+        buildIndex(jettyConfig, wikiServlet);
+        System.out.println("Finished intial indexing.");
+      }
+
       server.join();
     } catch (RuntimeException ex) {
       throw ex;
