@@ -1,16 +1,4 @@
-{html}
-<center>
-<b><large>Willkommen bei GWiki</large></b><br/>
-</center>
-{html}
+h1. About GWiki
 
-{panel:title=Neues}
-Letzte Änderungen am GWiki siehe [gwikidocs/GWikiChangeLog].
-{panel}
-{html}<table border="0"><tr><td valign="top">{html}
-h4. Inhalt
-{children:depth=2|sort=title}
-{html}</td><td  valign="top">{html}
-h4. Zuletzt aktualisiert
-{recently}
-{html}</td></tr></table>{html}
+h2. Content
+{children:withPageIntro=true|depth=2} 
