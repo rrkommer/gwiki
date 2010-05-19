@@ -23,6 +23,6 @@ new de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro().render(
 To pass argument to the macro
 
 h2. Use gspt Macros
-{note:title=TODO}
+{todo}
 Document
-{note}
+{todo}

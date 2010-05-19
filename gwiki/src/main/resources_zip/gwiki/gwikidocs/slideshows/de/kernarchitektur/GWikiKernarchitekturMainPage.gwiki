@@ -1,4 +1,4 @@
-{slideshow}
+{slideshow:incremental=true}
 {slidehandout}
 {pageintro}
 Vorstellung der Kernarchitektur von GWiki.
@@ -77,8 +77,12 @@ Multipurpose Wiki.
 - 98% Lesen, 2% Schreiben.
 {slide}
 
+{slide:title=Was sind GWiki Services}
+- Java Interfaces
+- Setzen durch Spring Bean XML-Datei
+{slide}
 {slide:title=GWiki Services}
-Interne Services von GWiki werden durch eine XML-Contextdatei definiert.
+ {div:style=font-size:0.9em;}
 - Storage
 - Suche
 - Authorization
@@ -88,9 +92,10 @@ Interne Services von GWiki werden durch eine XML-Contextdatei definiert.
 - Logging
 - Session
 - Cache
+{div}
 {slide}
 
-{slide:title=Persistanz}
+{slide:title=Persistenz}
 Wahl der Persistenz
 
 - Universell, Flexibel
@@ -104,16 +109,21 @@ Wahl der Persistenz
 {slide}
 
 {slide:title=Suchengine}
+{div:style=font-size:0.8em;}
 - Volltextsuche
 - Clusterfähig
 - Datenbank oder Dateisystem
-=> Standardlösung Lucene passt nicht.
-- HTML
-- Wiki (mit Gewichtung)
-- PDF, Word, Texte
-Annahmen
+{div}
+- => Standardlösung Lucene passt nicht.
+{div:style=font-size:0.8em;}
+- Wiki, HTML (mit Gewichtung)
+- PDF, Word, Excel, PPT, Texte
+{div}
+- Annahmen:
+{div:style=font-size:0.8em;}
 - Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)
 - Seltene Updates.
+{div}
 {slide}
 
 {slide:title=Mounted Filesystem}
@@ -121,14 +131,55 @@ Virtuelle Dateisysteme können kombiniert werden.
 - ROM/RAM: ROM als ZIP im jar enthält Basisseiten. Copy-On-Write in RAM (z.B. DB)
 - Multimount
 
-Beispiele:
-- directory/-: Lese/Schreibe alle Elemente unter directory oder
-- TextIndex.txt: Lese/Schreibe alle Elemente die mit TextIndex.txt enden
-
-in ein spezielles Dateisystem.
+- Beispiele:
+-- directory/-: Lese/Schreibe alle Elemente unter directory oder
+-- TextIndex.txt: Lese/Schreibe alle Elemente die mit TextIndex.txt enden in ein spezielles Dateisystem.
 {slide}
+{slide:title=Mounted Filesystem Beispiel}
+{div:style=font-size:0.8em}
+{code}
+<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+	<constructor-arg>
+		<bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
+			<constructor-arg>
+				<map>
+					<entry
+						key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+						<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+							<constructor-arg>
+								<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+							</constructor-arg>
+						</bean>
 
-{slide:title=Authorizaiton}
+					</entry>
+					<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*">
+						<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+							<constructor-arg>
+								<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+							</constructor-arg>
+						</bean>
+					</entry>
+					<entry key="+pub/*">
+						<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+							<constructor-arg>
+								<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+							</constructor-arg>
+						</bean>
+					</entry>
+					<entry key="*">
+						<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+							<constructor-arg>
+								<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+							</constructor-arg>
+						</bean>
+					</entry>
+				</map>
+			</constructor-arg>
+		</bean>
+{code}
+{div}
+{slide}
+{slide:title=Authorization}
 - GWiki liefert eigene Implemtierung mit User-Management
 - Einfaches Interface
 - Rechte sind einfache Strings
@@ -137,6 +188,7 @@ in ein spezielles Dateisystem.
 {slide}
 
 {slide:title=Interne Filter}
+Filter können über die WikiConfig online eingetragen werden.
 Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Filter unterstützt:
 - Pesistenz (Laden, Schreiben, Löschen)
 - Ausführen auf Elementebene
@@ -152,13 +204,15 @@ Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Fil
 *Alles ist Wiki*
 
 Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
+{div:style=font-size:0.8em}
 - Konfigurationen, Metatemplates
 - Seiten, Attachments, Kommentare
 - Interne Seiten, I18N-Dateien
 - Templates, Skins, Macros
 - User
 - Suchindice, Temparäre Daten
-und haben dadurch einen kanonischen Namen.
+{div}
+- und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=GWikiElement Hierarchie}
@@ -173,6 +227,7 @@ und haben dadurch einen kanonischen Namen.
 -- Rechte
 -- Elementtyp 
 -- *Metatemplate*
+-- und eigen definierte Schlüssel.
 {slide}
 
 {slide:title=Metatemplate}
@@ -184,37 +239,39 @@ und haben dadurch einen kanonischen Namen.
 {slide}
 
 {slide:title=Metatemplate WikiProg}
+{div:style=font-size:0.8em}
 {code}
-<bean id="config"
-		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
-		singleton="false">
-		<property name="elementType" value="gwiki" />
-		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
-		<!--  1 Week -->
-		<property name="elementLifeTime" value="604800000" />
-		<property name="parts">
-			<map>
-				<entry key="Controler">
-					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
-						<property name="forward">
-							<bean
-								class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt">
-								<property name="parts">
-									<map>
-										<entry key="MainPage">
-											<bean
-												class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
-										</entry>
-									</map>
-								</property>
-							</bean>
-						</property>
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
+<bean id="config" class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+	singleton="false">
+	<property name="elementType" value="gwiki" />
+	<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+	<!--  1 Week -->
+	<property name="elementLifeTime" value="604800000" />
+	<property name="parts">
+		<map>
+			<entry key="Controler">
+				<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+					<property name="forward">
+						<bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt">
+							<property name="parts">
+								<map>
+									<entry key="MainPage">
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+									</entry>
+								</map>
+							</property>
+						</bean>
+					</property>
+				</bean>
+			</entry>
+		</map>
+	</property>
+</bean>
 {code}
+{div}
+- -> Beispiel WikiControl
 {slide}
 
 {slide:title=GWikiArtefakt}
@@ -325,5 +382,11 @@ Macros mit
 -- Rich Text Editor
 - Spassfaktor:
 -- Konzept "Alles ist Wiki" geht auf.
+{slide}
+{slide:title=Fin}
+\\
+\\
+\\
+{center}Vielen Dank für die Aufmerksamkeit.{center}
 {slide}
 {slideshow}
