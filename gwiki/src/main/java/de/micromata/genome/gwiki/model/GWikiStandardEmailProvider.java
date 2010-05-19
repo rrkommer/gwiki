@@ -45,7 +45,7 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
       sendEmailImpl(ctx);
       GWikiLog.note("Send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
     } catch (MessagingException ex) {
-      GWikiLog.warn("Fail to send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
+      GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage, ctx.toString());
     }
   }
 
