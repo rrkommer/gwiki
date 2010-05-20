@@ -45,9 +45,11 @@ public class GWikiJettyStarter
   public void buildIndex(JettyConfig jettyConfig, GWikiServlet wikiServlet)
   {
     GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
-
+    String servletPath = "";
+    nwiki.setContextPath(jettyConfig.getContextPath());
+    nwiki.setServletPath(servletPath);
     try {
-      GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), "/");
+      GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), servletPath);
       GWikiContext.setCurrent(ctx);
       nwiki.loadWeb();
       SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
@@ -84,6 +86,9 @@ public class GWikiJettyStarter
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
       // upload applet needs this. set limit to 100mb
       context.setMaxFormContentSize(1024 * 1024 * 100);
+      if (jettyConfig.getContextPath() == null || jettyConfig.getContextPath().equals("/") == true) {
+        jettyConfig.setContextPath("");
+      }
       context.setContextPath(jettyConfig.getContextPath());
       context.setResourceBase(jettyConfig.getContextRoot());
 
