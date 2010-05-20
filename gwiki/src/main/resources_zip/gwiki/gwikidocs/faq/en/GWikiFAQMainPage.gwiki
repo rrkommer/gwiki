@@ -1,40 +1,37 @@
 {pageintro}
-Frequent asked Questions for GWiki.
+Frequently asked Questions
 {pageintro}
 
 {toc}
 
 h2. Common
-h3. What the name GWiki stands for?
+h3. What does the name GWiki stands for?
 
-Originally GWiki was developed as a plugin for a enterprise application management system called Genome, developed by Micromata.
-See [http://www.micromata.de/produkte/genome.jsp].
-
+GWiki was originally invented as a plugin for an enterprise application 
+management system called Genome, which was developed by Micromata. 
+See [http://www.micromata.de/produkte/genome.jsp] for more details.
 We shortened the name from Genome Wiki  to GWiki.
 
 h2. Edit Pages
-h3. How to rename a pageId?
-The function to rename a pageId can be found on the *Info* page.
-Renaming a pageId also fixes all parentPageId references on the child pages.
+h3. How to rename a page-Id
+The function to rename a page-Id can be found on the *Info* page.
+Renaming a page-Id also fixes all parent page-Id references 
+on the child pages.
 
 h3. How to import Word into Wiki Page?
-
-The Best way to import Word documents is to use the Rich Text editor.
-
- First open the source document in Word and copy the content text to import
- into the clipboard.
-
- Open an existing or new Wiki page and switch to Rich Text view. 
+The best way to import Word documents is to use the Rich Text editor.
+First of all open the source document in Word and copy the content text into the clipboard.
+Open an existing or a new Wiki page and switch to Rich Text view. 
 
 !gwikidocs/faq/en/PasteFromWordIcon.png!
 
- In the dialog box use Ctrl+V (or equavavilent on your operation system) to paste
- the word content from clipboard.
+In the dialog box use Ctrl+V (or its equivalent on your operation system) 
+to paste the content text from the clipboard.
 
- Finally select Insert Button to insert the text in your Wiki page.
+Finally select the insert button to insert the text in your Wiki page.
 
 h2. Macros
-h3. Wy a Macro is not known?
-Although documented using inside a wiki page, GWiki says, that the Macro is not known.
-Maybe the macro is not registered in the GWiki configuration.
-Please refer to [gwikidocs/howtos/en/CreateaMacro] or contact the GWiki administrator.
+h3. Why is there no Macro known?
+Although documented within a wiki page, GWiki reports the Macro as unknown? 
+Maybe the macro is not registered in the GWiki configuration. 
+In this case please refer to [gwikidocs/howtos/en/CreateaMacro] or contact the GWiki administrator.

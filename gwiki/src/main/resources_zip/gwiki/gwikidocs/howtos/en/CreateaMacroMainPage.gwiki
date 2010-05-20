@@ -1,30 +1,27 @@
 {pageintro}
-With Macros new dynamic parts and layout components can be introduced.
+New dynamic parts and layout components can be introduced with macros.
 {pageintro}
-The best way to learn how to write Macros is just to look, how existant Macros are written.
+The best way to learn how to write Macros is just to look, how existent Macros are written.
 
 h2. Macro written in Java
 h3. Overview of Interfaces
 A Macro has to implement the interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro}}. 
-If a macro has a body, like the code macro with starting {noformat}{code}body{code}{noformat}, the macro should also implement the marker interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro}}.
+If a macro has a body like the code macro with starting {noformat}{code}{body}{code}{noformat}, the macro should also implement the marker interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro}}.
 If the body of the macro itself is wiki code, the Macro should implement the marker interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro}}.
 
 
 Standard Macros also implement the interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro}}:
 
-The interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro}} is mainly used to produce new
-{{GWikiFragment}}s at compile time.
+The interface {{de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro}} is mainly used to produce new {{GWikiFragment}}s at compile time.
 
-For convinience, some base classes are provided:
-{{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean}} works like an ActionBean. In the Macro class extending this 
-class the Macro attributes will be set to bean properties of the macro.
+For convenience, some base classes are provided:
+{{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean}} works like an ActionBean. In the Macro class extending this class, the Macro attributes will be set to bean properties of the macro.
 
-Macros, which represents itself in Rich Text exitor as WYSIWYG Element should also implement the {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte}}
-interface, which provides some information how to transate HTML back to the macro definition.
+A Macro, which represents itself as WYSIWYG element in the Rich Text Editor should also implement the {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte}} interface, which provides some information how to translate HTML back to the macro definition.
 
-h3. Sample Simple Macro.
+h3. Sample Simple Macro
 
-Hier as sample the code for generating a local anchor:
+Here the code for generating a local anchor:
 {code}
 public class GWikiLocalAnchorMacroBean extends GWikiMacroBean
 {
