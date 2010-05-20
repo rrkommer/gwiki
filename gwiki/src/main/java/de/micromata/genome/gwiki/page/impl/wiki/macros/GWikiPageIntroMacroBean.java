@@ -50,7 +50,7 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
   public GWikiPageIntroMacroBean()
   {
     setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock));
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.TrimTextContent));
   }
 
   @Override
