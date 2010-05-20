@@ -1,0 +1,19 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+<gwiki:errors />
+<%  MainPage.render(wikiContext); %>
+
+<c:if test="${form.input != null}">
+  Hallo: <c:out value="${form.input}"/>
+</c:if>
+<hr>
+<h2>Formular</h2>
+<form method="post">
+
+Receiver: <gwiki:text size="50" property="receiver"/><br/>
+Subject: <gwiki:text size="50" property="subject"/><br/>
+<gwiki:textarea cols="80" rows="30" property="input"/><br/>
+<input type="submit" name="method_onSend" value="Send"><p/>
+
+
+<% wikiContext.skinInclude('standardfoot'); %>
