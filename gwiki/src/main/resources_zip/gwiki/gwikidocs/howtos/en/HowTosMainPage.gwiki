@@ -1,4 +1,4 @@
 {pageintro} 
-English language howtos.
+English language how-tos
 {pageintro}
 {children:depth=2|sort=title|withPageIntro=true}
