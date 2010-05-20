@@ -1,1 +1,1 @@
-{html}<div class="sitemap">{html}{children:all=true|sort=title|page=index}{html}</div>{html}
+{html}<div class="sitemap">{html}{children:all=true|sort=title|page=pub/en/Index}{html}</div>{html}
