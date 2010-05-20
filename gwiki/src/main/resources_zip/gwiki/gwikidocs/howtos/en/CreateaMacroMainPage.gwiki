@@ -121,3 +121,6 @@ If you don't want to register macro globally, you first can use the {{usemacro}}
 
 
 h2. Macros written with GSPT/jsp
+{todo}
+Document how to write Macro with gspt.
+{todo}

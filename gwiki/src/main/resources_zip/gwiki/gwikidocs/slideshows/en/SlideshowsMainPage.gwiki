@@ -1,6 +1,6 @@
-{pageintro} 
+{pageintro}
 Some presentation slide shows for/about GWiki.
 {pageintro}
 {children:depth=1|sort=title|withPageIntro=true}
 
-See also at [gwikidocs/presentations/index] for german slide shows.
+See also at [gwikidocs/slideshows/de/kernarchitektur/GWikiKernarchitektur] for german slide shows about internal architecture of GWiki.

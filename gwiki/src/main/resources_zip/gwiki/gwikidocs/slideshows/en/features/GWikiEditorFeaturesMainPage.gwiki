@@ -1,4 +1,4 @@
-{slideshow}
+{slideshow:incremental=true}
 {slidehandout}
 {pageintro}
 GWiki Features from editors view.
@@ -75,17 +75,14 @@ Autocomple functions for inserting links and images in the wiki and rich text ed
 
 {slide:title=Versioning}
 - Versions of pages and files
-
 {center}!gwikidocs/slideshows/en/features/PageInfoWithVersions.png!{center}
 {slide}
 
 {slide:title=Compare Versions}
 - Compare all artefakts of a Page/Element: 
-
 {center}!gwikidocs/slideshows/en/features/Compare Versions.png!{center}
 {slide}
-
-#{slide:title=Element Properties}
+{slide:title=Element Properties}
 Each Element has a collection of properties.
 The Metatemplate defines the collection of properties.
 Each property can have
@@ -101,14 +98,16 @@ Each property can have
 
 {slide:title=GWiki Rights}
 Each element (Page, Attachment, etc.) can have rights for
-- View element
-- Edit element
+-- View element
+-- Edit element
+{div:style=font-size:0.8em;}
 Rights for View or Edit Element
-- private: Only author can view/edit element
-- public: All users - including anonymous users - can view pages
-- derived: Same right as parent element
-- named: a named right 
+-- private: Only author can view/edit element
+-- public: All users - including anonymous users - can view pages
+-- derived: Same right as parent element
+-- named: a named right 
 The underlying Metatemplate can also restrict, which rights are required to create an element.
+{div}
 {slide}
 
 {slide:title=Search Content}
@@ -218,7 +217,6 @@ View and edit all Elements - including non-viewable.
 - Import Confluence Pages
 - Generate Word documents from page tree.
 - Manage Cache and Indice for development
-- WebDAV access to underlying virtual file system
 {slide}
 
 {slide:title=WebDAV Access}
@@ -235,6 +233,8 @@ For admistrational purposes a WEB-DAV Access to the underlying virtual file syst
 {slide}
 
 {slide:title=End}
+{incremental:disable=true}
 Thank you for your interest
+{incremental}
 {slide}
 {slideshow}
