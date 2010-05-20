@@ -21,7 +21,7 @@ Common attributes
 
 
 
-{note:TODO}
+{todo:title=Java}
 Implement of inputType
 - button
 - submit
@@ -29,6 +29,6 @@ Implement of inputType
 - list
 
 Validation rules for controls.
-{note}
+{todo}
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.blueprint.GWikiFormInputMacro}}.

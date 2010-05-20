@@ -34,7 +34,6 @@ Knowledge:
 - GWiki internals
 - JSP
 - Groovy (Java)
-
 {slide}
 {slide:title=Extending Goals}
 - Adapting to runtime environment
@@ -81,7 +80,7 @@ A Textarea:
 {slide:title=Blueprint result}
 {center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintResult.png|width=50%!{center}
 {slide}
-{slide:title=Extending Sample Slide shows 1}
+{slide:title=Extending Sample: Slide shows 1}
 Defining a new Meta template.
 {div:style=font-size:0.7em;}
 {code}
@@ -120,7 +119,7 @@ Defining a new Meta template.
 {div}
 {{"inc/s5template"}} defines a new template
 {slide}
-{slide:title=Extending Sample Slide shows 2}
+{slide:title=Extending Sample: Slide shows 2}
 The JSP Template
 {div:style=font-size:0.4em;}
 {code}
@@ -181,12 +180,12 @@ wikiContext.setRequestAttribute('GWIKI_SLIDESHOW_SECTION', 'slides');
 {code}
 {div}
 {slide}
-{slide:title=Extending Sample Slide shows 3}
+{slide:title=Extending Sample: Slide shows 3}
 Create some Macros
 - slideshow, slideheader, slidefooter, slide, ...
 
 {slide}
-{slide:title=Extending Sample Comments}
+{slide:title=Extending Sample: Comments}
 - Comments specific Macros.
 - Inserted into wiki or in template.
 - ActionBean handling macro command (create, edit, delete)
@@ -241,30 +240,77 @@ for (int i in 1..10) {
 - Make usage of GWiki functions in your web applications.
 - Embedd content centric pages in your application
 - Make gui parts editable by business department.
+- => Register GWiki Servlet in your web.xml
 {slide}
 {slide:title=Integrate for Internationalization}
-
+- Use Standard Java I18N properties in common Frameworks.
+- Example, JSP: <fmt:message key="my.key"/>
+{center}!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=60%!{center}
 {slide}
 {slide:title=Integrate for GUI parts}
-
-{slide}
-{slide:title=Content Management}
-
-{slide}
-
-
-{slide:title=Developing}
-GWiki can be used as rapid development plattform.
-
-Using MVC Modell to create and edit Web forms online.
-
-{slide}
-
-{slide:title=Controler and View}
-
+- Dynamic Pages with logic (developers part) and text (business part).
+- HTML. Too complex for I18N.
+- => Just include page or fragment of page\\
+ {{pageContext.include("/gwiki/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");}}
+- If current user has edit rights, directly can edit fragment.
 {slide}
 
 {slide:title=Wicket Support}
+- Using gwiki internationalization.
+- Use GWiki Fragments to embedd editable parts in the Wicket page.
+- Use GWiki to manage HTML files used by Wicket as template to render the view.
+{slide}
 
+{slide:title=Content Management}
+- Manage online Help, FAQ, etc.
+- Manage files.
+{slide}
+
+
+{slide:title=Developing Applications}
+GWiki can be used as rapid development plattform.
+- Create dynamic web applications without need of an additionally framework.
+- Create online modification without need of redeployment.
+- Track modification with integrated version management.
+{slide}
+{slide:title=Developing GWiki}
+\\
+\\
+\\
+Future plans in GWiki Development.
+
+{slide}
+{slide:title=Developing GWiki Improvments}
+- GUI polishing
+- Editor refinements
+- Rich Text Editor
+- User Managment.
+{slide}
+{slide:title=Developing GWiki New Core Features}
+- Database support for more data bases like PosteSQL, MS SQL, mySQL. Please leave a message.
+- Support something like a draft version. Include a release mechanism for publish drafts.
+- Integrate versioned ClassLoader (genome)
+- Improved User Management
+- Drop in Plugins
+- Better Document generation process (PDF, Word)
+{slide}
+{slide:title=Developing GWiki Web 2.0}
+- RSS/Atom Feeds
+- Inter-Wiki Links / Backtrack links.
+- Wiki as Google App
+- Portlet
+{slide}
+{slide:title=Developing GWiki Ad Ons}
+- Macros, Skins, Macros, Macros
+- Blog Plugin. Integrate Blog in GWiki just with a macro. The work is already started, but not finished yet.
+- Forum Plugin. Create Forums inside GWiki.
+- Virtual Content Folder Macro: To integrate external HTML files - for example Java Doc and own gwiki element will be provided.
+{slide}
+{slide:title=Developing GWiki Cloud}
+- Wiki as Service
+- Virtualize GWiki instances
+- Distributed Wikis.
+{slide}
+{slide:title=End}
 {slide}
 {slideshow}
