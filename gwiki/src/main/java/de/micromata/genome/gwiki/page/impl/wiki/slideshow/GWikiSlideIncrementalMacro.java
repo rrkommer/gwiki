@@ -24,7 +24,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
 
 /**
  * Render sub elements incremental.
@@ -36,6 +35,11 @@ public class GWikiSlideIncrementalMacro extends GWikiMacroBean implements GWikiB
 {
 
   private static final long serialVersionUID = -3283862218643300087L;
+
+  /**
+   * if true disable incremental.
+   */
+  private boolean disable = false;
 
   public GWikiSlideIncrementalMacro()
   {
@@ -52,15 +56,27 @@ public class GWikiSlideIncrementalMacro extends GWikiMacroBean implements GWikiB
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     if (attrs.getChildFragment().getChilds().isEmpty() == false) {
-      GWikiFragment cf = attrs.getChildFragment().getChilds().get(0);
-      if (cf instanceof GWikiFragmentList) {
-        GWikiFragmentList fl = (GWikiFragmentList) cf;
-        if (fl.getAddClass() == null) {
-          fl.setAddClass("incremental");
-        }
-      }
+      GWikiFragment cf = attrs.getChildFragment();
+      GWikiSlideIncrementPatcherFragmentVisitor visitor = new GWikiSlideIncrementPatcherFragmentVisitor();
+      cf.iterate(visitor);
+      // if (cf instanceof GWikiFragmentList) {
+      // GWikiFragmentList fl = (GWikiFragmentList) cf;
+      // if (fl.getAddClass() == null) {
+      // fl.setAddClass("incremental");
+      // }
+      // }
     }
     attrs.getChildFragment().render(ctx);
     return true;
+  }
+
+  public boolean isDisable()
+  {
+    return disable;
+  }
+
+  public void setDisable(boolean disable)
+  {
+    this.disable = disable;
   }
 }

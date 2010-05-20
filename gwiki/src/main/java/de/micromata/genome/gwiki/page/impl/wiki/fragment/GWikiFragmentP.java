@@ -34,6 +34,11 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
 
   private static final long serialVersionUID = -8245596367479475761L;
 
+  /**
+   * TODO later. Create Class HtmlAttrs witch contains class.
+   */
+  private String addClass;
+
   public GWikiFragmentP()
   {
     // super("<p/>\n");
@@ -60,12 +65,30 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
       return true;
     }
     if (childs != null && childs.size() > 0) {
-      ctx.append("<p>");
+      if (addClass != null) {
+        ctx.append("<p class=\"").append(addClass).append("\">");
+      } else {
+        ctx.append("<p>");
+      }
       renderChilds(ctx);
       ctx.append("</p>\n");
     } else {
-      ctx.append("<p/>\n");
+      if (addClass != null) {
+        ctx.append("<p class=\"").append(addClass).append("\"/>\n");
+      } else {
+        ctx.append("<p>\n");
+      }
     }
     return true;
+  }
+
+  public String getAddClass()
+  {
+    return addClass;
+  }
+
+  public void setAddClass(String addClass)
+  {
+    this.addClass = addClass;
   }
 }
