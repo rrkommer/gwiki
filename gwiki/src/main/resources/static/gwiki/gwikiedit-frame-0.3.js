@@ -542,7 +542,7 @@ function gwikimaximizeWindow(framId, partName) {
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css( {
 		'position' : position,
-		'z-index' : '999999',
+		'z-index' : '1001',
 		'left' : '0px',
 		'top' : '0px',
 		'width' : vp.w, // width + 'px',
