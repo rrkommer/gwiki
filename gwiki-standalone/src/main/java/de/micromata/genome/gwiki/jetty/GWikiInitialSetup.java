@@ -132,6 +132,29 @@ public class GWikiInitialSetup
 
   }
 
+  protected void checkEmailServer(Properties props)
+  {
+    if (ask("GWiki sends email to notify page changes and in case user resets the password.\n"
+        + "Do you want to configure an Email server?") == false) {
+      return;
+    }
+    String server = getInput("Mail servers hostname");
+    props.put("mail.smtp.host", server);
+    String port = getInput("Mail servers port", "25");
+    props.put("mail.smtp.host", port);
+    if (ask("Need your email server authentification?") == true) {
+      props.put("mail.smtp.auth", "true");
+      message("Input now email server account data. The password will be stored as clear text in the gwiki.properties");
+      String user = getInput("email server user");
+      props.put("mail.smtp.user", user);
+      String pass = getInput("email server user");
+      props.put("mail.smtp.password", pass);
+    } else {
+      props.put("mail.smtp.auth", "false");
+    }
+
+  }
+
   protected boolean checkBasicSettings()
   {
     File propFile = new File(gwikiPropFileName);
@@ -226,6 +249,7 @@ public class GWikiInitialSetup
       break;
     } while (true);
 
+    checkEmailServer(props);
     message("Configuration finished.\n");
     props.put("de.micromata.genome.gwiki.contextfile", contextFile);
     try {
