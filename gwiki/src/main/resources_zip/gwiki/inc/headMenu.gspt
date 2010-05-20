@@ -1,4 +1,5 @@
-<!-- headMenu.gspt START --> 
+<!-- headMenu.gspt START -->
+<%-- wird bei gwiki skin nicht gezogen --%> 
  <ul id="menuone" class="menu" style="text-align: right">
  			<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">  
         <li class="menumain"><fmt:message key="gwiki.page.headmenu.Page"/>
