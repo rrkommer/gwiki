@@ -1,6 +1,8 @@
 {pageintro}
-GWiki for download.
+Download GWiki application and developer libraries.
 {pageintro}
+
+{toc}
 
 h2. Standalone Desktop Installation
 Take a look at the GWiki desktop installation.
@@ -12,7 +14,17 @@ h3. Releases
 Currenty no releases are available.
 
 h3. Snapshots
-[gwiki-standalone-0.3.1-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT/gwiki-standalone-0.3.1-SNAPSHOT.zip]
+Snapshot of the Standalone Desktop binary: [gwiki-standalone-0.3.1-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT/gwiki-standalone-0.3.1-SNAPSHOT.zip]
+All files:
+{html}
+<div style="font-size: 0.5em;">
+<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT" scrolling="yes"> 
+   <a href="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT">Snapshots</a>
+
+</iframe> 
+</div> 
+{html}
+
 
 
 h2. Developer of GWiki
@@ -26,7 +38,5 @@ h3. Snapshots
 If you use maven, please check our nexus repository at:
 [http://labs.micromata.de/nexus]
 
-for gwiki related snapshots.
-
-For direct download please refer to: 
+for gwiki related snapshots or browse/download file directly:
 [http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/]
