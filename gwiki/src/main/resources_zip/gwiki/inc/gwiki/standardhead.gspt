@@ -51,6 +51,7 @@ function gwikiToggleExplorer()
 						</div>
 				
 					</div> <!-- gwikiMasthead END -->
+<%--					
 							<div style="position: absolute;top: 2em;left: 15em;">
 							I
 							<% for (ei in wikiContext.getElementFinder().getPageDirectPages(wikiContext.getRequestAttribute("welcomePageId"))) { 
@@ -59,7 +60,8 @@ function gwikiToggleExplorer()
 									}%>
 									<a href="<%= wikiContext.localUrl("/" + ei.getId()) %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a> I
 							<% } %>
-					</div>				
+					</div>
+--%>				
 					<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
 						
 						<div id="gwikiSearchmenu">
