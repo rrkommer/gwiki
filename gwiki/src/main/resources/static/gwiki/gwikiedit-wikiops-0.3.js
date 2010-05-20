@@ -48,7 +48,7 @@ function wikiEditInsertImage(options, field) {
 function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 
 	var modc = $("#editDialogBox");
-	modc.html("Link: <input size=\"35\" type=\"text\" id=\"linkpropt\">");
+	modc.html("Link: <input size=\"30\" type=\"text\" id=\"linkpropt\">");
 	var dialog = $("#editDialogBox").dialog(
 			{
 				modal : true,
@@ -57,7 +57,7 @@ function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 							options.linkAutoCompleteUrl + "?pageType=" + pageType, {
 								matchContains : true,
 								minChars : 0,
-								width : 350,
+								width : 300,
 								formatItem : function(row) {
 									return row[1] + "<br><i>(" + row[0] + ")</i>";
 								}

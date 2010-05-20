@@ -15,12 +15,12 @@ function gwikiEscapeInput(str) {
 
 function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
-	var dlghtml = "Title: <input size=\"35\" type=\"text\" id=\"linkprtitle\"";
+	var dlghtml = "Title: <input size=\"30\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
 	}
 	dlghtml += "><br/>\n"
-			+ "Link: <input size=\"35\" type=\"text\" id=\"linkpropt\"";
+			+ "Link: <input size=\"30\" type=\"text\" id=\"linkpropt\"";
 	if (currentLink.url) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
 	}
@@ -33,7 +33,7 @@ function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback)
 			$('#linkpropt').autocomplete("./PageSuggestions?pageType=" + pageType, {
 				matchContains : true,
 				minChars : 0,
-				width : 350,
+				width : 300,
 				cacheLength : 1,
 				max : 1000,
 				formatItem : function(row) {
