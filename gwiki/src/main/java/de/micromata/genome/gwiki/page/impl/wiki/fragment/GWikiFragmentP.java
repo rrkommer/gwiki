@@ -76,7 +76,7 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
       if (addClass != null) {
         ctx.append("<p class=\"").append(addClass).append("\"/>\n");
       } else {
-        ctx.append("<p>\n");
+        ctx.append("<p/>\n");
       }
     }
     return true;
