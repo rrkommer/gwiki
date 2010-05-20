@@ -38,9 +38,8 @@ if (showSlide) {
 <%	
 } else {
 	wikiContext.skinInclude('standardhead');
-%>	<a target="slideshow" href="#" 
-	onclick="window.open('<%=wikiContext.localUrl(wikiContext.getCurrentElement().getElementInfo().getId()) %>?asSlide=true', 'gwiki_slideshow', 'resizable, scrollbars'); return false;">
-	Show this page as slide show</a><br/>
+%>	<a class="startSlide" target="slideshow" href="#" 
+	onclick="window.open('<%=wikiContext.localUrl(wikiContext.getCurrentElement().getElementInfo().getId()) %>?asSlide=true', 'gwiki_slideshow', 'resizable, scrollbars'); return false;"><span>Show this page as slide show</span></a><br/>
 <%
 }
 %>
