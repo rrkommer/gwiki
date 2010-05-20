@@ -74,7 +74,7 @@ li.gwikiNavMenu {
 
 #gwikiQuicksearch {
 	float: right;
-	margin: 0em 0 0;
+	margin: 0;
 }
 
 .gwikiSearchBarIcon {
@@ -221,4 +221,25 @@ div.clearAll {
 
 #gwikiFooter p.imprint a:hover {
 	color: #fff;
+}
+/* Start-Button for S5 */
+a.startSlide {
+background:#F2F4F5;
+border:1px solid #919CA9;
+padding:5px 5px;
+text-decoration:none;
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+}
+a.startSlide span {
+color:#919CA9;
+padding:0 10px;
+}
+a.startSlide:hover {
+background:#919CA9;
+text-decoration:none;
+}
+a.startSlide:hover span {
+color:#FFFFFF;
 }
