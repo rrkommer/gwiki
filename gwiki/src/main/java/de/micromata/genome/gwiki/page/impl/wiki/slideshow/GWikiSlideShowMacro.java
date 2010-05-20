@@ -34,8 +34,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentList;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
@@ -100,18 +98,8 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
       if (patchedIncremental == true) {
         return;
       }
-      attrs.getChildFragment().iterate(new GWikiSimpleFragmentVisitor() {
-
-        public void begin(GWikiFragment fragment)
-        {
-          if (fragment instanceof GWikiFragmentList) {
-            GWikiFragmentList fl = (GWikiFragmentList) fragment;
-            if (fl.getAddClass() == null) {
-              fl.setAddClass("incremental");
-            }
-          }
-        }
-      });
+      GWikiSlideIncrementPatcherFragmentVisitor visitor = new GWikiSlideIncrementPatcherFragmentVisitor();
+      attrs.getChildFragment().iterate(visitor);
       patchedIncremental = true;
     }
   }
