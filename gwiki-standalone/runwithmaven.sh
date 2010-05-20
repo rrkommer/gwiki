@@ -1,1 +1,1 @@
-nohup mvn exec:java -Dexec.mainClass="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" -Dde.micromata.genome.gwiki.contextfile=src/main/resources/GWikiContext.xml -Dgwiki.dev.path=../gwiki&
+nohup mvn exec:java -Dexec.mainClass="de.micromata.genome.gwiki.jetty.GWikiJettyStarter" -Dgwiki.properties.file=gwiki-its.properties&
