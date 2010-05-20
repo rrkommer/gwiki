@@ -188,7 +188,14 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     if (StringUtils.isBlank(right) == true)
       return true;
 
-    return getSingleUser(ctx).getRightsMatcher().match(right);
+    GWikiSimpleUser su = getSingleUser(ctx);
+    if (su == null) {
+      return false;
+    }
+    if (su.getRightsMatcher() == null) {
+      return false;
+    }
+    return su.getRightsMatcher().match(right);
   }
 
   public String getUserProp(GWikiContext ctx, String key)
