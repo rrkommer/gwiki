@@ -88,6 +88,13 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
 
       GWikiElement el = wikiContext.getWikiWeb().getElement(ei);
       Map<String, GWikiArtefakt< ? >> m = new HashMap<String, GWikiArtefakt< ? >>();
+      final Set<String> mll = new TreeSet<String>();
+      if (StringUtils.isNotEmpty(ei.getParentId()) == true) {
+        if (wikiContext.getWikiWeb().findElementInfo(ei.getParentId()) == null) {
+          mll.add(ei.getParentId());
+        }
+      }
+
       el.collectParts(m);
       for (GWikiArtefakt< ? > a : m.values()) {
         if (a instanceof GWikiWikiPageArtefakt) {
@@ -98,7 +105,7 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
           if (w.getCompiledObject() == null) {
             continue;
           }
-          final Set<String> mll = new TreeSet<String>();
+
           w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
 
             public void begin(GWikiFragment fragment)
@@ -115,9 +122,9 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
               }
             }
           });
-          if (mll.isEmpty() == false) {
-            missingLinks.put(ei.getId(), mll);
-          }
+        }
+        if (mll.isEmpty() == false) {
+          missingLinks.put(ei.getId(), mll);
         }
       }
     }
