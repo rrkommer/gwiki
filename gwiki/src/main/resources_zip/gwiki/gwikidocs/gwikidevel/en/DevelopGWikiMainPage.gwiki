@@ -2,6 +2,11 @@
 How to develop gwiki itself.
 {pageintro}
 
+{todo}
+This description currently only work with access to internal micromata resources. 
+This chapter will be revised, if GWiki is also available via public SNV.
+{todo}
+
 h2. Requirements
 - JDK 1.5 or higher
 - Ecplipse (recomended)
