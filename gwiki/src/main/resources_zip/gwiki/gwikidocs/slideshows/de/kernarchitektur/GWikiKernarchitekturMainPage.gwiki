@@ -107,25 +107,6 @@ Wahl der Persistenz
 
 - FileSystem Event für Clustering
 {slide}
-
-{slide:title=Suchengine}
-{div:style=font-size:0.8em;}
-- Volltextsuche
-- Clusterfähig
-- Datenbank oder Dateisystem
-{div}
-- => Standardlösung Lucene passt nicht.
-{div:style=font-size:0.8em;}
-- Wiki, HTML (mit Gewichtung)
-- PDF, Word, Excel, PPT, Texte
-{div}
-- Annahmen:
-{div:style=font-size:0.8em;}
-- Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)
-- Seltene Updates.
-{div}
-{slide}
-
 {slide:title=Mounted Filesystem}
 Virtuelle Dateisysteme können kombiniert werden.
 - ROM/RAM: ROM als ZIP im jar enthält Basisseiten. Copy-On-Write in RAM (z.B. DB)
@@ -179,6 +160,25 @@ Virtuelle Dateisysteme können kombiniert werden.
 {code}
 {div}
 {slide}
+{slide:title=Suchengine}
+{div:style=font-size:0.8em;}
+- Volltextsuche
+- Clusterfähig
+- Datenbank oder Dateisystem
+{div}
+- => Standardlösung Lucene passt nicht.
+{div:style=font-size:0.8em;}
+- Wiki, HTML (mit Gewichtung)
+- PDF, Word, Excel, PPT, Texte
+{div}
+- Annahmen:
+{div:style=font-size:0.8em;}
+- Einfacher Textbasierter Index passt in RAM. (=> ca. 1.000 Seiten ~ 500 kb.)
+- Seltene Updates.
+{div}
+{slide}
+
+
 {slide:title=Authorization}
 - GWiki liefert eigene Implemtierung mit User-Management
 - Einfaches Interface

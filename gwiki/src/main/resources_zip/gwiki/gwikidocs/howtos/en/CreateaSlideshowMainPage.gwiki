@@ -1,7 +1,7 @@
 {pageintro}
 Create a HTML slide show with GWiki.
 {pageintro}
-The GWiki-Markup language is like other wikis, for example Confluence. Look at the [WikiSyntax] for further informations. 
+The GWiki-Markup language is like other wikis, for example Confluence. Look at the [gwikidocs/help/en/WikiSyntax] for further informations. 
 
 For usage of a slide show, please refere to [gwikidocs/macros/en/Macroslideshow].
 

@@ -120,8 +120,8 @@ Defining a new Meta template.
 {{"inc/s5template"}} defines a new template
 {slide}
 {slide:title=Extending Sample: Slide shows 2}
+{div:style=font-size:0.6em;}
 The JSP Template
-{div:style=font-size:0.4em;}
 {code}
 boolean showSlide = "true".equals(wikiContext.getRequestParameter('asSlide'));
 if (showSlide) {
@@ -168,15 +168,7 @@ if (showSlide) {
 wikiContext.setRequestAttribute('GWIKI_SLIDESHOW_SECTION', 'slides');
 	MainPage.render(wikiContext);
 %>
-
-<% if (showSlide == false) {
-	wikiContext.skinInclude('standardfoot'); 
-} else {
-%>
-</div>
-</body>
-</html>
-<%} %>
+....
 {code}
 {div}
 {slide}
@@ -223,7 +215,10 @@ for (int i in 1..10) {
 }
 {groovy}
 {code}
-
+Access to:
+- GWiki infrastructure
+- GWiki Element+Artefakt
+- Web application
 {slide}
 {slide:title=All is GWiki}
 - All internal pages in GWiki are implemented using GWiki.
