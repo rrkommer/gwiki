@@ -48,11 +48,11 @@
 
 ul.gwikiMenuone {
 	/* not in gwikimenubar otherwise flickering ie */
-		height: 3em;
+		height: 2em;
 	/*z-index: 1;*/
 	position: absolute;
 	right: 1.2em;
-	top: 7em;
+	top: 6em;
 	margin: 0;
 	padding: 0;
 }
