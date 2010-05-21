@@ -5,6 +5,7 @@ How to install GWiki.
 h2. Installation of GWiki Standalone
 GWiki provides a standalone desktop installation with nearly zero configuration effort.
 
+
 After downloading the wiki standalone distribution, unzip the archive in a new directory.
 {info:title=Mac OS X}
 On a Mac OS X environment, ensure not to unpack archive on a network directory, because mounted file systems on Mac doesn't support locking operations.
@@ -18,6 +19,8 @@ gwikiweb.sh
 .
 
 The shell script asumes, that a Java JDK 1.5 or higher can be located in the path environment.
+
+Please use an up-to-date Java version. You can download Java from: [http://java.sun.com/javase/downloads/widget/jdk6.jsp].
 
 If java cannot be found or the java in the java in the path has wrong java version, please modify the script for your needs.
 
