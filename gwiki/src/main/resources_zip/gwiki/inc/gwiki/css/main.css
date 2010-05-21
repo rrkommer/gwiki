@@ -18,14 +18,12 @@
 	padding-left: 1.0em;
 	margin: 0 auto;
 	/*width:90em;*/
-	background: transparent url("../img/gui/contentbg_left.png") no-repeat
-		0em 6em;
+	background: transparent url("../img/gui/contentbg_left.png") no-repeat	0em 5em;
 }
 
 #gwikiWrapper {
 	padding-right: 0.0em;
-	background: transparent url("../img/gui/contentbg.png") no-repeat 100%
-		6em;
+	background: transparent url("../img/gui/contentbg.png") no-repeat 100%	5em;
 }
 
 .gwikiExplorer {
@@ -59,7 +57,7 @@ li.gwikiNavMenu {
 #gwikiHead {
 	margin: 0;
 	padding: 0;
-	height: 4.0em;
+	height: 3.0em;
 }
 
 #gwikiMasthead {
