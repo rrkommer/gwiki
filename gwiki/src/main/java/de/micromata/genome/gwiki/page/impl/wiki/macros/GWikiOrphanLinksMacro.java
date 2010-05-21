@@ -130,6 +130,7 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
     }
     for (Map.Entry<String, Set<String>> me : missingLinks.entrySet()) {
       wikiContext.append(wikiContext.renderLocalUrl(me.getKey()));
+      wikiContext.append(" <a href=\"" + wikiContext.localUrl("edit/EditPage") + "?pageId=" + me.getKey() + "\">(Edit)</a>");
       wikiContext.append(": ");
       boolean first = true;
       for (String tl : me.getValue()) {
