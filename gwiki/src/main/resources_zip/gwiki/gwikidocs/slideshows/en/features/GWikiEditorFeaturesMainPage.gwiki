@@ -85,7 +85,7 @@ Autocomple functions for inserting links and images in the wiki and rich text ed
 {slide:title=Element Properties}
 Each Element has a collection of properties.
 The Metatemplate defines the collection of properties.
-Each property can have
+Each property is defined by
 - How to display the property (Editor)
 - Validators
 - Required rights to view and edit the property value.
