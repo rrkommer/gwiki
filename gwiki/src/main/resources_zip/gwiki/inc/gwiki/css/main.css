@@ -231,22 +231,23 @@ div.clearAll {
 }
 /* Start-Button for S5 */
 a.startSlide {
-background:#F2F4F5;
-border:1px solid #919CA9;
-padding:5px 5px;
-text-decoration:none;
-border-radius: 3px;
--moz-border-radius: 3px;
--webkit-border-radius: 3px;
+	background:#F2F4F5;
+	border:1px solid #919CA9;
+	padding:5px 5px;
+	text-decoration:none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 a.startSlide span {
-color:#919CA9;
-padding:0 10px;
+	background: url("../img/icons/slide32.png") no-repeat 0 1px;
+	color:#919CA9;
+	padding:0 10px 0 20px;
 }
 a.startSlide:hover {
-background:#919CA9;
-text-decoration:none;
+	background:#919CA9;
+	text-decoration:none;
 }
 a.startSlide:hover span {
-color:#FFFFFF;
+	color:#FFFFFF;
 }
