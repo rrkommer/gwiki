@@ -59,12 +59,6 @@ public class GWikiSlideIncrementalMacro extends GWikiMacroBean implements GWikiB
       GWikiFragment cf = attrs.getChildFragment();
       GWikiSlideIncrementPatcherFragmentVisitor visitor = new GWikiSlideIncrementPatcherFragmentVisitor();
       cf.iterate(visitor);
-      // if (cf instanceof GWikiFragmentList) {
-      // GWikiFragmentList fl = (GWikiFragmentList) cf;
-      // if (fl.getAddClass() == null) {
-      // fl.setAddClass("incremental");
-      // }
-      // }
     }
     attrs.getChildFragment().render(ctx);
     return true;
