@@ -1,6 +1,6 @@
 <!-- headMenu.gspt START --> 
 
-<ul  class="menu gwikiMenuone" style="top: 4em;background-color: #EEEEEE; height: 2em;">
+<ul  class="menu gwikiMenuone" style="top: 3em;background-color: #EEEEEE; height: 2em;">
  <%-- USER MENU --%>
        <gwiki:authorize ifHasNot="GWIKI_VIEWPAGES">
        	<li class="gwikiMenumain"><a href="<gwiki:url value="/admin/Login"/>"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" >Login</span></a></li>
