@@ -160,6 +160,13 @@ div.clearAll {
 	color: #fff;
 	background: #080708 url("../img/gui/footer.png") repeat-x top left;
 }
+#gwikiFooter  a {
+	color: #fff;
+	text-decoration: none;
+}
+#gwikiFooter  a:hover {
+	color: #fff;
+}
 
 #gwikiFooter dl.gwikiFooter {
 	float: left;
