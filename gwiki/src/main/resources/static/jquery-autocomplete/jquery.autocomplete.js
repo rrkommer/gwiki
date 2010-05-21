@@ -724,7 +724,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			element.css({
 				width: typeof options.width == "string" || options.width > 0 ? options.width : $(input).width(),
 				top: offset.top + input.offsetHeight,
-				left: offset.left
+				left: offset.left + input.offsetWidth - options.width
 			}).show();
             if(options.scroll) {
                 list.scrollTop(0);
