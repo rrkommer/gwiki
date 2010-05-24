@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.page.impl.actionbean;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class ActionBeanBase implements ActionBean
@@ -68,5 +70,21 @@ public class ActionBeanBase implements ActionBean
   protected String translate(String key, Object... args)
   {
     return wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, key, null, args);
+  }
+
+  /**
+   * Escape html output
+   * 
+   * @param text
+   * @return
+   */
+  protected final String esc(String text)
+  {
+    return StringEscapeUtils.escapeHtml(text);
+  }
+
+  protected final String translateEsc(String key, Object... args)
+  {
+    return esc(translate(key, args));
   }
 }

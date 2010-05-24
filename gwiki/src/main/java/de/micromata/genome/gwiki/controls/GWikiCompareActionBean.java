@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
@@ -109,14 +108,6 @@ public class GWikiCompareActionBean extends ActionBeanBase
       ret.put(pn, buildPartDiffset(pn, la.get(pn), ra.get(pn)));
     }
     return ret;
-  }
-
-  public String esc(String str)
-  {
-    if (str == null) {
-      return "";
-    }
-    return StringEscapeUtils.escapeHtml(str);
   }
 
   protected Pair<String, String> getLineDiff(String left, String right)

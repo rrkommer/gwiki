@@ -135,10 +135,10 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
         String mds = new SimpleDateFormat(monthHeadFormatPattern, userLocale).format(monthDate);
         String thism = dayHeadReqFormat.get().format(CalendarControl.toFullDay(new Date(), userTimeZone));
         String pid = wikiContext.localUrl(blogPageId);
-        sb.append("<a href=\"").append(pid).append("\">All Entries</a><br/>\n");
+        sb.append("<a href=\"").append(pid).append("\">").append(translateEsc("gwiki.blog.page.allDays")).append("</a><br/>\n");
         sb.append("<a href=\"").append(pid)//
             .append("?selectedMonth=")//
-            .append(thism).append("\">").append("This month").append("</a>");
+            .append(thism).append("\">").append(translateEsc("gwiki.blog.page.thisMonth")).append("</a>");
         sb.append("<tr><td colspan=\"2\">") //
             .append("<a href=\"").append(pid).append("?selectedMonth=").append(
                 dayHeadReqFormat.get().format(CalendarControl.toPrevMonth(monthDate, userTimeZone))).append("\">&lt;&lt;</a>")//
