@@ -180,8 +180,8 @@ code,.preformatted {
 .wikiPageIntro {
 	border: 1px solid #BBBBBB;
 	padding-left: 1em;
-	padding-right:1em;
-	padding-top:0em;
+	padding-right: 1em;
+	padding-top: 0em;
 	padding-bottom: 0em;
 	margin-top: 1em;
 	margin-left: 0em;
@@ -192,7 +192,7 @@ code,.preformatted {
 }
 
 .wikiSmartTag {
-	list-style: -moz-background-clip :       border !important;
+	list-style: -moz-background-clip :         border !important;
 	-moz-background-inline-policy: continuous !important;
 	-moz-background-origin: padding !important;
 	background: transparent none repeat scroll 0 50% !important;
@@ -283,7 +283,9 @@ a.gwikiButton:hover {
 	-moz-background-clip: border;
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
-	background: transparent url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat scroll 20px 20px;
+	background: transparent
+		url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
+		scroll 20px 20px;
 }
 
 .wikiEditorTextArea {
@@ -317,4 +319,12 @@ a.gwikiButton:hover {
 	text-align: right;
 	font-size: 0.5em;
 	float: right;
+}
+
+.blogPageScroll {
+	text-align: center;
+}
+
+.blogNavCats {
+	text-align: center;
 }
