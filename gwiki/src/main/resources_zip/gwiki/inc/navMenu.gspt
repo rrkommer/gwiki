@@ -46,7 +46,7 @@ def renderMenu(wikiPage, wikiContext)
 		
 	}
 	idList = idList.reverse();
-		for (pi in idList) {
+	for (pi in idList) {
 			url = wikiContext.localUrl("/" + pi.getId());
 			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
 <% 
@@ -55,7 +55,9 @@ def renderMenu(wikiPage, wikiContext)
 	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
 	</ul>
 <br />
-<% List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
+<% if (wikiContext.getRequestAttribute("GWIKI_DISABLE_CHILD_NAV") != Boolean.TRUE) {
+	
+		List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
 	if (cel.isEmpty() == false) {
 %>
 <ul class="gwikiNavMenu">
@@ -73,6 +75,7 @@ def renderMenu(wikiPage, wikiContext)
 	<%	} %>
 	</ul> <%
 	}
+}
 }
 if (wikiWithNavNavigation) { 
 	renderMenu(wikiPage, wikiContext);
