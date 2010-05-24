@@ -2,10 +2,11 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<bean id="config"
-		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"  singleton="false">
-		<property name="elementType" value="attachment"/>
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="attachment" />
 		<!--  10 minutes -->
-		<property name="elementLifeTime" value="600000" /> 
+		<property name="elementLifeTime" value="600000" />
 		<property name="parts">
 			<map>
 				<entry key="Controler">
@@ -23,6 +24,26 @@
 					</bean>
 				</entry>
 			</map>
+		</property>
+		<property name="addPropsDescriptor">
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
+				<property name="descriptors">
+					<list>
+						<bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+							<property name="key" value="SIZE" />
+							<property name="label" value="I{gwiki.settings.SIZE.label}" />
+							<!--
+								<property name="description"
+								value="I{gwiki.settings.SIZE.description}" />
+							-->
+							<property name="readOnly" value="true" />
+							<property name="helpLink" value="gwikidocs/help/ElementSettings#SIZE" />
+							<property name="type" value="INTEGER" />
+						</bean>
+					</list>
+				</property>
+			</bean>
 		</property>
 	</bean>
 </beans>
