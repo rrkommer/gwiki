@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -69,7 +67,7 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
 
   private String blogCategory;
 
-  private List<GWikiElementInfo> shownBlogEntries = new ArrayList<GWikiElementInfo>();
+  protected List<GWikiElementInfo> shownBlogEntries = new ArrayList<GWikiElementInfo>();
 
   protected boolean init()
   {
@@ -208,21 +206,6 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     exec.render(wikiContext);
   }
 
-  protected Set<String> getBlogCategories()
-  {
-
-    Set<String> set = new TreeSet<String>();
-    // if (blogPage != null) {
-    // List<String> bcats = blogPage.getProps().getStringList("BLOG_CATS");
-    // set.addAll(bcats);
-    // }
-    for (GWikiElementInfo ei : shownBlogEntries) {
-      List<String> bcats = ei.getProps().getStringList("BLOG_CATS");
-      set.addAll(bcats);
-    }
-    return set;
-  }
-
   public void renderBlogs()
   {
     // wikiContext.append("Blogs here");
@@ -259,23 +242,9 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
       wikiContext.append("\">").append(esc(translate("gwiki.blog.page.nextPage"))).append("</a>&nbsp;");
     }
     wikiContext.append("</div>\n");
-    Set<String> cats = getBlogCategories();
-    if (cats.isEmpty() == false) {
 
-      wikiContext.append("<div class=\"blogNavCats\">");
-      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">").append(esc(translate("gwiki.blog.page.allCats"))).append("</a>");
-      for (String cat : cats) {
-        wikiContext.append("&nbsp;|&nbsp;");
-        wikiContext.append("<a href=\""
-            + thisPl
-            + "?blogCategory="
-            + Converter.encodeUrlParam(cat)
-            + "\">"
-            + StringEscapeUtils.escapeHtml(cat)
-            + "</a>");
-      }
-      wikiContext.append("</div>\n");
-    }
+    renderBlogCatHeader();
+
     for (GWikiElementInfo ei : bel) {
       GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
       if (ei.isViewable() == false) {
