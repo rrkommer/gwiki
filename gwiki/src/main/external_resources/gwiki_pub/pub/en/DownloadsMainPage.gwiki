@@ -36,8 +36,18 @@ Currenty no releases are available.
 
 h3. Snapshots
 
+Following artefakts are provided:
+* gwiki-parent: Parent pom only
+* gwiki-genome-dependencies: common utility classes
+* gwiki: gwiki library
+* gwiki-standalone: Desktop gwiki with jetty
+* gwiki-webapp: War archive to deploy in tomcat or other servlet container.
+
+
+
 If you use maven, please check our nexus repository at:
 [http://labs.micromata.de/nexus]
+
 
 for gwiki related snapshots or browse/download file directly:
 [http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/]

@@ -1,0 +1,12 @@
+{pageintro}
+Detailed Changelog for GWiki.
+{pageintro}
+
+h3. 2010-05-23
+- Metatemplates extended. With {{allowedNewParentMetaTemplatesRule}} and {{allowedNewChildMetaTemplatesRule}} the element types created in relation to the current page element type can be restricted.
+- Blog: Continued. 
+-- Create template for blog entry, with side bar to navigate inside the blog.
+-- 10 blog entries are shown. More blogs can be shown by scrolling.
+-- Introduces {{GWIKI_DISABLE_CHILD_NAV}} request attribute to disable showing children elements in left side navigation.
+-- Inside a Blog you can only create a Blog Entry or an Attachment. Inside a Blog Entry you can only create an Attachment.
+
