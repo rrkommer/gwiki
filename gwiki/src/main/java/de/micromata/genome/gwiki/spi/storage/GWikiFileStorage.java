@@ -326,6 +326,8 @@ public class GWikiFileStorage implements GWikiStorage
       Constructor< ? extends GWikiElement> constr = cls.getConstructor(new Class< ? >[] { GWikiElementInfo.class});
       GWikiElement el = (GWikiElement) constr.newInstance(new Object[] { ei});
       return el;
+    } catch (RuntimeException ex) {
+      throw ex;
     } catch (Throwable ex) {
       throw new RuntimeException("Cannot instantiate: " + type + " in id " + ei.getId() + "; " + ex.getMessage(), ex);
     }

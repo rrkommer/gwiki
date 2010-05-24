@@ -19,15 +19,12 @@ package de.micromata.genome.gwiki.controls;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.Set;
+import java.util.TreeSet;
 
-import org.apache.commons.collections15.comparators.ReverseComparator;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -38,9 +35,9 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
+import de.micromata.genome.gwiki.page.GWikiRequestAttributeKeys;
 import de.micromata.genome.gwiki.utils.CalendarControl;
+import de.micromata.genome.util.types.Converter;
 
 /**
  * TODO MO - SO I18N
@@ -49,18 +46,12 @@ import de.micromata.genome.gwiki.utils.CalendarControl;
  * 
  * TODO Montag - Sontag I18N
  * 
- * TODO Calendar blaettern
- * 
- * TODO falls zu viele Eintrage, blaettern
- * 
- * TODO Categorien
- * 
  * TODO Atom
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiBlogActionBean extends ActionBeanBase
+public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
 {
   private String category;
 
@@ -72,85 +63,25 @@ public class GWikiBlogActionBean extends ActionBeanBase
 
   private String selectedMonth = null;
 
-  private Date selectedMonthDate = null;
+  private int pageOffset = 0;
 
-  private String parentPageId;
+  private int pageSize = 10;
 
-  private GWikiElementInfo parentPage;
-
-  private List<GWikiElementInfo> blogEntries = new ArrayList<GWikiElementInfo>();
+  private String blogCategory;
 
   private List<GWikiElementInfo> shownBlogEntries = new ArrayList<GWikiElementInfo>();
 
-  private TimeZone userTimeZone;
-
-  private Locale userLocale;
-
-  // public static final ThreadLocal<SimpleDateFormat> dayHeadDisplayFormat = new ThreadLocal<SimpleDateFormat>() {
-  //
-  // @Override
-  // protected SimpleDateFormat initialValue()
-  // {
-  // return new SimpleDateFormat("E, yyyy-MM-dd");
-  // }
-  //
-  // };
-  public static final String dayHeadFormatPattern = "E, yyyy-MM-dd";
-
-  public static final String monthHeadFormatPattern = "M yyyy-MM";
-
-  public static final ThreadLocal<SimpleDateFormat> dayHeadReqFormat = new ThreadLocal<SimpleDateFormat>() {
-
-    @Override
-    protected SimpleDateFormat initialValue()
-    {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    }
-
-  };
-
-  protected final boolean sameMonth(Date f, Date s)
-  {
-    Calendar fc = GregorianCalendar.getInstance(userTimeZone);
-    fc.setTime(f);
-    int fy = fc.get(Calendar.YEAR);
-    int fm = fc.get(Calendar.MONTH);
-
-    fc.setTime(s);
-    int sy = fc.get(Calendar.YEAR);
-    int sm = fc.get(Calendar.MONTH);
-    return fy == sy && fm == sm;
-  }
-
-  protected final boolean sameDay(Date f, Date s)
-  {
-    Calendar fc = GregorianCalendar.getInstance(userTimeZone);
-    fc.setTime(f);
-    int fy = fc.get(Calendar.YEAR);
-    int fm = fc.get(Calendar.MONTH);
-    int fd = fc.get(Calendar.DAY_OF_MONTH);
-    fc.setTime(s);
-    int sy = fc.get(Calendar.YEAR);
-    int sm = fc.get(Calendar.MONTH);
-    int sd = fc.get(Calendar.DAY_OF_MONTH);
-    return fy == sy && fm == sm && fd == sd;
-  }
-
   protected boolean init()
   {
-    userLocale = wikiContext.getWikiWeb().getAuthorization().getCurrentUserLocale(wikiContext);
-    userTimeZone = wikiContext.getUserTimeZone();
-    if (StringUtils.isEmpty(parentPageId) == true) {
-      parentPageId = wikiContext.getCurrentElement().getElementInfo().getId();
-    }
-    parentPage = wikiContext.getWikiWeb().findElementInfo(parentPageId);
-    if (parentPage == null) {
-      // TODO return error;
+    if (super.init() == false) {
       return false;
     }
+
+    boolean monthSelected = false;
     if (StringUtils.isNotBlank(selectedMonth) == true) {
       try {
         selectedMonthDate = dayHeadReqFormat.get().parse(selectedMonth);
+        monthSelected = true;
       } catch (Exception ex) {
         // nothing
       }
@@ -162,6 +93,7 @@ public class GWikiBlogActionBean extends ActionBeanBase
         // nothing
       }
     }
+
     if (selectedMonthDate == null) {
       if (selectedDayDate != null) {
         selectedMonthDate = selectedDayDate;
@@ -169,8 +101,6 @@ public class GWikiBlogActionBean extends ActionBeanBase
         selectedMonthDate = new Date();
       }
     }
-    blogEntries = wikiContext.getElementFinder().getPageDirectPages(parentPageId);
-    Collections.sort(blogEntries, new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator("CREATEDAT")));
 
     for (GWikiElementInfo be : blogEntries) {
       if (selectedDayDate != null) {
@@ -178,7 +108,13 @@ public class GWikiBlogActionBean extends ActionBeanBase
           continue;
         }
       } else {
-        if (sameMonth(be.getCreatedAt(), selectedMonthDate) == false) {
+        if (monthSelected == true && sameMonth(be.getCreatedAt(), selectedMonthDate) == false) {
+          continue;
+        }
+      }
+      if (StringUtils.isNotEmpty(blogCategory) == true) {
+        List<String> catl = be.getProps().getStringList("BLOG_CATS");
+        if (catl.contains(blogCategory) == false) {
           continue;
         }
       }
@@ -218,8 +154,8 @@ public class GWikiBlogActionBean extends ActionBeanBase
     // </rss>
     wikiContext.getResponse().setContentType("text/xml");
     wikiContext.append("<?xml version=\"1.0\"?>\n<rss version=\"2.0\">\n").append("<channel>\n") //
-        .append("<title>" + StringEscapeUtils.escapeXml(parentPage.getTitle()) + "</title>\n") //
-        .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + parentPage.getId() + "</link>\n") //
+        .append("<title>" + StringEscapeUtils.escapeXml(blogPage.getTitle()) + "</title>\n") //
+        .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + blogPage.getId() + "</link>\n") //
 
     ;
     // <description>Liftoff to Space Exploration.</description>
@@ -248,6 +184,7 @@ public class GWikiBlogActionBean extends ActionBeanBase
     if (init() == false) {
       return null;
     }
+    wikiContext.setRequestAttribute(GWikiRequestAttributeKeys.GWIKI_DISABLE_CHILD_NAV, Boolean.TRUE);
     if (rss == true) {
       deliverRss();
       return noForward();
@@ -276,13 +213,74 @@ public class GWikiBlogActionBean extends ActionBeanBase
     exec.render(wikiContext);
   }
 
+  protected Set<String> getBlogCategories()
+  {
+
+    Set<String> set = new TreeSet<String>();
+    // if (blogPage != null) {
+    // List<String> bcats = blogPage.getProps().getStringList("BLOG_CATS");
+    // set.addAll(bcats);
+    // }
+    for (GWikiElementInfo ei : shownBlogEntries) {
+      List<String> bcats = ei.getProps().getStringList("BLOG_CATS");
+      set.addAll(bcats);
+    }
+    return set;
+  }
+
   public void renderBlogs()
   {
-    wikiContext.append("Blogs here");
+    // wikiContext.append("Blogs here");
     String part = "MainPage";
     Date lastDay = null;
     SimpleDateFormat dayFormat = new SimpleDateFormat(dayHeadFormatPattern, userLocale);
-    for (GWikiElementInfo ei : shownBlogEntries) {
+    List<GWikiElementInfo> bel = shownBlogEntries;
+    if (pageOffset < 0) {
+      pageOffset = 0;
+    }
+    if (pageOffset > 0) {
+      if (bel.size() > pageOffset) {
+        bel = bel.subList(pageOffset, bel.size());
+      } else {
+        bel = Collections.emptyList();
+      }
+    }
+    if (bel.size() > pageSize) {
+      bel = bel.subList(0, Math.min(bel.size(), pageSize));
+    }
+
+    String thisPl = wikiContext.localUrl(this.blogPageId);
+    wikiContext.append("<div class=\"blogPageScroll\">");
+    if (pageOffset > 0) {
+      int prevPO = Math.min(pageOffset - pageSize, 0);
+      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + prevPO + "\"><< Previous page</a>&nbsp;");
+    }
+    if (pageOffset + pageSize < shownBlogEntries.size()) {
+      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + (pageOffset + pageSize));
+      if (StringUtils.isNotEmpty(blogCategory) == true) {
+        wikiContext.append("&blogCategory=" + Converter.encodeUrlParam(blogCategory));
+      }
+      wikiContext.append("\">Next page >></a>&nbsp;");
+    }
+    wikiContext.append("</div>\n");
+    Set<String> cats = getBlogCategories();
+    if (cats.isEmpty() == false) {
+
+      wikiContext.append("<div class=\"blogNavCats\">");
+      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">All</a>");
+      for (String cat : cats) {
+        wikiContext.append("&nbsp;|&nbsp;");
+        wikiContext.append("<a href=\""
+            + thisPl
+            + "?blogCategory="
+            + Converter.encodeUrlParam(cat)
+            + "\">"
+            + StringEscapeUtils.escapeHtml(cat)
+            + "</a>");
+      }
+      wikiContext.append("</div>\n");
+    }
+    for (GWikiElementInfo ei : bel) {
       GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
       if (ei.isViewable() == false) {
         continue;
@@ -306,41 +304,7 @@ public class GWikiBlogActionBean extends ActionBeanBase
       renderBlockEntry(el, exec);
       GWikiContext.setCurrent(wikiContext);
     }
-  }
 
-  public void renderCalendar()
-  {
-    List<Date> dates = new ArrayList<Date>(blogEntries.size());
-    for (GWikiElementInfo ei : blogEntries) {
-      dates.add(ei.getCreatedAt());
-    }
-
-    CalendarControl cc = new CalendarControl(wikiContext.getUserTimeZone(), selectedMonthDate, dates) {
-
-      @Override
-      public void renderMatchedDay(StringBuilder sb, GWikiContext wikiContext, Date date, int monthDay)
-      {
-        sb.append("<a href=\"").append(wikiContext.localUrl(parentPageId)).append("?selectedDay=").append(
-            dayHeadReqFormat.get().format(date)).append("\"><b>").append(monthDay).append("</b></a>");
-
-      }
-
-      @Override
-      public void renderTableHead(StringBuilder sb, GWikiContext wikiContext, Date monthDate)
-      {
-        String mds = new SimpleDateFormat(monthHeadFormatPattern, userLocale).format(monthDate);
-        // TODO bleattern Monat.
-        sb.append("<tr><td>&nbsp;</td><th colspan=\"5\">") //
-            .append("<a href=\"")//
-            .append(wikiContext.localUrl(parentPageId))//
-            .append("?selectedMonth=")//
-            .append(dayHeadReqFormat.get().format(monthDate)).append("\"><b>").append(mds).append("</b></a>")//
-            .append("</th><td>&nbsp;</td></tr>\n");
-        super.renderTableHead(sb, wikiContext, monthDate);
-      }
-
-    };
-    wikiContext.append(cc.renderCalendar(wikiContext));
   }
 
   public String getCategory()
@@ -383,14 +347,34 @@ public class GWikiBlogActionBean extends ActionBeanBase
     this.selectedMonth = selectedMonth;
   }
 
-  public String getParentPageId()
+  public int getPageOffset()
   {
-    return parentPageId;
+    return pageOffset;
   }
 
-  public void setParentPageId(String parentPageId)
+  public void setPageOffset(int pageOffset)
   {
-    this.parentPageId = parentPageId;
+    this.pageOffset = pageOffset;
+  }
+
+  public int getPageSize()
+  {
+    return pageSize;
+  }
+
+  public void setPageSize(int pageCount)
+  {
+    this.pageSize = pageCount;
+  }
+
+  public String getBlogCategory()
+  {
+    return blogCategory;
+  }
+
+  public void setBlogCategory(String blogCategory)
+  {
+    this.blogCategory = blogCategory;
   }
 
 }

@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.page.impl;
 
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.util.types.Converter;
@@ -60,6 +62,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     super(elementToEdit, editBean, partName);
     this.props = props;
     this.propDescriptor = propDescriptor;
+    mergeSettingsProps();
   }
 
   private void lookupPropDescriptor(GWikiContext ctx)
@@ -80,6 +83,22 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       return;
     }
     propDescriptor = (GWikiPropsDescriptor) o;
+    mergeSettingsProps();
+  }
+
+  private void mergeSettingsProps()
+  {
+    if (propDescriptor != null && elementToEdit != null && StringUtils.equals(partName, "Settings") == true) {
+      GWikiMetaTemplate mt = elementToEdit.getMetaTemplate();
+      if (mt != null && mt.getAddPropsDescriptor() != null) {
+        List<GWikiPropsDescriptorValue> descriptors = new ArrayList<GWikiPropsDescriptorValue>();
+        descriptors.addAll(propDescriptor.getDescriptors());
+        descriptors.addAll(mt.getAddPropsDescriptor().getDescriptors());
+        GWikiPropsDescriptor np = new GWikiPropsDescriptor();
+        np.setDescriptors(descriptors);
+        this.propDescriptor = np;
+      }
+    }
   }
 
   private void initPropDescriptor(GWikiContext ctx)

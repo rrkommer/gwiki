@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -98,6 +101,23 @@ public class GWikiMetaTemplate implements Serializable
    * Help page if this element will be edited.
    */
   private String editHelpPageId = null;
+
+  /**
+   * Template ids of allowed new childs of this element type.
+   * 
+   * If null, all types are allowed.
+   */
+  private Matcher<String> allowedNewChildMetaTemplates = null;
+
+  /**
+   * only allow to create new if parent metatemplate matches.
+   */
+  private Matcher<String> allowedNewParentMetaTemplates = null;
+
+  /**
+   * Additionally properties descriptor for settings.
+   */
+  private GWikiPropsDescriptor addPropsDescriptor = null;
 
   public GWikiMetaTemplate()
   {
@@ -259,4 +279,43 @@ public class GWikiMetaTemplate implements Serializable
     this.editHelpPageId = editHelpPageId;
   }
 
+  public Matcher<String> getAllowedNewChildMetaTemplates()
+  {
+    return allowedNewChildMetaTemplates;
+  }
+
+  public void setAllowedNewChildMetaTemplates(Matcher<String> allowedNewChildMetaTemplates)
+  {
+    this.allowedNewChildMetaTemplates = allowedNewChildMetaTemplates;
+  }
+
+  public void setAllowedNewChildMetaTemplatesRule(String rule)
+  {
+    this.allowedNewChildMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(rule);
+  }
+
+  public Matcher<String> getAllowedNewParentMetaTemplates()
+  {
+    return allowedNewParentMetaTemplates;
+  }
+
+  public void setAllowedNewParentMetaTemplates(Matcher<String> allowedNewParentMetaTemplates)
+  {
+    this.allowedNewParentMetaTemplates = allowedNewParentMetaTemplates;
+  }
+
+  public void setAllowedNewParentMetaTemplatesRule(String rule)
+  {
+    this.allowedNewParentMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(rule);
+  }
+
+  public GWikiPropsDescriptor getAddPropsDescriptor()
+  {
+    return addPropsDescriptor;
+  }
+
+  public void setAddPropsDescriptor(GWikiPropsDescriptor addPropsDescriptor)
+  {
+    this.addPropsDescriptor = addPropsDescriptor;
+  }
 }

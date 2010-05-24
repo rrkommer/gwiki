@@ -65,6 +65,28 @@ public class CalendarControl
     return ret;
   }
 
+  public static Date toNextMonth(Date date, TimeZone timeZone)
+  {
+    return incrMonth(date, timeZone, 1);
+  }
+
+  public static Date toPrevMonth(Date date, TimeZone timeZone)
+  {
+    return incrMonth(date, timeZone, -1);
+  }
+
+  public static Date incrMonth(Date date, TimeZone timeZone, int offset)
+  {
+    if (date == null) {
+      return null;
+    }
+    date = toFullDay(date, timeZone);
+    Calendar cal = GregorianCalendar.getInstance(timeZone);
+    cal.setTime(date);
+    cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + offset);
+    return cal.getTime();
+  }
+
   protected void normalizeDates()
   {
     if (selectedDate == null) {

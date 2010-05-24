@@ -39,6 +39,7 @@ import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
@@ -130,6 +131,11 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public static List<Pair<String, String>> getAvailableTemplates(GWikiContext wikiContext)
   {
+    GWikiMetaTemplate currentTemplate = null;
+
+    if (wikiContext.getCurrentElement() != null) {
+      currentTemplate = wikiContext.getCurrentElement().getMetaTemplate();
+    }
     List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
     Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("admin/templates/*MetaTemplate");
     List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
@@ -143,6 +149,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       }
       if (wikiContext.isAllowTo(template.getRequiredEditRight()) == false) {
         continue;
+      }
+      if (currentTemplate != null && currentTemplate.getAllowedNewChildMetaTemplates() != null) {
+        if (currentTemplate.getAllowedNewChildMetaTemplates().match(template.getPageId()) == false) {
+          continue;
+        }
+      }
+      if (template.getAllowedNewParentMetaTemplates() != null) {
+        if (currentTemplate == null || template.getAllowedNewParentMetaTemplates().match(currentTemplate.getPageId()) == false) {
+          continue;
+        }
       }
       availableMetaTemplates.add(Pair.make(wikiContext.getTranslatedProp(ei.getTitle()), ei.getId()));
     }
@@ -228,7 +244,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         storePath = null;
       }
     }
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
 
     if (metaTemplate != null) {
       props.setStringValue(TYPE, metaTemplate.getElementType());
