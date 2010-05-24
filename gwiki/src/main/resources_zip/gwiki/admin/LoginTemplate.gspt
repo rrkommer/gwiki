@@ -14,7 +14,7 @@
    	<td><label for="pass"><fmt:message key="gwiki.page.admin.Login.label.password"/></label></td>
    	<td><gwiki:password errorStyleClass="text error" styleClass="text" style="width: 20em;"  styleId="pass" size="20" property="password" /></td>
    	</tr>
-   	<tr><td></td><td><a href="#" onclick="jQuery('#login').hide(); jQuery('#passreset').show();">Passwort vergessen</a></td></tr>
+   	<tr><td></td><td><a href="#" onclick="jQuery('#login').hide(); jQuery('#passreset').show();"><fmt:message key="gwiki.page.admin.Login.message.forgottPassword.link.text"/></a></td></tr>
    </table>
    	<input  class="submit main" type="submit" name="method_onLogin" value="<fmt:message key="gwiki.page.admin.Login.button.login"/>">
    
