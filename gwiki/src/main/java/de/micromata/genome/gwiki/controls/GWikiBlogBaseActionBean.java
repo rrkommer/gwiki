@@ -25,9 +25,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeSet;
 
 import org.apache.commons.collections15.comparators.ReverseComparator;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -35,6 +38,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
 import de.micromata.genome.gwiki.utils.CalendarControl;
+import de.micromata.genome.util.types.Converter;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -110,6 +114,42 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
     int sm = fc.get(Calendar.MONTH);
     int sd = fc.get(Calendar.DAY_OF_MONTH);
     return fy == sy && fm == sm && fd == sd;
+  }
+
+  protected Set<String> getBlogCategories()
+  {
+
+    Set<String> set = new TreeSet<String>();
+    // if (blogPage != null) {
+    // List<String> bcats = blogPage.getProps().getStringList("BLOG_CATS");
+    // set.addAll(bcats);
+    // }
+    for (GWikiElementInfo ei : blogEntries) {
+      List<String> bcats = ei.getProps().getStringList("BLOG_CATS");
+      set.addAll(bcats);
+    }
+    return set;
+  }
+
+  public void renderBlogCatHeader()
+  {
+    Set<String> cats = getBlogCategories();
+    if (cats.isEmpty() == false) {
+      String thisPl = wikiContext.localUrl(this.blogPageId);
+      wikiContext.append("<div class=\"blogNavCats\">");
+      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">").append(esc(translate("gwiki.blog.page.allCats"))).append("</a>");
+      for (String cat : cats) {
+        wikiContext.append("&nbsp;|&nbsp;");
+        wikiContext.append("<a href=\""
+            + thisPl
+            + "?blogCategory="
+            + Converter.encodeUrlParam(cat)
+            + "\">"
+            + StringEscapeUtils.escapeHtml(cat)
+            + "</a>");
+      }
+      wikiContext.append("</div>\n");
+    }
   }
 
   public void renderCalendar()
