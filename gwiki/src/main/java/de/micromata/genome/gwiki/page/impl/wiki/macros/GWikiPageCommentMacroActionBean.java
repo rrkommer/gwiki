@@ -36,6 +36,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -126,7 +127,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
   protected GWikiElement createNewElement()
   {
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
     GWikiMetaTemplate metaTemplate = initMetaTemplate();
     props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.COMMENT_METATEMPLATE);

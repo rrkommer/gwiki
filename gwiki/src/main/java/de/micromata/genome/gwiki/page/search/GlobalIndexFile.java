@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -48,7 +49,7 @@ public class GlobalIndexFile implements GWikiPropKeys
   public static GWikiElement createElement(GWikiContext ctx)
   {
     GWikiMetaTemplate metaTemplate = ctx.getWikiWeb().findMetaTemplate(GLOBAL_INDEX_METAFILE_TEMPLATE);
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
     props.setStringValue(WIKIMETATEMPLATE, GLOBAL_INDEX_METAFILE_TEMPLATE);
     props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(TITLE, "Global Full Text Index");

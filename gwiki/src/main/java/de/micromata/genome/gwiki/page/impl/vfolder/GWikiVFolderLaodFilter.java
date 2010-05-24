@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
@@ -56,7 +57,7 @@ public class GWikiVFolderLaodFilter implements GWikiLoadElementInfosFilter
     if (fn.startsWith("/") == true) {
       fn = fn.substring(1);
     }
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
     props.setStringValue(GWikiPropKeys.PARENTPAGE, ei.getId());
     props.setStringValue("VFILE_FILE", fn);
 

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,33 +13,31 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
 package de.micromata.genome.gwiki.model;
 
-import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
-import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.EqualsInternalizator;
+import de.micromata.genome.gwiki.utils.Internalizator;
 
 /**
- * GWikiWeb static utils.
- * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiWebUtils
+public class GWikiSettingsProps extends GWikiProps
 {
-  public static GWikiElement createNewElement(GWikiContext wikiContext, String id, String metaTemplateId, String title)
+
+  private static final long serialVersionUID = 6048099531218172064L;
+
+  static Internalizator<String> KEYSTORE = new EqualsInternalizator<String>();
+
+  public GWikiSettingsProps()
   {
-    GWikiProps props = new GWikiSettingsProps();
-    GWikiMetaTemplate template = wikiContext.getWikiWeb().findMetaTemplate(metaTemplateId);
-    props.setStringValue(GWikiPropKeys.TYPE, template.getElementType());
-    props.setStringValue(GWikiPropKeys.WIKIMETATEMPLATE, metaTemplateId);
-    props.setStringValue(GWikiPropKeys.TITLE, title);
-    GWikiElementInfo neiei = new GWikiElementInfo(props, template);
-    neiei.setId(id);
-    GWikiElement elementToEdit = wikiContext.getWikiWeb().getStorage().createElement(neiei);
-    return elementToEdit;
+    super(KEYSTORE);
   }
 
+  public GWikiSettingsProps(GWikiSettingsProps other)
+  {
+    super(other);
+  }
 }

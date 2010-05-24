@@ -38,6 +38,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
@@ -173,7 +174,7 @@ public class ConfluenceImporter implements GWikiPropKeys
 
     GWikiMetaTemplate metaTemplate = wikiContext.getWikiWeb().findMetaTemplate(metaTemplatePageId);
 
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
     props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, metaTemplatePageId);
     if (StringUtils.isNotEmpty(page.getParent()) == true) {
@@ -243,7 +244,7 @@ public class ConfluenceImporter implements GWikiPropKeys
 
     GWikiMetaTemplate metaTemplate = wikiContext.getWikiWeb().findMetaTemplate(metaTemplatePageId);
 
-    GWikiProps props = new GWikiProps();
+    GWikiProps props = new GWikiSettingsProps();
     props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, metaTemplatePageId);
     if (StringUtils.isNotEmpty(page.getParent()) == true) {

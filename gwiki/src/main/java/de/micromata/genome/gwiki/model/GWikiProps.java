@@ -32,6 +32,9 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributesUtils;
 import de.micromata.genome.gwiki.utils.CommaListParser;
+import de.micromata.genome.gwiki.utils.Internalizator;
+import de.micromata.genome.gwiki.utils.InternalizedHashMap;
+import de.micromata.genome.gwiki.utils.NopInternalizator;
 
 /**
  * Wrapper to a property (string/string) map.
@@ -61,9 +64,25 @@ public class GWikiProps implements Serializable
     this.map = new HashMap<String, String>();
   }
 
+  public GWikiProps(Internalizator<String> keyInternalizator)
+  {
+    this.map = new InternalizedHashMap<String, String>(keyInternalizator, new NopInternalizator<String>());
+  }
+
+  public GWikiProps(Internalizator<String> keyInternalizator, Internalizator<String> valueInternalizator)
+  {
+    this.map = new InternalizedHashMap<String, String>(keyInternalizator, valueInternalizator);
+  }
+
+  @SuppressWarnings("unchecked")
   public GWikiProps(GWikiProps other)
   {
-    this();
+    if (other.getMap() instanceof InternalizedHashMap) {
+      InternalizedHashMap<String, String> om = (InternalizedHashMap<String, String>) other.getMap();
+      this.map = new InternalizedHashMap<String, String>(om.getKeyInternatizator(), om.getValueInternatizator());
+    } else {
+      this.map = new HashMap<String, String>();
+    }
     map.putAll(other.getMap());
   }
 
