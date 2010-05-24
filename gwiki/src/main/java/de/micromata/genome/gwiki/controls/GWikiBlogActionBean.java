@@ -192,18 +192,13 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     return super.onInit();
   }
 
-  protected final String esc(String text)
-  {
-    return StringEscapeUtils.escapeHtml(text);
-  }
-
   protected void renderBlockEntry(GWikiElement el, GWikiExecutableArtefakt< ? > exec)
   {
     wikiContext//
         .append("<hr><table width=\"100%\" border=\"0\"><tr><td valign=\"top\">\n") //
         .append("<h2><a href=\"").append(wikiContext.localUrl(el.getElementInfo().getId())).append("\">") //
         .append(esc(el.getElementInfo().getTitle())) //
-        .append("</a></h2></td><td align=\"right\"><small>Last changed:")//
+        .append("</a></h2></td><td align=\"right\"><small>:")//
         .append(wikiContext.getUserDateString(el.getElementInfo().getModifiedAt()))//
         .append(" by ").append(esc(el.getElementInfo().getModifiedBy())) //
         .append("</small></td></tr></table>\n");
@@ -253,21 +248,22 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     wikiContext.append("<div class=\"blogPageScroll\">");
     if (pageOffset > 0) {
       int prevPO = Math.min(pageOffset - pageSize, 0);
-      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + prevPO + "\"><< Previous page</a>&nbsp;");
+      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + prevPO + "\">").append(esc(translate("gwiki.blog.page.prevPage")))
+          .append("</a>&nbsp;");
     }
     if (pageOffset + pageSize < shownBlogEntries.size()) {
       wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + (pageOffset + pageSize));
       if (StringUtils.isNotEmpty(blogCategory) == true) {
         wikiContext.append("&blogCategory=" + Converter.encodeUrlParam(blogCategory));
       }
-      wikiContext.append("\">Next page >></a>&nbsp;");
+      wikiContext.append("\">").append(esc(translate("gwiki.blog.page.nextPage"))).append("</a>&nbsp;");
     }
     wikiContext.append("</div>\n");
     Set<String> cats = getBlogCategories();
     if (cats.isEmpty() == false) {
 
       wikiContext.append("<div class=\"blogNavCats\">");
-      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">All</a>");
+      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">").append(esc(translate("gwiki.blog.page.allCats"))).append("</a>");
       for (String cat : cats) {
         wikiContext.append("&nbsp;|&nbsp;");
         wikiContext.append("<a href=\""

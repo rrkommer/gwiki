@@ -24,6 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
@@ -149,7 +150,15 @@ public class CalendarControl
 
   public void renderTableHead(StringBuilder sb, GWikiContext wikiContext, Date monthDate)
   {
-    sb.append("<tr><th>SO</th><th>MO</th><th>DI</th><th>MI</th><th>DO</th><th>FR</th><th>SA</th></tr>\n");
+    GWikiI18nProvider ip = wikiContext.getWikiWeb().getI18nProvider();
+    sb.append("<tr><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.SO")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.MO")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.DI")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.MI")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.DO")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.FR")) //
+        .append("</th><th>").append(ip.translate(wikiContext, "gwiki.blog.cal.SA")) //
+        .append("</th></tr>\n");
   }
 
   public String renderCalendar(GWikiContext wikiContext)
