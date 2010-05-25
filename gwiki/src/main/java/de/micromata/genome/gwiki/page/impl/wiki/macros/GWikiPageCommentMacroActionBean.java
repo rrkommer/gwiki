@@ -147,8 +147,6 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     GWikiElementInfo ei = new GWikiElementInfo(props, wikiContext.getWikiWeb().findMetaTemplate(GWikiDefaultFileNames.COMMENT_METATEMPLATE));
 
     GWikiElement elementToEdit = getWikiContext().getWikiWeb().getStorage().createElement(ei);
-    // elementToEdit.setMetaTemplate(metaTemplate);
-
     return elementToEdit;
   }
 

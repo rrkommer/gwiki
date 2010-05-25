@@ -129,10 +129,9 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
       return;
     }
     String value = pct.getRequestValue();
-
-    if (StringUtils.isEmpty(value) == true) {
-      value = pct.getDefaultValue();
-    }
+    /*
+     * if (StringUtils.isEmpty(value) == true) { value = pct.getDefaultValue(); }
+     */
     if (StringUtils.equals(pct.getControlType(), "DATE") == true) {
       value = GWikiProps.formatTimeStamp(pct.getWikiContext().parseUserDateString(value));
     }
@@ -181,6 +180,9 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
 
   public boolean isForThisElement(GWikiPropsDescriptorValue d, String metaTemplateId)
   {
+    if (metaTemplateId == null) {
+      return true;
+    }
     String s = d.getRequiredMetaTemplateId();
     if (StringUtils.isBlank(s) == true) {
       return true;
@@ -319,8 +321,12 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
             Html.th(Xml.attrs("width", "16", "align", "left"), Xml.code("&nbsp;")), //
             Html.th(Xml.attrs("align", "left"), Xml.code(hasAnyDescription == false ? "" : ctx
                 .getTranslated("gwiki.propeditor.title.description")))));
-    GWikiEditPageActionBean bean = ((GWikiEditPageActionBean) ctx.getRequest().getAttribute("form"));
-    String metaTemplateId = bean.getMetaTemplate().getPageId();
+    Object o = ctx.getRequest().getAttribute("form");
+    String metaTemplateId = null;
+    if (o instanceof GWikiEditPageActionBean) {
+      GWikiEditPageActionBean bean = ((GWikiEditPageActionBean) ctx.getRequest().getAttribute("form"));
+      metaTemplateId = bean.getMetaTemplate().getPageId();
+    }
     // String metaTemplateId = el.getMetaTemplate().getPageId();
 
     for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {

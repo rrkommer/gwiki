@@ -357,7 +357,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     return true;
   }
 
-  private void checkAccess()
+  protected void checkAccess()
   {
     if (newPage == true) {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementToEdit.getElementInfo()) == false) {

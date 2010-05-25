@@ -23,12 +23,19 @@ import java.security.MessageDigest;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
@@ -39,8 +46,9 @@ import de.micromata.genome.util.types.Converter;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
+public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization implements GWikiAuthorizationExt
 {
+
   /**
    * is the current user your user
    * 
@@ -86,13 +94,41 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
 
   }
 
-  public GWikiSimpleUser createUser(GWikiElement el, GWikiContext ctx, GWikiProps props)
+  public GWikiSimpleUser createSimpleUser(GWikiElement el, GWikiContext ctx, GWikiProps props)
   {
     String userId = GWikiContext.getNamePartFromPageId(el.getElementInfo().getId());
-    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue("password"), props.getStringValue("email"), props
-        .getStringValue("rightsrule"));
+    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD), props.getStringValue(USER_PROP_EMAIL),
+        props.getStringValue(USER_PROP_RIGHTSRULE));
     user.setProps(props.getMap());
     return user;
+  }
+
+  public boolean createUser(GWikiContext wikiContext, String userName, GWikiProps props)
+  {
+    if (hasUser(wikiContext, userName) == true) {
+      return false;
+    }
+    String id = "admin/user/" + userName;
+    GWikiElement userEl = GWikiWebUtils.createNewElement(wikiContext, id, "admin/templates/intern/WikiUserMetaTemplate", id);
+    GWikiProps settings = userEl.getElementInfo().getProps();
+    settings.setStringValue(GWikiPropKeys.AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
+    settings.setStringValue(GWikiPropKeys.AUTH_VIEW, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
+    settings.setStringValue(GWikiPropKeys.CREATEDBY, FileNameUtils.getNamePart(id));
+    GWikiPropsArtefakt us = (GWikiPropsArtefakt) userEl.getMainPart();
+    us.setCompiledObject(props);
+    wikiContext.getWikiWeb().saveElement(wikiContext, userEl, false);
+
+    return true;
+  }
+
+  public boolean hasUser(GWikiContext wikiContext, String userName)
+  {
+    if (StringUtils.isBlank(userName) == true) {
+      return false;
+    }
+    String id = "admin/user/" + userName;
+    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(id);
+    return ei != null;
   }
 
   protected GWikiElement findUserElement(GWikiContext ctx, String user)
@@ -126,7 +162,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiProps props = (GWikiProps) ser;
-    GWikiSimpleUser suser = createUser(el, ctx, props);
+    GWikiSimpleUser suser = createSimpleUser(el, ctx, props);
     return suser;
   }
 
@@ -180,4 +216,5 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization
     props.setStringValue(key, value);
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
+
 }

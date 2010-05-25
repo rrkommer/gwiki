@@ -183,6 +183,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     validationErrors.put("", new SimpleActionMessage(message));
   }
 
+  public void addValidationFieldError(String msgKey, String field, Object... args)
+  {
+    if (validationErrors == null)
+      validationErrors = new ActionMessages();
+    String message = wikiWeb.getI18nProvider().translate(this, msgKey, null, args);
+    validationErrors.put(field, new SimpleActionMessage(message));
+  }
+
   public boolean hasValidationErrors()
   {
     return validationErrors != null && validationErrors.isEmpty() == false;

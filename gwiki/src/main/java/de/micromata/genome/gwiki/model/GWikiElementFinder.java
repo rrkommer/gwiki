@@ -187,4 +187,26 @@ public class GWikiElementFinder
       }
     }
   }
+
+  /**
+   * Try to load a config on given elements main part. You should only read the returned props.
+   * 
+   * @param pageId
+   * @return empty props if not found.
+   */
+  public GWikiProps getConfigProps(String pageId)
+  {
+    if (StringUtils.isEmpty(pageId) == true) {
+      return new GWikiProps();
+    }
+    GWikiElement el = wikiContext.getWikiWeb().findElement(pageId);
+    if (el == null) {
+      return new GWikiProps();
+    }
+    GWikiArtefakt< ? > art = el.getMainPart();
+    if ((art instanceof GWikiPropsArtefakt) == false) {
+      return new GWikiProps();
+    }
+    return ((GWikiPropsArtefakt) art).getCompiledObject();
+  }
 }
