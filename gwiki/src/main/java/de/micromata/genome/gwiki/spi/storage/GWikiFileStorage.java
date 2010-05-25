@@ -575,7 +575,7 @@ public class GWikiFileStorage implements GWikiStorage
       p.setStringValue(GWikiPropKeys.CREATEDBY, uname);
     }
     if (p.getStringValue(GWikiPropKeys.CREATEDAT, null) == null) {
-      p.setDateValue(GWikiPropKeys.CREATEDBY, now);
+      p.setDateValue(GWikiPropKeys.CREATEDAT, now);
     }
     if (keepModifiedAt == false || p.getStringValue(GWikiPropKeys.MODIFIEDBY, null) == null) {
       p.setStringValue(GWikiPropKeys.MODIFIEDBY, uname);
