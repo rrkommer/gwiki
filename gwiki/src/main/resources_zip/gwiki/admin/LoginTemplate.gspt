@@ -14,7 +14,12 @@
    	<td><label for="pass"><fmt:message key="gwiki.page.admin.Login.label.password"/></label></td>
    	<td><gwiki:password errorStyleClass="text error" styleClass="text" style="width: 20em;"  styleId="pass" size="20" property="password" /></td>
    	</tr>
+   	<c:if test="${form.allowPasswortForgotten}">
    	<tr><td></td><td><a href="#" onclick="jQuery('#login').hide(); jQuery('#passreset').show();"><fmt:message key="gwiki.page.admin.Login.message.forgottPassword.link.text"/></a></td></tr>
+   	</c:if>
+   	<c:if test="${form.publicRegister == true}">
+   	<tr><td>&nbsp;</td><td><gwiki:link pageId="admin/RegisterUser"/></td></tr>
+   	</c:if>
    </table>
    	<input  class="submit main" type="submit" name="method_onLogin" value="<fmt:message key="gwiki.page.admin.Login.button.login"/>">
    
@@ -24,7 +29,8 @@
    <tr><td colspan="2"><fmt:message key="gwiki.page.admin.Login.message.resetpassw.intro"/></td></tr>
    	<tr><td><label for="resetuser"><fmt:message key="gwiki.page.admin.Login.label.user"/></label></td><td>
    	<gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="resetuser" size="20" property="passwordForgottenUser" /></td></tr>
-   	<tr><td>&nbsp;</td><td><input  class="submit main" type="submit" name="method_onResetPassword" value="<fmt:message key="gwiki.page.admin.Login.button.resetPassword"/>"/></td></tr>
+   	<tr><td>&nbsp;</td><td><input class="submit main" type="submit" name="method_onResetPassword" value="<fmt:message key="gwiki.page.admin.Login.button.resetPassword"/>"/></td></tr>
+   	
    	</table>
    </div>
    </center>

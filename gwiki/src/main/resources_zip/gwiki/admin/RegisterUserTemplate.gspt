@@ -1,0 +1,40 @@
+<% wikiContext.skinInclude("noauthhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors pattern="+*,-catchaInput"/>
+<c:if test="${form.showForm}">
+	<form method="post">
+		
+		<div id="login">
+		<table border="0">
+		<tr>
+   	<td><label for="user"><fmt:message key="gwiki.page.admin.RegisterUser.label.user"/></label></td>
+   	<td><gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="user" size="20" property="user" /></td>
+   </tr>
+   <tr>
+   	<td><label for="user"><fmt:message key="gwiki.page.admin.RegisterUser.label.email"/></label></td>
+   	<td><gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="user" size="20" property="email" /></td>
+   </tr>
+   <c:if test="${form.doubleOptIn == false}">
+   <tr>
+   	<td><label for="pass"><fmt:message key="gwiki.page.admin.RegisterUser.label.password"/></label></td>
+   	  	<td><gwiki:errors pattern="pass"/><gwiki:password errorStyleClass="text error" styleClass="text" style="width: 20em;"  styleId="pass" size="20" property="pass" /></td>
+   	</tr>
+   	<tr>
+   	<td><label for="pass2"><fmt:message key="gwiki.page.admin.RegisterUser.label.password2"/></label></td>
+   	  	<td><gwiki:password errorStyleClass="text error" styleClass="text" style="width: 20em;"  styleId="pass" size="20" property="pass2" /></td>
+   	</tr>
+   	</c:if>
+   	<tr>
+   	<td><label for="catchaInput"><c:out value="${form.catchaText}"/></label></td>
+   	<td><gwiki:errors pattern="catchaInput"/>
+   		<gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="user" size="20" property="catchaInput" /></td>
+   	</tr>
+   </table>
+   	<input  class="submit main" type="submit" name="method_onRegister" value="<fmt:message key="gwiki.page.admin.RegisterUser.button.register"/>">
+   
+   
+   </div>
+	</form>
+</c:if>
+<% wikiContext.skinInclude("noauthfoot"); %>

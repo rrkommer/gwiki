@@ -1,0 +1,100 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+	pageEncoding="UTF-8"%>
+<gwiki:errors />
+<% def form = wikiContext.getRequestAttribute('form'); %>
+<script type="text/javascript">
+var gwikiCurrentPart = '';
+var gwikiParts = new Array();
+<% for (me in form.editors) { %>
+gwikiParts.push('<%= me.key %>');
+<% } %>
+gwikiCurrentPart = gwikiParts[0];
+
+var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
+
+<%
+ StringBuilder localCsse = new StringBuilder();
+ for (String lp : wikiContext.getContentCsse()) {
+   if (localCsse.length() > 0) {
+     localCsse.append(",");
+   }
+   localCsse.append(wikiContext.localUrl(lp));
+ }
+%>
+var gwikiContentCss = '<%= localCsse.toString() %>';
+var codepressteaids = new Array();
+var saveHandlers = new Array();
+function onSave(event)
+{
+  gwikiContentChanged=false;
+    
+  for (var i = 0; i < saveHandlers.length; ++i)
+  {
+    saveHandlers[i]();
+  }
+  \$("#formmn").attr("name", "method_onSave");
+  \$("#editForm").submit();
+}
+</script>
+
+<form id="editForm" method="POST" enctype="multipart/form-data">
+
+<input id="formmn" type="hidden"	name="m" value="" />	
+<input id="gwikieditsavebutton" class="gwikiButton main" type="button"	name="method_onSave" onclick="onSave(event);"	value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
+<input id="gwikieditcancelbutton" class="gwikiButton reset"	onclick="gwikiContentChanged=false;" class="gwikiButton main"	type="submit" name="method_onCancel"	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
+
+<div id='modalBg'></div>
+<div id='modalContent'></div>
+<div id='loading'></div>
+<div id='editDialogBox'></div>
+<div id="tabs" style="min-height: 600px">
+<ul>
+  <%
+    for (me in form.editors) { %>
+    <li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
+  <%}  %>
+</ul>
+
+<%
+    for (me in form.editors) { %>
+<div id="Editor<%= me.key %>" style="width: 100%; height: 100%">
+<% me.value.render(wikiContext); %>
+</div>
+<%  }  %>
+</div>
+<script type="text/javascript">
+  \$(document).ready(function(){
+    var tabs = \$("#tabs").tabs(
+          { selected: 0,
+            select: function(event, ui) {
+            /*try {
+              eval("" + gwikiCurrentPart + "Deactivate('" + gwikiCurrentPart + "')");
+            } catch (ex) {
+            }*/
+            gwikiCurrentPart = gwikiParts[ui.index];
+            /*try {
+              eval("" + gwikiCurrentPart + "Activate('" + gwikiCurrentPart + "')");
+            } catch (ex) {
+            }
+            */
+          }      
+          });
+    
+    \$('.wikiPageEditText').autocomplete(
+        '<gwiki:url value="/edit/PageSuggestions"/>', 
+    {
+      matchContains : true,
+      minChars : 0,
+      width : 350,
+      formatItem : function(row) {
+        return row[1] + "<br><i>(" + row[0] + ")</i>";
+      }
+    });
+ });
+  
+</script>
+</form>
+
+<% wikiContext.skinInclude('standardfoot'); %>
