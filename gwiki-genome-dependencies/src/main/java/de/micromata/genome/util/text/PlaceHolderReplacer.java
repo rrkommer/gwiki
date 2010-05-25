@@ -40,7 +40,7 @@ public class PlaceHolderReplacer
       sb.append(text.substring(eidx, idx));
       sb.append(resolver.resolve(k));
       eidx = neidx + end.length();
-      idx = text.indexOf(end, eidx);
+      idx = text.indexOf(start, eidx);
     } while (idx != -1);
     sb.append(text.substring(eidx));
     return sb.toString();
