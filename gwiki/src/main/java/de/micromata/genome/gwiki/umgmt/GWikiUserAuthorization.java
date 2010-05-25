@@ -23,7 +23,6 @@ import java.security.MessageDigest;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -113,11 +112,10 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     GWikiProps settings = userEl.getElementInfo().getProps();
     settings.setStringValue(GWikiPropKeys.AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
     settings.setStringValue(GWikiPropKeys.AUTH_VIEW, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
-    settings.setStringValue(GWikiPropKeys.CREATEDBY, FileNameUtils.getNamePart(id));
+    settings.setStringValue(GWikiPropKeys.CREATEDBY, userName);
     GWikiPropsArtefakt us = (GWikiPropsArtefakt) userEl.getMainPart();
     us.setCompiledObject(props);
     wikiContext.getWikiWeb().saveElement(wikiContext, userEl, false);
-
     return true;
   }
 
