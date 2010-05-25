@@ -59,4 +59,14 @@ public class ArrayMap<K, V> extends AbstractMap<K, V>
     return null;
   }
 
+  public ArraySet<Entry<K, V>> getEntries()
+  {
+    return entries;
+  }
+
+  public void setEntries(ArraySet<Entry<K, V>> entries)
+  {
+    this.entries = entries;
+  }
+
 }
