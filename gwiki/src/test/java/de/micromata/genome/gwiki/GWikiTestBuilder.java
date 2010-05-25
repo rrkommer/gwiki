@@ -34,6 +34,12 @@ import de.micromata.genome.test.web.SimHttpSession;
 import de.micromata.genome.test.web.SimServletConfig;
 import de.micromata.genome.test.web.SimServletContext;
 
+/**
+ * Testbuilder for tests.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
 public class GWikiTestBuilder
 {
   protected GWikiDAOContext daoContext = new GWikiDAOContext();
@@ -195,6 +201,18 @@ public class GWikiTestBuilder
       throw new RuntimeException(ex);
     }
     return this;
+  }
+
+  public GWikiContext createWikiContext()
+  {
+    StandaloneHttpServletRequest req = createReq("index");
+    StandaloneHttpServletResponse resp = createResp();
+    if (servlet.wiki == null) {
+      servlet.initWiki(req, resp);
+    }
+    lastWikiContext = new GWikiContext(servlet.wiki, servlet, req, resp);
+    GWikiContext.setCurrent(lastWikiContext);
+    return lastWikiContext;
   }
 
   public GWikiDAOContext getDaoContext()
