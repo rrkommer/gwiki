@@ -17,7 +17,7 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 					<%--<div class="clearAll"> &nbsp; </div>  	<p class="imprint">  --%>
 				By <a href="mailto:r.kommer-extern@micromata.de">Roger Rene Kommer</a> 
 						and <a href="http://www.micromata.de">Micromata GmbH</a> | <a
-							href="http://labs.micromata.de/gwiki/pub/en/License" title="http://labs.micromata.de/gwiki/pub/en/GWikiLicense">License</a>
+							href="http://labs.micromata.de/gwiki/pub/en/GWikiLicense" title="http://labs.micromata.de/gwiki/pub/en/GWikiLicense">License</a>
 					<%--</p> --%>
 </small></td></tr></table>	
 				</div> <!-- gwikiFooter END -->
