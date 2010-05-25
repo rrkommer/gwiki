@@ -26,10 +26,13 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
 
@@ -41,6 +44,12 @@ import de.micromata.genome.util.text.PlaceHolderReplacer;
  */
 public class GWikiLoginActionBean extends ActionBeanBase
 {
+  public static final String AUTH_ALLOW_PASSWORD_FORGOTTEN = "AUTH_ALLOW_PASSWORD_FORGOTTEN";
+
+  public static final String AUTH_ALLOW_REGISTER_USER = "AUTH_ALLOW_REGISTER_USER";
+
+  public static final String AUTH_REGISTER_USER_DOUBLE_OPT_IN = "AUTH_REGISTER_USER_DOUBLE_OPT_IN";
+
   private String pageId;
 
   private String user;
@@ -49,14 +58,41 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
   private String passwordForgottenUser;
 
+  private boolean allowPasswortForgotten = true;
+
+  private boolean publicRegister = false;
+
+  private boolean doubleOptInRegister = true;
+
+  protected void checkPublicRegister()
+  {
+    GWikiProps props = wikiContext.getElementFinder().getConfigProps("admin/config/GWikiAuthConfig");
+    allowPasswortForgotten = props.getBooleanValue(AUTH_ALLOW_PASSWORD_FORGOTTEN, false);
+    if ((wikiContext.getWikiWeb().getAuthorization() instanceof GWikiAuthorizationExt) == false) {
+      return;
+    }
+    GWikiElementInfo rp = wikiContext.getWikiWeb().findElementInfo("admin/RegisterUser");
+    if (rp == null) {
+      return;
+    }
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, rp) == false) {
+      return;
+    }
+
+    publicRegister = props.getBooleanValue(AUTH_ALLOW_REGISTER_USER, false);
+    doubleOptInRegister = props.getBooleanValue(AUTH_REGISTER_USER_DOUBLE_OPT_IN, false);
+  }
+
   public Object onInit()
   {
     password = "";
+    checkPublicRegister();
     return null;
   }
 
   public Object onLogin()
   {
+    checkPublicRegister();
     if (StringUtils.isBlank(user) == true || StringUtils.isBlank(password) == true) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.userandpasswordneeded");
       password = "";
@@ -81,6 +117,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
   public Object onLogout()
   {
+    checkPublicRegister();
     wikiContext.getWikiWeb().getAuthorization().logout(wikiContext);
     password = "";
     return null;
@@ -88,12 +125,12 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
   public static final String VALID_CHARS = "ABCDEFGHKLMNPQRSTUVWXYZ23456789";
 
-  private int getCharacterPosFromDictionary(char c)
+  private static int getCharacterPosFromDictionary(char c)
   {
     return VALID_CHARS.indexOf(c);
   }
 
-  private char getCheckSum(String s)
+  private static char getCheckSum(String s)
   {
     int cs = 0;
     for (int i = 0; i < s.length(); ++i) {
@@ -104,7 +141,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
     return VALID_CHARS.charAt(mod);
   }
 
-  public String genPassword()
+  public static String genPassword()
   {
     int c = 10 - 1;
     String ret = RandomStringUtils.random(c, VALID_CHARS);
@@ -112,8 +149,33 @@ public class GWikiLoginActionBean extends ActionBeanBase
     return ret;
   }
 
+  public static void sendPasswordToUser(GWikiContext wikiContext, String user, String email, String newPass)
+  {
+
+    Map<String, String> mailContext = new HashMap<String, String>();
+    mailContext.put(GWikiEmailProvider.TO, email);
+    mailContext.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
+    mailContext.put("USER", user);
+    mailContext.put("PUBURL", wikiContext.getWikiWeb().getWikiConfig().getPublicURL());
+    mailContext.put("NEWPASS", newPass);
+    String subject = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailsubject",
+        "GWiki; Password changed");
+    subject = PlaceHolderReplacer.resolveReplaceDollarVars(subject, mailContext);
+    String message = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailtext",
+        "The password for user ${USER} on\n${PUBURL}\nhas changed to: ${NEWPASS}");
+    message = PlaceHolderReplacer.resolveReplaceDollarVars(message, mailContext);
+    mailContext.put(GWikiEmailProvider.SUBJECT, subject);
+
+    mailContext.put(GWikiEmailProvider.TEXT, message);
+    wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(mailContext);
+  }
+
   public Object onResetPassword()
   {
+    checkPublicRegister();
+    if (allowPasswortForgotten == false) {
+      return null;
+    }
     passwordForgottenUser = StringUtils.trimToEmpty(passwordForgottenUser);
     if (StringUtils.isEmpty(passwordForgottenUser) == true) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.userneeded");
@@ -141,23 +203,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
     String crypedPass = GWikiSimpleUserAuthorization.encrypt(newPass);
     userP.getStorageData().put("password", crypedPass);
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-
-    Map<String, String> mailContext = new HashMap<String, String>();
-    mailContext.put(GWikiEmailProvider.TO, email);
-    mailContext.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
-    mailContext.put("USER", passwordForgottenUser);
-    mailContext.put("PUBURL", wikiContext.getWikiWeb().getWikiConfig().getPublicURL());
-    mailContext.put("NEWPASS", newPass);
-    String subject = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailsubject",
-        "GWiki; Password changed");
-    subject = PlaceHolderReplacer.resolveReplaceDollarVars(subject, mailContext);
-    String message = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailtext",
-        "The password for user ${USER} on\n${PUBURL}\nhas changed to: ${NEWPASS}");
-    message = PlaceHolderReplacer.resolveReplaceDollarVars(message, mailContext);
-    mailContext.put(GWikiEmailProvider.SUBJECT, subject);
-
-    mailContext.put(GWikiEmailProvider.TEXT, message);
-    wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(mailContext);
+    sendPasswordToUser(wikiContext, passwordForgottenUser, email, newPass);
     wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
 
     return null;
@@ -201,6 +247,36 @@ public class GWikiLoginActionBean extends ActionBeanBase
   public void setPasswordForgottenUser(String passwordForgottenUser)
   {
     this.passwordForgottenUser = passwordForgottenUser;
+  }
+
+  public boolean isPublicRegister()
+  {
+    return publicRegister;
+  }
+
+  public void setPublicRegister(boolean publicRegister)
+  {
+    this.publicRegister = publicRegister;
+  }
+
+  public boolean isAllowPasswortForgotten()
+  {
+    return allowPasswortForgotten;
+  }
+
+  public void setAllowPasswortForgotten(boolean allowPasswortForgotten)
+  {
+    this.allowPasswortForgotten = allowPasswortForgotten;
+  }
+
+  public boolean isDoubleOptInRegister()
+  {
+    return doubleOptInRegister;
+  }
+
+  public void setDoubleOptInRegister(boolean doubleOptInRegister)
+  {
+    this.doubleOptInRegister = doubleOptInRegister;
   }
 
 }

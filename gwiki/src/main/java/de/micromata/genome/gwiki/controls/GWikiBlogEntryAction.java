@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 
 /**
+ * Controler for a blog entry page.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
