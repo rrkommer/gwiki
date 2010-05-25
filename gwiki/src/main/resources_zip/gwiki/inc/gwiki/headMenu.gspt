@@ -41,7 +41,7 @@
            	<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="I{gwiki.page.AllPages.menu.export}"/></li>
            	<li><gwiki:link pageId="edit/DeletedPages"/></li>
            	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
-           	<li><gwiki:link pageId="edit/EditPage" urlParams="?pageId=admin/config/GWikiConfig" title="WikiConfig"/></li>
+           	<li><gwiki:link pageId="admin/EditWikiConfig" title="Wiki Configuration"/></li>
        			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
        				<li><a target="_blank" href="<gwiki:url value="/dav/"/>"><fmt:message key="gwiki.page.AllPages.menu.webdav"/></a></li>
        			</gwiki:authorize>
