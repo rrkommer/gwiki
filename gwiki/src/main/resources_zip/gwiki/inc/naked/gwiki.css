@@ -165,3 +165,30 @@ code,.preformatted {
 .java_plain {
 		color:black;
 }
+.gwikiToolbarIcon {
+	display: block;
+	height: 20px;
+	width: 20px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: transparent
+		url(../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat scroll
+		20px 20px;
+}
+
+.gwikiIcon_help {
+	background-position: -340px 0;
+}
+
+.gwikiIcon_fullscreen {
+	background-position: -100px -20px;
+}
+
+.gwikiIcon_cancel {
+	background-position: -460px -20px;
+}
+
+.gwikiIcon_save {
+	background-position: -480px -20px;
+}
