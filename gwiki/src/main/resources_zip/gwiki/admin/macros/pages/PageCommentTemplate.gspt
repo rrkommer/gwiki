@@ -62,9 +62,11 @@ function onSaveComment()
 <b>Comments</b> (<a id="GWikiShowHideLink" href="javascript:gwikiToggleShowComments()">
   <%= showComments ? "Hide Comments" : "Show Comments" %></a>)<br/>
 <div id="GWikiComentsContent"<%= hidden %>>
+<c:if test="${form.allowPost}">
   <a href="javascript:createNewCommentShow()" title="Create new Comment">
     Create Comment
-  </a> <!--  onclick='createNewCommentShow()' -->
+  </a>
+ </c:if> 
   <gwiki:hidden styleId="gwiki_pagecomment_replyTo" property="replyTo" />
   <gwiki:hidden styleId="gwiki_pagecomment_pageId" property="pageId" /><!-- TODO:gwikifizieren der Namen -->
   <input type="hidden" id="PageComment_method" name="method_onInit"/> 
@@ -78,7 +80,8 @@ function onSaveComment()
   <div class="gwikiPagecommentcontent">
       <div class="gwikiNewshead">
         <%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
-      <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
+      <c:if test="${form.allowPost}">
+	      <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
         <a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
           <img src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
         </a>
@@ -87,6 +90,7 @@ function onSaveComment()
         </a>
       <% } %>
       <a href="javascript:gwikiReplyComment('<%= el.id %>')" title="Reply">Reply</a>
+      </c:if>
       </div><!-- gwikiNewshead END -->
       
     <% form.renderCommentBody(el); 
