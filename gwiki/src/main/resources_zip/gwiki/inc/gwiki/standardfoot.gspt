@@ -1,10 +1,12 @@
 
 </div> <!-- .gwikiContent END -->
 <div class="clearAll"> &nbsp; </div>
+<% if (wikiContext.getRequestAttribute("GWIKI_TEMPLATE_NO_COMMENTS") != Boolean.TRUE) { %>
 <div id="gwikiComments">
 
 	<@include file="/inc/gwiki/footer.gspt"@>
-</div><!-- gwikiComments END -->				
+</div><!-- gwikiComments END -->
+<% } %>				
 </div> <!-- container END -->
 
 				<div id="gwikiFooter">
