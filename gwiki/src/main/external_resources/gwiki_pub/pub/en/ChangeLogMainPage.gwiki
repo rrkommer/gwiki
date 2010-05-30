@@ -2,6 +2,17 @@
 Detailed Changelog for GWiki.
 {pageintro}
 
+h2. 0.3.1-SNAPSHOT
+h3. 2010-05-24
+- The global [Wiki configuration page|admin/EditWikiConfig] is now extendable. \\
+  It looks for elements in the path for elements {{admin/config/*Config}}, where Main Part is a {{GWikiPropsArtefakt}} and display it as tab panel.\\
+  See also [gwikidocs/howtos/en/AddConfigPaneltoWikiConfig].
+- User can register itself via Login dialog. In the  [Wiki configuration page|admin/EditWikiConfig], tab GWikiAuthConfig it can be configured if
+-- Self register is enabled
+-- double opt in via email should be used or the user will be logged in after registered.
+- Bug fix: Email Template \${} replacement was not working correctly.
+- Bug fix: If user was created in {{CREATEDBY}} the timestamp for {{CREATEDAT}} was written.
+
 h3. 2010-05-23
 - Metatemplates extended. With {{allowedNewParentMetaTemplatesRule}} and {{allowedNewChildMetaTemplatesRule}} the element types created in relation to the current page element type can be restricted.
 - Blog: Continued. 
