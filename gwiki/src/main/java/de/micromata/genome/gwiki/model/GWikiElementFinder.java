@@ -89,6 +89,12 @@ public class GWikiElementFinder
     return childs;
   }
 
+  /**
+   * get all direct child pages.
+   * 
+   * @param pageId
+   * @return
+   */
   public List<GWikiElementInfo> getPageDirectPages(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//
@@ -107,6 +113,12 @@ public class GWikiElementFinder
     return getDirectChilds(pageId);
   }
 
+  /**
+   * return all direct childs unsorted.
+   * 
+   * @param pageId
+   * @return
+   */
   public List<GWikiElementInfo> getDirectChilds(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//
