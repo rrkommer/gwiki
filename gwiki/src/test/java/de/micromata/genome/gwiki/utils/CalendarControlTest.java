@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
+import de.micromata.genome.gwiki.GWikiTestBuilder;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -72,11 +74,13 @@ public class CalendarControlTest extends TestCase
 
   public void testCalendarR()
   {
+    GWikiTestBuilder tb = new GWikiTestBuilder();
+    GWikiContext wikiContext = tb.createWikiContext();
     TimeZone tz = TimeZone.getDefault();
     List<Date> dates = new ArrayList<Date>();
     dates.add(new Date());
     CalendarControl cc = new CalendarControl(tz, new Date(), dates);
-    String ret = cc.renderCalendar(null);
+    String ret = cc.renderCalendar(wikiContext);
     System.out.println(ret);
   }
 }
