@@ -29,6 +29,7 @@ import org.apache.commons.collections15.comparators.ReverseComparator;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
+import de.micromata.genome.gwiki.controls.GWikiLoginActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -80,7 +81,15 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
   private List<GWikiElementInfo> fullList = new ArrayList<GWikiElementInfo>();
 
-  protected void collectComments()
+  private boolean allowAnonComments = false;
+
+  private boolean registerUserEnabled = false;
+
+  private boolean anonUser = true;
+
+  private boolean allowPost = false;
+
+  public static List<GWikiElementInfo> getCommentsForPage(GWikiContext wikiContext, String pageId)
   {
     String pageName = GWikiContext.getNamePartFromPageId(pageId);
 
@@ -89,6 +98,12 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
     List<GWikiElementInfo> l = wikiContext.getElementFinder().getPageInfos(
         new GWikiPageIdMatcher(wikiContext, new SimpleWildcardMatcherFactory<String>().createMatcher(matchRule)));
+    return l;
+  }
+
+  protected void collectComments()
+  {
+    List<GWikiElementInfo> l = getCommentsForPage(wikiContext, pageId);
     Collections.sort(l, new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator(GWikiPropKeys.CREATEDAT)));
     fullList = l;
     // TODO find reply/to which are deleted.
@@ -105,7 +120,25 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     }
   }
 
+  protected void init()
+  {
+    String commentConfigId = "admin/config/CommentConfig";
+    GWikiProps props = wikiContext.getElementFinder().getConfigProps(commentConfigId);
+    allowAnonComments = props.getBooleanValue("COMMENT_ALLOW_ANON");
+    String autConfig = "admin/config/GWikiAuthConfig";
+    props = wikiContext.getElementFinder().getConfigProps(autConfig);
+    registerUserEnabled = props.getBooleanValue(GWikiLoginActionBean.AUTH_ALLOW_REGISTER_USER);
+    anonUser = wikiContext.getWikiWeb().getAuthorization().needAuthorization(wikiContext);
+    allowPost = allowAnonComments == true || anonUser == false;
+  }
+
   public Object onInit()
+  {
+    init();
+    return onInitImpl();
+  }
+
+  protected Object onInitImpl()
   {
     collectComments();
     return null;
@@ -152,13 +185,18 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
   public Object onSaveComment()
   {
+    init();
+    if (allowPost == false) {
+      wikiContext.addSimpleValidationError("Not allowed to edit"); // TODO gwiki i18n
+      return onInitImpl();
+    }
     if (StringUtils.isEmpty(commentText) == true) {
-      wikiContext.addSimpleValidationError("Keine Nachricht angegeben");
-      return onInit();
+      wikiContext.addSimpleValidationError("No comment text"); // TODO gwiki i18n
+      return onInitImpl();
     }
     if (StringUtils.isEmpty(pageId) == true) {
       wikiContext.addSimpleValidationError("pageId fehlt");
-      return onInit();
+      return onInitImpl();
     }
     String pageName = GWikiContext.getNamePartFromPageId(pageId);
     String parentPath = GWikiContext.getParentDirPathFromPageId(pageId);
@@ -178,11 +216,11 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
       wikiContext.addSimpleValidationError("Kann Wiki Seite nicht kompilieren: " + ex.getMessage() + "\n" + st);
-      return onInit();
+      return onInitImpl();
     }
     getWikiContext().getWikiWeb().saveElement(wikiContext, cel, false);
     commentText = "";
-    return onInit();
+    return onInitImpl();
   }
 
   /**
@@ -273,6 +311,46 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public void setFullList(List<GWikiElementInfo> fullList)
   {
     this.fullList = fullList;
+  }
+
+  public boolean isAllowAnonComments()
+  {
+    return allowAnonComments;
+  }
+
+  public void setAllowAnonComments(boolean allowAnonComments)
+  {
+    this.allowAnonComments = allowAnonComments;
+  }
+
+  public boolean isRegisterUserEnabled()
+  {
+    return registerUserEnabled;
+  }
+
+  public void setRegisterUserEnabled(boolean registerUserEnabled)
+  {
+    this.registerUserEnabled = registerUserEnabled;
+  }
+
+  public boolean isAnonUser()
+  {
+    return anonUser;
+  }
+
+  public void setAnonUser(boolean anonUser)
+  {
+    this.anonUser = anonUser;
+  }
+
+  public boolean isAllowPost()
+  {
+    return allowPost;
+  }
+
+  public void setAllowPost(boolean allowPost)
+  {
+    this.allowPost = allowPost;
   }
 
 }
