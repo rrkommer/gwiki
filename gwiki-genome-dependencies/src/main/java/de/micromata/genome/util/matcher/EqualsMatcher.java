@@ -25,6 +25,9 @@ public class EqualsMatcher<T> extends MatcherBase<T>
 
   public boolean match(T token)
   {
+    if (token == null && other == null) {
+      return true;
+    }
     if (token == null && other != null)
       return false;
     if (token != null && other == null)

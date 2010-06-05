@@ -31,10 +31,11 @@ public class MoreThanMatcher<T extends Comparable<T>> extends ComparatorMatcherB
 
   public boolean match(T object)
   {
-    if (other == null || other == null)
+    if (other == null || object == null)
       return false;
     return other.compareTo(object) < 0;
   }
+
   public String toString()
   {
     return "(" + other.toString() + " > EXPR)";
