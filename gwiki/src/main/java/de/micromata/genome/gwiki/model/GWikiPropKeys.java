@@ -118,4 +118,9 @@ public interface GWikiPropKeys
    * This element is part of another element.
    */
   public static final String PARTOF = "PARTOF";
+
+  /**
+   * Skin of the page.
+   */
+  public static final String SKIN = "SKIN";
 }

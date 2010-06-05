@@ -806,6 +806,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public String getSkin()
   {
+    if (getCurrentElement() != null) {
+      String skin = getCurrentElement().getElementInfo().getRecStringValue(SKIN, null, this);
+      if (StringUtils.isNotEmpty(skin) == true) {
+        return skin;
+      }
+    }
     String userStyle = wikiWeb.getAuthorization().getUserProp(this, "skin");
     if (StringUtils.isEmpty(userStyle) == false) {
       if (wikiWeb.getWikiConfig().isSkinAvailable(this, userStyle) == true) {
