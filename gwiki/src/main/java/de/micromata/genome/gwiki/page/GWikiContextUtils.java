@@ -57,7 +57,7 @@ public class GWikiContextUtils
   public static void renderRequiredCss(GWikiContext wikiContext)
   {
     for (String s : wikiContext.getRequiredCss()) {
-      wikiContext.append("<link rel=\"stylesheet\" type=\"text/css\"  src=\"" + wikiContext.localUrl(s) + "\"/>\n");
+      wikiContext.append("<link rel=\"stylesheet\" type=\"text/css\"  href=\"" + wikiContext.localUrl(s) + "\"/>\n");
     }
   }
 
