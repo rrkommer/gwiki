@@ -388,11 +388,26 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.I18NMODULES.description}" />
 					-->
+					<property name="helpLink"
+						value="gwikidocs/help/ElementSettings#PARTOF" />
 					<property name="type" value="PAGEID" />
 					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
 					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 				</bean>
-
+				<bean
+					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+					<property name="key" value="SKIN" />
+					<property name="label" value="Skin" />
+					<!--
+						<property name="description"
+						value="I{gwiki.settings.I18NMODULES.description}" />
+					-->
+					<property name="type" value="STRING" />
+					<property name="helpLink"
+						value="gwikidocs/help/ElementSettings#SKIN" />
+					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
+					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+				</bean>
 			</list>
 		</property>
 	</bean>

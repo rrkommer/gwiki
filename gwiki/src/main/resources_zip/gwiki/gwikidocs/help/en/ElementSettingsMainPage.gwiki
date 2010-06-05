@@ -124,3 +124,12 @@ For future usage.
 
 h2. SIZE
 Read only variable with the size of an attachment element.
+
+h2. PARTOF
+The Page or Element is part of another element.
+This is used, the the element can not displayed by self, but need another element to view.
+
+
+h2. SKIN
+Select a skin for this page including all children pages.
+You need developer rights to view/edit this property.
