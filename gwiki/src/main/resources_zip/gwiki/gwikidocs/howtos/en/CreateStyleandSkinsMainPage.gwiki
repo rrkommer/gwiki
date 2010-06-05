@@ -3,10 +3,14 @@ GWiki defines two skins: {{gwiki}} and {{naked}}. GWiki allows to use the wiki i
 {pageintro}
 
 h2. What is skin?
-Skins are templates, which do not only define colors or the layout of a page 
-but also functions like navigation or the menu to common functions.
-So a skin is not only a collections of CSS, images and a layout definition 
-but also can contain functionality written in jsp.
+Skins are templates, which do not only define colors or the layout of a page but also functions like navigation or the menu to common functions.
+So a skin is not only a collections of CSS, images and a layout definition but also can contain functionality written in jsp.
+
+h2. Choose Skin
+A skin can be choosen at different locations:
+- [GWiki Global Configuration|gwikidocs/help/en/GWikiConfig]: Select available skins and default skin
+- [User Profile Settings|gwikidocs/help/en/Profile]
+- Page: Set a Skin for the current page and al its children.
 
 h2. Steps to create a new skin named {{myskin}}
 The files for a skin are GWiki elements in with a path prefix {{inc/myskin/}}.
