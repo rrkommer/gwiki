@@ -17,14 +17,23 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.controls;
 
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.EmailValidator;
 import de.micromata.genome.gwiki.utils.MathCaptcha;
+import de.micromata.genome.util.types.TimeInMillis;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -52,6 +61,11 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
 
   private boolean showForm = true;
 
+  /**
+   * Set by java script
+   */
+  private String clientTzOffset;
+
   protected void init()
   {
     GWikiProps props = wikiContext.getElementFinder().getConfigProps("admin/config/GWikiAuthConfig");
@@ -73,32 +87,46 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
     return null;
   }
 
-  public void calcCaptcha()
+  public static String calcCaptcha(GWikiContext wikiContext)
   {
     MathCaptcha mc = new MathCaptcha();
     wikiContext.setSessionAttribute(CalcCaptchaSessionKey, mc);
-    catchaText = "" + mc.getFirstVal() + " " + mc.getOperation() + " " + mc.getSecondVal();
+    return "" + mc.getFirstVal() + " " + mc.getOperation() + " " + mc.getSecondVal();
+
   }
 
-  protected boolean checkCatcha()
+  public void calcCaptcha()
+  {
+    catchaText = calcCaptcha(wikiContext);
+  }
+
+  public static boolean checkCatcha(GWikiContext wikiContext, String catchaInput)
   {
     Object o = wikiContext.getSessionAttribute(CalcCaptchaSessionKey);
     if ((o instanceof MathCaptcha) == false) {
-      calcCaptcha();
+
       return false;
     }
     MathCaptcha mc = (MathCaptcha) o;
     try {
       int res = Integer.parseInt(catchaInput);
       if (mc.checkResult(res) == false) {
-        calcCaptcha();
+
         return false;
       }
     } catch (NumberFormatException ex) {
-      calcCaptcha();
       return false;
     }
     return true;
+  }
+
+  protected boolean checkCatcha()
+  {
+    boolean success = checkCatcha(wikiContext, catchaInput);
+    if (success == false) {
+      calcCaptcha();
+    }
+    return success;
   }
 
   public Object onRegister()
@@ -174,9 +202,56 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
     }
     String cp = GWikiSimpleUserAuthorization.encrypt(pass);
     GWikiProps props = new GWikiProps();
+    GWikiElement registeredUser = wikiContext.getWikiWeb().findElement("admin/user/registereduser");
+    if (registeredUser != null) {
+      props = new GWikiProps(((GWikiPropsArtefakt) registeredUser.getMainPart()).getCompiledObject());
+    }
     props.setStringValue(GWikiAuthorizationExt.USER_PROP_EMAIL, email);
-    props.setStringValue(GWikiAuthorizationExt.USER_PROP_RIGHTSRULE, "GWIKI_VIEWPAGES");
+    if (props.getStringValue(GWikiAuthorizationExt.USER_PROP_RIGHTSRULE, null) == null) {
+      props.setStringValue(GWikiAuthorizationExt.USER_PROP_RIGHTSRULE, "GWIKI_VIEWPAGES");
+    }
     props.setStringValue(GWikiAuthorizationExt.USER_PROP_PASSWORD, cp);
+    Locale loc = wikiContext.getRequest().getLocale();
+    GWikiGlobalConfig gc = wikiContext.getWikiWeb().getWikiConfig();
+
+    if (loc != null) {
+      String lang = loc.getLanguage();
+      if (gc.getAvailableLanguages(wikiContext).contains(lang) == true) {
+        props.setStringValue(GWikiAuthorizationExt.USER_LANG, lang);
+      }
+    }
+    if (StringUtils.isEmpty(clientTzOffset) == false) {
+      try {
+        int offsetMin = Integer.parseInt(clientTzOffset);
+        int daysaving = TimeZone.getDefault().getDSTSavings();
+        int offsetMs = (offsetMin * 1000 * 60 * -1) - daysaving;
+        int offsetHour = ((offsetMin / 60) * -1) - (daysaving / ((int) TimeInMillis.HOUR));
+        String tzs = "Etc/GMT";
+        if (offsetHour != 0) {
+          if (offsetHour > 0) {
+            tzs += "+";
+          }
+          tzs += offsetHour;
+        }
+        List<String> tcs = gc.getAvailableTimeZones(wikiContext);
+        if (tcs.contains(tzs) == true) {
+          props.setStringValue(GWikiAuthorizationExt.USER_TZ, tzs);
+        } else {
+          String[] offsets = TimeZone.getAvailableIDs(offsetMs);
+
+          for (String tzss : tcs) {
+            TimeZone tz = TimeZone.getTimeZone(tzss);
+            int rawo = tz.getOffset(System.currentTimeMillis());
+            if (rawo == offsetMs) {
+              props.setStringValue(GWikiAuthorizationExt.USER_TZ, tzss);
+              break;
+            }
+          }
+        }
+      } catch (NumberFormatException ex) {
+        // ignore
+      }
+    }
     if (authExt.createUser(wikiContext, user, props) == false) {
       wikiContext.addValidationError("gwiki.page.admin.RegisterUser.message.internalerrorstore");
       return false;
@@ -282,6 +357,16 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
   public void setShowForm(boolean showForm)
   {
     this.showForm = showForm;
+  }
+
+  public String getClientTzOffset()
+  {
+    return clientTzOffset;
+  }
+
+  public void setClientTzOffset(String clientTzOffset)
+  {
+    this.clientTzOffset = clientTzOffset;
   }
 
 }
