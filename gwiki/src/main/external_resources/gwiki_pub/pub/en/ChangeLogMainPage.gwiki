@@ -3,6 +3,15 @@ Detailed Changelog for GWiki.
 {pageintro}
 
 h2. 0.3.1-SNAPSHOT
+
+h3. 2010-06-05
+- Bug: Search pagination now reset if search button clicked.
+- An page can have the [SKIN|gwikidocs/help/en/ElementSettings#SKIN] property. If this is set, the skin will be used to display this and children page.
+- It is now possible to configure, if anonymous comments should be allowed.
+- User registration
+-- In user registration the default language and timezone will be evaluated.
+-- For new user the user {{registereduser}} will be used as template.
+
 h3. 2010-05-24
 - The global [Wiki configuration page|admin/EditWikiConfig] is now extendable. \\
   It looks for elements in the path for elements {{admin/config/*Config}}, where Main Part is a {{GWikiPropsArtefakt}} and display it as tab panel.\\

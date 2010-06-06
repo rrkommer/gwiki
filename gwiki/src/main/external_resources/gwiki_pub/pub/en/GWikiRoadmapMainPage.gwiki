@@ -8,7 +8,8 @@ h3. Features
 - Database support for more data bases like PosteSQL, MS SQL, mySQL. Please leave a message.
 - Blog Plugin. Integrate Blog in GWiki just with a macro. The work is already started, but not finished yet.
 - Forum Plugin. Create Forums inside GWiki.
-- Virtual Content Folder Macro: To integrate external HTML files - for example Java Doc and own gwiki element will be provided.
+- [pub/concepts/en/GWikiPlugins].
+- [Virtual Content Folder|pub/concepts/en/GWikiVirtualFolder]: To integrate external HTML files - for example Java Doc and own gwiki element will be provided.
 - Support something like a draft version. Include a release mechanism for publish drafts.
 - Register process for new users.
 
