@@ -25,19 +25,26 @@
 											<property name="key" value="AUTH_ALLOW_PASSWORD_FORGOTTEN" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#AUTH_ALLOW_PASSWORD_FORGOTTEN" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_ALLOW_REGISTER_USER" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#AUTH_ALLOW_REGISTER_USER" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
 										</bean>
+
 									</list>
 								</property>
 							</bean>
