@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
@@ -52,6 +54,8 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   protected Map<String, Pair<GWikiElement, GWikiPropsArtefakt>> configs = new TreeMap<String, Pair<GWikiElement, GWikiPropsArtefakt>>();
 
   protected ArrayMap<String, GWikiEditorArtefakt< ? >> editors = new ArrayMap<String, GWikiEditorArtefakt< ? >>();
+
+  private String backUrl;
 
   protected boolean init()
   {
@@ -112,6 +116,14 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
     return null;
   }
 
+  protected Object goBack()
+  {
+    if (StringUtils.isNotBlank(backUrl) == true) {
+      return backUrl;
+    }
+    return getWikiContext().getWikiWeb().getHomeElement(getWikiContext());
+  }
+
   public Object onSave()
   {
     if (init() == false) {
@@ -140,12 +152,12 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
       wikiContext.getWikiWeb().saveElement(wikiContext, me.getValue().getFirst(), false);
 
     }
-    return null;
+    return goBack();
   }
 
   public Object onCancel()
   {
-    return null;
+    return goBack();
   }
 
   public ArrayMap<String, GWikiEditorArtefakt< ? >> getEditors()
@@ -166,6 +178,16 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   public void setConfigs(Map<String, Pair<GWikiElement, GWikiPropsArtefakt>> configs)
   {
     this.configs = configs;
+  }
+
+  public String getBackUrl()
+  {
+    return backUrl;
+  }
+
+  public void setBackUrl(String backUrl)
+  {
+    this.backUrl = backUrl;
   }
 
 }

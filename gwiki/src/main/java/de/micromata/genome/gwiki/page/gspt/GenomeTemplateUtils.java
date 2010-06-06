@@ -270,7 +270,10 @@ public class GenomeTemplateUtils
       // handled outside
       throw new RuntimeException("IO failure execution Groovy", ex);
     } catch (Exception e) {
-      throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getWikiElement().getElementInfo().getId() + "; " + e.getMessage(), e);
+      throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
+          .getElementInfo().getId()
+          + "; "
+          + e.getMessage(), e);
     }
   }
 

@@ -19,6 +19,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.forum;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
@@ -38,6 +39,12 @@ public class GWikiForumActionBean extends ActionBeanBase
   {
     pageId = wikiContext.getCurrentElement().getElementInfo().getId();
     forumDescription = new GWikiForumDescription(wikiContext, wikiContext.getCurrentElement().getElementInfo());
+    String cssId = "inc/gwiki/css/forum.css";
+    String styleCss = "inc/" + wikiContext.getSkin() + "/css/forum.css";
+    if (wikiContext.getWikiWeb().findElementInfo(styleCss) != null) {
+      cssId = styleCss;
+    }
+    wikiContext.getRequiredCss().add(cssId);
     return true;
   }
 
@@ -49,8 +56,26 @@ public class GWikiForumActionBean extends ActionBeanBase
     return null;
   }
 
+  public void renderPostHeader(GWikiForumPostDescription fd)
+  {
+    wikiContext.append("<td><span class=\"forumPostTitle\">");
+    GWikiElementInfo ei = fd.getPost();
+    // GWikiElementInfo ei = wikiContext.getWikiWeb().getElementInfo();
+    wikiContext.append(esc(ei.getTitle())) //
+        .append("</span>") //
+        .append("<br/>") //
+        .append("<span class=\"forumPostVersion\">") //
+        .append("from ").append(esc(ei.getCreatedBy())) //
+        .append(" (").append(wikiContext.getUserDateString(ei.getCreatedAt())).append(")") //
+        .append("</span>") //
+        .append("</td>") //
+    ;
+
+  }
+
   public void renderPost(GWikiForumPostDescription fd)
   {
+    wikiContext.append("<td>");
     GWikiElement el = wikiContext.getWikiWeb().getElement(fd.getPost());
     GWikiArtefakt< ? > art = el.getPart("MainPage");
     if (art instanceof GWikiExecutableArtefakt< ? >) {
@@ -58,6 +83,7 @@ public class GWikiForumActionBean extends ActionBeanBase
     } else {
       wikiContext.getWikiWeb().serveWiki(wikiContext, el);
     }
+    wikiContext.append("<td>");
   }
 
   public GWikiForumDescription getForumDescription()
