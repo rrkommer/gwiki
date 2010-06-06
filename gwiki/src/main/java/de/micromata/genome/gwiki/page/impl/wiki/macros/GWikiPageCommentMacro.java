@@ -67,7 +67,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
         // .append("alert('ready');\n")
         .append("var url = '").append(pageCommentUrl).append("';\n") //
         .append("var pc = document.getElementById('PageComments');\n")//
-        .append("$(pc).load(url + '');\n")//
+        .append("$(pc).load(url + '', { '_ts': new Date().valueOf() } );\n")//
         .append("});\n") //
         .append("</script>\n") //
     ;
