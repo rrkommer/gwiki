@@ -19,10 +19,12 @@
 package de.micromata.genome.gwiki.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.ServletConfig;
 
@@ -192,6 +194,11 @@ public class GWikiGlobalConfig extends GWikiProps
   public List<String> getAvailableLanguages(GWikiContext context)
   {
     return this.getStringList(GWIKI_WIKI_LANGUAGES);
+  }
+
+  public List<String> getAvailableTimeZones(GWikiContext context)
+  {
+    return Arrays.asList(TimeZone.getAvailableIDs());
   }
 
   protected List<Pair<String, Matcher<String>>> parseRightRules(String text)
