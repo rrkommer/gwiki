@@ -28,8 +28,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
-import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
@@ -47,7 +45,6 @@ public class SearchExpressionContentSearcher implements ContentSearcher
   {
     return parser.getCommandExpressions().keySet();
   }
-
 
   public void rebuildIndex(GWikiContext wikiContext, String pageId)
   {
@@ -123,7 +120,11 @@ public class SearchExpressionContentSearcher implements ContentSearcher
       int startIdx = query.getSearchOffset();
       int eidx = startIdx + (totalSize < query.getMaxCount() ? totalSize : query.getMaxCount());
       eidx = eidx < ret.size() ? eidx : ret.size();
-      ret = ret.subList(startIdx, eidx);
+      if (startIdx < eidx) {
+        ret = ret.subList(startIdx, eidx);
+      } else {
+        ret = new ArrayList<SearchResult>(0);
+      }
     }
 
     if (query.isWithSampleText() == true) {
