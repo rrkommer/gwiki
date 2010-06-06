@@ -15,6 +15,11 @@
    	<td><label for="user"><fmt:message key="gwiki.page.admin.RegisterUser.label.email"/></label></td>
    	<td><gwiki:text errorStyleClass="text error" styleClass="text"  style="width: 20em;" styleId="user" size="20" property="email" /></td>
    </tr>
+   <script type="text/javascript" language="JavaScript">
+		var offset = new Date();
+		document.write('<input type="hidden" id="clientTzOffset" name="clientTzOffset" value="' + offset.getTimezoneOffset() + '"/>');
+		</script>
+   
    <c:if test="${form.doubleOptIn == false}">
    <tr>
    	<td><label for="pass"><fmt:message key="gwiki.page.admin.RegisterUser.label.password"/></label></td>
