@@ -69,6 +69,7 @@ import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.ArraySet;
+import de.micromata.genome.util.types.TimeInMillis;
 
 /**
  * A GWikiContext is the central state to hold information in a request/response cycle.
@@ -761,9 +762,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     String cvalue = URLEncoder.encode(value);
     Cookie tsc = new Cookie(key, cvalue);
-    // tsc.setSecure(true);
-    tsc.setPath("/");
-    // tsc.setVersion(1);
+    tsc.setPath(getWikiWeb().getContextPath());
+    tsc.setMaxAge((int) TimeInMillis.YEAR);
     response.addCookie(tsc);
 
   }
@@ -771,7 +771,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void clearCookie(String key)
   {
     Cookie tsc = new Cookie(key, "");
-    tsc.setPath("/");
+    tsc.setPath(getWikiWeb().getContextPath());
     // tsc.setSecure(true);
     tsc.setMaxAge(0);
     response.addCookie(tsc);
