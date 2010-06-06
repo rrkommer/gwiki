@@ -119,7 +119,7 @@ def getDefaultValue(pct)
 def getOptionEntryMap(pct) 
 {
 	Map m = new TreeMap();
-	for (tzId in TimeZone.getAvailableIDs()) {
+	for (tzId in  pct.wikiContext.wikiWeb.wikiConfig.getAvailableTimeZones(pct.wikiContext)) {
 		TimeZone tz = TimeZone.getTimeZone(tzId)
 		m.put(tzId, tz.getID() /*tz.getDisplayName() + " (" + tz.getID() + ")"*/);
 	}
