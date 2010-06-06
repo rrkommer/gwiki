@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.controls.GWikiLoginActionBean;
+import de.micromata.genome.gwiki.controls.GWikiRegisterUserActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -57,6 +58,8 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 {
   public static final String PROP_REPLY_TO = "PAGECOMMENT_REPLYTO";
 
+  public static final String GWIKI_ANON_USERNAME_KEY = "gwiki.anonUserName";
+
   /**
    * Flat view or thread view.
    */
@@ -77,6 +80,15 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
    */
   private String commentText;
 
+  /**
+   * In case of anon user.
+   */
+  private String userName;
+
+  private String catchaText;
+
+  private String catchaInput;
+
   private List<GWikiElementInfo> commentElements = new ArrayList<GWikiElementInfo>();
 
   private List<GWikiElementInfo> fullList = new ArrayList<GWikiElementInfo>();
@@ -88,6 +100,11 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   private boolean anonUser = true;
 
   private boolean allowPost = false;
+
+  protected boolean needCatcha()
+  {
+    return allowPost == true && anonUser == true;
+  }
 
   public static List<GWikiElementInfo> getCommentsForPage(GWikiContext wikiContext, String pageId)
   {
@@ -130,6 +147,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     registerUserEnabled = props.getBooleanValue(GWikiLoginActionBean.AUTH_ALLOW_REGISTER_USER);
     anonUser = wikiContext.getWikiWeb().getAuthorization().needAuthorization(wikiContext);
     allowPost = allowAnonComments == true || anonUser == false;
+
   }
 
   public Object onInit()
@@ -141,18 +159,24 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   protected Object onInitImpl()
   {
     collectComments();
+    if (needCatcha() == true) {
+      catchaText = GWikiRegisterUserActionBean.calcCaptcha(wikiContext);
+      if (StringUtils.isBlank(userName) == true) {
+        userName = wikiContext.getCookie(GWIKI_ANON_USERNAME_KEY);
+      }
+    }
     return null;
   }
 
-  protected GWikiMetaTemplate initMetaTemplate()
+  public static GWikiMetaTemplate initMetaTemplate(GWikiContext wikiContext)
   {
     String metaTemplatePageId = GWikiDefaultFileNames.FRAGMENT_METATEMPLATE;
     return wikiContext.getWikiWeb().findMetaTemplate(metaTemplatePageId);
   }
 
-  protected String getViewRightFromParent()
+  public static String getViewRightFromParent(GWikiContext wikiContext, String partOf)
   {
-    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
+    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(partOf);
     if (ei == null)
       return null;
     return ei.getProps().getStringValue(AUTH_VIEW);
@@ -161,7 +185,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   protected GWikiElement createNewElement()
   {
     GWikiProps props = new GWikiSettingsProps();
-    GWikiMetaTemplate metaTemplate = initMetaTemplate();
+    GWikiMetaTemplate metaTemplate = initMetaTemplate(wikiContext);
     props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.COMMENT_METATEMPLATE);
     props.setStringValue(TITLE, "Comment");
@@ -171,7 +195,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     props.setStringValue(AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
     props.setDateValue(MODIFIEDAT, new Date());
     props.setStringValue(PARTOF, pageId);
-    String viewRight = getViewRightFromParent();
+    String viewRight = getViewRightFromParent(wikiContext, pageId);
     if (viewRight != null) {
       props.setStringValue(AUTH_VIEW, viewRight);
     }
@@ -190,14 +214,27 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
       wikiContext.addSimpleValidationError("Not allowed to edit"); // TODO gwiki i18n
       return onInitImpl();
     }
+
     if (StringUtils.isEmpty(commentText) == true) {
       wikiContext.addSimpleValidationError("No comment text"); // TODO gwiki i18n
       return onInitImpl();
     }
+    if (needCatcha() == true) {
+      if (GWikiRegisterUserActionBean.checkCatcha(wikiContext, catchaInput) == false) {
+        wikiContext.addValidationFieldError("gwiki.page.admin.RegisterUser.message.wrongcatcha", "catchaInput");
+        return onInitImpl();
+      }
+      if (StringUtils.isEmpty(userName) == true) {
+        wikiContext.addSimpleValidationError("Provide a user name");
+        return onInitImpl();
+      }
+      wikiContext.setCookie(GWIKI_ANON_USERNAME_KEY, userName);
+    }
     if (StringUtils.isEmpty(pageId) == true) {
-      wikiContext.addSimpleValidationError("pageId fehlt");
+      wikiContext.addSimpleValidationError("pageId missing");
       return onInitImpl();
     }
+
     String pageName = GWikiContext.getNamePartFromPageId(pageId);
     String parentPath = GWikiContext.getParentDirPathFromPageId(pageId);
     String newPageId = FileNameUtils.join(parentPath, "comments", pageName, GWikiProps.formatTimeStamp(new Date()));
@@ -218,8 +255,15 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
       wikiContext.addSimpleValidationError("Kann Wiki Seite nicht kompilieren: " + ex.getMessage() + "\n" + st);
       return onInitImpl();
     }
+    if (StringUtils.isEmpty(userName) == false) {
+      cel.getElementInfo().getProps().setStringValue(GWikiPropKeys.MODIFIEDBY, "anon/" + userName);
+      if (wikiContext.getWikiWeb().findElementInfo(cel.getElementInfo().getId()) == null) {
+        cel.getElementInfo().getProps().setStringValue(GWikiPropKeys.CREATEDBY, "anon/" + userName);
+      }
+    }
     getWikiContext().getWikiWeb().saveElement(wikiContext, cel, false);
     commentText = "";
+    catchaInput = "";
     return onInitImpl();
   }
 
@@ -351,6 +395,36 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public void setAllowPost(boolean allowPost)
   {
     this.allowPost = allowPost;
+  }
+
+  public String getUserName()
+  {
+    return userName;
+  }
+
+  public void setUserName(String userName)
+  {
+    this.userName = userName;
+  }
+
+  public String getCatchaText()
+  {
+    return catchaText;
+  }
+
+  public void setCatchaText(String catchaText)
+  {
+    this.catchaText = catchaText;
+  }
+
+  public String getCatchaInput()
+  {
+    return catchaInput;
+  }
+
+  public void setCatchaInput(String catchaInput)
+  {
+    this.catchaInput = catchaInput;
   }
 
 }
