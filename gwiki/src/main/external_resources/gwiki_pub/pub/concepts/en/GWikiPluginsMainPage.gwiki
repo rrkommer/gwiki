@@ -1,0 +1,31 @@
+{pageintro}
+For more modulare concept GWiki Plugin package format will be introduced.
+{pageintro}
+
+h2. Current situation
+GWiki has already an open architecture. Nearly all aspects can be extended.
+
+But the current solution has following disadvantage:
+- Java classes has to put into normal class path.
+- Configuration, templates etc. has to be spread in the virtual file system. It is possible to use mounted file systems to seperate files on different location, but to many mounts may slow down the file system performance.
+- Some configuration has to be done in global GWiki configuration: Register Macros, Filters, Elements and so on.
+- No Meta info for a plugin is available
+
+h2. Goal description
+A plugin is a directory or ZIP file - similar to a WAR or JAR file - containing all files needed for a GWiki Plugin.
+
+Developing a GWiki Plugin should be easy. No redeployment should be necessary, but normal IDE mechanism and container hot code replacment mechanism should work.
+
+h2. Solution Concept
+h3. Standard layout
+
+- /gwikiplugin.xml
+- /src/java
+- /classes
+- /lib
+- /content/static
+- /content/gwiki
+
+h3. Open Issues
+- Mounting into virtual file system: Too many mount points lower performance. Has to be regarded.
+- ClassLoader reaload avare.
