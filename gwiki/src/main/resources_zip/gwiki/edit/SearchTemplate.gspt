@@ -14,6 +14,12 @@
         document.getElementById("formmethod").name = "method_onSearch";
         document.getElementById("SearchForm").submit();
     }
+    function submitNewSearch()
+    {
+    	document.getElementById("searchOffset").value = "0";
+    	document.getElementById("formmethod").name = "method_onSearch";
+      document.getElementById("SearchForm").submit();
+    }
 </script>
 <%
 def showNextPrevious(wikiContext, form) { %>
@@ -46,7 +52,7 @@ def showNextPrevious(wikiContext, form) { %>
 <form id="SearchForm" method="POST">
 <fmt:message key="gwiki.page.edit.Search.label.searchexpression"/>  
 <gwiki:text size="40" property="searchExpression" />&nbsp;
-<input class="gwikiButton main" type="submit" name="method_onSearch" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" />
+<input onclick="submitNewSearch()" class="gwikiButton main" type="submit" name="method_onSearch" value="<fmt:message key="gwiki.page.edit.Search.button.search"/>" />
 <gwiki:hidden styleId='searchOffset' property="searchOffset"/>
 <gwiki:hidden styleId='pageSize' property="pageSize"/>
 <input type="hidden" id="formmethod" name=""/>
