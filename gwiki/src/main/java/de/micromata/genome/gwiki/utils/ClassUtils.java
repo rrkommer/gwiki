@@ -39,17 +39,23 @@ public class ClassUtils
   public static Class< ? > classForName(String className)
   {
     try {
-      return Class.forName(className);
+      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      return Class.forName(className, true, cl);
     } catch (Throwable ex) {
       throw new RuntimeException("Failed to load class: " + className + "; " + ex.getMessage(), ex);
     }
+  }
+
+  public static <T> Class<T> classForName(String className, Class<T> ifacecls)
+  {
+    return (Class<T>) classForName(className);
   }
 
   @SuppressWarnings("unchecked")
   public static <T> T createDefaultInstance(String className, Class< ? extends T> classExpected)
   {
     try {
-      Class< ? extends T> ret = (Class< ? extends T>) Class.forName(className);
+      Class< ? extends T> ret = (Class< ? extends T>) Class.forName(className, true, Thread.currentThread().getContextClassLoader());
       return ret.newInstance();
     } catch (Throwable ex) {
       throw new RuntimeException("Cannot create class instance: " + ex.toString(), ex);

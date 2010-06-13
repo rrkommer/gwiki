@@ -59,6 +59,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GlobalIndexFile;
 import de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler;
 import de.micromata.genome.gwiki.page.search.WordIndexTextArtefakt;
+import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.matcher.AndMatcher;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -322,7 +323,7 @@ public class GWikiFileStorage implements GWikiStorage
       if (typeClass == null) {
         throw new RuntimeException("Unknown element type: " + type + " in id " + ei.getId());
       }
-      Class< ? extends GWikiElement> cls = (Class< ? extends GWikiElement>) Class.forName(typeClass);
+      Class< ? extends GWikiElement> cls = (Class< ? extends GWikiElement>) ClassUtils.classForName(typeClass);
       Constructor< ? extends GWikiElement> constr = cls.getConstructor(new Class< ? >[] { GWikiElementInfo.class});
       GWikiElement el = (GWikiElement) constr.newInstance(new Object[] { ei});
       return el;
@@ -862,6 +863,16 @@ public class GWikiFileStorage implements GWikiStorage
   public void setStandardLockTimeout(long standardLockTimeout)
   {
     this.standardLockTimeout = standardLockTimeout;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiStorage#setFileSystem(de.micromata.genome.gdbfs.FileSystem)
+   */
+  public void setFileSystem(FileSystem fileSystem)
+  {
+    storage = fileSystem;
   }
 
 }
