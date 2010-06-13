@@ -21,14 +21,12 @@ package de.micromata.genome.gwiki.page.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.model.GWikiAbstractElement;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
@@ -61,11 +59,14 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 
   protected void initParts()
   {
-    String mt = getElementInfo().getProps().getStringValue(WIKIMETATEMPLATE);
-    if (StringUtils.isEmpty(mt) == true) {
-      mt = GWikiDefaultFileNames.DEFAULT_METATEMPLATE;
+    GWikiMetaTemplate metaTemplate = getMetaTemplate();
+    if (metaTemplate == null) {
+      GWikiLog.warn("Wiki element without meta template: page="
+          + getElementInfo().getId()
+          + "; metaTemplate:"
+          + getElementInfo().getProps().getStringValue(WIKIMETATEMPLATE));
+      return;
     }
-    GWikiMetaTemplate metaTemplate = GWikiWeb.get().findMetaTemplate(mt);
     for (Map.Entry<String, GWikiArtefakt< ? >> me : metaTemplate.getParts().entrySet()) {
       GWikiArtefakt< ? > art = me.getValue();
       parts.put(me.getKey(), art);

@@ -60,6 +60,8 @@ public class GWikiGlobalConfig extends GWikiProps
 
   private static final long serialVersionUID = -3700759128425586958L;
 
+  public static final String GWIKI_GLOBAL_CONFIG_PATH = "admin/config/GWikiConfig";
+
   public static final String GWIKI_PUBLIC_URL = "GWIKI_PUBLIC_URL";
 
   public static final String GWIKI_SEND_EMAIL = "GWIKI_SEND_EMAIL";
@@ -90,6 +92,8 @@ public class GWikiGlobalConfig extends GWikiProps
   public static final String GWIKI_WELCOME_PAGE = "GWIKI_WELCOME_PAGE";
 
   public static final String GWIKI_WIKI_ELEMENTS = "GWIKI_WIKI_ELEMENTS";
+
+  public static final String GWIKI_ACTIVE_PLUGINS = "GWIKI_ACTIVE_PLUGINS";
 
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
@@ -201,6 +205,11 @@ public class GWikiGlobalConfig extends GWikiProps
     return Arrays.asList(TimeZone.getAvailableIDs());
   }
 
+  public List<String> getActivePlugins()
+  {
+    return this.getStringList(GWIKI_ACTIVE_PLUGINS);
+  }
+
   protected List<Pair<String, Matcher<String>>> parseRightRules(String text)
   {
     if (StringUtils.isEmpty(text) == true) {
@@ -294,6 +303,7 @@ public class GWikiGlobalConfig extends GWikiProps
       }
     }
     initScriptMacros(wikiContext, facs);
+    wikiContext.getWikiWeb().getDaoContext().getPluginRepository().getMacros(wikiContext, facs);
     return wikiFactories = facs;
   }
 

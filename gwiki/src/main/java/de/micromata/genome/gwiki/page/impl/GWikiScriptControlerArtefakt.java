@@ -90,7 +90,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
       return null;
     }
     try {
-      beanClass = (Class< ? extends ActionBeanBase>) Class.forName(beanClassName);
+      beanClass = (Class< ? extends ActionBeanBase>) ClassUtils.classForName(beanClassName);
       return beanClass;
     } catch (Throwable ex) {
       throw new RuntimeException("Failed to create ActionBean: " + beanClassName + ": " + ex.getMessage(), ex);

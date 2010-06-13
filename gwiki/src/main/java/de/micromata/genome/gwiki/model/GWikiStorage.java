@@ -163,4 +163,11 @@ public interface GWikiStorage
    * @return virtual file system.
    */
   public FileSystem getFileSystem();
+
+  /**
+   * Set file system
+   * 
+   * @param fileSystem
+   */
+  public void setFileSystem(FileSystem fileSystem);
 }

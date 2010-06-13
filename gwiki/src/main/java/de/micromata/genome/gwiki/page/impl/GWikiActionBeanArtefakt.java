@@ -29,6 +29,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
+import de.micromata.genome.gwiki.utils.ClassUtils;
 
 /**
  * Base class to implement a ActionBean as GWikiArtefakt.
@@ -78,7 +79,7 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
       // throw new RuntimeException("No bean class defined");
     }
     try {
-      beanClass = (Class< ? extends ActionBean>) Class.forName(beanClassName);
+      beanClass = (Class< ? extends ActionBean>) ClassUtils.classForName(beanClassName);
       return beanClass;
     } catch (Throwable ex) {
       throw new RuntimeException("Failed to create ActionBean: " + beanClassName + ": " + ex.getMessage(), ex);

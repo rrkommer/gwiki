@@ -46,8 +46,25 @@ public class GWikiPropsDescriptorValue implements Serializable
   private String helpLink;
 
   /*
-   * <ul> <li>STRING: No restriction</li> <li>PAGEID</li> <li>PAGEIDLIST</li> <li>CLASSNAME</li> <li>BOOLEAN</li> <li>RIGHT</li>
-   * <li>STRINGLIST</li> <li>TIMESTAMP</li> <li>OPTION</li>
+   * <ul> <li>STRING: No restriction</li>
+   * 
+   * <li>PAGEID</li>
+   * 
+   * <li>PAGEIDLIST</li>
+   * 
+   * <li>CLASSNAME</li>
+   * 
+   * <li>BOOLEAN</li>
+   * 
+   * <li>RIGHT</li>
+   * 
+   * <li>STRINGLIST</li>
+   * 
+   * <li>TIMESTAMP</li>
+   * 
+   * <li>OPTION</li>
+   * 
+   * <li>LABEL</li>
    */
   private String type = "STRING";
 
