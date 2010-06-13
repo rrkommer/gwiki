@@ -26,7 +26,7 @@ import de.micromata.genome.dao.db.StdRecordDO;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class FsObject extends StdRecordDO
+public class FsObject extends StdRecordDO implements Cloneable
 {
 
   private static final long serialVersionUID = -6003825859639182662L;
@@ -52,6 +52,24 @@ public class FsObject extends StdRecordDO
     this.type = type;
     this.mimeType = mimeType;
     this.lastModified = lastModified;
+  }
+
+  public FsObject(FsObject other)
+  {
+    super(other);
+    this.fileSystem = other.fileSystem;
+    this.name = other.name;
+    this.type = other.type;
+    this.mimeType = other.mimeType;
+    this.lastModified = other.lastModified;
+    this.length = other.length;
+    this.attributes = other.attributes;
+  }
+
+  @Override
+  public Object clone()
+  {
+    return new FsObject(this);
   }
 
   public String getNamePart()

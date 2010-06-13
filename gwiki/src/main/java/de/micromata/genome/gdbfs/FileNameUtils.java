@@ -78,10 +78,10 @@ public class FileNameUtils
 
   public static String join(String first, String second)
   {
-    if (StringUtils.isEmpty(second) == true) {
+    if (StringUtils.isEmpty(second) == true || second.equals("/") == true) {
       return first;
     }
-    if (StringUtils.isEmpty(first) == true) {
+    if (StringUtils.isEmpty(first) == true || first.equals("/") == true) {
       return second;
     }
     if (first.endsWith("/") == true || second.startsWith("/") == true) {

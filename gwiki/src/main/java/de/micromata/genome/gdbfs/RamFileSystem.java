@@ -69,6 +69,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     if (name.startsWith("/") == true) {
       return name.substring(1);
     }
+    // must not otherwise inconsitent
+    // if (name.endsWith("/") == true) {
+    // return name.substring(0, name.length() - 1);
+    // }
     return name;
   }
 
@@ -232,6 +236,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         newFile.setCreatedAt(old.getFile().getCreatedAt());
         newFile.setCreatedBy(old.getFile().getCreatedBy());
       }
+      if (name.equals(nc.getFile().getName()) == false) {
+        throw new RuntimeException("Inkonsistent fs");
+      }
       files.put(name, nc);
       ++modificationCounter;
       addEvent(existed == false ? FileSystemEventType.Created : FileSystemEventType.Modified, name, System.currentTimeMillis());
@@ -256,7 +263,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
   public <R> R runInTransaction(long timeOut, CallableX<R, RuntimeException> callback)
   {
-    // TODO Auto-generated method stub
     return callback.call();
   }
 

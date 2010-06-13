@@ -36,6 +36,17 @@ public class FsDirectoryObject extends FsObject
     super(fileSystem, name, FileSystem.TYPE_DIR, null, lastModified);
   }
 
+  public FsDirectoryObject(FsDirectoryObject other)
+  {
+    super(other);
+  }
+
+  @Override
+  public Object clone()
+  {
+    return new FsDirectoryObject(this);
+  }
+
   public FsDirectoryObject mkdir(String dir)
   {
     String locName = FileNameUtils.join(getName(), dir);
@@ -60,4 +71,5 @@ public class FsDirectoryObject extends FsObject
   {
     return fileSystem.listFiles(getName(), null, type, false);
   }
+
 }
