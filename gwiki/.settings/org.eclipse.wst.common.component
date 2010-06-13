@@ -5,5 +5,8 @@
 <wb-resource deploy-path="/" source-path="/src/main/resources"/>
 <wb-resource deploy-path="/" source-path="/src/test/java"/>
 <wb-resource deploy-path="/" source-path="/src/test/resources"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/s5slideshow/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/forum/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/blog/src/main/java"/>
 </wb-module>
 </project-modules>
