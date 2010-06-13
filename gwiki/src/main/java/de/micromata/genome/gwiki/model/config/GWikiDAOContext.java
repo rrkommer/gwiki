@@ -41,6 +41,7 @@ import de.micromata.genome.gwiki.page.gspt.GenomeJspProcessor;
 import de.micromata.genome.gwiki.page.impl.i18n.GWikiI18nStandardProvider;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionContentSearcher;
+import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
 import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 
 /**
@@ -84,13 +85,17 @@ public class GWikiDAOContext
 
   /**
    * if true, read the static/ from class path and not from web context path.
+   * 
+   * Must be true if working with GWiki Plugins.
    */
-  private boolean staticContentFromClassPath = false;
+  private boolean staticContentFromClassPath = true;
 
   /**
    * if set, serve static content from this location.
    */
   private FileSystem staticContentFileSystem;
+
+  private GWikiPluginRepository pluginRepository = new GWikiPluginRepository();
 
   public String toString()
   {
@@ -259,6 +264,16 @@ public class GWikiDAOContext
   public void setStaticContentFileSystem(FileSystem staticContentFileSystem)
   {
     this.staticContentFileSystem = staticContentFileSystem;
+  }
+
+  public GWikiPluginRepository getPluginRepository()
+  {
+    return pluginRepository;
+  }
+
+  public void setPluginRepository(GWikiPluginRepository pluginRepository)
+  {
+    this.pluginRepository = pluginRepository;
   }
 
 }

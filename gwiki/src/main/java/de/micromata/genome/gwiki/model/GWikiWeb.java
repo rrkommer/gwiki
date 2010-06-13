@@ -147,9 +147,10 @@ public class GWikiWeb
       inBootStrapping = true;
 
       filter = new GWikiFilters();
+      GWikiGlobalConfig config = reloadWikiConfig();
+      daoContext.getPluginRepository().initPluginRepository(this, config);
 
       // / force to load config first to register listener
-      GWikiGlobalConfig config = reloadWikiConfig();
 
       modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
       Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
@@ -163,7 +164,6 @@ public class GWikiWeb
           return null;
         }
       });
-
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;
@@ -223,37 +223,45 @@ public class GWikiWeb
 
   public void serveWiki(final GWikiContext ctx, String pageId)
   {
+    ClassLoader previousClassLoader = null;
     try {
-      ctx.getRequest().setCharacterEncoding("UTF-8");
-      ctx.getResponse().setCharacterEncoding("UTF-8");
-    } catch (UnsupportedEncodingException ex) {
-      throw new RuntimeException(ex);
-    }
-    daoContext.getStorage().getFileSystem().checkEvents(false);
-    initStandardReqParams(ctx);
-    String welcomePage = StringUtils.defaultIfEmpty(wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE), "index");
-    ctx.getRequest().setAttribute("welcomePageId", welcomePage);
-    if (StringUtils.isEmpty(pageId) == true) {
-      pageId = welcomePage;
-    }
-    GWikiElement el = findElement(pageId);
-    if (el == null) {
-      GWikiLog.note("PageNot Found: " + pageId);
-      el = findElement(pageId);
-      ctx.setRequestAttribute("NotFoundPageId", pageId);
-      el = findElement("admin/PageNotFound");
-      if (el == null)
-        throw new RuntimeException("No Wiki page found: " + "admin/PageNotFound");
-    }
-    filter.serveElement(ctx, el, new GWikiServeElementFilter() {
-
-      public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
-          GWikiServeElementFilterEvent event)
-      {
-        serveWiki(event.getWikiContext(), event.getElement());
-        return null;
+      previousClassLoader = daoContext.getPluginRepository().initClassLoader();
+      try {
+        ctx.getRequest().setCharacterEncoding("UTF-8");
+        ctx.getResponse().setCharacterEncoding("UTF-8");
+      } catch (UnsupportedEncodingException ex) {
+        throw new RuntimeException(ex);
       }
-    });
+      daoContext.getStorage().getFileSystem().checkEvents(false);
+      initStandardReqParams(ctx);
+      String welcomePage = StringUtils.defaultIfEmpty(wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE), "index");
+      ctx.getRequest().setAttribute("welcomePageId", welcomePage);
+      if (StringUtils.isEmpty(pageId) == true) {
+        pageId = welcomePage;
+      }
+      GWikiElement el = findElement(pageId);
+      if (el == null) {
+        GWikiLog.note("PageNot Found: " + pageId);
+        el = findElement(pageId);
+        ctx.setRequestAttribute("NotFoundPageId", pageId);
+        el = findElement("admin/PageNotFound");
+        if (el == null)
+          throw new RuntimeException("No Wiki page found: " + "admin/PageNotFound");
+      }
+      filter.serveElement(ctx, el, new GWikiServeElementFilter() {
+
+        public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
+            GWikiServeElementFilterEvent event)
+        {
+          serveWiki(event.getWikiContext(), event.getElement());
+          return null;
+        }
+      });
+    } finally {
+      if (previousClassLoader != null) {
+        Thread.currentThread().setContextClassLoader(previousClassLoader);
+      }
+    }
 
   }
 
@@ -452,22 +460,26 @@ public class GWikiWeb
         return ret;
       }
     }
-
-    GWikiElementInfo ei = null;
-    if (usePageCache == true) {
-      ei = daoContext.getPageCache().getPageInfo(path);
-    }
-    if (ei == null) {
-      ei = getStorage().loadElementInfo(path);
-      if (ei == null) {
-        return null;
+    try {
+      GWikiElementInfo ei = null;
+      if (usePageCache == true) {
+        ei = daoContext.getPageCache().getPageInfo(path);
       }
+      if (ei == null) {
+        ei = getStorage().loadElementInfo(path);
+        if (ei == null) {
+          return null;
+        }
+      }
+      GWikiElement el = getStorage().loadElement(ei);
+      if (usePageCache == true && getStorage().isArchivePageId(ei.getId()) == false) {
+        daoContext.getPageCache().putCachedPage(path, el);
+      }
+      return el;
+    } catch (Throwable ex) {
+      GWikiLog.warn("Cannot load element: " + path + "; " + ex.getMessage(), ex);
+      return null;
     }
-    GWikiElement el = getStorage().loadElement(ei);
-    if (usePageCache == true && getStorage().isArchivePageId(ei.getId()) == false) {
-      daoContext.getPageCache().putCachedPage(path, el);
-    }
-    return el;
   }
 
   public GWikiMetaTemplate findMetaTemplate(String pageId)
@@ -582,9 +594,9 @@ public class GWikiWeb
 
   public synchronized GWikiGlobalConfig reloadWikiConfig()
   {
-    GWikiElement el = findElement("admin/config/GWikiConfig", true);
+    GWikiElement el = findElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH, true);
     if (el == null) {
-      throw new RuntimeException("admin/config/GWikiConfig cannot be found. Please Check GWikiContext.xml");
+      throw new RuntimeException(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH + "cannot be found. Please Check GWikiContext.xml");
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiGlobalConfig nwikiGlobalConfig = new GWikiGlobalConfig((GWikiProps) ser);
