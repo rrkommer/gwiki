@@ -1,0 +1,47 @@
+<@include file="inc/stdtags.gspt" @> <@include file="inc/stdgfuncs.gspt"
+@>
+<% import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+	import de.micromata.genome.gwiki.page.impl.wiki.*;
+	wikiContext.setRequestAttribute("GWIKI_TEMPLATE_NO_COMMENTS", Boolean.TRUE);
+%>
+<% wikiContext.skinInclude('standardhead'); %>
+
+
+<% MainPage.render(wikiContext); %>
+<% def form = wikiContext.getRequestAttribute("form");
+	//form.renderBlogs(); 
+%>
+<c:if test="${not empty form.forumDescription.childForums}">
+<table width="100%" class="forumMain">
+	<tr>
+		<th>Forum</th>
+		<th>Threads</th>
+		<th>Posts</th>
+	</tr>
+
+	<c:forEach var="fd" items="${form.forumDescription.childForums}">
+		<tr>
+			<td>
+			<h2><gwiki:link pageId="${fd.elementInfo.id}" /></h2>
+			</td>
+			<td><c:out value="${fd.threadCount}" /></td>
+			<td><c:out value="${fd.postCount}" /></td>
+		</tr>
+	</c:forEach>
+</table>
+</c:if>
+
+<c:if test="${not empty form.forumDescription.comments}">
+<table width="100%" class="forumListPosts">
+<tr><th>Article</th><th>Replies</th><th>Access</th><th>Last Reply</th></tr>
+<c:forEach var="post" items="${form.forumDescription.posts}">
+<tr>
+<% form.renderPostHeader(pageContext.getAttribute("post")); %>
+</tr>
+
+</c:forEach>
+</table>
+</c:if>
+
+<% wikiContext.skinInclude('standardfoot'); %>
+
