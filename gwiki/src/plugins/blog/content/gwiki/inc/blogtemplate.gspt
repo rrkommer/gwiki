@@ -1,0 +1,22 @@
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>
+<% import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+	import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude('standardhead'); %>
+
+<table width="100%" border="0">
+	<tr>
+		<td valign="top">
+<% MainPage.render(wikiContext); %>
+		<% def form = wikiContext.getRequestAttribute("form");
+	form.renderBlogs(); 
+%>
+		</td>
+		<td width="100em" align="right" valign="top">
+		<% form.renderCalendar(); %>
+		</td>
+	</tr>
+</table>
+<% wikiContext.skinInclude('standardfoot'); %>
+
