@@ -42,6 +42,7 @@
            	<li><gwiki:link pageId="edit/DeletedPages"/></li>
            	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
            	<li><gwiki:link pageId="admin/EditWikiConfig" title="Wiki Configuration"/></li>
+           	<li><gwiki:link pageId="admin/PluginAdmin"/></li>
        			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
        				<li><a target="_blank" href="<gwiki:url value="/dav/"/>"><fmt:message key="gwiki.page.AllPages.menu.webdav"/></a></li>
        			</gwiki:authorize>
