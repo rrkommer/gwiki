@@ -1,0 +1,26 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>  
+<gwiki:errors />
+
+Plugins here.<p/>
+
+<% def form = pageContext.request.getAttribute("form");
+for (plugin in form.pluginRepo.plugins.values()) {
+  pageContext.setAttribute("plugin", plugin); 
+  %>
+  <h2><%= esc(plugin.descriptor.name) %></h2>
+  <%=esc(plugin.descriptor.description) %><br/>
+  <form method="post">
+  	<input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.name}"/>"/>
+  <% if (plugin.activated) { %>
+  	<input type="submit" name="method_onDeactivate" value="Deactivate"/>
+  <% } else { %>
+  	<input type="submit" name="method_onActivate" value="Activate"/>
+  	
+  <% } %>
+  </form>
+<%  
+}
+%>
+<% wikiContext.skinInclude('standardfoot'); %>
