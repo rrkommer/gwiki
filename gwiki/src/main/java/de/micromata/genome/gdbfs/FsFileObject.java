@@ -38,6 +38,17 @@ public class FsFileObject extends FsObject
     super(fileSystem, name, FileSystem.TYPE_FILE, mimeType, lastModified);
   }
 
+  public FsFileObject(FsFileObject other)
+  {
+    super(other);
+  }
+
+  @Override
+  public Object clone()
+  {
+    return new FsFileObject(this);
+  }
+
   public boolean isTextFile()
   {
     String mime = mimeType;
