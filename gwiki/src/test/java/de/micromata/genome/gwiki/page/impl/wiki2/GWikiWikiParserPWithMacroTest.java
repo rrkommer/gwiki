@@ -26,7 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyDivTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean;
-import de.micromata.genome.gwiki.page.impl.wiki.slideshow.GWikiSlideMacro;
+import de.micromata.genome.gwiki.plugin.s5slideshow_1_0.GWikiSlideMacro;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
