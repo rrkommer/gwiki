@@ -1,0 +1,20 @@
+/**
+ * File: opera.css
+ *
+ * @package        S5 Base-Template for GWiki
+ * @copyright      Micromata GmbH
+ * @author         Moritz Fröhner
+ * @license        Public Domain
+ * @note           DO NOT CHANGE THESE unless you really want to break Opera Show
+ *
+ */
+
+.slide {
+	visibility: visible !important;
+	position: static !important;
+	page-break-before: always;
+}
+
+#slide0 {
+	page-break-before: avoid;
+}
