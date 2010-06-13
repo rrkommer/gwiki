@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="gwiki.forum">
+	<property name="plugintarget" value="src/main/gwiki_dev/admin/plugins"/>
+	<property name="forumversion" value="gwiki.forum-1.0.0" />
+	<target name="gwiki.forum">
+		<mkdir dir="${plugintarget}"/>
+		<delete file="${plugintarget}/${forumversion}.zip"/>
+		<zip zipfile="${plugintarget}/${forumversion}.zip">
+			<fileset dir="src/plugins/forum" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+</project>
