@@ -139,6 +139,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
     Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("admin/templates/*MetaTemplate");
     List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
+
+    ret.addAll(wikiContext.getWikiWeb().getDaoContext().getPluginRepository().getTemplates(wikiContext));
+
     for (GWikiElementInfo ei : ret) {
       GWikiMetaTemplate template = wikiContext.getWikiWeb().findMetaTemplate(ei.getId());
       if (template == null) {

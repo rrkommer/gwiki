@@ -21,7 +21,6 @@ package de.micromata.genome.gdbfs.db;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FsFileObject;
 
-
 public class FsDbFileObject extends FsFileObject
 {
 
@@ -44,6 +43,20 @@ public class FsDbFileObject extends FsFileObject
     this.pk = pk;
     this.dataEnc = dataEnc;
     this.dataCol0 = dataCol0;
+  }
+
+  public FsDbFileObject(FsDbFileObject other)
+  {
+    super(other);
+    this.pk = other.pk;
+    this.dataEnc = other.dataEnc;
+    this.dataCol0 = other.dataCol0;
+  }
+
+  @Override
+  public Object clone()
+  {
+    return new FsDbFileObject(this);
   }
 
   public boolean isLongValue()
