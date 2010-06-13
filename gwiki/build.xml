@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="gwiki" default="gwiki.forum">
-	<property name="plugintarget" value="src/main/gwiki_dev/admin/plugins"/>
+	<property name="plugintarget" value="target" />
 	<property name="forumversion" value="gwiki.forum-1.0.0" />
+	<property name="blogversion" value="gwiki.blog-1.0.0" />
+	<property name="s5slideshowversion" value="gwiki.s5slideshow-1.0.0" />
+	<property name="vfolderversion" value="gwiki.vfolder-1.0.0" />
 	<target name="gwiki.forum">
-		<mkdir dir="${plugintarget}"/>
-		<delete file="${plugintarget}/${forumversion}.zip"/>
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${forumversion}.zip" />
 		<zip zipfile="${plugintarget}/${forumversion}.zip">
 			<fileset dir="src/plugins/forum" includes="**/*" excludes="src/">
 			</fileset>
 		</zip>
 	</target>
+	<target name="gwiki.blog">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${blogversion}.zip" />
+		<zip zipfile="${plugintarget}/${blogversion}.zip">
+			<fileset dir="src/plugins/blog" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.s5slideshow">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${s5slideshowversion}.zip" />
+		<zip zipfile="${plugintarget}/${s5slideshowversion}.zip">
+			<fileset dir="src/plugins/s5slideshow" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.vfolder">
+			<mkdir dir="${plugintarget}" />
+			<delete file="${plugintarget}/${vfolderversion}.zip" />
+			<zip zipfile="${plugintarget}/${vfolderversion}.zip">
+				<fileset dir="src/plugins/vfolder" includes="**/*" excludes="src/">
+				</fileset>
+			</zip>
+		</target>
 </project>
