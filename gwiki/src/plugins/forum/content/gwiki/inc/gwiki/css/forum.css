@@ -1,0 +1,22 @@
+/* CSS for forum plugin */
+.forumListPosts {
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+	width: 100%;
+}
+
+.forumListPosts tr td {
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+}
+
+.forumPostTitle {
+	font-size: 2em;
+}
+
+.forumPostVersion {
+	font-size: 0.8em;
+	color: gray;
+}
