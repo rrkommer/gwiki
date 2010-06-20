@@ -129,6 +129,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   protected boolean disableBackup = false;
 
+  @Deprecated
   public static List<Pair<String, String>> getAvailableTemplates(GWikiContext wikiContext)
   {
     GWikiMetaTemplate currentTemplate = null;

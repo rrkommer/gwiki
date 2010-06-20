@@ -42,4 +42,12 @@ public interface GWikiMenuProvider
    * @return null if no menu
    */
   GWikiMenu getUserMenu(GWikiContext wikiContext);
+
+  /**
+   * Menu with template items.
+   * 
+   * @param wikiContext
+   * @return
+   */
+  GWikiMenu getNewItemsMenu(GWikiContext wikiContext);
 }
