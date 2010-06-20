@@ -502,6 +502,15 @@ public class DbFileSystemImpl extends AbstractFileSystem
     writeFileObject(file, dataEnc, mimeType, len, data, overWrite);
   }
 
+  protected void createParentDirFile(String name)
+  {
+    if (isAutoCreateDirectories() == false) {
+      return;
+    }
+    String parentName = getParentDirString(name);
+    mkdirs(parentName);
+  }
+
   public void writeFileObject(String file, String dataEnc, String mimeType, int length, String data, boolean overWrite)
   {
     checkReadOnly();
@@ -521,8 +530,13 @@ public class DbFileSystemImpl extends AbstractFileSystem
 
     if (pk == null) {
       Long ppk = getParentDirPk(file);
+
       if (ppk == null) {
-        throw new FsFileExistsException("Parent directory not found for: " + file);
+        createParentDirFile(file);
+        ppk = getParentDirPk(file);
+        if (ppk == null) {
+          throw new FsFileExistsException("Parent directory not found for: " + file);
+        }
       }
       if (this.dbTarget.getDbDialect().supports(Flags.SupportSequencer) == true) {
         pk = getNextPk(j, table);
@@ -724,9 +738,9 @@ public class DbFileSystemImpl extends AbstractFileSystem
   public long getModificationCounter()
   {
     try {
-    JdbcTemplate j = jdbc();
-    String sql = "select UPDATECOUNTER from " + table.getTableName() + " where FSNAME = ? and NAME = ?";
-    return j.queryForLong(sql, new Object[] { getFileSystemName(), "/"});
+      JdbcTemplate j = jdbc();
+      String sql = "select UPDATECOUNTER from " + table.getTableName() + " where FSNAME = ? and NAME = ?";
+      return j.queryForLong(sql, new Object[] { getFileSystemName(), "/"});
     } catch (IncorrectResultSizeDataAccessException ex) {
       // db is empty
       return 0;

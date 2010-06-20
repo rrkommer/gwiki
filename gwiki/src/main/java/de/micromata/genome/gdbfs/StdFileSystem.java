@@ -232,11 +232,25 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  protected void createParentDirectories(File f)
+  {
+    if (isAutoCreateDirectories() == false) {
+      return;
+    }
+    File pdir = f.getParentFile();
+    if (pdir.exists() == true) {
+      return;
+    }
+    pdir.mkdirs();
+  }
+
   public void writeBinaryFile(String name, InputStream is, boolean overWrite)
   {
     checkReadOnly();
     FileSystemEventType eventType = FileSystemEventType.Modified;
+
     File f = new File(root, name);
+    createParentDirectories(f);
     ensureFileInFs(f);
     if (overWrite == false) {
       checkUnexistantFile(name);

@@ -88,7 +88,9 @@ public class MultiMountCombinedFileSystem extends AbstractFileSystem implements 
     MatcherFactory<String> fac = new BooleanListRulesFactory<String>();
     for (Map.Entry<String, FileSystem> me : fileSystems.entrySet()) {
       fileSystemMatchers.add(Pair.make(fac.createMatcher(me.getKey()), me.getValue()));
+      me.getValue().setAutoCreateDirectories(isAutoCreateDirectories());
     }
+
   }
 
   public void checkEvents(boolean force)
@@ -202,6 +204,20 @@ public class MultiMountCombinedFileSystem extends AbstractFileSystem implements 
       // ret.addAll(ret1);
     }
     return ret;
+  }
+
+  public void setAutoCreateDirectories(boolean autoCreateDirectories)
+  {
+    if (fileSystemMatchers != null) {
+      for (Pair<Matcher<String>, FileSystem> me : fileSystemMatchers) {
+        me.getSecond().setAutoCreateDirectories(autoCreateDirectories);
+      }
+    } else {
+      for (FileSystem fe : fileSystems.values()) {
+        fe.setAutoCreateDirectories(autoCreateDirectories);
+      }
+    }
+    super.setAutoCreateDirectories(autoCreateDirectories);
   }
 
   public boolean mkdir(String name)

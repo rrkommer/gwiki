@@ -229,6 +229,18 @@ public abstract class CombinedFileSystem extends AbstractFileSystem
     getFsForWrite(file).writeTextFile(file, content, overWrite);
   }
 
+  @Override
+  public void setAutoCreateDirectories(boolean autoCreateDirectories)
+  {
+    if (primary != null) {
+      primary.setAutoCreateDirectories(autoCreateDirectories);
+    }
+    if (secondary != null) {
+      secondary.setAutoCreateDirectories(autoCreateDirectories);
+    }
+    super.setAutoCreateDirectories(autoCreateDirectories);
+  }
+
   public FileSystem getPrimary()
   {
     return primary;
@@ -248,4 +260,5 @@ public abstract class CombinedFileSystem extends AbstractFileSystem
   {
     this.secondary = secondary;
   }
+
 }

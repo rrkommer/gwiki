@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -31,7 +33,7 @@ import de.micromata.genome.util.runtime.CallableX;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public abstract class MountPointFileSystem extends AbstractFileSystem
+public abstract class MountPointFileSystem extends AbstractFileSystem implements InitializingBean
 {
   protected FileSystem parentFileSystem;
 
@@ -49,6 +51,12 @@ public abstract class MountPointFileSystem extends AbstractFileSystem
   }
 
   protected abstract String getFqName(String name);
+
+  public void afterPropertiesSet() throws Exception
+  {
+    // needed, because getFileSystemForWrite
+    setAutoCreateDirectories(true);
+  }
 
   /*
    * (non-Javadoc)
@@ -232,6 +240,13 @@ public abstract class MountPointFileSystem extends AbstractFileSystem
   public void setPath(String path)
   {
     this.path = path;
+  }
+
+  @Override
+  public void setAutoCreateDirectories(boolean autoCreateDirectories)
+  {
+    parentFileSystem.setAutoCreateDirectories(autoCreateDirectories);
+    super.setAutoCreateDirectories(autoCreateDirectories);
   }
 
 }
