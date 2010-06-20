@@ -28,12 +28,10 @@ import org.apache.commons.fileupload.FileItem;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FileSystemUtils;
 import de.micromata.genome.gdbfs.FsDirectoryObject;
-import de.micromata.genome.gdbfs.RamFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
-import de.micromata.genome.gwiki.tools.confluence.imp.ConfluenceImporter;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -49,12 +47,6 @@ public class GWikiMountedWeb implements Serializable
   private static final long serialVersionUID = 7293729219165715440L;
 
   private String tmpDirName;
-
-  // private FileItem dataFile;
-
-  // private FileSystem fileSystem;
-
-  // private GWikiStorage wikiStorage;
 
   public GWikiMountedWeb()
   {
@@ -77,8 +69,7 @@ public class GWikiMountedWeb implements Serializable
     return fs;
   }
 
-  protected void mountZipFileSystem(InputStream is, GWikiContext wikiContext, boolean confluenceArchive, String pathPrefix)
-      throws IOException
+  protected void mountZipFileSystem(InputStream is, GWikiContext wikiContext, String pathPrefix) throws IOException
   {
     FileSystem fs = getFileSystem(wikiContext);
     if (fs == null) {
@@ -90,30 +81,19 @@ public class GWikiMountedWeb implements Serializable
       return;
     }
     tmpDirName = target.getName();
-    if (confluenceArchive == true) {
-      FileSystem inFs = new RamFileSystem("confimp");
-      FileSystemUtils.copyFromZip(is, inFs.getFileObject(""));
-      ConfluenceImporter importer = new ConfluenceImporter(inFs);
-      importer.parseDom();
-      String targetDir = tmpDirName + "/";
-      // if (StringUtils.isNotEmpty(pathPrefix) == true) {
-      // targetDir = FileNameUtils.join(targetDir, pathPrefix) + "/";
-      // }
-      importer.doImport(wikiContext, targetDir, pathPrefix);
-    } else {
-      FileSystemUtils.copyFromZip(is, target);
-    }
+    FileSystemUtils.copyFromZip(is, target);
+
   }
 
-  public void initialize(GWikiContext wikiContext, FileItem dataFile, boolean confluenceArchive, String pathPrefix)
+  public void initialize(GWikiContext wikiContext, FileItem dataFile, String pathPrefix)
   {
     if (dataFile == null) {
-      wikiContext.addSimpleValidationError("Kein Zip vorhanden");
+      wikiContext.addSimpleValidationError("No Zip available");
       return;
     }
     try {
 
-      mountZipFileSystem(dataFile.getInputStream(), wikiContext, confluenceArchive, pathPrefix);
+      mountZipFileSystem(dataFile.getInputStream(), wikiContext, pathPrefix);
     } catch (Exception ex) {
       wikiContext.addSimpleValidationError("Failure while mounting Zip File System: " + ex.getMessage());
       return;

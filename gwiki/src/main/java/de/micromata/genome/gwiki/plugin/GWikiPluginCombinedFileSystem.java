@@ -44,6 +44,7 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
   {
     super(primary, null);
     this.pluginRepository = pluginRepository;
+    setAutoCreateDirectories(true);
   }
 
   public void addMount(GWikiPlugin plugin)

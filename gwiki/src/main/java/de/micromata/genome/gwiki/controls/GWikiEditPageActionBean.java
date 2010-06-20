@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -58,6 +59,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
+import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -845,6 +847,25 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     elementToEdit.getElementInfo().getProps().setStringList(GWikiPropKeys.CHILDORDER, childList);
     wikiContext.getWikiWeb().saveElement(wikiContext, elementToEdit, false);
     return noForward();
+  }
+
+  /**
+   * Helper method to check keywords properties.
+   * 
+   * @param ctx
+   * @param value
+   */
+  public static void checkKeywordProperties(GWikiContext ctx, String value)
+  {
+    try {
+      List<String> keywords = CommaListParser.parseCommaList(value);
+      for (String kw : keywords) {
+        kw = StringUtils.replace(kw, ")", "){0,1}");
+        Pattern.compile(kw);
+      }
+    } catch (Exception ex) {
+      ctx.addValidationError("gwiki.edit.EditPage.message.invalidkeywordformat", ex.getMessage());
+    }
   }
 
   public String getMetaTemplatePageId()
