@@ -76,8 +76,6 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
 
   }
 
-  private boolean confluenceArchive;
-
   private String tmpDirName;
 
   /**
@@ -109,7 +107,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         return null;
       }
       GWikiMountedWeb mountedWeb = new GWikiMountedWeb();
-      mountedWeb.initialize(wikiContext, dataFile, confluenceArchive, targetDir);
+      mountedWeb.initialize(wikiContext, dataFile, targetDir);
       tmpDirName = mountedWeb.getTmpDirName();
       return null;
     } finally {
@@ -359,13 +357,4 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
     this.onlyChecked = onlyChecked;
   }
 
-  public boolean isConfluenceArchive()
-  {
-    return confluenceArchive;
-  }
-
-  public void setConfluenceArchive(boolean confluenceArchive)
-  {
-    this.confluenceArchive = confluenceArchive;
-  }
 }

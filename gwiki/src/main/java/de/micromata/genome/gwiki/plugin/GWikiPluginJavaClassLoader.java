@@ -116,6 +116,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
   public void addJar(FsObject storage)
   {
+    missedClasses.clear();
     try {
       Map<String, FsObject> fileMap = new HashMap<String, FsObject>();
       byte[] data = storage.getFileSystem().readBinaryFile(storage.getName());
@@ -153,8 +154,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   public void addJarPath(FsObject storage) throws IOException
   {
+    missedClasses.clear();
     // rw fixed: vorher stand ein "." vor "jar"; es wird jedoch nur die Endung erwartet.
-    List<FsObject> files = storage.getFileSystem().listFilesByPattern(storage.getName(), "*.jar", 'D', false);
+    List<FsObject> files = storage.getFileSystem().listFilesByPattern(storage.getName(), "*.jar", 'F', false);
     for (FsObject lf : files) {
       addJar(lf);
     }
@@ -170,6 +172,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   public void addClassPath(FsObject storage) throws IOException
   {
+    missedClasses.clear();
     Map<String, FsObject> fileMap = new HashMap<String, FsObject>();
     List<FsObject> files = storage.getFileSystem().listFiles("", new EveryMatcher<String>(), 'F', true);
     for (FsObject lf : files) {
