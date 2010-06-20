@@ -211,7 +211,6 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       }
       htmlData = patchEntities(htmlData);
 
-      // System.out.println(htmlData);
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       Document document = new Document();
 

@@ -27,6 +27,9 @@ import de.micromata.genome.gdbfs.FileSystem;
  */
 public class GWikiPlugin
 {
+  /**
+   * The descriptor from gwikiplugin.xml
+   */
   private GWikiPluginDescriptor descriptor;
 
   /**

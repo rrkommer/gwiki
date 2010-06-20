@@ -49,7 +49,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
 {
   protected Boolean canViewNonViewableElements = null;
 
-  private boolean withExport;
+  private boolean withExport = true;
 
   /**
    * Will only used in onExport.
