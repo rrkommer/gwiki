@@ -374,4 +374,14 @@ public class GWikiPluginRepository
     this.activePlugins = activePlugins;
   }
 
+  public CombinedClassLoader getActivePluginClassLoader()
+  {
+    return activePluginClassLoader;
+  }
+
+  public GWikiPluginCombinedFileSystem getPluginCombinedFileSystem()
+  {
+    return pluginCombinedFileSystem;
+  }
+
 }

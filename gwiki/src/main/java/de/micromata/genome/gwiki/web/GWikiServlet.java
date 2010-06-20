@@ -215,6 +215,9 @@ public class GWikiServlet extends HttpServlet
       }
     }
     if (daoContext.isStaticContentFromClassPath() == true) {
+      if (daoContext.getPluginRepository().getActivePluginClassLoader() != null) {
+        return daoContext.getPluginRepository().getActivePluginClassLoader().getResourceAsStream(res);
+      }
       return GWikiServlet.class.getResourceAsStream(res);
     } else {
       return getServletContext().getResourceAsStream(res);
