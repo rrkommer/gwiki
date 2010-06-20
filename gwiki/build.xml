@@ -5,6 +5,7 @@
 	<property name="blogversion" value="gwiki.blog-1.0.0" />
 	<property name="s5slideshowversion" value="gwiki.s5slideshow-1.0.0" />
 	<property name="vfolderversion" value="gwiki.vfolder-1.0.0" />
+	<property name="keywordssmarttagsversion" value="gwiki.keywordssmarttags-1.0.0" />
 	<target name="gwiki.forum">
 		<mkdir dir="${plugintarget}" />
 		<delete file="${plugintarget}/${forumversion}.zip" />
@@ -30,11 +31,19 @@
 		</zip>
 	</target>
 	<target name="gwiki.vfolder">
-			<mkdir dir="${plugintarget}" />
-			<delete file="${plugintarget}/${vfolderversion}.zip" />
-			<zip zipfile="${plugintarget}/${vfolderversion}.zip">
-				<fileset dir="src/plugins/vfolder" includes="**/*" excludes="src/">
-				</fileset>
-			</zip>
-		</target>
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${vfolderversion}.zip" />
+		<zip zipfile="${plugintarget}/${vfolderversion}.zip">
+			<fileset dir="src/plugins/vfolder" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.keywordssmarttags">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${keywordssmarttagsversion}.zip" />
+		<zip zipfile="${plugintarget}/${keywordssmarttagsversion}.zip">
+			<fileset dir="src/plugins/keywordsmarttags" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
 </project>
