@@ -1,54 +1,52 @@
 <!-- headMenu.gspt START --> 
-
+<% 
+void renderHeadMenu(wikiContext, menu) {
+	if (menu == null) {
+		return;
+	}
+	if (menu.divider) {
+		out.println("<li></li>");
+		return;
+	}
+	boolean hasChilds = menu.children.isEmpty() == false;
+	if (hasChilds == true) { 
+		out.print('<li class="gwikiMenumain">'); 
+	}  else {
+		out.print('<li>');
+	}
+	if (menu.iconMedium != null) { 
+		out.print('<span style="background-image: url(' + "'" +  menu.iconMedium + "');" + '">');
+	 } 
+	if (menu.url != null) {
+		out.print('<a  href="' + menu.url + '"');
+		if (menu.target != null) {
+			out.print(' target="' + menu.target + '"');
+		}
+		if (menu.linkTitle != null) {
+			out.print(' title="' + esc(menu.linkTitle) + '"');
+		}
+		out.print('>');	
+	}
+	out.print(esc(menu.label));
+	if (menu.url != null) {
+		out.print("</a>");
+	}
+	if (menu.iconMedium != null) {
+		out.print('</span>');
+	} 
+  if (hasChilds == true) {
+	  out.print('<ul>');
+	  for (cm in menu.children) { 
+	  	renderHeadMenu(wikiContext, cm);
+	  }
+	  out.print('</ul>');
+  }
+  out.println('</li>');
+}	
+%>
 <ul  class="menu gwikiMenuone" style="top: 3em;background-color: #EEEEEE; height: 2em;">
- <%-- USER MENU --%>
-       <gwiki:authorize ifHasNot="GWIKI_VIEWPAGES">
-       	<li class="gwikiMenumain"><a href="<gwiki:url value="/admin/Login"/>"><span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" >Login</span></a></li>
-       </gwiki:authorize>
-       <gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">
-       
-       <li class="gwikiMenumain">
-       	<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/user16.png'/>')" ><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %></span>
-           <ul>
-           <li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
-           
-           
-           <gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
-             <li>
-             		<a href="<c:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
-             	</li>
-             <li></li>  
-           	</gwiki:authorize>
-           	<% if (de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization.isOwnUser(wikiContext) == true) { %>
-           	<li><gwiki:link pageId="edit/UserProfile" urlParams="?backUrl=${wikiPage.elementInfo.id}" /></li>
-           	<% } %>
-           	<li></li>  
-             <li><gwiki:link pageId="admin/Logout"/></li>  
-           </ul>  
-       </li>  
-       </gwiki:authorize>
-       
-       <gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
-       <li class="gwikiMenumain">
-       <span
-       style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/heart16.png'/>');"><fmt:message key="gwiki.page.headmenu.Admin"/></span>
-                 <ul>
-           	<li><gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
-           	<li></li> 
-           	<li><gwiki:link pageId="edit/ListUsers" /></li>
-           	<li></li> 
-           	<li><gwiki:link pageId="edit/PageImporter" /></li>
-           	<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="I{gwiki.page.AllPages.menu.export}"/></li>
-           	<li><gwiki:link pageId="edit/DeletedPages"/></li>
-           	<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
-           	<li><gwiki:link pageId="admin/EditWikiConfig" title="Wiki Configuration"/></li>
-           	<li><gwiki:link pageId="admin/PluginAdmin"/></li>
-       			<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
-       				<li><a target="_blank" href="<gwiki:url value="/dav/"/>"><fmt:message key="gwiki.page.AllPages.menu.webdav"/></a></li>
-       			</gwiki:authorize>
-           </ul>  
-          </li>
-       </gwiki:authorize>
+			<% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext)); %>
+      <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext)); %>
 </ul>
  <ul id="gwikiMenuone" class="menu gwikiMenuone">
  
