@@ -69,6 +69,9 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
   public FsObject getFileObject(final String name)
   {
     FsObject sfs = super.getFileObject(name);
+    if (sfs == null) {
+      return null;
+    }
     if (sfs.getFileSystem() != this) {
       sfs = (FsObject) sfs.clone();
       sfs.setFileSystem(this);

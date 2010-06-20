@@ -149,21 +149,31 @@ public class GWikiWeb
       filter = new GWikiFilters();
       GWikiGlobalConfig config = reloadWikiConfig();
       daoContext.getPluginRepository().initPluginRepository(this, config);
+      ClassLoader previousClassLoader = null;
+      try {
+        previousClassLoader = daoContext.getPluginRepository().initClassLoader();
 
-      // / force to load config first to register listener
+        filter = new GWikiFilters();
+        filter.init(this, config);
+        // / force to load config first to register listener
 
-      modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
-      Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
-      npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
-        public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
-            GWikiLoadElementInfosFilterEvent event)
-        {
-          getStorage().loadPageInfos(event.getPageInfos());
-          lastModCounter = getStorage().getModificationCounter();
-          daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
-          return null;
+        modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
+        Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
+        npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
+          public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
+              GWikiLoadElementInfosFilterEvent event)
+          {
+            getStorage().loadPageInfos(event.getPageInfos());
+            lastModCounter = getStorage().getModificationCounter();
+            daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
+            return null;
+          }
+        });
+      } finally {
+        if (previousClassLoader != null) {
+          Thread.currentThread().setContextClassLoader(previousClassLoader);
         }
-      });
+      }
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;

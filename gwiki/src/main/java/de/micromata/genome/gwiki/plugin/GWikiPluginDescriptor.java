@@ -64,7 +64,7 @@ public class GWikiPluginDescriptor
   /**
    * registered filter.
    */
-  private List<String> filter = new ArrayList<String>();
+  private List<GWikiPluginFilterDescriptor> filter = new ArrayList<GWikiPluginFilterDescriptor>();
 
   /**
    * registered element types.
@@ -121,16 +121,6 @@ public class GWikiPluginDescriptor
     this.macros = macros;
   }
 
-  public List<String> getFilter()
-  {
-    return filter;
-  }
-
-  public void setFilter(List<String> filter)
-  {
-    this.filter = filter;
-  }
-
   public Map<String, String> getElementTypes()
   {
     return elementTypes;
@@ -149,6 +139,16 @@ public class GWikiPluginDescriptor
   public void setTemplates(List<String> templates)
   {
     this.templates = templates;
+  }
+
+  public List<GWikiPluginFilterDescriptor> getFilter()
+  {
+    return filter;
+  }
+
+  public void setFilter(List<GWikiPluginFilterDescriptor> filter)
+  {
+    this.filter = filter;
   }
 
 }

@@ -19,7 +19,9 @@ package de.micromata.genome.gwiki.model;
 
 import java.util.List;
 
+import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Standard implementation for GWikiMenuProvider.
@@ -143,6 +145,21 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     }
     menu.getChildren().add(GWikiMenu.createDivider());
     addSubMenuFromElement(menu, wikiContext, "admin/Logout");
+    return menu;
+  }
+
+  /**
+   * TODO currently untested.
+   */
+  public GWikiMenu getNewItemsMenu(GWikiContext wikiContext)
+  {
+    GWikiMenu menu = new GWikiMenu();
+    menu.setIconMedium("/inc/gwiki/img/icons/paperplus32.png");
+    menu.setLabel(wikiContext.getTranslated("gwiki.page.headmenu.page.NewPage"));
+    List<Pair<String, String>> tl = GWikiEditPageActionBean.getAvailableTemplates(wikiContext);
+    for (Pair<String, String> p : tl) {
+      addSubMenuFromElement(menu, wikiContext, p.getSecond());
+    }
     return menu;
   }
 }

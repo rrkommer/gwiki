@@ -68,6 +68,8 @@ public class GWikiPluginRepository
 
   private GWikiPluginCombinedFileSystem pluginCombinedFileSystem;
 
+  private boolean reloadAfterActivation = true;
+
   protected void clear()
   {
     plugins.clear();
@@ -143,8 +145,6 @@ public class GWikiPluginRepository
     plugin.setActivated(true);
 
   }
-
-  private boolean reloadAfterActivation = true;
 
   public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
   {
@@ -317,6 +317,19 @@ public class GWikiPluginRepository
           ret.add(ei);
         }
       }
+    }
+    return ret;
+  }
+
+  /**
+   * 
+   * @return filter descriptions of active plugins.
+   */
+  public List<GWikiPluginFilterDescriptor> getPluginFilters()
+  {
+    List<GWikiPluginFilterDescriptor> ret = new ArrayList<GWikiPluginFilterDescriptor>();
+    for (GWikiPlugin plugin : activePlugins) {
+      ret.addAll(plugin.getDescriptor().getFilter());
     }
     return ret;
   }

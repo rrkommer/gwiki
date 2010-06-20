@@ -19,6 +19,9 @@
 package de.micromata.genome.gwiki.model.filter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,7 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -213,20 +217,68 @@ public class GWikiFilters
     }
   }
 
+  private Set<String> getCreateSet(Map<String, Set<String>> m, String k)
+  {
+    Set<String> ret = m.get(k);
+    if (ret != null) {
+      return ret;
+    }
+    ret = new HashSet<String>();
+    m.put(k, ret);
+    return ret;
+  }
+
+  public List<String> getSortedClasses(List<String> regClasses, final List<GWikiPluginFilterDescriptor> pluginFilters)
+  {
+    final Map<String, Set<String>> afterMap = new HashMap<String, Set<String>>();
+
+    List<String> allFilters = new ArrayList<String>();
+    if (regClasses != null) {
+      allFilters.addAll(regClasses);
+    }
+    for (GWikiPluginFilterDescriptor pfd : pluginFilters) {
+      allFilters.add(pfd.getClassName());
+      if (pfd.getAfter() != null) {
+        for (String as : pfd.getAfter()) {
+          getCreateSet(afterMap, pfd.getClassName()).add(as);
+        }
+      }
+      if (pfd.getBefore() != null) {
+        for (String as : pfd.getBefore()) {
+          getCreateSet(afterMap, as).add(pfd.getClassName());
+        }
+      }
+    }
+    Collections.sort(allFilters, new Comparator<String>() {
+
+      public int compare(String o1, String o2)
+      {
+        if (afterMap.containsKey(o1) == true && afterMap.get(o1).contains(o2) == true) {
+          return 1;
+        }
+        if (afterMap.containsKey(o2) == true && afterMap.get(o2).contains(o1) == true) {
+          return -1;
+        }
+        return 0;
+      }
+    });
+    return allFilters;
+  }
+
   public void init(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
     List<String> regClasses = wikiConfig.getStringList("GWIKI_FILTER_CLASSES");
-    if (regClasses != null) {
-      for (String rc : regClasses) {
-        rc = StringUtils.trim(rc);
-        if (StringUtils.isEmpty(rc) == true) {
-          continue;
-        }
-        try {
-          registerFilter(wikiWeb, ClassUtils.classForName(rc));
-        } catch (Throwable ex) {
-          GWikiLog.warn("Cannot register filter class: " + rc + "; " + ex.getMessage(), ex);
-        }
+    final List<GWikiPluginFilterDescriptor> pluginFilters = wikiWeb.getDaoContext().getPluginRepository().getPluginFilters();
+    List<String> allClasses = getSortedClasses(regClasses, pluginFilters);
+    for (String rc : allClasses) {
+      rc = StringUtils.trim(rc);
+      if (StringUtils.isEmpty(rc) == true) {
+        continue;
+      }
+      try {
+        registerFilter(wikiWeb, ClassUtils.classForName(rc));
+      } catch (Throwable ex) {
+        GWikiLog.warn("Cannot register filter class: " + rc + "; " + ex.getMessage(), ex);
       }
     }
   }
