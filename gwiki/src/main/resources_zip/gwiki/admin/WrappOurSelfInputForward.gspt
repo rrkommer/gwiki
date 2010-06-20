@@ -1,9 +1,0 @@
-<@include file="inc/standardhead.gspt"@>
-<gwiki:errors />
-
-<%	MainPage.render(wikiContext); %>
-
-<form method="post">
-  <input type="submit" name="method_onDownload" value="Dieses Wiki als Desktop Wiki herunterladen"><p/>
-</form>
-<@include file="inc/standardfoot.gspt"@>

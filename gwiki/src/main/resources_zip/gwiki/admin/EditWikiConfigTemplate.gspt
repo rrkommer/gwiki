@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <%@ page contentType="text/html;charset=UTF-8" language="java"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 <gwiki:errors />
 <% def form = wikiContext.getRequestAttribute('form'); %>
 <script type="text/javascript">
@@ -41,9 +41,9 @@ function onSave(event)
 
 <form id="editForm" method="POST" enctype="multipart/form-data">
 
-<input id="formmn" type="hidden"	name="m" value="" />	
-<input id="gwikieditsavebutton" class="gwikiButton main" type="button"	name="method_onSave" onclick="onSave(event);"	value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
-<input id="gwikieditcancelbutton" class="gwikiButton reset"	onclick="gwikiContentChanged=false;" class="gwikiButton main"	type="submit" name="method_onCancel"	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
+<input id="formmn" type="hidden"  name="m" value="" />  
+<input id="gwikieditsavebutton" class="gwikiButton main" type="button"  name="method_onSave" onclick="onSave(event);" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
+<input id="gwikieditcancelbutton" class="gwikiButton reset" onclick="gwikiContentChanged=false;" class="gwikiButton main" type="submit" name="method_onCancel"  value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
 
 <div id='modalBg'></div>
 <div id='modalContent'></div>
