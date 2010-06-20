@@ -140,9 +140,12 @@
 			<version>3.2.1</version>
 		</dependency>
 		<dependency>
+			<!--  used for confluenceimporter plugin -->
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-			<version>1.4</version>
+			<!--   <version>1.4</version> -->
+			<version>1.6.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ettrema</groupId>
