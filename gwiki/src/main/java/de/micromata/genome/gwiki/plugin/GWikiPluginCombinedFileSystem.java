@@ -61,6 +61,21 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
     primary.registerListener(eventType, fileNameMatcher, listener);
   }
 
+  protected void parentToThis(FsObject f)
+  {
+    f.setFileSystem(this);
+  }
+
+  public FsObject getFileObject(final String name)
+  {
+    FsObject sfs = super.getFileObject(name);
+    if (sfs.getFileSystem() != this) {
+      sfs = (FsObject) sfs.clone();
+      sfs.setFileSystem(this);
+    }
+    return sfs;
+  }
+
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     List<FsObject> ret2 = primary.listFiles(name, matcher, searchType, recursive);
@@ -78,7 +93,11 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
       }
       if (plugin.getGwikiFileSystem() != null) {
         List<FsObject> fsl = plugin.getGwikiFileSystem().listFiles(name, matcher, searchType, recursive);
-        ret.addAll(fsl);
+        for (FsObject l : fsl) {
+          FsObject lc = (FsObject) l.clone();
+          parentToThis(lc);
+          ret.add(lc);
+        }
       }
     }
     return ret;

@@ -141,6 +141,7 @@ public class GWikiPluginRepository
     initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiContext.getWikiWeb());
     activePlugins.add(plugin);
     plugin.setActivated(true);
+
   }
 
   private boolean reloadAfterActivation = true;

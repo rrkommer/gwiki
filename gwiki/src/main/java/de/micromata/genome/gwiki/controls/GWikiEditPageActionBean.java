@@ -784,7 +784,6 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       // transformers.add(ti);
       filter.setMacroTransformer(collectHtml2WikiTransformers());
       String ret = filter.transform(htmlCode);
-      // System.out.println("html2wiki: " + htmlCode + "\n----------------\n" + ret);
       wikiContext.append(ret);
       wikiContext.flush();
       return noForward();

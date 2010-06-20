@@ -318,4 +318,5 @@ public class GWikiMetaTemplate implements Serializable
   {
     this.addPropsDescriptor = addPropsDescriptor;
   }
+
 }

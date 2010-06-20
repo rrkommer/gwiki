@@ -38,10 +38,15 @@ public class ClassUtils
 {
   public static Class< ? > classForName(String className)
   {
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
     try {
-      ClassLoader cl = Thread.currentThread().getContextClassLoader();
       return Class.forName(className, true, cl);
     } catch (Throwable ex) {
+      try {
+        Class.forName(className, true, cl);
+      } catch (Exception ex2) {
+
+      }
       throw new RuntimeException("Failed to load class: " + className + "; " + ex.getMessage(), ex);
     }
   }

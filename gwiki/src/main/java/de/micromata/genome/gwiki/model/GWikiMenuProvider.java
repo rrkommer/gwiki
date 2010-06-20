@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,51 +13,33 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
 package de.micromata.genome.gwiki.model;
-
-import java.io.Serializable;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * Base implementation for an artefakt with text as storage.
+ * 
+ * Provides navigations menus for GWiki
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
- * @param <T>
  */
-public abstract class GWikiTextArtefaktBase<T extends Serializable> extends GWikiPersistArtefaktBase<T> implements GWikiTextArtefakt<T>
+public interface GWikiMenuProvider
 {
-  private static final long serialVersionUID = 8433380526307298393L;
+  /**
+   * Menu for AdminMenu.
+   * 
+   * @return null if no adminMenu should be rendered
+   */
+  GWikiMenu getAdminMenu(GWikiContext wikiContext);
 
-  private String storageData;
-
-  @Override
-  public boolean renderWithParts(GWikiContext ctx)
-  {
-    ctx.append(getStorageData());
-    ctx.flush();
-    return true;
-
-  }
-
-  public String getStorageData()
-  {
-    return storageData;
-  }
-
-  public void setStorageData(String storageData)
-  {
-    this.storageData = storageData;
-    setCompiledObject(null);
-  }
-
-  public boolean isNoArchiveData()
-  {
-    return false;
-  }
-
+  /**
+   * Menu for a user.
+   * 
+   * @param wikiContext
+   * @return null if no menu
+   */
+  GWikiMenu getUserMenu(GWikiContext wikiContext);
 }

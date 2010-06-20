@@ -123,4 +123,7 @@ public interface GWikiPropKeys
    * Skin of the page.
    */
   public static final String SKIN = "SKIN";
+
+  public static final String ICON_MEDIUM = "ICON_MEDIUM";
+
 }

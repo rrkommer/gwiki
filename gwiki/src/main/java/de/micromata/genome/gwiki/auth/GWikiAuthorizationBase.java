@@ -178,7 +178,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
       return null;
     }
     if (r.equals(GWikiAuthorizationRights.GWIKI_PRIVATE.name()) == true) {
-      if (isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITPAGES.name()) == true) {
+      if (isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == true) {
         return true;
       }
       if (StringUtils.equals(getCurrentUserName(ctx), ei.getCreatedBy()) == true) {

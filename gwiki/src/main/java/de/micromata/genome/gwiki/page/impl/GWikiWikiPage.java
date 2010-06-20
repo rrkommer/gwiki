@@ -130,6 +130,10 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
           exec = (GWikiExecutableArtefakt< ? >) parts.get("");
         }
         final GWikiExecutableArtefakt< ? > fexec = exec;
+        if (fexec == null) {
+          GWikiLog.warn("Controler artefakt is not an executable. pageId=" + ctx.getCurrentElement().getElementInfo().getId());
+          return false;
+        }
         return ctx.runWithArtefakt(exec, new CallableX<Boolean, RuntimeException>() {
 
           public Boolean call() throws RuntimeException

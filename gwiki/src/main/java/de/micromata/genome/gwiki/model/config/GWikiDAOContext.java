@@ -28,11 +28,13 @@ import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.model.GWikiLogging;
 import de.micromata.genome.gwiki.model.GWikiLoggingLog4J;
+import de.micromata.genome.gwiki.model.GWikiMenuProvider;
 import de.micromata.genome.gwiki.model.GWikiPageCache;
 import de.micromata.genome.gwiki.model.GWikiPageCacheTimedImpl;
 import de.micromata.genome.gwiki.model.GWikiSchedulerProvider;
 import de.micromata.genome.gwiki.model.GWikiSessionProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardEmailProvider;
+import de.micromata.genome.gwiki.model.GWikiStandardMenuProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardSchedulerProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardSessionProvider;
 import de.micromata.genome.gwiki.model.GWikiStorage;
@@ -72,6 +74,8 @@ public class GWikiDAOContext
   private GWikiSchedulerProvider schedulerProvider = new GWikiStandardSchedulerProvider();
 
   private GWikiEmailProvider emailProvider = new GWikiStandardEmailProvider();
+
+  private GWikiMenuProvider menuProvider = new GWikiStandardMenuProvider();
 
   private GWikiPageCache pageCache = new GWikiPageCacheTimedImpl();
 
@@ -274,6 +278,16 @@ public class GWikiDAOContext
   public void setPluginRepository(GWikiPluginRepository pluginRepository)
   {
     this.pluginRepository = pluginRepository;
+  }
+
+  public GWikiMenuProvider getMenuProvider()
+  {
+    return menuProvider;
+  }
+
+  public void setMenuProvider(GWikiMenuProvider menuProvider)
+  {
+    this.menuProvider = menuProvider;
   }
 
 }
