@@ -9,5 +9,7 @@
         <wb-resource deploy-path="/" source-path="/src/plugins/forum/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/blog/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/vfolder/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/keywordsmarttags/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/confluenceimporter/src/main/java"/>
 </wb-module>
 </project-modules>
