@@ -17,27 +17,58 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import org.apache.commons.collections15.comparators.ReverseComparator;
+import org.apache.commons.lang.StringUtils;
+
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
 
 /**
+ * implement the gallery macro.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithHeaderPrepare
 {
+
+  private static final long serialVersionUID = 7197613337870017606L;
+
+  /**
+   * if null uses current page.
+   */
+  private String pageId;
+
   private String title;
 
-  private int columns;
+  private int columns = 4;
 
+  /**
+   * title, date
+   */
   private String sort;
 
   private boolean reverse;
 
+  /**
+   * small, medium, large
+   */
   private String size;
 
+  /**
+   * Contains a matcher
+   */
   private String include;
 
   /*
@@ -49,8 +80,66 @@ public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithH
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    // TODO Auto-generated method stub
-    return false;
+    if (StringUtils.isEmpty(pageId) == true) {
+      pageId = ctx.getCurrentElement().getElementInfo().getId();
+    }
+    if (StringUtils.isEmpty(size) == true) {
+      size = "medium";
+    }
+    List<GWikiElementInfo> childs = ctx.getElementFinder().getPageAttachments(pageId);
+    if (StringUtils.isNotEmpty(include) == true) {
+      Matcher<String> matcher = new BooleanListRulesFactory<String>().createMatcher(include);
+      List<GWikiElementInfo> nch = new ArrayList<GWikiElementInfo>();
+      for (GWikiElementInfo ci : childs) {
+        if (matcher.match(ci.getId()) == true) {
+          nch.add(ci);
+        }
+      }
+      childs = nch;
+    }
+    Comparator<GWikiElementInfo> comparator = new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(
+        new GWikiElementByIntPropComparator("ORDER", 0)));
+    if (StringUtils.isNotBlank(sort) == true) {
+
+      if (sort.equals("title") == true) {
+        comparator = new GWikiElementByPropComparator("TITLE");
+      } else if (sort.equals("date") == true) {
+        comparator = new GWikiElementByPropComparator("MODIFIEDAT");
+      } else {
+        comparator = new GWikiElementByPropComparator(sort);
+      }
+    }
+    if (reverse == true) {
+      comparator = new ReverseComparator<GWikiElementInfo>(comparator);
+    }
+    Collections.sort(childs, comparator);
+
+    ctx.append("<table class=\"gwikiimagegallery\" border=\"1\" cellspacing=\"0\">");
+    if (StringUtils.isEmpty(title) == false) {
+      ctx.append("<tr><th colspan=\"").append(columns).append("\">").append(ctx.escape(title)).append("</th></tr>\n");
+    }
+    int i = 0;
+    int colNo = 0;
+    for (GWikiElementInfo c : childs) {
+      if (colNo == 0) {
+        ctx.append("<tr>");
+      }
+      ctx.append("<td valign=\"top\">");
+
+      GWikiFragmentImage image = new GWikiFragmentImage(c.getId());
+      image.setThumbnail(size);
+      image.render(ctx);
+      ctx.append("</td>");
+      if (colNo + 1 >= columns) {
+        ctx.append("</tr>");
+        colNo = 0;
+      } else {
+        ++colNo;
+      }
+      ++i;
+    }
+    ctx.append("</tr></table>");
+    return true;
   }
 
   /*
@@ -122,6 +211,16 @@ public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithH
   public void setInclude(String include)
   {
     this.include = include;
+  }
+
+  public String getPageId()
+  {
+    return pageId;
+  }
+
+  public void setPageId(String pageId)
+  {
+    this.pageId = pageId;
   }
 
 }
