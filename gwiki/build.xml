@@ -6,6 +6,8 @@
 	<property name="s5slideshowversion" value="gwiki.s5slideshow-1.0.0" />
 	<property name="vfolderversion" value="gwiki.vfolder-1.0.0" />
 	<property name="keywordssmarttagsversion" value="gwiki.keywordssmarttags-1.0.0" />
+	<property name="confluenceimporterversion" value="gwiki.confluenceimporter-1.0.0" />
+	
 	<target name="gwiki.forum">
 		<mkdir dir="${plugintarget}" />
 		<delete file="${plugintarget}/${forumversion}.zip" />
@@ -46,4 +48,12 @@
 			</fileset>
 		</zip>
 	</target>
+	<target name="gwiki.confluenceimporter">
+			<mkdir dir="${plugintarget}" />
+			<delete file="${plugintarget}/${confluenceimporterversion}.zip" />
+			<zip zipfile="${plugintarget}/${confluenceimporterversion}.zip">
+				<fileset dir="src/plugins/confluenceimporter" includes="**/*" excludes="src/">
+				</fileset>
+			</zip>
+		</target>
 </project>
