@@ -357,10 +357,10 @@ def onRender(pct)
 					<property name="type" value="STRINGLIST" />
 					<property name="controlerScript">
 						<value><![CDATA[
-import de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiKeywordLoadElementInfosFilter;
+import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 def onValidate(pec) 
 {
-	GWikiKeywordLoadElementInfosFilter.checkKeywordProperties(pec.wikiContext, pec.getPropsValue());
+	GWikiEditPageActionBean.checkKeywordProperties(pec.wikiContext, pec.getPropsValue());
 }
 							]]>
 						</value>
