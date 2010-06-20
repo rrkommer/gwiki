@@ -299,6 +299,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   @Override
   public InputStream getResourceAsStream(String name)
   {
+    if (name.startsWith("/") == true) {
+      name = name.substring(1);
+    }
     for (Map<String, FsObject> rsm : resPaths) {
       if (rsm.containsKey(name) == false) {
         continue;
