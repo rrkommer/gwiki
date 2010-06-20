@@ -703,7 +703,9 @@ public class GWikiFileStorage implements GWikiStorage
       FileSystem fsw = storage.getFsForWrite(id);
       String ppath = id.substring(0, id.lastIndexOf('/'));
       if (fsw.existsForWrite(ppath) == false) {
-        fsw.mkdirs(ppath);
+        if (fsw.mkdirs(ppath) == false) {
+          GWikiLog.warn("Unable to create parent directory: " + ppath);
+        }
       }
     }
     for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
