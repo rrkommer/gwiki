@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -105,6 +106,15 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
     return null;
   }
 
+  @Override
+  public Date getModifiedDate()
+  {
+    // always now, otherwise caching on server
+    return new Date();
+    // return super.getModifiedDate();
+
+  }
+
   public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException,
       NotAuthorizedException
   {
@@ -152,4 +162,5 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
     }
     return res;
   }
+
 }
