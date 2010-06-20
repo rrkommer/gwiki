@@ -305,4 +305,18 @@ public interface FileSystem
    *          timeout
    */
   void checkEvents(boolean force);
+
+  /**
+   * Automatically create parent directories when writing files.
+   * 
+   * @return
+   */
+  boolean isAutoCreateDirectories();
+
+  /**
+   * Automatically create parent directories when writing files.
+   * 
+   * @param autoCreateDirectories
+   */
+  void setAutoCreateDirectories(boolean autoCreateDirectories);
 }

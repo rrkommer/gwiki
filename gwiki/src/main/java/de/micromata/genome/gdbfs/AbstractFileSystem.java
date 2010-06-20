@@ -66,6 +66,11 @@ public abstract class AbstractFileSystem implements FileSystem
 
   protected boolean readOnly = false;
 
+  /**
+   * If true, automatically creates nessary parent directory when writing file.
+   */
+  protected boolean autoCreateDirectories = false;
+
   public FileSystem getFsForRead(String name)
   {
     return this;
@@ -345,6 +350,16 @@ public abstract class AbstractFileSystem implements FileSystem
   public void setDefaultMimeType(String defaultMimeType)
   {
     this.defaultMimeType = defaultMimeType;
+  }
+
+  public boolean isAutoCreateDirectories()
+  {
+    return autoCreateDirectories;
+  }
+
+  public void setAutoCreateDirectories(boolean autoCreateDirectories)
+  {
+    this.autoCreateDirectories = autoCreateDirectories;
   }
 
 }
