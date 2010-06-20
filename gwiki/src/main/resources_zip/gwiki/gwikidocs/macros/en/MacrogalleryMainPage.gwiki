@@ -1,0 +1,14 @@
+{pageintro}
+The Macro renders all image attachments of a given page as image gallery.
+{pageintro}
+
+Options:
+* columns: Optional. Integer. Default 4. number of columns in the 
+* part: Optional. Only render the named Artefakt of a page. All children has to have such a part.
+* pageId: Optional. page id. Default current page. Parent page used to retrieve page.
+* include: A Matcher expression to include and include elements. See [gwikidocs/howtos/en/TheGWikiGenomeMatcherframework].
+* size: Size of the Image. Supports same values as the thumpnail in image. small, medium and large. Default is medium.
+* sort: Sorting criteria. title: TITLE, date: MODIFIEDAT otherwise property key of the settings.
+* reverse: true or false if sorting should be in reverse order. Default is false.
+
+Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiImageGalleryMacro}}
