@@ -5,8 +5,10 @@
 	<artifactId>gwiki-parent</artifactId>
 	<name>gwiki</name>
 	<version>0.3.1-SNAPSHOT</version>
+	<description>GWiki is a Wiki plattform for CMS and creating CMS based web plattforms.
+							 The gwiki-parent is just the parent pom.</description>
 	<packaging>pom</packaging>
-
+	
 	<profiles>
 		<profile>
 			<id>default</id>
@@ -86,7 +88,7 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<!--  -->
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -113,14 +115,15 @@
 
 	<distributionManagement>
 		<repository>
-			<id>gwiki-releases</id>
-			<name>gwiki-releases</name>
-			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki</url>
+			<id>labs.micromata.de-releases</id>
+			<name>labs.micromata.de-releases</name>
+			<url>http://labs.micromata.de/nexus/content/repositories/releases</url>
+			<uniqueVersion>false</uniqueVersion>
 		</repository>
 		<snapshotRepository>
-			<id>gwiki-snapshots</id>
-			<name>gwiki-snapshots</name>
-			<url>http://repo.micromata.priv:8081/nexus/content/repositories/gwiki-snapshot</url>
+			<id>labs.micromata.de-snapshots</id>
+			<name>labs.micromata.de-releases</name>
+			<url>http://labs.micromata.de/nexus/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
