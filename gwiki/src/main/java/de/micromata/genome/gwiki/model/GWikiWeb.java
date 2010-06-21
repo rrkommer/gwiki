@@ -43,6 +43,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -140,6 +141,19 @@ public class GWikiWeb
     daoContext.getPageCache().initPageCache(this);
   }
 
+  public <T, EX extends Throwable> T runInPluginContext(CallableX<T, EX> callback) throws EX
+  {
+    ClassLoader previousClassLoader = null;
+    try {
+      previousClassLoader = daoContext.getPluginRepository().initClassLoader();
+      return callback.call();
+    } finally {
+      if (previousClassLoader != null) {
+        Thread.currentThread().setContextClassLoader(previousClassLoader);
+      }
+    }
+  }
+
   public synchronized void loadWeb()
   {
     long start = System.currentTimeMillis();
@@ -147,33 +161,31 @@ public class GWikiWeb
       inBootStrapping = true;
 
       filter = new GWikiFilters();
-      GWikiGlobalConfig config = reloadWikiConfig();
+      final GWikiGlobalConfig config = reloadWikiConfig();
       daoContext.getPluginRepository().initPluginRepository(this, config);
-      ClassLoader previousClassLoader = null;
-      try {
-        previousClassLoader = daoContext.getPluginRepository().initClassLoader();
+      runInPluginContext(new CallableX<Void, RuntimeException>() {
 
-        filter = new GWikiFilters();
-        filter.init(this, config);
-        // / force to load config first to register listener
+        public Void call() throws RuntimeException
+        {
+          filter = new GWikiFilters();
+          filter.init(GWikiWeb.this, config);
+          // / force to load config first to register listener
 
-        modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
-        Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
-        npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
-          public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
-              GWikiLoadElementInfosFilterEvent event)
-          {
-            getStorage().loadPageInfos(event.getPageInfos());
-            lastModCounter = getStorage().getModificationCounter();
-            daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
-            return null;
-          }
-        });
-      } finally {
-        if (previousClassLoader != null) {
-          Thread.currentThread().setContextClassLoader(previousClassLoader);
+          modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
+          Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
+          npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
+            public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
+                GWikiLoadElementInfosFilterEvent event)
+            {
+              getStorage().loadPageInfos(event.getPageInfos());
+              lastModCounter = getStorage().getModificationCounter();
+              daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
+              return null;
+            }
+          });
+          return null;
         }
-      }
+      });
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;
