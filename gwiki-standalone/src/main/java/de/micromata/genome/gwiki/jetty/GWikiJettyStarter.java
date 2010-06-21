@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * Starter main class with embedded Jetty.
@@ -44,18 +45,24 @@ public class GWikiJettyStarter
 {
   public void buildIndex(JettyConfig jettyConfig, GWikiServlet wikiServlet)
   {
-    GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
+    final GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
     String servletPath = "";
     nwiki.setContextPath(jettyConfig.getContextPath());
     nwiki.setServletPath(servletPath);
     try {
-      GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), servletPath);
+      final GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), servletPath);
       GWikiContext.setCurrent(ctx);
       nwiki.loadWeb();
-      SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
-      scb.rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
-      // nwiki.rebuildIndex();
-      // nwiki.getStorage().rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
+      nwiki.runInPluginContext(new CallableX<Void, RuntimeException>() {
+
+        public Void call() throws RuntimeException
+        {
+          SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
+          scb.rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
+          return null;
+        }
+      });
+
     } finally {
       GWikiContext.setCurrent(null);
     }
