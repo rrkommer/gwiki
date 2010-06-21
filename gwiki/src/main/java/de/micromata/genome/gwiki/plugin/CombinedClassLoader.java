@@ -76,6 +76,16 @@ public class CombinedClassLoader extends URLClassLoader
   @Override
   protected Class< ? > findClass(String name) throws ClassNotFoundException
   {
+    for (ClassLoader cl : parents) {
+      try {
+        Class< ? > ret = cl.loadClass(name);
+        if (ret != null) {
+          return ret;
+        }
+      } catch (ClassNotFoundException cnf) {
+        // ignore
+      }
+    }
     // the parent will do it.
     return super.findClass(name);
   }
@@ -147,7 +157,6 @@ public class CombinedClassLoader extends URLClassLoader
   @Override
   protected synchronized Class< ? > loadClass(String name, boolean resolve) throws ClassNotFoundException
   {
-
     return super.loadClass(name, resolve);
   }
 

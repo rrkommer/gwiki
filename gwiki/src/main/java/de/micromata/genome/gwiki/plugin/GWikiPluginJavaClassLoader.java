@@ -54,6 +54,8 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
   private Map<String, Class< ? >> loadedClasses = Collections.synchronizedMap(new HashMap<String, Class< ? >>());
 
+  private boolean enableCacheMissedClasses = false;
+
   /**
    * for performance reason cache missing class requests.
    */
@@ -67,20 +69,17 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   public GWikiPluginJavaClassLoader()
   {
     super(new URL[0], Thread.currentThread().getContextClassLoader());
-    // this.storage = storage;
   }
 
   public GWikiPluginJavaClassLoader(boolean isolated)
   {
     super(new URL[0], Thread.currentThread().getContextClassLoader());
-    // this.storage = storage;
     this.isolated = isolated;
   }
 
   public GWikiPluginJavaClassLoader(ClassLoader parent)
   {
     super(new URL[0], parent);
-    // this.storage = storage;
   }
 
   /**
@@ -92,7 +91,6 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   {
     super(other.getURLs(), other.getParent());
     this.resPaths = other.resPaths;
-    // this.storage = other.storage;
     this.isolated = other.isolated;
   }
 
@@ -116,7 +114,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
   public void addJar(FsObject storage)
   {
-    missedClasses.clear();
+    if (enableCacheMissedClasses == true) {
+      missedClasses.clear();
+    }
     try {
       Map<String, FsObject> fileMap = new HashMap<String, FsObject>();
       byte[] data = storage.getFileSystem().readBinaryFile(storage.getName());
@@ -128,20 +128,6 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       for (FsObject fso : files) {
         fileMap.put(fso.getName(), fso);
       }
-      // ZipInputStream zf = new ZipInputStream(is);
-      // ZipEntry ze;
-      //
-      // while ((ze = zf.getNextEntry()) != null) {
-      // String zeName = ze.getName().replace('\\', '/');
-      // if (zeName.startsWith("/")) {
-      // zeName = zeName.substring(1);// TODO check
-      // }
-      // if (zeName.endsWith("/") == false) {
-      // fileMap.put(zeName, new StorageClassLoaderResPath(zeName, loader));
-      // }
-      // zf.closeEntry();
-      // }
-      // zf.close();
       resPaths.add(fileMap);
     } catch (Exception ex) {
       throw new RuntimeException("IO Failure while loading jar: " + storage.getName(), ex);
@@ -154,7 +140,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   public void addJarPath(FsObject storage) throws IOException
   {
-    missedClasses.clear();
+    if (enableCacheMissedClasses == true) {
+      missedClasses.clear();
+    }
     // rw fixed: vorher stand ein "." vor "jar"; es wird jedoch nur die Endung erwartet.
     List<FsObject> files = storage.getFileSystem().listFilesByPattern(storage.getName(), "*.jar", 'F', false);
     for (FsObject lf : files) {
@@ -172,7 +160,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   public void addClassPath(FsObject storage) throws IOException
   {
-    missedClasses.clear();
+    if (enableCacheMissedClasses == true) {
+      missedClasses.clear();
+    }
     Map<String, FsObject> fileMap = new HashMap<String, FsObject>();
     List<FsObject> files = storage.getFileSystem().listFiles("", new EveryMatcher<String>(), 'F', true);
     for (FsObject lf : files) {
@@ -182,22 +172,6 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       }
       fileMap.put(name, lf);
     }
-    // ResLoader loader = new StorageLoader(new StorageEntry(storage, classpath));
-    // Map<String, StorageClassLoaderResPath> fileMap = new HashMap<String, StorageClassLoaderResPath>();
-    //
-    // List<String> localFiles = storage.getFilesOfDirectory(classpath, null, true);
-    // for (String lf : localFiles) {
-    // // if (lf.endsWith(".class") == true) {
-    // // lf = lf.replace('\\', '/');
-    // // String cname = lf.substring(0, lf.length() - ".class".length()).replace('/', '.');
-    // // // String cname = lf.substring(0, lf.length() - ".class".length());
-    // // // classResources.put(cname, new StorageEntry(storage, FilenameUtils.normalize(classpath + "/" + lf)));
-    // // } else {
-    // // // otherResources.put(lf, new StorageEntry(storage, FilenameUtils.normalize(classpath + "/" + lf)));
-    // // }
-    // String normPath = lf.replace('\\', '/');
-    // fileMap.put(normPath, new StorageClassLoaderResPath(normPath, loader));
-    // }
     resPaths.add(fileMap);
   }
 
@@ -220,10 +194,13 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   public synchronized Class< ? > loadClass(String name, boolean resolve) throws ClassNotFoundException
   {
 
-    if (loadedClasses.containsKey(name) == true)
+    if (loadedClasses.containsKey(name) == true) {
       return loadedClasses.get(name);
-    if (missedClasses.contains(name) == true)
+    }
+
+    if (enableCacheMissedClasses == true && missedClasses.contains(name) == true) {
       throw new ClassNotFoundException("Class " + name + " cannot be found (cached)");
+    }
 
     String clsName = name.replace('.', '/') + ".class";
     for (Map<String, FsObject> rsm : resPaths) {
@@ -241,12 +218,14 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
     }
     try {
       Class< ? > cls = super.loadClass(name, resolve);
-      if (cls == null) {
+      if (enableCacheMissedClasses == true && cls == null) {
         missedClasses.add(name);
       }
       return cls;
     } catch (ClassNotFoundException ex) {
-      missedClasses.add(name);
+      if (enableCacheMissedClasses == true) {
+        missedClasses.add(name);
+      }
       throw ex;
     }
   }
@@ -357,5 +336,15 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   public Map<String, Class< ? >> getLoadedClasses()
   {
     return loadedClasses;
+  }
+
+  public boolean isEnableCacheMissedClasses()
+  {
+    return enableCacheMissedClasses;
+  }
+
+  public void setEnableCacheMissedClasses(boolean enableCacheMissedClasses)
+  {
+    this.enableCacheMissedClasses = enableCacheMissedClasses;
   }
 }
