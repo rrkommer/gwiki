@@ -1,36 +1,251 @@
 @CHARSET "UTF-8";
 
-body  {
-    background: #858E94 /*url("bg.png") top left repeat-x*/;
+/* ================================================================================= */
+	/* = Author: ǝp˙ɐʇɐɯoɹɔıɯ@zɹɐʍɥɔs˙ɯ  | © 02010 Micromata GmbH | Have a lot of fun! = */
+	/* ================================================================================= */
+.gwikibody {
+	padding: 0 1em 0em 14em;
+	margin: 0;
+	background: #fff url('../img/gui/headbg.gif') repeat-x 1em -1em;
 }
+
+.gwikibodyNoNav {
+	padding: 0 1em 0em 1em;
+}
+
+#gwikiWrapperWrapper {
+	position: relative;
+	padding-left: 1.0em;
+	margin: 0 auto;
+	/*width:90em;*/
+	background: transparent url("../img/gui/contentbg_left.png") no-repeat	0em 5em;
+}
+
 #gwikiWrapper {
-	background:#FFFFFF;
-	height:auto;
-	margin:0 auto;
-	text-align:left;
-	width:98em;
+	padding-right: 0.0em;
+	background: transparent url("../img/gui/contentbg.png") no-repeat 100%	5em;
 }
-#gwikiExplorer {
-	position:absolute;
-	top:0;
-	left:0;
+
+.gwikiExplorer {
+	top: 10em;
+	left: 0em;
+	width: 13em;
+	height: 100%;
+	margin: 0em auto;
+	background-color: #f9f9f9;
+	position: absolute;
+	padding-top: 1em;
+	padding-left: 1em;
+	/*padding-right: 1em;
+		*/
+	/*background: transparent url("../img/gui/contentbg.png") no-repeat 100%;*/
 }
+
+.gwikiExplorerNoNav {
+	width: 1.0em;
+	padding-left: 0em;
+}
+
+ul.gwikiNavMenu {
+	background-color: #f9f9f9;
+}
+
+li.gwikiNavMenu {
+	background-color: #f9f9f9;
+}
+
 #gwikiHead {
-	position:relative;
-	height:20em;
-	overflow:hidden;
+	margin: 0;
+	padding: 0;
+	height: 3.0em;
 }
 
+#gwikiMasthead {
+	float: left;
+}
 
-/**
- * @section        Footer
- *
- * footer-section
- *
- * @see            #footer
- */
+#gwikiMasthead img {
+	float: left;
+	border: none;
+	margin: 1em 0 0 0;
+}
 
- #footer {
- 	background:#69A100;
- 	min-height:100px;
- }
+#gwikiQuicksearch {
+	float: right;
+	margin: 0;
+}
+
+.gwikiSearchBarIcon {
+	border: none ;
+}
+
+#gwikiQuicksearchSubmit {
+	text-indent: -9999px;
+	border: none;
+	background: transparent url("../img/icons/search16.png") no-repeat
+		center center;
+	font-size: 1.0em;
+	width: 1.6em;
+	height: 1.6em;
+	padding: 0.2em;
+	opacity: 0.5;
+}
+
+#gwikiBreadcrumb {
+	margin: 1.3em 0 0;
+	font-size: 0.8em;
+}
+
+#gwikiQuicksearchSubmit:hover {
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+#gwikiSearchmenu {
+	width: 20em;
+}
+
+#gwikiSearchmenu ul li {
+	float: left;
+	padding: 0.2em;
+	list-style: none outside none;
+}
+
+#gwikiSearchmenu ul li a {
+	opacity: 0.5;
+}
+
+#gwikiSearchmenu ul li a:hover {
+	opacity: 0.8;
+}
+
+#gwikiQuicksearchQuery {
+	border: 0.1em solid #ADB4B7;
+	background: #fff;
+	font-size: 1.0em;
+	width: 10em;
+	height: 1em;
+	padding: 0.2em;
+	vertical-align: top;
+	top: -0.3em;
+}
+
+ul.gwikiMenuone,.gwikiMenuone ul {
+	list-style: none;
+}
+
+.gwikiMenuone li {
+	float: left;
+}
+
+/* gwiki Head content END + + + + + + + + + + + + + + + + */
+#gwikiContainer { /*width:89.6em;*/
+	background: transparent;
+	margin: 0 auto;
+	padding: 2em 0 0 0;
+}
+
+div.clearAll {
+	height: 1px;
+	overflow: hidden;
+	clear: both;
+}
+
+#gwikiFooter {
+	width: 100%;
+	padding: 1em 0;
+	margin: 0;
+	color: #fff;
+	background: #080708 url("../img/gui/footer.png") repeat-x top left;
+}
+#gwikiFooter  a {
+	color: #fff;
+	text-decoration: none;
+}
+#gwikiFooter  a:hover {
+	color: #fff;
+}
+
+#gwikiFooter dl.gwikiFooter {
+	float: left;
+	min-height: 10em;
+	width: 20.8em;
+	border: none;
+	color: #fff;
+	margin: 0 0 0 1em;
+}
+
+#gwikiFooter dl.gwikiFooter dt {
+	font-size: 1.6em;
+	line-height: 1.5em;
+	color: #fff;
+	padding: 0.3em 0.5em 0.1em 0.5em;
+	border-bottom: 0.2em solid #fff;
+	font-weight: bold;
+}
+
+#gwikiFooter dl.gwikiFooter dt a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#gwikiFooter dl.gwikiFooter dd {
+	font-size: 1.4em;
+	line-height: 1em;
+	color: #fff;
+	padding: 0.3em 0.5em;
+	border-top: 0.1em solid #ADB4B7;
+	margin: 0;
+}
+
+#gwikiFooter dl.gwikiFooter dd a {
+	color: #ADB4B7;
+	text-decoration: none;
+}
+
+#gwikiFooter dl.gwikiFooter dd a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+#gwikiFooter p.imprint {
+	font-size: 0.8em;
+	line-height: 1.5em;
+	border-top: 1px solid #ADB4B7;
+	margin: 1em;
+	padding: 0.5em 0 0 0;
+	text-align: center;
+	color: #ADB4B7;
+}
+
+#gwikiFooter p.imprint a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #ADB4B7;
+}
+
+#gwikiFooter p.imprint a:hover {
+	color: #fff;
+}
+/* Start-Button for S5 */
+a.startSlide {
+	background:#F2F4F5;
+	border:1px solid #919CA9;
+	padding:5px 5px;
+	text-decoration:none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+a.startSlide span {
+	background: url("../img/icons/slide32.png") no-repeat 0 1px;
+	color:#919CA9;
+	padding:0 10px 0 20px;
+}
+a.startSlide:hover {
+	background:#919CA9;
+	text-decoration:none;
+}
+a.startSlide:hover span {
+	color:#FFFFFF;
+}

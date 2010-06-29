@@ -1,77 +1,120 @@
-<@include file="/inc/mmLabs/head.gspt"@>
+<@include file="/inc/gwiki/head.gspt"@>
 
 <% boolean wikiWithNavNavigation = true; %>
 <% boolean wikiWithMainTopicNavNavigation = false; %>
 <% boolean wikiWithMainTopicTopNavigation = true; %>
 <% boolean wikiWithBreadcrumb = true; %>
+<script type="text/javascript">
+<!--
+function gwikiToggleExplorer()
+{
+	if ($('#gwikiNavContent').is(':hidden') == true) {
+		$('#gwikiNavContent').show();
+		$('body').removeClass('gwikibodyNoNav');
+		$('#gwikiExplorer').removeClass('gwikiExplorerNoNav');
+		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>');
+		gwikiSaveUserPrev('WITH_NAVBAR', true, true);
+		
+	} else {
+		$('#gwikiNavContent').hide();
+		$('body').addClass('gwikibodyNoNav');
+		$('#gwikiExplorer').addClass('gwikiExplorerNoNav');
+		$('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>');
+		gwikiSaveUserPrev('WITH_NAVBAR', false, true);
+	}
+}
+
+//-->
+</script>
 
 <div id="gwikiExplorer" class="gwikiExplorer <%= gwikiWithNavBar ? "" : " gwikiExplorerNoNav" %>">
-	<a href="javascript:gwikiToggleExplorer()">
-	<% if (gwikiWithNavBar) { %>
-		<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>" alt=""/>
-	<% } else { %>
-		<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>" alt=""/>
-	<% } %>
-	</a>
-
-	<div id="gwikiNavContent" style="<%= gwikiWithNavBar  ? "" : "display: none;" %>">
-		<@include file="inc/navMenu" @>
-	</div>
-</div>
-
-<div id="gwikiWrapper">
-	<div id="gwikiHead">
-		<div id="gwikiMasthead">
-			<div id="gwikiLogo">
-				<a href="<gwiki:url value="/${welcomePageId}"/>" title="<gwiki:url value="/${welcomePageId}"/>">
-					<img src="<gwiki:url value='/inc/mmLabs/img/logo.gif'/>" alt="Logo Micromata Labs"/>
+			<div style="float: right; ">
+				<a href="javascript:gwikiToggleExplorer()">
+				<% if (gwikiWithNavBar) { %>
+				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>" alt=""/>
+				<% } else { %>
+				<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>" alt=""/>
+				<% } %>
 				</a>
 			</div>
-		</div> <!-- gwikiMasthead END -->
-		<% if (wikiWithMainTopicTopNavigation == true) { %>				
-		<div id="gwikiTopNav">
-			<% for (ei in wikiContext.getElementFinder().getPageDirectPages(wikiContext.getRequestAttribute("welcomePageId"))) { 
-				if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
-				continue;
-			}%>
-				<a href="<%= wikiContext.localUrl("/" + ei.getId()) %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a> I
-			<% } %>
-		</div>
-		<% } %>
-		<div id="topbar">
-			<div id="gwikiSearchmenu">
-				<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
-					<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="text" size="25" name="searchExpression" accesskey="n"/>
-					<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
-				</form>					
-			</div> <!-- gwikiSearchmenu END -->
-			<ul>
-				<gwiki:authorize pageId="edit/SiteMap">
-					<li><a href="<gwiki:url value="/edit/SiteMap"/>">
-						<img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"  /></a></li>
-				</gwiki:authorize>
-				<gwiki:authorize pageId="edit/ViewAllPages">
-					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">
-						<img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a></li>
-				</gwiki:authorize>
-				<gwiki:authorize pageId="edit/Keywords">
-					<li><a href="<gwiki:url value="/edit/Keywords"/>">
-						<img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a></li>
-				</gwiki:authorize>
-			</ul>  
-			<script type="text/javascript">
-				\$(document).ready(function(){
-					gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
-				});
-			</script>
-		</div><!-- end #topbar -->		
-		<@include file="inc/mmLabs/headMenu.gspt" @>
-		<div id="gwikiBreadcrumb">
-			<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext); %>
-		</div><!-- gwikiBreadcrumb END -->
-	</div> <!-- end #gwikihead -->
-	<div id="gwikiContainer">
-		
-		<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
-		
-		<div id="gwikiContent">
+<div id="gwikiNavContent" style="<%= gwikiWithNavBar  ? "" : "display: none;" %>">
+ <@include file="inc/navMenu" @>
+ </div>
+</div>
+		<div id="gwikiWrapperWrapper">
+			<div id="gwikiWrapper">
+			
+				<div id="gwikiHead">
+					<div id="gwikiMasthead">
+						<div id="gwikiLogo">
+							<a href="<gwiki:url value="/${welcomePageId}"/>" title="<gwiki:url value="/${welcomePageId}"/>">
+								<img src="<gwiki:url value='/inc/gwiki/img/gui/gwikiLogo.png'/>" alt="gWWWWWWiki"/>
+							</a>
+						</div>
+				
+					</div> <!-- gwikiMasthead END -->
+<% if (wikiWithMainTopicTopNavigation == true) { %>				
+							<div style="position: absolute;top: 0em;left: 15em;">
+							I
+							<% for (ei in wikiContext.getElementFinder().getPageDirectPages(wikiContext.getRequestAttribute("welcomePageId"))) { 
+									if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
+										continue;
+									}%>
+									<a href="<%= wikiContext.localUrl("/" + ei.getId()) %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a> I
+							<% } %>
+					</div>
+<% } %>
+					<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
+						
+						<div id="gwikiSearchmenu">
+										<ul>
+					           	<gwiki:authorize pageId="edit/SiteMap">
+					             	<li><a href="<gwiki:url value="/edit/SiteMap"/>">
+					             	<img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"  /></a></li>
+					            </gwiki:authorize>
+								<gwiki:authorize pageId="edit/ViewAllPages">
+	             					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">
+	             						<img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a></li>
+	             				</gwiki:authorize>
+	             				<gwiki:authorize pageId="edit/Keywords">
+	             					<li><a href="<gwiki:url value="/edit/Keywords"/>">
+	             					<img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a></li>
+	             				</gwiki:authorize>
+           					</ul>  
+						
+							<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="text" size="25" name="searchExpression" accesskey="n"/>
+							
+							<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
+						</div> <!-- gwikiSearchmenu END -->
+					</form>
+					
+					<script type="text/javascript">
+					  \$(document).ready(function(){
+					  	gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+					   
+					 });
+					</script>
+					
+					<!-- form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
+						<fieldset>
+						<legend>Schnellsuche</legend>
+						<input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
+						</fieldset>
+					</form-->
+						
+					<div class="clearAll"> &nbsp; </div>
+						<@include file="inc/gwiki/headMenu.gspt" @>
+						<div id="gwikiBreadcrumb">
+							<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext); %>
+						</div><!-- gwikiBreadcrumb END -->
+					<div class="clearAll"> &nbsp; </div>
+
+				</div> <!-- head END -->
+				
+				<div id="gwikiContainer">
+					
+					<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+							
+					<!-- pagenav END -->
+					
+					<div id="gwikiContent">
