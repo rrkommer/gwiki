@@ -1,5 +1,657 @@
 @CHARSET "UTF-8";
 
+/* ================================================================================= */
+	/* = Author:  © 02010 Micromata GmbH | Have a lot of fun! = */
+	/* ================================================================================= */
+	/*
 body {
 	font: normal 62.5% Helvetica, Arial, sans-serif;
+}
+*/ /* +++++ gwikiMasthead typography ++++++++++++++++++++++ */
+#gwikiMasthead h1 {
+	color: #5C6970;
+	font: bold 1.4em Helvetica, Arial, sans-serif;
+	float: left;
+	margin: 0.5em;
+}
+
+#gwikiMasthead h2 {
+	color: #5C6970;
+	font: normal 1.2em Helvetica, Arial, sans-serif;
+	float: left;
+	display: none;
+}
+
+#gwikiPageinfo {
+	background-color: #EAEEED;
+	margin: 0 -0.6em 0 -0.9em;
+	padding: 2em;
+	border-top: 0.1em solid #CFD7D9;
+	border-bottom: 0.1em solid #CFD7D9;
+}
+
+/*
+#gwikiPageinfo h3 {
+	font-size:2em;
+	line-height:1.25em;
+	margin: 0 0 1em 0;
+}
+*/ /*
+#gwikiPageinfo p{
+	font-size:1.6em;
+	line-height:1.5em;
+}
+*/ /* gwikiContent */
+#gwikiContent,.gwikiContent {
+	padding: 0 2em;
+	color: #5C6970;
+}
+
+#gwikiContent inst,#PageComments inst,.gwikiContent inst {
+	color: #009C0E;
+	text-decoration: underline;
+}
+
+#gwikiContent del,#PageComments del,.gwikiContent del {
+	color: #E63110;
+	text-decoration: line-through;;
+}
+
+/* All your prose... */ /*
+#gwikiContent p{
+	font-size:1.6em;
+	padding:0;
+	margin:0 0 1.5em 0;
+	line-height:1.5;
+}
+*/ /* All the pretty headings... */ /*
+#gwikiContent h1,
+#gwikiContent h2,
+#gwikiContent h3,
+#gwikiContent h4,
+#gwikiContent h5,
+#gwikiContent h6,
+#gwikiContent h7,
+#gwikiContent h8,
+#PageComments h1,
+#PageComments h2,
+#PageComments h3,
+#PageComments h4,
+#PageComments h5,
+#PageComments h6 {
+	line-height:1em;
+	margin:0;
+	padding:0;
+	font-weight: normal;
+	color:#33434C;
+}
+*/ /*
+#gwikiContent h1, #PageComments h1 {
+	margin: 3em 0 0 0;
+	font-size:2.4em;
+}
+#gwikiContent h2, #PageComments h2 {
+	font-size:1.8em;
+	line-height:1.333em;
+}
+
+
+#gwikiContent h3, #PageComments h3 {
+	font-size:1.6em;
+	line-height:1.5em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h4, #PageComments h4 {
+	font-size:1.4em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h5, #PageComments h5 {
+	font-size:1.2em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+
+#gwikiContent h6, , #PageComments h6 {
+	font-size:1.2em;
+	line-height:2em;
+	font-weight:bold;
+}
+
+*/ /* Cute little lists... */ /* Unordered */ /*
+#gwikiContent ul, #PageComments ul {
+	margin:0;
+	padding: 1.5em 1.5em 1.5em 3em; 
+	font-size:1.6em;
+	line-height:1.5em;
+	list-style:disc;
+	background:#f9f9f9;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+}
+*/ /*TODO: move to tabs css */
+#gwikiContent #tabs ul,#PageComments #tabs ul {
+	list-style: none;
+	font-size: 1em;
+	margin: 0;
+}
+
+/*
+#gwikiContent ul li,#PageComments ul li {
+	margin: 0;
+	padding: 0;
+}
+*/ /*disable endocrine growth... */ /*
+#gwikiContent ul li a,#PageComments ul li a {
+	font-size: 1em;
+}
+*/ /*
+#gwikiContent ul li ul li,#gwikiContent ul li ul li ul li,#gwikiContent ul li ul li ul li ul li,#gwikiContent ul li ul li ul li ul li ul li,#PageComments ul li ul li,#PageComments ul li ul li ul li,#PageComments ul li ul li ul li ul li,#PageComments ul li ul li ul li ul li ul li
+	{
+	margin: 0;
+	padding: 0;
+	opacity: 0.6;
+}
+*/ /* disable endocrine growth... */ /*
+#gwikiContent ul li ul,#gwikiContent ul ul,#gwikiContent ul li ul li ul,#gwikiContent ul ul ul,#gwikiContent ul li ul li ul li ul,#gwikiContent ul ul ul ul,#gwikiContent ul li ul,#PageComments ul ul,#PageComments ul li ul li ul,#PageComments ul ul ul,#PageComments ul li ul li ul li ul,#PageComments ul ul ul ul
+	{
+	font-size: 1em;
+	margin: 0 0 0 2em;
+	padding: 0;
+}
+*/ /* Ordered */ /*
+#gwikiContent ol, #PageComments ol {
+	margin: 1.5em 0 1.5em 2em;
+	padding: 0;
+	font-size: 1.6em;
+	line-height: 1.5em;
+	list-style: decimal-leading-zero;
+}
+
+#gwikiContent ol li, , #PageComments ol li {
+	margin: 0;
+	padding:0;
+}
+
+*/ /* disable child growth... */ /*
+#gwikiContent ol li ol li,#gwikiContent ol li ol li ol li,#gwikiContent ol li ol li ol li ol li,#gwikiContent ol li ol li ol li ol li ol li,#PageComments ol li ol li,#PageComments ol li ol li ol li,#PageComments ol li ol li ol li ol li,#PageComments ol li ol li ol li ol li ol li
+	{
+	margin: 0;
+	opacity: 0.6;
+}
+*/ /* disable child growth... */ /*
+#gwikiContent ol li ol,#gwikiContent ol li ol li ol,#gwikiContent ol li ol li ol li ol,#PageComments ol li ol,#PageComments ol li ol li ol,#PageComments ol li ol li ol li ol
+	{
+	font-size: 1em;
+	margin: 0 0 0 2em;
+	padding: 0;
+}
+*/ /*
+#gwikiContent dl, #PageComments dl {
+	background:#CFD7D9 url("../img/gui/line.gif") repeat-x top left;
+	margin: 0 0 1.5em 0;
+	padding: 0;
+	font-size: 1.6em;
+	line-height: 1.5em;
+	list-style: decimal-leading-zero;
+	border-left: 1px solid #CFD7D9;
+	border-right: 1px solid #CFD7D9;
+}
+*/
+#gwikiContent dl dt,#PageComments dl dt,.gwikiContent dl dt {
+	margin: 0;
+	padding: 0 0.5em 0 0.5em;
+	background: transparent url("../img/gui/line.gif") repeat-x bottom left;
+	font-weight: normal;
+}
+
+#gwikiContent dl dd,#PageComments dl dd,.gwikiContent dl dd {
+	margin: 0;
+	padding: 0 0.5em 0 2em;
+	background: #fff url("../img/gui/line.gif") repeat-x bottom left;
+}
+
+/* Let 'em float */
+#gwikiContent dl.left,#PageComments dl.left,.gwikiContent dl.left {
+	clear: left;
+	float: left;
+	max-width: 30em;
+}
+
+#gwikiContent dl.right,#PageComments dl.right,.gwikiContent dl.right {
+	clear: right;
+	float: right;
+	max-width: 30em;
+}
+
+/* links */
+a:visited,a {
+	color: #2274AC;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00B1EB;
+	text-decoration: underline;
+}
+
+/* tabelle */ /*
+#gwikiContent table, #PageComments table {
+	border: none;
+	border-right: 0.6em solid #fff;
+	border-collapse: inherit;
+	border-spacing: 0;
+	table-layout: auto;
+	margin: 0 0 2.4em 0;
+	font-size: 1em;
+	color: #5C6970;
+	background-color: #fff;
+}
+
+#PageComments table {
+	border-right: 0.6em solid #FEF5CC;
+}
+
+#gwikiContent table thead {}
+
+#gwikiContent table tfoot {}
+
+#gwikiContent table tbody {}
+*/ /*
+#gwikiContent table thead tr td,
+#gwikiContent table thead tr th,
+#gwikiContent table tfoot tr td,
+#gwikiContent table tfoot tr th,
+#gwikiContent table tbody tr td,
+#gwikiContent table tbody tr th
+{
+	padding: 0 0.3em;
+	font-size:1.6em;
+	line-height:1.5;
+	border-left:0.4em solid #fff;
+	font-weight:normal;
+	vertical-align: top;
+}
+*/ /*
+#PageComments table thead tr td,
+#PageComments table thead tr th,
+#PageComments table tfoot tr td,
+#PageComments table tfoot tr th,
+#PageComments table tbody tr td,
+#PageComments table tbody tr th {
+	padding: 0 0.3em;
+	font-size:1.6em;
+	line-height:1.5;
+	border-left:0.4em solid #FEF5CC;
+	font-weight:normal;
+	vertical-align: top;
+}
+
+#gwikiContent table thead tr td,
+#gwikiContent table thead tr th,
+#PageComments table thead tr td,
+#PageComments table thead tr th{
+	border-bottom:none;
+	color: #33434C;
+	text-align:center;
+	background-color:#eaeeed;
+}
+
+#gwikiContent table thead tr th, #PageComments table thead tr th {
+	background-color:#CFD7D9;
+	font-weight:bold;
+}
+
+#gwikiContent table tfoot tr td,
+#gwikiContent table tfoot tr th,
+#PageComments table tfoot tr td,
+#PageComments table tfoot tr th {
+	background-color:#f9f9f9;	
+}
+
+#gwikiContent table tbody tr th, #PageComments table tbody tr th{
+	text-align: left;
+}
+
+#gwikiContent table tbody tr.even td,
+#gwikiContent table tbody tr.even th,
+#PageComments table tbody tr.even td,
+#PageComments table tbody tr.even th {
+	background-color:#fff;
+	color: #33434C;
+		
+}
+
+#gwikiContent table tbody tr.odd td,
+#gwikiContent table tbody tr.odd th,
+#PageComments table tbody tr.odd td,
+#PageComments table tbody tr.odd th {
+	background-color:#f9f9f9;
+	color: #33434C;
+}
+*/ /* take care of the inglorious-layout-table-basterds */ /*
+#gwikiContent table.layout thead tr td,
+#gwikiContent table.layout thead tr th,
+#gwikiContent table.layout tfoot tr td,
+#gwikiContent table.layout tfoot tr th,
+#gwikiContent table.layout tbody tr td,
+#gwikiContent table.layout tbody tr th,
+#PageComments table.layout thead tr td,
+#PageComments table.layout thead tr th,
+#PageComments table.layout tfoot tr td,
+#PageComments table.layout tfoot tr th,
+#PageComments table.layout tbody tr td,
+#PageComments table.layout tbody tr th {
+	padding: 0;
+	font-size:1em;
+	line-height:1;
+	border:none;
+	font-weight:normal;
+	vertical-align: top;
+}
+*/
+	/* due to the typographic impact of imagecontent you'll find em here now */
+	/*
+#gwikiContent img, #PageComments img {
+	max-width:40em;
+	max-height:13.9em;
+	border: 1px solid #eaeeed;
+	background:#fff;
+	padding:0.5em;
+	margin: 0 0 1.5em 0;
+	font-size:1.6em;
+	line-height:1.5em;
+}
+*/
+	/*used icons in gwikiContent have to behave like icons, not like images.*/
+#gwikiContent img.gwikiIcon,#PageComments img.gwikiIcon,.gwikiContent img.gwikiIcon
+	{
+	margin: 0;
+	padding: 0.1em;
+	border: 1px solid #eaeeed;
+	/*-moz-border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+	*/
+}
+
+#gwikiContent img.icon,#PageComments img.icon,.gwikiContent img.icon {
+	margin: 0;
+	padding: 0.1em;
+	border: 1px solid #eaeeed;
+	float: right;
+	/*-moz-border-radius: 0.2em;
+	-webkit-border-radius: 0.2em;
+	*/
+	width: 0.5em;
+}
+
+#gwikiContent img.icon:hover,#gwikiContent img.iconOver,#PageComments img.icon:hover,#PageComments img.iconOver,.gwikiContent img.icon:hover
+	{
+	background: #CCCCD1;
+	border-color: #B3B3B7;
+}
+
+#gwikiContent img.right,#PageComments img.right, .gwikiContent img.right {
+	float: right;
+	max-height: 13.9em;
+	margin: 0 0 0 1.5em;
+}
+
+#gwikiContent img.left,#PageComments img.left, .gwikiContent img.left {
+	float: left;
+	max-height: 13.9em;
+	margin: 0 1.5em 0 0;
+}
+
+/* rendering the alt-text as imagefootnote */
+#gwikiContent div.imgfoot,#PageComments div.imgfoot, .gwikiContent div.imgfoot {
+	/* font-size:1.2em; */
+	padding: 1em 0.6em;
+	background: #fff;
+	color: #CCCCD1;
+	line-height: 1;
+	max-height: 6em;
+	min-height: 2em;
+	overflow: hidden;
+	/*background: red url("../img/gui/bg24.gif") repeat top left;/**/
+}
+
+#gwikiContent div.imgfoot_none,#PageComments div.imgfoot_none, .gwikiContent div.imgfoot_none {
+	margin-top: -2.2em;
+}
+
+#gwikiContent div.imgfoot_left,#PageComments div.imgfoot_left, .gwikiContent div.imgfoot_left {
+	float: left;
+	clear: left;
+	margin: 0 2em 0 0;
+}
+
+#gwikiContent div.imgfoot_right,#PageComments div.imgfoot_right, .gwikiContent div.imgfoot_right {
+	float: right;
+	clear: right;
+	margin: 0 0 0 2em;
+}
+
+/* Prettyfy all the code snippets */
+#gwikiContent div.panel,#PageComments div.panel, .gwikiContent div.panel {
+	/* margin:0 2.4em 2.4em 0;
+	max-width: 24em;
+	height: 19.6em;
+	 padding: 0 0 2em 0;
+	 */
+	background: #f9f9f9;
+	/*-moz-border-radius: 1.6em;
+	-webkit-border-radius: 1.6em;
+	float:left;
+	*/
+}
+
+#gwikiContent div.panel h3,#PageComments div.panel h3, .gwikiContent div.panel h3 {
+	border-bottom: 1px solid #CFD7D9;
+	/* font-size:1.3em; */
+	margin: 0;
+	padding: 0.25em 1em 0 1em;
+}
+
+#gwikiContent div.panel pre,#PageComments div.panel pre, .gwikiContent div.panel pre {
+	/* font-size: 0.8em; */
+	overflow: auto;
+	margin: 3em;
+	max-height: 22em;
+	border: 1px solid #CFD7D9;
+}
+
+/* special ul for the sitemaps */
+#gwikiContent .sitemap ul,#PageComments .sitemap ul, .gwikiContent .sitemap ul {
+	list-style: none;
+	/*background: transparent url("../img/gui/folder.png") no-repeat 1em 1em; */
+	margin: 0;
+	border: none;
+}
+
+#gwikiContent .sitemap ul li,#PageComments .sitemap ul li, .gwikiContent .sitemap ul li {
+	padding: 0 0 0 2em;
+	/*background: transparent url("../img/gui/file.png") no-repeat scroll 0em -0.3em; */
+}
+
+#gwikiContent .sitemap ul ul,#PageComments .sitemap ul ul, .gwikiContent .sitemap ul ul {
+	padding: 0 0 0 2em;
+	/*background: transparent url("../img/gui/folder.png") no-repeat scroll	0em -0.3em; */
+}
+
+#gwikiComments {
+	border-top: medium double;
+}
+
+#gwikiComments h2, .gwikiComments h2 {
+	font-size: 1.0em;
+}
+
+.gwikiPagecommentcontent {
+	border: thin solid;
+	margin-left: 0.5em;
+}
+
+/*
+#gwikiContent form.visible {
+	background-color: #EAEEED;
+	border-top: 1px solid #CFD7D9;
+	border-bottom: 1px solid #CFD7D9;
+	color: #5C6970;
+	padding:1.5em 0;
+}
+
+
+#gwikiContent form fieldset {
+	border:none;
+	border-bottom: 1px solid #CFD7D9;
+	padding:1.5em;
+	margin: 0 0 1.5em 0;
+}
+
+#gwikiContent form fieldset legend{
+	background:transparent;
+	padding:0;
+	font-size:2em; 
+}
+
+#gwikiContent form fieldset p.description {
+	float:right;
+	font-size:1.4em; 
+	width:60%;
+}
+
+#gwikiContent table.gwikiProperties, 
+#gwikiContent table.gwikiProperties tr td,
+#gwikiContent table.gwikiProperties tr th,
+#gwikiContent table.gwikiProperties thead tr td,
+#gwikiContent table.gwikiProperties thead tr th,
+#gwikiContent table.gwikiProperties tbody tr td,
+#gwikiContent table.gwikiProperties tbody tr th,
+#gwikiContent table.gwikiProperties tfoot tr td,
+#gwikiContent table.gwikiProperties tfoot tr th {
+	border:none;
+	font-size:1em;
+	
+}
+*/ /*
+#gwikiContent form label {
+	display:block;
+	float:left;
+	font-size:1.4em; 
+	margin:0.5em 0;
+	width:20em;
+}
+*/ /*
+.gwikiTextarea {
+	font-size: 1.2em;
+	width: 68.3em;
+	border:none;
+	border-top: 1px solid #5C6970;
+	border-bottom: 1px solid #5C6970;
+	color: #5C6970;
+	padding:1.5em;
+	font-family: "Andale Mono", "Monaco", Courier, monospace;
+}
+*/
+input
+.gwikiButton {
+	background-color: #ADB4B7;
+	border: 1px solid #5C6970;
+	color: #5C6970;
+	/* font-size:1.4em; */
+	margin: 0 0.5em 0 0;
+	padding: 0.2em 0.5em 0.1em 0.5em;
+	/*-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	*/
+}
+
+.buttons .gwikiButton {
+	float: right;
+}
+
+input.gwikiButton:hover {
+	cursor: pointer;
+	background-color: #CFD7D9;
+	color: #8994A0;
+	border-color: #8994A0;
+}
+
+input.main {
+	background-color: #51AE30;
+	color: #005D4D;
+	border-color: #005D4D;
+}
+
+input.main:hover {
+	background-color: #B9C900;
+	color: #005D4D;
+	border-color: #005D4D;
+}
+
+input.reset {
+	background-color: #F5AD9F;
+	color: #E63110;
+	border-color: #E63110;
+}
+
+input.reset:hover {
+	background-color: #EA4F44;
+	color: #730019;
+	border-color: #730019;
+}
+
+/* TODO:all preceding code has to be placed into forms.css */
+	/* comments */
+#PageComments {
+	color: #858E94;
+}
+
+#PageComments .PageComment_NewComment {
+	border-top: 1px solid #ADB4B7;
+	border-bottom: 1px solid #ADB4B7;
+	background-color: #D6D9DB;
+	margin: 0 0 1.5em 0;
+	padding: 1.5em;
+}
+
+/* The headings and paragraph formatting is defined on top.  */ /*
+#PageComments p, #PageComments .gwikiNewshead {
+	font-size:1.6em;
+	padding:0;
+	margin:0 0 1.5em 0;
+	line-height:1.5;
+	color:#5C6970;
+}
+
+#PageComments .gwikiPagecommentcontent{
+	border-top: 1px solid #FCE266;
+	border-bottom: 1px solid #FCE266;
+	background-color:#FEF5CC;
+	margin: 0 0 1.5em 0;
+	padding:1.5em;
+}
+*/
+#PageComments .gwikiNewshead {
+	color: #000;
+	margin: 0;
+	font-weight: bold;
+}
+
+#PageComments .gwikiNewshead a img {
+	opacity: 0.5;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: transparent;
+}
+
+#PageComments .gwikiNewshead a:hover img {
+	opacity: 0.8;
 }

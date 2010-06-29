@@ -3,7 +3,7 @@
 <!-- head.gspt START -->
 <head>
 
-<@include file="/inc/mmLabs/htmlHead.gspt" @>
+<@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
 
 <link href="<gwiki:url value="/inc/mmLabs/css/reset.css"/>" rel="stylesheet" type="text/css" />
