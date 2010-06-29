@@ -1,0 +1,24 @@
+</div> <!-- .gwikiContent END -->
+
+<% if (wikiContext.getRequestAttribute("GWIKI_TEMPLATE_NO_COMMENTS") != Boolean.TRUE) { %>
+
+<div id="gwikiComments">
+	<@include file="/inc/mmLabs/footer.gspt"@>
+</div><!-- gwikiComments END -->
+
+<% } %>				
+
+</div> <!-- container END -->
+
+	<div id="footer">
+		<ul id="site-info">
+			<li>Last modified <%= wikiContext.getUserDateString(wikiContext.wikiElement.elementInfo.props.getDateValue("MODIFIEDAT")) %>
+				by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %> 
+				(ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFilter.getUseCounter(wikiContext, wikiContext.wikiElement.elementInfo.id) %> )</li>
+			<li>By <a href="mailto:r.kommer-extern@micromata.de">Roger Rene Kommer</a> and <a href="http://www.micromata.de">Micromata GmbH</a> | <a href="http://labs.micromata.de/gwiki/pub/en/GWikiLicense" title="http://labs.micromata.de/gwiki/pub/en/GWikiLicense">License</a></li>
+		</ul>
+	</div> <!-- end #footer -->
+</div><!-- end #wrapper -->
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-1.4.2.min.js" />'></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+
+body  {
+    background: #858E94 /*url("bg.png") top left repeat-x*/;
+}
+#gwikiWrapper {
+	background:#FFFFFF;
+	height:auto;
+	margin:0 auto;
+	text-align:left;
+	width:98em;
+}
+#gwikiExplorer {
+	position:absolute;
+	top:0;
+	left:0;
+}
+#gwikiHead {
+	position:relative;
+	height:20em;
+	overflow:hidden;
+}
+
+
+/**
+ * @section        Footer
+ *
+ * footer-section
+ *
+ * @see            #footer
+ */
+
+ #footer {
+ 	background:#69A100;
+ 	min-height:100px;
+ }
