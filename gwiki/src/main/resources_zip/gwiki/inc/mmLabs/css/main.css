@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body  {
-    background: #858E94 /*url("bg.png") top left repeat-x*/;
+    background: #858E94 url("../img/bg.png") top left repeat-x;
 }
 #gwikiWrapper {
 	background:#FFFFFF;
@@ -16,12 +16,55 @@ body  {
 	left:0;
 }
 #gwikiHead {
+	background: url("../img/head.jpg") no-repeat center center #D8E3ED;
 	position:relative;
-	height:20em;
-	overflow:hidden;
+	height:22em;
 }
-
-
+#gwikiLogo {
+	height:11em;
+padding:4em 2em 2em;
+position:absolute;
+right:3.2em;
+top:0;
+width:21em;
+	background:url("../img/bubble.gif") no-repeat left bottom;
+}
+.menu {display:none;}
+/**
+ * @section        topbar
+ *
+ * Die obere Zeile die eine Suche und eine Navigation beinhaltet
+ *
+ * @see            #topbar
+ */
+#topbar {
+	background:url("../img/gradient.png") repeat-x scroll 44% 20% transparent;
+	border-bottom:1px solid #767676;
+	height:2.5em;
+	width:100%;
+	position:absolute;
+	top:0;
+	z-index:100;
+}
+ul#socialLinks li {
+	float:left;
+}
+#topbarNav li {
+	float:right;
+	z-index:101;
+	margin: 5px 10px 0 0;
+}
+#topbar #gwikiSearchmenu {float:right;margin: 0 7em 0 0;}
+.gwikiQuicksearchSubmit {display:none;}
+#gwikiBreadcrumb {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:4em;
+	background:#69A100;
+	opacity:0.9;
+	
 /**
  * @section        Footer
  *
@@ -30,7 +73,7 @@ body  {
  * @see            #footer
  */
 
- #footer {
- 	background:#69A100;
+#footer {
+	background:#69A100;
  	min-height:100px;
  }
