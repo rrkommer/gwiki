@@ -9,10 +9,7 @@
 <link href="<gwiki:url value="/inc/mmLabs/css/reset.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/mmLabs/css/main.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/mmLabs/css/typo.css"/>" rel="stylesheet" type="text/css" />
-<!-- <link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/gwiki/css/gwiki.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />  
-<link href="<gwiki:url value="/inc/gwiki/css/menu.css"/>" rel="stylesheet" type="text/css" /> -->
+
 <% wikiContext.addContentCss("/inc/gwiki/css/gwiki.css");
 	wikiContext.addContentCss("/inc/gwiki/css/reset.css");
 	wikiContext.addContentCss("/inc/gwiki/css/main.css");
