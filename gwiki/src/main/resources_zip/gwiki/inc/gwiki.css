@@ -313,3 +313,79 @@ a.gwikiButton:hover {
 	font-size: 0.5em;
 	float: right;
 }
+
+/**
+ * @section        User Login and Registration
+ *
+ * Styles for the Userlogin and Userregistration
+ *
+ * @see            LoginTemplate.gspt and RegisterUserTemplate.gspt
+ */
+
+#gwikiForm {
+	-moz-border-radius:3px 3px 3px 3px;
+	border:1px solid #EEEEEE;
+	padding: 3em 4em;
+	background:none repeat scroll 0 0 #FFFFFF;
+	margin:0 auto 2em auto;
+	margin-top:3em;
+	width:40em;
+}
+#gwikiForm fieldset {
+	padding-top:1.5em;
+	border:0 none;
+	display:block;
+	margin-bottom:5px;
+	padding-bottom:5px;
+	position:relative;
+}
+#gwikiForm legend {
+	position: absolute;
+	left: -99999em;
+	top: -99999em;
+}
+#gwikiForm div.type-text {
+	clear:both;
+	display:block;
+	margin:0;
+	margin-bottom:0.5em;
+	min-height:1.6em;
+	padding:0 0 0.5em 8em;
+}
+#gwikiForm div.type-text label {
+	text-align:left;
+	display:block;
+	float:left;
+	left:-8em;
+	line-height:1;
+	margin-right:-13em;
+	padding-top:0.4em;
+	position:relative;
+	width:13em;
+	font-size:1.2em;
+	cursor:pointer;
+}
+#gwikiForm div.type-text input {
+	margin:0;
+	margin-right:5px;
+	padding:2px;
+	width:95%;
+}
+#gwikiForm div.type-button {
+	clear:both;
+	display:block;
+	margin:0;
+	min-height:1.6em;
+	padding:0 0 0 8em;
+}
+ul.gwikiLoginHelp {
+	float:right;
+	line-height:1.6em;
+	margin:0 10px 0 0;
+	padding:0;
+}
+ul.gwikiLoginHelp li {
+	display:inline;
+	padding-left:1em;
+}
+ul.error {margin:0; margin-left:6.2em; list-style:none;}

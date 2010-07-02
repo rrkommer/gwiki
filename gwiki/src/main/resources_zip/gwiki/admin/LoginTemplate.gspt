@@ -1,8 +1,49 @@
 <% wikiContext.skinInclude("noauthhead"); %>
-<@include file="inc/stdtags.gspt" @> 
-
-
-	<form method="post">
+<@include file="inc/stdtags.gspt" @>
+<div id="gwikiForm">
+	<form class="xform col" method="post" id="login">
+		<gwiki:hidden property="pageId" />
+		<gwiki:errors />
+		<fieldset>
+			<legend>Login</legend>
+			<div class="type-text">
+				<label for="user"><fmt:message key="gwiki.page.admin.Login.label.user"/></label>
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="user" size="20" property="user" />
+			</div>
+			<div class="type-text">
+				<label for="pass"><fmt:message key="gwiki.page.admin.Login.label.password"/></label>
+				<gwiki:password errorStyleClass="text error" styleClass="text" styleId="pass" size="20" property="password" />
+			</div>
+			<div class="type-button">
+				<input  class="submit main" type="submit" name="method_onLogin" value="<fmt:message key="gwiki.page.admin.Login.button.login"/>" />
+				<ul class="gwikiLoginHelp">
+					<c:if test="${form.allowPasswortForgotten}">
+	   					<li><a href="#" onclick="jQuery('#login').hide(); jQuery('#passreset').show();"><fmt:message key="gwiki.page.admin.Login.message.forgottPassword.link.text"/></a></li>
+	   				</c:if>
+					<c:if test="${form.publicRegister == true}">
+						<li><gwiki:link pageId="admin/RegisterUser"/></li>
+					</c:if>
+				</ul>
+			</div>
+		</fieldset>
+	</form>
+	<form id="passreset" style="display: none">
+		<fieldset>
+		<legend>Password reset</legend>
+		<div class="type-text">
+			<p><fmt:message key="gwiki.page.admin.Login.message.resetpassw.intro"/></p>
+		</div>
+		<div class="type-text">
+			<label for="resetuser"><fmt:message key="gwiki.page.admin.Login.label.user"/></label>
+			<gwiki:text errorStyleClass="text error" styleClass="text" styleId="resetuser" size="20" property="passwordForgottenUser" />
+		</div>
+		<div class="type-button">
+			<input class="submit main" type="submit" name="method_onResetPassword" value="<fmt:message key="gwiki.page.admin.Login.button.resetPassword"/>"/>
+		</div>
+		</fieldset>
+	</form>
+</div>
+<!-- 	<form method="post">
 		<gwiki:hidden property="pageId"/>
 		<center>
 		<gwiki:errors />
@@ -34,7 +75,7 @@
    	</table>
    </div>
    </center>
-	</form>
+	</form> -->
 
 
 <% wikiContext.skinInclude("noauthfoot"); %>
