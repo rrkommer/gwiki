@@ -41,22 +41,22 @@
 		<div id="topbar">
 			<div id="gwikiSearchmenu">
 				<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
-					<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="text" size="25" name="searchExpression" accesskey="n"/>
+					<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="text" size="25" name="searchExpression" value="Search" accesskey="n"/>
 					<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
 				</form>					
 			</div> <!-- gwikiSearchmenu END -->
 			<ul id="topbarNav">
 				<gwiki:authorize pageId="edit/SiteMap">
 					<li><a href="<gwiki:url value="/edit/SiteMap"/>">
-						<img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"  /></a></li>
+						<img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/mmLabs/img/icons/folder16.png'/>"  /></a></li>
 				</gwiki:authorize>
 				<gwiki:authorize pageId="edit/ViewAllPages">
 					<li><a href="<gwiki:url value="/edit/ViewAllPages"/>">
-						<img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a></li>
+						<img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/mmLabs/img/icons/recycle16.png'/>" /></a></li>
 				</gwiki:authorize>
 				<gwiki:authorize pageId="edit/Keywords">
 					<li><a href="<gwiki:url value="/edit/Keywords"/>">
-						<img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a></li>
+						<img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/mmLabs/img/icons/notepencil16.png'/>" /></a></li>
 				</gwiki:authorize>
 			</ul>
 			<ul id="socialLinks">
@@ -76,13 +76,16 @@
 				});
 			</script>
 		</div><!-- end #topbar -->		
-		<@include file="inc/mmLabs/headMenu.gspt" @>
-		<div id="gwikiBreadcrumb">
-			<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext); %>
-		</div><!-- gwikiBreadcrumb END -->
+		
+		<div id="headerNav">
+			<div id="gwikiBreadcrumb">
+				<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext); %>
+			</div><!-- gwikiBreadcrumb END -->
+			<@include file="inc/mmLabs/headMenu.gspt" @>
+		</div>
 	</div> <!-- end #gwikihead -->
 	<div id="gwikiContainer">
 		
-		<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+		<h1 id="pagetitle"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
 		
 		<div id="gwikiContent">
