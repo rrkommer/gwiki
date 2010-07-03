@@ -14,6 +14,8 @@ h3. Releases
 
 Standalone Desktop binary: [gwiki-standalone-0.4.1.zip|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1/gwiki-standalone-0.4.1.zip]
 
+For GWiki Plugins please refer to [pub/en/plugins/PluginDownloads].
+
 {html}
 <div style="font-size: 0.5em;">
 <iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1" scrolling="yes"> 
