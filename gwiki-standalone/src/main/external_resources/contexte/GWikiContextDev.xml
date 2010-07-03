@@ -56,6 +56,16 @@
 		<property name="mailSession">
 			<ref bean="mailSession" />
 		</property>
+		
+		<property name="pluginRepository">
+			<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+				  <property name="storePluginLocation">
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg value="${gwiki.dev.path}/src/plugins" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
