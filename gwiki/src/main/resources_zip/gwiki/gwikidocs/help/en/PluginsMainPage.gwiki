@@ -2,6 +2,10 @@
 With GWiki Plugins GWiki can be extended.
 {pageintro}
 
+h2. Concept
+Please refer to [pub/concepts/en/GWikiPlugins].
+
+
 h2. Administrators View
 {todo}
 Document Plugins.
