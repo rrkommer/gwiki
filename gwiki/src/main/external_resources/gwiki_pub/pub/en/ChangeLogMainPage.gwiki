@@ -2,7 +2,25 @@
 Detailed Changelog for GWiki.
 {pageintro}
 
+
+
 h2. 0.3.1-SNAPSHOT
+h3. 2010-07-02
+- Refresh snapshot.
+
+h3. 2010-06-20
+- New [gwikidocs/macros/en/Macrogallery].
+- Continued Plugin framework. New Plugin keywordsmarttags and confluenceimporter.
+- FileSystem supports optionally automatically creating parent directories when writing files.
+
+h3. 2010-06-13
+- Created GWiki Plugins infrastructure. \\
+Not yet finished, but basic concept is working.
+- Ported to GWiki Plugin:
+-- slideshows
+-- forum (pre alpha)
+-- blog (alpha)
+-- vfolder (pre alpha)
 
 h3. 2010-06-05
 - Bug: Search pagination now reset if search button clicked.

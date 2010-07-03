@@ -4,6 +4,8 @@ Futher plans for GWiki
 
 
 h2. GWiki
+See also [pub/en/ChangeLog].
+
 h3. Features
 - Database support for more data bases like PosteSQL, MS SQL, mySQL. Please leave a message.
 - Blog Plugin. Integrate Blog in GWiki just with a macro. The work is already started, but not finished yet.

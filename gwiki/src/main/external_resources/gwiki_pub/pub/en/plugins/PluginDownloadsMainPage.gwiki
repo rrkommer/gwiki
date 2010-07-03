@@ -1,0 +1,23 @@
+{pageintro}
+GWiki has plugins with additionally functions.
+{pageintro}
+
+For information see [gwikidocs/help/en/Plugins].
+
+
+h2. Slideshows
+Create an view Slide shows inside GWiki.
+
+[pub/en/plugins/gwiki.s5slideshow1.0.0.zip]
+
+h2. Smarttags
+Automatically create Smart tags for other pages keywords found in current pages.
+
+[pub/en/plugins/gwiki.keywordssmarttags1.0.0.zip]
+
+h2. Blog
+Create Blog pages.
+[pub/en/plugins/gwiki.blog1.0.0.zip]
+
+h2. All
+ {children:viewAll=true|type=all|withEditLinks=true}

@@ -11,7 +11,17 @@ After downloading GWiki standalone distribution, please refer to [pub/en/Install
 the GWiki server.
 
 h3. Releases
-Currenty no releases are available.
+
+Standalone Desktop binary: [gwiki-standalone-0.4.1|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1/gwiki-standalone-0.4.1]
+
+{html}
+<div style="font-size: 0.5em;">
+<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1" scrolling="yes"> 
+   <a href="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1">Snapshots</a>
+
+</iframe> 
+</div> 
+{html}
 
 h3. Snapshots
 Snapshot of the Standalone Desktop binary: [gwiki-standalone-0.3.1-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.3.1-SNAPSHOT/gwiki-standalone-0.3.1-SNAPSHOT.zip]
@@ -31,10 +41,6 @@ All files:
 h2. Developer of GWiki
 If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
 
-h3. Releases
-Currenty no releases are available.
-
-h3. Snapshots
 
 Following artefakts are provided:
 * gwiki-parent: Parent pom only
