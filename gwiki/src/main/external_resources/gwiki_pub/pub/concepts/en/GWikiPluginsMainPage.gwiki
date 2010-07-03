@@ -19,13 +19,29 @@ Developing a GWiki Plugin should be easy. No redeployment should be necessary, b
 h2. Solution Concept
 h3. Standard layout
 
-- /gwikiplugin.xml
-- /src/java
-- /classes
-- /lib
-- /content/static
-- /content/gwiki
+- /gwikiplugin.xml: Descriptor
+- /src/main/java: Source java classes, not included in plugin.
+- /classes: Java classes
+- /classes/static: Static class path for static resources.
+- /lib: Jars
+- /content/gwiki: files are mounted into gwiki virtual file system.
+
+h3. Installed Plugins
+Installed plugins are normal zip files in the GWiki file items.
+All Zips in the /admin/plugin directory will be regarded as plugin.
+
+h3. Remote plugin repository
+The Remote plugin repository will be implemented as two GWiki plugins.
+
+h3. Server plugin repository
+Provide functionallity to store, provide plugin informations, include the plugins itself.
+REST interface for plugin descriptions.
+
+h3. Client plugin repository
+Connects to a given URL with the available plugins.
+Provide pages to display information and download plugin and install it.
+
 
 h3. Open Issues
 - Mounting into virtual file system: Too many mount points lower performance. Has to be regarded.
-- ClassLoader reaload avare.
+- ClassLoader does not handle classes with same name. Class file should be unique.

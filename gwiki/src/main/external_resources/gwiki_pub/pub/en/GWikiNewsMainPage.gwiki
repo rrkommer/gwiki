@@ -3,6 +3,15 @@ News about GWiki
 {pageintro}
 
 h2. News about GWiki
+h3. 2010-07-03
+Release 0.4.1 created.
+
+See also [pub/en/Downloads] and [pub/en/ChangeLog].
+
+h3. 2010-07-02
+Next mayor step with reorganized many things.
+- Introduce GWiki Plugins.
+- Login with self registration mechanism.
 
 h3. 2010-05-21
 First release von GWiki.
