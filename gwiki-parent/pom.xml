@@ -4,7 +4,7 @@
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-parent</artifactId>
 	<name>gwiki</name>
-	<version>0.3.1-SNAPSHOT</version>
+	<version>0.4.1</version>
 	<description>GWiki is a Wiki plattform for CMS and creating CMS based web plattforms.
 							 The gwiki-parent is just the parent pom.</description>
 	<packaging>pom</packaging>
@@ -122,7 +122,7 @@
 		</repository>
 		<snapshotRepository>
 			<id>labs.micromata.de-snapshots</id>
-			<name>labs.micromata.de-releases</name>
+			<name>labs.micromata.de-snapshots</name>
 			<url>http://labs.micromata.de/nexus/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
