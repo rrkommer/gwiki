@@ -3,8 +3,6 @@
 	<name>gwiki-webapp</name>
 	<comment></comment>
 	<projects>
-		<project>gwiki</project>
-		<project>gwiki-genome-dependencies</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
