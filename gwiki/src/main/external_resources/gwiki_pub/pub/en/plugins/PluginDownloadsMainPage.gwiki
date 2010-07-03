@@ -17,7 +17,16 @@ Automatically create Smart tags for other pages keywords found in current pages.
 
 h2. Blog
 Create Blog pages.
+
 [pub/en/plugins/gwiki.blog1.0.0.zip]
+
+
+h2. Importer for Confluence Spaces
+If you export a Confluence Space as XML (ZIP with XML and attachments) you can import all pages and attachments to gwiki using this plugin.
+
+The Import page will be available via the Admin menu.
+
+[pub/en/plugins/gwiki.confluenceimporter1.0.0.zip]
 
 h2. All
  {children:viewAll=true|type=all|withEditLinks=true}
