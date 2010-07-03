@@ -2,4 +2,15 @@
 List of all installed GWiki Plugins.
 {pageintro}
 
-To install a plugin upload the plugin xml file to this page.
+To install a plugin upload the plugin zip file to this page.
+
+Plugins are available at [http://labs.micromata.de/gwiki/pub/en/plugins/PluginDownloads].
+
+To activate installed plugins use the [admin/PluginAdmin] page.
+{usemacro:localName=newelement|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro}
+{newelement:text=Upload new Plugin|metaTemplate=admin/templates/FileWikiPageMetaTemplate}
+
+Installed Plugins:
+
+ {children:viewAll=true|type=all|withEditLinks=true}
+
