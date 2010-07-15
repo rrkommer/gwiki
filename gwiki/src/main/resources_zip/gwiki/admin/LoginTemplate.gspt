@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude("noauthhead"); %>
 <@include file="inc/stdtags.gspt" @>
 <div id="gwikiForm">
-	<form class="xform col" method="post" id="login">
+	<form class="gwikiForm col" method="post" id="login">
 		<gwiki:hidden property="pageId" />
 		<gwiki:errors />
 		<fieldset>
