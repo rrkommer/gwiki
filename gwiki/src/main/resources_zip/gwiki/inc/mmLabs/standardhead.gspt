@@ -5,20 +5,6 @@
 <% boolean wikiWithMainTopicTopNavigation = true; %>
 <% boolean wikiWithBreadcrumb = true; %>
 
-<div id="gwikiExplorer" class="gwikiExplorer <%= gwikiWithNavBar ? "" : " gwikiExplorerNoNav" %>">
-	<a href="javascript:gwikiToggleExplorer()">
-	<% if (gwikiWithNavBar) { %>
-		<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folderblock16.png"/>" alt=""/>
-	<% } else { %>
-		<img id="gwikiNavExplorerIcon" border="0" src="<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>" alt=""/>
-	<% } %>
-	</a>
-
-	<div id="gwikiNavContent" style="<%= gwikiWithNavBar  ? "" : "display: none;" %>">
-		<@include file="inc/navMenu" @>
-	</div>
-</div>
-
 <div id="gwikiWrapper">
 	<div id="gwikiHead">
 		<div id="gwikiMasthead">
@@ -28,16 +14,6 @@
 				</a>
 			</div>
 		</div> <!-- gwikiMasthead END -->
-		<% if (wikiWithMainTopicTopNavigation == true) { %>				
-		<div id="gwikiTopNav">
-			<% for (ei in wikiContext.getElementFinder().getPageDirectPages(wikiContext.getRequestAttribute("welcomePageId"))) { 
-				if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
-				continue;
-			}%>
-				<a href="<%= wikiContext.localUrl("/" + ei.getId()) %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a> I
-			<% } %>
-		</div>
-		<% } %>
 		<div id="topbar">
 			<div id="gwikiSearchmenu">
 				<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
@@ -70,11 +46,11 @@
 					<script src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a79909a55cd9b15" type="text/javascript"></script>
 				</li>
 			</ul>
-			<script type="text/javascript">
+			<!-- <script type="text/javascript">
 				\$(document).ready(function(){
 					gwikiSearchBox('#gwikiQuicksearchQuery', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
 				});
-			</script>
+			</script> -->
 		</div><!-- end #topbar -->		
 		
 		<div id="headerNav">
@@ -83,8 +59,8 @@
 			</div><!-- gwikiBreadcrumb END -->
 			<@include file="inc/mmLabs/headMenu.gspt" @>
 		</div>
-	</div> <!-- end #gwikihead -->
-	<div id="gwikiContainer">
+	</div>
+<div id="gwikiContainer"> 
 		
 		<h1 id="pagetitle"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
 		
