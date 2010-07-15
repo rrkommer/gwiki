@@ -2,7 +2,7 @@
 <@include file="inc/stdtags.gspt" @> 
 <c:if test="${form.showForm}">
 <div id="gwikiForm">
-	<form class="xform col" method="post">
+	<form class="gwikiForm col" method="post">
 	<gwiki:errors pattern="+*,-catchaInput"/>
 	<gwiki:errors pattern="catchaInput"/>
 	<fieldset>
