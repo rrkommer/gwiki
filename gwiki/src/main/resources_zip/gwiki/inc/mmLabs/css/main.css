@@ -4,6 +4,7 @@ body  {
     background: #858E94 url("../img/bg.png") top left repeat-x;
 }
 #gwikiWrapper {
+	position:relative;
 	background:#FFFFFF;
 	height:auto;
 	margin:0 auto;
@@ -29,7 +30,30 @@ body  {
 	width:21em;
 	background:url("../img/bubble.gif") no-repeat left bottom;
 }
-
+#gwikiExplorer {display:none;}
+/**
+ * @section        #topbarNav
+ *
+ * Die Hauptnavigation der gWiki Seite, wird vermutlich in Labs nicht benötigt.
+ *
+ * @see            #topbarNav
+ */
+#gwikiTopNav {
+	display:none;
+	position:absolute;
+ 	top: 40px;
+ 	left:5px;
+ 	color:#fff;
+ }
+#gwikiTopNav a.menuItem {
+ 	color:#fff;
+ 	font:1.6em/1.2em Arial,Helvetica,sans-serif;
+ 	text-decoration:none;
+ 	padding: 0 5px;
+ }
+ #gwikiTopNav a.menuItem:hover {
+ 	text-decoration:underline;
+ }
 /**
  * @section        topbar
  *
@@ -58,18 +82,24 @@ ul#socialLinks li {
 }
 #topbar #gwikiSearchmenu {float:right;margin: 0 7em 0 0;}
 .gwikiQuicksearchSubmit {display:none;}
+/**
+ * @section        Header
+ * @subsection     HeaderNavigation
+ *
+ * Die Navigation im Fuss des Headers
+ *
+ * @see            #headerNav
+ */
 #headerNav {
 	position:absolute;
 	bottom:0;
 	left:0;
-	width:100%;
+	width:98em;
 	height:4em;
 	background:#69A100;
 	opacity:0.9;
 }
-#gwikiBreadcrumb {
-	display:none; /* erstmal ausgeblendet*/
-}
+#gwikiBreadcrumb {display:none;}
 #gwikiBreadcrumb a {
 	color:#FFFFFF;
 	margin:0;
@@ -79,7 +109,107 @@ ul#socialLinks li {
 	word-wrap:break-word;
 	font-size:1.2em;
 	text-decoration:none;
-}	
+}
+#gwikiPageMenu {
+	position:absolute;
+	z-index:9030;
+	right:0;
+	top: 6em;
+}
+#gwikiPageMenu li {
+	float:left;
+	margin-right:10px;
+	position:relative;
+	display:block;
+}
+#gwikiPageMenu ul {
+	list-style:none;
+	position:absolute;
+	visibility:hidden;
+}
+#gwikiPageMenu ul li {
+	float:none;
+	margin:0;
+}
+#gwikiPageMenu li:hover ul {
+	right:0;
+}
+/*
+ * #gwikiSiteMenu
+ */
+#gwikiSiteMenu {
+	position:absolute;
+	z-index:9050;
+	bottom:0;
+	right:0;
+	list-style:none;
+	font-weight:bold;
+}
+#gwikiSiteMenu li {
+	float:right;
+	margin-right:10px;
+	position:relative;
+	display:block;
+}
+#gwikiSiteMenu li span {
+	cursor:pointer;
+	display:block;
+	padding: 5px 10px;
+	color:#fff;
+	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Text shadow to lift it a little */
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	font-size:1.4em;
+}
+#gwikiSiteMenu li span a {
+	color:#fff;
+	text-decoration:none;
+}
+#gwikiSiteMenu li.hover span {
+	color:#fff;
+	background:#75C100;
+	background:rgba(117,193,0,0.75);
+	text-decoration:none;
+}
+#gwikiSiteMenu ul {
+	background: #fff;
+	background:rgba(255,255,255,0.75);
+	list-style:none;
+	position:absolute;
+	visibility:hidden;
+	-webkit-transition:0.25s linear opacity;
+	-moz-transition:0.25s linear opacity;
+	border: 1px solid #69A100;
+	border-top:0;
+}
+#gwikiSiteMenu ul li {
+	float:none;
+	margin:0;
+}
+#gwikiSiteMenu ul li a {
+	white-space:nowrap;
+	display:block;
+	color:#535353;
+	font-size:1.2em;
+	padding: 3px 5px 3px 5px;
+}
+#gwikiSiteMenu li:hover ul {
+	right:0;
+}
+#gwikiSiteMenu ul li a:hover { /* Set styles for top level when dropdown is hovered */
+	background:#75C100;
+	background:rgba(117,193,0,0.75);
+}
+#gwikiSiteMenu li:hover ul a{ /* Override some top level styles when dropdown is hovered */
+	text-decoration:none;
+	-webkit-transition:-webkit-transform 0.075s linear;
+}
+#gwikiSiteMenu li:hover ul li a:hover{ /* Set styles for dropdown when items are hovered */
+	background:#75C100;
+	background:rgba(117,193,0,0.75);
+
+}
 /**
  * @section        Container
  *
@@ -88,9 +218,7 @@ ul#socialLinks li {
  * @see            #gwikiContainer
  */
 #gwikiContainer {
-	position:relative;
 	padding:1.5em 3.4em;
-	min-height:40em;
 }
 #gwikiContainer h1#pagetitle {
 	-moz-border-radius:0.3em 0.3em 0.3em 0.3em;
@@ -102,12 +230,13 @@ ul#socialLinks li {
 	opacity:0.8;
 	padding:0.2em;
 	position:absolute;
-	top:-3.8em;
+	top:4.6em;
 	left:0.4em;
 	width:auto;
 	z-index:200;
 	font-weight:bold;
 }
+#gwikiContent {}
 /**
  * @section        Footer
  *
@@ -145,16 +274,6 @@ ul#socialLinks li {
 	background: url('../img/labsfooter.png') no-repeat left top;
 	text-indent: -9999em;
 }
- /**
- * @section        Navigation
- *
- * Hauptnavigation im Header
- *
- * @see            .menumain
- */
-li.menumain {
- 	font-size: 1.6em;
- }
  /**
  * @section        User Login and Registration
  *

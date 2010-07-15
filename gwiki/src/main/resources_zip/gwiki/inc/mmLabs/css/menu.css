@@ -1,7 +1,7 @@
-#gwikiPageMenu {
-	display:none;
-}
-#gwikiSiteMenu li {
-	float:right;
-}
-#gwikiSiteMenu li ul li {float:none;}
+/**
+ * @section        Navigation
+ *
+ * Enter section description
+ *
+ * @see            gwikiSiteMenu, gwikiPageMenu
+ */
