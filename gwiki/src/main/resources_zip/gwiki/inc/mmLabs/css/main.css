@@ -82,134 +82,7 @@ ul#socialLinks li {
 }
 #topbar #gwikiSearchmenu {float:right;margin: 0 7em 0 0;}
 .gwikiQuicksearchSubmit {display:none;}
-/**
- * @section        Header
- * @subsection     HeaderNavigation
- *
- * Die Navigation im Fuss des Headers
- *
- * @see            #headerNav
- */
-#headerNav {
-	position:absolute;
-	bottom:0;
-	left:0;
-	width:98em;
-	height:4em;
-	background:#69A100;
-	opacity:0.9;
-}
-#gwikiBreadcrumb {display:none;}
-#gwikiBreadcrumb a {
-	color:#FFFFFF;
-	margin:0;
-	padding:0.2em 2em 0.2em 0.7em;
-	text-shadow:0 0 5px #FFFFFF;
-	white-space:normal;
-	word-wrap:break-word;
-	font-size:1.2em;
-	text-decoration:none;
-}
-#gwikiPageMenu {
-	position:absolute;
-	z-index:9030;
-	right:0;
-	top: 6em;
-}
-#gwikiPageMenu li {
-	float:left;
-	margin-right:10px;
-	position:relative;
-	display:block;
-}
-#gwikiPageMenu ul {
-	list-style:none;
-	position:absolute;
-	visibility:hidden;
-}
-#gwikiPageMenu ul li {
-	float:none;
-	margin:0;
-}
-#gwikiPageMenu li:hover ul {
-	right:0;
-}
-/*
- * #gwikiSiteMenu
- */
-#gwikiSiteMenu {
-	position:absolute;
-	z-index:9050;
-	bottom:0;
-	right:0;
-	list-style:none;
-	font-weight:bold;
-}
-#gwikiSiteMenu li {
-	float:right;
-	margin-right:10px;
-	position:relative;
-	display:block;
-}
-#gwikiSiteMenu li span {
-	cursor:pointer;
-	display:block;
-	padding: 5px 10px;
-	color:#fff;
-	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Text shadow to lift it a little */
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-	border-radius:2px;
-	font-size:1.4em;
-}
-#gwikiSiteMenu li span a {
-	color:#fff;
-	text-decoration:none;
-}
-#gwikiSiteMenu li.hover span {
-	color:#fff;
-	background:#75C100;
-	background:rgba(117,193,0,0.75);
-	text-decoration:none;
-}
-#gwikiSiteMenu ul {
-	background: #fff;
-	background:rgba(255,255,255,0.75);
-	list-style:none;
-	position:absolute;
-	visibility:hidden;
-	-webkit-transition:0.25s linear opacity;
-	-moz-transition:0.25s linear opacity;
-	border: 1px solid #69A100;
-	border-top:0;
-}
-#gwikiSiteMenu ul li {
-	float:none;
-	margin:0;
-}
-#gwikiSiteMenu ul li a {
-	white-space:nowrap;
-	display:block;
-	color:#535353;
-	font-size:1.2em;
-	padding: 3px 5px 3px 5px;
-}
-#gwikiSiteMenu li:hover ul {
-	right:0;
-}
-#gwikiSiteMenu ul li a:hover { /* Set styles for top level when dropdown is hovered */
-	background:#75C100;
-	background:rgba(117,193,0,0.75);
-}
-#gwikiSiteMenu li:hover ul a{ /* Override some top level styles when dropdown is hovered */
-	text-decoration:none;
-	-webkit-transition:-webkit-transform 0.075s linear;
-}
-#gwikiSiteMenu li:hover ul li a:hover{ /* Set styles for dropdown when items are hovered */
-	background:#75C100;
-	background:rgba(117,193,0,0.75);
 
-}
 /**
  * @section        Container
  *
@@ -229,12 +102,14 @@ ul#socialLinks li {
 	max-width:30em;
 	opacity:0.8;
 	padding:0.2em;
+	margin:0;
 	position:absolute;
 	top:4.6em;
 	left:0.4em;
 	width:auto;
 	z-index:200;
 	font-weight:bold;
+	font-size: 24px;
 }
 #gwikiContent {}
 /**
@@ -357,3 +232,114 @@ ul.gwikiLoginHelp li a:hover {
 	cursor:pointer;
 }
 ul.error {margin:0; margin-left:6.2em; list-style:none;}
+
+ /**
+ * @section        Interaktionselemente
+ *
+ * Styles für alle Interaktionselemente: Formulare, Links
+ *
+ * @see            form.control, a usw.
+ */
+form.control {
+	width: 50%;
+}
+form.control fieldset {
+	margin-top:1em;
+}
+form.control legend {
+	font-size: 1.4em;
+	font-weight:bold;
+	margin: 0 0 0.5em 0;
+}
+form.control label {
+	font-size:1.4em;
+}
+
+a:link,
+a:visited,
+a:active,
+a:hover,
+a.add {
+	color:#69A100;
+}
+#tabs ul li a {
+	font-size: 1.3em;
+	font-size:normal;
+}
+#EditorSettings, #Editor {
+	margin-top: 2em;
+}
+#gwikiwedMainPage textarea#textareaMainPage {
+	border:medium none;
+	margin:0;
+	outline:medium none;
+	padding:0;
+	width:100%;
+}
+textarea{
+	color:#333333;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:10px;
+}
+.gwiki-toolBar {
+	border-top: 1px solid #c1c1c1;
+	padding: 3px 0;
+}
+/**
+ * @section        Editier Funktion
+ *
+ * 
+ *
+ * @see            #editForm
+ */
+#editForm label {
+	font-size: 1.3em;
+	padding: 0 1em 0 0;	
+}
+#editForm input#editPageTitle {
+	width:35em;
+}
+/* control */
+
+div.control {margin: 1em 0 0 0;}
+div.control input {
+	font-size:1.3em;
+}
+
+/* Einbinden der MCE-Icons */
+ul.gwikiToolPanel {
+	border-top: 1px solid #c1c1c1;
+	display:block;
+	width:100%;
+	height:20px;
+}
+ul.gwikiToolPanel li {
+	display:inline;
+}
+ul.gwikiToolPanel li a span {
+	float:left;
+}
+.gwikiToolbarIcon {
+	display: block;
+	height: 20px;
+	width: 20px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat 20px 20px;
+}
+.gwikiIcon_help {
+	background-position: -340px 0;
+}
+
+.gwikiIcon_fullscreen {
+	background-position: -100px -20px;
+}
+
+.gwikiIcon_cancel {
+	background-position: -460px -20px;
+}
+
+.gwikiIcon_save {
+	background-position: -480px -20px;
+}

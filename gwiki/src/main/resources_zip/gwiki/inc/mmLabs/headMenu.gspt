@@ -52,25 +52,25 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
 
 <%-- PAGE INFO --%>
 <gwiki:authorize pageId="edit/PageInfo">
-	<li class="gwikiMenuIcon menumain">
+	<li id="info">
  		<span>
- 			<a href="<gwiki:url value="/edit/PageInfo?pageId=${wikiPage.elementInfo.id}"/>" title="Info">Info</a>
+ 			<a href="<gwiki:url value="/edit/PageInfo?pageId=${wikiPage.elementInfo.id}"/>" title="Page Info"><span>Info</span></a>
 		</span>
 	</li>
 </gwiki:authorize>
 <%-- EDIT PAGE --%>
 <%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
-	<li class="gwikiMenuItem menumain">
+	<li id="edit">
 		<span>
-			<a href="<gwiki:url value="/edit/EditPage?pageId=${wikiPage.elementInfo.id}"/>" title="Edit">Edit</a>
+			<a href="<gwiki:url value="/edit/EditPage?pageId=${wikiPage.elementInfo.id}"/>" title="Edit Page"><span>Edit</span></a>
 		</span>
 	</li>
 <% } %>
 <%--CREATE THINGS --%>
 <%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
-	<li class="gwikiMenuItem menumain">
+	<li id="add">
 		<span>
-			<a href="" title="<fmt:message key="gwiki.page.headmenu.page.NewPage"/>">Add</a>
+			<a href="" title="<fmt:message key="gwiki.page.headmenu.page.NewPage"/>"><span>Add</span></a>
 		</span>
 		<ul>
 		<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
