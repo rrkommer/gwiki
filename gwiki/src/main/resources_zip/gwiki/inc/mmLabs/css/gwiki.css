@@ -284,7 +284,7 @@ a.gwikiButton:hover {
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
 	background: transparent
-		url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
+		url(../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
 		scroll 20px 20px;
 }
 
