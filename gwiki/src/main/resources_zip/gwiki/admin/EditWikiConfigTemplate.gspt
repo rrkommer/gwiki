@@ -49,7 +49,7 @@ function onSave(event)
 <div id='modalContent'></div>
 <div id='loading'></div>
 <div id='editDialogBox'></div>
-<div id="tabs" style="min-height: 600px">
+<div id="tabs">
 <ul>
   <%
     for (me in form.editors) { %>
