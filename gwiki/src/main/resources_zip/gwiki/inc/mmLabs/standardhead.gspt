@@ -61,7 +61,6 @@
 		</div>
 	</div>
 <div id="gwikiContainer"> 
-		
-		<h1 id="pagetitle"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
-		
-		<div id="gwikiContent">
+	<h1 id="pagetitle"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+	<@include file="inc/navMenu" @>
+ 	<div id="gwikiContent">
