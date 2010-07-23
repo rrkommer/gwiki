@@ -54,7 +54,6 @@ def renderMenu(wikiPage, wikiContext)
 %>
 	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
 	</ul>
-<br />
 <% if (wikiContext.getRequestAttribute("GWIKI_DISABLE_CHILD_NAV") != Boolean.TRUE) {
 	
 		List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
