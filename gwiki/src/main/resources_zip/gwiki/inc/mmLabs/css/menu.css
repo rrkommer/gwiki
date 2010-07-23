@@ -29,13 +29,13 @@
 	position:absolute;
 	z-index:1000;
 	bottom:0;
-	right:0;
+	right:10px;
 	list-style:none;
 	font-weight:bold;
 }
 #gwikiSiteMenu li {
 	float:right;
-	margin-right:10px;
+	margin-right:1em;
 	position:relative;
 	display:block;
 }
@@ -62,12 +62,11 @@
 }
 #gwikiSiteMenu ul {
 	background: #fff;
-	background:rgba(255,255,255,0.75);
+	background:rgba(255,255,255,0.85);
 	list-style:none;
 	position:absolute;
 	visibility:hidden;
-	-webkit-transition:0.25s linear opacity;
-	-moz-transition:0.25s linear opacity;
+
 	border: 1px solid #69A100;
 	border-top:0;
 }
@@ -87,15 +86,14 @@
 }
 #gwikiSiteMenu ul li a:hover {
 	background:#75C100;
-	background:rgba(117,193,0,0.75);
+	background:rgba(117,193,0,0.85);
 }
 #gwikiSiteMenu li:hover ul a{
 	text-decoration:none;
-	-webkit-transition:-webkit-transform 0.075s linear;
 }
 #gwikiSiteMenu li:hover ul li a:hover{
 	background:#75C100;
-	background:rgba(117,193,0,0.75);
+	background:rgba(117,193,0,0.85);
 }
 
 /**
@@ -109,8 +107,8 @@
  
  #gwikiPageMenu {
 	position:absolute;
-	right:1em;
-	top: 6em;
+	right:10px;
+	top: 5em;
 	z-index:900;
 }
 #gwikiPageMenu ul {
@@ -169,9 +167,9 @@
 }
 /* Sub-Navigation */
 #gwikiPageMenu li.hover ul { /* Position rechts vom Elternelement */
-	right:-10px;
+	right:0;
 	background:fff;
-	background:rgba(255,255,255,0.75);
+	background:rgba(255,255,255,0.8);
 	border: 1px solid #C1C1C1;
 }
 #gwikiPageMenu ul li {

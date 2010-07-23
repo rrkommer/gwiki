@@ -739,9 +739,11 @@ button.ui-button::-moz-focus-inner {
 }
 /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
 .ui-tabs .ui-tabs-nav {
+	border:none;
+	border-bottom: 1px solid #C1C1C1;
 	margin: 0;
 	padding:0;
-	border:none;
+	
 }
 .ui-tabs #WikiRteMainPage,.ui-tabs #WikiEditMainPage,.ui-tabs #EditorTemplate,.ui-tabs #EditorSettings
 	{
