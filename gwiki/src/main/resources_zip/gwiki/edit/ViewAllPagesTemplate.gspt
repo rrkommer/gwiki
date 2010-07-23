@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
 
 
-<div style="z-index:1000;width:1200px;min-width:1000px;overflow:visible;">
+<div>
 <form id='searchForm' method="post">
   <gwiki:text size="80" property="filterExpression"/>
   <gwiki:hidden property="withExport"/>

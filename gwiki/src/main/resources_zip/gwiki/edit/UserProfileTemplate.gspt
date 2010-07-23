@@ -17,18 +17,17 @@
   
 <c:choose>
   <c:when test="${form.newPage == true}">
-    <h2>User: <gwiki:text property="title"/></h2>
+    <h2 id="adminPanel">User: <gwiki:text property="title"/></h2>
   </c:when>
   <c:otherwise>
-    <h2>User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
+    <h2 id="adminPanel">User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
   </c:otherwise>
 </c:choose>
+<div class="control">
+	<gwiki:hidden property="metaTemplatePageId" />
 
-
-<gwiki:hidden property="metaTemplatePageId" />
-
-<input class="gwikiButton main" type="submit" name="method_onSave" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
-<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
+	<input class="gwikiButton main" type="submit" name="method_onSave" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>">
+	<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>">
 
 <c:if test="${form.newPage == false}">
   <gwiki:authorize ifHasAny="GWIKI_ADMIN">
@@ -37,6 +36,7 @@
 </c:if>
 
 <gwiki:hidden property="newPage" /> 
+</div><!-- end .control -->
 <div id="tabs">
  <ul>
   <% for (me in form.editors) { %>
