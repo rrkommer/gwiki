@@ -240,10 +240,24 @@ public class Html2WikiFilter extends DefaultFilter
         if (ctxpath.length() > 0) {
           id = href.substring(ctxpath.length() + 1);
         }
+        if (id.startsWith("/") == true) {
+          id = id.substring(1);
+        }
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(id);
-        // if (ei != null) {
-        // TODO title and other attributes...
-        parseContext.addFragment(new GWikiFragmentLink(id));
+        if (ei == null) {
+          id = href;
+        }
+        GWikiFragmentLink link = new GWikiFragmentLink(id);
+        if (StringUtils.isNotBlank(attributes.getValue("title")) == true) {
+          link.setTitle(attributes.getValue("title"));
+        }
+        if (StringUtils.isNotBlank(attributes.getValue("target")) == true) {
+          link.setWindowTarget(attributes.getValue("target"));
+        }
+        if (StringUtils.isNotBlank(attributes.getValue("class")) == true) {
+          link.setLinkClass(attributes.getValue("class"));
+        }
+        parseContext.addFragment(link);
         return;
         // }
       }
