@@ -65,7 +65,7 @@ public class TagSupport
 
     for (int i = 0; i < attributes.size() - 1; i = i + 2) {
       try {
-        beanInstance.setProperty(tag, (String) attributes.get(i), convert(attributes.get(i + 1)));
+        beanInstance.setProperty((Object) tag, (String) attributes.get(i), convert(attributes.get(i + 1)));
       } catch (IllegalArgumentException e) {
         throw e;
       }
