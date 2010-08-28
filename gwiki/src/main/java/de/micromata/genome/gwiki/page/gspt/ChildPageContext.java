@@ -228,7 +228,9 @@ public abstract class ChildPageContext extends PageContext
   public void include(String arg0, boolean flush) throws ServletException, IOException
   {
     if (flush == true) {
-      internalGroovyOut.flush();
+      if (internalGroovyOut != null) {
+        internalGroovyOut.flush();
+      }
       JspWriter swriter = getOut();
       if (swriter instanceof BodyFlusher) {
         ((BodyFlusher) swriter).flushBody();
