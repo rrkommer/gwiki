@@ -1,0 +1,27 @@
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>
+<!-- htmlHead.gspt START -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<link rel="shortcut icon" href="<gwiki:url value='/inc/mmLabs/img/icons/favicon.ico'/>" type="image/x-icon" />
+	<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-1.4.2.min.js" />'></script>
+	<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-ui-1.8.1.custom.min.js" />'></script>
+
+<script type="text/javascript">
+	//<!--
+	var gwikiHomeUrl = '<gwiki:url value=""/>';
+	var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
+	 //-->
+</script>	
+
+<% wikiContext.addContentCss("/inc/gwiki.css"); %>
+
+<title><%= esc(wikiContext.getTranslatedProp(wikiContext?.wikiElement?.elementInfo?.title)) %></title>
+<% 
+de.micromata.genome.gwiki.page.GWikiContextUtils.renderRequiredJs(wikiContext); 
+de.micromata.genome.gwiki.page.GWikiContextUtils.renderRequiredCss(wikiContext);
+de.micromata.genome.gwiki.page.GWikiContextUtils.renderRequiredHtmlHeaders(wikiContext);
+%>
+<!-- htmlHead.gspt END -->

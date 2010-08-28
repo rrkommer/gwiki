@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+body {
+	font: normal 62.5% Helvetica, Arial, sans-serif;
+}
+#gwikiContainer h1 {
+	font-size:21pt;
+}
+#gwikiContainer h2 {
+	font-size:18pt;
+	margin-top:32px;
+}
+#gwikiContainer h2#adminPanel {
+	margin:0;
+}
+#gwikiContainer h3 {
+	font-size:15pt;
+	margin-top:28px;
+}
+#gwikiContainer h4 {
+	font-size:13pt;
+	margin-top:25px;
+}
+#gwikiContainer h5 {
+	font-size:11pt;
+	margin-top:22px;
+}
+#gwikiContainer h6 {
+	font-size:10pt;
+	margin-top:22px;	
+}
+h1,h2,h3,h4,h5,h6 {color:#535353;}
+
+#gwikiContent p {
+	font-size:1.4em;
+	line-height:1.4;
+	color:#222;
+	word-wrap:break-word;
+	margin-top: 16px;
+}
+#gwikiContent ul.minus {
+	margin-top:0.5em;
+	list-style:disc;	
+}
+#gwikiContent ul.minus li {
+	margin: 2px 0;
+	font-size:1.4em;
+	margin-left:20px;
+}
+#gwikiContent ul#gwiki2childrentoc {
+	margin-top:1em;
+}
+#gwikiContent ul#gwiki2childrentoc li a {
+	margin-top:0.5em;
+	font-size:1.4em;
+}
+#gwikiContent ul#gwiki2childrentoc li small {
+	font-size:1.2em;
+}
+/* Ausgabe von Code */
+div.preformattedContent {
+	font: 1.6em monospace;
+	padding: 1em;
+	border: 1px dotted #c1c1c1;
+}
