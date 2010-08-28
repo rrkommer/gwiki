@@ -3,6 +3,11 @@ Detailed Changelog for GWiki.
 {pageintro}
 
 
+h2. 0.4.2-SNAPSHOT
+- RTE
+-- Fixed leading sleash in link created inside the RTE (GWIKI-3)
+-- Fixed parsing single Line from RTE (GWIKI-5)
+-- Link syntax extended to support class and target attributes.
 
 h2. 0.3.1-SNAPSHOT
 h3. 2010-07-02
