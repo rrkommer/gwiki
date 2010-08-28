@@ -1,0 +1,212 @@
+/**
+ * @section        Header Navigation 
+ *
+ * Die Navigation im Fuss des Headers
+ *
+ * @see            #headerNav
+ */
+
+ #headerNav {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:98em;
+	height:4em;
+	background:#69A100;
+	opacity:0.9;
+}
+
+/**
+ * @section        Header Navigation
+ * #subsection     Site Navigation
+ *
+ * The gWiki administration panel and the home panel
+ *
+ * @see            #gwikiSiteMenu
+ */
+
+#gwikiSiteMenu {
+	position:absolute;
+	z-index:1000;
+	bottom:0;
+	right:10px;
+	list-style:none;
+	font-weight:bold;
+}
+#gwikiSiteMenu li {
+	float:right;
+	margin-right:1em;
+	position:relative;
+	display:block;
+}
+#gwikiSiteMenu li span {
+	cursor:pointer;
+	display:block;
+	padding: 5px 10px;
+	color:#fff;
+	text-shadow:1px 1px 1px rgba(0,0,0,0.75); /* Text shadow to lift it a little */
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	font-size:1.4em;
+}
+#gwikiSiteMenu li span a {
+	color:#fff;
+	text-decoration:none;
+}
+#gwikiSiteMenu li.hover span {
+	color:#fff;
+	background:#75C100;
+	background:rgba(117,193,0,0.75);
+	text-decoration:none;
+}
+#gwikiSiteMenu ul {
+	background: #fff;
+	background:rgba(255,255,255,0.85);
+	list-style:none;
+	position:absolute;
+	visibility:hidden;
+
+	border: 1px solid #69A100;
+	border-top:0;
+}
+#gwikiSiteMenu ul li {
+	float:none;
+	margin:0;
+}
+#gwikiSiteMenu ul li a {
+	white-space:nowrap;
+	display:block;
+	color:#535353;
+	font-size:1.2em;
+	padding: 3px 5px 3px 5px;
+}
+#gwikiSiteMenu li:hover ul {
+	right:0;
+}
+#gwikiSiteMenu ul li a:hover {
+	background:#75C100;
+	background:rgba(117,193,0,0.85);
+}
+#gwikiSiteMenu li:hover ul a{
+	text-decoration:none;
+}
+#gwikiSiteMenu li:hover ul li a:hover{
+	background:#75C100;
+	background:rgba(117,193,0,0.85);
+}
+
+/**
+ * @section        Header Navigation
+ * #subsection     Page Navigation
+ *
+ * gWiki page specific panels and links
+ *
+ * @see            #gwikiPageMenu
+ */
+ 
+ #gwikiPageMenu {
+	position:absolute;
+	right:10px;
+	top: 5em;
+	z-index:900;
+}
+#gwikiPageMenu ul {
+	list-style:none;
+	position:absolute;
+	visibility:hidden;
+}
+#gwikiPageMenu li {
+	float:left;
+	margin-right:15px;
+	position:relative;
+	display:block;
+}
+#gwikiPageMenu li#info a {
+	display:block;
+	height:16px;
+	background:url("../img/icons/info.gif") no-repeat;
+	text-decoration:none;
+}
+#gwikiPageMenu li#info.hover a {
+	background:url("../img/icons/info.gif") no-repeat 0 -16px;
+	text-decoration:none;
+}
+#gwikiPageMenu li#edit a {
+	display:block;
+	height:16px;
+	background:url("../img/icons/edit.gif") no-repeat 0 0;
+	text-decoration:none;
+}
+#gwikiPageMenu li#edit.hover a {
+	background:url("../img/icons/edit.gif") no-repeat 0 -16px;
+	text-decoration:none;
+}
+#gwikiPageMenu li#add span a {
+	display:block;
+	height:16px;
+	background:url("../img/icons/add.gif") no-repeat 0 0;
+	text-decoration:none;
+}
+#gwikiPageMenu li#add.hover span a {
+	background:url("../img/icons/add.gif") no-repeat 0 -16px;
+	text-decoration:none;
+}
+#gwikiPageMenu li#info span a span,
+#gwikiPageMenu li#edit span a span,
+#gwikiPageMenu li#add span a span {
+	margin-left:20px;
+	font-size:14px;
+	line-height:1.4em;
+	text-decoration:underline;
+}
+#gwikiPageMenu li#info.hover span a span,
+#gwikiPageMenu li#edit.hover span a span,
+#gwikiPageMenu li#add.hover span a span {
+	text-decoration:none;
+}
+/* Sub-Navigation */
+#gwikiPageMenu li.hover ul { /* Position rechts vom Elternelement */
+	right:0;
+	background:fff;
+	background:rgba(255,255,255,0.8);
+	border: 1px solid #C1C1C1;
+}
+#gwikiPageMenu ul li {
+	float:none;
+	margin:0;
+}
+#gwikiPageMenu ul li a {
+	display:block;
+	font-size:10px;
+	color:#666;
+	text-decoration:none;
+	white-space:nowrap;
+	padding: 3px 10px;
+}
+#gwikiPageMenu ul li a:hover {
+	color:#fff;
+	white-space:nowrap;
+	background:#75C100;
+}
+
+/**
+ * @section        Header Navigation
+ * #subsection     Breadcrump
+ *
+ * 
+ *
+ * @see            #gwikiPageMenu
+ */
+ 
+#gwikiBreadcrumb {display:none;} /* ToDo */
+#gwikiBreadcrumb a {
+	color:#FFFFFF;
+	margin:0;
+	padding:0.2em 2em 0.2em 0.7em;
+	text-shadow:0 0 5px #FFFFFF;
+	white-space:normal;
+	word-wrap:break-word;
+	font-size:1.2em;
+	text-decoration:none;
+}
