@@ -512,6 +512,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return this;
   }
 
+  public GWikiContext appendEscText(String text)
+  {
+    return append(StringEscapeUtils.escapeHtml(text));
+  }
+
   public GWikiContext append(Object... objects)
   {
     try {
