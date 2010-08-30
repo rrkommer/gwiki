@@ -18,9 +18,7 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,9 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiPipeListParser;
 import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
-import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
 public class GWikiFragmentLink extends GWikiFragmentChildsBase
@@ -64,29 +62,10 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     knownAttributes.add("tip");
   }
 
-  protected Pair<Map<String, String>, List<String>> splitArguments(String t)
-  {
-    List<String> elems = Converter.parseStringTokens(t, "|", false);
-    Map<String, String> m = new HashMap<String, String>();
-    for (Iterator<String> it = elems.iterator(); it.hasNext();) {
-      String s = it.next();
-      int idx = s.indexOf('=');
-      if (idx != -1) {
-        String key = s.substring(0, idx);
-        if (knownAttributes.contains(key) == true) {
-          m.put(key, s.substring(idx + 1));
-          it.remove();
-          continue;
-        }
-      }
-    }
-    return Pair.make(m, elems);
-  }
-
   public GWikiFragmentLink(String target)
   {
     this.originTarget = target;
-    Pair<Map<String, String>, List<String>> pm = splitArguments(target);
+    Pair<Map<String, String>, List<String>> pm = GWikiPipeListParser.splitListMapArguments(target, knownAttributes);
     List<String> elems = pm.getSecond();
 
     if (elems.size() == 0) {
