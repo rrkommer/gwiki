@@ -249,3 +249,24 @@ a.startSlide:hover {
 a.startSlide:hover span {
 	color:#FFFFFF;
 }
+
+/* Edit Page */
+#EditPageHead .type-text {
+	overflow:hidden;
+	padding:3px 5px 3px 0;
+	position:relative;
+}
+#EditPageHead .type-text label {
+	cursor:pointer;
+	display:block;
+	float:left;
+	width:60px;
+}
+#EditPageHead .type-text input {
+	float:left;
+	margin-right:-3px;
+	width:400px;
+	display:block;
+	padding:3px 5pxem;
+	position:relative;
+}
