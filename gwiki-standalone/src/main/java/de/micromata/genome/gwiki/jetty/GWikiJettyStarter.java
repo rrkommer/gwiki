@@ -26,6 +26,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
@@ -62,7 +63,8 @@ public class GWikiJettyStarter
           return null;
         }
       });
-
+    } catch (Exception ex) {
+      GWikiLog.error("Failed to build index: " + ex.getMessage(), ex);
     } finally {
       GWikiContext.setCurrent(null);
     }
