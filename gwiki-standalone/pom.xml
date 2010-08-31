@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>de.micromata.genome.gwiki</groupId>
 		<artifactId>gwiki-parent</artifactId>
+		<groupId>de.micromata.genome.gwiki</groupId>
 		<version>0.4.2-SNAPSHOT</version>
 	</parent>
 	<groupId>de.micromata.genome.gwiki</groupId>
