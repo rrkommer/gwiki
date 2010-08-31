@@ -119,11 +119,19 @@ function viewBackupDiff()
 <% } %>
 </div>
 <c:if test="${form.newPage == true}">
-	<fmt:message key="gwiki.edit.EditPage.label.path" />
-	<gwiki:text styleId="editPageTitle" property="storePath" />
-</c:if> 
-<label class="PageTitle" for="editPageTitle"><fmt:message key="gwiki.edit.EditPage.label.title" /></label>
-<gwiki:text	styleId="editPageTitle" property="title" />
+<div id="EditPageHead">
+<div class="type-text">
+	<label class="PagePath" for="editPagePath"><fmt:message key="gwiki.edit.EditPage.label.path" /></label>
+	<gwiki:text styleId="editPagePath" property="storePath" />
+</div>
+
+</c:if>
+<div class="type-text">
+	<label class="PageTitle" for="editPageTitle"><fmt:message key="gwiki.edit.EditPage.label.title" /></label>
+	<gwiki:text	styleId="editPageTitle" property="title" />
+</div>
+</div><!--  END #EditPageHead -->
+
 <gwiki:hidden property="metaTemplatePageId" /> 
 <gwiki:hidden	property="backUrl" /> 
 <gwiki:hidden property="storePath" /> 
