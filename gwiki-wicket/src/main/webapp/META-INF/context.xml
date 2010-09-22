@@ -1,3 +1,0 @@
-<Context  path="/gwiki-wicket" reloadable="false" debug="0" cookies="true" >
-	<Parameter name="gwiki.dev.path" value="C:/Users/roger/d/dhl/gwiki/gwiki" />
-</Context>
