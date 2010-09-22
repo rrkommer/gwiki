@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>gwiki-parent</artifactId>
+		<groupId>de.micromata.genome.gwiki</groupId>
+		<version>0.4.2-SNAPSHOT</version>
+	</parent>
+	<groupId>de.micromata.genome.gwiki</groupId>
+	<artifactId>gwiki-wicket-examples</artifactId>
+	<version>0.4.2-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>gwiki-wicket-examples</name>
+	<description>Examples showing how to integrate gwiki with wicket</description>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>snapshots</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+
+	</pluginRepositories>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<scm>
+		<connection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+		</developerConnection>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.micromata.genome.gwiki</groupId>
+			<artifactId>gwiki-wicket</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>
