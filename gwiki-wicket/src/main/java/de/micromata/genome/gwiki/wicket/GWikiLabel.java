@@ -24,6 +24,8 @@ public class GWikiLabel extends Label
 
     super(id, new Model<String>() {
 
+      private static final long serialVersionUID = -7289059256589066359L;
+
       @Override
       public String getObject()
       {
