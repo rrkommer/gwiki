@@ -9,6 +9,15 @@
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-wicket</artifactId>
 	<packaging>jar</packaging>
+	<repositories>
+		<repository>
+			<id>micromata_labs</id>
+			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
