@@ -56,6 +56,9 @@ public class GWikiSlideIncrementPatcherFragmentVisitor extends GWikiSimpleFragme
         GWikiSlideIncrementalMacro im = (GWikiSlideIncrementalMacro) mf.getMacro();
         disableStack.push(im.isDisable());
       }
+      if (mf.getMacro() instanceof GWikiSlideFooterMacro) {
+        disableStack.push(true);
+      }
     }
     if (isDisabled() == true) {
       return;
@@ -86,7 +89,7 @@ public class GWikiSlideIncrementPatcherFragmentVisitor extends GWikiSimpleFragme
   {
     if (fragment instanceof GWikiMacroFragment) {
       GWikiMacroFragment mf = (GWikiMacroFragment) fragment;
-      if (mf.getMacro() instanceof GWikiSlideIncrementalMacro) {
+      if (mf.getMacro() instanceof GWikiSlideIncrementalMacro || mf.getMacro() instanceof GWikiSlideFooterMacro) {
         disableStack.pop();
       }
     }
