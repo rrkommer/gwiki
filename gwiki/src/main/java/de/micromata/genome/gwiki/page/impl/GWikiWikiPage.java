@@ -43,6 +43,11 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 
   private static final long serialVersionUID = 8856713275974466731L;
 
+  /**
+   * request parameter and attribute for render part.
+   */
+  public static final String REQUESTATTR_GWIKIPART = "gwikipart";
+
   protected Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
 
   public GWikiWikiPage(GWikiElementInfo ei)
@@ -106,6 +111,12 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
       ctx.setRequestAttribute(WIKIPAGEID, parentWikiID);
       ctx.setRequestAttribute(PARENTPAGE, null);
     }
+    if (ctx.getRequestAttribute(REQUESTATTR_GWIKIPART) == null) {
+      String gwikipart = ctx.getRequestParameter(REQUESTATTR_GWIKIPART);
+      if (gwikipart != null) {
+        ctx.setRequestAttribute(REQUESTATTR_GWIKIPART, gwikipart);
+      }
+    }
     renderParts(ctx);
   }
 
@@ -124,10 +135,16 @@ public class GWikiWikiPage extends GWikiAbstractElement implements GWikiPropKeys
 
       public Boolean call() throws RuntimeException
       {
-
-        GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) parts.get("Controler");
+        String partName = (String) ctx.getRequestAttribute(REQUESTATTR_GWIKIPART);
+        if (partName == null) {
+          partName = "Controler";
+        }
+        GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) parts.get(partName);
         if (exec == null) {
-          exec = (GWikiExecutableArtefakt< ? >) parts.get("");
+          exec = (GWikiExecutableArtefakt< ? >) getPart(partName);
+          if (exec == null) {
+            exec = (GWikiExecutableArtefakt< ? >) parts.get("");
+          }
         }
         final GWikiExecutableArtefakt< ? > fexec = exec;
         if (fexec == null) {
