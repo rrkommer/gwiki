@@ -7,6 +7,8 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPage;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChunkMacro;
 
 /**
  * Label fetched from gwiki fragment.
@@ -19,7 +21,17 @@ public class GWikiLabel extends Label
 
   private static final long serialVersionUID = -3802667568734694375L;
 
+  public GWikiLabel(String id, final String wikiPage, final String wikiPart)
+  {
+    this(id, wikiPage, wikiPart, null);
+  }
+
   public GWikiLabel(String id, final String wikiPage)
+  {
+    this(id, wikiPage, null, null);
+  }
+
+  public GWikiLabel(String id, final String wikiPage, final String wikiPart, final String wikiChunk)
   {
 
     super(id, new Model<String>() {
@@ -29,20 +41,26 @@ public class GWikiLabel extends Label
       @Override
       public String getObject()
       {
-        return getWikiPage(wikiPage);
+        return getWikiPage(wikiPage, wikiPart, wikiChunk);
       }
 
     });
     setEscapeModelStrings(false);
   }
 
-  public static String getWikiPage(String pageId)
+  public static String getWikiPage(String pageId, String partName, String chunk)
   {
 
     GWikiWeb wikiWeb = GWikiWeb.getWiki();
     GWikiElement el = wikiWeb.getElement(pageId);
 
     GWikiStandaloneContext wikiContext = GWikiStandaloneContext.create();
+    if (partName != null) {
+      wikiContext.setRequestAttribute(GWikiWikiPage.REQUESTATTR_GWIKIPART, partName);
+    }
+    if (chunk != null) {
+      wikiContext.setRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK, chunk);
+    }
     try {
       GWikiContext.setCurrent(wikiContext);
       el.serve(wikiContext);
@@ -52,5 +70,4 @@ public class GWikiLabel extends Label
       GWikiContext.setCurrent(null);
     }
   }
-
 }
