@@ -52,6 +52,17 @@ package de.micromata.genome.gwiki.page.impl.wiki2;
 
 public class GWikiWikiParserTableTest extends GWikiWikiParserTestBase
 {
+  public void testTableWithSpace()
+  {
+    w2htest("|col A1| \n", "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\">col A1</td>\n</tr></tbody></table>");
+  }
+
+  public void testTableWithUnTabledEnd()
+  {
+    w2htest("|col A1|x\n",
+        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\">col A1</td><td class=\"gwikitd\">x</td>\n</tr></tbody></table>");
+  }
+
   public void testTableNested()
   {
     // w2htest("||K1||", "<table class=\"gwikiTable\"><tbody><tr>\n<th class=\"gwikith\">K1</th>\n</tr></tbody></table>");
