@@ -786,6 +786,29 @@ public class GWikiWikiParser
     // return new Pair<String, GWikiFragmentChildContainer>(style, ct);
   }
 
+  protected void removeLastEmptyCell(GWikiFragmentTable.Row row)
+  {
+    if (row.cells.isEmpty() == true) {
+      return;
+    }
+    GWikiFragmentTable.Cell cell = row.cells.get(row.cells.size() - 1);
+    if (cell.attributes.getChildFragment() == null) {
+      return;
+    }
+    if (cell.attributes.getChildFragment().getChilds().size() != 1) {
+      return;
+    }
+    GWikiFragment frag = cell.attributes.getChildFragment().getChilds().get(0);
+    if ((frag instanceof GWikiFragmentText) == false) {
+      return;
+    }
+    GWikiFragmentText tfrag = (GWikiFragmentText) frag;
+    if (StringUtils.isBlank(tfrag.getSource()) == false) {
+      return;
+    }
+    row.cells.remove(row.cells.size() - 1);
+  }
+
   public GWikiFragmentTable.Row parseTableLine(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     GWikiFragmentTable.Row row = new GWikiFragmentTable.Row();
@@ -798,6 +821,7 @@ public class GWikiWikiParser
       row.addCell(cell);
       char tk = tks.curToken();
       if (tk == '\n') {
+        removeLastEmptyCell(row);
         tks.nextToken();
         return row;
       }
