@@ -54,7 +54,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
   private Map<String, Class< ? >> loadedClasses = Collections.synchronizedMap(new HashMap<String, Class< ? >>());
 
-  private boolean enableCacheMissedClasses = false;
+  private boolean enableCacheMissedClasses = true;
 
   /**
    * for performance reason cache missing class requests.
