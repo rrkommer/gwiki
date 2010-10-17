@@ -7,7 +7,7 @@
 	<@include file="/inc/gwiki/footer.gspt"@>
 </div><!-- gwikiComments END -->
 <% } %>				
-</div> <!-- container END -->
+</div> <!-- gwikiContainer END -->
 
 				<div id="gwikiFooter">
 				<table border="0" width="100%" ><tr><td>
@@ -23,7 +23,7 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 					<%--</p> --%>
 </small></td></tr></table>	
 				</div> <!-- gwikiFooter END -->
-
+		</div> <!-- gwikiWrapper END -->
 		</div><!-- #gwikiWrapperWrapper END -->
 	</body>
 </html>

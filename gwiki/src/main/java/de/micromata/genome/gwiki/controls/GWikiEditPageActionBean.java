@@ -77,6 +77,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 {
   public static final String NO_NOTIFICATION_EMAILS = "de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.noNotificationEmails";
 
+  public static final String GWIKI_DEFAULT_EDITOR = "gwikidefeditor";
+
   protected List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
 
   protected String metaTemplatePageId;
@@ -130,6 +132,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   protected boolean initalBackup = false;
 
   protected boolean disableBackup = false;
+
+  protected String wikiDefaultEditor = "wiki";
 
   @Deprecated
   public static List<Pair<String, String>> getAvailableTemplates(GWikiContext wikiContext)
@@ -360,6 +364,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       }
     }
     initPartEditors();
+    wikiDefaultEditor = wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext, GWIKI_DEFAULT_EDITOR);
     return true;
   }
 
@@ -381,8 +386,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   public Object onInit()
   {
     isInOnInit = true;
-    if (init() == false)
+    if (init() == false) {
       return null;
+    }
     checkAccess();
     // elementProperties = buildDescription(elementToEdit.getElementInfo().getProps().getMap(), GWikiEditWikiPropsDescription.values());
     if (backupElementInfo != null) {
@@ -684,6 +690,12 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   }
 
+  public Object onAsyncWikiView()
+  {
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "wiki", true);
+    return noForward();
+  }
+
   public Object onAsyncWikiPreview()
   {
     try {
@@ -723,6 +735,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         wikiContext.append("no part name given");
         return noForward();
       }
+      wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "rte", true);
       GWikiWikiPageArtefakt wiki = (GWikiWikiPageArtefakt) parts.get(partName);
       wikiContext.append("<div class=\"gwikiContent\">");
       wiki.render(wikiContext);
@@ -847,6 +860,11 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     elementToEdit.getElementInfo().getProps().setStringList(GWikiPropKeys.CHILDORDER, childList);
     wikiContext.getWikiWeb().saveElement(wikiContext, elementToEdit, false);
     return noForward();
+  }
+
+  public boolean isRteDefaultEditor()
+  {
+    return StringUtils.equals(wikiDefaultEditor, "rte");
   }
 
   /**
@@ -1036,6 +1054,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   public void setPath(String path)
   {
     this.path = path;
+  }
+
+  public String getWikiDefaultEditor()
+  {
+    return wikiDefaultEditor;
+  }
+
+  public void setWikiDefaultEditor(String wikiDefaultEditor)
+  {
+    this.wikiDefaultEditor = wikiDefaultEditor;
   }
 
 }
