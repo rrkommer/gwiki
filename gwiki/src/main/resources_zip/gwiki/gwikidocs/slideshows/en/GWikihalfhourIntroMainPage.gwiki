@@ -1,0 +1,345 @@
+{slideshow:incremental=false}
+{slidehandout}
+{pageintro}
+GWiki Features from editors view.
+{pageintro}
+{slidehandout}
+{slideheader}
+{table:width=100%|border=0}{tr}{td:align=left}!inc/gwiki/img/gui/gwikiLogo.png|style=width:50%;!{td}{td}h1. GWiki Intro{td}{td:align=right}!inc/gwiki/img/gui/micromataLogo.png|style=width:50%;!{td}{tr}{table}
+{slideheader}
+{slidefooter}
+{div:style=width:100%;font-size:0.8em;align:right;}Micromata GmbH (c) 2010{div}
+{slidefooter}
+
+{slide:title=Introduction to the GWiki architecture}
+
+{center}!gwikidocs/slideshows/en/sourcetalk_2010.png!
+
+Roger René Kommer, Micromata GmbH 
+2. September 2010
+{center}
+{slide}
+
+{slide:title=What is GWiki}
+Multipurpose Wiki.
+- Library
+-- Render/Parse Wiki
+- Framework Library
+-- Use content in Java Web App.
+- Application
+- Application Framework
+{slide}
+{slide:title=Audience}
+{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!{center}
+{slide}
+
+{slide:title=GWiki Motivation}
+{incremental}
+- Use in Java (EE) environment
+- Run in cluster
+- Scalable
+- Integrate in Java applications
+- Change to project needs
+- Extend with additionally features
+- = "The good architecture"
+- Academic (no copy left) OpenSource License: Apache 2.0
+{incremental}
+{slide}
+{slide:title=Use GWiki}
+- *Use*
+- Integrate
+- Extend
+- Develop
+{slide}
+{slide:title=Classic Wiki Features}
+- Wiki Pages with easy and powerfull syntax (similar to Confluence or Textile).
+- Optional HTML-Files
+- Attachments
+- Comments
+- Hierarchic ACL for Pages
+- Change Notification
+- Revisions 
+{slide}
+{slide:title=Classic Wiki Edit Features}
+{incremental}
+- Wiki Editor with autosafe !gwikidocs/slideshows/en/features/WikiEditWiki.png|thumbnail=small!
+- Wysiwhg RTE !gwikidocs/slideshows/en/features/WikiEditRichText.png|thumbnail=small! 
+- Link autocomplete support !gwikidocs/slideshows/en/features/WikiEditInsertLinkWithAutocomple.png|thumbnail=small!
+- Preview !gwikidocs/slideshows/en/features/GWikiEditInternalPreview.png|thumbnail=small!
+- File upload via drag'n drop and image clipboard support (Applet) !gwikidocs/slideshows/en/features/ScreenshotDialog.png|thumbnail=small!
+{incremental}
+{slide}
+{slide:title=Framework}
+{incremental}
+- Hierarchic organization of pages.
+- Fulltext search !gwikidocs/slideshows/en/features/SearchResult.png|thumbnail=small!
+- Toc, Keywords !gwikidocs/slideshows/en/features/KeywordsSmartTags.png|thumbnail=small!
+- User Managment
+- Import. Static Html, Word, Confluence
+- Export: Static Html, Word, PDF
+{incremental}
+{slide}
+{slide:title=Skins}
+{incremental}
+- Skin: Look and feel
+- Skinnable per user or per page branch
+-- GWiki Standard: !gwikidocs/slideshows/en/features/SkinSampleGWiki.png|thumbnail=small!
+-- Micromata Labs: !gwikidocs/slideshows/en/SkinSamplemmLabs.png|thumbnail=small!
+-- Naked: !gwikidocs/slideshows/en/features/SkinSampleNaked.png|thumbnail=small!
+-- DHL Old: !gwikidocs/slideshows/en/features/SkinSampleDHL.png|thumbnail=small!
+-- DHL 2009: !gwikidocs/slideshows/en/features/SkinSampleDeutschePost2009.png|thumbnail=small!
+- 
+{incremental}
+{slide}
+{slide:title=Architecture goals}
+{incremental}
+- Minimize amount of different design pattern
+- "All is Wiki"
+- No hard coded structures
+- Control via meta data
+- Wiki element is a file in a virtual file system
+- Abstraction of back bone services
+- Interception for relevant processing steps (aka filter) 
+- The Wiki is implemented via Wiki
+{incremental}
+{slide}
+{slide:title=Other Rules}
+{incremental}
+- Known technologies
+- Minimize external dependencies
+- No or only minimal session required
+- Fast and scalable (4 ms compiling wiki and 1 ms rendering)
+- 98% read and 2% write access
+{incremental}
+{slide}
+
+{slide:title=Storage}
+{incremental}
+- All is Wiki => Everything is a file in a virtual file system
+- The file name is also the URL
+- Conventional file system layout. Location determine meaning
+- File system implementations: Local FS, DB, ClassLoader, ZIP in other FS.
+- Mounting: Mountpoint, Merge Mount, Copy on write Mounts. 
+
+- Every Wiki Element has basic description (Key/Values). !gwikidocs/slideshows/en/features/SettingsProperties.png|thumbnail=small! 
+{incremental}
+{slide}
+
+{slide:title=Integrate GWiki}
+- Use
+- *Integrate*
+- Extend
+- Develop
+{slide}
+{slide:title=Integrate Goals}
+- Make usage of GWiki functions in your web applications
+- Embedd content centric pages in your application
+- Make gui parts editable by business department
+- => Register GWiki Servlet in your web.xml
+{slide}
+
+{slide:title=Integrate for Internationalization}
+- Use Standard Java I18N properties in common Frameworks
+- Example, JSP: <fmt:message key="my.key"/>
+{center}!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=80%!{center}
+{slide}
+{slide:title=Integrate for GUI parts}
+- Dynamic Pages with logic (developers part) and text (business part)
+- HTML. Too complex for I18N
+- => Just include page or fragment of page\\
+ {{pageContext.include("/gwiki/gwikidocs/howtos/en/IntegrateGWikiSampleSnippet");}}
+- If current user has edit rights, directly can edit fragment
+{slide}
+
+{slide:title=Wicket Support}
+- Using gwiki internationalization
+- Use GWiki Fragments to embedd editable parts in the Wicket page
+- Use GWiki to manage HTML files used by Wicket as template to render the view
+{slide}
+
+
+
+{slide:title=Extend GWiki}
+- Use
+- Integrate
+- *Extend*
+- Develop
+{slide}
+
+{slide:title=Macros}
+- Simple to create
+- Java Class (Bean)
+- JSP/GSPT-Page
+{div:style=font-size: 0.7em}
+--  with or without Body 
+-- Wiki-Text as Body or evaluated by macro itself
+- XHTML-Position (inside/outside {{p}})
+- RTE-enabled
+- Compiletime macro manipulates DOM or even introduce new macros (usemacro, jsptaglib)
+- Runtime Macros
+{div}
+{slide}
+
+{slide:title=Macro Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png|width=18%!{center}
+{slide}
+
+
+
+{slide:title=Template: Extendable Element Types}
+{incremental}
+Insert different content types, page layouts and templates. !gwikidocs/slideshows/en/features/NewElement.png|thumbnail=small!
+- Defines Element Type (Class) !gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png|thumbnail=small!
+- Composed by n Artifacts 
+{incremental}
+{slide}
+
+
+{slide:title=GWikiArtefakt}
+{incremental}
+- Every File in the file system is associated with a Artefakt type. 
+- May be a file or Java class !gwikidocs/slideshows/de/kernarchitektur/GWikiArtefaktHierarchie.png|thumbnail=small!
+- Optionally able to render
+- Load and store
+- May provide an editor. !gwikidocs/slideshows/de/kernarchitektur/GWikiEditorArtefaktHierarchie.png|thumbnail=small!
+{incremental}
+{slide}
+
+{slide:title=GSPT Artefakte}
+- Groovy Server Pages
+- Supports all JSP-Features:
+-- Scriptlets
+-- Taglibaries
+- Editable at runtime
+- No troubles with different container implementations
+- No file system needed (Like Jasper)
+- Fast
+{slide}
+
+{slide:title=Internal GWiki Services}
+- Java Interfaces, set via IOC
+ {div:style=font-size:0.6em;}
+- File system (OS FS, DB, Embedded, ZIP, CopyOnWrite, Mount and Merge Mount, Cluster Change Notifications)
+- Full text search (Own solution)
+- Authorization (GWiki, other providers)
+- Internationalization (Wiki)
+- Scheduling (Thread, Genome Chronos) 
+- Email (Standard mail session, Genome)
+- Logging (Log4J, Genome)
+- Session
+- Cache
+{div}
+- Intercept with Filter.
+{slide}
+{slide:title=Plugins}
+Wrapp 
+- Description
+- Branch of virtual file system with configuration, templates, images, etc.
+- Classes (Macros, GWikiElement, GWikiArtefakt, GWikiFragment, GWikiFilter, ...)
+in ZIP.
+
+Upload to Wiki and activate
+{slide}
+{slide:title=Sample Plugins}
+- Styles
+- Im/Exporter
+- Forum
+- Blog
+- Smarttags
+- This slideshow
+{slide}
+
+
+{slide:title=Develop GWiki}
+- Use
+- Integrate
+- Extend
+- *Develop*
+{slide}
+
+{slide:title=Developing Applications}
+GWiki can be used as rapid development plattform
+- Create dynamic web applications without need of an additionally framework
+- Create online modification without need of redeployment
+- Track modification with integrated version management
+{slide}
+{slide:title=MVC Pages}
+{incremental}
+- Framework similar to Stripes/Struts (ActionBeans)
+- Controler
+-- Java Class
+-- Groovy Class !gwikidocs/slideshows/de/kernarchitektur/GroovyActionBeanEditor.png|width=70%|thumbnail=small!
+- JSP/GSPT !gwikidocs/slideshows/de/kernarchitektur/GSPTEditor.png|width=80%|thumbnail=small!
+- Wiki
+- I18N, Images, css, JavaScript, etc.pp.
+{incremental}
+{slide}
+
+{slide:title= }
+\\
+\\
+
+h1. Summary 
+{slide}
+{slide:title=All is Wiki}
+
+Implementation of GWiki is itself GWiki:
+{div:style=font-size:0.8em}
+- Visible components (Wiki, Html, images, multi media, css, etc.)
+- Configurations, Metatemplates
+- Internal pages, I18N files
+- Templates, Skins, Macros, Plugins
+- User
+- Java/Groovy classes
+- Search indice, temporary files
+{div}
+{slide}
+
+{slide:title=Developing GWiki}
+- 2009 Q3 - 2010 Q1
+- Ca. 3 MM for core and 3 MM for documentation, style, etc.
+- Not so funny: 
+-- Javascript
+-- CSS
+-- Rich Text Editor
+- Joy of development:
+-- From scratch project
+-- Concept "All is Wiki" is working
+{slide}
+{slide:title=Open Source}
+GWiki is available at http://labs.micromata.de/gwiki under the Apache 2.0 license.
+- Simple to launch desktop variante
+- Libraries und sourcen available via the Maven repository
+
+Comming soon:
+- SVN, Jira, Forum
+{slide}
+{slide:title=End}
+\\
+
+\\
+
+{center}Thank you for your interest!{center}
+{slide}
+{slide:title=Wiki Verlinkung}
+- Klassisches Wiki mit CamelCase. 
+- Hierarchisch aufgebaute Seiten.
+- Rechtemodell einfacher mit Hierarchischen Modell.
+- Parent/Childs/Silblings
+- Spaces, Sprache werden rekursiv über Parents aufgelöst.
+{slide}
+
+{slide:title=Wiki Parser}
+- Erster Wurf registrieren von Regular Expressions
+-- Bei großer Wikiseite (ca. 10 DIN-A 4) 4 Sekunden für Parsen.
+-- Syntax-Probleme bei einigen Confluence Syntaxelementen
+- Zweiter Wurf, hart kodierter Top-Down-Parser
+-- 4 ms fürs parsen einer großen Wikiseite.
+Kern relativ klein, Rest sind Macros.
+{slide}
+
+{slide:title=Wiki DOM 1}
+{center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png|width=70%!{center}
+{slide}
+
+{slideshow}

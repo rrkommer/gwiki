@@ -23,3 +23,7 @@ h3. Rename
 To rename a page title simple edit the title field at the top of the page.
 Sometimes you may also want to rename the pageId of the page. 
 This operation is available on [gwikidocs/help/en/PageInfo].
+
+h2. See also
+- [gwikidocs/help/en/WikiSyntax]
+- [gwikidocs/macros/en/GWikiMacros]
