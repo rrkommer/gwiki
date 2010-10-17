@@ -768,6 +768,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     String cvalue = URLEncoder.encode(value);
     Cookie tsc = new Cookie(key, cvalue);
     tsc.setPath(getWikiWeb().getContextPath());
+    if (StringUtils.isEmpty(tsc.getPath()) == true) {
+      tsc.setPath("/");
+    }
     tsc.setMaxAge((int) TimeInMillis.YEAR);
     response.addCookie(tsc);
 

@@ -19,6 +19,7 @@ gwikiCurrentPart = gwikiParts[0];
 
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
+var gwikiRteDefault = <c:out value="${form.rteDefaultEditor}"/>;
 <%
  StringBuilder localCsse = new StringBuilder();
  for (String lp : wikiContext.getContentCsse()) {
@@ -69,9 +70,8 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 <% %>
 <form id="editForm" method="POST" enctype="multipart/form-data">
 <gwiki:hidden property="pageId" /> 
-<input id="formmn" type="hidden"	name="m" value="" /> 
+<input id="formmn" type="hidden" name="m" value="" /> 
 <gwiki:hidden property="parentPageId" />
-
 <script type="text/javascript">gwikiContentChanged=false;</script> <% if (form.chooseMetaTemplate == true) { %>
 <p><gwiki:select property="metaTemplatePageId">
 	<gwiki:optionsCollection property="availableMetaTemplates" label="key"
@@ -98,12 +98,11 @@ function viewBackupDiff()
 <fmt:message key="gwiki.edit.EditPage.backupnotice1">
 	<fmt:param value="${backupdt}" />
 </fmt:message>
-<a href="javascript:viewBackupDiff()"><fmt:message
-	key="gwiki.edit.EditPage.compare" /></a>
-<a target="_blank"
-	href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true"><fmt:message
+<a href="javascript:viewBackupDiff()"><fmt:message	key="gwiki.edit.EditPage.compare" /></a>
+<a target="_blank" 	href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true"><fmt:message
 	key="gwiki.edit.EditPage.backup.viewpage" /></a>
 <fmt:message key="gwiki.edit.EditPage.backupnotice2" />
+
 <input class="gwikiButton reset" type="submit"
 	name="method_onInitDeleteBackup"
 	value="<fmt:message key="gwiki.edit.EditPage.backup.discarge"/>" /> <input
@@ -118,19 +117,19 @@ function viewBackupDiff()
 </fmt:message></a>
 <% } %>
 </div>
-<c:if test="${form.newPage == true}">
 <div id="EditPageHead">
-<div class="type-text">
+<c:if test="${form.newPage == true}">
+<div class="type-text"> 
 	<label class="PagePath" for="editPagePath"><fmt:message key="gwiki.edit.EditPage.label.path" /></label>
 	<gwiki:text styleId="editPagePath" property="storePath" />
 </div>
-
 </c:if>
 <div class="type-text">
 	<label class="PageTitle" for="editPageTitle"><fmt:message key="gwiki.edit.EditPage.label.title" /></label>
 	<gwiki:text	styleId="editPageTitle" property="title" />
 </div>
 </div><!--  END #EditPageHead -->
+
 
 <gwiki:hidden property="metaTemplatePageId" /> 
 <gwiki:hidden	property="backUrl" /> 
@@ -141,7 +140,7 @@ function viewBackupDiff()
 	<input id="gwikieditpreviewbutton" type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onPreview"	value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>" />
 </c:if> 
 <input id="gwikieditsavebutton" class="gwikiButton main" type="button"	name="method_onSave" onclick="onSave(event);" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
-<input id="gwikieditcancelbutton" class="gwikiButton reset" onclick="gwikiContentChanged=false;" class="gwikiButton main" type="submit" name="method_onCancel"	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
+<input id="gwikieditcancelbutton" class="gwikiButton reset" onclick="gwikiContentChanged=false;" type="submit" name="method_onCancel"	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
 <c:if test="${form.newPage == false}">
 	<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy"
 		value="<fmt:message key="gwiki.edit.button.copy"/>" />
@@ -152,11 +151,12 @@ function viewBackupDiff()
 <gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" /><label for="noNotificationEmails"><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" /></label> 
 <gwiki:hidden	property="newPage" />
 </div><!-- end .control -->
+<%-- </div>  --%>
 <div id='modalBg'></div>
 <div id='modalContent'></div>
 <div id='loading'></div>
 <div id='editDialogBox'></div>
-<div id="tabs">
+<div id="tabs" style="min-height: 600px">
 <ul>
   <%
     for (me in form.editors) { %>
@@ -166,7 +166,7 @@ function viewBackupDiff()
 
 <%
     for (me in form.editors) { %>
-<div id="Editor<%= me.key %>">
+<div id="Editor<%= me.key %>" style="width: 100%; height: 100%">
 <% me.value.render(wikiContext); %>
 </div>
 <%  }  %>
