@@ -20,7 +20,7 @@ on the child pages.
 
 h3. How to import Word into Wiki Page?
 The best way to import Word documents is to use the Rich Text editor.
-First of all open the source document in Word and copy the content text into the clipboard.
+First, open the source document in Word and copy the content text into the clipboard.
 Open an existing or a new Wiki page and switch to Rich Text view. 
 
 !gwikidocs/faq/en/PasteFromWordIcon.png!
@@ -28,7 +28,7 @@ Open an existing or a new Wiki page and switch to Rich Text view.
 In the dialog box use Ctrl+V (or its equivalent on your operation system) 
 to paste the content text from the clipboard.
 
-Finally select the insert button to insert the text in your Wiki page.
+Finally, select the 'Insert' button to insert the text into your Wiki page.
 
 h2. Macros
 h3. Why is there no Macro known?

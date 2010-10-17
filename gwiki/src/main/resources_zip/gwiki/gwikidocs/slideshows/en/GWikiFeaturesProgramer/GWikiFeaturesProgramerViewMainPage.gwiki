@@ -198,8 +198,6 @@ Now use the macro:
 
 {cout:value="This will printed via jsp: ${x}"}{cout}
 {code}
-
-Result:
 {usemacro:localName=jsptaglib|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseJspTagLibMacro}
 {jsptaglib:prefix=c|uri=/WEB-INF/tlds/c-rt.tld}
 Now use the macro:
