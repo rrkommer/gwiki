@@ -67,11 +67,7 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.2-FINAL</version>
-		</dependency>
+	
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
@@ -92,15 +88,27 @@
 			<artifactId>nekohtml</artifactId>
 			<version>1.9.13</version>
 		</dependency>
+
+		<!--  used for pdftextextractor plugin -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>0.8.0-incubating</version>
+			<scope>provided</scope>
 		</dependency>
+		<!--  used for msotextextractor plugin -->
+			<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.2-FINAL</version>
+			<scope>provided</scope>
+		</dependency>
+		<!--  used for msotextextractor plugin -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
 			<version>3.2-FINAL</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-digester</groupId>
