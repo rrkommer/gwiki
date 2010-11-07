@@ -58,6 +58,7 @@ public class PatchVersion
     files.add(Pair.make("../gwiki-standalone/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-webapp/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-wicket/pom.xml", parentPomPattern));
+    files.add(Pair.make("../gwiki-wicket-examples/pom.xml", parentPomPattern));
     files.add(Pair.make("src/main/java/de/micromata/genome/gwiki/model/GWikiVersion.java", "(.*?VERSION = \")(.+?)(\".+)"));
     files.add(Pair.make("../gwiki-standalone/src/main/external_resources/gwikistandalone/gwikiweb.cmd",
         "(.+?java -jar gwiki-standalone-)(.+?)(\\.jar.+)"));
