@@ -36,6 +36,9 @@ import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.attachments.TextExtractor;
+import de.micromata.genome.gwiki.page.attachments.TxtTextExtractor;
+import de.micromata.genome.gwiki.page.attachments.XmlTextExtractor;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor;
 import de.micromata.genome.gwiki.utils.ClassUtils;
@@ -74,6 +77,16 @@ public class GWikiFilters
     }
 
   };
+
+  private Map<String, TextExtractor> textExtractors = new HashMap<String, TextExtractor>();
+
+  private static Map<String, TextExtractor> standardTextExtractors = new HashMap<String, TextExtractor>();
+  static {
+    standardTextExtractors.put(".txt", new TxtTextExtractor());
+    standardTextExtractors.put(".xml", new XmlTextExtractor());
+    standardTextExtractors.put(".html", new XmlTextExtractor());
+    standardTextExtractors.put(".htm", new XmlTextExtractor());
+  }
 
   public <R> R runWithoutFilters(Class< ? >[] filtersToSkip, CallableX<R, RuntimeException> callback)
   {
@@ -281,6 +294,24 @@ public class GWikiFilters
         GWikiLog.warn("Cannot register filter class: " + rc + "; " + ex.getMessage(), ex);
       }
     }
+    initTextExtractors(wikiWeb, wikiConfig);
+  }
+
+  @SuppressWarnings("unchecked")
+  protected void initTextExtractors(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
+  {
+    final Map<String, String> extm = wikiWeb.getDaoContext().getPluginRepository().getPluginTextExtractors();
+    textExtractors.putAll(standardTextExtractors);
+    ClassLoader cl = wikiWeb.getDaoContext().getPluginRepository().getActivePluginClassLoader();
+    for (Map.Entry<String, String> me : extm.entrySet()) {
+      try {
+        Class< ? > cls = Class.forName(me.getValue(), true, cl);
+        TextExtractor extr = (TextExtractor) cls.newInstance();
+        textExtractors.put(me.getKey(), extr);
+      } catch (Exception ex) {
+        GWikiLog.warn("Cannot find text extractor class: " + me.getKey() + ": " + me.getValue() + "; " + ex.getMessage(), ex);
+      }
+    }
   }
 
   public void registerFilter(GWikiWeb wikiWeb, Class< ? > filter)
@@ -290,4 +321,15 @@ public class GWikiFilters
     }
     registerNewFilterClass(wikiWeb, filter);
   }
+
+  public Map<String, TextExtractor> getTextExtractors()
+  {
+    return textExtractors;
+  }
+
+  public void setTextExtractors(Map<String, TextExtractor> textExtractors)
+  {
+    this.textExtractors = textExtractors;
+  }
+
 }
