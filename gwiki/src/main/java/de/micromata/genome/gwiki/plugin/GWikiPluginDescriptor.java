@@ -71,6 +71,12 @@ public class GWikiPluginDescriptor
    */
   private Map<String, String> elementTypes = new HashMap<String, String>();
 
+  /**
+   * text extractor classes. Key -> extension. Value class name implementing the de.micromata.genome.gwiki.page.attachments.TextExtractor
+   * interface
+   */
+  private Map<String, String> textExtractors = new HashMap<String, String>();
+
   public String getName()
   {
     return name;
@@ -149,6 +155,16 @@ public class GWikiPluginDescriptor
   public void setFilter(List<GWikiPluginFilterDescriptor> filter)
   {
     this.filter = filter;
+  }
+
+  public Map<String, String> getTextExtractors()
+  {
+    return textExtractors;
+  }
+
+  public void setTextExtractors(Map<String, String> textExtractors)
+  {
+    this.textExtractors = textExtractors;
   }
 
 }
