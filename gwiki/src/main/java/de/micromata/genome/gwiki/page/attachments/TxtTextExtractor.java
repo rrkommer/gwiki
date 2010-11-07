@@ -32,15 +32,10 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class TxtTextExtractor extends TextExtractorBase
+public class TxtTextExtractor implements TextExtractor
 {
 
-  public TxtTextExtractor(String fileName, InputStream data)
-  {
-    super(fileName, data);
-  }
-
-  public String extractText()
+  public String extractText(String fileName, InputStream data)
   {
     try {
       StringWriter sout = new StringWriter();

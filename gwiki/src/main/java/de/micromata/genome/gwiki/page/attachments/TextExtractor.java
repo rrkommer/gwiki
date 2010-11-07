@@ -18,13 +18,24 @@
 
 package de.micromata.genome.gwiki.page.attachments;
 
+import java.io.InputStream;
+
 /**
  * Interface to extract from a file.
+ * 
+ * Note the
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public interface TextExtractor
 {
-  String extractText();
+  /**
+   * extract text
+   * 
+   * @param fileName internal file name. This is NOT usable via java.io.File class.
+   * @param data the content of the file
+   * @return the extracted file content
+   */
+  String extractText(String fileName, InputStream data);
 }
