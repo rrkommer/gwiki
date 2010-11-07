@@ -8,6 +8,8 @@
 	<property name="keywordssmarttagsversion" value="gwiki.keywordssmarttags-1.0.0" />
 	<property name="confluenceimporterversion" value="gwiki.confluenceimporter-1.0.0" />
 	<property name="stylemmLabsversion" value="style_mmLabs-1.0.0" />
+	<property name="pdftextextractorversion" value="gwiki.pdftextextractor-1.0.0" />
+	<property name="msotextextractorversion" value="gwiki.msotextextractor-1.0.0" />
 
 
 	<target name="gwiki.forum">
@@ -66,4 +68,20 @@
 			</fileset>
 		</zip>
 	</target>
+	<target name="gwiki.pdftextextractor">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${pdftextextractorversion}.zip" />
+		<zip zipfile="${plugintarget}/${pdftextextractorversion}.zip">
+			<fileset dir="src/plugins/pdftextextractor" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.msotextextractor">
+			<mkdir dir="${plugintarget}" />
+			<delete file="${plugintarget}/${msotextextractorversion}.zip" />
+			<zip zipfile="${plugintarget}/${msotextextractorversion}.zip">
+				<fileset dir="src/plugins/msotextextractor" includes="**/*" excludes="src/">
+				</fileset>
+			</zip>
+		</target>
 </project>
