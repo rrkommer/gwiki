@@ -59,7 +59,7 @@ public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[
       return;
     }
     try {
-      String t = TextExtractorUtils.getTextExtract(pid, new ByteArrayInputStream(getStorageData()));
+      String t = TextExtractorUtils.getTextExtract(ctx, pid, new ByteArrayInputStream(getStorageData()));
       sb.append(t);
     } catch (Exception ex) {
       GWikiLog.note("Failure extracting text: " + ex.getMessage(), ex);

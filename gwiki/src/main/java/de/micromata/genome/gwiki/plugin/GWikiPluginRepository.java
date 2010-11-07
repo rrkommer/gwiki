@@ -334,6 +334,26 @@ public class GWikiPluginRepository
     return ret;
   }
 
+  /**
+   * 
+   * @return all text extractors.
+   * 
+   *         key: file extends
+   * 
+   *         value: class name
+   */
+  public Map<String, String> getPluginTextExtractors()
+  {
+    Map<String, String> ret = new HashMap<String, String>();
+    for (GWikiPlugin plugin : activePlugins) {
+      Map<String, String> p = plugin.getDescriptor().getTextExtractors();
+      if (p != null) {
+        ret.putAll(p);
+      }
+    }
+    return ret;
+  }
+
   public Map<String, GWikiPlugin> getPlugins()
   {
     return plugins;
