@@ -65,6 +65,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.types.ArrayMap;
+import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -134,6 +135,11 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   protected boolean disableBackup = false;
 
   protected String wikiDefaultEditor = "wiki";
+
+  /**
+   * comma seperated list of parts with no editor.
+   */
+  protected String hideParts = "";
 
   @Deprecated
   public static List<Pair<String, String>> getAvailableTemplates(GWikiContext wikiContext)
@@ -279,9 +285,12 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   {
     elementToEdit.collectParts(parts);
     // parts.put("Settings", new GWikiPropsArtefakt(elementToEdit.getElementInfo().getProps()));
-
+    List<String> hidePartList = Converter.parseStringTokens(hideParts, ", ", false);
     for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
       if (me.getValue() instanceof GWikiEditableArtefakt) {
+        if (hidePartList.contains(me.getKey()) == true) {
+          continue;
+        }
         editors.put(me.getKey(), ((GWikiEditableArtefakt) me.getValue()).getEditor(elementToEdit, this, me.getKey()));
       }
     }
@@ -1064,6 +1073,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   public void setWikiDefaultEditor(String wikiDefaultEditor)
   {
     this.wikiDefaultEditor = wikiDefaultEditor;
+  }
+
+  public String getHideParts()
+  {
+    return hideParts;
+  }
+
+  public void setHideParts(String hideParts)
+  {
+    this.hideParts = hideParts;
   }
 
 }
