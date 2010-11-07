@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.util.IOUtils;
 
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
