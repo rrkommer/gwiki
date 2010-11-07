@@ -33,15 +33,10 @@ import de.micromata.genome.gwiki.utils.html.Html2TextFilter;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class HtmlTextExtractor extends TextExtractorBase
+public class HtmlTextExtractor implements TextExtractor
 {
 
-  public HtmlTextExtractor(String fileName, InputStream data)
-  {
-    super(fileName, data);
-  }
-
-  public String extractText()
+  public String extractText(String fileName, InputStream data)
   {
     Html2TextFilter filter = new Html2TextFilter();
     XMLParserConfiguration parser = new HTMLConfiguration();
