@@ -74,6 +74,26 @@ public class GWikiNewElementMacro extends GWikiMacroBean
    */
   private String parentPage;
 
+  private String editPageId = "edit/EditPage";
+
+  protected void renderNewPageLink(GWikiContext ctx, MacroAttributes attrs)
+  {
+    GWikiElement el = ctx.getCurrentElement();
+    if (title != null) {
+      ctx.append("&amp;title=").append(StringEscapeUtils.escapeXml(title));
+    }
+    if (pageId != null) {
+      ctx.append("&amp;pageId=").append(StringEscapeUtils.escapeXml(pageId));
+    }
+    if (StringUtils.isNotEmpty(metaTemplate) == true) {
+      ctx.append("&amp;metaTemplatePageId=").append(StringEscapeUtils.escapeXml(metaTemplate));
+    }
+    if (parentPage == null) {
+      parentPage = el.getElementInfo().getId();
+    }
+    ctx.append("&amp;parentPageId=").append(StringEscapeUtils.escapeXml(parentPage));
+  }
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
@@ -104,20 +124,9 @@ public class GWikiNewElementMacro extends GWikiMacroBean
     if (linkClass == null) {
       linkClass = "gwikiButton";
     }
-    ctx.append("<a class=\"" + linkClass + "\" href=\"" + ctx.localUrl("edit/EditPage") + "?newPage=true");
-    if (title != null) {
-      ctx.append("&amp;title=").append(StringEscapeUtils.escapeXml(title));
-    }
-    if (pageId != null) {
-      ctx.append("&amp;pageId=").append(StringEscapeUtils.escapeXml(pageId));
-    }
-    if (StringUtils.isNotEmpty(metaTemplate) == true) {
-      ctx.append("&amp;metaTemplatePageId=").append(StringEscapeUtils.escapeXml(metaTemplate));
-    }
-    if (parentPage == null) {
-      parentPage = el.getElementInfo().getId();
-    }
-    ctx.append("&amp;parentPageId=").append(StringEscapeUtils.escapeXml(parentPage));
+    ctx.append("<a class=\"" + linkClass + "\" href=\"" + ctx.localUrl(editPageId) + "?newPage=true");
+    renderNewPageLink(ctx, attrs);
+
     ctx.append("\">");
     if (StringUtils.isEmpty(text) == true) {
       text = "New Element";
@@ -185,6 +194,16 @@ public class GWikiNewElementMacro extends GWikiMacroBean
   public void setParentPage(String parentPage)
   {
     this.parentPage = parentPage;
+  }
+
+  public String getEditPageId()
+  {
+    return editPageId;
+  }
+
+  public void setEditPageId(String editPageId)
+  {
+    this.editPageId = editPageId;
   }
 
 }
