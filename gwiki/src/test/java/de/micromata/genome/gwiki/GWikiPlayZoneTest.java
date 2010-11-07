@@ -18,61 +18,54 @@
 
 package de.micromata.genome.gwiki;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-
 import junit.framework.TestCase;
-
-import org.apache.commons.io.IOUtils;
-
-import de.micromata.genome.gwiki.page.attachments.TextExtractorUtils;
-import de.micromata.genome.util.runtime.RuntimeIOException;
 
 public class GWikiPlayZoneTest extends TestCase
 {
-  public String getTextExtract(String file)
-  {
-    try {
-      String s = TextExtractorUtils.getTextExtract(file, new FileInputStream(new File(file)));
-      return s;
-    } catch (IOException ex) {
-      throw new RuntimeIOException(ex);
-    }
-
-  }
-
-  public void getWordText()
-  {
-    String text;
-    String wordFile = "C:\\Users\\roger\\d\\dhl\\DHL-POP\\DHL-ParcelOnlinePostage-Doc\\doc\\DocRepository\\DeliverableItems\\SRS\\34-DHL-SRS-POP-0.4.8-WebServicesShoppingCart.doc";
-    // text = getTextExtract(wordFile);
-    // System.out.println(text);
-    String execFile = "C:\\Users\\roger\\d\\dhl\\DHL-POP\\DHL-ParcelOnlinePostage-Doc\\doc\\DocRepository\\DeliverableItems\\Handbuecher\\FehlermeldungenAppletPrinter.xls";
-    // text = getTextExtract(execFile);
-    // System.out.println(text);
-
-    String pptFile = "c:\\users\\roger\\d\\dhl\\dhl-pop\\dhl-parcelonlinepostage-doc\\doc\\DocRepository\\IT-Specifications\\Architektur\\2006-12-04_DHL-POP_Webservices_Workshop.ppt";
-    // text = getTextExtract(pptFile);
-
-    String pdfFile = "c:\\users\\roger\\d\\dhl\\dhl-pop\\dhl-parcelonlinepostage-doc\\doc\\DocRepository\\Specifications\\dhl\\globuss\\Einlieferungsliste_im_3D-Flatfile-Format_Version_1.1.pdf";
-    text = getTextExtract(pdfFile);
-    System.out.println(text);
-    try {
-      FileOutputStream fout = new FileOutputStream(new File("tmp/pdf2html.html"));
-      IOUtils.copy(new StringReader(text), fout, "UTF-8");
-      IOUtils.closeQuietly(fout);
-    } catch (IOException ex) {
-      throw new RuntimeIOException(ex);
-    }
-  }
-
-  public void NOtestTextExtract()
-  {
-    getWordText();
-  }
+  // public String getTextExtract(String file)
+  // {
+  // try {
+  // String s = TextExtractorUtils.getTextExtract(file, new FileInputStream(new File(file)));
+  // return s;
+  // } catch (IOException ex) {
+  // throw new RuntimeIOException(ex);
+  // }
+  //
+  // }
+  //
+  // public void getWordText()
+  // {
+  // String text;
+  // String wordFile =
+  // "C:\\Users\\roger\\d\\dhl\\DHL-POP\\DHL-ParcelOnlinePostage-Doc\\doc\\DocRepository\\DeliverableItems\\SRS\\34-DHL-SRS-POP-0.4.8-WebServicesShoppingCart.doc";
+  // // text = getTextExtract(wordFile);
+  // // System.out.println(text);
+  // String execFile =
+  // "C:\\Users\\roger\\d\\dhl\\DHL-POP\\DHL-ParcelOnlinePostage-Doc\\doc\\DocRepository\\DeliverableItems\\Handbuecher\\FehlermeldungenAppletPrinter.xls";
+  // // text = getTextExtract(execFile);
+  // // System.out.println(text);
+  //
+  // String pptFile =
+  // "c:\\users\\roger\\d\\dhl\\dhl-pop\\dhl-parcelonlinepostage-doc\\doc\\DocRepository\\IT-Specifications\\Architektur\\2006-12-04_DHL-POP_Webservices_Workshop.ppt";
+  // // text = getTextExtract(pptFile);
+  //
+  // String pdfFile =
+  // "c:\\users\\roger\\d\\dhl\\dhl-pop\\dhl-parcelonlinepostage-doc\\doc\\DocRepository\\Specifications\\dhl\\globuss\\Einlieferungsliste_im_3D-Flatfile-Format_Version_1.1.pdf";
+  // text = getTextExtract(pdfFile);
+  // System.out.println(text);
+  // try {
+  // FileOutputStream fout = new FileOutputStream(new File("tmp/pdf2html.html"));
+  // IOUtils.copy(new StringReader(text), fout, "UTF-8");
+  // IOUtils.closeQuietly(fout);
+  // } catch (IOException ex) {
+  // throw new RuntimeIOException(ex);
+  // }
+  // }
+  //
+  // public void NOtestTextExtract()
+  // {
+  // getWordText();
+  // }
 
   public void textExtract()
   {
