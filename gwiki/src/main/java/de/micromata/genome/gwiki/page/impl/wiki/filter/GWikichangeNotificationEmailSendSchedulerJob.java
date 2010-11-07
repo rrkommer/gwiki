@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.record.formula.functions.T;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -62,9 +61,9 @@ public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiScheduler
     ctx.put(GWikiEmailProvider.TEXT, body);
     for (String userName : userNames) {
       try {
-        wikiContext.getWikiWeb().getAuthorization().runAsUser(userName, wikiContext, new CallableX<T, RuntimeException>() {
+        wikiContext.getWikiWeb().getAuthorization().runAsUser(userName, wikiContext, new CallableX<Void, RuntimeException>() {
 
-          public T call() throws RuntimeException
+          public Void call() throws RuntimeException
           {
             String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
             if (StringUtils.isEmpty(email) == true) {
