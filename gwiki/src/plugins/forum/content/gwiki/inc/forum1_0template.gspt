@@ -30,8 +30,11 @@
 	</c:forEach>
 </table>
 </c:if>
+<% form.renderNewPostButton(); %>
+<c:if test="${not empty form.forumDescription.posts}">
 
-<c:if test="${not empty form.forumDescription.comments}">
+
+
 <table width="100%" class="forumListPosts">
 <tr><th>Article</th><th>Replies</th><th>Access</th><th>Last Reply</th></tr>
 <c:forEach var="post" items="${form.forumDescription.posts}">
@@ -44,4 +47,5 @@
 </c:if>
 
 <% wikiContext.skinInclude('standardfoot'); %>
+
 

@@ -20,3 +20,20 @@
 	font-size: 0.8em;
 	color: gray;
 }
+
+
+.forumMessage {
+	border: 1px;
+	border-style: solid;
+	border-color: black;
+	width: 100%;
+}
+.forumMessageHead {
+	width: 100%;
+	border-style: dashed;
+	border-color: gray;
+	border-bottom: 1px;
+}
+.forumMessageBody  {
+	width: 100%;
+}
