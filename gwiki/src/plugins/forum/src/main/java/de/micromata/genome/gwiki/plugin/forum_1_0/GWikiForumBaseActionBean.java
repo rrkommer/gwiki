@@ -17,30 +17,21 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.forum_1_0;
 
-import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
-import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
- * implements a forum on base of wiki pages an comments.
- * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiForumMacro extends GWikiMacroBean
+public class GWikiForumBaseActionBean extends ActionBeanBase
 {
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
-   * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
-   */
-  @Override
-  public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
+  protected void initCss()
   {
-    // TODO Auto-generated method stub
-    return true;
+    String cssId = "inc/gwiki/css/forum.css";
+    String styleCss = "inc/" + wikiContext.getSkin() + "/css/forum.css";
+    if (wikiContext.getWikiWeb().findElementInfo(styleCss) != null) {
+      cssId = styleCss;
+    }
+    wikiContext.getRequiredCss().add(cssId);
   }
-
 }

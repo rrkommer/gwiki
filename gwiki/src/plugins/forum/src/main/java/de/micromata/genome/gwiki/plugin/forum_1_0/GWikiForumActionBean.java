@@ -21,7 +21,8 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
-import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro;
 
 /**
  * Main page view of forum.
@@ -29,27 +30,22 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiForumActionBean extends ActionBeanBase
+public class GWikiForumActionBean extends GWikiForumBaseActionBean
 {
   protected GWikiForumDescription forumDescription;
 
-  private String pageId;
+  protected String pageId;
 
   protected boolean init()
   {
     pageId = wikiContext.getCurrentElement().getElementInfo().getId();
     forumDescription = new GWikiForumDescription(wikiContext, wikiContext.getCurrentElement().getElementInfo());
-    String cssId = "inc/gwiki/css/forum.css";
-    String styleCss = "inc/" + wikiContext.getSkin() + "/css/forum.css";
-    if (wikiContext.getWikiWeb().findElementInfo(styleCss) != null) {
-      cssId = styleCss;
-    }
-    wikiContext.getRequiredCss().add(cssId);
     return true;
   }
 
   public Object onInit()
   {
+    initCss();
     if (init() == false) {
       return null;
     }
@@ -61,7 +57,8 @@ public class GWikiForumActionBean extends ActionBeanBase
     wikiContext.append("<td><span class=\"forumPostTitle\">");
     GWikiElementInfo ei = fd.getPost();
     // GWikiElementInfo ei = wikiContext.getWikiWeb().getElementInfo();
-    wikiContext.append(esc(ei.getTitle())) //
+    int c = fd.getAccessCount(wikiContext);
+    wikiContext.append(wikiContext.renderLocalUrl(ei.getId())) //
         .append("</span>") //
         .append("<br/>") //
         .append("<span class=\"forumPostVersion\">") //
@@ -69,8 +66,19 @@ public class GWikiForumActionBean extends ActionBeanBase
         .append(" (").append(wikiContext.getUserDateString(ei.getCreatedAt())).append(")") //
         .append("</span>") //
         .append("</td>") //
-    ;
-
+        .append("<td>") //
+        .append(fd.getThreadCount() - 1).append("</td><td>") //
+        .append(c) //
+        .append("</td><td>");
+    GWikiElementInfo lastReply = fd.getLastReply(null);
+    if (lastReply == fd.getPost()) {
+      wikiContext.append("no reply");
+    } else {
+      wikiContext.append("from ").append(lastReply.getCreatedBy()).append("<br/>")//
+          .append(" (").append(wikiContext.getUserDateString(ei.getCreatedAt())).append(")") //
+      ;
+    }
+    wikiContext.append("</td>");
   }
 
   public void renderPost(GWikiForumPostDescription fd)
@@ -84,6 +92,20 @@ public class GWikiForumActionBean extends ActionBeanBase
       wikiContext.getWikiWeb().serveWiki(wikiContext, el);
     }
     wikiContext.append("<td>");
+  }
+
+  public void renderNewPostButton()
+  {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, getForumDescription().getElementInfo()) == false) {
+      return;
+    }
+    GWikiNewElementMacro nelm = new GWikiNewElementMacro();
+    nelm.setEditPageId("forum1_0/EditPost");
+    nelm.setMetaTemplate("admin/templates/ForumPost1_0MetaTemplate");
+    nelm.setParentPage(getForumDescription().getElementInfo().getId());
+    nelm.setTitle("");
+    nelm.setText("New Post");
+    nelm.renderImpl(wikiContext, new MacroAttributes());
   }
 
   public GWikiForumDescription getForumDescription()
