@@ -1,0 +1,47 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<form class="gwikiForm col" method="post">
+<fieldset>
+<legend>Dump all Threads</legend>
+	<input class="gwikiButton main" type="submit" name="method_onDumpStacktraces" value="Dump Threads"><br/>
+</fieldset>
+<fieldset>
+<legend>Profiler </legend>
+<c:if test="${form.canStart}">
+
+	Thread Sleep Time: <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="20" property="millisecondsToSleep" /><br/>
+
+	<input class="gwikiButton main" type="submit" name="method_onStart" value="Start"> 
+</c:if>
+<c:if test="${form.active && !form.running}">
+	<input class="gwikiButton main" type="submit" name="method_onClear" value="Clear"> 
+</c:if>
+<c:if test="${form.canPause}">
+<input class="gwikiButton reset" type="submit" name="method_onPause" value="Pause"> 
+</c:if>
+<c:if test="${form.canStop}">
+<%-- <input class="submit main" type="submit" name="method_onPause" value="Pause"><br/>  --%>
+<input class="gwikiButton reset" type="submit" name="method_onStop" value="Stop"> 
+</c:if>
+<c:if test="${form.canResume}">
+<input class="gwikiButton main" type="submit" name="method_onResume" value="Resume"> 
+</c:if>
+<c:if test="${!form.running && form.active}">
+	<br/>Thread List: <gwiki:checkbox property="dumpThreadList" /><br/>
+	Standard List: <gwiki:checkbox property="dumpStdList" /><br/>
+	<input class="gwikiButton " type="submit" name="method_onDump" value="Dump">
+</c:if>
+</fieldset>
+<c:if test="${form.dumped}">
+<div style="width: 100%; overflow:scroll;">
+<pre style="">
+<% pageContext.getRequest().getAttribute("form").dumpThreads(); %>
+</pre>
+</div>
+</c:if>
+</form>
+
+<% wikiContext.skinInclude("standardfoot"); %>
