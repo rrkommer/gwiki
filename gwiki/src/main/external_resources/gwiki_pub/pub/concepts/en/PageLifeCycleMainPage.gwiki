@@ -1,0 +1,39 @@
+{pageintro}
+Concept for managing future versions of pages with release mechanism.
+{pageintro}
+
+h2. Current situation
+The Wiki itself has no workflow mechanism for release mechanism for new page versions. 
+A wiki page, which will be safed, instantly will be visible.
+For new pages the editor can give the page an private right, so the page will not be visible until finished.
+
+h2. Workflow Concepts
+The worflow concept uses mechanism and processes from version control systems like CVS or SVN.
+
+Before starting an workflow the editor has to decide to create a new branch, select an existant branch
+or edit the page in the head, so after save the page it will be visible immediatelly.
+
+The branch will have a short name and a description and a right required to view and to edit the branch.
+
+Inside the wiki a new branch will be started and will only be visible for people, which has the rights for this 
+branch. 
+The branch is visible including all existant pages - modified inside the branch or not.
+
+The branch can be reviewed and edited. Automatically if an existant page will be modified, a copy
+will be created inside the branch. 
+
+After creating the branch, it will be reviewed.
+Each element inside the branch may be reviewed. The review itself will be stored in the properties
+of the element (who, when, version).
+
+After review the branch has to be planed for going life.
+A branch may have a time stamp, when brach should be merged into the head.
+
+
+h2. Technical solution
+Some catchwords
+- Implement as plugin, so normal Wiki instant editing still is working
+- How to store it in the Virtual File System.
+- Patch internal view per session for branch. Performance versus memory.
+- How to deal with conflicts of editing pages in branch, other branch and head?
+- merging branch in head (going life) may fail, so some parts of the branched are mergen and other not.
