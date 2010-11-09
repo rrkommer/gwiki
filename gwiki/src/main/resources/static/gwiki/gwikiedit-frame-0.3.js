@@ -1,5 +1,11 @@
 //if (!window.console){ window.console.log = function {}; }
 
+function gwikidbglog(msg)
+{
+	if (typeof console=="undefined") return;
+	console.log(msg);
+}
+
 function gwikiSetContentChanged() {
 	gwikiContentChanged = true;
 }
@@ -410,7 +416,7 @@ function gwikicreateEditTab(partName) {
 	$(document)
 			.ready(
 					function() {
-						$("#gwikiwktabs" + pn)
+						var $tabs = $("#gwikiwktabs" + pn)
 								.tabs( {
 									select : function(event, ui) {
 										// ui.tab // anchor element of the selected (clicked) tab
@@ -418,10 +424,23 @@ function gwikicreateEditTab(partName) {
 										// tab contents
 										// ui.index
 										// jQuery('#WikiPreview').html("Loading...");
-
+										
 										if (ui.index != 1) {
 											gwikiRestoreFromRte(pn);
 										}
+										if (ui.index == 0) {
+											var frmqs = jQuery("#editForm").serialize();
+											jQuery
+													.ajax( {
+														cache : false,
+														url : './EditPage?method_onAsyncWikiView=true&partName=' + partName,
+														type : 'POST',
+														dataType : "html",
+														data : frmqs,
+														complete : function(res, status) {
+														}
+													});
+										} else
 										if (ui.index == 1) {
 											var frmqs = jQuery("#editForm").serialize();
 											jQuery
@@ -441,18 +460,19 @@ function gwikicreateEditTab(partName) {
 																	}
 																	$('#gwikihtmledit' + pn).val(res.responseText);
 																	gwikiCreateHtmlEditor(pn, res.responseText);
-																	window
-																			.setTimeout(
-																					"ajustScreen('gwikiWikiEditorFrame" + pn + "')",
-																					50);
-																	// ajustScreen('gwikiWikiEditorFrame');
+//																	window
+//																			.setTimeout(
+//																					"ajustScreen('gwikiWikiEditorFrame" + pn + "')",
+//																					200);
+																	window.setTimeout("gwikiFitTiny('" + pn + "')", 500);
+
 																} else {
 																	alert(res.responseText);
 																}
 															}
 														}
 													});
-										}
+										} else
 										if (ui.index == 2) {
 											var frmqs = jQuery("#editForm").serialize();
 											jQuery
@@ -479,7 +499,11 @@ function gwikicreateEditTab(partName) {
 
 									}
 								});
+						if (gwikiRteDefault) {
+							$tabs.tabs( "select" , 1);	
+						}
 					});
+	
 }
 function isFullScreen()
 {
@@ -642,8 +666,10 @@ function gwikiStdNestedCss(selector)
 
 function dumpDimension(id)
 {
-//	console.log('gwikiFitTiny: ' + id + ': width %d height %d',  $(id).outerWidth(),
-//			 $(id).outerHeight());
+	if (typeof console=="undefined") return;
+	console.log('gwikiFitTiny: ' + id + ': width %d height %d',  $(id).outerWidth(),
+			 $(id).outerHeight());
+	
 }
 function dumpElDimension(id)
 {
@@ -652,12 +678,12 @@ function dumpElDimension(id)
 }
 function gwikiFitTiny(partName)
 {
-//	dumpDimension("#gwikihtmledit" + partName);
-	dumpDimension("#gwikihtmledit" + partName+ "_tbl");
 	var ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (!ed) {
+		gwikidbglog('editor does not exists. ' + 'gwikihtmledit' + partName)
 		return;
 	}
+	dumpDimension("#gwikihtmledit" + partName+ "_tbl");
 	var edc = ed.getContainer();
 	var idcid = $(edc).attr('id');
 	//$(edc).attr('height', '100%');
