@@ -18,12 +18,8 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -32,18 +28,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.xerces.xni.parser.XMLDocumentFilter;
-import org.apache.xerces.xni.parser.XMLInputSource;
-import org.apache.xerces.xni.parser.XMLParserConfiguration;
-import org.cyberneko.html.HTMLConfiguration;
-import org.cyberneko.html.filters.Purifier;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.html.simpleparser.StyleSheet;
-import com.lowagie.text.pdf.PdfWriter;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FileSystem;
@@ -62,7 +46,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderC
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.utils.StringUtils;
-import de.micromata.genome.gwiki.utils.html.PassthroughHtmlFilter;
 import de.micromata.genome.util.matcher.EveryMatcher;
 import de.micromata.genome.util.runtime.CallableX1;
 import de.micromata.genome.util.runtime.RuntimeIOException;
@@ -191,68 +174,69 @@ public class GWikiGenDocActionBean extends ActionBeanBase
 
   }
 
-  void servePdf(String htmlData)
-  {
-    try {
-      XMLParserConfiguration parser = new HTMLConfiguration();
-      Purifier purifier = new Purifier();
-      StringWriter sout = new StringWriter();
-      PassthroughHtmlFilter target = new PassthroughHtmlFilter(sout, "UTF-8");
-      purifier.setDocumentHandler(target);
-      parser.setFeature("http://cyberneko.org/html/features/augmentations", true);
-      parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { purifier, target});
-      XMLInputSource source = new XMLInputSource(null, null, null, new StringReader(htmlData), "UTF-8");
-
-      try {
-        parser.parse(source);
-        htmlData = sout.getBuffer().toString();
-      } catch (Exception ex) {
-        throw new RuntimeException(ex);
-      }
-      htmlData = patchEntities(htmlData);
-
-      ByteArrayOutputStream bout = new ByteArrayOutputStream();
-      Document document = new Document();
-
-      PdfWriter.getInstance(document, bout);
-      // document.open();
-      InputStream is = new ByteArrayInputStream(htmlData.getBytes("UTF-8"));
-      // HtmlParser p = new HtmlParser();
-
-      // p.go(document, new InputSource(is));
-      StyleSheet st = new StyleSheet();
-
-      GenPdfDocHtmlParser p = new GenPdfDocHtmlParser();
-      // does not word, the parser ignores this.
-      p.setEntityResolver(new EntityResolver() {
-
-        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
-        {
-          return new InputSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(systemId));
-        }
-      });
-      p.go(document, new InputSource(is));
-
-      boolean serveHtml = false;
-      if (serveHtml == true) {
-        wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"WikiExport.html\"");
-        wikiContext.getResponse().setContentType("text/html");
-        wikiContext.append(htmlData);
-        wikiContext.flush();
-      } else {
-        wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"WikiExport.pdf\"");
-        wikiContext.getResponse().setContentType("application/pdf");
-        byte[] pdfdata = bout.toByteArray();
-        wikiContext.getResponse().setContentLength(pdfdata.length);
-        IOUtils.copy(new ByteArrayInputStream(pdfdata), wikiContext.getResponse().getOutputStream());
-        wikiContext.getResponse().getOutputStream().flush();
-      }
-    } catch (RuntimeException ex) {
-      throw ex;
-    } catch (Exception ex) {
-      throw new RuntimeException(ex);
-    }
-  }
+  // does not render a usefull format
+  // void servePdf(String htmlData)
+  // {
+  // try {
+  // XMLParserConfiguration parser = new HTMLConfiguration();
+  // Purifier purifier = new Purifier();
+  // StringWriter sout = new StringWriter();
+  // PassthroughHtmlFilter target = new PassthroughHtmlFilter(sout, "UTF-8");
+  // purifier.setDocumentHandler(target);
+  // parser.setFeature("http://cyberneko.org/html/features/augmentations", true);
+  // parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { purifier, target});
+  // XMLInputSource source = new XMLInputSource(null, null, null, new StringReader(htmlData), "UTF-8");
+  //
+  // try {
+  // parser.parse(source);
+  // htmlData = sout.getBuffer().toString();
+  // } catch (Exception ex) {
+  // throw new RuntimeException(ex);
+  // }
+  // htmlData = patchEntities(htmlData);
+  //
+  // ByteArrayOutputStream bout = new ByteArrayOutputStream();
+  // Document document = new Document();
+  //
+  // PdfWriter.getInstance(document, bout);
+  // // document.open();
+  // InputStream is = new ByteArrayInputStream(htmlData.getBytes("UTF-8"));
+  // // HtmlParser p = new HtmlParser();
+  //
+  // // p.go(document, new InputSource(is));
+  // StyleSheet st = new StyleSheet();
+  //
+  // GenPdfDocHtmlParser p = new GenPdfDocHtmlParser();
+  // // does not word, the parser ignores this.
+  // p.setEntityResolver(new EntityResolver() {
+  //
+  // public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+  // {
+  // return new InputSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(systemId));
+  // }
+  // });
+  // p.go(document, new InputSource(is));
+  //
+  // boolean serveHtml = false;
+  // if (serveHtml == true) {
+  // wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"WikiExport.html\"");
+  // wikiContext.getResponse().setContentType("text/html");
+  // wikiContext.append(htmlData);
+  // wikiContext.flush();
+  // } else {
+  // wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"WikiExport.pdf\"");
+  // wikiContext.getResponse().setContentType("application/pdf");
+  // byte[] pdfdata = bout.toByteArray();
+  // wikiContext.getResponse().setContentLength(pdfdata.length);
+  // IOUtils.copy(new ByteArrayInputStream(pdfdata), wikiContext.getResponse().getOutputStream());
+  // wikiContext.getResponse().getOutputStream().flush();
+  // }
+  // } catch (RuntimeException ex) {
+  // throw ex;
+  // } catch (Exception ex) {
+  // throw new RuntimeException(ex);
+  // }
+  // }
 
   public Object onExport()
   {
@@ -281,9 +265,10 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       simContext.getJspWriter().flush();
       simContext.flush();
       String data = simContext.getJspWriter().getString();
-      if (StringUtils.equals(format, "PDF") == true) {
-        servePdf(data);
-      } else if (StringUtils.equals(format, "DOC") == true) {
+      // if (StringUtils.equals(format, "PDF") == true) {
+      // servePdf(data);
+      // } else
+      if (StringUtils.equals(format, "DOC") == true) {
         serveDoc(data, simContext);
       } else if (StringUtils.equals(format, "HTML") == true) {
         serveHtml(data, simContext);

@@ -18,21 +18,16 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import org.xml.sax.EntityResolver;
-import org.xml.sax.SAXException;
-
-import com.lowagie.text.html.HtmlParser;
-
 /**
- * Pre-Alpha implementation of Pdf exporter.
+ * Pre-Alpha implementation of Pdf exporter. Commented out, because does not work.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GenPdfDocHtmlParser extends HtmlParser
+public class GenPdfDocHtmlParser // extends HtmlParser
 {
-  public void setEntityResolver(EntityResolver resolver) throws SAXException
-  {
-    parser.getParser().setEntityResolver(resolver);
-  }
+  // public void setEntityResolver(EntityResolver resolver) throws SAXException
+  // {
+  // parser.getParser().setEntityResolver(resolver);
+  // }
 }
