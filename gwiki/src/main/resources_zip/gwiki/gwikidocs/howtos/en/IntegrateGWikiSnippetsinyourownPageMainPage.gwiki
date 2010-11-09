@@ -22,6 +22,25 @@ pageContext.include(wikiContext.wikiWeb.servletPath + "/gwikidocs/howtos/en/Inte
 
 You can see a small "ED" link on the right side. With this link, you can directly edit the fragment.
 
-{todo}
-Describe chunk including.
-{todo}
+To include only a part of a wiki page, you can use {{gwikipart}} request parameter/request attribute.
+For instance you want include only the content of a wiki page, you can address the part "MainPage".
+
+Show this page in a new window, only the raw wiki part:
+{usemacro:localName=a|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTextTagMacro}
+{a:href=?gwikipart=MainPage|target=_blank}./?gwikipart=MainPage{a}
+
+If you use named chunks, you can also adress the chunk with request parameter and/or request attribute.
+
+Defines two chunks:
+{chunk:name=FirstChunk}
+This is the First content.
+{chunk}
+{chunk:name=SecondChunk}
+This is the Second content.
+{chunk}
+
+Shows chunks only in a new window:
+{a:href=?gwikipart=MainPage&gwikichunk=FirstChunk|target=_blank}./?gwikipart=MainPage&gwikichunk=FirstChunk{a}
+{a:href=?gwikipart=MainPage&gwikichunk=SecondChunk|target=_blank}./?gwikipart=MainPage&gwikichunk=SecondChunk{a}
+
+See also [gwikidocs/macros/en/Macrochunk].

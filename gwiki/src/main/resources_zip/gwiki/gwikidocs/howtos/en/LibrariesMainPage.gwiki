@@ -13,21 +13,21 @@ Libraries used by GWiki
 |commons-io|1.4|Programming convinience|
 |commons-codec|1.3|Programming convinience|
 |javax.mail,mail|1.4.1|Sending notification emails|
-|org.apache.poi,poi,poi-scratchpad|3.2-FINAL (3.3 may not work)|Parsing Office documents|
+|(org.apache.poi,poi,poi-scratchpad)|3.2-FINAL (3.3 may not work)|Parsing Office documents. Part of plugin.|
 |commons-fileupload|1.2.1|File upload handling|
 |xercesImpl|2.8.1 (other version may conflict with spring version)|XML-Parsing|
 |nekohtml|1.9.13|Parsing HTML|
-|org.apache.pdfbox|0.8.0-incubating|parsing pdf|
+|(org.apache.pdfbox)|0.8.0-incubating|parsing pdf. Part of plugin.|
 |commons-digester|1.8.1|Parsing XML (Tag libaries)|
 |javax.el|1.0|GSPT El-Expression Support|
 |javax.servlet|2.5|Servlet API|
 |com.uwyn.jhighlight|1.0|Code highlight. May replaced later.|
 |taglibs.standard|1.1.2|Standard Taglib|
-|dom4j|1.4|Confluence Data import (Optional)|
+|(dom4j)|1.4|Confluence Data import (Optional). Part of plugin.|
 |jstl|1.1.2|Standard JSP taglibrary|
 |javax.servlet.jsp|2.1|API for JSP. Used by GSPT|
 |commons-dbcp|1.2.1|Optional used for DataSources. May be removed if no database is used or replaced by container implemenation|
 |junit|4.7|JUnits|
-|com.lowagie.itext|2.1.4|Writing PDF. Experimtel only|
+
 
 
