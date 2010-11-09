@@ -67,12 +67,13 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
 		</dependency>
-	
+		<!--  does not work
 		<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.1.4</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
