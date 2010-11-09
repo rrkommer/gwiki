@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageCommentMacroActionBean;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -36,7 +35,7 @@ public class GWikiForumDescription
 
   private List<GWikiForumDescription> childForums = new ArrayList<GWikiForumDescription>();
 
-  private List<GWikiElementInfo> comments = new ArrayList<GWikiElementInfo>();
+  private List<GWikiForumPostDescription> posts = new ArrayList<GWikiForumPostDescription>();
 
   private GWikiElementInfo elementInfo;
 
@@ -60,8 +59,21 @@ public class GWikiForumDescription
   {
     this.wikiContext = wikiContext;
     this.elementInfo = elementInfo;
-    comments = GWikiPageCommentMacroActionBean.getCommentsForPage(wikiContext, elementInfo.getId());
-    childForums = findForums(wikiContext, elementInfo.getId());
+
+    List<GWikiElementInfo> eis = wikiContext.getElementFinder().getPageDirectPages(elementInfo.getId());
+    for (GWikiElementInfo ei : eis) {
+      String mtid = "";
+      if (ei.getMetaTemplate() != null) {
+        mtid = ei.getMetaTemplate().getPageId();
+      }
+      if (StringUtils.equals(mtid, "admin/templates/Forum1_0MetaTemplate") == true) {
+        GWikiForumDescription fd = new GWikiForumDescription(wikiContext, ei);
+        childForums.add(fd);
+      } else if (StringUtils.equals(mtid, "admin/templates/ForumPost1_0MetaTemplate") == true) {
+        GWikiForumPostDescription postdesc = new GWikiForumPostDescription(elementInfo, ei);
+        posts.add(postdesc);
+      }
+    }
   }
 
   public String getTitle()
@@ -71,27 +83,21 @@ public class GWikiForumDescription
 
   public int getThreadCount()
   {
-    int count = 0;
-    for (GWikiElementInfo ei : comments) {
-      if (StringUtils.isEmpty(ei.getProps().getStringValue(GWikiPageCommentMacroActionBean.PROP_REPLY_TO)) == true) {
-        ++count;
-      }
+    int sum = 0;
+    for (GWikiForumPostDescription fd : posts) {
+      sum += fd.getThreadCount();
     }
-    return count;
+    return sum;
   }
 
   public List<GWikiForumPostDescription> getPosts()
   {
-    List<GWikiForumPostDescription> ret = new ArrayList<GWikiForumPostDescription>();
-    for (GWikiElementInfo ci : comments) {
-      ret.add(new GWikiForumPostDescription(elementInfo, ci));
-    }
-    return ret;
+    return posts;
   }
 
   public int getPostCount()
   {
-    return comments.size();
+    return posts.size();
   }
 
   public List<GWikiForumDescription> getChildForums()
@@ -112,16 +118,6 @@ public class GWikiForumDescription
   public void setElementInfo(GWikiElementInfo elementInfo)
   {
     this.elementInfo = elementInfo;
-  }
-
-  public List<GWikiElementInfo> getComments()
-  {
-    return comments;
-  }
-
-  public void setComments(List<GWikiElementInfo> comments)
-  {
-    this.comments = comments;
   }
 
 }
