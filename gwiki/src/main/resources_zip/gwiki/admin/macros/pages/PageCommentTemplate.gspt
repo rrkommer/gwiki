@@ -71,9 +71,14 @@ function onSaveComment()
   <gwiki:hidden styleId="gwiki_pagecomment_pageId" property="pageId" /><!-- TODO:gwikifizieren der Namen -->
   <input type="hidden" id="PageComment_method" name="method_onInit"/> 
   <div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
+  		<c:if test="${form.anonUser}">
+  			User Name: <gwiki:text property="userName" size="40" maxLength="50" />
+  			| Please answer question: <label for="catchaInput"><c:out value="${form.catchaText}"/></label> <gwiki:text property="catchaInput" /><br/>
+  		</c:if>
       <gwiki:textarea styleClass="gwikiTextarea" errorStyleClass="error gwikiTextarea" rows="10" cols="100" property="commentText"/><br/>
-      <input class="gwikiButton main" onclick="onSaveComment()" type="button" value="Speichern">
-      <input  class="gwikiButton reset" onclick="createNewCommentHide()" type="button" value="Abbrechen">
+      <input class="gwikiButton main" onclick="onSaveComment()" type="button" value="Save">
+      <input  class="gwikiButton reset" onclick="createNewCommentHide()" type="button" value="Cancel">
+<%--      <a href="<gwiki:url value="/edit/EditComment"/><c:out value="?replyTo=${form.replyTo}&pageId=${form.pageId}"/>">Fullscreen edit</a>  --%>
       <div class="clearAll">&nbsp;</div>
   </div>
 <%  void renderComments(wikiContext, form, el) { %>
