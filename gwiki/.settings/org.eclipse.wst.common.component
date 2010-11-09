@@ -11,5 +11,8 @@
         <wb-resource deploy-path="/" source-path="/src/plugins/vfolder/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/keywordsmarttags/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/confluenceimporter/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/pdftextextractor/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/msotextextractor/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/pmprofiler/src/main/java"/>
 </wb-module>
 </project-modules>
