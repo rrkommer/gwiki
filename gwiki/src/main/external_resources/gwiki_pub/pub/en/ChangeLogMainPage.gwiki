@@ -4,6 +4,17 @@ Detailed Changelog for GWiki.
 
 
 h2. 0.4.2-SNAPSHOT
+h3. 2010-11-08
+- New Plugin gwiki.pmprofiler for Debugging utils. Contains the Poor Mans Profiler.
+
+h3. 2010-11-07
+- Text extractors for full text search engine can now be defined in plugins
+-- New Plugin gwiki.msotextextractor-1.0.0 for extracting text from MS Office documents
+-- New Plugin gwiki.pdftextextractor-1.0.0 for extracting text from PDF files.
+
+h3. 2010-08-31
+- Jetty Standalone: Possibilty to configure session timeout (JettyConfig.sessionTimeout). Default is 60 minutes.
+h3. 2010-08-21
 - RTE
 -- Fixed leading sleash in link created inside the RTE (GWIKI-3)
 -- Fixed parsing single Line from RTE (GWIKI-5)
