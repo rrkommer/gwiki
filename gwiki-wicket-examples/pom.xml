@@ -12,6 +12,22 @@
 	<packaging>war</packaging>
 	<name>gwiki-wicket-examples</name>
 	<description>Examples showing how to integrate gwiki with wicket</description>
+	<repositories>
+		<repository>
+			<id>micromata_labs</id>
+			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>micromata_labs</id>
+			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
@@ -27,7 +43,6 @@
 				<enabled>false</enabled>
 			</releases>
 		</pluginRepository>
-
 	</pluginRepositories>
 	<build>
 		<resources>

@@ -10,14 +10,27 @@
 	<artifactId>gwiki-webapp</artifactId>
 	<packaging>war</packaging>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-	</build>
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1-beta-1</version>
+						<configuration>
+							<warName>gwiki</warName>
+							<webXml>${basedir}/src/main/config/production/web.xml</webXml>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	
 	<scm>
 		<connection>
@@ -40,6 +53,13 @@
 		<repository>
 			<id>central</id>
 			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>micromata_labs</id>
+			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
