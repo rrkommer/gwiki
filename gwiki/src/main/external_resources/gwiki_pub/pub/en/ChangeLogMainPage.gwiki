@@ -4,6 +4,9 @@ Detailed Changelog for GWiki.
 
 
 h2. 0.4.2-SNAPSHOT
+h3. 2010-12-12
+- Fixed links inside tables. 
+
 h3. 2010-11-08
 - New Plugin gwiki.pmprofiler for Debugging utils. Contains the Poor Mans Profiler.
 
