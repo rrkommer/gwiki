@@ -558,43 +558,8 @@ public class GWikiWikiParser
     GWikiFragmentLink link = new GWikiFragmentLink(s);
     ctx.addFragment(link);
     tks.nextToken();
-    // List<GWikiFragment> fl = parseWordsUntil(tks, ctx, "]");
-    // String s = fl.toString();
-    //    
 
-    if (false) {
-
-      // List<GWikiFragment> frags = parseWordsUntil(tks, ctx, "|]\n");
-      // List<GWikiFragment> titelFrags = null;
-      //
-      // char ct = tks.curToken();
-      // if (ct == '|') {
-      // titelFrags = frags;
-      // tks.nextToken();
-      // frags = parseWordsUntil(tks, ctx, "|]\n");
-      // ct = tks.curToken();
-      // }
-      // if (ct != ']') {
-      // tks.setTokenPos(oldPos);
-      // ctx.addTextFragement("[");
-      // tks.nextToken();
-      // tks.addStopToken(barStop);
-      // return;
-      // }
-      // tks.nextToken();
-      // if (frags.size() != 1 || (frags.get(0) instanceof GWikiFragmentText) == false) {
-      // ctx.addFragment(new GWikiFragmentParseError("Expect text as link target", tks.getLineNoFromTokenOffset(oldPos)));
-      // tks.addStopToken(barStop);
-      // return;
-      // }
-      // String target = ((GWikiFragmentText) frags.get(0)).getSource();
-      // GWikiFragmentLink link = new GWikiFragmentLink(target);
-      // if (titelFrags != null) {
-      // link.addChilds(titelFrags);
-      // }
-      // ctx.addFragment(link);
-      // tks.addStopToken(barStop);
-    }
+    tks.addStopToken(barStop);
   }
 
   protected void parseImage(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
