@@ -1,0 +1,119 @@
+{pageintro}
+GWiki provide an own small solution to manage users.
+This Howto describe how to make usage of other user managment systems.
+{pageintro}
+
+h2. Service Authentification
+The user managment implementation is implemented with the interface {{de.micromata.genome.gwiki.model.GWikiAuthorization}}.
+
+The abstract class {{de.micromata.genome.gwiki.auth.GWikiAuthorizationBase}} provides basic mechanism. 
+
+The interface is designed to have no user object and operates only with strings as rights. You have to be able
+to add new rights in your user management. See also [gwikidocs/help/en/GWikiRights] for the rights GWiki uses.
+
+Something like user groups, roles (as a group of rights) should be a private detail of the user managment itself.
+
+
+h2. Create Adapter
+To create an Adapter to another&external User Managment, you have to implement an Class derived from {{GWikiAuthorizationBase}}.
+
+{code}
+public class MyAuthorization extends GWikiAuthorizationBase
+{
+...
+}
+{code}
+
+Some important methods:
+The methods 
+  {{public boolean initThread(GWikiContext wikiContext)}}
+and
+  {{public void clearThread(GWikiContext wikiContext);}}
+will be called before and after executing a GWiki element. 
+
+You can use the method initThread f.e. to read user from session and set it into a thread local.
+
+You also use the wikiContext.set/getRequestAttribute() or  set/getSessionAttribute() to store your
+user object in the wikiContext. This methods access directly underlying HttpServletRequest and HttpSession object,
+so you can set this value in an own filter.
+
+In 
+{{boolean isAllowTo(GWikiContext ctx, String right);}}
+you have to test if an user exists (thread local or attribute, see above) and if true if
+the user has given right.
+
+The methods:
+{{ public boolean login(GWikiContext ctx, String user, String password)}}
+and
+{{ public void logout(GWikiContext ctx)}}
+you only need to implement, if you use the gwiki login/logout dialog. 
+
+The methods:
+{{ public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)}}
+and
+{{public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback) }}
+are wrapper to safly running code with a given user.
+In the implementation you have to change user before calling callback and after swich back to orignal user.
+
+Sample code:
+{code}
+ public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
+  {
+    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
+    try {
+      GWikiUserServeElementFilterEvent.setUser(defaultConfig.getUser("gwikisu"));
+      return callback.call();
+    } finally {
+      GWikiUserServeElementFilterEvent.setUser(su);
+    }
+  }
+{code}
+
+The methods 
+{{public Locale getCurrentUserLocale(GWikiContext ctx);}}
+{{ public String getCurrentUserEmail(GWikiContext ctx); }}
+{{ public String getCurrentUserName(GWikiContext ctx); }}
+Provides specific information about the current user.
+
+The Methods 
+{{  public String getUserProp(GWikiContext ctx, String key); }}
+{{ public void setUserProp(GWikiContext ctx, String key, String value, boolean persist); }}
+stores and retrive general user related information. It is up to the implementation where to store these values - sessions, persistant cookies, database or somewhere in the gwiki storage.
+For often used values and slow storage a caching mechanism should be provided.
+
+h2. Register own service implementation
+After written your own MyAuthorization, the class has to be registered. 
+Therefore you have to modify the GWikiContext.xml. (See [gwikidocs/howtos/en/UnderstandingtheGWikiContext.xml]).
+{code:lang=XML}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+      <property name="authorization">
+	<bean class="MyAuthorization" />
+	</property>
+   ...
+      
+     </bean>
+</beans>
+{code}
+
+If your Authorization modul needs further information - like database information etc. - I recoment to configure this also via this Spring Context file and inject the values inside the {{MyAuthorization}} class.
+
+
+h2. Remove/Hide GWiki User Managment pages
+The most simple way to remove the GWiki User Managment pages is just to edit them and give them a right, which nobody has.
+The the corresponding menu items will dissapear.
+
+h2. Replace Login & Logout
+The Logout and Login Pages are normal GWiki elements.
+admin/Logout
+admin/Login
+which can be replaced by own implemenation or redirects.
+To edit this elements you have to search the pages via Admin / All Elements page.
+
+h2. Combined implementations
+
+
+
