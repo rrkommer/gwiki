@@ -10,6 +10,7 @@
 	<property name="stylemmLabsversion" value="style_mmLabs-1.0.0" />
 	<property name="pdftextextractorversion" value="gwiki.pdftextextractor-1.0.0" />
 	<property name="msotextextractorversion" value="gwiki.msotextextractor-1.0.0" />
+	<property name="pmprofilerversion" value="gwiki.pmprofiler-1.0.0" />
 
 
 	<target name="gwiki.forum">
@@ -77,11 +78,20 @@
 		</zip>
 	</target>
 	<target name="gwiki.msotextextractor">
-			<mkdir dir="${plugintarget}" />
-			<delete file="${plugintarget}/${msotextextractorversion}.zip" />
-			<zip zipfile="${plugintarget}/${msotextextractorversion}.zip">
-				<fileset dir="src/plugins/msotextextractor" includes="**/*" excludes="src/">
-				</fileset>
-			</zip>
-		</target>
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${msotextextractorversion}.zip" />
+		<zip zipfile="${plugintarget}/${msotextextractorversion}.zip">
+			<fileset dir="src/plugins/msotextextractor" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.pmprofiler">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${pmprofilerversion}.zip" />
+		<zip zipfile="${plugintarget}/${pmprofilerversion}.zip">
+			<fileset dir="src/plugins/pmprofiler" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+
 </project>
