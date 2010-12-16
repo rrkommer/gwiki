@@ -50,7 +50,11 @@ public interface GWikiAuthorization
   /**
    * Need authorized user to access normal pages.
    * 
-   * @return true if either no auth at all or no athorized user.
+   * Normally looks if in the session an authorized user exists and is valid.
+   * 
+   * If return false, GUI may redirect to login page.
+   * 
+   * @return true if either no auth at all or no authorized user.
    */
   public boolean needAuthorization(GWikiContext ctx);
 
@@ -75,9 +79,21 @@ public interface GWikiAuthorization
    */
   public void logout(GWikiContext ctx);
 
+  /**
+   * 
+   * Return the effective right the page requires.
+   * 
+   * If the given pageRight is not defined (derived) this method checks recursivally in parent pages.
+   * 
+   * @param ctx
+   * @param ei the element to check
+   * @param pageRight the element right, like "AUTH_VIEW" or "AUTH_EDIT"
+   * @return
+   */
   public String getEffectiveRight(GWikiContext ctx, GWikiElementInfo ei, String pageRight);
 
   /**
+   * Check if current user is allowed to view current element.
    * 
    * @param ctx
    * @param ei
@@ -86,6 +102,7 @@ public interface GWikiAuthorization
   public boolean isAllowToView(GWikiContext ctx, GWikiElementInfo ei);
 
   /**
+   * Check if current user is allowed to edit current element.
    * 
    * @param ctx
    * @param ei
@@ -94,6 +111,7 @@ public interface GWikiAuthorization
   public boolean isAllowToEdit(GWikiContext ctx, GWikiElementInfo ei);
 
   /**
+   * Check if current user is allowed to create a new element.
    * 
    * @param ctx
    * @param ei Element to create.
@@ -102,6 +120,7 @@ public interface GWikiAuthorization
   public boolean isAllowToCreate(GWikiContext ctx, GWikiElementInfo ei);
 
   /**
+   * Checks if current user has the given right.
    * 
    * @param ctx
    * @param right if null or empty allways accept
@@ -110,6 +129,7 @@ public interface GWikiAuthorization
   public boolean isAllowTo(GWikiContext ctx, String right);
 
   /**
+   * Same es isAllowTo() but throws Exception if not.
    * 
    * @param ctx
    * @param right if right is null or empty, always accept
@@ -119,6 +139,9 @@ public interface GWikiAuthorization
   public void ensureAllowTo(GWikiContext ctx, String right);
 
   /**
+   * Return the user name of current logged in user.
+   * 
+   * Non-Logged In user may return "anon"
    * 
    * @param ctx
    * @return the current user name, which is logged in in this session.
@@ -126,7 +149,6 @@ public interface GWikiAuthorization
   public String getCurrentUserName(GWikiContext ctx);
 
   /**
-   * 
    * @param ctx
    * @return the current user email, which is logged in in this session.
    */
