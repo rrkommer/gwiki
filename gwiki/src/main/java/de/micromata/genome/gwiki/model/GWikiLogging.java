@@ -22,7 +22,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
  * Simple logging interface.
- *  
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
@@ -30,8 +30,8 @@ public interface GWikiLogging
 {
   /**
    * 
-   * @param message
-   * @param ctx
+   * @param message message of the log
+   * @param ctx Context of log
    * @param keyValues expect pairs of GLogAttributeName and Object with provides toString()
    */
   void debug(String message, GWikiContext ctx, Object... keyValues);
@@ -54,5 +54,12 @@ public interface GWikiLogging
 
   void fatal(String message, GWikiContext ctx, Throwable ex, Object... keyValues);
 
+  /**
+   * Adds a performance entry
+   * 
+   * @param pointName Name of the measurement
+   * @param millis time spend in milli seconds
+   * @param wait time spend in waiting.
+   */
   public void addPerformance(String pointName, long millis, long wait);
 }
