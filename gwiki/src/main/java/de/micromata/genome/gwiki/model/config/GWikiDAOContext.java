@@ -21,6 +21,7 @@ package de.micromata.genome.gwiki.model.config;
 import javax.mail.Session;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.springframework.beans.factory.BeanFactory;
 
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
@@ -37,7 +38,9 @@ import de.micromata.genome.gwiki.model.GWikiStandardEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardMenuProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardSchedulerProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardSessionProvider;
+import de.micromata.genome.gwiki.model.GWikiStandardWikiSelector;
 import de.micromata.genome.gwiki.model.GWikiStorage;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.page.gspt.GWikiJspProcessor;
 import de.micromata.genome.gwiki.page.gspt.GenomeJspProcessor;
 import de.micromata.genome.gwiki.page.impl.i18n.GWikiI18nStandardProvider;
@@ -45,6 +48,7 @@ import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionContentSearcher;
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
 import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
+import de.micromata.genome.util.bean.PrivateBeanUtils;
 
 /**
  * Wiki Bootstrapping Config.
@@ -101,6 +105,25 @@ public class GWikiDAOContext
 
   private GWikiPluginRepository pluginRepository = new GWikiPluginRepository();
 
+  private GWikiWikiSelector wikiSelector = new GWikiStandardWikiSelector();
+
+  private BeanFactory beanFactory;
+
+  public GWikiDAOContext()
+  {
+
+  }
+
+  /**
+   * Copy constructor.
+   * 
+   * @param other instance. must not be null.
+   */
+  public GWikiDAOContext(GWikiDAOContext other)
+  {
+    PrivateBeanUtils.copyInstanceProperties(other, this);
+  }
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -108,6 +131,12 @@ public class GWikiDAOContext
         .append("authorization: ").append(ObjectUtils.toString(authorization)).append("\n") //
     ;
     return sb.toString();
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getBean(String name, Class<T> requiredType)
+  {
+    return (T) beanFactory.getBean(name, requiredType);
   }
 
   public GWikiStorage getStorage()
@@ -288,6 +317,26 @@ public class GWikiDAOContext
   public void setMenuProvider(GWikiMenuProvider menuProvider)
   {
     this.menuProvider = menuProvider;
+  }
+
+  public GWikiWikiSelector getWikiSelector()
+  {
+    return wikiSelector;
+  }
+
+  public void setWikiSelector(GWikiWikiSelector wikiSelector)
+  {
+    this.wikiSelector = wikiSelector;
+  }
+
+  public BeanFactory getBeanFactory()
+  {
+    return beanFactory;
+  }
+
+  public void setBeanFactory(BeanFactory beanFactory)
+  {
+    this.beanFactory = beanFactory;
   }
 
 }

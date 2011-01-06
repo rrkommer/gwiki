@@ -62,7 +62,9 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
     actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
     actx.refresh();
     beanFactory = actx;
-    return (GWikiDAOContext) actx.getBean("GWikiBootstrapConfig");
+    GWikiDAOContext daoContext = (GWikiDAOContext) actx.getBean("GWikiBootstrapConfig");
+    daoContext.setBeanFactory(beanFactory);
+    return daoContext;
   }
 
   public String getFileName()
