@@ -97,12 +97,12 @@ public class GWikiKeywordLoadElementInfosFilter implements GWikiLoadElementInfos
     keywordsToElements = null;
   }
 
-  public void fillKeyWords(GWikiContext wikiContext, Map<String, GWikiElementInfo> eis)
+  public void fillKeyWords(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis)
   {
     keywordsToElements = new HashMap<String, Map<String, Pair<Pattern, List<GWikiElementInfo>>>>();
     keywordsToElements.clear();
-    for (Map.Entry<String, GWikiElementInfo> me : eis.entrySet()) {
-      addKeywords(wikiContext, me.getValue());
+    for (GWikiElementInfo me : eis) {
+      addKeywords(wikiContext, me);
     }
   }
 
@@ -110,7 +110,7 @@ public class GWikiKeywordLoadElementInfosFilter implements GWikiLoadElementInfos
       GWikiLoadElementInfosFilterEvent event)
   {
     chain.nextFilter(event);
-    fillKeyWords(event.getWikiContext(), event.getPageInfos());
+    fillKeyWords(event.getWikiContext(), event.getPageInfos().values());
     return null;
   }
 
@@ -119,7 +119,7 @@ public class GWikiKeywordLoadElementInfosFilter implements GWikiLoadElementInfos
     if (keywordsToElements != null) {
       return keywordsToElements;
     }
-    fillKeyWords(wikiContext, wikiContext.getWikiWeb().getPageInfos());
+    fillKeyWords(wikiContext, wikiContext.getWikiWeb().getElementInfos());
     return keywordsToElements;
   }
 
