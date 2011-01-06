@@ -209,6 +209,9 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    */
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
   {
+    if (lockFile == null) {
+      lockFile = StdFileSystem.STD_LOCKFILENAME;
+    }
     return parentFileSystem.runInTransaction(getFqName(lockFile), timeOut, noModFs, callback);
   }
 
