@@ -60,7 +60,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   protected boolean init()
   {
     String queryS = "PROP:PAGEID like \"admin/config/*\" and NOT (PROP:PAGEID like \"admin/config*/*\") and PROP:PAGEID like \"*Config\" ";
-    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getPageInfos());
+    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getElementInfos(), wikiContext.getWikiWeb().getElementInfoCount());
     QueryResult result = wikiContext.getWikiWeb().getDaoContext().getContentSearcher().search(wikiContext, query);
     for (SearchResult sr : result.getResults()) {
       String pid = sr.getPageId();
