@@ -328,8 +328,8 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   public List<SearchResult> search(GWikiContext ctx, Matcher<String> matcher, int maxCount)
   {
     List<SearchResult> ret = new ArrayList<SearchResult>();
-    Collection<GWikiElementInfo> allPis = ctx.getWikiWeb().getPageInfos().values();
-    List<SearchResult> alls = new ArrayList<SearchResult>();
+    Iterable<GWikiElementInfo> allPis = ctx.getWikiWeb().getElementInfos();
+    List<SearchResult> alls = new ArrayList<SearchResult>(ctx.getWikiWeb().getElementInfoCount());
     for (GWikiElementInfo ei : allPis) {
       alls.add(new SearchResult(ei));
     }
