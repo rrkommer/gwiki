@@ -56,7 +56,7 @@ public class GWikiForumReadFilter implements GWikiServeElementFilter
     }
 
     String queryS = "prop:MODIFIEDAT > " + rc.getLastReadS();
-    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getPageInfos());
+    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb());
 
     QueryResult sr = wikiContext.getWikiWeb().getDaoContext().getContentSearcher().search(wikiContext, query);
     if (sr.getFoundItems() == 0) {
