@@ -207,10 +207,10 @@ public class GWikiTestBuilder
   {
     StandaloneHttpServletRequest req = createReq("index");
     StandaloneHttpServletResponse resp = createResp();
-    if (servlet.wiki == null) {
+    if (servlet.hasWikiWeb() == false) {
       servlet.initWiki(req, resp);
     }
-    lastWikiContext = new GWikiContext(servlet.wiki, servlet, req, resp);
+    lastWikiContext = new GWikiContext(servlet.getWikiWeb(), servlet, req, resp);
     GWikiContext.setCurrent(lastWikiContext);
     return lastWikiContext;
   }
