@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.page.search.expr;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
         }
         rebuildIndex(wikiContext, eil, false);
       } else {
-        rebuildIndex(wikiContext, wikiContext.getWikiWeb().getPageInfos().values(), true);
+        rebuildIndex(wikiContext, wikiContext.getWikiWeb().getElementInfos(), true);
       }
     } catch (Exception ex) {
       GWikiLog.warn("Job failed: " + SearchExpressionIndexerCallback.class.getName() + "; " + ex.getMessage(), ex);
@@ -67,12 +66,12 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
     GWikiFileStorage storage = (GWikiFileStorage) wikiContext.getWikiWeb().getStorage();
     // TODO gwiki read lock
     GWikiElement el = storage.loadElementImpl(ei);
-    Map<String, GWikiArtefakt<?>> parts = storage.getParts(el);
-    Map<String, GWikiArtefakt<?>> cp = new HashMap<String, GWikiArtefakt<?>>();
-    Map<String, GWikiArtefakt<?>> np = new HashMap<String, GWikiArtefakt<?>>();
+    Map<String, GWikiArtefakt< ? >> parts = storage.getParts(el);
+    Map<String, GWikiArtefakt< ? >> cp = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt< ? >> np = new HashMap<String, GWikiArtefakt< ? >>();
     cp.putAll(parts);
     pe.onPersist(wikiContext, storage, el, parts);
-    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
       if (cp.containsKey(me.getKey()) == false) {
         np.put(me.getKey(), me.getValue());
       }
@@ -80,7 +79,7 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
     storage.storeImplNoTrans(el, np);
   }
 
-  public void rebuildIndex(final GWikiContext wikiContext, final Collection<GWikiElementInfo> eis, final boolean completeIndex)
+  public void rebuildIndex(final GWikiContext wikiContext, final Iterable<GWikiElementInfo> eis, final boolean completeIndex)
   {
 
     wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {

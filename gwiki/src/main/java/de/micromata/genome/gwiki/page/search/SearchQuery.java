@@ -25,6 +25,7 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
@@ -65,11 +66,33 @@ public class SearchQuery
 
   }
 
+  /**
+   * TODO look callstack
+   * 
+   * @param searchExpression
+   * @param elems
+   */
+  @Deprecated
   public SearchQuery(String searchExpression, Map<String, GWikiElementInfo> elems)
   {
     this.searchExpression = searchExpression;
     List<SearchResult> srl = new ArrayList<SearchResult>(elems.size());
     for (GWikiElementInfo wi : elems.values()) {
+      srl.add(new SearchResult(wi));
+    }
+    this.results = srl;
+  }
+
+  public SearchQuery(String searchExpression, GWikiWeb wikiWeb)
+  {
+    this(searchExpression, wikiWeb.getElementInfos(), wikiWeb.getElementInfoCount());
+  }
+
+  public SearchQuery(String searchExpression, Iterable<GWikiElementInfo> elems, int elemCount)
+  {
+    this.searchExpression = searchExpression;
+    List<SearchResult> srl = new ArrayList<SearchResult>(elemCount);
+    for (GWikiElementInfo wi : elems) {
       srl.add(new SearchResult(wi));
     }
     this.results = srl;
