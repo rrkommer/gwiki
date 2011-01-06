@@ -20,7 +20,7 @@ if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
 <%
 int c = 1;
 String queryexpr = "order by prop:MODIFIEDAT desc";
-SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
+SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 query.setMaxCount(20);
 QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
 
