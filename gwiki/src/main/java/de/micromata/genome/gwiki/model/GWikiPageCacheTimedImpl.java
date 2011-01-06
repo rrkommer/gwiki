@@ -189,12 +189,17 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return p.getSecond();
   }
 
-  public Collection<GWikiElementInfo> getPageInfos()
+  public Iterable<GWikiElementInfo> getPageInfos()
   {
     if (logNode == true) {
       GWikiLog.info("getPageInfos: " + this);
     }
     return pageInfoMap.values();
+  }
+
+  public int getElementInfoCount()
+  {
+    return pageInfoMap.size();
   }
 
   public void removePageInfo(String pageId)

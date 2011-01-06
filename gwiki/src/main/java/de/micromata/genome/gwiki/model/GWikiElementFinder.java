@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +70,7 @@ public class GWikiElementFinder
   {
     List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
 
-    for (GWikiElementInfo ei : wikiContext.getWikiWeb().getPageInfos().values()) {
+    for (GWikiElementInfo ei : wikiContext.getWikiWeb().getElementInfos()) {
       if (matcher.match(ei) == true) {
         ret.add(ei);
       }
@@ -154,9 +153,9 @@ public class GWikiElementFinder
   public <T extends GWikiFragment> void iterateAllFragments(String seachExpression, final Class<T> fragmentClass,
       final FragmentCallback<T> callback)
   {
-    Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
+    Iterable<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getElementInfos();
     if (StringUtils.isNotEmpty(seachExpression) == true) {
-      List<SearchResult> sr = new ArrayList<SearchResult>(webInfos.size());
+      List<SearchResult> sr = new ArrayList<SearchResult>(wikiContext.getWikiWeb().getElementInfoCount());
       for (GWikiElementInfo wi : webInfos) {
         sr.add(new SearchResult(wi));
       }

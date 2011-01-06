@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -42,20 +41,19 @@ public interface GWikiPageCache
 
   public GWikiElement getPage(String pageId);
 
-  public Collection<GWikiElementInfo> getPageInfos();
+  /**
+   * 
+   * @return number of element infos in this gwikiweb.
+   */
+  public int getElementInfoCount();
+
+  public Iterable<GWikiElementInfo> getPageInfos();
 
   public void removePageInfo(String pageId);
 
   public boolean hasPageInfo(String pageId);
 
   public void putCachedPage(String pageId, GWikiElement el);
-
-  /**
-   * Use this map for reading only, otherwise event handling will not work.
-   * 
-   * @return
-   */
-  public Map<String, GWikiElementInfo> getPageInfoMap();
 
   public void setPageInfoMap(Map<String, GWikiElementInfo> pageInfos);
 
