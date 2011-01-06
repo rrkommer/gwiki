@@ -33,6 +33,7 @@ import de.micromata.genome.util.matcher.Matcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiPageCacheImpl implements GWikiPageCache
 {
 
@@ -118,6 +119,11 @@ public class GWikiPageCacheImpl implements GWikiPageCache
     cachedPages.put(pageId, el);
   }
 
+  public int getElementInfoCount()
+  {
+    return pageInfoMap.size();
+  }
+
   public Map<String, GWikiElement> getCachedPages()
   {
     return cachedPages;
@@ -126,15 +132,6 @@ public class GWikiPageCacheImpl implements GWikiPageCache
   public void setCachedPages(Map<String, GWikiElement> cachedPages)
   {
     this.cachedPages = cachedPages;
-  }
-
-  public Map<String, GWikiElementInfo> getPageInfoMap()
-  {
-    if (logNode == true) {
-      GWikiLog.info("getPageInfoMap: " + this);
-    }
-
-    return pageInfoMap;
   }
 
   public void setPageInfoMap(Map<String, GWikiElementInfo> pageInfos)

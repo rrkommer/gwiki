@@ -126,4 +126,6 @@ public interface GWikiPropKeys
 
   public static final String ICON_MEDIUM = "ICON_MEDIUM";
 
+  public static final String TENANT_ID = "TENANT_ID";
+
 }

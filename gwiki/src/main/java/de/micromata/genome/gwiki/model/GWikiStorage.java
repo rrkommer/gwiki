@@ -18,7 +18,6 @@
 
 package de.micromata.genome.gwiki.model;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -152,7 +151,7 @@ public interface GWikiStorage
 
   public boolean isArchivePageId(String path);
 
-  public void rebuildIndex(GWikiContext wikiContext, Collection<GWikiElementInfo> eis, boolean completeUpdate);
+  public void rebuildIndex(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis, boolean completeUpdate);
 
   public void setWikiWeb(GWikiWeb wikiWeb);
 

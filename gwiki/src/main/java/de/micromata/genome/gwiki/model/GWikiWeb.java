@@ -60,7 +60,12 @@ public class GWikiWeb
 
   public static final String WIKI_NOCACHE_REQ_PARAM = "wikiNoCache";
 
-  private static GWikiWeb INSTANCE;
+  private String tenantId;
+
+  /**
+   * TODO remove this instance. GWikiServlet.INSTANCE.wiki
+   */
+  // private static GWikiWeb INSTANCE;
 
   private GWikiDAOContext daoContext;
 
@@ -88,6 +93,9 @@ public class GWikiWeb
 
   private String servletPath;
 
+  /**
+   * checked elements for mofications.
+   */
   private ThreadLocal<Set<String>> devModeChecked = new ThreadLocal<Set<String>>() {
 
     @Override
@@ -108,9 +116,15 @@ public class GWikiWeb
     if (GWikiServlet.INSTANCE == null) {
       throw new RuntimeException("Cannot initialize GWikiWeb because no GWikiServlet.INSTANCE can be found");
     }
+    return GWikiServlet.INSTANCE.getWikiWeb();
+  }
 
-    GWikiServlet.INSTANCE.initWiki();
-    return GWikiWeb.get();
+  public static GWikiWeb getRootWiki()
+  {
+    if (GWikiServlet.INSTANCE == null) {
+      throw new RuntimeException("Cannot initialize GWikiWeb because no GWikiServlet.INSTANCE can be found");
+    }
+    return GWikiServlet.INSTANCE.getRootWikiWeb();
   }
 
   public GWikiWeb(GWikiDAOContext daoContext)
@@ -119,11 +133,25 @@ public class GWikiWeb
     daoContext.getStorage().setWikiWeb(this);
 
     getLogging().note("Inited GWiki", null, GLogAttributeNames.Miscellaneous, daoContext.toString());
-    if (INSTANCE == null) {
-      INSTANCE = this;
-    }
+    // if (INSTANCE == null) {
+    // INSTANCE = this;
+    // }
     initPageCache();
     // filter.registerFilter(this, GWikiConfigChangedListener.class);
+  }
+
+  public GWikiWeb(GWikiWeb wikiWeb)
+  {
+    this.contextPath = wikiWeb.contextPath;
+    this.daoContext = wikiWeb.daoContext;
+    this.disableReload = wikiWeb.disableReload;
+    this.filter = wikiWeb.filter;
+    this.lastModCheckTime = wikiWeb.lastModCheckTime;
+    this.lastModCounter = wikiWeb.lastModCounter;
+    this.modCheckTimoutMs = wikiWeb.modCheckTimoutMs;
+    this.servletPath = wikiWeb.servletPath;
+    this.wikiGlobalConfig = wikiWeb.wikiGlobalConfig;
+    // no tenantId
   }
 
   /**
@@ -133,7 +161,10 @@ public class GWikiWeb
    */
   public static GWikiWeb get()
   {
-    return INSTANCE;
+    if (GWikiServlet.INSTANCE == null || GWikiServlet.INSTANCE.hasWikiWeb() == false) {
+      return null;
+    }
+    return getWiki();
   }
 
   protected void initPageCache()
@@ -637,9 +668,14 @@ public class GWikiWeb
     return daoContext.getAuthorization();
   }
 
-  public Map<String, GWikiElementInfo> getPageInfos()
+  public Iterable<GWikiElementInfo> getElementInfos()
   {
-    return daoContext.getPageCache().getPageInfoMap();
+    return daoContext.getPageCache().getPageInfos();
+  }
+
+  public int getElementInfoCount()
+  {
+    return daoContext.getPageCache().getElementInfoCount();
   }
 
   public ContentSearcher getContentSearcher()
@@ -725,5 +761,15 @@ public class GWikiWeb
   public void setContextPath(String contextPath)
   {
     this.contextPath = contextPath;
+  }
+
+  public String getTenantId()
+  {
+    return tenantId;
+  }
+
+  public void setTenantId(String tenantId)
+  {
+    this.tenantId = tenantId;
   }
 }
