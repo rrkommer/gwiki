@@ -59,7 +59,7 @@ public class FsDavResourceFactory implements ResourceFactory
       return storage;
     }
 
-    GWikiStorage wkStorage = GWikiServlet.INSTANCE.wiki.getStorage();
+    GWikiStorage wkStorage = GWikiServlet.INSTANCE.getWikiWeb().getStorage();
     if (wkStorage instanceof GWikiFileStorage) {
       storage = ((GWikiFileStorage) wkStorage).getStorage();
     } else {

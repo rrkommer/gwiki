@@ -84,7 +84,7 @@ public class WebDavServlet extends HttpServlet
     fsfac.setInternalPass(internalPass);
     fsfac.setWordHtmlEdit(wordHtmlEdit);
     if (wordHtmlEdit == true) {
-      httpManager = new HttpManager(new FsDavOfficeResourceFactory(GWikiServlet.INSTANCE.wiki, fsfac), responseHandler);
+      httpManager = new HttpManager(new FsDavOfficeResourceFactory(GWikiServlet.INSTANCE.getWikiWeb(), fsfac), responseHandler);
     } else {
       httpManager = new HttpManager(fsfac, responseHandler);
     }
@@ -113,7 +113,7 @@ public class WebDavServlet extends HttpServlet
   {
     logRequest(req);
 
-    GWikiContext ctx = new GWikiContext(GWikiServlet.INSTANCE.wiki, GWikiServlet.INSTANCE, req, resp);
+    GWikiContext ctx = new GWikiContext(GWikiServlet.INSTANCE.getWikiWeb(), GWikiServlet.INSTANCE, req, resp);
 
     try {
       GWikiContext.setCurrent(ctx);
