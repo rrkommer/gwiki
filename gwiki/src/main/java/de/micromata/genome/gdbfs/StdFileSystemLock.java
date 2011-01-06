@@ -85,7 +85,7 @@ public class StdFileSystemLock
       channel = new RandomAccessFile(file, "rws").getChannel();
       // System.out.println("channel opened: " + file.getName());
     } catch (IOException ex) {
-      throw new RuntimeIOException("Cannot aquire Lock file: " + file + "; " + ex.getMessage(), ex);
+      throw new RuntimeIOException("Cannot aquire Lock file: " + file.getAbsolutePath() + "; " + ex.getMessage(), ex);
     }
   }
 
@@ -110,7 +110,9 @@ public class StdFileSystemLock
   {
     try {
       // Release the lock
-      lock.release();
+      if (lock != null) {
+        lock.release();
+      }
     } catch (IOException ex) {
       ;
     }

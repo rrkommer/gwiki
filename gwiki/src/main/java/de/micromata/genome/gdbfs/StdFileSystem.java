@@ -48,6 +48,8 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  */
 public class StdFileSystem extends AbstractFileSystem
 {
+  public static final String STD_LOCKFILENAME = ".fslock";
+
   /**
    * always true, only for unittest may will be false.
    */
@@ -59,7 +61,7 @@ public class StdFileSystem extends AbstractFileSystem
 
   private String canonRoot;
 
-  private String globalLockFileName = ".fslock";
+  private String globalLockFileName = STD_LOCKFILENAME;
 
   private StdFileSystemLock globalLock;
 
@@ -157,6 +159,7 @@ public class StdFileSystem extends AbstractFileSystem
   {
     String cn;
     try {
+      // TODO note: this is on windows a very expensive method:
       cn = f.getCanonicalPath();
     } catch (IOException ex) {
       throw new FsInvalidNameException("Cannot resolve filename: " + f.getName() + "; " + ex.getMessage(), ex);
