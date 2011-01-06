@@ -23,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -185,6 +184,11 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  protected GWikiElementInfo afterPageInfoLoad(FsObject fo, GWikiElementInfo el, final Map<String, GWikiElementInfo> ret)
+  {
+    return el;
+  }
+
   /**
    * note: must synchronized, because otherwise deadlock with storege
    * 
@@ -202,6 +206,7 @@ public class GWikiFileStorage implements GWikiStorage
 
         wikiWeb.getLogging().addPerformance("Fs.ListPageInfoFiles", System.currentTimeMillis() - stms, 0);
         stms = System.currentTimeMillis();
+
         for (FsObject fo : elements) {
           String e = storage2WikiPath(fo.getName());
           GWikiProps p = new GWikiProps(loadProperties(e));
@@ -209,7 +214,10 @@ public class GWikiFileStorage implements GWikiStorage
           String id = e.substring(0, e.length() - "Settings.properties".length());
           el.setId(id);
           p.setStringValue(GWikiPropKeys.PAGEID, id);
-          ret.put(id, el);
+          el = afterPageInfoLoad(fo, el, ret);
+          if (el != null) {
+            ret.put(id, el);
+          }
         }
         wikiWeb.getLogging().addPerformance("Fs.LoadPageInfos", System.currentTimeMillis() - stms, 0);
         resolvePageInfos(ret);
@@ -785,7 +793,7 @@ public class GWikiFileStorage implements GWikiStorage
    * 
    * @see de.micromata.genome.gwiki.model.GWikiStorage#rebuildIndex(java.util.Collection)
    */
-  public void rebuildIndex(GWikiContext wikiContext, Collection<GWikiElementInfo> eis, boolean completeUpdate)
+  public void rebuildIndex(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis, boolean completeUpdate)
   {
     Map<String, WordIndexTextArtefakt> textIndice = new HashMap<String, WordIndexTextArtefakt>();
     IndexStoragePersistHandler pe = new IndexStoragePersistHandler();
