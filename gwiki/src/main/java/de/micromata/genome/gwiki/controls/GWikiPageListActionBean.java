@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.controls;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -195,8 +194,8 @@ public class GWikiPageListActionBean extends ActionBeanBase
     String searchExpr = "";
     try {
       // String reqDump = getReqDump();
-      Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
-      List<SearchResult> sr = new ArrayList<SearchResult>(webInfos.size());
+      Iterable<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getElementInfos();
+      List<SearchResult> sr = new ArrayList<SearchResult>(wikiContext.getWikiWeb().getElementInfoCount());
       for (GWikiElementInfo wi : webInfos) {
         if (filterBeforeQuery(wi) == true) {
           sr.add(new SearchResult(wi));

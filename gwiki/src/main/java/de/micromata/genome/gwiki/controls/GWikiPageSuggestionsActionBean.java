@@ -55,7 +55,7 @@ public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean
       }
       queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
     }
-    SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
+    SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
     query.setMaxCount(1000);
     QueryResult qr = filter(query);

@@ -91,7 +91,7 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     }
     renderSearchOps(q);
 
-    SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb().getPageInfos());
+    SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
     query.setMaxCount(1000);
     QueryResult qr = filter(query);

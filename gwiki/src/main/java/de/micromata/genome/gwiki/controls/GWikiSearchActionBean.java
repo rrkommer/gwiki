@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.controls;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -115,8 +114,8 @@ public class GWikiSearchActionBean extends ActionBeanBase
       wikiContext.addValidationError("gwiki.page.edit.Search.message.nosearchexpression");
       return null;
     }
-    Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
-    List<SearchResult> sr = new ArrayList<SearchResult>(webInfos.size());
+    Iterable<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getElementInfos();
+    List<SearchResult> sr = new ArrayList<SearchResult>(wikiContext.getWikiWeb().getElementInfoCount());
     for (GWikiElementInfo wi : webInfos) {
       sr.add(new SearchResult(wi));
     }
@@ -132,7 +131,7 @@ public class GWikiSearchActionBean extends ActionBeanBase
       totalFound = qr.getTotalFoundItems();
 
       searchMessage = translate("gwiki.page.edit.Search.message.pagefound", qr.getTotalFoundItems(), wikiContext.getWikiWeb()
-          .getPageInfos().size(), (qr.getSearchTime()), searchOffset, (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages
+          .getElementInfoCount(), (qr.getSearchTime()), searchOffset, (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages
           .size())));
 
     } catch (InvalidMatcherGrammar ex) {

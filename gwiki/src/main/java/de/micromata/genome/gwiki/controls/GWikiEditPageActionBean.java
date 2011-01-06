@@ -535,7 +535,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
 
     GWikiWeb wikiWeb = getWikiContext().getWikiWeb();
-    for (GWikiElementInfo ei : wikiWeb.getPageInfos().values()) {
+    for (GWikiElementInfo ei : wikiWeb.getElementInfos()) {
       if (StringUtils.equals(ei.getParentId(), elementToEdit.getElementInfo().getId()) == true) {
         wikiContext.addValidationError("gwiki.edit.EditPage.message.cannotdeletebecausechilds", ei.getId());
         break;
