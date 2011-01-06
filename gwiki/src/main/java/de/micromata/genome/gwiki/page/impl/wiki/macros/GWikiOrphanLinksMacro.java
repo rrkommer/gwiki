@@ -18,7 +18,6 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +65,9 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
   {
     String se = StringUtils.defaultString(searchExpression);
 
-    Collection<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getPageInfos().values();
+    Iterable<GWikiElementInfo> webInfos = wikiContext.getWikiWeb().getElementInfos();
     if (StringUtils.isNotEmpty(se) == true) {
-      List<SearchResult> sr = new ArrayList<SearchResult>(webInfos.size());
+      List<SearchResult> sr = new ArrayList<SearchResult>(wikiContext.getWikiWeb().getElementInfoCount());
       for (GWikiElementInfo wi : webInfos) {
         sr.add(new SearchResult(wi));
       }
