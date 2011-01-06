@@ -47,7 +47,6 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
@@ -66,9 +65,10 @@ public class GWikiServlet extends HttpServlet
 
   private static final long serialVersionUID = 5250118043302579360L;
 
+  /**
+   * Root dao context.
+   */
   private GWikiDAOContext daoContext;
-
-  public GWikiWeb wiki;
 
   /**
    * WebDAV
@@ -84,6 +84,21 @@ public class GWikiServlet extends HttpServlet
   public GWikiServlet()
   {
     INSTANCE = this;
+  }
+
+  public GWikiWeb getWikiWeb()
+  {
+    return daoContext.getWikiSelector().getWikiWeb(this);
+  }
+
+  public GWikiWeb getRootWikiWeb()
+  {
+    return daoContext.getWikiSelector().getRootWikiWeb(this);
+  }
+
+  public boolean hasWikiWeb()
+  {
+    return daoContext.getWikiSelector().hasWikiWeb(this);
   }
 
   @Override
@@ -104,62 +119,38 @@ public class GWikiServlet extends HttpServlet
       GWikiBootstrapConfigLoader loader = ClassUtils.createDefaultInstance(className, GWikiBootstrapConfigLoader.class);
       daoContext = loader.loadConfig(config);
     }
-
   }
 
   public void initWiki(HttpServletRequest req, HttpServletResponse resp)
   {
-    if (wiki != null && wiki.getWikiConfig() != null) {
-      return;
-    }
-    synchronized (this) {
-      GWikiWeb nwiki = new GWikiWeb(daoContext);
-      try {
-        GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
-        if (servletPath == null) {
-          servletPath = ctx.getRealServletPath();
-        }
-        if (contextPath == null) {
-          contextPath = ctx.getRealContextPath();
-        }
-        nwiki.setContextPath(contextPath);
-        GWikiContext.setCurrent(ctx);
-        nwiki.setServletPath(servletPath);
-        nwiki.loadWeb();
-      } finally {
-        GWikiContext.setCurrent(null);
-      }
-      wiki = nwiki;
-    }
-  }
-
-  /**
-   * Init GWiki without any request/response
-   */
-  public void initWiki()
-  {
-    if (wiki != null && wiki.getWikiConfig() != null) {
-      return;
-    }
-    if (servletPath == null || contextPath == null) {
-      throw new RuntimeException("servletPath and contextPath has to be set in GWikiServlet web.xml declaration");
-    }
-    GWikiWeb nwiki = new GWikiWeb(daoContext);
-    GWikiStandaloneContext wikiContext = new GWikiStandaloneContext(nwiki, this, contextPath, servletPath);
-    try {
-      GWikiContext.setCurrent(wikiContext);
-      nwiki.setContextPath(contextPath);
-      nwiki.setServletPath(servletPath);
-      nwiki.loadWeb();
-      wiki = nwiki;
-    } finally {
-      GWikiContext.setCurrent(null);
-    }
+    daoContext.getWikiSelector().initWiki(this, req, resp);
+    // // TODO plc check thread local
+    // if (wiki != null && wiki.getWikiConfig() != null) {
+    // return;
+    // }
+    // synchronized (this) {
+    // GWikiWeb nwiki = new GWikiWeb(daoContext);
+    // try {
+    // GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
+    // if (servletPath == null) {
+    // servletPath = ctx.getRealServletPath();
+    // }
+    // if (contextPath == null) {
+    // contextPath = ctx.getRealContextPath();
+    // }
+    // nwiki.setContextPath(contextPath);
+    // GWikiContext.setCurrent(ctx);
+    // nwiki.setServletPath(servletPath);
+    // nwiki.loadWeb();
+    // } finally {
+    // GWikiContext.setCurrent(null);
+    // }
+    // wiki = nwiki;
+    // }
   }
 
   protected String getWikiPage(GWikiContext ctx)
   {
-
     String servPath = ctx.getRealServletPath();
     String pathInfo = ctx.getRealPathInfo();
     String page = servPath;
@@ -177,6 +168,7 @@ public class GWikiServlet extends HttpServlet
   {
     initWiki(req, resp);
     long start = System.currentTimeMillis();
+    GWikiWeb wiki = getWikiWeb();
     GWikiContext ctx = new GWikiContext(wiki, this, req, resp);
     try {
       GWikiContext.setCurrent(ctx);
@@ -201,6 +193,9 @@ public class GWikiServlet extends HttpServlet
     } finally {
       wiki.getLogging().addPerformance("GWikiServlet.doPost", System.currentTimeMillis() - start, 0);
       GWikiContext.setCurrent(null);
+      if (daoContext != null) {
+        daoContext.getWikiSelector().deinitWiki(this, req, resp);
+      }
     }
   }
 
@@ -299,7 +294,7 @@ public class GWikiServlet extends HttpServlet
     boolean wordHtmlEdit = false;
     fsfac.setWordHtmlEdit(wordHtmlEdit);
     if (wordHtmlEdit == true) {
-      httpManager = new HttpManager(new FsDavOfficeResourceFactory(wiki, fsfac), responseHandler);
+      httpManager = new HttpManager(new FsDavOfficeResourceFactory(getWikiWeb(), fsfac), responseHandler);
     } else {
       httpManager = new HttpManager(fsfac, responseHandler);
     }
@@ -325,6 +320,26 @@ public class GWikiServlet extends HttpServlet
   public void setDAOContext(GWikiDAOContext daoContext)
   {
     this.daoContext = daoContext;
+  }
+
+  public String getContextPath()
+  {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath)
+  {
+    this.contextPath = contextPath;
+  }
+
+  public String getServletPath()
+  {
+    return servletPath;
+  }
+
+  public void setServletPath(String servletPath)
+  {
+    this.servletPath = servletPath;
   }
 
 }
