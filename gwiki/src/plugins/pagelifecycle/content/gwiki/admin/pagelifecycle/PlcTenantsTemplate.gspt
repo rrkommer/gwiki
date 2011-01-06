@@ -1,0 +1,54 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<form class="gwikiForm col" method="post">
+	<input class="gwikiButton main" type="submit" name="method_onListTenants" value="ListTenants"> 
+	<input class="gwikiButton main" type="submit" name="method_onShowTenantPageIds" value="Show Tenant PageIds">
+</form>
+<c:if test="${form.currentTenant != null}">
+	<fieldset>
+	<legend>Current Tenant</legend>
+		<c:out value="${form.currentTenant}"/> 
+		<form class="gwikiForm col" method="post">
+					<input type="hidden" name="selectedTenant" value=""/>
+					<input class="gwikiButton main" type="submit" name="method_onEnterTenant" value="Leave Tenant">
+				</form>
+	</fieldset>
+	</c:if>
+	
+	<c:if test="${form.availableTenants!=null}">
+	<fieldset>
+	<legend>Available Tenants</legend>
+			<ul>
+			<c:forEach var="x" items="${form.availableTenants}">
+			<li>
+				<form class="gwikiForm col" method="post">
+					<c:out value="${x}"/>
+					<input type="hidden" name="selectedTenant" value="<c:out value="${x}"/>"/>
+					<input class="gwikiButton main" type="submit" name="method_onEnterTenant" value="Enter Tenant">
+					<input class="gwikiButton main" type="submit" name="method_onClearTenantCache" value="Clear Tenant Cache">
+					
+				</form>
+			</li>
+		</c:forEach>
+		</ul>
+	
+	</fieldset>
+	</c:if>
+
+<c:if test="${form.tenantPageIds!=null}">
+	<fieldset>
+	<legend>Specific Page IDs</legend>
+			<ul>
+			<c:forEach var="x" items="${form.tenantPageIds}">
+			<li><gwiki:link pageId="${x}"/> (<c:url value="${x}"/>)
+			</li>
+		</c:forEach>
+		</ul>
+	
+	</fieldset>
+	</c:if>
+
+<% wikiContext.skinInclude("standardfoot"); %>
