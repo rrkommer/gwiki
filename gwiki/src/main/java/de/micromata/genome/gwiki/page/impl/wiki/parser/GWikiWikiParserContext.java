@@ -45,7 +45,7 @@ public class GWikiWikiParserContext
   private List<List<GWikiFragment>> frags = new ArrayList<List<GWikiFragment>>();
 
   /**
-   * Current DOM path of parsing. 
+   * Current DOM path of parsing.
    */
   private ArrayStack<GWikiFragment> fragStack = new ArrayStack<GWikiFragment>();
 
@@ -54,6 +54,13 @@ public class GWikiWikiParserContext
   public GWikiWikiParserContext()
   {
 
+  }
+
+  public GWikiWikiParserContext createChildParseContext()
+  {
+    GWikiWikiParserContext ret = new GWikiWikiParserContext();
+    ret.getMacroFactories().putAll(macroFactories);
+    return ret;
   }
 
   public void addFragment(GWikiFragment frag)

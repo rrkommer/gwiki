@@ -556,6 +556,9 @@ public class GWikiWikiParser
       return;
     }
     GWikiFragmentLink link = new GWikiFragmentLink(s);
+    if (link.isTitleDefined() == true) {
+      link.addChilds(parseSubLine(ctx, link.getTitle()));
+    }
     ctx.addFragment(link);
     tks.nextToken();
 
@@ -656,9 +659,19 @@ public class GWikiWikiParser
     } while (true/* tk != 0 */);
   }
 
-  protected boolean isSentenceTerminator(char c)
+  protected boolean isSentenceTerminator(GWikiWikiParserContext ctx, char c)
   {
-    return ".;!?:".indexOf(c) != -1;
+    if (".;!?:".indexOf(c) == -1) {
+      return false;
+    }
+    if (ctx.getFragStack().size() == 0) {
+      return false;
+    }
+    GWikiFragment lfrag = ctx.getFragStack().peek(0);
+    if (lfrag instanceof GWikiFragmentText) {
+      return true;
+    }
+    return false;
   }
 
   protected void parseLineText(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
@@ -685,7 +698,7 @@ public class GWikiWikiParser
       // ctx.addFragment(p);
 
       ctx.addFragment(new GWikiFragmentP());
-    } else if (isSentenceTerminator(preToken)) {
+    } else if (isSentenceTerminator(ctx, preToken)) {
       ctx.addFragment(new GWikiFragmentBr());
     } else if (curToken == '\n') {
       if (tks.peekToken(-1) != '\\') {
@@ -885,6 +898,23 @@ public class GWikiWikiParser
         parseLiLine(tks, ctx);
         break;
     }
+  }
+
+  public List<GWikiFragment> parseSubParagraph(GWikiWikiParserContext otherParseContext, String text)
+  {
+    GWikiWikiParserContext parseContext = otherParseContext.createChildParseContext();
+    parseFrags(text, parseContext);
+    return parseContext.popFragList();
+  }
+
+  public List<GWikiFragment> parseSubLine(GWikiWikiParserContext otherParseContext, String text)
+  {
+    GWikiWikiParserContext ctx = otherParseContext.createChildParseContext();
+    ctx.pushFragList();
+    GWikiWikiTokens tks = createGWikiTokens(text);
+    tks.nextToken();
+    parseLiLine(tks, ctx);
+    return ctx.popFragList();
   }
 
   public GWikiContent parse(GWikiContext wikiContext, String text)
@@ -1133,11 +1163,17 @@ public class GWikiWikiParser
 
   }
 
+  public GWikiWikiTokens createGWikiTokens(String text)
+  {
+    String delimiter = "\n \t \\-*_|{}=#+^~[]!.:?;,\"";
+    GWikiWikiTokens tks = new GWikiWikiTokens(delimiter, text);
+    return tks;
+  }
+
   public void parseFrags(String text, GWikiWikiParserContext ctx)
   {
     ctx.pushFragList();
-    String delimiter = "\n \t \\-*_|{}=#+^~[]!.:?;,\"";
-    GWikiWikiTokens tks = new GWikiWikiTokens(delimiter, text);
+    GWikiWikiTokens tks = createGWikiTokens(text);
     parseText(tks, ctx);
     reworkPs(ctx);
   }
