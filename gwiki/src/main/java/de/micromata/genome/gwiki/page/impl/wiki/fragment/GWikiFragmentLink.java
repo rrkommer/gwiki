@@ -138,7 +138,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
 
   public void renderTitle(GWikiContext ctx, String ttitel)
   {
-    if (titleDefined == true || getChilds().size() == 0) {
+    if (/* titleDefined == true && */getChilds().size() == 0) {
       ctx.append(ttitel);
     } else {
       this.renderChilds(ctx);
