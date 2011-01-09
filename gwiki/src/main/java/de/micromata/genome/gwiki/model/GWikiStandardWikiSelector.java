@@ -63,6 +63,10 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
       try {
         GWikiContext ctx = new GWikiContext(nwiki, servlet, req, resp);
         initServletContext(servlet, nwiki, ctx);
+        // set root wiki before load. because load may call GWikiWiki.get().
+        if (wiki == null) {
+          wiki = nwiki;
+        }
         nwiki.loadWeb();
       } finally {
         GWikiContext.setCurrent(null);
