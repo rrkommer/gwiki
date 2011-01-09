@@ -687,6 +687,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     wikiContext.getResponse().setStatus(201);
     wikiContext.append(sb.toString());
+    wikiContext.flush();
     return noForward();
   }
 
@@ -717,12 +718,14 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       String partName = wikiContext.getRequestParameter("partName");
       if ((parts.get(partName) instanceof GWikiWikiPageArtefakt) == false) {
         wikiContext.append("no part name given");
+        wikiContext.flush();
         return noForward();
       }
       GWikiWikiPageArtefakt wiki = (GWikiWikiPageArtefakt) parts.get(partName);
       wikiContext.append("<div class=\"gwikiContent\">");
       wiki.render(wikiContext);
       wikiContext.append("</div>\n");
+      wikiContext.flush();
       return noForward();
     } catch (Exception ex) {
       GWikiLog.error("Failure onAsyncWikiPreview: " + ex.getMessage(), ex);
@@ -749,6 +752,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       wikiContext.append("<div class=\"gwikiContent\">");
       wiki.render(wikiContext);
       wikiContext.append("</div>\n");
+      wikiContext.flush();
       return noForward();
     } catch (Exception ex) {
       GWikiLog.error("Failure onAsyncRteCode: " + ex.getMessage(), ex);
