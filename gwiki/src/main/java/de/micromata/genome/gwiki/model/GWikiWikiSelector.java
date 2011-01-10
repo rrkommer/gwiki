@@ -70,7 +70,21 @@ public interface GWikiWikiSelector
    */
   GWikiWeb getWikiWeb(GWikiServlet servlet);
 
+  /**
+   * 
+   * @param servlet
+   * @return the root wiki web.
+   */
   GWikiWeb getRootWikiWeb(GWikiServlet servlet);
+
+  /**
+   * return the wikiweb for the tenant.
+   * 
+   * @param servlet
+   * @param tenant
+   * @return null, if tenant is not known.
+   */
+  GWikiWeb getTenantWikiWeb(GWikiServlet servlet, String tenant);
 
   /**
    * Checks if GWikiWeb is already initialized.
