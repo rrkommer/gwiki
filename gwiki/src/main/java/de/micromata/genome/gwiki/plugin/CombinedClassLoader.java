@@ -168,8 +168,10 @@ public class CombinedClassLoader extends URLClassLoader
         Class< ? > cls = cl.loadClass(name);
         return cls;
       } catch (ClassNotFoundException ign) {
+      } catch (NoClassDefFoundError ign2) {
 
       }
+
     }
     throw new ClassNotFoundException(name);
   }
