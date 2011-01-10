@@ -11,6 +11,8 @@
 	<property name="pdftextextractorversion" value="gwiki.pdftextextractor-1.0.0" />
 	<property name="msotextextractorversion" value="gwiki.msotextextractor-1.0.0" />
 	<property name="pmprofilerversion" value="gwiki.pmprofiler-1.0.0" />
+	<property name="pagelifecycleversion" value="gwiki.pagelifecycle-1.0.0" />
+	<property name="gwikischedulerversion" value="gwiki.scheduler-1.0.0" />
 
 
 	<target name="gwiki.forum">
@@ -94,4 +96,22 @@
 		</zip>
 	</target>
 
+	<target name="gwiki.pagelifecycle">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${pagelifecycleversion}.zip" />
+		<zip zipfile="${plugintarget}/${pagelifecycleversion}.zip">
+			<fileset dir="src/plugins/pagelifecycle" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+	<target name="gwiki.scheduler">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${gwikischedulerversion}.zip" />
+		<zip zipfile="${plugintarget}/${gwikischedulerversion}.zip">
+			<fileset dir="src/plugins/gwikischeduler" includes="**/*" excludes="src/">
+			</fileset>
+		</zip>
+	</target>
+
+	
 </project>
