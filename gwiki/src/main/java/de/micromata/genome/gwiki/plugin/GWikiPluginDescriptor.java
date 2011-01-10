@@ -77,6 +77,11 @@ public class GWikiPluginDescriptor
    */
   private Map<String, String> textExtractors = new HashMap<String, String>();
 
+  /**
+   * a class name with a lifecycle listener. Multiple classes may devided by ,.
+   */
+  private String pluginLifecycleListener = "";
+
   public String getName()
   {
     return name;
@@ -165,6 +170,16 @@ public class GWikiPluginDescriptor
   public void setTextExtractors(Map<String, String> textExtractors)
   {
     this.textExtractors = textExtractors;
+  }
+
+  public String getPluginLifecycleListener()
+  {
+    return pluginLifecycleListener;
+  }
+
+  public void setPluginLifecycleListener(String pluginLifecycleListener)
+  {
+    this.pluginLifecycleListener = pluginLifecycleListener;
   }
 
 }

@@ -46,7 +46,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.string.EndsWithMatcher;
+import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
+import de.micromata.genome.util.text.TextSplitterUtils;
 
 /**
  * Repository off all plugins.
@@ -89,6 +91,22 @@ public class GWikiPluginRepository
     return (GWikiPluginDescriptor) bf.getBean("gwikiplugin");
   }
 
+  private void initLifecycleListener(final GWikiWeb wikiWeb, final GWikiPlugin plugin)
+  {
+    wikiWeb.runInPluginContext(new CallableX<Void, RuntimeException>() {
+
+      public Void call() throws RuntimeException
+      {
+        List<String> cll = TextSplitterUtils.parseStringTokenWOD(plugin.getDescriptor().getPluginLifecycleListener(), ',', ' ');
+        for (String cl : cll) {
+          plugin.getLifeCycleListener().add(ClassUtils.createDefaultInstance(cl, GWikiPluginLifecycleListener.class));
+        }
+        return null;
+      }
+    });
+
+  }
+
   private void loadPlugin(GWikiWeb wikiWeb, FsObject dir)
   {
     try {
@@ -126,6 +144,9 @@ public class GWikiPluginRepository
 
   protected void deactivatePlugin(GWikiContext wikiContext, GWikiPlugin plugin)
   {
+    for (GWikiPluginLifecycleListener lcl : plugin.getLifeCycleListener()) {
+      lcl.deactivate(wikiContext.getWikiWeb(), plugin);
+    }
     if (activePlugins.remove(plugin) == false) {
       GWikiLog.warn("Plugin cannot be removed from activePlugin list: " + plugin.getDescriptor().getName());
     }
@@ -136,14 +157,24 @@ public class GWikiPluginRepository
     }
     plugin.setPluginClassLoader(null);
     plugin.setActivated(false);
+    for (GWikiPluginLifecycleListener lcl : plugin.getLifeCycleListener()) {
+      lcl.deactivated(wikiContext.getWikiWeb(), plugin);
+    }
   }
 
-  protected void activatePlugin(GWikiContext wikiContext, GWikiPlugin plugin)
+  protected void initLifecycleManager(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiContext.getWikiWeb());
+    initLifecycleListener(wikiWeb, plugin);
+    for (GWikiPluginLifecycleListener lcl : plugin.getLifeCycleListener()) {
+      lcl.activated(wikiWeb, plugin);
+    }
+  }
+
+  protected void activatePlugin(GWikiWeb wikiWeb, GWikiPlugin plugin)
+  {
+    initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
-
   }
 
   public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
@@ -189,7 +220,8 @@ public class GWikiPluginRepository
       wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
     }
     if (this.activePlugins.contains(plugin) == false) {
-      activatePlugin(wikiContext, plugin);
+      activatePlugin(wikiContext.getWikiWeb(), plugin);
+
       if (reloadAfterActivation == true) {
         wikiContext.getWikiWeb().reloadWeb();
       }
@@ -207,8 +239,11 @@ public class GWikiPluginRepository
 
   private void initPluginClassPath(String name, GWikiPlugin plugin, GWikiWeb wikiWeb)
   {
-    GWikiPluginJavaClassLoader classLoader = new GWikiPluginJavaClassLoader();
+    // Next version: add combined with pending classs loaders
+    GWikiPluginJavaClassLoader classLoader = new GWikiPluginJavaClassLoader(GWikiPluginJavaClassLoader.class.getClassLoader());
     plugin.setPluginClassLoader(classLoader);
+    classLoader.setPluginName(name);
+    // classLoader.setIsolated(true);
     try {
       if (plugin.getFileSystem().exists("classes") == true) {
         classLoader.addClassPath(new SubFileSystem(plugin.getFileSystem(), "classes").getFileObject(""));
@@ -226,9 +261,7 @@ public class GWikiPluginRepository
     if (shouldActivate(name, plugin, wikiWeb, wikiConfig) == false) {
       return;
     }
-    initPluginClassPath(name, plugin, wikiWeb);
-    activePlugins.add(plugin);
-    plugin.setActivated(true);
+    activatePlugin(wikiWeb, plugin);
   }
 
   private void initPlugins(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
@@ -273,6 +306,9 @@ public class GWikiPluginRepository
       }
       if (classLoaders.isEmpty() == false) {
         activePluginClassLoader = new CombinedClassLoader(classLoaders);
+        for (GWikiPlugin plugin : activePlugins) {
+          initLifecycleManager(wikiWeb, plugin);
+        }
       }
     }
   }

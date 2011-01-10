@@ -17,6 +17,9 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.micromata.genome.gdbfs.FileSystem;
 
 /**
@@ -56,6 +59,8 @@ public class GWikiPlugin
    * File system mounted to admin/pluginfs/{pluginname}/*
    */
   private FileSystem mountedFileSystem;
+
+  private List<GWikiPluginLifecycleListener> lifeCycleListener = new ArrayList<GWikiPluginLifecycleListener>();
 
   public GWikiPlugin()
   {
@@ -126,5 +131,15 @@ public class GWikiPlugin
   public void setMountedFileSystem(FileSystem mountedFileSystem)
   {
     this.mountedFileSystem = mountedFileSystem;
+  }
+
+  public List<GWikiPluginLifecycleListener> getLifeCycleListener()
+  {
+    return lifeCycleListener;
+  }
+
+  public void setLifeCycleListener(List<GWikiPluginLifecycleListener> lifeCycleListener)
+  {
+    this.lifeCycleListener = lifeCycleListener;
   }
 }

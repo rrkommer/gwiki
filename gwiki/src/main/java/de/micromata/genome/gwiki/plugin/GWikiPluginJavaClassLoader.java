@@ -66,6 +66,8 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   private boolean isolated = false;
 
+  private String pluginName;
+
   public GWikiPluginJavaClassLoader()
   {
     super(new URL[0], Thread.currentThread().getContextClassLoader());
@@ -92,6 +94,15 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
     super(other.getURLs(), other.getParent());
     this.resPaths = other.resPaths;
     this.isolated = other.isolated;
+  }
+
+  @Override
+  public String toString()
+  {
+    if (pluginName != null) {
+      return pluginName;
+    }
+    return super.toString();
   }
 
   public URL[] getURLs()
@@ -209,6 +220,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       }
       FsObject sclr = rsm.get(clsName);
       byte[] data = sclr.getFileSystem().readBinaryFile(sclr.getName());
+
+      // TODO problem. If isolated, this needs the complete class loader.
+      // super should not be the complete config repository, but only required.
       Class< ? > cls = loadDefine(name, data);
       return cls;
 
@@ -346,5 +360,15 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   public void setEnableCacheMissedClasses(boolean enableCacheMissedClasses)
   {
     this.enableCacheMissedClasses = enableCacheMissedClasses;
+  }
+
+  public String getPluginName()
+  {
+    return pluginName;
+  }
+
+  public void setPluginName(String pluginName)
+  {
+    this.pluginName = pluginName;
   }
 }
