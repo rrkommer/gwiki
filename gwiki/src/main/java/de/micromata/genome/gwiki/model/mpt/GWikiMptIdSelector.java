@@ -67,6 +67,12 @@ public interface GWikiMptIdSelector
    */
   String idIsPartOfTenant(GWikiWeb rootWiki, String pageId);
 
+  /**
+   * 
+   * @param rootWiki the root wiki
+   * @param tenantId id of the wiki
+   * @return null, if no file system for this wiki exists.
+   */
   FileSystem getTenantFileSystem(GWikiWeb rootWiki, String tenantId);
 
 }

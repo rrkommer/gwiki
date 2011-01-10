@@ -104,7 +104,11 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
   public GWikiWeb getWikiWeb(GWikiServlet servlet)
   {
     return getRootWikiWeb(servlet);
+  }
 
+  public GWikiWeb getTenantWikiWeb(GWikiServlet servlet, String tenant)
+  {
+    return null;
   }
 
   public GWikiWeb getRootWikiWeb(GWikiServlet servlet)

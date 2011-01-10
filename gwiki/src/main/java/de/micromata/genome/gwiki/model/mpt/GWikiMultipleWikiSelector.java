@@ -19,6 +19,7 @@ package de.micromata.genome.gwiki.model.mpt;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,23 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
       return wiki;
     }
     return super.getWikiWeb(servlet);
+  }
+
+  @Override
+  public GWikiWeb getTenantWikiWeb(GWikiServlet servlet, String tenant)
+  {
+    GWikiWeb wiki = customWikis.get(tenant);
+    if (wiki != null) {
+      return wiki;
+    }
+    List<String> tenants = mptIdSelector.getTenants(getRootWikiWeb(servlet));
+    if (tenants.contains(tenant) == false) {
+      return null;
+    }
+
+    wiki = createDerivedWiki(servlet, tenant);
+    customWikis.put(tenant, wiki);
+    return wiki;
   }
 
   protected String getTenantId(GWikiServlet servlet, HttpServletRequest req)
