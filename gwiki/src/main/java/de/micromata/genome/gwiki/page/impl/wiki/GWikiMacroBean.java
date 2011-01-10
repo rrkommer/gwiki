@@ -42,6 +42,15 @@ public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRunt
 
   }
 
+  public void populateIfNeeded(MacroAttributes attrs, GWikiContext ctx)
+  {
+    if (populated == true) {
+      return;
+    }
+    populate(attrs, ctx);
+    populated = true;
+  }
+
   protected void populate(MacroAttributes attrs, GWikiContext ctx)
   {
     try {
