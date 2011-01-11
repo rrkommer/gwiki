@@ -17,23 +17,26 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model;
 
-import java.util.Date;
-import java.util.List;
-
-import de.micromata.genome.util.types.Pair;
 
 /**
- * Interface to view Log entries
- * 
- * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
+ * @author Stefan Stützer
  */
-public interface GWikiLogViewer
+public enum GWikiLogLevel
 {
-  public interface Callback
-  {
-    void found(GWikiLogEntry entry);
+  DEBUG(0), INFO(1), NOTE(2), WARN(3), ERROR(4), FATAL(5);
+
+  private int priority;
+
+  GWikiLogLevel(int priority) {
+    this.priority = priority;
   }
 
-  void grep(Date start, Date end, GWikiLogLevel logLevel, String message, List<Pair<String, String>> params, int offset, int maxitems, Callback cb);
+  /**
+   * @return the priority
+   */
+  public int getPriority()
+  {
+    return priority; 
+  }
+  
 }

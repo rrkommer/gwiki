@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.model.GWikiLogging;
+import de.micromata.genome.gwiki.model.GWikiLoggingBufferedLogger;
 import de.micromata.genome.gwiki.model.GWikiLoggingLog4J;
 import de.micromata.genome.gwiki.model.GWikiMenuProvider;
 import de.micromata.genome.gwiki.model.GWikiPageCache;
@@ -69,7 +70,7 @@ public class GWikiDAOContext
 
   private ContentSearcher contentSearcher = new SearchExpressionContentSearcher();
 
-  private GWikiLogging logging = new GWikiLoggingLog4J();
+  private GWikiLogging logging = new GWikiLoggingBufferedLogger(new GWikiLoggingLog4J());
 
   private GWikiSessionProvider sessionProvider = new GWikiStandardSessionProvider();
 

@@ -18,7 +18,9 @@
 
 package de.micromata.genome.gwiki.model;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
@@ -37,58 +39,37 @@ public class GWikiLoggingLog4J extends GWikiLoggingBase
 
   }
 
-  public void debug(String message, GWikiContext ctx, Object... keyValues)
+  /* (non-Javadoc)
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Throwable, java.lang.Object[])
+   */
+  public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Throwable ex, Object... keyValues)
   {
-    log.debug(renderLog(message, ctx, null, keyValues));
+    log.log(mapToLog4jPriority(logLevel), renderLog(message, ctx, ex, keyValues));
   }
-
-  public void error(String message, GWikiContext ctx, Object... keyValues)
+  
+  /* (non-Javadoc)
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Object[])
+   */
+  public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues)
   {
-    log.error(renderLog(message, ctx, null, keyValues));
-
+    log.log(mapToLog4jPriority(logLevel), renderLog(message, ctx, null, keyValues));
   }
-
-  public void error(String message, GWikiContext ctx, Throwable ex, Object... keyValues)
+  
+  /**
+   * @param logLevel 
+   * @return
+   */
+  private Priority mapToLog4jPriority(GWikiLogLevel logLevel)
   {
-    log.error(renderLog(message, ctx, ex, keyValues));
-
-  }
-
-  public void fatal(String message, GWikiContext ctx, Object... keyValues)
-  {
-    log.fatal(renderLog(message, ctx, null, keyValues));
-
-  }
-
-  public void fatal(String message, GWikiContext ctx, Throwable ex, Object... keyValues)
-  {
-    log.fatal(renderLog(message, ctx, ex, keyValues));
-  }
-
-  public void info(String message, GWikiContext ctx, Object... keyValues)
-  {
-    log.info(renderLog(message, ctx, null, keyValues));
-  }
-
-  public void note(String message, GWikiContext ctx, Object... keyValues)
-  {
-    log.info(renderLog(message, ctx, null, keyValues));
-
-  }
-
-  public void note(String message, GWikiContext ctx, Throwable ex, Object... keyValues)
-  {
-    log.info(renderLog(message, ctx, ex, keyValues));
-  }
-
-  public void warn(String message, GWikiContext ctx, Object... keyValues)
-  {
-    log.warn(renderLog(message, ctx, null, keyValues));
-  }
-
-  public void warn(String message, GWikiContext ctx, Throwable ex, Object... keyValues)
-  {
-    log.warn(renderLog(message, ctx, ex, keyValues));
+    switch(logLevel) {
+      case DEBUG: return Level.DEBUG;
+      case NOTE: return Level.INFO;
+      case INFO: return Level.INFO;
+      case WARN: return Level.WARN;
+      case ERROR: return Level.ERROR;
+      case FATAL: return Level.FATAL;
+      default: return Level.INFO;
+    }
   }
 
 }
