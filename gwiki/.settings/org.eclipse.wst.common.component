@@ -14,6 +14,7 @@
         <wb-resource deploy-path="/" source-path="/src/plugins/pdftextextractor/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/msotextextractor/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/pmprofiler/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/plugins/logviewer/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/pagelifecycle/src/main/java"/>
         <wb-resource deploy-path="/" source-path="/src/plugins/gwikischeduler/src/main/java"/>
 </wb-module>

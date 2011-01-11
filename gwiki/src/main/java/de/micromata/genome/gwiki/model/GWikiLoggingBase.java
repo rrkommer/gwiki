@@ -31,7 +31,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public abstract class GWikiLoggingBase implements GWikiLogging
+public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
 {
 
   protected String renderLog(String message, GWikiContext ctx, Throwable ex, Object... keyValues)

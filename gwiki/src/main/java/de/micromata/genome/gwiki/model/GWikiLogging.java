@@ -53,6 +53,10 @@ public interface GWikiLogging
   void error(String message, GWikiContext ctx, Throwable ex, Object... keyValues);
 
   void fatal(String message, GWikiContext ctx, Throwable ex, Object... keyValues);
+  
+  void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Throwable ex, Object... keyValues);
+  
+  void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues);
 
   /**
    * Adds a performance entry
