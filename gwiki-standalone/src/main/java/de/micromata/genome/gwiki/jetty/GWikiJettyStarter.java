@@ -59,7 +59,7 @@ public class GWikiJettyStarter
         public Void call() throws RuntimeException
         {
           SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
-          scb.rebuildIndex(ctx, nwiki.getPageInfos().values(), true);
+          scb.rebuildIndex(ctx, nwiki.getElementInfos(), true);
           return null;
         }
       });
@@ -100,7 +100,7 @@ public class GWikiJettyStarter
       }
       context.setContextPath(jettyConfig.getContextPath());
       context.setResourceBase(jettyConfig.getContextRoot());
-
+      context.getSessionHandler().getSessionManager().setMaxInactiveInterval(jettyConfig.getSessionTimeout());
       GWikiServlet wikiServlet = new GWikiServlet();
       ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
       wikiServlet.setDAOContext(wikibootcfg);
