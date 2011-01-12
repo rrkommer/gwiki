@@ -37,6 +37,11 @@ public class JettyConfig
    */
   private String servletPath = "/";
 
+  /**
+   * Session timeout in seconds.
+   */
+  private int sessionTimeout = 60 * 60;
+
   public int getPort()
   {
     return port;
@@ -75,6 +80,16 @@ public class JettyConfig
   public void setServletPath(String servletPath)
   {
     this.servletPath = servletPath;
+  }
+
+  public int getSessionTimeout()
+  {
+    return sessionTimeout;
+  }
+
+  public void setSessionTimeout(int sessionTimeout)
+  {
+    this.sessionTimeout = sessionTimeout;
   }
 
 }
