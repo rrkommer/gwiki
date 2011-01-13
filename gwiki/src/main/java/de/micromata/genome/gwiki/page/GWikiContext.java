@@ -148,6 +148,21 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return CURRENT_INSTANCE.get();
   }
 
+  /**
+   * get current context. if not set, creates a standalone context.
+   * 
+   * @return
+   */
+  public static GWikiContext getCreateContext()
+  {
+    GWikiContext ctx = getCurrent();
+    if (ctx != null) {
+      return ctx;
+    }
+    ctx = GWikiStandaloneContext.create();
+    return ctx;
+  }
+
   public static void setCurrent(GWikiContext ctx)
   {
     CURRENT_INSTANCE.set(ctx);
