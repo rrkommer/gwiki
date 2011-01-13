@@ -82,6 +82,11 @@ public class GWikiPluginDescriptor
    */
   private String pluginLifecycleListener = "";
 
+  /**
+   * List of required. One String contains: plugin_id:Version-Descriptor
+   */
+  private List<String> requiredPlugins = new ArrayList<String>();
+
   public String getName()
   {
     return name;
@@ -180,6 +185,16 @@ public class GWikiPluginDescriptor
   public void setPluginLifecycleListener(String pluginLifecycleListener)
   {
     this.pluginLifecycleListener = pluginLifecycleListener;
+  }
+
+  public List<String> getRequiredPlugins()
+  {
+    return requiredPlugins;
+  }
+
+  public void setRequiredPlugins(List<String> requiredPlugins)
+  {
+    this.requiredPlugins = requiredPlugins;
   }
 
 }
