@@ -6,6 +6,7 @@
 <form class="gwikiForm col" method="post">
 	<input class="gwikiButton main" type="submit" name="method_onListTenants" value="ListTenants"> 
 	<input class="gwikiButton main" type="submit" name="method_onShowTenantPageIds" value="Show Tenant PageIds">
+	<input type="submit" name="method_onSubmitTestJob" value="Submit test job">
 </form>
 <c:if test="${form.currentTenant != null}">
 	<fieldset>
