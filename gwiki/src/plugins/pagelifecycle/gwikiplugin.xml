@@ -5,6 +5,11 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.pagelifecycle" />
 		<property name="version" value="1.0.0" />
-		<property name="description" value="Plugin for Release Managment" />
+		<property name="description" value="Plugin for Release Management" />
+		<property name="requiredPlugins">
+		<list>
+			<value>gwiki.scheduler:1.0</value>
+		</list>
+		</property>
 	</bean>
 </beans>
