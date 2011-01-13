@@ -58,7 +58,9 @@ public class GWikiPropsDescriptorValue implements Serializable
    * 
    * <li>RIGHT</li>
    * 
-   * <li>STRINGLIST</li>
+   * <li>STRINGLIST: Comma seperated list</li>
+   * 
+   * <li>STRINGMAP: Pipe list</li>
    * 
    * <li>TIMESTAMP</li>
    * 
