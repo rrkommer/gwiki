@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.scheduler_1_0.chronos.spi;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +26,22 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.State;
+import de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SerializationUtil;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
 import de.micromata.genome.gwiki.chronos.spi.ram.RamJobStore;
+import de.micromata.genome.gwiki.chronos.util.ClassJobDefinition;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -47,6 +54,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedJobDefineMacroBean;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedSchedDefineMacroBean;
+import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.web.HostUtils;
 
 /**
@@ -58,6 +66,8 @@ public class GWikiSchedElementJobStore extends RamJobStore
   private static final long RELOAD_PERIOD = 30000;
 
   private long lastLoaded = 0;
+
+  private static final String DYNAMIC_JOBS_PARENT = "admin/system/scheduler/GWikiSchedulerJobs";
 
   @Override
   public List<TriggerJobDO> getNextJobs(final Scheduler scheduler, final boolean foreignJobs)
@@ -127,8 +137,37 @@ public class GWikiSchedElementJobStore extends RamJobStore
         me.getValue().setPk(pk);
         jt.put(pk, me.getValue());
       }
-
     }
+    List<TriggerJobDO> djl = getDynamicJobs();
+    for (TriggerJobDO job : djl) {
+      String schedName = job.getSchedulerName();
+      if (StringUtils.isBlank(schedName) == true) {
+        schedName = "standard";
+
+      }
+      Map<Long, TriggerJobDO> jt = allJobs.get(schedName);
+      if (jt == null) {
+        jt = new HashMap<Long, TriggerJobDO>();
+        allJobs.put(schedName, jt);
+      }
+      jt.put(job.getPk(), job);
+    }
+
+  }
+
+  private List<TriggerJobDO> getDynamicJobs()
+  {
+    List<TriggerJobDO> ret = new ArrayList<TriggerJobDO>();
+    GWikiContext wikiContext = GWikiContext.getCreateContext();
+    GWikiElementInfo pei = wikiContext.getWikiWeb().findElementInfo(DYNAMIC_JOBS_PARENT);
+    if (pei == null) {
+      return ret;
+    }
+    for (GWikiElementInfo ei : wikiContext.getElementFinder().getDirectChilds(pei)) {
+      TriggerJobDO trigger = createJobByPage(ei);
+      ret.add(trigger);
+    }
+    return ret;
   }
 
   SchedulerDO createSchedulerDO(GWikiSchedSchedDefineMacroBean sched)
@@ -230,4 +269,177 @@ public class GWikiSchedElementJobStore extends RamJobStore
     };
     cont.iterate(vis);
   }
+
+  private String getPageIdByJobId(long pk)
+  {
+    return "admin/system/scheduler/job_" + pk;
+  }
+
+  private long getJobIdByPageId(String pageId)
+  {
+    int idx = pageId.lastIndexOf('_');
+    if (idx != -1) {
+      return Long.valueOf(pageId.substring(idx + 1));
+    }
+    return -1;
+  }
+
+  private long getNextJobId(GWikiContext wikiContext)
+  {
+    for (int i = 0; i < 100000; ++i) {
+      String jobId = getPageIdByJobId(i);
+      if (wikiContext.getWikiWeb().findElement(jobId) == null) {
+        return i;
+      }
+    }
+    throw new RuntimeException("Scheduler; cannot find free job pk");
+  }
+
+  private GWikiElement createJobElement(GWikiContext wikiContext, TriggerJobDO job)
+  {
+
+    String metaTemplateId = "admin/templates/intern/SchedJobMetaTemplate";
+    long id = getNextJobId(wikiContext);
+    GWikiElement jobel = GWikiWebUtils.createNewElement(wikiContext, "admin/system/scheduler/job_" + id, metaTemplateId, "Job " + id);
+    job.setPk(id);
+    mapJobToPageInfo(job, jobel.getElementInfo());
+    return jobel;
+  }
+
+  private void mapJobToPageInfo(TriggerJobDO job, GWikiElementInfo ei)
+  {
+    final GWikiProps props = ei.getProps();
+    JobDefinition jd = job.getJobDefinition();
+    if (jd instanceof ClassJobDefinition) {
+      props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_CLASS, ((ClassJobDefinition) jd).getJobClassName());
+    } else {
+      throw new RuntimeException("Cannot support JobDefintion type: " + job.getClass().getName() + "; " + job);
+    }
+    props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_SCHEDULER, job.getSchedulerName());
+    props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_TRIGGER, job.getTriggerDefinition());
+    props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_STATE, State.WAIT.name());
+    props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_ARGS, job.getArgumentDefinitionString());
+    String jobName = job.getJobName();
+    if (StringUtils.isNotBlank(jobName) == true) {
+      props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_NAME, jobName);
+    }
+    props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_ARGS, job.getArgumentDefinitionString());
+    props.setStringValue(GWikiSchedPropKeys.PARENTPAGE, DYNAMIC_JOBS_PARENT);
+  }
+
+  private TriggerJobDO createJobByPage(GWikiElementInfo ei)
+  {
+    TriggerJobDO job = new TriggerJobDO();
+    job.setPk(getJobIdByPageId(ei.getId()));
+    final GWikiProps props = ei.getProps();
+
+    job.setSchedulerName(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_SCHEDULER));
+    job.setCreatedAt(props.getDateValue(GWikiSchedPropKeys.CREATEDAT));
+    job.setModifiedAt(props.getDateValue(GWikiSchedPropKeys.MODIFIEDAT));
+    job.setJobName(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_NAME));
+    job.setJobDefinitionString(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_CLASS));
+    job.setTriggerDefinition(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_TRIGGER));
+    job.setArgumentDefinitionString(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_ARGS));
+    State st = State.fromString(props.getStringValue(GWikiSchedPropKeys.SCHED_JOB_STATE));
+    if (st == null) {
+      st = State.WAIT;
+    }
+    job.setState(st);
+    job.setHostName(HostUtils.getNodeName()); // todo
+    job.setNextFireTime(job.getTrigger().getNextFireTime(new Date()));
+    return job;
+  }
+
+  @Override
+  public void insertJob(TriggerJobDO job)
+  {
+    GWikiContext wikiContext = GWikiContext.getCreateContext();
+    GWikiElement el = createJobElement(wikiContext, job);
+    GWikiLog.note("Scheduler; insertJob: " + job);
+    super.insertJob(job);
+    wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, false);
+  }
+
+  @Override
+  public void jobRemove(final TriggerJobDO job, final JobResultDO jobResult, final Scheduler scheduler)
+  {
+
+    final GWikiContext wikiContext = GWikiContext.getCreateContext();
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+
+      public Void call() throws RuntimeException
+      {
+        GWikiLog.note("Scheduler; jobRemove: " + job);
+        GWikiSchedElementJobStore.super.jobRemove(job, jobResult, scheduler);
+
+        String pageId = getPageIdByJobId(job.getId());
+        GWikiElement el = wikiContext.getWikiWeb().findElement(pageId);
+        if (el != null) {
+          wikiContext.getWikiWeb().getStorage().deleteElement(wikiContext, el);
+        }
+        return null;
+      }
+    });
+
+  }
+
+  @Override
+  public void updateJob(final TriggerJobDO job)
+  {
+    final GWikiContext wikiContext = GWikiContext.getCreateContext();
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+
+      public Void call() throws RuntimeException
+      {
+        GWikiLog.note("Scheduler; updateJob: " + job);
+
+        GWikiSchedElementJobStore.super.updateJob(job);
+        String pageId = getPageIdByJobId(job.getId());
+        GWikiElement el = wikiContext.getWikiWeb().findElement(pageId);
+        if (el != null) {
+          mapJobToPageInfo(job, el.getElementInfo());
+          wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, false);
+        }
+        return null;
+      }
+    });
+
+  }
+
+  @Override
+  public void insertResult(JobResultDO result)
+  {
+    GWikiLog.note("Scheduler; insertResult: " + result);
+    super.insertResult(result);
+  }
+
+  @Override
+  public void jobResultRemove(TriggerJobDO job, JobResultDO jobResult, Scheduler scheduler)
+  {
+    GWikiLog.note("Scheduler; jobResultRemove: " + job);
+    super.jobResultRemove(job, jobResult, scheduler);
+  }
+
+  @Override
+  public void persist(SchedulerDO scheduler)
+  {
+    GWikiLog.note("Scheduler; persist Scheduler: " + scheduler);
+    super.persist(scheduler);
+  }
+
+  @Override
+  public TriggerJobDO reserveJob(TriggerJobDO job)
+  {
+    GWikiLog.note("Scheduler; reserveJob: " + job);
+
+    return super.reserveJob(job);
+  }
+
+  @Override
+  public int setJobState(long pk, String newState, String oldState)
+  {
+    GWikiLog.note("Scheduler; setJobState: " + pk);
+    return super.setJobState(pk, newState, oldState);
+  }
+
 }
