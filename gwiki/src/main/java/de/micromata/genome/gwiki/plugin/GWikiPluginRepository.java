@@ -49,6 +49,7 @@ import de.micromata.genome.util.matcher.string.EndsWithMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.TextSplitterUtils;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Repository off all plugins.
@@ -231,18 +232,80 @@ public class GWikiPluginRepository
 
   private boolean shouldActivate(String name, GWikiPlugin plugin, GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
+    for (GWikiPlugin pg : activePlugins) {
+      if (pg == plugin) {
+        return false;
+      }
+    }
     if (wikiConfig == null) {
       return false;
     }
     return wikiConfig.getActivePlugins().contains(name);
   }
 
+  /*
+   * @return first plugin name, second version condition.
+   */
+  private Pair<String, String> getPluginNameAndVersion(String pnn)
+  {
+    int idx = pnn.indexOf(':');
+    if (idx == -1) {
+      return Pair.make(pnn, "1.0");
+    }
+    return Pair.make(pnn.substring(0, idx), pnn.substring(idx + 1));
+  }
+
+  private ClassLoader getActiveClassLoader(Pair<String, String> pp)
+  {
+    for (GWikiPlugin p : activePlugins) {
+      if (p.getDescriptor().getName().equals(pp.getFirst()) == true) {
+        return p.getPluginClassLoader();
+      }
+    }
+    return null;
+  }
+
+  private ClassLoader getDependingClassLoader(String pnn, GWikiPlugin plugin, GWikiWeb wikiWeb)
+  {
+    Pair<String, String> pp = getPluginNameAndVersion(pnn);
+    ClassLoader ret = getActiveClassLoader(pp);
+    if (ret != null) {
+      return ret;
+    }
+    for (Map.Entry<String, GWikiPlugin> me : plugins.entrySet()) {
+      if (me.getKey().equals(pp.getFirst()) == true) {
+        activatePlugin(wikiWeb, me.getValue());
+        ret = getActiveClassLoader(pp);
+        break;
+      }
+    }
+    if (ret == null) {
+      throw new RuntimeException("Cannot find/load pending plugin " + pnn + " for plugin " + plugin.getDescriptor().getName());
+    }
+    return ret;
+  }
+
+  private ClassLoader getPluginClassLoader(GWikiPlugin plugin, GWikiWeb wikiWeb)
+  {
+    if (plugin.getDescriptor().getRequiredPlugins().isEmpty() == true) {
+      return GWikiPluginJavaClassLoader.class.getClassLoader();
+    }
+    List<ClassLoader> parents = new ArrayList<ClassLoader>();
+    for (String pn : plugin.getDescriptor().getRequiredPlugins()) {
+      parents.add(getDependingClassLoader(pn, plugin, wikiWeb));
+    }
+    CombinedClassLoader cl = new CombinedClassLoader(parents);
+    return cl;
+  }
+
   private void initPluginClassPath(String name, GWikiPlugin plugin, GWikiWeb wikiWeb)
   {
     // Next version: add combined with pending classs loaders
-    GWikiPluginJavaClassLoader classLoader = new GWikiPluginJavaClassLoader(GWikiPluginJavaClassLoader.class.getClassLoader());
+    ClassLoader parentClassLoader = getPluginClassLoader(plugin, wikiWeb);
+    GWikiPluginJavaClassLoader classLoader = new GWikiPluginJavaClassLoader(parentClassLoader);
     plugin.setPluginClassLoader(classLoader);
     classLoader.setPluginName(name);
+
     // classLoader.setIsolated(true);
     try {
       if (plugin.getFileSystem().exists("classes") == true) {
