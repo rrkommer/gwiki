@@ -38,7 +38,8 @@ public class ClassJobDefinition implements JobDefinition
 
   private Map<String, Object> beanProperties = null;
 
-  public Map<String, Object> getBeanProperties() {
+  public Map<String, Object> getBeanProperties()
+  {
     return beanProperties;
   }
 
@@ -61,7 +62,6 @@ public class ClassJobDefinition implements JobDefinition
   {
     this.classToStart = classToStart;
   }
-
 
   protected void populate(FutureJob fj)
   {
@@ -94,8 +94,6 @@ public class ClassJobDefinition implements JobDefinition
     return futureJob;
   }
 
-
-
   public FutureJob getInstance()
   {
     FutureJob fj = createInstance();
@@ -107,5 +105,10 @@ public class ClassJobDefinition implements JobDefinition
   public String toString()
   {
     return "JobDefinition[class=" + classToStart.getCanonicalName() + "]";
+  }
+
+  public String getJobClassName()
+  {
+    return classToStart.getCanonicalName();
   }
 }
