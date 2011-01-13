@@ -18,7 +18,9 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.debug;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -29,6 +31,7 @@ import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMptIdSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.scheduler_1_0.api.GWikiScheduler;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.MatcherBase;
 
@@ -126,6 +129,15 @@ public class PlcTenantsActionBean extends ActionBeanBase
       pids.add(ei.getId());
     }
     tenantPageIds = pids;
+    return null;
+  }
+
+  public Object onSubmitTestJob()
+  {
+    Map<String, String> sm = new HashMap<String, String>();
+    sm.put("A1", "V1");
+    sm.put("A2", "V2");
+    GWikiScheduler.submitJob(null, TestPubJob.class.getName(), "+10000", sm);
     return null;
   }
 
