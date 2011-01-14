@@ -223,5 +223,6 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
   {
     mptIdSelector.setTenant(wikiContext, tenantId);
     initWiki(GWikiServlet.INSTANCE, wikiContext.getRequest(), wikiContext.getResponse());
+    wikiContext.setWikiWeb(THREAD_WIKI.get());
   }
 }

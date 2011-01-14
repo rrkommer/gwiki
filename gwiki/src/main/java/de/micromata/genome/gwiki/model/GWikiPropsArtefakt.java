@@ -41,7 +41,7 @@ public class GWikiPropsArtefakt extends GWikiPersistArtefaktBase<GWikiProps> imp
 
   public GWikiPropsArtefakt()
   {
-
+    this(new GWikiProps());
   }
 
   public GWikiPropsArtefakt(GWikiProps props)
