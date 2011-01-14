@@ -77,7 +77,15 @@ public class Html2WikiFilter extends DefaultFilter
 
   private Set<String> supportedHtmlTags = new HashSet<String>();
 
-  static String[] autoCloseTags = new String[] { "hr", "br"};
+  /**
+   * Tags, which may not be closed in HTML code.
+   */
+  private String[] autoCloseTags = new String[] { "hr", "br"};
+
+  /**
+   * Character, which has to be escaped.
+   */
+  private String specialCharacters = "*-_~^+{}[]!#|\\";
 
   private boolean ignoreWsNl = true;
 
@@ -582,6 +590,31 @@ public class Html2WikiFilter extends DefaultFilter
     super.endElement(element, augs);
   }
 
+  protected String escapeText(String t)
+  {
+    StringBuilder sb = null;
+    for (int i = 0; i < t.length(); ++i) {
+      char c = t.charAt(i);
+      if (specialCharacters.indexOf(c) != -1) {
+        if (sb == null) {
+          sb = new StringBuilder();
+          if (i > 0) {
+            sb.append(t.substring(0, i));
+          }
+        }
+        sb.append("\\").append(c);
+      } else {
+        if (sb != null) {
+          sb.append(c);
+        }
+      }
+    }
+    if (sb != null) {
+      return sb.toString();
+    }
+    return t;
+  }
+
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
     String t = text.toString();
@@ -598,7 +631,7 @@ public class Html2WikiFilter extends DefaultFilter
       return;
     }
     if (StringUtils.isNewLine(t) == false) {
-      parseContext.addTextFragement(t);
+      parseContext.addTextFragement(escapeText(t));
     }
 
     super.characters(text, augs);
@@ -632,6 +665,36 @@ public class Html2WikiFilter extends DefaultFilter
   public void setSimpleTextDecoMap(Map<String, String> simpleTextDecoMap)
   {
     this.simpleTextDecoMap = simpleTextDecoMap;
+  }
+
+  public String[] getAutoCloseTags()
+  {
+    return autoCloseTags;
+  }
+
+  public void setAutoCloseTags(String[] autoCloseTags)
+  {
+    this.autoCloseTags = autoCloseTags;
+  }
+
+  public ArrayStack<GWikiFragment> getAutoCloseTagStack()
+  {
+    return autoCloseTagStack;
+  }
+
+  public void setAutoCloseTagStack(ArrayStack<GWikiFragment> autoCloseTagStack)
+  {
+    this.autoCloseTagStack = autoCloseTagStack;
+  }
+
+  public String getSpecialCharacters()
+  {
+    return specialCharacters;
+  }
+
+  public void setSpecialCharacters(String specialCharacters)
+  {
+    this.specialCharacters = specialCharacters;
   }
 
 }
