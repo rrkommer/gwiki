@@ -69,6 +69,8 @@ public class GWikiSchedElementJobStore extends RamJobStore
 
   private static final String DYNAMIC_JOBS_PARENT = "admin/system/scheduler/GWikiSchedulerJobs";
 
+  private boolean firstLoaded = false;
+
   @Override
   public List<TriggerJobDO> getNextJobs(final Scheduler scheduler, final boolean foreignJobs)
   {
@@ -113,30 +115,33 @@ public class GWikiSchedElementJobStore extends RamJobStore
     if (needReload() == false) {
       return;
     }
-    Map<String, SchedulerDO> nschedulers = new TreeMap<String, SchedulerDO>();
-    Map<String, Map<String, TriggerJobDO>> nallJobs = new TreeMap<String, Map<String, TriggerJobDO>>();
-    GWikiElement el = GWikiWeb.get().findElement("admin/system/scheduler/StandardJobs");
-    if (el != null) {
-      loadJobs(el, nschedulers, nallJobs);
-    }
+    if (firstLoaded == false) {
+      Map<String, SchedulerDO> nschedulers = new TreeMap<String, SchedulerDO>();
+      Map<String, Map<String, TriggerJobDO>> nallJobs = new TreeMap<String, Map<String, TriggerJobDO>>();
+      GWikiElement el = GWikiWeb.get().findElement("admin/system/scheduler/StandardJobs");
+      if (el != null) {
+        loadJobs(el, nschedulers, nallJobs);
+      }
 
-    for (Map.Entry<String, SchedulerDO> p : nschedulers.entrySet()) {
-      this.schedulers.put(p.getKey(), p.getValue());
-    }
-    for (Map.Entry<String, Map<String, TriggerJobDO>> jm : nallJobs.entrySet()) {
-      Map<Long, TriggerJobDO> jt = allJobs.get(jm.getKey());
-      if (jt == null) {
-        jt = new HashMap<Long, TriggerJobDO>();
-        allJobs.put(jm.getKey(), jt);
+      for (Map.Entry<String, SchedulerDO> p : nschedulers.entrySet()) {
+        this.schedulers.put(p.getKey(), p.getValue());
       }
-      for (Map.Entry<String, TriggerJobDO> me : jm.getValue().entrySet()) {
-        long pk = getExistantJobPk(jm.getKey(), me.getKey());
-        if (pk == -1) {
-          pk = getNextJobId();
+      for (Map.Entry<String, Map<String, TriggerJobDO>> jm : nallJobs.entrySet()) {
+        Map<Long, TriggerJobDO> jt = allJobs.get(jm.getKey());
+        if (jt == null) {
+          jt = new HashMap<Long, TriggerJobDO>();
+          allJobs.put(jm.getKey(), jt);
         }
-        me.getValue().setPk(pk);
-        jt.put(pk, me.getValue());
+        for (Map.Entry<String, TriggerJobDO> me : jm.getValue().entrySet()) {
+          long pk = getExistantJobPk(jm.getKey(), me.getKey());
+          if (pk == -1) {
+            pk = getNextJobId();
+          }
+          me.getValue().setPk(pk);
+          jt.put(pk, me.getValue());
+        }
       }
+      firstLoaded = true;
     }
     List<TriggerJobDO> djl = getDynamicJobs();
     for (TriggerJobDO job : djl) {
