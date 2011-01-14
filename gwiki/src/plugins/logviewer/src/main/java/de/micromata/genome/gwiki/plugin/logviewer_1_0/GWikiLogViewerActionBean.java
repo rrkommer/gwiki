@@ -98,7 +98,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
       to = formatDate(toDate, toHour, toMin, toSec);
       from = formatDate(fromDate, fromHour, fromMin, fromSec);
     } catch (ParseException e) {
-      wikiContext.addValidationFieldError("", fromDate);
+      wikiContext.addSimpleValidationError("Date not valid");
     }
     
     List<Pair<String, String>> searchParams = new ArrayList<Pair<String,String>>();
