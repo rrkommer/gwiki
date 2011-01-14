@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.xerces.xni.Augmentations;
 import org.apache.xerces.xni.QName;
 import org.apache.xerces.xni.XMLAttributes;
@@ -76,6 +77,8 @@ public class Html2WikiFilter extends DefaultFilter
 
   private Set<String> supportedHtmlTags = new HashSet<String>();
 
+  static String[] autoCloseTags = new String[] { "hr", "br"};
+
   private boolean ignoreWsNl = true;
 
   private ArrayStack<GWikiFragment> autoCloseTagStack = new ArrayStack<GWikiFragment>();
@@ -96,7 +99,7 @@ public class Html2WikiFilter extends DefaultFilter
 
   private Map<String, String> simpleTextDecoMap = DefaultSimpleTextDecoMap;
 
-  private List<Html2WikiTransformInfo> macroTransformer = new ArrayList<Html2WikiTransformInfo>();
+  private List<Html2WikiTransformer> macroTransformer = new ArrayList<Html2WikiTransformer>();
 
   // protected boolean in
   public static String html2Wiki(String text)
@@ -421,14 +424,26 @@ public class Html2WikiFilter extends DefaultFilter
     return false;
   }
 
+  private boolean isAutoCloseTag(String tagName)
+  {
+    if (ArrayUtils.contains(autoCloseTags, tagName) == true) {
+      return true;
+    }
+    return false;
+  }
+
   protected boolean handleMacroTransformer(String tagName, XMLAttributes attributes, boolean withBody)
   {
-    for (Html2WikiTransformInfo ma : macroTransformer) {
+    for (Html2WikiTransformer ma : macroTransformer) {
       if (ma.match(tagName, attributes, withBody) == true) {
         GWikiFragment frag = ma.handleMacroTransformer(tagName, attributes, withBody);
-        autoCloseTagStack.push(frag);
-        parseContext.addFragment(frag);
-        parseContext.pushFragList();
+        if (frag != null) {
+          if (isAutoCloseTag(tagName) == true) {
+            autoCloseTagStack.push(frag);
+          }
+          parseContext.addFragment(frag);
+          parseContext.pushFragList();
+        }
         return true;
       }
     }
@@ -558,7 +573,11 @@ public class Html2WikiFilter extends DefaultFilter
     } else if (supportedHtmlTags.contains(en) == true) {
       frags = parseContext.popFragList();
       GWikiMacroFragment maf = (GWikiMacroFragment) parseContext.lastFragment();
-      maf.getAttrs().setChildFragment(new GWikiFragmentChildContainer(frags));
+      if (maf != null) {
+        maf.getAttrs().setChildFragment(new GWikiFragmentChildContainer(frags));
+      } else {
+        throw new RuntimeException("No fragment set");
+      }
     }
     super.endElement(element, augs);
   }
@@ -595,12 +614,12 @@ public class Html2WikiFilter extends DefaultFilter
     this.supportedHtmlTags = supportedHtmlTags;
   }
 
-  public List<Html2WikiTransformInfo> getMacroTransformer()
+  public List<Html2WikiTransformer> getMacroTransformer()
   {
     return macroTransformer;
   }
 
-  public void setMacroTransformer(List<Html2WikiTransformInfo> macroTransformer)
+  public void setMacroTransformer(List<Html2WikiTransformer> macroTransformer)
   {
     this.macroTransformer = macroTransformer;
   }
