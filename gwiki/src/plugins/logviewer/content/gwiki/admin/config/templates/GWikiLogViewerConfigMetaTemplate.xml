@@ -25,9 +25,18 @@
 											<property name="key" value="LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
 											<property name="type" value="LONG" />
 											<property name="defaultValue" value="60000" />
-											<property name="label" value="Anzahl zu speichernder Log-Einträge" />
+											<property name="label" value="number of cached entries" />
 											<property name="helpLink"
 												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="LOGVIEWER_LEVEL_THRESHOLD" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="INFO" />
+											<property name="label" value="minimum log level to cache" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_LEVEL_THRESHOLD" />
 										</bean>
 									</list>
 								</property>
