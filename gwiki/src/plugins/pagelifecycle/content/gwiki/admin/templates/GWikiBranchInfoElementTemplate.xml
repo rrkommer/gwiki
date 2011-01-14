@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+		<property name="elementType" value="gwiki" />
+		<!--
+			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+		-->
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="BRANCH_ID" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="BRANCH_1" />
+											<property name="label" value="Name of Branch" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="DESCRIPTION" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="A new release branch" />
+											<property name="label" value="Name of Branch" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
