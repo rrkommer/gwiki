@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 
 public class Html2WikiFilterTest extends TestCase
 {
@@ -69,6 +70,26 @@ public class Html2WikiFilterTest extends TestCase
       s.add(h);
     }
     return Html2WikiFilter.html2Wiki(html, s);
+  }
+
+  public void testSpecialCharacters()
+  {
+    String html = "a *NotBold* b";
+    String wiki = transform(html);
+    System.out.println(wiki);
+    assertEquals("a \\*NotBold\\* b", wiki);
+
+  }
+
+  public void testBlockQuote()
+  {
+    Html2WikiFilter nf = new Html2WikiFilter();
+    // nf.getSupportedHtmlTags().addAll(Html2TextFilter.getH);
+    nf.getMacroTransformer().add(new GWikiQuoteMacroBean().getTransformInfo());
+    nf.getSupportedHtmlTags().add("div");
+    String html = "<blockquote><div class=\"gwikiContent\">bla<br/></div></blockquote>";
+    String wiki = nf.transform(html);
+    System.out.println(wiki);
   }
 
   public void testNestedLi()
