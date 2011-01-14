@@ -6,5 +6,6 @@
 		<property name="name" value="gwiki.logviewer" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="Adds an page for view and serach log messages" />
+		<property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
 	</bean>
 </beans>
