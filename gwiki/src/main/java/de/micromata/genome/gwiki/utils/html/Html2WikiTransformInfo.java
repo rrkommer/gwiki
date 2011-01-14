@@ -36,7 +36,7 @@ import de.micromata.genome.util.matcher.Matcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class Html2WikiTransformInfo
+public class Html2WikiTransformInfo implements Html2WikiTransformer
 {
   public static class AttributeMatcher
   {
@@ -49,6 +49,17 @@ public class Html2WikiTransformInfo
      * should match
      */
     private Matcher<String> valueMatcher;
+
+    public AttributeMatcher()
+    {
+
+    }
+
+    public AttributeMatcher(String name, Matcher<String> valueMatcher)
+    {
+      this.name = name;
+      this.valueMatcher = valueMatcher;
+    }
 
     public String getName()
     {

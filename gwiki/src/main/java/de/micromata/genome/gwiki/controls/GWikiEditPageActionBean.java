@@ -62,6 +62,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
+import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.types.ArrayMap;
@@ -781,9 +782,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     return s;
   }
 
-  protected List<Html2WikiTransformInfo> collectHtml2WikiTransformers()
+  protected List<Html2WikiTransformer> collectHtml2WikiTransformers()
   {
-    List<Html2WikiTransformInfo> transformers = new ArrayList<Html2WikiTransformInfo>();
+    List<Html2WikiTransformer> transformers = new ArrayList<Html2WikiTransformer>();
     GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
     Map<String, GWikiMacroFactory> macros = wikiConfig.getWikiMacros(wikiContext);
     for (Map.Entry<String, GWikiMacroFactory> me : macros.entrySet()) {
@@ -811,6 +812,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       // Html2WikiTransformInfo ti = new Html2WikiTransformInfo("blockquote", "quote",
       // new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class), emtyAttributes);
       // transformers.add(ti);
+
       filter.setMacroTransformer(collectHtml2WikiTransformers());
       String ret = filter.transform(htmlCode);
       wikiContext.append(ret);
