@@ -111,6 +111,11 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
   {
     for (GWikiPlugin plugin : pluginRepository.getActivePlugins()) {
       if (plugin.getGwikiFileSystem() != null && plugin.getGwikiFileSystem().exists(name) == true) {
+        if (plugin.getDescriptor().isPrimaryFsRead(name) == true) {
+          if (primary.exists(name) == true) {
+            return primary;
+          }
+        }
         return plugin.getGwikiFileSystem();
       }
     }

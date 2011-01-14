@@ -22,13 +22,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
+
 /**
  * Descriptor of a GWiki Plugin.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiPluginDescriptor
+public class GWikiPluginDescriptor implements InitializingBean
 {
 
   /**
@@ -86,6 +92,33 @@ public class GWikiPluginDescriptor
    * List of required. One String contains: plugin_id:Version-Descriptor
    */
   private List<String> requiredPlugins = new ArrayList<String>();
+
+  /**
+   * Normally read operation are done in plugin. In some cases the file in the standard fs overwrites plugin files.
+   */
+  private String primaryFsReadMatcherRule = null;
+
+  private Matcher<String> primaryFsReadMatcher = null;
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+   */
+  public void afterPropertiesSet() throws Exception
+  {
+    if (StringUtils.isNotBlank(primaryFsReadMatcherRule) == true) {
+      primaryFsReadMatcher = new BooleanListRulesFactory<String>().createMatcher(primaryFsReadMatcherRule);
+    }
+  }
+
+  public boolean isPrimaryFsRead(String fname)
+  {
+    if (primaryFsReadMatcher == null) {
+      return false;
+    }
+    return primaryFsReadMatcher.match(fname);
+  }
 
   public String getName()
   {
@@ -195,6 +228,26 @@ public class GWikiPluginDescriptor
   public void setRequiredPlugins(List<String> requiredPlugins)
   {
     this.requiredPlugins = requiredPlugins;
+  }
+
+  public String getPrimaryFsReadMatcherRule()
+  {
+    return primaryFsReadMatcherRule;
+  }
+
+  public void setPrimaryFsReadMatcherRule(String primaryFsReadMatcherRule)
+  {
+    this.primaryFsReadMatcherRule = primaryFsReadMatcherRule;
+  }
+
+  public Matcher<String> getPrimaryFsReadMatcher()
+  {
+    return primaryFsReadMatcher;
+  }
+
+  public void setPrimaryFsReadMatcher(Matcher<String> primaryFsReadMatcher)
+  {
+    this.primaryFsReadMatcher = primaryFsReadMatcher;
   }
 
 }
