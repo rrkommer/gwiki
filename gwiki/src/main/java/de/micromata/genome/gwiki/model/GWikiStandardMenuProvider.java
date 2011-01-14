@@ -17,7 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model;
 
+import java.net.URLEncoder;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -99,6 +102,25 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     }
     if (adminMenu.getChildren().isEmpty() == true) {
       return null;
+    }
+    for (GWikiMenu chm : adminMenu.getChildren()) {
+      if (chm.isDivider() == true) {
+        continue;
+      }
+      if (StringUtils.isEmpty(chm.getUrl()) == true) {
+        continue;
+      }
+      if (wikiContext.getCurrentElement() == null) {
+        continue;
+      }
+      String url = chm.getUrl();
+      String appendC = "?";
+      if (url.contains("?") == true) {
+        appendC = "&";
+      }
+      url += appendC + "refPageId=" + URLEncoder.encode(wikiContext.getCurrentElement().getElementInfo().getId());
+      chm.setUrl(url);
+
     }
     adminMenu.setIconMedium(wikiContext.localUrl("/inc/gwiki/img/icons/heart16.png"));
 
