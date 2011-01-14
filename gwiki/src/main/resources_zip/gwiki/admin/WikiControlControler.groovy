@@ -109,4 +109,6 @@ class WikiControlActionBean extends ActionBeanBase
 
   public String getPageId() { return pageId; }
   public void setPageId(String pid) { pageId = pid; }
+  public String getRefPageId() { return pageId; }
+  public void setRefPageId(String pid) { pageId = pid; }
 }
