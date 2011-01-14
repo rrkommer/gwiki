@@ -232,7 +232,7 @@ public class Html2WikiFilterTest extends TestCase
     String html = "{asdf}";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("{asdf}", wiki);
+    assertEquals("\\{asdf\\}", wiki);
   }
 
   public void testHr()
