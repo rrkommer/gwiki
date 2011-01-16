@@ -50,27 +50,10 @@
 
 package de.micromata.genome.gwiki.utils.html;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import junit.framework.TestCase;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 
-public class Html2WikiFilterTest extends TestCase
+public class Html2WikiFilterTest extends Html2WikiBaseTest
 {
-  protected String transform(String html)
-  {
-    return Html2WikiFilter.html2Wiki(html);
-  }
-
-  protected String transform(String html, String... htmle)
-  {
-    Set<String> s = new HashSet<String>();
-    for (String h : htmle) {
-      s.add(h);
-    }
-    return Html2WikiFilter.html2Wiki(html, s);
-  }
 
   public void testSpecialCharacters()
   {
