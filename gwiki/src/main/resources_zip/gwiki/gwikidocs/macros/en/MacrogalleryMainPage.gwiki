@@ -12,3 +12,7 @@ Options:
 * reverse: true or false if sorting should be in reverse order. Default is false.
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiImageGalleryMacro}}
+
+
+See also:
+- [gwikidocs/macros/en/Macropageattachments].
