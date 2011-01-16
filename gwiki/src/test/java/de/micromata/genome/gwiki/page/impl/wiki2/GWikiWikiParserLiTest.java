@@ -52,6 +52,13 @@ package de.micromata.genome.gwiki.page.impl.wiki2;
 
 public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 {
+  public void testOlUl()
+  {
+    String wiki = "# a\n* b\n";
+    String html = "<ol><li>a</li></ol><ul class=\"star\"><li>b</li></ul>";
+    w2htest(wiki, html);
+  }
+
   public void testNested3()
   {
     String wiki = "- Ein Absatzx.\n" + "-- Ein weiterer Absatz.\n" + "--- U3\n";
@@ -76,7 +83,7 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testLiCh()
   {
-    w2htest("- bla\n* blub", "<ul class=\"minus\" type=\"square\"><li>bla</li><ul class=\"star\"><li>blub</li></ul></ul>");
+    w2htest("- bla\n* blub", "<ul class=\"minus\" type=\"square\"><li>bla</li></ul><ul class=\"star\"><li>blub</li></ul>");
   }
 
   public void testLi5()
