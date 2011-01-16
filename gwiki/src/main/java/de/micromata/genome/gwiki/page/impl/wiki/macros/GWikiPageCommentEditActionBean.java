@@ -50,7 +50,7 @@ public class GWikiPageCommentEditActionBean extends GWikiEditPageActionBean impl
   {
     GWikiProps props = new GWikiSettingsProps();
     GWikiMetaTemplate metaTemplate = GWikiPageCommentMacroActionBean.initMetaTemplate(wikiContext);
-    props.setStringValue(TYPE, metaTemplate.getElementType());
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.COMMENT_METATEMPLATE);
     props.setStringValue(TITLE, "Comment");
     props.setStringValue(CREATEDBY, wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));

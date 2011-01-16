@@ -153,4 +153,9 @@ public class GWikiPageCacheImpl implements GWikiPageCache
   {
     throw new UnsupportedOperationException("GWikiPageCacheImpl.clearCompiledFragments not supported");
   }
+
+  public GWikiPageCacheInfo getPageCacheInfo()
+  {
+    return new GWikiPageCacheInfo();
+  }
 }

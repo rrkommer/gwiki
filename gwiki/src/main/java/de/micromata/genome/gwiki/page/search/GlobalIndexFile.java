@@ -51,7 +51,7 @@ public class GlobalIndexFile implements GWikiPropKeys
     GWikiMetaTemplate metaTemplate = ctx.getWikiWeb().findMetaTemplate(GLOBAL_INDEX_METAFILE_TEMPLATE);
     GWikiProps props = new GWikiSettingsProps();
     props.setStringValue(WIKIMETATEMPLATE, GLOBAL_INDEX_METAFILE_TEMPLATE);
-    props.setStringValue(TYPE, metaTemplate.getElementType());
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(TITLE, "Global Full Text Index");
     props.setStringValue(AUTH_EDIT, GWikiAuthorizationRights.GWIKI_ADMIN.name());
     props.setStringValue(AUTH_CREATE, GWikiAuthorizationRights.GWIKI_ADMIN.name());

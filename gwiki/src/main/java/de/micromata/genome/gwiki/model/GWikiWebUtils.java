@@ -33,7 +33,7 @@ public class GWikiWebUtils
   {
     GWikiProps props = new GWikiSettingsProps();
     GWikiMetaTemplate template = wikiContext.getWikiWeb().findMetaTemplate(metaTemplateId);
-    props.setStringValue(GWikiPropKeys.TYPE, template.getElementType());
+    // props.setStringValue(GWikiPropKeys.TYPE, template.getElementType());
     props.setStringValue(GWikiPropKeys.WIKIMETATEMPLATE, metaTemplateId);
     props.setStringValue(GWikiPropKeys.TITLE, title);
     GWikiElementInfo neiei = new GWikiElementInfo(props, template);

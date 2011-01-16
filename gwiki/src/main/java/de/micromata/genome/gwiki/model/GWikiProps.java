@@ -117,6 +117,11 @@ public class GWikiProps implements Serializable
     return map.containsKey(key);
   }
 
+  public String remove(String key)
+  {
+    return map.remove(key);
+  }
+
   public static String formatTimeStamp(Date date)
   {
     if (date == null)

@@ -294,4 +294,21 @@ public class GWikiCombinedPageCache implements GWikiPageCache
     primaryCache.setPageInfoMap(pageInfos);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiPageCache#getPageCacheInfo()
+   */
+  public GWikiPageCacheInfo getPageCacheInfo()
+  {
+    GWikiPageCacheInfo prim = primaryCache.getPageCacheInfo();
+    GWikiPageCacheInfo sec = secondaryCache.getPageCacheInfo();
+    GWikiPageCacheInfo ret = new GWikiPageCacheInfo();
+    ret.setElementInfosCount(prim.getElementInfosCount() + sec.getElementInfosCount());
+    ret.setElementInfosSize(prim.getElementInfosSize() + sec.getElementInfosSize());
+    ret.setPageCount(prim.getPageCount() + sec.getPageCount());
+    ret.setPageSize(prim.getPageSize() + sec.getPageSize());
+    return ret;
+  }
+
 }

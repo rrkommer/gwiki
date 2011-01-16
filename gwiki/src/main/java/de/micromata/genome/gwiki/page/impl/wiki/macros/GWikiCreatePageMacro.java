@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
@@ -56,11 +56,11 @@ public class GWikiCreatePageMacro extends GWikiMacroBean implements GWikiPropKey
       metaTemplate = GWikiDefaultFileNames.DEFAULT_METATEMPLATE;
     }
     GWikiMetaTemplate mt = ctx.getWikiWeb().findMetaTemplate(metaTemplate);
-    GWikiProps props = new GWikiProps();
+    GWikiSettingsProps props = new GWikiSettingsProps();
 
-    if (metaTemplate != null) {
-      props.setStringValue(TYPE, mt.getElementType());
-    }
+    // if (metaTemplate != null) {
+    // props.setStringValue(TYPE, mt.getElementType());
+    // }
     props.setStringValue(WIKIMETATEMPLATE, metaTemplate);
     props.setStringValue(PARENTPAGE, parent);
     props.setStringValue(TITLE, "");

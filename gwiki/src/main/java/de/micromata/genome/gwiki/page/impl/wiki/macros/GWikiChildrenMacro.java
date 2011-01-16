@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiContextUtils;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -195,7 +194,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     if (allTypes == false) {
       List<GWikiElementInfo> ncl = new ArrayList<GWikiElementInfo>();
       for (GWikiElementInfo ci : cl) {
-        if (StringUtils.equals(ci.getProps().getStringValue(GWikiPropKeys.TYPE), type) == false) {
+        if (StringUtils.equals(ci.getType(), type) == false) {
           continue;
         }
         if (viewAll == true || ci.isNoToc() == true) {

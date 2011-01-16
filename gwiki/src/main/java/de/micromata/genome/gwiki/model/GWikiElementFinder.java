@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
+import de.micromata.genome.gwiki.model.matcher.GWikiElementTypeMatcher;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.matcher.GWikiViewableMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -84,7 +85,7 @@ public class GWikiElementFinder
     new AndMatcher<GWikiElementInfo>(//
         new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
             new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)),//
-            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.TYPE, new EqualsMatcher<String>("attachment")))));
+            new GWikiElementTypeMatcher(wikiContext, "attachment"))));
     return childs;
   }
 
@@ -100,7 +101,7 @@ public class GWikiElementFinder
     new AndMatcher<GWikiElementInfo>(//
         new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
             new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)),//
-            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.TYPE, new EqualsMatcher<String>("gwiki")))));
+            new GWikiElementTypeMatcher(wikiContext, "gwiki"))));
     Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
         "ORDER", 0))));
     return childs;
@@ -126,6 +127,7 @@ public class GWikiElementFinder
         new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
     )//
     );
+
     return childs;
   }
 

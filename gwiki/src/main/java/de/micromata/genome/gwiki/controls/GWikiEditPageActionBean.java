@@ -263,9 +263,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     GWikiProps props = new GWikiSettingsProps();
 
-    if (metaTemplate != null) {
-      props.setStringValue(TYPE, metaTemplate.getElementType());
-    }
+    // if (metaTemplate != null) {
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
+    // }
     props.setStringValue(WIKIMETATEMPLATE, metaTemplatePageId);
     props.setStringValue(PARENTPAGE, parentPageId);
     props.setStringValue(TITLE, title);
@@ -350,7 +350,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     GWikiProps props = elementToEdit.getElementInfo().getProps();
     if (newPage == true) {
-      props.setStringValue(TYPE, metaTemplate.getElementType());
+      // props.setStringValue(TYPE, metaTemplate.getElementType());
       props.setStringValue(TITLE, title);
       props.setStringValue(PARENTPAGE, parentPageId);
       if (StringUtils.isEmpty(storePath) && StringUtils.isNotBlank(parentPageId) == true) {

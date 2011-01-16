@@ -40,4 +40,9 @@ public class GWikiSettingsProps extends GWikiProps
   {
     super(other);
   }
+
+  public GWikiSettingsProps(GWikiProps other)
+  {
+    super(other);
+  }
 }
