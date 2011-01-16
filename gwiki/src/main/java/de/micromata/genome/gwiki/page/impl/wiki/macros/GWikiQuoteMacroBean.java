@@ -21,8 +21,10 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
@@ -32,7 +34,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte
+public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte, GWikiMacroSourceable
 {
 
   private static final long serialVersionUID = -3030397042733595461L;
@@ -47,7 +49,8 @@ public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEval
 
   public GWikiQuoteMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd));
+    setRenderModes(GWikiMacroRenderFlags.combine(/* GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd, */
+    GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
   }
 
   @Override
@@ -70,6 +73,15 @@ public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEval
   public boolean evalBody()
   {
     return true;
+  }
+
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
+  {
+    if (macroFragment.getAttrs().getArgs().isEmpty() == true) {
+      macroFragment.getAttrs().getArgs().setBooleanValue("start", true);
+    }
+    macroFragment.getMacroSource(sb);
+
   }
 
 }
