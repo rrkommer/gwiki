@@ -91,6 +91,8 @@ public class Html2WikiFilter extends DefaultFilter
 
   private ArrayStack<GWikiFragment> autoCloseTagStack = new ArrayStack<GWikiFragment>();
 
+  private ArrayStack<String> liStack = new ArrayStack<String>();
+
   private static Map<String, String> DefaultSimpleTextDecoMap = new HashMap<String, String>();
   static {
 
@@ -197,6 +199,9 @@ public class Html2WikiFilter extends DefaultFilter
       tag = "-";
     } else {
       tag = "*";
+    }
+    if (liStack.isEmpty() == true) {
+      return tag;
     }
     for (int i = 0; i < parseContext.stackSize(); ++i) {
       List<GWikiFragment> fl = parseContext.peek(i);
@@ -510,8 +515,9 @@ public class Html2WikiFilter extends DefaultFilter
     } else if (en.length() == 2 && en.charAt(0) == 'h' && Character.isDigit(en.charAt(1)) == true) {
       parseContext.addFragment(new GWikiFragmentHeading(Integer.parseInt("" + en.charAt(1))));
       parseContext.pushFragList();
-    } else if (en.equals("ul") == true || en.equals("ol")) {
+    } else if (en.equals("ul") == true || en.equals("ol") == true) {
       parseContext.addFragment(new GWikiFragmentList(getListTag(en, attributes)));
+      liStack.push(en);
       parseContext.pushFragList();
     } else if (en.equals("li") == true) {
       parseContext.addFragment(new GWikiFragmentLi(findFragInStack(GWikiFragmentList.class)));
@@ -555,6 +561,9 @@ public class Html2WikiFilter extends DefaultFilter
         parseContext.addFragment(getNlFragement(new GWikiFragmentBr()));
       }
     } else if (en.equals("ul") == true || en.equals("ol") == true) {
+      if (liStack.isEmpty() == false && liStack.peek().equals(en) == true) {
+        liStack.pop();
+      }
       frags = parseContext.popFragList();
       GWikiFragmentList lf = (GWikiFragmentList) parseContext.lastFragment();
       lf.addChilds(frags);
