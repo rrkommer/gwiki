@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class Html2WikiBaseTest extends TestCase
+public abstract class Html2WikiBase extends TestCase
 {
   protected String transform(String html)
   {
@@ -41,4 +41,5 @@ public class Html2WikiBaseTest extends TestCase
     }
     return Html2WikiFilter.html2Wiki(html, s);
   }
+
 }

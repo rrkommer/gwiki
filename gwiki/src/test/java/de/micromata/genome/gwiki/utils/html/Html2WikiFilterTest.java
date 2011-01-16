@@ -52,7 +52,7 @@ package de.micromata.genome.gwiki.utils.html;
 
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 
-public class Html2WikiFilterTest extends Html2WikiBaseTest
+public class Html2WikiFilterTest extends Html2WikiBase
 {
 
   public void testSpecialCharacters()
