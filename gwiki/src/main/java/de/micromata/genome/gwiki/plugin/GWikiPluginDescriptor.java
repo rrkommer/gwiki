@@ -98,6 +98,9 @@ public class GWikiPluginDescriptor implements InitializingBean
    */
   private String primaryFsReadMatcherRule = null;
 
+  /**
+   * will be initialized via primaryFsReadMatcherRule.
+   */
   private Matcher<String> primaryFsReadMatcher = null;
 
   /*

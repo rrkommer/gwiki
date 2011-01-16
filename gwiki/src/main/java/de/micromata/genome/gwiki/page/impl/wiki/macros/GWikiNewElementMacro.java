@@ -24,7 +24,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -112,8 +112,8 @@ public class GWikiNewElementMacro extends GWikiMacroBean
       if (mt == null) {
         return true;
       }
-      GWikiProps props = new GWikiProps();
-      props.setStringValue(GWikiPropKeys.TYPE, mt.getElementType());
+      GWikiSettingsProps props = new GWikiSettingsProps();
+      // props.setStringValue(GWikiPropKeys.TYPE, mt.getElementType());
       props.setStringValue(GWikiPropKeys.WIKIMETATEMPLATE, metaTemplate);
       props.setStringValue(GWikiPropKeys.TITLE, "");
       GWikiElementInfo nei = new GWikiElementInfo(props, mt);

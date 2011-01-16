@@ -18,8 +18,10 @@
 
 package de.micromata.genome.gwiki.model;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +36,7 @@ public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GW
 
   public GWikiSettingsPropsArtefakt()
   {
-
+    this(new GWikiSettingsProps());
   }
 
   public GWikiSettingsPropsArtefakt(GWikiProps props)
@@ -59,5 +61,32 @@ public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GW
       }
       sb.append("</ul>");
     }
+  }
+
+  private void cleanupEmptyProps(GWikiProps props)
+  {
+    Set<String> keys = new HashSet<String>();
+    keys.addAll(props.getMap().keySet());
+    for (String key : keys) {
+      if (StringUtils.isEmpty(props.getStringValue(key)) == true) {
+        props.remove(key);
+      }
+    }
+  }
+
+  private void cleanupSuperflousEntrys(GWikiProps props)
+  {
+    props.remove(GWikiPropKeys.PAGEID);
+    // do not use this, because of type is used in search
+    // props.remove(GWikiPropKeys.TYPE);
+  }
+
+  @Override
+  public Map<String, String> getStorageData()
+  {
+    GWikiProps props = getCompiledObject();
+    cleanupEmptyProps(props);
+    cleanupSuperflousEntrys(props);
+    return props.getMap();
   }
 }

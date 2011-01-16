@@ -60,14 +60,14 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
   {
     this.props = props;
     this.metaTemplate = metaTemplate;
-    if (metaTemplate != null) {
-      this.props.setStringValue(GWikiPropKeys.TYPE, metaTemplate.getElementType());
-    }
+    // if (metaTemplate != null) {
+    // this.props.setStringValue(GWikiPropKeys.TYPE, metaTemplate.getElementType());
+    // }
   }
 
   public GWikiElementInfo(GWikiElementInfo other)
   {
-    this.props = new GWikiProps(other.props);
+    this.props = new GWikiSettingsProps(other.props);
     this.id = other.id;
     this.metaTemplate = other.metaTemplate;
   }
@@ -178,9 +178,13 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
 
   public String getType()
   {
+    if (metaTemplate != null) {
+      return metaTemplate.getElementType();
+    }
     return props.getStringValue(TYPE);
   }
 
+  @Deprecated
   public void setType(String type)
   {
     props.setStringValue(TYPE, type);

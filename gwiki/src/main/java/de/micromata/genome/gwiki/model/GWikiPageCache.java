@@ -21,6 +21,9 @@ package de.micromata.genome.gwiki.model;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * Interface for caching pages.
  * 
@@ -29,6 +32,71 @@ import java.util.Map;
  */
 public interface GWikiPageCache
 {
+  /**
+   * information about internal state of cache. -1 values means don't know.
+   * 
+   * @author Roger Rene Kommer (r.kommer@micromata.de)
+   * 
+   */
+  public static class GWikiPageCacheInfo
+  {
+    private int elementInfosCount = -1;
+
+    private long elementInfosSize = -1;
+
+    private int pageCount = -1;
+
+    private long pageSize = -1;
+
+    public String toString()
+    {
+      return "GWikiPageCacheInfo: " + ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    public int getElementInfosCount()
+    {
+      return elementInfosCount;
+    }
+
+    public void setElementInfosCount(int elementInfosCount)
+    {
+      this.elementInfosCount = elementInfosCount;
+    }
+
+    public long getElementInfosSize()
+    {
+      return elementInfosSize;
+    }
+
+    public void setElementInfosSize(long elementInfosSize)
+    {
+      this.elementInfosSize = elementInfosSize;
+    }
+
+    public int getPageCount()
+    {
+      return pageCount;
+    }
+
+    public void setPageCount(int pageCount)
+    {
+      this.pageCount = pageCount;
+    }
+
+    public long getPageSize()
+    {
+      return pageSize;
+    }
+
+    public void setPageSize(long pageSize)
+    {
+      this.pageSize = pageSize;
+    }
+
+  }
+
+  public GWikiPageCacheInfo getPageCacheInfo();
+
   public void clearCachedPages();
 
   public void clearCachedPage(String pageId);

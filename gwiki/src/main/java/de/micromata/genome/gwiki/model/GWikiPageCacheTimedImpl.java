@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
+import de.micromata.genome.util.bean.PrivateBeanUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.string.EndsWithMatcher;
@@ -402,6 +403,23 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
   public void setNoCachePageIds(Matcher<String> noCachePageIds)
   {
     this.noCachePageIds = noCachePageIds;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiPageCache#getPageCacheInfo()
+   */
+  public GWikiPageCacheInfo getPageCacheInfo()
+  {
+    GWikiPageCacheInfo ret = new GWikiPageCacheInfo();
+    ret.setElementInfosCount(pageInfoMap.size());
+    ret.setPageCount(cachedPages.size());
+    Matcher<String> m = new BooleanListRulesFactory<String>()
+        .createMatcher("+*,-de.micromata.genome.gwiki.model.GWikiWeb,-de.micromata.genome.gwiki.model.config.GWikiMetaTemplate");
+    ret.setElementInfosSize(PrivateBeanUtils.getBeanSize(pageInfoMap, m));
+    ret.setPageSize(PrivateBeanUtils.getBeanSize(cachedPages));
+    return ret;
   }
 
 }

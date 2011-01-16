@@ -45,6 +45,7 @@ import de.micromata.genome.gwiki.model.GWikiPersistArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiTextArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
@@ -127,14 +128,20 @@ public class GWikiFileStorage implements GWikiStorage
     return storage.getModificationCounter();
   }
 
-  @SuppressWarnings("unchecked")
   protected Map<String, String> loadProperties(String name)
   {
-    Map<String, String> map = new HashMap<String, String>();
+    Map<String, String> m = new HashMap<String, String>();
+    loadProperties(name, m);
+    return m;
+  }
+
+  @SuppressWarnings("unchecked")
+  protected void loadProperties(String name, Map<String, String> map)
+  {
     Properties props = new Properties();
     byte[] data = storage.readBinaryFile(name);
     if (data == null)
-      return map;
+      return;
     try {
       props.load(new ByteArrayInputStream(data));
     } catch (IOException ex) {
@@ -144,7 +151,6 @@ public class GWikiFileStorage implements GWikiStorage
     }
 
     map.putAll((Map<String, String>) (Map) props);
-    return map;
   }
 
   public void storeProps(String name, Map<String, String> map)
@@ -209,11 +215,13 @@ public class GWikiFileStorage implements GWikiStorage
 
         for (FsObject fo : elements) {
           String e = storage2WikiPath(fo.getName());
-          GWikiProps p = new GWikiProps(loadProperties(e));
-          GWikiElementInfo el = new GWikiElementInfo(p, wikiWeb.findMetaTemplate(p.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
+          GWikiSettingsProps settings = new GWikiSettingsProps();
+          loadProperties(e, settings.getMap());
+          GWikiElementInfo el = new GWikiElementInfo(settings, wikiWeb.findMetaTemplate(settings
+              .getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
           String id = e.substring(0, e.length() - "Settings.properties".length());
           el.setId(id);
-          p.setStringValue(GWikiPropKeys.PAGEID, id);
+          // TODO delete if work: p.setStringValue(GWikiPropKeys.PAGEID, id);
           el = afterPageInfoLoad(fo, el, ret);
           if (el != null) {
             ret.put(id, el);
@@ -347,9 +355,7 @@ public class GWikiFileStorage implements GWikiStorage
   {
     initMetaTemplate(ei);
     String type = ei.getType();
-    if (StringUtils.isBlank(type) == true && ei.getMetaTemplate() != null) {
-      type = ei.getMetaTemplate().getElementType();
-    }
+
     // String id = ei.getId();
     GWikiElement el;
     if (pageTypes.containsKey(type) == true) {

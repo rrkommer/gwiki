@@ -186,7 +186,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   {
     GWikiProps props = new GWikiSettingsProps();
     GWikiMetaTemplate metaTemplate = initMetaTemplate(wikiContext);
-    props.setStringValue(TYPE, metaTemplate.getElementType());
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, GWikiDefaultFileNames.COMMENT_METATEMPLATE);
     props.setStringValue(TITLE, "Comment");
     props.setStringValue(CREATEDBY, wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
