@@ -14,5 +14,24 @@ Result:
 This is *quoted* text.
 {quote}
 
+If you want to nested quote, add dummy argument {{start=true}} to nested quote:
+{code}
+{quote}
+First level.
+{quote:start=true}
+Second level.
+{quote}
+{quote}
+{code}
+
+Result:
+
+{quote}
+First level.
+{quote:start=true}
+Second level.
+{quote}
+{quote}
+
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean}}.
