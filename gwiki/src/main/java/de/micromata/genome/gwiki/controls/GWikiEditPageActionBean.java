@@ -775,7 +775,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       if (cls == null) {
         continue;
       }
-      if (cls.isAssignableFrom(GWikiHtmlBodyTagMacro.class) || cls.isAssignableFrom(GWikiHtmlTagMacro.class)) {
+      if (GWikiHtmlBodyTagMacro.class.isAssignableFrom(cls) || GWikiHtmlTagMacro.class.isAssignableFrom(cls)) {
         s.add(me.getKey());
       }
     }
@@ -806,13 +806,6 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       String htmlCode = wikiContext.getRequestParameter("htmlCode");
       Html2WikiFilter filter = new Html2WikiFilter();
       filter.setSupportedHtmlTags(getHtmlTagMacros());
-
-      // List<Html2WikiTransformInfo> transformers = new ArrayList<Html2WikiTransformInfo>();
-      // List<AttributeMatcher> emtyAttributes = Collections.emptyList();
-      // Html2WikiTransformInfo ti = new Html2WikiTransformInfo("blockquote", "quote",
-      // new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class), emtyAttributes);
-      // transformers.add(ti);
-
       filter.setMacroTransformer(collectHtml2WikiTransformers());
       String ret = filter.transform(htmlCode);
       wikiContext.append(ret);
