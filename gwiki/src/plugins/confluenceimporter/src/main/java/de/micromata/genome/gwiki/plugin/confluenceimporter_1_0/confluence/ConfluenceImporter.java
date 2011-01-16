@@ -175,7 +175,7 @@ public class ConfluenceImporter implements GWikiPropKeys
     GWikiMetaTemplate metaTemplate = wikiContext.getWikiWeb().findMetaTemplate(metaTemplatePageId);
 
     GWikiProps props = new GWikiSettingsProps();
-    props.setStringValue(TYPE, metaTemplate.getElementType());
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, metaTemplatePageId);
     if (StringUtils.isNotEmpty(page.getParent()) == true) {
       Page pent = pageMap.get(page.getParent());
@@ -245,7 +245,7 @@ public class ConfluenceImporter implements GWikiPropKeys
     GWikiMetaTemplate metaTemplate = wikiContext.getWikiWeb().findMetaTemplate(metaTemplatePageId);
 
     GWikiProps props = new GWikiSettingsProps();
-    props.setStringValue(TYPE, metaTemplate.getElementType());
+    // props.setStringValue(TYPE, metaTemplate.getElementType());
     props.setStringValue(WIKIMETATEMPLATE, metaTemplatePageId);
     if (StringUtils.isNotEmpty(page.getParent()) == true) {
       Page pent = pageMap.get(page.getParent());
