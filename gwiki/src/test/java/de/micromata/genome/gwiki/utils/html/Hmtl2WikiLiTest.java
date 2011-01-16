@@ -21,7 +21,7 @@ package de.micromata.genome.gwiki.utils.html;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class Hmtl2WikiLiTest extends Html2WikiBaseTest
+public class Hmtl2WikiLiTest extends Html2WikiBase
 {
   public void testLiChange()
   {
