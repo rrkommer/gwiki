@@ -11,6 +11,8 @@ class WikiControlActionBean extends ActionBeanBase
 
   private GWikiSimpleUser singleUser = new GWikiSimpleUser();
   
+  private String cacheSizes;
+  
   private void initialize()
   {
     singleUser = new GWikiSimpleUser(GWikiSimpleUserAuthorization.getSingleUser(wikiContext));
@@ -87,6 +89,16 @@ class WikiControlActionBean extends ActionBeanBase
         wikiContext.getResponse().addCookie(cookie);
        } 
   }  
+  public Object onCalcCacheSizes()
+  {
+    StringBuilder sb =new StringBuilder();
+    sb.append("pageInfoCache: ")
+       .append(wikiContext.getWikiWeb().getDaoContext().getPageCache().getPageCacheInfo())
+    .append("; wikiWeb: " + Integer.toString(de.micromata.genome.util.bean.PrivateBeanUtils.getBeanSize(wikiContext.getWikiWeb())))
+    ;
+    cacheSizes = sb.toString();
+    return null;
+  }
   public String getAuthRightsRule()
   {
     return authRightsRule;
@@ -111,4 +123,6 @@ class WikiControlActionBean extends ActionBeanBase
   public void setPageId(String pid) { pageId = pid; }
   public String getRefPageId() { return pageId; }
   public void setRefPageId(String pid) { pageId = pid; }
+  public String getCacheSizes() { return cacheSizes; }
+  public void setCacheSizes(String c) { cacheSizes = c; }
 }

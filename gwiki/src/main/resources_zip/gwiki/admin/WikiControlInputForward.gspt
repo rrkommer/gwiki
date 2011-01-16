@@ -33,6 +33,13 @@
 <p class="description"><gwiki:include part="MainPage" chunk="reload.reloadwebdescription"/></p>
 
   <input class="gwikiButton" type="submit" name="method_onReloadWiki" value="<gwiki:include part="MainPage" chunk="reload.reloadwebbutton"/>" />
+  <div class="clearAll">&nbsp;</div>
+  <br/>
+    <input class="gwikiButton reset" type="submit" name="method_onCalcCacheSizes" value="Calculate page cache sizes"/>
+    <c:if test="${form.cacheSizes != null}">
+     <br/>
+     <c:out value="${form.cacheSizes}"/> 
+    </c:if>
 <div class="clearAll">&nbsp;</div>
 </fieldset>
 
