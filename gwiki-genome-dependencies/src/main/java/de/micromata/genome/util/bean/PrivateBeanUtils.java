@@ -16,8 +16,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.micromata.genome.util.matcher.EveryMatcher;
 import de.micromata.genome.util.matcher.Matcher;
@@ -102,9 +104,28 @@ public class PrivateBeanUtils
   public static Object readField(Object bean, String fieldName)
   {
     Field f = findField(bean, fieldName);
-    if (f == null)
+    if (f == null) {
       throw new RuntimeException("No bean field found: " + bean.getClass().getName() + "." + fieldName);
+    }
     return readField(bean, f);
+  }
+
+  public static Object readStaticField(Class< ? > beanClass, String fieldName)
+  {
+    Field f = findField(beanClass, fieldName);
+    if (f == null) {
+      throw new RuntimeException("No bean field found: " + beanClass.getName() + "." + fieldName);
+    }
+    return readField(null, f);
+  }
+
+  public static void writeStaticFiled(Class< ? > beanClass, String fieldName, Object value)
+  {
+    Field f = findField(beanClass, fieldName);
+    if (f == null) {
+      throw new RuntimeException("No bean field found: " + beanClass.getName() + "." + fieldName);
+    }
+    writeField(null, f, value);
   }
 
   /**
@@ -243,8 +264,12 @@ public class PrivateBeanUtils
       return 0;
     if (m.containsKey(bean) == true)
       return 0;
-    Class< ? > clazz = bean.getClass();
-    return getBeanSize(bean, clazz, m, matcher);
+    try {
+      Class< ? > clazz = bean.getClass();
+      return getBeanSize(bean, clazz, m, matcher);
+    } catch (NoClassDefFoundError ex) {
+      return 0;
+    }
   }
 
   public static int getBeanSize(Object bean, Class< ? > clazz, IdentityHashMap<Object, Object> m, Matcher<String> matcher)
@@ -287,35 +312,45 @@ public class PrivateBeanUtils
       }
     }
     int ret = 0;
-    for (Field f : clazz.getDeclaredFields()) {
-      int mod = f.getModifiers();
-      if (Modifier.isStatic(mod) == true)
-        continue;
-      if (f.getType() == Boolean.TYPE)
-        ret += 4;
-      else if (f.getType() == Character.TYPE)
-        ret += 2;
-      else if (f.getType() == Byte.TYPE)
-        ret += 1;
-      else if (f.getType() == Short.TYPE)
-        ret += 2;
-      else if (f.getType() == Integer.TYPE)
-        ret += 4;
-      else if (f.getType() == Long.TYPE)
-        ret += 8;
-      else if (f.getType() == Float.TYPE)
-        ret += 4;
-      else if (f.getType() == Double.TYPE)
-        ret += 8;
-      else {
-
-        ret += 4;
-        Object o = readField(bean, f);
-        if (o == null) {
+    try {
+      for (Field f : clazz.getDeclaredFields()) {
+        int mod = f.getModifiers();
+        if (Modifier.isStatic(mod) == true)
           continue;
+        if (f.getType() == Boolean.TYPE)
+          ret += 4;
+        else if (f.getType() == Character.TYPE)
+          ret += 2;
+        else if (f.getType() == Byte.TYPE)
+          ret += 1;
+        else if (f.getType() == Short.TYPE)
+          ret += 2;
+        else if (f.getType() == Integer.TYPE)
+          ret += 4;
+        else if (f.getType() == Long.TYPE)
+          ret += 8;
+        else if (f.getType() == Float.TYPE)
+          ret += 4;
+        else if (f.getType() == Double.TYPE)
+          ret += 8;
+        else {
+
+          ret += 4;
+          Object o = null;
+          try {
+            o = readField(bean, f);
+            if (o == null) {
+              continue;
+            }
+          } catch (NoClassDefFoundError ex) {
+            // nothing
+            continue;
+          }
+          ret += getBeanSize(o, o.getClass(), m, matcher);
         }
-        ret += getBeanSize(o, o.getClass(), m, matcher);
       }
+    } catch (NoClassDefFoundError ex) {
+      // ignore here.
     }
     if (clazz == Object.class || clazz.getSuperclass() == null)
       return ret;
@@ -401,7 +436,48 @@ public class PrivateBeanUtils
       writeField(target, f, value);
     }
     copyInstanceProperties(targetClass.getSuperclass(), source, target);
-
   }
 
+  /**
+   * write all properties directly to fields, ignoring getter/setter
+   * 
+   * @param bean target bean
+   * @param properties
+   */
+  public static void populate(Object bean, Map<String, Object> properties)
+  {
+    for (Map.Entry<String, Object> me : properties.entrySet()) {
+      Field f = findField(bean, me.getKey());
+      if (f == null) {
+        continue;
+      }
+      writeField(bean, f, me.getValue());
+    }
+  }
+
+  public static Map<String, Object> getAllNonStaticFields(Object bean)
+  {
+    Map<String, Object> ret = new HashMap<String, Object>();
+    fetchAllNonStaticFields(ret, bean.getClass(), bean);
+    return ret;
+  }
+
+  public static void fetchAllNonStaticFields(Map<String, Object> ret, Class< ? > clz, Object bean)
+  {
+    if (clz == null) {
+      return;
+    }
+    for (Field f : clz.getDeclaredFields()) {
+      int mod = f.getModifiers();
+      if (Modifier.isStatic(mod) == true) {
+        continue;
+      }
+      if (ret.containsKey(f.getName()) == true) {
+        continue;
+      }
+      Object value = readField(bean, f);
+      ret.put(f.getName(), value);
+    }
+    fetchAllNonStaticFields(ret, clz.getSuperclass(), bean);
+  }
 }
