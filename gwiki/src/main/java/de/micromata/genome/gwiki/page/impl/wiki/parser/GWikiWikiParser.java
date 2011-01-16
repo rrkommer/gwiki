@@ -128,6 +128,20 @@ public class GWikiWikiParser
     return null;
   }
 
+  private boolean isNestedOrThisLi(GWikiFragment lfrag, String tag)
+  {
+    if ((lfrag instanceof GWikiFragmentList) == false) {
+      return false;
+    }
+    GWikiFragmentList llfrag = (GWikiFragmentList) lfrag;
+
+    String prefix = llfrag.getListTag();
+    if (tag.startsWith(prefix) == false) {
+      return false;
+    }
+    return true;
+  }
+
   protected void parseLi(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     //
@@ -141,7 +155,7 @@ public class GWikiWikiParser
     GWikiFragmentList listfrag = new GWikiFragmentList(tag);
     try {
       ctx.pushFragStack(listfrag);
-      if (lfrag instanceof GWikiFragmentList) {
+      if (isNestedOrThisLi(lfrag, tag) == true) {
         GWikiFragmentList pl = (GWikiFragmentList) lfrag;
         GWikiFragmentList prevlist = findNestedListChild(pl, tag);
         if (prevlist != null) {
