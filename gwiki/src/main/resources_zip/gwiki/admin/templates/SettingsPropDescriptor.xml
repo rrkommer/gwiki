@@ -95,18 +95,16 @@ def onValidate(pec)
 						</value>
 					</property>
 				</bean>
+<!--  				
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="TYPE" />
 					<property name="label" value="I{gwiki.settings.TYPE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.TYPE.description}" />
-					-->
 					<property name="helpLink" value="gwikidocs/help/ElementSettings#TYPE" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="requiresValue" value="true" />
 				</bean>
+ -->
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="PARENTPAGE" />
