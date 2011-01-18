@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="noSearchIndex" value="true" />
+		<property name="requiredEditRight" value="GWIKI_DELVELOPER" />
+		<property name="elementType" value="gwiki" />
+		<property name="viewable" value="false" />
+		<property name="elementLifeTime" value="-1" />
+		<!--
+			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+		-->
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt"/>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

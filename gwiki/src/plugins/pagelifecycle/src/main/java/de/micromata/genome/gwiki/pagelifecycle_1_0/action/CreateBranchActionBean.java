@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagelifecycle_1_0;
+package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -27,17 +27,18 @@ import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 
 /**
- * @author stefans
- *
+ * @author Stefan Stuetzer
  */
 public class CreateBranchActionBean extends ActionBeanBase
 {
   /**
    * 
    */
-  private static final String TEMPLATE_ID = "admin/templates/GWikiBranchInfoElementTemplate";
+  private static final String INFO_TEMPLATE_ID      = "admin/templates/GWikiBranchInfoElementTemplate";
+  private static final String FILESTATS_TEMPLATE_ID = "admin/templates/GWikiBranchFileStatsTemplate";
 
   private String branchId;
 
@@ -88,7 +89,7 @@ public class CreateBranchActionBean extends ActionBeanBase
     wikiSelector.enterTenant(wikiContext, this.branchId);
     
     createBranchInfoElement();
-    
+    createBranchFileStats();
     
     return null;
   }
@@ -96,23 +97,27 @@ public class CreateBranchActionBean extends ActionBeanBase
   /**
    * 
    */
+  private void createBranchFileStats()
+  {
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID, "Branch File Stats");
+    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+  }
+
+  /**
+   *  
+   */
   private void createBranchInfoElement()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchInfoElement", TEMPLATE_ID, "BranchInfo");
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
     GWikiArtefakt< ? > artefakt = el.getMainPart();
 
     GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
     GWikiProps props = art.getCompiledObject();
     props.setStringValue("BRANCH_ID", this.branchId);
     props.setStringValue("DESCRIPTION", this.description);
+    props.setStringValue("BRANCH_STATE", BranchState.CREATED.name());
     
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-    
-    
-    GWikiElement element = wikiContext.getWikiWeb().findElement("admin/branch/BranchInfoElement");
-
-    GWikiProps configProps = wikiContext.getElementFinder().getConfigProps("admin/branch/BranchInfoElement");
-    
   }
 
   /**
@@ -134,7 +139,4 @@ public class CreateBranchActionBean extends ActionBeanBase
     }
     return true;
   }
-  
-  
-
 }

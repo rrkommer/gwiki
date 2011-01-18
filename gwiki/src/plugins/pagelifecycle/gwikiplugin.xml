@@ -11,5 +11,14 @@
 			<value>gwiki.scheduler:1.0</value>
 		</list>
 		</property>
+		<property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcInitializer"/>
+		<property name="filter">
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<property name="className"
+						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiUpdateFileStatsFilter" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 </beans>

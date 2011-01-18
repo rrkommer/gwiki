@@ -64,9 +64,13 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     if (wikiContext.getBooleanRequestAttribute(GWikiStorage.STORE_NO_INDEX) == true) {
       return true;
     }
-    if (createNewIndex(wikiContext, storage, element, parts) == false) {
+    Boolean newIndex = createNewIndex(wikiContext, storage, element, parts);
+    if (newIndex == null) {
+      return true;
+    } else if (newIndex == Boolean.FALSE) {
       return false;
     }
+    
     updateGlobalIndex(wikiContext, storage, element, parts);
     return true;
   }
@@ -88,15 +92,15 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
           }
         });
   }
-
-  public boolean createNewIndex(final GWikiContext wikiContext, GWikiStorage storage, GWikiElement element,
+  
+  public Boolean createNewIndex(final GWikiContext wikiContext, GWikiStorage storage, GWikiElement element,
       Map<String, GWikiArtefakt< ? >> parts)
   {
     if (element.getElementInfo().isIndexed() == false) {
-      return true;
+      return null;
     }
     if (element.getMetaTemplate() != null && element.getMetaTemplate().isNoSearchIndex() == true) {
-      return true;
+      return null;
     }
     boolean hasIndexArtefakt = false;
     final StringBuilder sb = new StringBuilder();
@@ -121,13 +125,13 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
       wikiContext.popWikiElement();
     }
     if (hasIndexArtefakt == false) {
-      return true;
+      return null;
     }
     sb.append("</body></html>");
 
     String rt = sb.toString();
     if (StringUtils.isBlank(rt) == true) {
-      return true;
+      return null;
     }
 
     GWikiTextContentArtefakt rta = new GWikiTextContentArtefakt() {
