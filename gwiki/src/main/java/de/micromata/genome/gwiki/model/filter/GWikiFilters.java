@@ -20,7 +20,6 @@ package de.micromata.genome.gwiki.model.filter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -241,40 +240,87 @@ public class GWikiFilters
     return ret;
   }
 
+  /**
+   * put after behind before.
+   * 
+   * @param list
+   * @param before
+   * @param after
+   */
+  private void after(List<String> list, String before, String after)
+  {
+    int afterIdx = -1;
+    for (int i = 0; i < list.size(); ++i) {
+      String s = list.get(i);
+      if (s.equals(before) == true) {
+        if (afterIdx != -1) {
+          list.remove(afterIdx);
+          list.add(i, after);
+        }
+        return;
+      }
+      if (s.equals(after) == true) {
+        afterIdx = i;
+      }
+    }
+  }
+
+  /**
+   * put before before after
+   * 
+   * @param list
+   * @param before
+   * @param after
+   */
+  private void before(List<String> list, String before, String after)
+  {
+    int beforeIdx = -1;
+    for (int i = list.size() - 1; i >= 0; --i) {
+      String s = list.get(i);
+      if (s.equals(after) == true) {
+        if (beforeIdx != -1) {
+          list.remove(beforeIdx);
+          list.add(i, before);
+        }
+        return;
+      }
+      if (s.equals(before) == true) {
+        beforeIdx = i;
+      }
+    }
+  }
+
+  /**
+   * return a priority sorted list of filters, where last filter will be executed first!
+   * 
+   * @param regClasses
+   * @param pluginFilters
+   * @return
+   */
   public List<String> getSortedClasses(List<String> regClasses, final List<GWikiPluginFilterDescriptor> pluginFilters)
   {
-    final Map<String, Set<String>> afterMap = new HashMap<String, Set<String>>();
 
     List<String> allFilters = new ArrayList<String>();
     if (regClasses != null) {
       allFilters.addAll(regClasses);
+      Collections.reverse(allFilters);
     }
     for (GWikiPluginFilterDescriptor pfd : pluginFilters) {
       allFilters.add(pfd.getClassName());
+    }
+    for (GWikiPluginFilterDescriptor pfd : pluginFilters) {
       if (pfd.getAfter() != null) {
         for (String as : pfd.getAfter()) {
-          getCreateSet(afterMap, pfd.getClassName()).add(as);
+          after(allFilters, as, pfd.getClassName());
         }
       }
       if (pfd.getBefore() != null) {
         for (String as : pfd.getBefore()) {
-          getCreateSet(afterMap, as).add(pfd.getClassName());
+          before(allFilters, pfd.getClassName(), as);
         }
       }
     }
-    Collections.sort(allFilters, new Comparator<String>() {
-
-      public int compare(String o1, String o2)
-      {
-        if (afterMap.containsKey(o1) == true && afterMap.get(o1).contains(o2) == true) {
-          return 1;
-        }
-        if (afterMap.containsKey(o2) == true && afterMap.get(o2).contains(o1) == true) {
-          return -1;
-        }
-        return 0;
-      }
-    });
+    Collections.reverse(allFilters);
     return allFilters;
   }
 
