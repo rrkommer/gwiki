@@ -69,6 +69,8 @@ public class RssFeedFilter implements GWikiServeElementFilter
     if (artefakt instanceof GWikiWikiPageArtefakt) {
       GWikiWikiPageArtefakt wikiPage = (GWikiWikiPageArtefakt) artefakt;
       GWikiStandaloneContext standaloneContext = GWikiStandaloneContext.create();
+      standaloneContext.setWikiElement(wikiContext.getCurrentElement());
+      standaloneContext.setCurrentPart(wikiPage);
       standaloneContext.setRenderMode(RenderModes.combine(RenderModes.NoToc));
       wikiPage.render(standaloneContext);
       standaloneContext.flush();
@@ -93,6 +95,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
           ));
 
       wikiContext.append(RSS.toString());
+      wikiContext.flush();
     }
     return null;
   }
