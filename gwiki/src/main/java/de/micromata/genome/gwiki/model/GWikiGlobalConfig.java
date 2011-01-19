@@ -95,6 +95,10 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_ACTIVE_PLUGINS = "GWIKI_ACTIVE_PLUGINS";
 
+  public static final String GWIKI_ARCHIVE_MAX_COUNT = "GWIKI_ARCHIVE_MAX_COUNT";
+
+  public static final String GWIKI_ARCHIVE_MAX_DAYS = "GWIKI_ARCHIVE_MAX_DAYS";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
@@ -176,7 +180,16 @@ public class GWikiGlobalConfig extends GWikiProps
   public String getWelcomePageId()
   {
     return resolve(StringUtils.defaultIfEmpty(getStringValue(GWIKI_WELCOME_PAGE), "index"));
+  }
 
+  public int getArchiveMaxCount()
+  {
+    return getIntValue(GWIKI_ARCHIVE_MAX_COUNT, -1);
+  }
+
+  public int getArchiveMaxDays()
+  {
+    return getIntValue(GWIKI_ARCHIVE_MAX_DAYS, -1);
   }
 
   public List<String> getAvailableSkins(GWikiContext wikiContext)
