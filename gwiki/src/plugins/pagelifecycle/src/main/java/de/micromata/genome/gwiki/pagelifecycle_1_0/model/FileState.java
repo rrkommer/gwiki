@@ -18,17 +18,17 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
 /**
- * @author stefans
- *
+ * Possible states of a content object during lifecycle
+ * 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public enum FileState
 {
-  CREATED,
+  DRAFT,
   
-  APPROVED,
+  TO_REVIEW,
   
-  REJECTED,
+  APPROVED_CHIEF_EDITOR,
   
-  LIVE;
-
+  APPROVED_CONTENT_ADMIN;
 }

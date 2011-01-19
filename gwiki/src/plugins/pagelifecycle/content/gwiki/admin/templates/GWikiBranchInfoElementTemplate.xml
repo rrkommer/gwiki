@@ -9,6 +9,7 @@
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />
 		<property name="noSearchIndex" value="true" />
+		<property name="noArchiv" value="true" />
 		<!--
 			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
 		-->
@@ -25,22 +26,29 @@
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="BRANCH_ID" />
 											<property name="type" value="STRING" />
-											<property name="defaultValue" value="BRANCH_1" />
-											<property name="label" value="Name of Branch" />
+											<property name="defaultValue" value="DRAFT" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="DESCRIPTION" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="A new release branch" />
-											<property name="label" value="Name of Branch" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="BRANCH_STATE" />
 											<property name="type" value="STRING" />
-											<property name="defaultValue" value="CREATED" />
-											<property name="label" value="State of branch" />
+											<property name="defaultValue" value="OFFLINE" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="RELEASE_DATE" />
+											<property name="type" value="STRING" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="RELEASE_END_DATE" />
+											<property name="type" value="STRING" />
 										</bean>
 									</list>
 								</property>

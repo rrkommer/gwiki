@@ -22,6 +22,7 @@ import java.util.Date;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
@@ -32,11 +33,12 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStats
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 
 /**
+ * Filter for updating branch filestats 
+ * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilter
 {
-
   /*
    * (non-Javadoc)
    * 
@@ -66,6 +68,7 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       BranchFileStats fileStatsContent = fileStatsArtefakt.getCompiledObject();
 
       FileStatsDO fileStatsForId = fileStatsContent.getFileStatsForId(storedElementInfo.getId());
+      
       // if page already contained in fielstats file continue
       if (fileStatsForId != null) {
         return chain.nextFilter(event);
@@ -73,16 +76,15 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
 
       FileStatsDO newFileStat = new FileStatsDO();
       newFileStat.setPageId(storedElementInfo.getId());
-      newFileStat.setFileState(FileState.CREATED);
-      newFileStat.setCreatedAt(new Date().toString());
+      newFileStat.setFileState(FileState.DRAFT);
+      newFileStat.setCreatedAt(GWikiProps.formatTimeStamp(new Date()));
       newFileStat.setCreatedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
       fileStatsContent.addFileStats(newFileStat);
 
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
       wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
     }
-
+    
     return chain.nextFilter(event);
   }
-
 }

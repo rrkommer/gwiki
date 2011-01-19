@@ -18,14 +18,11 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
 /**
- * @author stefans
- *
+ * Possible states of a branch (e.g content-release)
+ * 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public enum BranchState
 {
-  CREATED,
-  
-  APPROVED,
-  
-  LIVE;
+  OFFLINE, ONLINE;
 }

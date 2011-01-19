@@ -19,15 +19,19 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.plugin.GWikiAbstractPluginLifecycleListener;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 
 /**
- * @author stefans
- *
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
 {
+  
+  private GWikiWikiSelector previousSelector;
+  
   /* (non-Javadoc)
    * @see de.micromata.genome.gwiki.plugin.GWikiAbstractPluginLifecycleListener#activated(de.micromata.genome.gwiki.model.GWikiWeb, de.micromata.genome.gwiki.plugin.GWikiPlugin)
    */
@@ -36,6 +40,12 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
   {
     super.activated(wikiWeb, plugin);
     GWikiLog.note("Activate PLC Plugin");
+    
+    // TODO stefan. Das funktioniert noch nicht wirklich
+    if (wikiWeb.getDaoContext().getWikiSelector() instanceof GWikiMultipleWikiSelector == false) {
+      previousSelector = wikiWeb.getDaoContext().getWikiSelector();
+      wikiWeb.getDaoContext().setWikiSelector(new GWikiMultipleWikiSelector());
+    }
   }
   
   /* (non-Javadoc)
@@ -45,6 +55,9 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
   public void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
     GWikiLog.note("Deactivate PLC Plugin");
+    if (previousSelector != null) {
+      wikiWeb.getDaoContext().setWikiSelector(previousSelector);
+    }
     super.deactivate(wikiWeb, plugin);
   }
 

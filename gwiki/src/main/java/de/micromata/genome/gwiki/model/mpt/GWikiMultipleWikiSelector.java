@@ -25,11 +25,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPageCacheTimedImpl;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiStandardWikiSelector;
@@ -224,5 +227,23 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
     mptIdSelector.setTenant(wikiContext, tenantId);
     initWiki(GWikiServlet.INSTANCE, wikiContext.getRequest(), wikiContext.getResponse());
     wikiContext.setWikiWeb(THREAD_WIKI.get());
+  }
+  
+  @Override
+  public void createTenant(GWikiContext wikiContext, String tenantId)
+  {
+    if (customWikis.get(tenantId) != null) {
+      GWikiLog.warn("tenant already exists");
+      return;
+    }
+    
+    GWikiWeb newTenant = createDerivedWiki(GWikiServlet.INSTANCE, tenantId);
+    customWikis.put(tenantId, newTenant);
+  }
+  
+  @Override
+  public void leaveTenant(GWikiContext wikiContext)
+  {
+   enterTenant(wikiContext, StringUtils.EMPTY);
   }
 }

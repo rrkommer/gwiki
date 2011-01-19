@@ -104,11 +104,27 @@ public interface GWikiWikiSelector
   void enterTenant(GWikiContext wikiContext, String tenantId);
 
   /**
+   * Switch to root wiki
+   * 
+   * @param wikiContext
+   * @throw RuntimeException if tenants are not supported or given tenant does not exists
+   */
+  void leaveTenant(GWikiContext wikiContext);
+
+  /**
    * Clear tenant (cache etc.)
    * 
    * @param wikiContext
    * @param tenantId
    */
   void clearTenant(GWikiContext wikiContext, String tenantId);
+  
+  /**
+   * Creates a tenant with the spefified name withoout switching the context to that tenant
+   * @param wikiContext
+   * @param tenantId
+   * @throw RuntimeException if tenants are not supported
+   */
+  void createTenant(GWikiContext wikiContext, String tenantId);
 
 }

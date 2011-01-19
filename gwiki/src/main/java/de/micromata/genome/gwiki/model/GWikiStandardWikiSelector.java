@@ -131,4 +131,14 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
   {
     throw new RuntimeException("Does not support tenants");
   }
+
+  public void createTenant(GWikiContext wikiContext, String tenantId)
+  {
+    throw new RuntimeException("Does not support tenants");
+  }
+
+  public void leaveTenant(GWikiContext wikiContext)
+  {
+    throw new RuntimeException("Does not support tenants");
+  }
 }
