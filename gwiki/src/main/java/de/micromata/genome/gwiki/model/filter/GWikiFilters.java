@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.model.filter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -207,25 +206,25 @@ public class GWikiFilters
   public void registerNewFilterObject(Object obj)
   {
     if (obj instanceof GWikiServeElementFilter) {
-      serveElementFilters.add(0, (GWikiServeElementFilter) obj);
+      serveElementFilters.add((GWikiServeElementFilter) obj);
     }
     if (obj instanceof GWikiWikiPageRenderFilter) {
-      renderWikiPageFilters.add(0, (GWikiWikiPageRenderFilter) obj);
+      renderWikiPageFilters.add((GWikiWikiPageRenderFilter) obj);
     }
     if (obj instanceof GWikiLoadElementInfosFilter) {
-      loadPageInfosFilters.add(0, (GWikiLoadElementInfosFilter) obj);
+      loadPageInfosFilters.add((GWikiLoadElementInfosFilter) obj);
     }
     if (obj instanceof GWikiWikiPageCompileFilter) {
-      wikiCompileFilters.add(0, (GWikiWikiPageCompileFilter) obj);
+      wikiCompileFilters.add((GWikiWikiPageCompileFilter) obj);
     }
     if (obj instanceof GWikiStorageStoreElementFilter) {
-      storageStoreElementFilters.add(0, (GWikiStorageStoreElementFilter) obj);
+      storageStoreElementFilters.add((GWikiStorageStoreElementFilter) obj);
     }
     if (obj instanceof GWikiStorageDeleteElementFilter) {
-      storageDeleteElementFilters.add(0, (GWikiStorageDeleteElementFilter) obj);
+      storageDeleteElementFilters.add((GWikiStorageDeleteElementFilter) obj);
     }
     if (obj instanceof GWikiPageChangedFilter) {
-      pageChangedFilters.add(0, (GWikiPageChangedFilter) obj);
+      pageChangedFilters.add((GWikiPageChangedFilter) obj);
     }
   }
 
@@ -291,7 +290,7 @@ public class GWikiFilters
   }
 
   /**
-   * return a priority sorted list of filters, where last filter will be executed first!
+   * 
    * 
    * @param regClasses
    * @param pluginFilters
@@ -303,7 +302,7 @@ public class GWikiFilters
     List<String> allFilters = new ArrayList<String>();
     if (regClasses != null) {
       allFilters.addAll(regClasses);
-      Collections.reverse(allFilters);
+      // Collections.reverse(allFilters);
     }
     for (GWikiPluginFilterDescriptor pfd : pluginFilters) {
       allFilters.add(pfd.getClassName());
@@ -320,7 +319,7 @@ public class GWikiFilters
         }
       }
     }
-    Collections.reverse(allFilters);
+    // Collections.reverse(allFilters);
     return allFilters;
   }
 
