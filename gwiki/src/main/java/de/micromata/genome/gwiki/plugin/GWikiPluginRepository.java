@@ -45,7 +45,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
-import de.micromata.genome.util.matcher.string.EndsWithMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.TextSplitterUtils;
@@ -65,6 +64,9 @@ public class GWikiPluginRepository
 
   private List<FileSystem> pluginLocations;
 
+  /**
+   * Where plugin zips are stored.
+   */
   private FileSystem storePluginLocation;
 
   private CombinedClassLoader activePluginClassLoader;
@@ -108,11 +110,18 @@ public class GWikiPluginRepository
 
   }
 
+  private enum PluginLayout
+  {
+    Pre10, JarSource
+  }
+
   private void loadPlugin(GWikiWeb wikiWeb, FsObject dir)
   {
     try {
+
       String pluginxmlname = FileNameUtils.join(dir.getName(), "gwikiplugin.xml");
       if (dir.getFileSystem().exists(pluginxmlname) == false) {
+        pluginxmlname = FileNameUtils.join(dir.getName(), "gwikiplugin.xml");
         GWikiLog.warn("No gwikiplugin.xml: " + pluginxmlname);
         return;
       }
@@ -131,7 +140,7 @@ public class GWikiPluginRepository
 
   private void loadPlugins(GWikiWeb wikiWeb, FileSystem fs)
   {
-    List<FsObject> fsObjects = fs.listFiles("", new EndsWithMatcher<String>(".zip"), 'F', false);
+    List<FsObject> fsObjects = fs.listFiles("", new BooleanListRulesFactory<String>().createMatcher("*.jar,*.zip"), 'F', false);
     for (FsObject fo : fsObjects) {
       byte[] data = fo.getFileSystem().readBinaryFile(fo.getName());
       ZipRamFileSystem fr = new ZipRamFileSystem(fo.getName(), new ByteArrayInputStream(data));
@@ -310,6 +319,10 @@ public class GWikiPluginRepository
     try {
       if (plugin.getFileSystem().exists("classes") == true) {
         classLoader.addClassPath(new SubFileSystem(plugin.getFileSystem(), "classes").getFileObject(""));
+      }
+      // in cases of external plugin projects
+      if (plugin.getFileSystem().exists("target/classes") == true) {
+        classLoader.addClassPath(new SubFileSystem(plugin.getFileSystem(), "target/classes").getFileObject(""));
       }
       if (plugin.getFileSystem().exists("lib") == true) {
         classLoader.addJarPath(plugin.getFileSystem().getFileObject("lib"));

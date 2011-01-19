@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.micromata.genome.util.types.Converter;
@@ -37,12 +38,12 @@ public class GWikiPluginFilterDescriptor
   /**
    * List of class names, where this filter should be before.
    */
-  private List<String> before;
+  private List<String> before = new ArrayList<String>();
 
   /**
    * List of class anme, where this filter should be after.
    */
-  private List<String> after;
+  private List<String> after = new ArrayList<String>();
 
   public GWikiPluginFilterDescriptor()
   {
