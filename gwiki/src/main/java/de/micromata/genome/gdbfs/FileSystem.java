@@ -240,7 +240,11 @@ public interface FileSystem
   // boolean lockFile(String lockFile, long timeout);
   //
   // void unLock(String lockFile);
-
+  /**
+   * return a counter which increments each time a file in the filesystem changed.
+   * 
+   * @todo not implemented
+   */
   public long getModificationCounter();
 
   /**
