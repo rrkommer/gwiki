@@ -1,0 +1,18 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @>
+
+<p>
+<strong>MyMvc Page with ActionBean.</strong>
+</p>
+<gwiki:errors />
+<form method="post">
+Name: <gwiki:text property="name"/><br/>
+<c:if test="${form.message != null}">
+<p>
+Message: <c:out value="${form.message}"/>
+</p>
+</c:if>
+
+<input  class="submit main" type="submit" name="method_onSayHello" value="Say Hello">
+</form>
+<% wikiContext.skinInclude('standardfoot'); %>
