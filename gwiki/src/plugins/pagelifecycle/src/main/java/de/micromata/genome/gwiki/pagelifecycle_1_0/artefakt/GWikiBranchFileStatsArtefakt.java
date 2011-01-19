@@ -75,7 +75,7 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
    */
   private BranchFileStats compileObject()
   {
-    if (super.getStorageData() == null) {
+    if (StringUtils.isBlank(super.getStorageData()) == true) {
       return new BranchFileStats();
     }
 

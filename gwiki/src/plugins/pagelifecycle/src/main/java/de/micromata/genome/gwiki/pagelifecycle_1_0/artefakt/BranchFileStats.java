@@ -35,11 +35,10 @@ public class BranchFileStats implements Serializable
   private Map<String, FileStatsDO> contentMap = new HashMap<String, FileStatsDO>();
   
   public void addFileStats(FileStatsDO statsDO) {
-    String pageId = statsDO.getPageId();
-    getContentMap().put(pageId, statsDO);
+    getContentMap().put(statsDO.getPageId(), statsDO);
   }
   
-  public Collection<FileStatsDO> getAllFileStatsinState(FileState fileState) {
+  public Collection<FileStatsDO> getAllFileStatsInState(FileState fileState) {
     return null;
   }
 

@@ -23,10 +23,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.util.text.PipeValueList;
 
 /**
- * @author stefans
- *
+ * Representation of one line in the central branch file stats file
+ * 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class FileStatsDO
 {
@@ -145,6 +147,10 @@ public class FileStatsDO
     this.lastModifiedAt = lastModifiedAt;
   }
   
+  /**
+   * Returns map to ease serialize with {@link PipeValueList}
+   * @return
+   */
   public Map<String, String> getAsMap() {
     Map<String, String> contentMap = new HashMap<String, String>();
 
@@ -155,7 +161,6 @@ public class FileStatsDO
     contentMap.put(MODIFIED_AT, StringUtils.defaultString(lastModifiedAt));
     contentMap.put(MODIFIED_BY, StringUtils.defaultString(lastModifiedBy));
     return contentMap;
-    
   }
   
 }

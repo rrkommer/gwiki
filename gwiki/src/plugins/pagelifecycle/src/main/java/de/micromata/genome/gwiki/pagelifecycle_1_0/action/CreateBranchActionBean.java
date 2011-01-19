@@ -17,6 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
@@ -30,20 +34,136 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 
 /**
- * @author Stefan Stuetzer
+ * Actionbean for creating new branches (content-releases)
+ * 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com) 
  */
 public class CreateBranchActionBean extends ActionBeanBase
 {
-  /**
-   * 
-   */
   private static final String INFO_TEMPLATE_ID      = "admin/templates/GWikiBranchInfoElementTemplate";
   private static final String FILESTATS_TEMPLATE_ID = "admin/templates/GWikiBranchFileStatsTemplate";
 
   private String branchId;
 
   private String description;
+  
+  private String releaseStartDate;
+  
+  private String releaseEndDate;
+  
+  public Object onCreateBranch() {
+    if (isBranchIdValid() == false) {
+      return null;
+    }
+    if (isReleaseDateValid() == false) {
+      return null;
+    }
+    
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
+      wikiContext.addSimpleValidationError("No multiple branches supported.");
+      return null;
+    }
+    
+    // create or enter new branch
+    wikiSelector.enterTenant(wikiContext, this.branchId);
+    
+    createBranchInfoElement();
+    createBranchFileStats();
+    
+    // leave branch
+    wikiSelector.leaveTenant(wikiContext);
+    
+    return null;
+  }
 
+  private void createBranchFileStats()
+  {
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID, "Branch File Stats");
+    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+  }
+
+  /**
+   * Creates initial the branch info element dolding branch meta data
+   */
+  private void createBranchInfoElement()
+  {
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
+    GWikiArtefakt< ? > artefakt = el.getMainPart();
+
+    GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
+    GWikiProps props = art.getCompiledObject();
+    props.setStringValue("BRANCH_ID", this.branchId);
+    props.setStringValue("DESCRIPTION", this.description);
+    props.setStringValue("BRANCH_STATE", BranchState.OFFLINE.name());
+    props.setStringValue("RELEASE_DATE", getDateString(this.releaseStartDate));
+    props.setStringValue("RELEASE_END_DATE", getDateString(this.releaseEndDate));
+    
+    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+  }
+
+  private boolean isBranchIdValid()
+  {
+    if (StringUtils.isBlank(this.branchId) == true) {
+      wikiContext.addSimpleValidationError("branch id not valid. It must have at least one character");
+      return false;
+    }
+    if (StringUtils.containsAny(this.branchId, new char[]{'/',',','*','#','"','\'',' '})) {
+      wikiContext.addSimpleValidationError("Branch-Id not valid. It contains invalid chracters.");
+      return false;
+    }
+    if (this.branchId.length() > 50) {
+      wikiContext.addSimpleValidationError("Branch-Id not valid. There are too many characters.");
+      return false;
+    }
+    return true;
+  }
+  
+  private boolean isReleaseDateValid()
+  {
+    // no dates given -> true
+    if (StringUtils.isBlank(this.releaseStartDate) == true && StringUtils.isBlank(this.releaseEndDate) == true) {
+      return true;
+    }
+    
+    try {
+      // try to parse date strings
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+      if (StringUtils.isNotBlank(this.releaseStartDate) == true) {
+        sdf.parse(this.releaseStartDate);
+      }
+      if (StringUtils.isNotBlank(this.releaseEndDate) == true) {
+        sdf.parse(this.releaseEndDate);
+      }
+      return true;
+    } catch (ParseException ex) {
+      wikiContext.addSimpleValidationError("Release date(s) not valid");
+
+      return false;
+    }
+  }
+  
+  /**
+   * @param releaseStartDate2
+   * @return
+   */
+  private String getDateString(String date)
+  {
+    if (StringUtils.isBlank(date) == true) {
+      return StringUtils.EMPTY;
+    }
+    
+    try {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    Date parsedDate = sdf.parse(this.releaseStartDate);
+    return GWikiProps.formatTimeStamp(parsedDate);
+    } catch (ParseException ex) {
+      ex.printStackTrace();
+    }
+    return null;
+  }
+
+  
   /**
    * @param branchId the branchId to set
    */
@@ -74,69 +194,38 @@ public class CreateBranchActionBean extends ActionBeanBase
   public String getDescription()
   {
     return description;
+  }
+
+  /**
+   * @param releaseStartDate the releaseStartDate to set
+   */
+  public void setReleaseStartDate(String releaseStartDate)
+  {
+    this.releaseStartDate = releaseStartDate;
+  }
+
+  /**
+   * @return the releaseStartDate
+   */
+  public String getReleaseStartDate()
+  {
+    return releaseStartDate;
+  }
+
+  /**
+   * @param releaseEndDate the releaseEndDate to set
+   */
+  public void setReleaseEndDate(String releaseEndDate)
+  {
+    this.releaseEndDate = releaseEndDate;
+  }
+
+  /**
+   * @return the releaseEndDate
+   */
+  public String getReleaseEndDate()
+  {
+    return releaseEndDate;
   } 
-  
-  public Object onCreateBranch() {
-    if (isBranchIdValid(branchId) == false) {
-      return null;
-    }
-    
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
-      wikiContext.addSimpleValidationError("No multiple branches supported.");
-      return null;
-    }
-    wikiSelector.enterTenant(wikiContext, this.branchId);
-    
-    createBranchInfoElement();
-    createBranchFileStats();
-    
-    return null;
-  }
 
-  /**
-   * 
-   */
-  private void createBranchFileStats()
-  {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID, "Branch File Stats");
-    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-  }
-
-  /**
-   *  
-   */
-  private void createBranchInfoElement()
-  {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
-    GWikiArtefakt< ? > artefakt = el.getMainPart();
-
-    GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
-    GWikiProps props = art.getCompiledObject();
-    props.setStringValue("BRANCH_ID", this.branchId);
-    props.setStringValue("DESCRIPTION", this.description);
-    props.setStringValue("BRANCH_STATE", BranchState.CREATED.name());
-    
-    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-  }
-
-  /**
-   * @return
-   */
-  private boolean isBranchIdValid(String id)
-  {
-    if (StringUtils.isBlank(id) == true) {
-      wikiContext.addSimpleValidationError("branch id not valid. It must have at least one character");
-      return false;
-    }
-    if (StringUtils.containsAny(id, new char[]{'/',',','*','#','"','\''})) {
-      wikiContext.addSimpleValidationError("branch id not valid. It contains invalid chracters.");
-      return false;
-    }
-    if (id.length() > 200) {
-      wikiContext.addSimpleValidationError("branch id not valid. There are too many characters.");
-      return false;
-    }
-    return true;
-  }
 }

@@ -6,6 +6,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="noSearchIndex" value="true" />
+		<property name="noArchiv" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DELVELOPER" />
 		<property name="elementType" value="gwiki" />
 		<property name="viewable" value="false" />
