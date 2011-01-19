@@ -23,8 +23,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -40,6 +42,7 @@ import de.micromata.genome.gwiki.model.GWikiBinaryArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementFactory;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPersistArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -56,6 +59,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiStorageDeleteElementFilterEve
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
 import de.micromata.genome.gwiki.page.search.GlobalIndexFile;
 import de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler;
 import de.micromata.genome.gwiki.page.search.WordIndexTextArtefakt;
@@ -301,7 +305,6 @@ public class GWikiFileStorage implements GWikiStorage
     for (FsObject e : elements) {
       ret.add(createElementInfo(e));
     }
-    // resolvePageInfos(ret);
     return ret;
   }
 
@@ -480,13 +483,64 @@ public class GWikiFileStorage implements GWikiStorage
     return Pair.make(id.substring(0, lidx), id.substring(lidx + 1));
   }
 
+  protected void cleanUpArchivedFiles(final GWikiContext wikiContext, final GWikiElement el, int maxcount, int maxdays)
+  {
+    if (maxcount == -1 && maxdays == -1) {
+      return;
+    }
+    List<GWikiElementInfo> archives = getVersions(el.getElementInfo().getId());
+    List<GWikiElementInfo> keep = new ArrayList<GWikiElementInfo>();
+    keep.addAll(archives);
+    List<GWikiElementInfo> remove = new ArrayList<GWikiElementInfo>();
+    long now = System.currentTimeMillis();
+    Collections.sort(keep, new GWikiElementByPropComparator(GWikiPropKeys.MODIFIEDAT, (String) null));
+    if (maxdays != -1) {
+      for (Iterator<GWikiElementInfo> it = keep.iterator(); it.hasNext();) {
+        GWikiElementInfo ei = it.next();
+        if (maxdays != -1) {
+          Date date = ei.getModifiedAt();
+          if (date == null) {
+            it.remove();
+            remove.add(ei);
+            continue;
+          }
+          long dif = (now - date.getTime()) / TimeInMillis.DAY;
+          if (dif > maxdays) {
+            it.remove();
+            remove.add(ei);
+            continue;
+          }
+        }
+      }
+    }
+    if (maxcount != -1 && keep.size() > maxcount) {
+      remove.addAll(keep.subList(0, keep.size() - maxcount));
+    }
+    for (GWikiElementInfo ei : remove) {
+      final GWikiElement bel = loadElement(ei);
+      // final GWikiElement bel = wikiContext.getWikiWeb().getElement(ei);
+      final Map<String, GWikiArtefakt< ? >> parts = getParts(bel);
+      destroyElement(wikiContext, bel, parts);
+    }
+  }
+
   @SuppressWarnings("unchecked")
-  protected void archivePage(final GWikiElement el)
+  protected void archivePage(final GWikiContext wikiContext, final GWikiElement el)
   {
     storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
 
       public Void call() throws RuntimeException
       {
+
+        GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
+
+        int maxc = wikiConfig.getArchiveMaxCount();
+        int maxd = wikiConfig.getArchiveMaxDays();
+        if (maxc == 0 || maxd == 0) {
+          cleanUpArchivedFiles(wikiContext, el, maxc, maxd);
+          return null;
+        }
+
         // List<GWikiArtefakt> artefakts = el.getArtefakts();
         Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
         el.collectParts(parts);
@@ -514,7 +568,6 @@ public class GWikiFileStorage implements GWikiStorage
         }
         clelinfo.setId(newId);
 
-        // artefakts.add();
         for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
           if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
             continue;
@@ -529,11 +582,10 @@ public class GWikiFileStorage implements GWikiStorage
             if (success == false) {
               GWikiLog.warn("Cannot rename file. From: " + oldName + "; to: " + newName);
               success = storage.rename(oldName, newName);
-              // TODO Log
             }
           }
-
         }
+        cleanUpArchivedFiles(wikiContext, el, maxc, maxd);
         return null;
       }
     });
@@ -552,7 +604,6 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  @SuppressWarnings("unchecked")
   protected void deleteImpl(final GWikiContext wikiContext, final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
   {
 
@@ -562,23 +613,28 @@ public class GWikiFileStorage implements GWikiStorage
         if (element.getMetaTemplate() != null
             && element.getMetaTemplate().isNoArchiv() == false
             && wikiContext.getBooleanRequestAttribute(STORE_NO_ARCHIVE) != true) {
-          archivePage(element);
+          archivePage(wikiContext, element);
         }
-        String id = element.getElementInfo().getId();
-        for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-          if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
-            continue;
-          GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
-          String fname = art.buildFileName(id, me.getKey());
-          boolean deleted = storage.delete(fname);
-          if (deleted == false) {
-            // TODO Log GLog.warn(Category.Wiki, "Cannot delete file: " + fname);
-          }
-        }
+        destroyElement(wikiContext, element, parts);
         return null;
       }
     });
+  }
 
+  @SuppressWarnings("unchecked")
+  protected void destroyElement(final GWikiContext wikiContext, final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
+  {
+    String id = element.getElementInfo().getId();
+    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+      if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
+        continue;
+      GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
+      String fname = art.buildFileName(id, me.getKey());
+      boolean deleted = storage.delete(fname);
+      if (deleted == false) {
+        // TODO Log GLog.warn(Category.Wiki, "Cannot delete file: " + fname);
+      }
+    }
   }
 
   protected void setVersionStamps(final GWikiElement el, final boolean keepModifiedAt)
@@ -628,7 +684,7 @@ public class GWikiFileStorage implements GWikiStorage
             && wikiContext.getBooleanRequestAttribute(GWikiStorage.STORE_NO_ARCHIVE) == false) {
           if (olel != null) {
             try {
-              archivePage(olel);
+              archivePage(wikiContext, olel);
             } catch (Exception ex) {
               GWikiLog.warn("Cannot archive page: " + olel.getElementInfo().getId(), ex);
             }
