@@ -1,0 +1,177 @@
+{pageintro}
+How to create a GWiki Plugin.
+{pageintro}
+
+h2. Setting up a project.
+h2. Requirements
+To create a GWiki Plugin it is recommented to get at least following sources:
+
+- gwiki-genome-dependencies
+- gwiki
+- gwiki-standalone
+
+and include it into your IDE.
+
+Please refer also to [gwikidocs/gwikidevel/en/DevelopGWiki]
+
+h3. File layout
+Create following file layout:
+first create a parent directory, where all your GWiki plugins are located.
+{{gwiki/plugins}}
+Inside this directory create a project directory (f.e. {{gwiki-sampleplugin}}).
+Inside this directory create following directory structure:
+{pre}
+/
+pom.xml
+gwikiplugin.xml
+build.xml
+ src/
+     main/
+          java/
+          resources/
+    test/
+           java/
+content/
+     gwiki/
+  
+{pre}
+- {{pom.xml}} Maven build file.
+- {{src/main/java}}: Plugin Java classes
+- {{src/main/resources/gwikiplugin.xml}}: Manifest file for gwiki plugins
+- {{src/main/resources/content/gwiki}}: Local storage for gwiki content.
+- {{src/test/java}: Java Unitttests.
+
+h3. Maven
+
+To resolve libraries and setting up your IDE you can write a maven file in your project folder.
+pom.xml:
+{code}
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>de.micromata.genome.gwiki</groupId>
+	<artifactId>gwiki-sampleplugin</artifactId>
+	<packaging>jar</packaging>
+	<name>gwiki-sampleplugin</name>
+	<version>1.0.0</version>
+	
+	<dependencies>
+		<dependency>
+			<groupId>de.micromata.genome.gwiki</groupId>
+			<artifactId>gwiki</artifactId>
+			<version>0.4.2-SNAPSHOT</version>
+		</dependency>
+		
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>labs.micromata.de-releases</id>
+			<url>https://labs.micromata.de/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>labs.micromata.de-snapshots</id>
+			<url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+</project>
+{code}
+
+Ajust following:
+- 0.4.2-SNAPSHOT GWiki Version to used.
+- Chose groupId, artifactId and name
+
+
+h3. Eclipse
+After executing {{mvn eclipse:eclipse -DdownloadJavadocs=true}} in the project folder, you can open the project in eclipse.
+
+h2. Create gwikiplugin.xml
+
+In project root create gwikiplugin.xml:
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+		<property name="apiVersion" value="1.0.0" />
+		<property name="name" value="gwiki.scheduler" />
+		<property name="version" value="1.0.0" />
+		<property name="description" value="Scheduler Plugin for GWiki" />
+		<property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.scheduler_1_0.chronos.spi.GWikiSchedInitializer"/>
+	</bean>
+</beans>
+{code}
+
+h2. Create build.xml
+Currently the plugin itself will be build by a build.xml and ant.
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="gwiki.scheduler">
+	<property name="plugintarget" value="target" />
+	<property name="gwikischedulerversion" value="gwiki.scheduler-1.0.0" />
+
+
+	<target name="gwiki.scheduler">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${gwikischedulerversion}.zip" />
+		<zip zipfile="${plugintarget}/${gwikischedulerversion}.zip">
+			<fileset dir="target" includes="classes/**" />
+			<fileset dir="" includes="content/**" />
+			<fileset dir="" includes="gwikiplugin.xml" />
+		</zip>
+	</target>
+	
+</project>
+{code}
+
+Normal classes, which should part of the plugin are located in the {{src/main/java}} path.
+If you also want to have content files (wiki etc.), store them in the path {{content/gwiki}} path.
+
+h2. Enable plugin in our wiki.
+In your GWikiContextDev.xml normally you can find following.
+
+{code}
+...
+                <property name="pluginRepository">
+			<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+				<property name="storePluginLocation">
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg value="${gwiki.dev.path}/src/plugins" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+{code}
+
+Change it, to something like:
+{code}
+...
+                <property name="pluginRepository">
+			<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+				<property name="storePluginLocation">
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg value="MyPath/plugins" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+{code}
+
+This will add automatically all plugins to GWiki plugins.
+
+h2. Developing
+h3. Debugging
+If you debugging classes of your plugin, you have to add the plugin source path to the main project - f.e. gwiki-standalone.
+
+h3. Creating content.
+If you create Content via GWiki itself, the files will probably not created inside the plugin content directory. 
+So you have move the files after created. 
+
+
