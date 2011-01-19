@@ -16,7 +16,7 @@ h2. Send Email
 {anchor:GWIKI_SEND_EMAIL}
 Sender Email adress used by GWiki when sending system email.
 
-h2. Show Stacktrac
+h2. Show Stacktrace
 {anchor:GWIKI_ERROR_SHOW_STACK_TRACE}
 Display the stack traces on the admin/InternalError. Running GWiki on a production system, you should disable this.
 
@@ -52,7 +52,19 @@ Welcome page shown if opened without any page url.
 
 h2. Default Help page
 {anchor:GWIKI_COMMON_HELP}
-Default Help page.
+Define default Help page, if the element doesn't provide own help page.
+
+h2. Versioning options
+
+h3. Maximum versions
+{anchor:GWIKI_ARCHIVE_MAX_COUNT}
+Define the maximum stored versions. Empty and -1 is no limit. If 0 no versioning files are stored.
+
+h3. Maximum days
+{anchor:GWIKI_ARCHIVE_MAX_DAYS}
+Define the maximum stored versions in days. Empty and -1 is no limit. If 0 no versioning files are stored.
+
+
 
 The URL is without language part.
 The URL {{gwikidocs/help/WikiHelp}} will be resolved as {{gwikidocs/help/en/WikiHelp}} if page or users language is English.
