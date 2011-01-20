@@ -518,7 +518,6 @@ public class GWikiFileStorage implements GWikiStorage
     }
     for (GWikiElementInfo ei : remove) {
       final GWikiElement bel = loadElement(ei);
-      // final GWikiElement bel = wikiContext.getWikiWeb().getElement(ei);
       final Map<String, GWikiArtefakt< ? >> parts = getParts(bel);
       destroyElement(wikiContext, bel, parts);
     }

@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
+import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 
 /**
  * State hold by the gwiki parser.
@@ -53,7 +54,7 @@ public class GWikiWikiParserContext
 
   public GWikiWikiParserContext()
   {
-
+    macroFactories.putAll(Html2WikiFilter.TextDecoMacroFactories);
   }
 
   public GWikiWikiParserContext createChildParseContext()
@@ -155,6 +156,19 @@ public class GWikiWikiParserContext
     return rl.get(rl.size() - 1);
   }
 
+  public GWikiFragment lastFrag()
+  {
+    if (frags.isEmpty() == true) {
+      return null;
+    }
+    List<GWikiFragment> lf = frags.get(frags.size() - 1);
+    if (lf.isEmpty() == true) {
+      return null;
+    }
+    return lf.get(lf.size() - 1);
+
+  }
+
   public void pushFragStack(GWikiFragment frag)
   {
     fragStack.push(frag);
@@ -211,5 +225,15 @@ public class GWikiWikiParserContext
   public void setFragStack(ArrayStack<GWikiFragment> fragStack)
   {
     this.fragStack = fragStack;
+  }
+
+  public List<List<GWikiFragment>> getFrags()
+  {
+    return frags;
+  }
+
+  public void setFrags(List<List<GWikiFragment>> frags)
+  {
+    this.frags = frags;
   }
 }
