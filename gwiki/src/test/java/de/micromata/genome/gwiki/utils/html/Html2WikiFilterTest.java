@@ -215,7 +215,7 @@ public class Html2WikiFilterTest extends Html2WikiBase
     String html = "{asdf}";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("\\{asdf\\}", wiki);
+    assertEquals("{asdf}", wiki);
   }
 
   public void testHr()
@@ -231,7 +231,15 @@ public class Html2WikiFilterTest extends Html2WikiBase
     String html = "<b>bold</b>notbold";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("*bold*notbold", wiki);
+    assertEquals("{*}bold{*}notbold", wiki);
+    html = "<b>bold</b> notbold";
+    wiki = transform(html);
+    System.out.println(wiki);
+    assertEquals("*bold* notbold", wiki);
+    html = "x<b>bold</b> notbold";
+    wiki = transform(html);
+    System.out.println(wiki);
+    assertEquals("x{*}bold{*} notbold", wiki);
   }
 
   public void testUl2()
