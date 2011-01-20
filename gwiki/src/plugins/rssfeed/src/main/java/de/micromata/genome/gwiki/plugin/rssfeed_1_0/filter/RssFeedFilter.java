@@ -19,13 +19,21 @@ package de.micromata.genome.gwiki.plugin.rssfeed_1_0.filter;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.author;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.channel;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.copyright;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.descripton;
+import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.description;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.item;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.language;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.link;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.pubData;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.rss;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.title;
+import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.xmlHeader;
+import groovyjarjarcommonscli.ParseException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
@@ -81,17 +89,23 @@ public class RssFeedFilter implements GWikiServeElementFilter
       String datum = elementInfo.getCreatedAt().toString();
       String autor = elementInfo.getCreatedBy();
 
-      XmlElement RSS = rss("2.0").nest(channel((title(Xml.text("GWiki Feeds"))),//
+      DateFormat dfmt = new SimpleDateFormat("EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
+      datum = dfmt.format(elementInfo.getCreatedAt());
+
+      wikiContext.getResponse().setHeader("Content-Type", "application/xml");
+
+      XmlElement RSS = rss("2.0").nest(channel((title(Xml.text("GWiki RSS-Feeds"))),//
           (link(Xml.text("http://localhost:8081/"))),//
-          (descripton(Xml.text("beschreibung"))),//
+          (description(Xml.text("Hier siehst du Feeds von GWiki!"))),//
           (copyright(Xml.text("ingo"))),//
           (language(Xml.text("de-de"))),//
           (pubData(Xml.text("Tue, 18 Jan 2011 13:41:31 +0100"))),//
           (item((title(Xml.text(title))),//
-              (descripton(Xml.text(wikiPageHtmlContent))),//
-              (link(Xml.text(link))),//
-              (author(Xml.text(autor))),//
-              (pubData(Xml.text(datum)))))//
+              (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))),//
+              (pubData(Xml.text(datum))),//
+              (description(Xml.text(wikiPageHtmlContent))),//
+              (author(Xml.text(autor)))//
+          ))//
           ));
 
       wikiContext.append(RSS.toString());
