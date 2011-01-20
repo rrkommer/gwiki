@@ -99,7 +99,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
           (description(Xml.text("Hier siehst du Feeds von GWiki!"))),//
           (copyright(Xml.text("ingo"))),//
           (language(Xml.text("de-de"))),//
-          (pubData(Xml.text("Tue, 18 Jan 2011 13:41:31 +0100"))),//
+          (pubData(Xml.text(dfmt.format(new java.util.Date())))),//
           (item((title(Xml.text(title))),//
               (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))),//
               (pubData(Xml.text(datum))),//
