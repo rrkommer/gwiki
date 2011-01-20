@@ -28,11 +28,6 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
  */
 public class RSS
 {
-  public static XmlDocument rssFeed()
-  {
-    return Xml.xml();
-  }
-
   public static XmlElement rss(String version)
   {
     return Xml.element("rss", Xml.attrs("version", version));
@@ -59,9 +54,9 @@ public class RSS
     return ret;
   }
 
-  public static XmlElement descripton(XmlNode... childs)
+  public static XmlElement description(XmlNode... childs)
   {
-    XmlElement ret = Xml.element("descripton", Xml.attrs());
+    XmlElement ret = Xml.element("description", Xml.attrs());
     ret.nest(childs);
     return ret;
   }
@@ -99,5 +94,9 @@ public class RSS
     XmlElement ret = Xml.element("author", Xml.attrs());
     ret.nest(childs);
     return ret;
+  }
+  
+  public static XmlElement xmlHeader() {
+    return null;
   }
 }
