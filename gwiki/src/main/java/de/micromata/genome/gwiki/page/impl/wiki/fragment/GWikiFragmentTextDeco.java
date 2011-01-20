@@ -33,6 +33,11 @@ public class GWikiFragmentTextDeco extends GWikiFragmentDecorator
 
   private char wikiTag;
 
+  /**
+   * if no space is before/after the text deco, macro syntax is required.
+   */
+  private boolean requireMacroSyntax = false;
+
   public GWikiFragmentTextDeco(char wikiTag, String prefix, String suffix, List<GWikiFragment> childs)
   {
     super(prefix, suffix, childs);
@@ -42,9 +47,31 @@ public class GWikiFragmentTextDeco extends GWikiFragmentDecorator
   @Override
   public void getSource(StringBuilder sb)
   {
+    if (requireMacroSyntax == true) {
+      sb.append("{");
+    }
     sb.append(wikiTag);
+    if (requireMacroSyntax == true) {
+      sb.append("}");
+    }
     getChildSouce(sb);
+    if (requireMacroSyntax == true) {
+      sb.append("{");
+    }
     sb.append(wikiTag);
+    if (requireMacroSyntax == true) {
+      sb.append("}");
+    }
+  }
+
+  public boolean isRequireMacroSyntax()
+  {
+    return requireMacroSyntax;
+  }
+
+  public void setRequireMacroSyntax(boolean requireMacroSyntax)
+  {
+    this.requireMacroSyntax = requireMacroSyntax;
   }
 
 }
