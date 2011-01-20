@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="gwiki.plugin">
+	<property name="plugintarget" value="target" />
+	<property name="pluginversion" value="gwiki.scheduler-1.0.0" />
+
+
+	<target name="gwiki.plugin">
+		<mkdir dir="${plugintarget}" />
+		<delete file="${plugintarget}/${pluginversion}.zip" />
+		<zip zipfile="${plugintarget}/${pluginversion}.zip">
+			<fileset dir="target" includes="classes/**" />
+			<fileset dir="" includes="content/**" />
+			<fileset dir="" includes="gwikiplugin.xml" />
+		</zip>
+	</target>
+	
+</project>
