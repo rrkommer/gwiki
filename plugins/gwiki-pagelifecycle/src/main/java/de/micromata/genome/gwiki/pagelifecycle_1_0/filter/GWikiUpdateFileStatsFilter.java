@@ -79,6 +79,7 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       newFileStat.setFileState(FileState.DRAFT);
       newFileStat.setCreatedAt(GWikiProps.formatTimeStamp(new Date()));
       newFileStat.setCreatedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+      newFileStat.setAssignedTo(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)); // initial assigned to creator
       fileStatsContent.addFileStats(newFileStat);
 
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
