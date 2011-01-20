@@ -38,6 +38,7 @@ public class FileStatsDO
   public static final String CREATED_BY = "created_by";
   public static final String MODIFIED_AT = "modified_at";
   public static final String MODIFIED_BY = "modified_by";
+  public static final String ASSIGNED_TO = "assigned_to";
   
   private String pageId;
   
@@ -50,6 +51,8 @@ public class FileStatsDO
   private String lastModifiedBy;
   
   private String lastModifiedAt;
+  
+  private String assignedTo;
 
   /**
    * @return the pageId
@@ -156,11 +159,26 @@ public class FileStatsDO
 
     contentMap.put(PAGE_ID, pageId);
     contentMap.put(FILE_STATE, fileState.name());
+    contentMap.put(ASSIGNED_TO, assignedTo);
     contentMap.put(CREATED_AT, createdAt);
     contentMap.put(CREATED_BY, createdBy);
     contentMap.put(MODIFIED_AT, StringUtils.defaultString(lastModifiedAt));
     contentMap.put(MODIFIED_BY, StringUtils.defaultString(lastModifiedBy));
     return contentMap;
   }
+
+/**
+ * @param assignedTo the assignedTo to set
+ */
+public void setAssignedTo(String assignedTo) {
+	this.assignedTo = assignedTo;
+}
+
+/**
+ * @return the assignedTo
+ */
+public String getAssignedTo() {
+	return assignedTo;
+}
   
 }

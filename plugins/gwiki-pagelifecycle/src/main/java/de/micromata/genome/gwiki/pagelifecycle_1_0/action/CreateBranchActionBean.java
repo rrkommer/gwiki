@@ -74,7 +74,7 @@ public class CreateBranchActionBean extends ActionBeanBase
     // leave branch
     wikiSelector.leaveTenant(wikiContext);
     
-    return null;
+    return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }
 
   private void createBranchFileStats()
@@ -155,10 +155,10 @@ public class CreateBranchActionBean extends ActionBeanBase
     
     try {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    Date parsedDate = sdf.parse(this.releaseStartDate);
+    Date parsedDate = sdf.parse(date);
     return GWikiProps.formatTimeStamp(parsedDate);
     } catch (ParseException ex) {
-      ex.printStackTrace();
+    	wikiContext.addSimpleValidationError("Could not parse release dates.");
     }
     return null;
   }

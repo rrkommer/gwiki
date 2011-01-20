@@ -4,18 +4,29 @@
 <gwiki:errors />
 
 <form class="gwikiForm col" method="post">
-	
-	<table>
-		<tr>
-			<td>Branch-Id</td>
-			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="branchId" /><td>
-		</tr>
-		<tr>
-			<td>Description</td>
-			<td><gwiki:textarea cols="50" rows="5" property="description"></gwiki:textarea></td>
-		</tr>
-	</table>
-	<input class="gwikiButton main" type="submit" name="method_onCreateBranch" value="Create Branch"/>
+	<c:forEach var="map" items="${form.contentMap}">
+		<fieldset>
+			<legend><c:out value="${map.key}"/></legend>
+			<table border="1">
+				<tr>
+					<th>Page-Id</th>
+					<th>Title</th>
+					<th>Created By</th>
+					<th>Created At</th>
+					<th>Type</th>
+				</tr>
+				<c:forEach var="page" items="${map.value}">
+					<tr>
+						<td><c:out value="${page.id}"/></td>
+						<td><c:out value="${page.title}"/></td>
+						<td><c:out value="${page.createdBy}"/></td>
+						<td><c:out value="${page.createdAt}"/></td>
+						<td><c:out value="${page.type}"/></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</fieldset>
+	</c:forEach>
 </form>
 
 <% wikiContext.skinInclude("standardfoot"); %>
