@@ -679,7 +679,7 @@ public class Html2WikiFilter extends DefaultFilter
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
     String t = text.toString();
-    if (t.isEmpty() == false && Character.isWhitespace(t.charAt(0)) == false) {
+    if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
       GWikiFragment lf = parseContext.lastFrag();
       if (lf instanceof GWikiFragmentTextDeco) {
         ((GWikiFragmentTextDeco) lf).setRequireMacroSyntax(true);
