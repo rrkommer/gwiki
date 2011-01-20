@@ -26,11 +26,8 @@ import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.link;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.pubData;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.rss;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.title;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.xmlHeader;
-import groovyjarjarcommonscli.ParseException;
-import java.sql.Date;
+
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -45,10 +42,9 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
-
+ 
 /**
- * @author ingojoseph
- * 
+ * @author Ingo Joseph
  */
 public class RssFeedFilter implements GWikiServeElementFilter
 {
@@ -85,7 +81,6 @@ public class RssFeedFilter implements GWikiServeElementFilter
 
       String title = elementInfo.getTitle();
       String wikiPageHtmlContent = standaloneContext.getOutString();
-      String link = elementInfo.getId();
       String datum = elementInfo.getCreatedAt().toString();
       String autor = elementInfo.getCreatedBy();
 
