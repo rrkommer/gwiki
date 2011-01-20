@@ -33,7 +33,7 @@ public class GWikiFiltersTest extends TestCase
   public void testSort()
   {
     List<GWikiPluginFilterDescriptor> pluginFilters = new ArrayList<GWikiPluginFilterDescriptor>();
-    GWikiPluginFilterDescriptor pf = new GWikiPluginFilterDescriptor("pluginfilter", "", "coreplugin");
+    GWikiPluginFilterDescriptor pf = new GWikiPluginFilterDescriptor("pluginfilter");
     pluginFilters.add(pf);
     GWikiFilters filters = new GWikiFilters();
     List<String> regClasses = new ArrayList<String>();
@@ -46,13 +46,26 @@ public class GWikiFiltersTest extends TestCase
   public void testSort2()
   {
     List<GWikiPluginFilterDescriptor> pluginFilters = new ArrayList<GWikiPluginFilterDescriptor>();
-    GWikiPluginFilterDescriptor pf = new GWikiPluginFilterDescriptor("pluginfilter", "coreplugin", "");
+    GWikiPluginFilterDescriptor pf = new GWikiPluginFilterDescriptor("pluginfilter");
+    pf.getAfter().add("coreplugin");
+    pluginFilters.add(pf);
+    GWikiFilters filters = new GWikiFilters();
+    List<String> regClasses = new ArrayList<String>();
+    regClasses.add("coreplugin");
+    List<String> sf = filters.getSortedClasses(regClasses, pluginFilters);
+    assertEquals(sf.get(0), "coreplugin");
+  }
+
+  public void testSort3()
+  {
+    List<GWikiPluginFilterDescriptor> pluginFilters = new ArrayList<GWikiPluginFilterDescriptor>();
+    GWikiPluginFilterDescriptor pf = new GWikiPluginFilterDescriptor("pluginfilter");
+    pf.getBefore().add("coreplugin");
     pluginFilters.add(pf);
     GWikiFilters filters = new GWikiFilters();
     List<String> regClasses = new ArrayList<String>();
     regClasses.add("coreplugin");
     List<String> sf = filters.getSortedClasses(regClasses, pluginFilters);
     assertEquals(sf.get(1), "coreplugin");
-
   }
 }
