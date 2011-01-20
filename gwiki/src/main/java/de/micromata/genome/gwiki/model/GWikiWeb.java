@@ -198,8 +198,7 @@ public class GWikiWeb
 
         public Void call() throws RuntimeException
         {
-          filter = new GWikiFilters();
-          filter.init(GWikiWeb.this, config);
+          initFilters(config);
           // / force to load config first to register listener
 
           modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
@@ -468,8 +467,8 @@ public class GWikiWeb
   {
     GWikiContext wikiContext = GWikiContext.getCurrent();
     if (wikiContext != null) {
-      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider().getSessionAttribute(
-          GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
+      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider()
+          .getSessionAttribute(GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
       if (el != null && StringUtils.equals(el.getElementInfo().getId(), path) == true) {
         return el;
       }
@@ -641,7 +640,8 @@ public class GWikiWeb
     if (wikiGlobalConfig != null) {
       return wikiGlobalConfig;
     }
-    reloadWikiConfig();
+    GWikiGlobalConfig cfg = reloadWikiConfig();
+    initFilters(cfg);
     return wikiGlobalConfig;
   }
 
@@ -653,9 +653,13 @@ public class GWikiWeb
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiGlobalConfig nwikiGlobalConfig = new GWikiGlobalConfig((GWikiProps) ser);
-    filter = new GWikiFilters();
-    filter.init(this, nwikiGlobalConfig);
     return wikiGlobalConfig = nwikiGlobalConfig;
+  }
+
+  public synchronized void initFilters(GWikiGlobalConfig cfg)
+  {
+    filter = new GWikiFilters();
+    filter.init(GWikiWeb.this, cfg);
   }
 
   public GWikiStorage getStorage()

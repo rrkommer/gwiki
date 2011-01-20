@@ -18,6 +18,7 @@
 
 package de.micromata.genome.gwiki.model.config;
 
+import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilterEvent;
@@ -38,7 +39,8 @@ public class GWikiConfigChangedListener implements GWikiPageChangedFilter
       return null;
     }
     if (event.getNewInfo().getId().equals("admin/config/GWikiConfig") == true) {
-      event.getWikiWeb().reloadWikiConfig();
+      GWikiGlobalConfig cfg = event.getWikiWeb().reloadWikiConfig();
+      event.getWikiWeb().initFilters(cfg);
     }
     return null;
   }
