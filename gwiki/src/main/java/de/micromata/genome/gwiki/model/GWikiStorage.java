@@ -34,6 +34,8 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public interface GWikiStorage
 {
+  public static final String SETTINGS_SUFFIX = "Settings.properties";
+  
   /**
    * Boolean flag storage should not create archive.
    * 

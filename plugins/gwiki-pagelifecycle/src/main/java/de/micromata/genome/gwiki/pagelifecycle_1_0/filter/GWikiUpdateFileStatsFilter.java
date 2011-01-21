@@ -67,10 +67,8 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       GWikiBranchFileStatsArtefakt fileStatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
       BranchFileStats fileStatsContent = fileStatsArtefakt.getCompiledObject();
 
-      FileStatsDO fileStatsForId = fileStatsContent.getFileStatsForId(storedElementInfo.getId());
-      
       // if page already contained in fielstats file continue
-      if (fileStatsForId != null) {
+      if (fileStatsContent.isPagePresent(storedElementInfo.getId()) == true) {
         return chain.nextFilter(event);
       }
 

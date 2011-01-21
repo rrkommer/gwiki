@@ -92,6 +92,7 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
       fileStatsDO.setCreatedBy(map.get(FileStatsDO.CREATED_BY));
       fileStatsDO.setLastModifiedAt(map.get(FileStatsDO.MODIFIED_AT));
       fileStatsDO.setLastModifiedBy(map.get(FileStatsDO.MODIFIED_BY));
+      fileStatsDO.setAssignedTo(map.get(FileStatsDO.ASSIGNED_TO));
 
       fileStats.addFileStats(fileStatsDO);
     }

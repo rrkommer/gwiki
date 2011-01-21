@@ -7,21 +7,25 @@
 	<c:forEach var="map" items="${form.contentMap}">
 		<fieldset>
 			<legend><c:out value="${map.key}"/></legend>
-			<table border="1">
+			<table border="1" width="100%">
 				<tr>
 					<th>Page-Id</th>
 					<th>Title</th>
 					<th>Created By</th>
 					<th>Created At</th>
 					<th>Type</th>
+					<th>Assignee</th>
+					<th>State</th>
 				</tr>
-				<c:forEach var="page" items="${map.value}">
+				<c:forEach var="innerMap" items="${map.value}">
 					<tr>
-						<td><c:out value="${page.id}"/></td>
-						<td><c:out value="${page.title}"/></td>
-						<td><c:out value="${page.createdBy}"/></td>
-						<td><c:out value="${page.createdAt}"/></td>
-						<td><c:out value="${page.type}"/></td>
+						<td><c:out value="${innerMap.key.id}"/></td>
+						<td><c:out value="${innerMap.key.title}"/></td>
+						<td><c:out value="${innerMap.key.createdBy}"/></td>
+						<td><c:out value="${innerMap.key.createdAt}"/></td>
+						<td><c:out value="${innerMap.key.type}"/></td>
+						<td><c:out value="${innerMap.value.assignedTo}"/></td>
+						<td><c:out value="${innerMap.value.fileState}"/></td>
 					</tr>
 				</c:forEach>
 			</table>

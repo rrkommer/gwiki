@@ -223,7 +223,7 @@ public class GWikiFileStorage implements GWikiStorage
           loadProperties(e, settings.getMap());
           GWikiElementInfo el = new GWikiElementInfo(settings, wikiWeb.findMetaTemplate(settings
               .getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
-          String id = e.substring(0, e.length() - "Settings.properties".length());
+          String id = e.substring(0, e.length() - GWikiStorage.SETTINGS_SUFFIX.length());
           el.setId(id);
           // TODO delete if work: p.setStringValue(GWikiPropKeys.PAGEID, id);
           el = afterPageInfoLoad(fo, el, ret);
@@ -249,7 +249,7 @@ public class GWikiFileStorage implements GWikiStorage
     GWikiProps p = new GWikiProps(loadProperties(e.getName()));
     GWikiElementInfo el = new GWikiElementInfo(p, wikiWeb.findMetaTemplate(p.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
     String sp = storage2WikiPath(e.getName());
-    String cid = sp.substring(0, sp.length() - "Settings.properties".length());
+    String cid = sp.substring(0, sp.length() - GWikiStorage.SETTINGS_SUFFIX.length());
     el.setId(cid);
     p.setStringValue(GWikiPropKeys.PAGEID, cid);
     return el;
@@ -310,7 +310,7 @@ public class GWikiFileStorage implements GWikiStorage
 
   protected Map<String, String> getHead(String id)
   {
-    return loadProperties(id + "Settings.properties");
+    return loadProperties(id + GWikiStorage.SETTINGS_SUFFIX);
   }
 
   protected String getStringContent(String id, String suffix)
@@ -415,7 +415,7 @@ public class GWikiFileStorage implements GWikiStorage
 
   public GWikiElementInfo loadElementInfo(String path)
   {
-    String fname = path + "Settings.properties";
+    String fname = path + GWikiStorage.SETTINGS_SUFFIX;
     if (storage.exists(fname) == false)
       return null;
     FsObject obj = storage.getFileObject(fname);

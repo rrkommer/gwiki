@@ -95,7 +95,7 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
     return wiki;
   }
 
-  protected String getTenantId(GWikiServlet servlet, HttpServletRequest req)
+  public String getTenantId(GWikiServlet servlet, HttpServletRequest req)
   {
     return mptIdSelector.getTenantId(servlet, req);
   }
@@ -126,7 +126,7 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
 
   protected GWikiWeb createDerivedWiki(GWikiServlet servlet, final String cid)
   {
-    GWikiWeb rootWiki = getWikiWeb(servlet);
+    final GWikiWeb rootWiki = getWikiWeb(servlet);
     GWikiDAOContext mptDaoContext = new GWikiDAOContext(rootWiki.getDaoContext());
 
     final FileSystem mptFsSp = mptIdSelector.getTenantFileSystem(rootWiki, cid);
@@ -150,6 +150,13 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
         GWikiElement el = super.storeElement(wikiContext, elm, keepModifiedAt);
         el.getElementInfo().getProps().setStringValue(GWikiPropKeys.TENANT_ID, cid);
         return el;
+      }
+      
+      public GWikiElement loadElement(final GWikiElementInfo ei) {
+        if (getStorage().exists(ei.getId() + GWikiStorage.SETTINGS_SUFFIX) == true) {
+          return super.loadElement(ei);
+        }
+        return rootWiki.getStorage().loadElement(ei);
       }
     };
     mptDaoContext.setStorage(storage);

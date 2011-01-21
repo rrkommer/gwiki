@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gdbfs.SubFileSystem;
+import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.web.GWikiServlet;
@@ -122,7 +123,7 @@ public class GWikiReqSessionMptIdSelector implements GWikiMptIdSelector
     List<String> tnl = getTenants(rootWiki);
     for (String tn : tnl) {
       FileSystem fs = getTenantFileSystem(rootWiki, tn);
-      if (fs.exists(pageId + "Settings.properties") == true) {
+      if (fs.exists(pageId + GWikiStorage.SETTINGS_SUFFIX) == true) {
         return tn;
       }
     }

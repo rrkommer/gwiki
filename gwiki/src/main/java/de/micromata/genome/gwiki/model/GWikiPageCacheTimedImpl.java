@@ -286,12 +286,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
   protected void initListener()
   {
     final GWikiStorage storage = wikiWeb.getStorage();
-    storage.getFileSystem().registerListener(null, new EndsWithMatcher<String>("Settings.properties"), new FileSystemEventListener() {
+    storage.getFileSystem().registerListener(null, new EndsWithMatcher<String>(GWikiStorage.SETTINGS_SUFFIX), new FileSystemEventListener() {
 
       public void onFileSystemChanged(FileSystemEvent event)
       {
         String fileName = event.getFileName();
-        String id = fileName.substring(0, fileName.length() - "Settings.properties".length());
+        String id = fileName.substring(0, fileName.length() - GWikiStorage.SETTINGS_SUFFIX.length());
         if (id.startsWith("/") == true) {
           id = id.substring(1);
         }
@@ -334,10 +334,10 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
               }
             }
             String oldFileName = event.getOldFileName();
-            if (oldFileName.endsWith("Settings.properties") == false) {
+            if (oldFileName.endsWith(GWikiStorage.SETTINGS_SUFFIX) == false) {
               break;
             }
-            String oldId = oldFileName.substring(0, oldFileName.length() - "Settings.properties".length());
+            String oldId = oldFileName.substring(0, oldFileName.length() - GWikiStorage.SETTINGS_SUFFIX.length());
             if (oldId.startsWith("/") == true) {
               oldId = oldId.substring(1);
             }
