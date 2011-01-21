@@ -3,8 +3,14 @@
 <beans>
 	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
 		<property name="apiVersion" value="1.0.0" />
-		<property name="name" value="gwiki.sampleplugin" />
+		<property name="name" value="gwiki.pagetemplates" />
 		<property name="version" value="1.0.0" />
-		<property name="description" value="Sample Plugin for GWiki" />
+		<property name="description" value="Page Template Editor" />
+		<property name="macros">
+			<map>
+				<entry key="pteditsection"
+					value="de.micromata.genome.gwiki.pagetemplates_1_0.PtSectionMacroBean" />
+			</map>
+		</property>
 	</bean>
 </beans>
