@@ -38,6 +38,7 @@ import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.title;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -74,10 +75,12 @@ public class RssFeedFilter implements GWikiServeElementFilter
     // RequestParameter
     String feed = wikiContext.getRequestParameter("feed");
 
-    String renderChildsParam = wikiContext.getRequestParameter("renderChilds");
-    
+    // render holen
     boolean renderChilds = false;
-    
+    String renderChildsParam = wikiContext.getRequestParameter("renderChilds");
+
+    // gucken ob null
+    // gucken ob true -> renderChilds=true
     
     // nullcheck wenn null nächster filter
     if (feed == null) {
@@ -109,9 +112,10 @@ public class RssFeedFilter implements GWikiServeElementFilter
       wikiContext.getResponse().setHeader("Content-Type", "application/xml");
 
       List<GWikiElementInfo> children = null;
-	if (renderChilds) {
-    	  children = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
+      if (renderChilds == true) {
+        children = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
       }
+      
       if ("rss".equals(feed)) {
         renderRSS(wikiContext, title, wikiPageHtmlContent, createDate, currentDate, autor, children, renderChilds);
       }
@@ -123,8 +127,8 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return null;
   }
 
-
-  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate, String autor, List<GWikiElementInfo> children, boolean renderChilds)
+  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+      String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
     XmlElement atom = feed("http://www.w3.org/2005/Atom").nest(author((name(Xml.text("Ingo Joseph")))),//
         (title(Xml.text("GWiki Atom-Feeds"))),//
@@ -134,36 +138,23 @@ public class RssFeedFilter implements GWikiServeElementFilter
         (entry((title(Xml.text(title))),//
             (link(wikiContext.getRequest().getRequestURL().toString())),//
             (updated(Xml.text(createDate))),//
-            (summary("html").nest(Xml.text(StringUtils.left(wikiPageHtmlContent, 100)+"[...]"))),//
+            (summary("html").nest(Xml.text(StringUtils.left(wikiPageHtmlContent, 100) + "[...]"))),//
             (content("html").nest(Xml.text(wikiPageHtmlContent))),//
             author((name(Xml.text(autor))))//
-        )),
-        renderAtomChildren(children, renderChilds) //�
-        //
-        );
-      wikiContext.append(atom.toString());
-      wikiContext.flush();
+        )));
+    
+    if (renderChilds == true) {
+      atom.getChilds().addAll(renderAtomEntries(children));
+    }
+    
+    wikiContext.append(atom.toString());
+    wikiContext.flush();
   }
 
-
-  private XmlNode renderAtomChildren(List<GWikiElementInfo> children, boolean renderChilds) {
-	if (renderChilds == false) {
-		return null;
-	}
-	
-	List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
-	for (GWikiElementInfo child : children) {
-		XmlNode c = entry();
-		childrenNodes.add(c);
-	}
-	return null;
-}
-
-
-private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
       String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
-    XmlElement RSS = rss("2.0").nest(channel((title(Xml.text("GWiki RSS-Feeds"))),//
+    XmlElement rss = rss("2.0").nest(channel((title(Xml.text("GWiki RSS-Feeds"))),//
         (link(Xml.text("http://localhost:8081/"))),//
         (description(Xml.text("Hier siehst du Feeds von GWiki!"))),//
         (copyright(Xml.text("ingo"))),//
@@ -177,8 +168,33 @@ private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHt
         ))//
         );
 
-    wikiContext.append(RSS.toString());
-    wikiContext.flush();
+    if (renderChilds == true) {
+      rss.getChilds().addAll(renderRSSItems(children));
+    }
 
+    wikiContext.append(rss.toString());
+    wikiContext.flush();
+  }
+  
+  private Collection<XmlNode> renderAtomEntries(List<GWikiElementInfo> children)
+  {
+    List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
+    for (GWikiElementInfo child : children) {
+      // TODO restlive attribute zu entry hinzufügen
+      XmlNode c = entry(title(Xml.text(child.getTitle())));
+      childrenNodes.add(c);
+    }
+    return childrenNodes;
+  }
+
+  // TODO restlichee attribute zu entry hinzufügen
+  private Collection<XmlNode> renderRSSItems(List<GWikiElementInfo> children)
+  {
+    List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
+    for (GWikiElementInfo child : children) {
+      XmlNode c = item(title(Xml.text(child.getTitle())));
+      childrenNodes.add(c);
+    }
+    return childrenNodes;
   }
 }
