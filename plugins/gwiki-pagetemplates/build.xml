@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="gwiki" default="gwiki.plugin">
 	<property name="plugintarget" value="target" />
-	<property name="pluginversion" value="gwiki.sampleplugin-1.0.0" />
+	<property name="pluginversion" value="gwiki.pagetemplates-1.0.0" />
 
 
 	<target name="gwiki.plugin">
