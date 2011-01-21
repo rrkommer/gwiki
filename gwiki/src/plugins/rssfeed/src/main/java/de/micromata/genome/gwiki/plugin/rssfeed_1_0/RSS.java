@@ -18,7 +18,6 @@
 package de.micromata.genome.gwiki.plugin.rssfeed_1_0;
 
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
-import de.micromata.genome.util.xml.xmlbuilder.XmlDocument;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
 
