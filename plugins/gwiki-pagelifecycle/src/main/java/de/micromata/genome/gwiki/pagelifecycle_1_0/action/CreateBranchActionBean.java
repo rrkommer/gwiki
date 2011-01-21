@@ -36,50 +36,53 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 /**
  * Actionbean for creating new branches (content-releases)
  * 
- * @author Stefan Stuetzer (s.stuetzer@micromata.com) 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class CreateBranchActionBean extends ActionBeanBase
 {
-  private static final String INFO_TEMPLATE_ID      = "admin/templates/GWikiBranchInfoElementTemplate";
+  private static final String INFO_TEMPLATE_ID = "admin/templates/GWikiBranchInfoElementTemplate";
+
   private static final String FILESTATS_TEMPLATE_ID = "admin/templates/GWikiBranchFileStatsTemplate";
 
   private String branchId;
 
   private String description;
-  
+
   private String releaseStartDate;
-  
+
   private String releaseEndDate;
-  
-  public Object onCreateBranch() {
+
+  public Object onCreateBranch()
+  {
     if (isBranchIdValid() == false) {
       return null;
     }
     if (isReleaseDateValid() == false) {
       return null;
     }
-    
+
     GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
     if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
       wikiContext.addSimpleValidationError("No multiple branches supported.");
       return null;
     }
-    
+
     // create or enter new branch
     wikiSelector.enterTenant(wikiContext, this.branchId);
-    
+
     createBranchInfoElement();
     createBranchFileStats();
-    
+
     // leave branch
     wikiSelector.leaveTenant(wikiContext);
-    
+
     return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }
 
   private void createBranchFileStats()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID, "Branch File Stats");
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID,
+        "Branch File Stats");
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
   }
 
@@ -98,7 +101,7 @@ public class CreateBranchActionBean extends ActionBeanBase
     props.setStringValue("BRANCH_STATE", BranchState.OFFLINE.name());
     props.setStringValue("RELEASE_DATE", getDateString(this.releaseStartDate));
     props.setStringValue("RELEASE_END_DATE", getDateString(this.releaseEndDate));
-    
+
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
   }
 
@@ -108,7 +111,7 @@ public class CreateBranchActionBean extends ActionBeanBase
       wikiContext.addSimpleValidationError("branch id not valid. It must have at least one character");
       return false;
     }
-    if (StringUtils.containsAny(this.branchId, new char[]{'/',',','*','#','"','\'',' '})) {
+    if (StringUtils.containsAny(this.branchId, new char[] { '/', ',', '*', '#', '"', '\'', ' '})) {
       wikiContext.addSimpleValidationError("Branch-Id not valid. It contains invalid chracters.");
       return false;
     }
@@ -118,14 +121,14 @@ public class CreateBranchActionBean extends ActionBeanBase
     }
     return true;
   }
-  
+
   private boolean isReleaseDateValid()
   {
     // no dates given -> true
     if (StringUtils.isBlank(this.releaseStartDate) == true && StringUtils.isBlank(this.releaseEndDate) == true) {
       return true;
     }
-    
+
     try {
       // try to parse date strings
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -142,7 +145,7 @@ public class CreateBranchActionBean extends ActionBeanBase
       return false;
     }
   }
-  
+
   /**
    * @param releaseStartDate2
    * @return
@@ -152,18 +155,17 @@ public class CreateBranchActionBean extends ActionBeanBase
     if (StringUtils.isBlank(date) == true) {
       return StringUtils.EMPTY;
     }
-    
+
     try {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    Date parsedDate = sdf.parse(date);
-    return GWikiProps.formatTimeStamp(parsedDate);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+      Date parsedDate = sdf.parse(date);
+      return GWikiProps.formatTimeStamp(parsedDate);
     } catch (ParseException ex) {
-    	wikiContext.addSimpleValidationError("Could not parse release dates.");
+      wikiContext.addSimpleValidationError("Could not parse release dates.");
     }
     return null;
   }
 
-  
   /**
    * @param branchId the branchId to set
    */
@@ -226,6 +228,6 @@ public class CreateBranchActionBean extends ActionBeanBase
   public String getReleaseEndDate()
   {
     return releaseEndDate;
-  } 
+  }
 
 }

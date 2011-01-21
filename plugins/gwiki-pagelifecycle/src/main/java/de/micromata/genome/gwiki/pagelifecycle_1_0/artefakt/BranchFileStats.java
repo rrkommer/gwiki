@@ -26,12 +26,17 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.util.text.PipeValueList;
 
 /**
+ * Holds the entire stats for every element in the tenant
+ * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class BranchFileStats implements Serializable
 {
   private static final long serialVersionUID = 2445215324804619206L;
 
+  /**
+   * Page-Id -> Filestats for page
+   */
   private Map<String, FileStatsDO> contentMap = new HashMap<String, FileStatsDO>();
   
   public void addFileStats(FileStatsDO statsDO) {
@@ -41,7 +46,23 @@ public class BranchFileStats implements Serializable
   public Collection<FileStatsDO> getAllFileStatsInState(FileState fileState) {
     return null;
   }
-
+  
+  /**
+   * Returns filestats for given id. returns an empty object if id is not present
+   * @param id
+   */
+  public FileStatsDO getFileStatsForId(String id)
+  {
+	  if (contentMap.get(id) != null) {
+		  return contentMap.get(id);
+	  }
+	  return new FileStatsDO();
+  }
+  
+  public boolean isPagePresent(final String pageId) {
+	  return contentMap.get(pageId) == null ? false : true;
+  }
+  
   /**
    * @param contentMap the contentMap to set
    */
@@ -58,14 +79,6 @@ public class BranchFileStats implements Serializable
     return contentMap;
   }
 
-  /**
-   * @param id
-   */
-  public FileStatsDO getFileStatsForId(String id)
-  {
-    return contentMap.get(id);
-  }
-  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
