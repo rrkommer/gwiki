@@ -1,0 +1,19 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<form method="post">
+<c:choose>
+<c:when test="${form.state eq 'TITLE'}">
+	<gwiki:text property="eli.props.map[TITLE]"/>
+	<gwiki:hidden property="eli.props.map[PARENTPAGE]"/>
+	<input type="submit" name="method_onEnterTitle" value="Title">
+</c:when>
+<c:when test="${form.state eq 'PARENT'}">
+	<gwiki:hidden property="eli.props.map[TITLE]"/>
+	<gwiki:text property="eli.props.map[PARENTPAGE]"/>
+	<input type="submit" name="method_onEnterParent" value="Title">
+</c:when>
+
+</c:choose>
+</form>
+<% wikiContext.skinInclude('standardfoot'); %>
