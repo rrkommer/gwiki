@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+		<property name="elementType" value="gwiki" />
+		<!--
+			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+		-->
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
+											<property name="type" value="LONG" />
+											<property name="defaultValue" value="60000" />
+											<property name="label" value="number of cached entries" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="LOGVIEWER_LEVEL_THRESHOLD" />
+											<property name="type" value="STRING" />
+											<property name="defaultValue" value="INFO" />
+											<property name="label" value="minimum log level to cache" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_LEVEL_THRESHOLD" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
