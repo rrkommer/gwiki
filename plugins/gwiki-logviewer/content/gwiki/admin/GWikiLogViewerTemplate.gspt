@@ -1,0 +1,167 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+<%
+import java.text.SimpleDateFormat;
+SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+%>
+
+<script language="JavaScript">
+	function toggleVisibility(me){
+		var elem = document.getElementById(me);
+		if (elem.style.display=="none"){
+			elem.style.display="table-row";
+			}
+		else {
+			elem.style.display="none";
+			}
+		}
+</script>
+
+
+<gwiki:errors />
+
+<form class="gwikiForm col" method="post">
+<fieldset>
+<legend>Search Log Entries</legend>
+	<table>
+		<tr>
+			<td text-align="right">Log Level:</td> 
+			<td colspan="3"><gwiki:select property="selectedLogLevel" >
+      				<gwiki:optionsCollection property="logLevels" label="key" value="value" />
+    			</gwiki:select>
+    		</td>
+		</tr>
+
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		
+		<tr>
+			<td>Message:</td> 
+			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="searchMessage" /></td>
+		</tr>
+		<tr>
+			<td>Param Key:</td> 
+			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey1" /></td>
+			<td>Value:</td> 
+			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue1" /></td>
+		</tr>
+		
+		<tr>
+			<td>Param Key:</td> 
+			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey2" /></td>
+			<td>Value:</td> 
+			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue2" /></td>
+		</tr>
+
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		
+		<tr>
+			<td>From Date:</td> 
+			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="fromDate" /></td>
+		
+			<td>Time:</td> 
+			<td>
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromHour" />
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromMin" />
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromSec" />
+			</td>
+		</tr>
+
+		<tr>
+			<td>To Date:</td> 
+			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="toDate" /></td>
+		
+			<td>Time:</td> 
+			<td>
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toHour" />
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toMin" />
+				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toSec" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Page Size:</td> 
+			<td colspan="3">
+				<gwiki:select property="selectedPageSize" >
+      				<option value="10">10</option>
+      				<option value="50">50</option>
+      				<option value="100">100</option>
+      				<option value="1000">1000</option>
+    			</gwiki:select>
+    		</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+
+	<input class="gwikiButton main" type="submit" name="method_onSearch" value="Search"> 
+	<input class="gwikiButton main" type="submit" name="method_onClear" value="Clear"> 
+</fieldset>
+
+<!-- Suchergebnis -->
+<c:if test="${not empty form.result}">
+	<fieldset>
+		<legend>Search Results</legend>
+		<table border=1 width="100%">
+			<tr>
+				<th width="10%">Action</th>
+				<th width="15%">Date</th>
+				<th width="5%">Level</th>
+				<th width="75%">Message</th>
+			</tr>
+			<c:forEach var="row" items="${form.result}" varStatus="status" begin="0">
+				<tr>
+                    <td>
+                    <!-- Button fuer Params -->
+    				<c:if test="${not empty row.paramMap}">
+					   <a onclick="toggleVisibility('pa${status.count}')">Params</a>
+                    </c:if>
+                    <c:if test="${row.ex != null}">
+                    <a onclick="toggleVisibility('st${status.count}')">
+                    <gwiki:url value='/inc/img/icon_error.gif'/></a>
+                    </c:if>
+                    </td>
+
+					<td><fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					<td><c:out value="${row.logLevel}"/></td>
+					<td><c:out value="${row.message}"/></td>
+				</tr>
+
+				<!-- Log Params -->
+				<c:if test="${not empty row.paramMap}">
+					<tr id="pa${status.count}" style="display:none;">
+						<td colspan="4">
+							<table border="1" width="100%">
+								<tr>
+									<th>Key</th>
+									<th>Value</th>
+								</tr>
+								<c:forEach var="detail" items="${row.paramMap}">
+									<tr>
+										<td>${detail.key}</td>
+										<td>${detail.value}</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</td>
+					</tr>
+				</c:if>
+				
+				<!-- Stacktrace -->
+				<c:if test="${row.ex != null}">
+					<tr id="st${status.count}" style="display:none;">
+						<td colspan="4"><pre>${row.stacktrace}</pre></td>
+					</tr>
+				</c:if>
+			</c:forEach>
+		</table>
+	</fieldset>	
+</c:if>
+</form>
+
+<% wikiContext.skinInclude("standardfoot"); %>
