@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.State;
+import de.micromata.genome.gwiki.chronos.StaticDaoManager;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SerializationUtil;
@@ -109,7 +110,10 @@ public class GWikiSchedElementJobStore extends RamJobStore
     }
     return -1;
   }
-
+   private void createStandardScheduler()
+  {
+    StaticDaoManager.get().getSchedulerManager().getScheduler("standard");
+  }
   public void loadStandardJobs()
   {
     if (needReload() == false) {
@@ -157,7 +161,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
       }
       jt.put(job.getPk(), job);
     }
-
+    createStandardScheduler();
   }
 
   private List<TriggerJobDO> getDynamicJobs()
