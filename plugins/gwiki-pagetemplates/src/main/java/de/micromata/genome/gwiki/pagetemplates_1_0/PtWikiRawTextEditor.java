@@ -29,6 +29,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 public class PtWikiRawTextEditor extends PtWikiTextEditorBase
 {
 
+  private static final long serialVersionUID = 5901053792188232570L;
+
   public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor)
   {
     super(element, sectionName, editor);
