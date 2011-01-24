@@ -38,6 +38,10 @@ public class StaticDaoManager
     return INSTANCE;
   }
 
+  public JobStore getJobStore()
+  {
+    return schedulerManager.getJobStore();
+  }
   public SchedulerDAO getSchedulerDAO()
   {
     return schedulerDAO;
