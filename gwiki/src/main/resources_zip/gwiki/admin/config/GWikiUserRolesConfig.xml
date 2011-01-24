@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config" class="de.micromata.genome.gwiki.model.GWikiRoleConfig"
+		singleton="false">
+		<property name="rights">
+			<list>
+				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
+					<property name="name" value="MYRIGHT" />
+					<property name="category" value="MyCategory" />
+					<property name="description" value="My Sample Right"/>
+				</bean>
+				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
+					<property name="name" value="SysAdminRole" />
+					<property name="category" value="System" />
+					<property name="definition" value="*"/>
+					<property name="description" value="System right. Includes all other rights"/>
+				</bean>
+				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
+					<property name="name" value="EditAllRole" />
+					<property name="category" value="System" />
+					<property name="definition" value="*_EDIT*"/>
+					<property name="description" value="Includes all rights containting EDIT"/>
+				</bean>
+				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
+					<property name="name" value="ViewAllRole" />
+					<property name="category" value="System" />
+					<property name="definition" value="*_VIEW*"/>
+					<property name="description" value="Includes all rights containting VIEW"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
