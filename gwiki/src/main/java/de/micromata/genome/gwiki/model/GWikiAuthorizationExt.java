@@ -17,6 +17,9 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model;
 
+import java.util.Map;
+import java.util.SortedMap;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
@@ -49,4 +52,21 @@ public interface GWikiAuthorizationExt extends GWikiAuthorization
    * @return
    */
   public boolean createUser(GWikiContext wikiContext, String userName, GWikiProps props);
+
+  /**
+   * give a list of known rights in the system.
+   * 
+   * @param wikiContext
+   * @return
+   */
+  public SortedMap<String, GWikiRight> getSystemRights(GWikiContext wikiContext);
+
+  /**
+   * Give the rights of the given user.
+   * 
+   * @param wikiContext
+   * @param userName
+   * @return
+   */
+  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights, String roleString);
 }

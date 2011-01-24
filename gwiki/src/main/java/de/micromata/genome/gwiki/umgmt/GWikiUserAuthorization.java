@@ -20,6 +20,10 @@ package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -34,8 +38,15 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.model.GWikiRight;
+import de.micromata.genome.gwiki.model.GWikiRoleConfig;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.util.matcher.BooleanListMatcher;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.EqualsMatcher;
+import de.micromata.genome.util.matcher.Matcher;
+import de.micromata.genome.util.matcher.TreeStateMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
 
@@ -93,12 +104,45 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
   }
 
+  @SuppressWarnings("unchecked")
+  private Matcher<String> replaceMatcherRules(GWikiRoleConfig rc, Matcher<String> m)
+  {
+    if (m instanceof EqualsMatcher) {
+      EqualsMatcher<String> em = (EqualsMatcher<String>) m;
+      GWikiRight role = rc.getRoles().get(em.getOther());
+      if (role != null && role.getDefinitionRule() != null) {
+        return role.getDefinitionRule();
+      }
+      return m;
+    }
+    if (m instanceof BooleanListMatcher) {
+      BooleanListMatcher<String> bm = (BooleanListMatcher<String>) m;
+      List<Matcher<String>> ml = bm.getMatcherList();
+      for (int i = 0; i < ml.size(); ++i) {
+        ml.set(i, replaceMatcherRules(rc, ml.get(i)));
+      }
+      return m;
+    }
+    if (m instanceof TreeStateMatcher) {
+      TreeStateMatcher tm = (TreeStateMatcher) m;
+      tm.setNested(replaceMatcherRules(rc, tm.getNested()));
+    }
+    return m;
+  }
+
   public GWikiSimpleUser createSimpleUser(GWikiElement el, GWikiContext ctx, GWikiProps props)
   {
     String userId = GWikiContext.getNamePartFromPageId(el.getElementInfo().getId());
-    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD), props.getStringValue(USER_PROP_EMAIL),
-        props.getStringValue(USER_PROP_RIGHTSRULE));
+    String rr = props.getStringValue(USER_PROP_RIGHTSRULE);
+
+    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD), props.getStringValue(USER_PROP_EMAIL), rr);
     user.setProps(props.getMap());
+
+    GWikiRoleConfig rc = getRoleConfig(ctx);
+    if (rc == null) {
+      return user;
+    }
+    user.setRightsMatcher(replaceMatcherRules(rc, user.getRightsMatcher()));
     return user;
   }
 
@@ -215,4 +259,120 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
 
+  protected GWikiRoleConfig getRoleConfig(GWikiContext wikiContext)
+  {
+    GWikiElement el = wikiContext.getWikiWeb().findElement("admin/config/GWikiUserRolesConfig");
+    if (el == null) {
+      return null;
+    }
+    return (GWikiRoleConfig) el.getMainPart().getCompiledObject();
+  }
+
+  protected void getConfigSystemRights(GWikiContext wikiContext, Map<String, GWikiRight> rights)
+  {
+    GWikiRoleConfig rc = getRoleConfig(wikiContext);
+    if (rc == null) {
+      return;
+    }
+    rights.putAll(rc.getRoles());
+  }
+
+  public void getSystemRights(GWikiContext wikiContext, Map<String, GWikiRight> rights)
+  {
+    for (GWikiAuthorizationRights ar : GWikiAuthorizationRights.values()) {
+      rights.put(ar.name(), new GWikiRight(ar.name(), GWikiRight.RIGHT_CAT_SYSTEM_RIGHT, null));
+    }
+    getConfigSystemRights(wikiContext, rights);
+  }
+
+  public void getPageRights(GWikiContext wikiContext, SortedMap<String, GWikiRight> rights)
+  {
+    for (GWikiElementInfo ei : wikiContext.getWikiWeb().getElementInfos()) {
+      String r = ei.getProps().getStringValue(GWikiPropKeys.AUTH_EDIT);
+      if (StringUtils.isNotBlank(r) == true) {
+        if (rights.containsKey(r) == false) {
+          rights.put(r, new GWikiRight(r, GWikiRight.RIGHT_CAT_PAGE_RIGHT, null));
+        }
+      }
+      r = ei.getProps().getStringValue(GWikiPropKeys.AUTH_VIEW);
+      if (StringUtils.isNotBlank(r) == true) {
+        if (rights.containsKey(r) == false) {
+          rights.put(r, new GWikiRight(r, GWikiRight.RIGHT_CAT_PAGE_RIGHT, null));
+        }
+      }
+    }
+  }
+
+  public SortedMap<String, GWikiRight> getSystemRights(GWikiContext wikiContext)
+  {
+    SortedMap<String, GWikiRight> ret = new TreeMap<String, GWikiRight>();
+    getSystemRights(wikiContext, ret);
+    getPageRights(wikiContext, ret);
+    return ret;
+  }
+
+  public GWikiRight getRightFromString(String rs, Map<String, GWikiRight> systemRights)
+  {
+    GWikiRight r = systemRights.get(rs);
+    if (r != null) {
+      return r;
+    }
+    return new GWikiRight(rs, GWikiRight.RIGHT_CAT_OTHER_RIGHT, "");
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean collectRights(Matcher<String> m, Map<String, GWikiRight> systemRights, SortedMap<String, GWikiRight> ret)
+  {
+    if (m instanceof EqualsMatcher) {
+      EqualsMatcher<String> em = (EqualsMatcher<String>) m;
+      ret.put(em.getOther(), getRightFromString(em.getOther(), systemRights));
+      return true;
+    }
+    if (m instanceof BooleanListMatcher) {
+      BooleanListMatcher<String> bm = (BooleanListMatcher<String>) m;
+      List<Matcher<String>> ml = bm.getMatcherList();
+      for (int i = 0; i < ml.size(); ++i) {
+        if (collectRights(ml.get(i), systemRights, ret) == false) {
+          return false;
+        }
+      }
+      return true;
+    }
+    if (m instanceof TreeStateMatcher) {
+      TreeStateMatcher tm = (TreeStateMatcher) m;
+      if (tm.isValue() == false) {
+        return false;
+      }
+      return collectRights(tm.getNested(), systemRights, ret);
+    }
+    return false;
+  }
+
+  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights, String roleString)
+  {
+    Matcher<String> rightsMatcher = new BooleanListRulesFactory<String>().createMatcher(roleString);
+    GWikiRoleConfig rc = getRoleConfig(wikiContext);
+    if (rc != null) {
+      rightsMatcher = replaceMatcherRules(rc, rightsMatcher);
+    }
+
+    SortedMap<String, GWikiRight> ret = new TreeMap<String, GWikiRight>();
+    if (collectRights(rightsMatcher, systemRights, ret) == true) {
+      return ret;
+    }
+    ret = new TreeMap<String, GWikiRight>();
+    List<String> roles = Converter.parseStringTokens(roleString, ",", false);
+    for (String role : roles) {
+      if (role.startsWith("+") == true) {
+        role = role.substring(1);
+      }
+      if (systemRights.containsKey(role) == true) {
+        ret.put(role, systemRights.get(role));
+      } else {
+        ret.put(role, new GWikiRight(role, GWikiRight.RIGHT_CAT_OTHER_RIGHT, ""));
+      }
+    }
+    // props.getStringList(key)
+    return ret;
+  }
 }

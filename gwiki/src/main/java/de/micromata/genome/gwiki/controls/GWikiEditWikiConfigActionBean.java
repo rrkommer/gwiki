@@ -30,9 +30,8 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiEditableArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
-import de.micromata.genome.gwiki.page.impl.GWikiPropsEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
@@ -51,7 +50,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   /**
    * pageId -> config to edit.
    */
-  protected Map<String, Pair<GWikiElement, GWikiPropsArtefakt>> configs = new TreeMap<String, Pair<GWikiElement, GWikiPropsArtefakt>>();
+  protected Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> configs = new TreeMap<String, Pair<GWikiElement, GWikiArtefakt< ? >>>();
 
   protected ArrayMap<String, GWikiEditorArtefakt< ? >> editors = new ArrayMap<String, GWikiEditorArtefakt< ? >>();
 
@@ -69,14 +68,14 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
         continue;
       }
       GWikiArtefakt< ? > art = el.getMainPart();
-      if ((art instanceof GWikiPropsArtefakt) == false) {
+      if ((art instanceof GWikiEditableArtefakt) == false) {
         continue;
       }
-      GWikiPropsArtefakt propArt = (GWikiPropsArtefakt) art;
-      configs.put(pid, Pair.make(el, propArt));
+      GWikiEditableArtefakt editableArt = (GWikiEditableArtefakt) art;
+      configs.put(pid, new Pair<GWikiElement, GWikiArtefakt< ? >>(el, art));
       String partName = FileNameUtils.getNamePart(pid);
 
-      editors.put(FileNameUtils.getNamePart(pid), propArt.getEditor(el, null, partName));
+      editors.put(FileNameUtils.getNamePart(pid), editableArt.getEditor(el, null, partName));
     }
     Collections.sort(editors.getEntries(), new Comparator<Map.Entry<String, GWikiEditorArtefakt< ? >>>() {
 
@@ -130,18 +129,14 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
       return null;
     }
     checkAccess();
-    for (Map.Entry<String, Pair<GWikiElement, GWikiPropsArtefakt>> me : configs.entrySet()) {
+    for (Map.Entry<String, Pair<GWikiElement, GWikiArtefakt< ? >>> me : configs.entrySet()) {
       String pid = me.getKey();
       GWikiElement el = wikiContext.getWikiWeb().findElement(pid);
       if (el == null) {
         continue;
       }
-      GWikiArtefakt< ? > art = el.getMainPart();
-      if ((art instanceof GWikiPropsArtefakt) == false) {
-        continue;
-      }
       String partName = FileNameUtils.getNamePart(pid);
-      GWikiPropsEditorArtefakt< ? > ped = (GWikiPropsEditorArtefakt< ? >) editors.get(partName);
+      GWikiEditorArtefakt< ? > ped = (GWikiEditorArtefakt< ? >) editors.get(partName);
       if (ped == null) {
         continue;
       }
@@ -170,12 +165,12 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
     this.editors = editors;
   }
 
-  public Map<String, Pair<GWikiElement, GWikiPropsArtefakt>> getConfigs()
+  public Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> getConfigs()
   {
     return configs;
   }
 
-  public void setConfigs(Map<String, Pair<GWikiElement, GWikiPropsArtefakt>> configs)
+  public void setConfigs(Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> configs)
   {
     this.configs = configs;
   }

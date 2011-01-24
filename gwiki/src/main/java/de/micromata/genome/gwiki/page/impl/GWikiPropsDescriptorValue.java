@@ -19,7 +19,12 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
+import de.micromata.genome.gwiki.model.GWikiProps;
 
 /**
  * Descriptor of a property value (Settings.properties or other).
@@ -101,6 +106,51 @@ public class GWikiPropsDescriptorValue implements Serializable
   private Map<String, String> optionValues;
 
   private String controlerScript;
+
+  public void parseRequest(PropsEditContext pct)
+  {
+    if (pct.invokeOnControlerBean("onParseRequest") == true) {
+      return;
+    }
+    if (pct.isReadOnly() == true || pct.isDisplayable() == false) {
+      return;
+    }
+    String value = pct.getRequestValue();
+    /*
+     * if (StringUtils.isEmpty(value) == true) { value = pct.getDefaultValue(); }
+     */
+    if (StringUtils.equals(pct.getControlType(), "DATE") == true) {
+      value = GWikiProps.formatTimeStamp(pct.getWikiContext().parseUserDateString(value));
+    }
+    pct.setPropsValue(value);
+  }
+
+  public void validate(PropsEditContext pct)
+  {
+    if (pct.invokeOnControlerBean("onValidate") == true) {
+      return;
+    }
+    if (pct.isReadOnly() == true || pct.isDisplayable() == false) {
+      return;
+    }
+    String reqValue = pct.getPropsValue();
+    if (pct.getPropDescriptor().isRequiresValue() == true) {
+      if (StringUtils.isBlank(reqValue) == true) {
+        pct.getWikiContext().addValidationError("gwiki.edit.EditPage.message.propmusthavevalue", pct.getPropName());
+      }
+    }
+  }
+
+  public String render(GWikiPropsEditorArtefakt< ? > editor, PropsEditContext pct)
+  {
+    StringWriter sout = new StringWriter();
+    pct.getWikiContext().getCreatePageContext().pushBody(sout);
+    if (pct.invokeOnControlerBean("onRender") == false) {
+      editor.onRenderInternal(pct);
+    }
+    pct.getWikiContext().getCreatePageContext().popBody();
+    return sout.getBuffer().toString();
+  }
 
   public String getKey()
   {
