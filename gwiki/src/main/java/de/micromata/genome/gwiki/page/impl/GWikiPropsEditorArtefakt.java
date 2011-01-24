@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.io.Serializable;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,36 +121,12 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
 
   public void onParseRequest(PropsEditContext pct)
   {
-    if (pct.invokeOnControlerBean("onParseRequest") == true) {
-      return;
-    }
-    if (pct.isReadOnly() == true || pct.isDisplayable() == false) {
-      return;
-    }
-    String value = pct.getRequestValue();
-    /*
-     * if (StringUtils.isEmpty(value) == true) { value = pct.getDefaultValue(); }
-     */
-    if (StringUtils.equals(pct.getControlType(), "DATE") == true) {
-      value = GWikiProps.formatTimeStamp(pct.getWikiContext().parseUserDateString(value));
-    }
-    pct.setPropsValue(value);
+    pct.getPropDescriptor().parseRequest(pct);
   }
 
   public void onValidate(PropsEditContext pct)
   {
-    if (pct.invokeOnControlerBean("onValidate") == true) {
-      return;
-    }
-    if (pct.isReadOnly() == true || pct.isDisplayable() == false) {
-      return;
-    }
-    String reqValue = pct.getPropsValue();
-    if (pct.getPropDescriptor().isRequiresValue() == true) {
-      if (StringUtils.isBlank(reqValue) == true) {
-        pct.getWikiContext().addValidationError("gwiki.edit.EditPage.message.propmusthavevalue", pct.getPropName());
-      }
-    }
+    pct.getPropDescriptor().validate(pct);
   }
 
   public void onSave(GWikiContext ctx)
@@ -269,13 +244,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
 
   public String onRender(PropsEditContext pct)
   {
-    StringWriter sout = new StringWriter();
-    pct.getWikiContext().getCreatePageContext().pushBody(sout);
-    if (pct.invokeOnControlerBean("onRender") == false) {
-      onRenderInternal(pct);
-    }
-    pct.getWikiContext().getCreatePageContext().popBody();
-    return sout.getBuffer().toString();
+    return pct.getPropDescriptor().render(this, pct);
   }
 
   public String renderHelpLink(GWikiPropsDescriptorValue d, GWikiContext ctx)

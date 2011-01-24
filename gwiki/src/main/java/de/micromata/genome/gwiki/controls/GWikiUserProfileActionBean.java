@@ -117,6 +117,11 @@ public class GWikiUserProfileActionBean extends GWikiEditPageActionBean
 
   }
 
+  public static void renderUserProps()
+  {
+
+  }
+
   public String getUserName()
   {
     return userName;
