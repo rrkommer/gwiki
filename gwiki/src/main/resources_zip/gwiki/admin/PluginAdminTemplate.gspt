@@ -1,26 +1,58 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @>
-<@include file="inc/stdgfuncs.gspt" @>  
+<@include file="inc/stdgfuncs.gspt" @>
 <gwiki:errors />
 
-Plugins here.<p/>
-
+<table width="100%" border="0px" <style>tr:hover{background-color:#CCD9D9} td{text-align:center}</style>
+<tr>
+<th></th>
+<th>Name</th>
+<th>Version</td>
+<th>Status</td>
+<th>Description</td>
+<th>Author</td>
+<th>Action</td>
+</tr>
 <% def form = pageContext.request.getAttribute("form");
 for (plugin in form.pluginRepo.plugins.values()) {
-  pageContext.setAttribute("plugin", plugin); 
+  pageContext.setAttribute("plugin", plugin);
   %>
-  <h2><%= esc(plugin.descriptor.name) %></h2>
-  <%=esc(plugin.descriptor.description) %><br/>
+
+  <tr>
+  <td width="5%">
+    <c:choose>
+    <c:when test="${empty plugin.descriptor.logoPath}">
+        <img src="<gwiki:url value='/inc/gwiki/img/icons/plugin.png'/>" alt="plugin"/>
+    </c:when>
+    <c:otherwise>
+        <img src="<gwiki:url value='${plugin.descriptor.logoPath}'/>" height="50px" alt="plugin"/>
+    </c:otherwise>
+    </c:choose>
+  </td>
+  <th width="15%"><%= esc(plugin.descriptor.name) %></th>
+  <td width="5%"><%=esc(plugin.descriptor.version) %></td>
+  <td width="5%">
+    <% if (plugin.activated) { %>
+          <img src="<gwiki:url value='/inc/gwiki/img/icons/haken.gif'/>" alt="aktiv"/>
+  <% } else { %>
+      <img src="<gwiki:url value='/inc/gwiki/img/icons/kreuz.png'/>" alt="deactiv"/>  <% } %>
+  </td>
+  <td width="50%" style="text-align:left"><%=esc(plugin.descriptor.description) %></td>
+  <td width="10%"><%=esc(plugin.descriptor.author) %></td>
+  <td width="10%">
   <form method="post">
     <input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.name}"/>"/>
   <% if (plugin.activated) { %>
     <input type="submit" name="method_onDeactivate" value="Deactivate"/>
   <% } else { %>
     <input type="submit" name="method_onActivate" value="Activate"/>
-    
   <% } %>
   </form>
-<%  
+  </td>
+  </tr>
+  
+<%
 }
 %>
+</table>
 <% wikiContext.skinInclude('standardfoot'); %>

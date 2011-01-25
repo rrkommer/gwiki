@@ -56,7 +56,14 @@ public class GWikiPluginDescriptor implements InitializingBean
    * Description
    */
   private String description;
+  
+  /**
+   * Author
+   */
+  private String author;
 
+  private String logoPath;
+  
   /**
    * List of element ids uses as public templates.
    */
@@ -162,7 +169,7 @@ public class GWikiPluginDescriptor implements InitializingBean
   {
     this.description = description;
   }
-
+  
   public Map<String, String> getMacros()
   {
     return macros;
@@ -251,6 +258,26 @@ public class GWikiPluginDescriptor implements InitializingBean
   public void setPrimaryFsReadMatcher(Matcher<String> primaryFsReadMatcher)
   {
     this.primaryFsReadMatcher = primaryFsReadMatcher;
+  }
+
+  public void setAuthor(String author)
+  {
+    this.author = author;
+  }
+
+  public String getAuthor()
+  {
+    return author;
+  }
+
+  public void setLogoPath(String logoPath)
+  {
+    this.logoPath = logoPath;
+  }
+
+  public String getLogoPath()
+  {
+    return logoPath;
   }
 
 }
