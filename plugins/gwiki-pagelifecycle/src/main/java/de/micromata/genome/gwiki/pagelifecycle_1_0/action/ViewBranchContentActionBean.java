@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
@@ -34,10 +37,10 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.MatcherBase;
 import de.micromata.genome.util.runtime.CallableX;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
@@ -46,19 +49,91 @@ public class ViewBranchContentActionBean extends ActionBeanBase
 {
 
   /**
-   * Map tenant-id -> List of containing elements
+   * location of filestats file in a tenant
+   */
+  private static final String FILE_STATS_LOCATION = "admin/branch/BranchFileStats";
+
+  /**
+   * blacklist of files which not should be considered in content list
+   */
+  private List<String> fileBlackList = Arrays.asList("BranchInfoElement", "BranchFileStats", "GlobalTextIndex");
+  
+  private String selectedPageId;
+
+  private String selectedTenant;
+
+  /**
+   * Map tenant-id -> Map of containing elements
    */
   private Map<String, Map<GWikiElementInfo, FileStatsDO>> contentMap = new HashMap<String, Map<GWikiElementInfo, FileStatsDO>>();
 
   @Override
   public Object onInit()
   {
-    final GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addSimpleValidationError("No multiple branches supported");
-      return null;
-    }
+    updateList();
+    return null;
+  }
 
+  public Object onReviewCreator()
+  {
+    setFileStatus(FileState.TO_REVIEW);
+    updateList();
+    return null;
+  }  
+
+  public Object onRejectChiefEditor()
+  {
+    setFileStatus(FileState.DRAFT);
+    updateList();
+    return null;
+  }
+  
+  public Object onApproveChiefEditor()
+  {
+    setFileStatus(FileState.APPROVED_CHIEF_EDITOR);
+    updateList();
+    return null;
+  }
+  
+  public Object onRejectContentAdmin()
+  {
+    setFileStatus(FileState.TO_REVIEW);
+    updateList();
+    return null;
+  }
+
+  public Object onReleaseContentAdmin()
+  {
+    setFileStatus(FileState.APPROVED_CONTENT_ADMIN);
+    updateList();
+    return null;
+  }
+  
+  public Object onEnterTenant() {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addSimpleValidationError("Cannot enter tenant");
+      updateList();
+      return null; 
+    }
+    
+    String tenant = getSelectedTenant();
+    if (StringUtils.isBlank(tenant) == true) {
+      wikiContext.addSimpleValidationError("Cannot enter tenant");
+      updateList();
+      return null; 
+    }
+    wikiSelector.enterTenant(wikiContext, tenant);
+    updateList();
+    return null;
+  }
+
+  /**
+   * 
+   */
+  private Object updateList()
+  {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
     if (tenants == null || tenants.size() == 0) {
       return null;
@@ -84,7 +159,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
           });
 
           // if no branch filestats present only consider element infos
-          GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement("admin/branch/BranchFileStats");
+          GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
           if (branchFileStats == null || branchFileStats.getMainPart() == null) {
             for (GWikiElementInfo ei : tenantContent) {
               getContentMap().get(tenant).put(ei, new FileStatsDO());
@@ -94,6 +169,12 @@ public class ViewBranchContentActionBean extends ActionBeanBase
 
           // collecting filestats information for each item
           for (GWikiElementInfo ei : tenantContent) {
+            // ignore blacklisted files
+            if (fileBlackList.contains(StringUtils.substringAfterLast(ei.getId(), "/")) == true) {
+              continue;
+            }
+            
+            
             GWikiArtefakt< ? > artefakt = branchFileStats.getMainPart();
             if (artefakt instanceof GWikiBranchFileStatsArtefakt) {
               GWikiBranchFileStatsArtefakt branchArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
@@ -109,6 +190,55 @@ public class ViewBranchContentActionBean extends ActionBeanBase
       });
     }
     return null;
+  }
+
+  /**
+   * @param fileState
+   * 
+   */
+  private void setFileStatus(final FileState fileState)
+  {
+    final String pageToApprove = getSelectedPageId();
+    String tenant = getSelectedTenant();
+
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      return;
+    }
+
+    runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        GWikiElement fileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
+        if (fileStats == null || fileStats.getMainPart() == null) {
+          wikiContext.addSimpleValidationError("Error setting state");
+          return null;
+        }
+
+        GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+        if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+          wikiContext.addSimpleValidationError("Error setting state");
+          return null;
+        }
+
+        GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+        BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
+        FileStatsDO fileStatsForPage = pageStats.getFileStatsForId(pageToApprove);
+        if (fileStatsForPage == null) {
+          wikiContext.addSimpleValidationError("Error setting state");
+          return null;
+        }
+
+        fileStatsForPage.setFileState(fileState);
+        fileStatsForPage.setLastModifiedAt(GWikiProps.formatTimeStamp(new Date()));
+        fileStatsForPage.setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+        branchFilestatsArtefakt.setStorageData(pageStats.toString());
+
+        wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, true);
+
+        return null;
+      }
+    });
   }
 
   /**
@@ -144,6 +274,11 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   private GWikiMultipleWikiSelector getWikiSelector()
   {
     GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addSimpleValidationError("No multiple branches supported");
+      return null;
+    }
+
     if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
       GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
       return multipleSelector;
@@ -165,5 +300,37 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   public Map<String, Map<GWikiElementInfo, FileStatsDO>> getContentMap()
   {
     return contentMap;
+  }
+
+  /**
+   * @param selectedPageId the selectedPageId to set
+   */
+  public void setSelectedPageId(String selectedPageId)
+  {
+    this.selectedPageId = selectedPageId;
+  }
+
+  /**
+   * @return the selectedPageId
+   */
+  public String getSelectedPageId()
+  {
+    return selectedPageId;
+  }
+
+  /**
+   * @param selectedTenant the selectedTenant to set
+   */
+  public void setSelectedTenant(String selectedTenant)
+  {
+    this.selectedTenant = selectedTenant;
+  }
+
+  /**
+   * @return the selectedTenant
+   */
+  public String getSelectedTenant()
+  {
+    return selectedTenant;
   }
 }
