@@ -1,0 +1,11 @@
+If you want a RSS\- or an Atom\- Feed you can use the following parameters.{+}
+possible parameters:{+}
+
+* ?feed=rss
+** RSS\-Feed with only the main page
+* ?feed=atom
+** Atom\-Feed with only the main page
++following possible parameters:+
+
+* &renderChilds=true
+** with subpages

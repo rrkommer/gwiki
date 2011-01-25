@@ -6,13 +6,15 @@
 		<property name="name" value="gwiki.feed" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="RSS/Atom Feed for GWiki" />
+		<property name="author" value="Ingo Joseph" />
+		<property name="logoPath" value="/inc/img/RSS_logo.jpg" />
 		<property name="filter">
-            <list>
-                <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-                    <property name="className"
-                        value="de.micromata.genome.gwiki.plugin.rssfeed_1_0.filter.RssFeedFilter" />
-                </bean>
-            </list>
-        </property>
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<property name="className"
+						value="de.micromata.genome.gwiki.plugin.rssfeed_1_0.filter.RssFeedFilter" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 </beans>
