@@ -3,34 +3,61 @@
 
 <gwiki:errors />
 
-<form class="gwikiForm col" method="post">
-	<c:forEach var="map" items="${form.contentMap}">
-		<fieldset>
-			<legend><c:out value="${map.key}"/></legend>
-			<table border="1" width="100%">
-				<tr>
-					<th>Page-Id</th>
-					<th>Title</th>
-					<th>Created By</th>
-					<th>Created At</th>
-					<th>Type</th>
-					<th>Assignee</th>
-					<th>State</th>
-				</tr>
-				<c:forEach var="innerMap" items="${map.value}">
+<c:forEach var="map" items="${form.contentMap}">
+	<fieldset>
+		<legend><c:out value="${map.key}"/></legend>
+		<form class="gwikiForm col" method="post">
+			<input type="hidden" name="selectedTenant" value="Enter <c:out value="${map.key}"/>"/>
+			<input type="submit" class="gwikiButton" name="method_onEnterTenant" value="<c:out value="${map.key}"/>"/>
+		</form>
+		<table border="1" width="100%">
+			<tr>
+				<th>Title</th>
+				<th>Page-Id</th>
+				<th>Created By</th>
+				<th>Created At</th>
+				<th>Type</th>
+				<th>Assignee</th>
+				<th>State</th>
+				<th>Action</th>
+			</tr>
+			<c:forEach var="innerMap" items="${map.value}">
+				<form class="gwikiForm col" method="post">
+					<input type="hidden" name="selectedTenant" value="<c:out value="${map.key}"/>"/>
+					<input type="hidden" name="selectedPageId" value="<c:out value="${innerMap.key.id}"/>"/>
 					<tr>
-						<td><c:out value="${innerMap.key.id}"/></td>
 						<td><c:out value="${innerMap.key.title}"/></td>
-						<td><c:out value="${innerMap.key.createdBy}"/></td>
-						<td><c:out value="${innerMap.key.createdAt}"/></td>
+						<td><c:out value="${innerMap.key.id}"/></td>
+						<td><c:out value="${innerMap.value.createdBy}"/></td>
+						<td><c:out value="${innerMap.value.createdAt}"/></td>
 						<td><c:out value="${innerMap.key.type}"/></td>
 						<td><c:out value="${innerMap.value.assignedTo}"/></td>
 						<td><c:out value="${innerMap.value.fileState}"/></td>
+						<td style="text-align: center;">
+							<c:choose>
+								<!-- content creator -->
+								<c:when test="${innerMap.value.fileState == 'DRAFT'}">
+								    <input type="submit" name="method_onReviewCreator" value="To Review"/>
+								</c:when>
+
+								<!-- chief editor -->
+								<c:when test="${innerMap.value.fileState == 'TO_REVIEW'}">
+								    <input type="submit" name="method_onRejectChiefEditor" value="Reject"/>
+								    <input type="submit" name="method_onApproveChiefEditor" value="Approve"/>
+								</c:when>
+
+								<!-- content admin -->
+								<c:otherwise>
+								    <input type="submit" name="method_onRejectContentAdmin" value="Reject"/>
+								    <input type="submit" name="method_onReleaseContentAdmin" value="Release"/>
+								</c:otherwise>
+							</c:choose>							
+						</td>
 					</tr>
-				</c:forEach>
-			</table>
-		</fieldset>
-	</c:forEach>
-</form>
+				</form>
+			</c:forEach>
+		</table>
+	</fieldset>
+</c:forEach>
 
 <% wikiContext.skinInclude("standardfoot"); %>
