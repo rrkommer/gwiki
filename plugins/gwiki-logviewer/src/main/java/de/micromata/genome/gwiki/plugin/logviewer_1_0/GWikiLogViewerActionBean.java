@@ -34,7 +34,7 @@ import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.util.types.Pair;
 
 /**
- * @author Stefan Stützer (s.stuetzer@micromata.de)
+ * @author Stefan Stuetzer (s.stuetzer@micromata.de)
  */
 public class GWikiLogViewerActionBean extends ActionBeanBase
 {
@@ -43,55 +43,67 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   private String selectedLogLevel;
 
   private Date from;
+
   private String fromDate;
+
   private int fromHour;
+
   private int fromMin;
+
   private int fromSec;
 
   private Date to;
+
   private String toDate;
+
   private int toHour;
+
   private int toMin;
+
   private int toSec;
-  
+
   private String paramKey1;
+
   private String paramValue1;
 
   private String paramKey2;
+
   private String paramValue2;
-  
+
   private int offset;
+
   private int selectedPageSize;
-  
+
   private List<GWikiLogEntry> result;
-  
+
   @Override
-  public Object onInit() {
+  public Object onInit()
+  {
     // TODO stefan aus UserSettings holen
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     Calendar cal = Calendar.getInstance();
     Date now = new Date();
-    
+
     fromDate = df.format(now);
     toDate = df.format(now);
-    
-    // prefill from time 
+
+    // prefill from time
     cal.setTime(now);
     cal.add(Calendar.HOUR_OF_DAY, -2);
     this.fromHour = cal.get(Calendar.HOUR_OF_DAY);
     this.fromMin = cal.get(Calendar.MINUTE);
     this.fromSec = cal.get(Calendar.SECOND);
 
-    // prefill to time 
+    // prefill to time
     cal.setTime(now);
     cal.add(Calendar.MINUTE, 10);
     this.toHour = cal.get(Calendar.HOUR_OF_DAY);
     this.toMin = cal.get(Calendar.MINUTE);
     this.toSec = cal.get(Calendar.SECOND);
-    
+
     return null;
   }
-  
+
   public Object onSearch()
   {
     try {
@@ -100,25 +112,26 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
     } catch (ParseException e) {
       wikiContext.addSimpleValidationError("Date not valid");
     }
-    
-    List<Pair<String, String>> searchParams = new ArrayList<Pair<String,String>>();
+
+    List<Pair<String, String>> searchParams = new ArrayList<Pair<String, String>>();
     if (StringUtils.isNotBlank(paramKey1) == true && StringUtils.isNotBlank(paramValue1) == true) {
       searchParams.add(new Pair<String, String>(paramKey1, paramValue1));
     }
     if (StringUtils.isNotBlank(paramKey2) == true && StringUtils.isNotBlank(paramValue2) == true) {
       searchParams.add(new Pair<String, String>(paramKey2, paramValue2));
     }
-    
+
     result = new ArrayList<GWikiLogEntry>();
     GWikiLogging loggingProvider = wikiContext.getWikiWeb().getLogging();
     if (loggingProvider instanceof GWikiLogViewer) {
-      ((GWikiLogViewer) loggingProvider).grep(from, to, GWikiLogLevel.valueOf(selectedLogLevel), this.searchMessage, searchParams, this.offset, this.selectedPageSize, new GWikiLogViewer.Callback() {
+      ((GWikiLogViewer) loggingProvider).grep(from, to, GWikiLogLevel.valueOf(selectedLogLevel), this.searchMessage, searchParams,
+          this.offset, this.selectedPageSize, new GWikiLogViewer.Callback() {
 
-        public void found(GWikiLogEntry entry)
-        {
-          result.add(entry);
-        }
-      }); 
+            public void found(GWikiLogEntry entry)
+            {
+              result.add(entry);
+            }
+          });
     }
     return null;
   }
@@ -131,25 +144,26 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
     this.paramKey2 = null;
     this.paramValue2 = null;
     this.fromDate = null;
-    
+
     this.toDate = null;
-    
+
     this.selectedPageSize = 10;
     return null;
   }
-  
-  private Date formatDate(String stringDate, int hour, int min, int sec) throws ParseException {
+
+  private Date formatDate(String stringDate, int hour, int min, int sec) throws ParseException
+  {
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      Date date = df.parse(stringDate);
-      Calendar c = Calendar.getInstance();
-      c.setTime(date);
-      c.set(Calendar.HOUR_OF_DAY, hour);
-      c.set(Calendar.MINUTE, min);
-      c.set(Calendar.SECOND, sec);
-      
-      return c.getTime(); 
+    Date date = df.parse(stringDate);
+    Calendar c = Calendar.getInstance();
+    c.setTime(date);
+    c.set(Calendar.HOUR_OF_DAY, hour);
+    c.set(Calendar.MINUTE, min);
+    c.set(Calendar.SECOND, sec);
+
+    return c.getTime();
   }
-  
+
   /**
    * @return the selectedLogLevel
    */
@@ -381,7 +395,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   {
     this.toSec = toSec;
   }
-  
+
   /**
    * @return the searchMessage
    */
@@ -389,8 +403,9 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   {
     return searchMessage;
   }
-  
-  public List<Pair<String, String>> getLogLevels() {
+
+  public List<Pair<String, String>> getLogLevels()
+  {
     List<Pair<String, String>> levels = new ArrayList<Pair<String, String>>();
     for (GWikiLogLevel level : GWikiLogLevel.values()) {
       levels.add(new Pair<String, String>(level.name(), level.name()));
@@ -413,7 +428,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   {
     return selectedPageSize;
   }
-  
+
   /**
    * @param result the result to set
    */
