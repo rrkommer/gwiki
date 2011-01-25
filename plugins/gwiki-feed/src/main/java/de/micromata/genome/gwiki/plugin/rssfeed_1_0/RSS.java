@@ -22,7 +22,7 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
 
 /**
- * @author ingojoseph
+ * @author Ingo Joseph
  * 
  */
 public class RSS

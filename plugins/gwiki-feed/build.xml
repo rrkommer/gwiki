@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="gwiki" default="gwiki.plugin">
+<project name="gwiki" default="gwiki.feed">
 	<property name="plugintarget" value="target" />
-	<property name="gwikifeedversion" value="gwiki.feed-1.0.0" />
+	<property name="gwikilogviewerversion" value="gwiki.feed-1.0.0" />
 
 
-	<target name="gwiki.plugin">
+	<target name="gwiki.feed">
 		<mkdir dir="${plugintarget}" />
 		<delete file="${plugintarget}/${gwikifeedversion}.zip" />
 		<zip zipfile="${plugintarget}/${gwikifeedversion}.zip">
