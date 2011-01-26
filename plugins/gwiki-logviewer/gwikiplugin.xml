@@ -8,6 +8,7 @@
 		<property name="description" value="Plugin for search and view log messages" />
 		<property name="author" value="Stefan Stützer" />
 		<property name="logoPath" value="/inc/img/Logviewer_Logo.png" />
+		<property name="category" value="Admin Tools" />
 		<property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
 	</bean>
 </beans>
