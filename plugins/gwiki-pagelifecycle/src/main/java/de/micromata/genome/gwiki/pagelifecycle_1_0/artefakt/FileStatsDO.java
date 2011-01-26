@@ -17,11 +17,13 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.util.text.PipeValueList;
 
@@ -33,25 +35,31 @@ import de.micromata.genome.util.text.PipeValueList;
 public class FileStatsDO
 {
   public static final String PAGE_ID = "page_id";
+
   public static final String FILE_STATE = "file_state";
+
   public static final String CREATED_AT = "created_at";
+
   public static final String CREATED_BY = "created_by";
+
   public static final String MODIFIED_AT = "modified_at";
+
   public static final String MODIFIED_BY = "modified_by";
+
   public static final String ASSIGNED_TO = "assigned_to";
-  
+
   private String pageId;
-  
+
   private FileState fileState;
 
   private String createdBy;
-  
+
   private String createdAt;
-  
+
   private String lastModifiedBy;
-  
+
   private String lastModifiedAt;
-  
+
   private String assignedTo;
 
   /**
@@ -110,6 +118,11 @@ public class FileStatsDO
     return createdAt;
   }
 
+  public Date getCreatedAtDate()
+  {
+    return GWikiProps.parseTimeStamp(this.createdAt);
+  }
+
   /**
    * @param createdAt the createdAt to set
    */
@@ -149,12 +162,14 @@ public class FileStatsDO
   {
     this.lastModifiedAt = lastModifiedAt;
   }
-  
+
   /**
    * Returns map to ease serialize with {@link PipeValueList}
+   * 
    * @return
    */
-  public Map<String, String> getAsMap() {
+  public Map<String, String> getAsMap()
+  {
     Map<String, String> contentMap = new HashMap<String, String>();
 
     contentMap.put(PAGE_ID, pageId);
@@ -167,18 +182,20 @@ public class FileStatsDO
     return contentMap;
   }
 
-/**
- * @param assignedTo the assignedTo to set
- */
-public void setAssignedTo(String assignedTo) {
-	this.assignedTo = assignedTo;
-}
+  /**
+   * @param assignedTo the assignedTo to set
+   */
+  public void setAssignedTo(String assignedTo)
+  {
+    this.assignedTo = assignedTo;
+  }
 
-/**
- * @return the assignedTo
- */
-public String getAssignedTo() {
-	return assignedTo;
-}
-  
+  /**
+   * @return the assignedTo
+   */
+  public String getAssignedTo()
+  {
+    return assignedTo;
+  }
+
 }

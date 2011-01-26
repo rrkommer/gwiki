@@ -61,7 +61,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   private String selectedPageId;
 
   private String selectedTenant;
-
+  
   /**
    * Map tenant-id -> Map of containing elements
    */
@@ -128,12 +128,28 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     return null;
   }
 
+  public Object onLeaveTenant() {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addSimpleValidationError("Cannot leave tenant");
+      updateList();
+      return null; 
+    }
+    wikiSelector.leaveTenant(wikiContext);
+    updateList();
+    return null;
+  }
+
   /**
-   * 
+   * Loads the content of the several branches
    */
   private Object updateList()
   {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addSimpleValidationError("Cannot load tenant content");
+      return null;
+    }
     List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
     if (tenants == null || tenants.size() == 0) {
       return null;
@@ -332,5 +348,13 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   public String getSelectedTenant()
   {
     return selectedTenant;
+  }
+  
+  public String getCurrentTenant() {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      return StringUtils.EMPTY;
+    }
+    return wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
   }
 }
