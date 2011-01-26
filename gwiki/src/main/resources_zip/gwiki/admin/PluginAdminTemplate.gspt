@@ -3,56 +3,60 @@
 <@include file="inc/stdgfuncs.gspt" @>
 <gwiki:errors />
 
-<table width="100%" border="0px" <style>tr:hover{background-color:#CCD9D9} td{text-align:center}</style>
-<tr>
-<th></th>
-<th>Name</th>
-<th>Version</td>
-<th>Status</td>
-<th>Description</td>
-<th>Author</td>
-<th>Action</td>
-</tr>
-<% def form = pageContext.request.getAttribute("form");
-for (plugin in form.pluginRepo.plugins.values()) {
-  pageContext.setAttribute("plugin", plugin);
-  %>
-
-  <tr>
+<% def form = pageContext.request.getAttribute("form"); %>
+<c:forEach var="map" items="${form.pluginMap}">
+    <h2><c:out value="${map.key}"/></h2>
+    <table width="100%" border="0px" <style>.plug:hover{background-color:#CCD9D9} .plug{text-align:center}</style>
+    <tr>
+    <th></th>
+    <th>Name</th>
+    <th>Version</td>
+    <th>Status</td>
+    <th>Description</td>
+    <th>Author</td>
+    <th>Action</td>
+    </tr>
+    <c:forEach var="plugin" items="${map.value}">
+  <tr class="plug">
   <td width="5%">
     <c:choose>
     <c:when test="${empty plugin.descriptor.logoPath}">
-        <img src="<gwiki:url value='/inc/gwiki/img/icons/plugin.png'/>" alt="plugin"/>
+        <img src="<gwiki:url value='/inc/gwiki/img/icons/plugin.png'/>" alt=""/>
     </c:when>
     <c:otherwise>
-        <img src="<gwiki:url value='${plugin.descriptor.logoPath}'/>" height="50px" alt="plugin"/>
+        <img src="<gwiki:url value='${plugin.descriptor.logoPath}'/>" height="50px" alt=""/>
     </c:otherwise>
     </c:choose>
   </td>
-  <th width="15%"><%= esc(plugin.descriptor.name) %></th>
-  <td width="5%"><%=esc(plugin.descriptor.version) %></td>
+  <th width="15%"><c:out value="${plugin.descriptor.name}"/></th>
+  <td width="5%"><c:out value="${plugin.descriptor.version}"/></td>
   <td width="5%">
-    <% if (plugin.activated) { %>
-          <img src="<gwiki:url value='/inc/gwiki/img/icons/haken.gif'/>" alt="aktiv"/>
-  <% } else { %>
-      <img src="<gwiki:url value='/inc/gwiki/img/icons/kreuz.png'/>" alt="deactiv"/>  <% } %>
+      <c:choose>
+        <c:when test="${plugin.activated == true}"> 
+            <img src="<gwiki:url value='/inc/gwiki/img/icons/haken.gif'/>" alt="aktiv"/>
+        </c:when>
+        <c:otherwise>
+            <img src="<gwiki:url value='/inc/gwiki/img/icons/kreuz.png'/>" alt="deactiv"/>
+        </c:otherwise>
+      </c:choose>   
   </td>
-  <td width="50%" style="text-align:left"><%=esc(plugin.descriptor.description) %></td>
-  <td width="10%"><%=esc(plugin.descriptor.author) %></td>
+  <td width="50%" style="text-align:left"><c:out value="${plugin.descriptor.description}"/></td>
+  <td width="10%"><c:out value="${plugin.descriptor.author}"/></td>
   <td width="10%">
   <form method="post">
     <input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.name}"/>"/>
-  <% if (plugin.activated) { %>
-    <input type="submit" name="method_onDeactivate" value="Deactivate"/>
-  <% } else { %>
-    <input type="submit" name="method_onActivate" value="Activate"/>
-  <% } %>
-  </form>
-  </td>
-  </tr>
-  
-<%
-}
-%>
-</table>
+    <c:choose>
+        <c:when test="${plugin.activated == true}"> 
+            <input class="gwikiButton reset" type="submit" name="method_onDeactivate" value="Deactivate"/>
+        </c:when>
+        <c:otherwise>
+            <input class="gwikiButton main" type="submit" name="method_onActivate" value="Activate"/>
+        </c:otherwise>
+    </c:choose>                 
+   </form>
+   </td>
+   </tr>
+   </c:forEach>
+   </table>
+   </c:forEach>
 <% wikiContext.skinInclude('standardfoot'); %>

@@ -61,6 +61,8 @@ public class GWikiPluginDescriptor implements InitializingBean
    * Author
    */
   private String author;
+  
+  private String category;
 
   private String logoPath;
   
@@ -278,6 +280,16 @@ public class GWikiPluginDescriptor implements InitializingBean
   public String getLogoPath()
   {
     return logoPath;
+  }
+
+  public void setCategory(String category)
+  {
+    this.category = category;
+  }
+
+  public String getCategory()
+  {
+    return category;
   }
 
 }
