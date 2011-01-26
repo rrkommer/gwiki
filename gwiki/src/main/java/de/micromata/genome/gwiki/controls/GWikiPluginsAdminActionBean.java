@@ -17,9 +17,15 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.controls;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
 
 /**
@@ -30,11 +36,26 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
 {
   protected String pluginName;
 
+  /**
+   * Category -> Liste Plugins
+   */
+  private Map<String, List<GWikiPlugin>> pluginMap = new HashMap<String, List<GWikiPlugin>>();
+
   protected GWikiPluginRepository pluginRepo;
 
   protected void initPlugins()
   {
     pluginRepo = wikiContext.getWikiWeb().getDaoContext().getPluginRepository();
+
+    for (GWikiPlugin plugin : pluginRepo.getPlugins().values()){
+      String category = StringUtils.isNotBlank(plugin.getDescriptor().getCategory()) ? plugin.getDescriptor().getCategory() : "General";
+
+      if (this.pluginMap.get(category) == null) {
+        this.pluginMap.put(category, new ArrayList<GWikiPlugin>());
+      }
+
+       this.pluginMap.get(category).add(plugin);
+    }
   }
 
   public Object onInit()
@@ -85,5 +106,15 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
   public void setPluginName(String pluginName)
   {
     this.pluginName = pluginName;
+  }
+
+  public void setPluginMap(Map<String, List<GWikiPlugin>> pluginMap)
+  {
+    this.pluginMap = pluginMap;
+  }
+
+  public Map<String, List<GWikiPlugin>> getPluginMap()
+  {
+    return pluginMap;
   }
 }
