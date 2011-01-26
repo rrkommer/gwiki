@@ -9,12 +9,12 @@
     <table width="100%" border="0px" <style>.plug:hover{background-color:#CCD9D9} .plug{text-align:center}</style>
     <tr>
     <th></th>
-    <th>Name</th>
-    <th>Version</td>
-    <th>Status</td>
-    <th>Description</td>
-    <th>Author</td>
-    <th>Action</td>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.name"/></th>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.version"/></td>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.status"/></td>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.description"/></td>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.author"/></td>
+    <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.action"/></td>
     </tr>
     <c:forEach var="plugin" items="${map.value}">
   <tr class="plug">
@@ -47,10 +47,11 @@
     <input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.name}"/>"/>
     <c:choose>
         <c:when test="${plugin.activated == true}"> 
-            <input class="gwikiButton reset" type="submit" name="method_onDeactivate" value="Deactivate"/>
+            <input class="gwikiButton reset" type="submit" name="method_onDeactivate" value="<fmt:message key="gwiki.page.admin.PluginAdmin.button.deactivate"/>"/>
         </c:when>
         <c:otherwise>
-            <input class="gwikiButton main" type="submit" name="method_onActivate" value="Activate"/>
+        
+            <input class="gwikiButton main" type="submit" name="method_onActivate" value="<fmt:message key="gwiki.page.admin.PluginAdmin.button.activate"/>"/>
         </c:otherwise>
     </c:choose>                 
    </form>
