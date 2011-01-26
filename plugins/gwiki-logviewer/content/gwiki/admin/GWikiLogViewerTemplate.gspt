@@ -22,7 +22,7 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 
 <form class="gwikiForm col" method="post">
 <fieldset>
-<legend>Search Log Entries</legend>
+<legend><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.title"/></legend>
 	<table>
 		<tr>
 			<td text-align="right">Log Level:</td> 
@@ -109,8 +109,8 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		<legend>Search Results</legend>
 		<table border=1 width="100%">
 			<tr>
-				<th width="10%">Action</th>
-				<th width="15%">Date</th>
+				<th width="4%"></th>
+				<th width="16%">Date</th>
 				<th width="5%">Level</th>
 				<th width="75%">Message</th>
 			</tr>
@@ -119,11 +119,11 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                     <td>
                     <!-- Button fuer Params -->
     				<c:if test="${not empty row.paramMap}">
-					   <a onclick="toggleVisibility('pa${status.count}')">Params</a>
+					   <a onclick="toggleVisibility('pa${status.count}')"><img src="../inc/img/info.png" alt="Params"/></a>
                     </c:if>
                     <c:if test="${row.ex != null}">
                     <a onclick="toggleVisibility('st${status.count}')">
-                    <gwiki:url value='/inc/img/icon_error.gif'/></a>
+                    <img src="../inc/img/icon_error.gif" alt="Stacktrace"/></a>
                     </c:if>
                     </td>
 
