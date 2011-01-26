@@ -7,9 +7,17 @@
 	<fieldset>
 		<legend><c:out value="${map.key}"/></legend>
 		<form class="gwikiForm col" method="post">
-			<input type="hidden" name="selectedTenant" value="Enter <c:out value="${map.key}"/>"/>
-			<input type="submit" class="gwikiButton" name="method_onEnterTenant" value="<c:out value="${map.key}"/>"/>
+			<input type="hidden" name="selectedTenant" value="<c:out value="${map.key}"/>"/>
+			<c:choose>
+				<c:when test="${form.currentTenant eq map.key == false}">
+					<input type="submit" class="gwikiButton" name="method_onEnterTenant" value="Enter <c:out value="${map.key}"/>"/>
+				</c:when>
+				<c:otherwise>
+					<input type="submit" class="gwikiButton reset" name="method_onLeaveTenant" value="Leave <c:out value="${map.key}"/>"/>
+				</c:otherwise>
+			</c:choose>
 		</form>
+		<br/>
 		<table border="1" width="100%">
 			<tr>
 				<th>Title</th>
@@ -29,7 +37,7 @@
 						<td><c:out value="${innerMap.key.title}"/></td>
 						<td><c:out value="${innerMap.key.id}"/></td>
 						<td><c:out value="${innerMap.value.createdBy}"/></td>
-						<td><c:out value="${innerMap.value.createdAt}"/></td>
+						<td><fmt:formatDate value="${innerMap.value.createdAtDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 						<td><c:out value="${innerMap.key.type}"/></td>
 						<td><c:out value="${innerMap.value.assignedTo}"/></td>
 						<td><c:out value="${innerMap.value.fileState}"/></td>
@@ -37,19 +45,19 @@
 							<c:choose>
 								<!-- content creator -->
 								<c:when test="${innerMap.value.fileState == 'DRAFT'}">
-								    <input type="submit" name="method_onReviewCreator" value="To Review"/>
+								    <input type="submit" name="method_onReviewCreator" value="To Review" class="gwikiButton main"/>
 								</c:when>
 
 								<!-- chief editor -->
 								<c:when test="${innerMap.value.fileState == 'TO_REVIEW'}">
-								    <input type="submit" name="method_onRejectChiefEditor" value="Reject"/>
-								    <input type="submit" name="method_onApproveChiefEditor" value="Approve"/>
+								    <input type="submit" name="method_onRejectChiefEditor" value="Reject" class="gwikiButton reset"/ >
+								    <input type="submit" name="method_onApproveChiefEditor" value="Approve" class="gwikiButton main"/>
 								</c:when>
 
 								<!-- content admin -->
 								<c:otherwise>
-								    <input type="submit" name="method_onRejectContentAdmin" value="Reject"/>
-								    <input type="submit" name="method_onReleaseContentAdmin" value="Release"/>
+								    <input type="submit" name="method_onRejectContentAdmin" value="Reject" class="gwikiButton reset"/>
+								    <input type="submit" name="method_onReleaseContentAdmin" value="Release" class="gwikiButton main"/>
 								</c:otherwise>
 							</c:choose>							
 						</td>
@@ -58,6 +66,7 @@
 			</c:forEach>
 		</table>
 	</fieldset>
+	<br/>
 </c:forEach>
 
 <% wikiContext.skinInclude("standardfoot"); %>
