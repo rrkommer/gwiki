@@ -6,5 +6,6 @@
 		<property name="name" value="style.mmLabs" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="labs.micromata.de gwiki stle" />
+		<property name="category" value="Styles and Layouts" />
 	</bean>
 </beans>

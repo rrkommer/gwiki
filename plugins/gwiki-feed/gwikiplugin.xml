@@ -8,7 +8,7 @@
 		<property name="description" value="RSS/Atom Feed for GWiki" />
 		<property name="author" value="Ingo Joseph" />
 		<property name="logoPath" value="/inc/img/rss-button.png" />
-		      <property name="category" value="Tool" />
+		<property name="category" value="Import/Export" />
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">

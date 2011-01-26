@@ -6,6 +6,8 @@
 		<property name="name" value="gwiki.scheduler" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="Scheduler Plugin for GWiki" />
+		<property name="category" value="Admin Tools" />
+		<property name="author" value="Roger Rene Kommer" />
 		<property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.scheduler_1_0.chronos.spi.GWikiSchedInitializer"/>
 	</bean>
 </beans>
