@@ -10,54 +10,64 @@
 			<input type="hidden" name="selectedTenant" value="<c:out value="${map.key}"/>"/>
 			<c:choose>
 				<c:when test="${form.currentTenant eq map.key == false}">
-					<input type="submit" class="gwikiButton" name="method_onEnterTenant" value="Enter <c:out value="${map.key}"/>"/>
+					<c:set var="label">
+						<fmt:message key="gwiki.page.ViewBranchContent.enter">
+							<fmt:param>${map.key}</fmt:param>
+						</fmt:message>
+					</c:set>
+					<input type="submit" class="gwikiButton main" name="method_onEnterTenant" value="${label}"/>
 				</c:when>
 				<c:otherwise>
-					<input type="submit" class="gwikiButton reset" name="method_onLeaveTenant" value="Leave <c:out value="${map.key}"/>"/>
+					<c:set var="label">
+						<fmt:message key="gwiki.page.ViewBranchContent.leave">
+							<fmt:param>${map.key}</fmt:param>
+						</fmt:message>
+					</c:set>
+					<input type="submit" class="gwikiButton reset" name="method_onLeaveTenant" value="${label}"/>
 				</c:otherwise>
 			</c:choose>
 		</form>
 		<br/>
-		<table border="1" width="100%">
+		<table width="100%">
 			<tr>
-				<th>Title</th>
-				<th>Page-Id</th>
-				<th>Created By</th>
-				<th>Created At</th>
-				<th>Type</th>
-				<th>Assignee</th>
-				<th>State</th>
-				<th>Action</th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.title"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.pageid"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.createdby"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.createdat"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.assignee"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.state"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.action"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.workflow"/></th>
 			</tr>
 			<c:forEach var="innerMap" items="${map.value}">
 				<form class="gwikiForm col" method="post">
 					<input type="hidden" name="selectedTenant" value="<c:out value="${map.key}"/>"/>
 					<input type="hidden" name="selectedPageId" value="<c:out value="${innerMap.key.id}"/>"/>
-					<tr>
+					<tr style="border: 1px solid #EEE; padding:1px;">
 						<td><c:out value="${innerMap.key.title}"/></td>
 						<td><c:out value="${innerMap.key.id}"/></td>
 						<td><c:out value="${innerMap.value.createdBy}"/></td>
 						<td><fmt:formatDate value="${innerMap.value.createdAtDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td><c:out value="${innerMap.key.type}"/></td>
 						<td><c:out value="${innerMap.value.assignedTo}"/></td>
-						<td><c:out value="${innerMap.value.fileState}"/></td>
+						<td><fmt:message key="${innerMap.value.fileState.name}"/></td>
+						<td style="text-align: center;"><input type="submit" name="method_onViewPageInTenantContext" value="<fmt:message key="gwiki.page.ViewBranchContent.view"/>" class="gwikiButton main"/></td>
 						<td style="text-align: center;">
 							<c:choose>
 								<!-- content creator -->
 								<c:when test="${innerMap.value.fileState == 'DRAFT'}">
-								    <input type="submit" name="method_onReviewCreator" value="To Review" class="gwikiButton main"/>
+								    <input type="submit" name="method_onReviewCreator" value="<fmt:message key="gwiki.page.ViewBranchContent.review"/>" class="gwikiButton main"/>
 								</c:when>
 
 								<!-- chief editor -->
 								<c:when test="${innerMap.value.fileState == 'TO_REVIEW'}">
-								    <input type="submit" name="method_onRejectChiefEditor" value="Reject" class="gwikiButton reset"/ >
-								    <input type="submit" name="method_onApproveChiefEditor" value="Approve" class="gwikiButton main"/>
+								    <input type="submit" name="method_onRejectChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/ >
+								    <input type="submit" name="method_onApproveChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.approve"/>" class="gwikiButton main"/>
 								</c:when>
 
 								<!-- content admin -->
 								<c:otherwise>
-								    <input type="submit" name="method_onRejectContentAdmin" value="Reject" class="gwikiButton reset"/>
-								    <input type="submit" name="method_onReleaseContentAdmin" value="Release" class="gwikiButton main"/>
+								    <input type="submit" name="method_onRejectContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/>
+								    <input type="submit" name="method_onReleaseContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.release"/>" class="gwikiButton main"/>
 								</c:otherwise>
 							</c:choose>							
 						</td>

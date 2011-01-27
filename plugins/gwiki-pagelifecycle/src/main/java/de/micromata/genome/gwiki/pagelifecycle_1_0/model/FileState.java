@@ -31,4 +31,8 @@ public enum FileState
   APPROVED_CHIEF_EDITOR,
   
   APPROVED_CONTENT_ADMIN;
+  
+  public String getName() {
+    return name();
+  }
 }

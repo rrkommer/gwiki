@@ -52,7 +52,7 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
     GWikiElement storedElement = event.getElement();
     GWikiElementInfo storedElementInfo = storedElement.getElementInfo();
 
-    GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/BranchFileStats");
+    GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
 
     if (fileStats == null) {
       return chain.nextFilter(event);

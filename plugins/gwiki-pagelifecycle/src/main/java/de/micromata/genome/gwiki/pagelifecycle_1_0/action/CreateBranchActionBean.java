@@ -40,9 +40,9 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
  */
 public class CreateBranchActionBean extends ActionBeanBase
 {
-  private static final String INFO_TEMPLATE_ID = "admin/templates/GWikiBranchInfoElementTemplate";
+  private static final String INFO_TEMPLATE_ID = "admin/templates/intern/GWikiBranchInfoElementTemplate";
 
-  private static final String FILESTATS_TEMPLATE_ID = "admin/templates/GWikiBranchFileStatsTemplate";
+  private static final String FILESTATS_TEMPLATE_ID = "admin/templates/intern/GWikiBranchFileStatsTemplate";
 
   private String branchId;
 
@@ -81,7 +81,7 @@ public class CreateBranchActionBean extends ActionBeanBase
 
   private void createBranchFileStats()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchFileStats", FILESTATS_TEMPLATE_ID,
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats", FILESTATS_TEMPLATE_ID,
         "Branch File Stats");
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
   }
@@ -91,7 +91,7 @@ public class CreateBranchActionBean extends ActionBeanBase
    */
   private void createBranchInfoElement()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
     GWikiArtefakt< ? > artefakt = el.getMainPart();
 
     GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
