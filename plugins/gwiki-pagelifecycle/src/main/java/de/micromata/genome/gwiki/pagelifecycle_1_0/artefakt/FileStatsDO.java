@@ -197,5 +197,4 @@ public class FileStatsDO
   {
     return assignedTo;
   }
-
 }

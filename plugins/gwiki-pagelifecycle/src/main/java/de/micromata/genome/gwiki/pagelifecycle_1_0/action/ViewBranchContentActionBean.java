@@ -17,7 +17,6 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +38,8 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.MatcherBase;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -51,12 +52,12 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   /**
    * location of filestats file in a tenant
    */
-  private static final String FILE_STATS_LOCATION = "admin/branch/BranchFileStats";
+  private static final String FILE_STATS_LOCATION = "admin/branch/intern/BranchFileStats";
 
   /**
    * blacklist of files which not should be considered in content list
    */
-  private List<String> fileBlackList = Arrays.asList("BranchInfoElement", "BranchFileStats", "GlobalTextIndex");
+  private Matcher<String> blackListMatcher = new BooleanListRulesFactory<String>().createMatcher("*intern/*,*admin/*");
   
   private String selectedPageId;
 
@@ -74,6 +75,17 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     return null;
   }
 
+  public Object onViewPageInTenantContext() {
+    String pageId = getSelectedPageId();
+    String tenant = getSelectedTenant();
+    if (StringUtils.isBlank(pageId) == true || StringUtils.isBlank(tenant) == true) {
+      return null;
+    }
+
+    getWikiSelector().enterTenant(wikiContext, tenant);
+    return pageId;
+  }
+  
   public Object onReviewCreator()
   {
     setFileStatus(FileState.TO_REVIEW);
@@ -112,14 +124,14 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   public Object onEnterTenant() {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
-      wikiContext.addSimpleValidationError("Cannot enter tenant");
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
       updateList();
       return null; 
     }
     
     String tenant = getSelectedTenant();
     if (StringUtils.isBlank(tenant) == true) {
-      wikiContext.addSimpleValidationError("Cannot enter tenant");
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
       updateList();
       return null; 
     }
@@ -131,7 +143,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   public Object onLeaveTenant() {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
-      wikiContext.addSimpleValidationError("Cannot leave tenant");
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.leavetenant");
       updateList();
       return null; 
     }
@@ -147,7 +159,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
-      wikiContext.addSimpleValidationError("Cannot load tenant content");
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.loadtenantcontent");
       return null;
     }
     List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
@@ -186,10 +198,9 @@ public class ViewBranchContentActionBean extends ActionBeanBase
           // collecting filestats information for each item
           for (GWikiElementInfo ei : tenantContent) {
             // ignore blacklisted files
-            if (fileBlackList.contains(StringUtils.substringAfterLast(ei.getId(), "/")) == true) {
+            if (blackListMatcher.match(ei.getId()) == true) {
               continue;
             }
-            
             
             GWikiArtefakt< ? > artefakt = branchFileStats.getMainPart();
             if (artefakt instanceof GWikiBranchFileStatsArtefakt) {
@@ -227,13 +238,13 @@ public class ViewBranchContentActionBean extends ActionBeanBase
       {
         GWikiElement fileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
         if (fileStats == null || fileStats.getMainPart() == null) {
-          wikiContext.addSimpleValidationError("Error setting state");
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
         }
 
         GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
         if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
-          wikiContext.addSimpleValidationError("Error setting state");
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
         }
 
@@ -241,7 +252,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
         BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
         FileStatsDO fileStatsForPage = pageStats.getFileStatsForId(pageToApprove);
         if (fileStatsForPage == null) {
-          wikiContext.addSimpleValidationError("Error setting state");
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
         }
 
@@ -291,7 +302,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   {
     GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
     if (wikiSelector == null) {
-      wikiContext.addSimpleValidationError("No multiple branches supported");
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.tenantsNotSupported");
       return null;
     }
 

@@ -4,26 +4,25 @@
 <gwiki:errors />
 
 <form class="gwikiForm col" method="post">
-	
 	<table>
 		<tr>
-			<td>Branch-Id</td>
+			<td><fmt:message key="gwiki.page.CreateBranch.branchid"/>:</td>
 			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="50" property="branchId" /><td>
 		</tr>
 		<tr>
-			<td>Description</td>
+			<td><fmt:message key="gwiki.page.CreateBranch.desc"/>:</td>
 			<td><gwiki:textarea cols="50" rows="5" property="description"></gwiki:textarea></td>
 		</tr>
 		<tr>
-			<td>Release date:</td>
+			<td><fmt:message key="gwiki.page.CreateBranch.startdate"/>:</td>
 			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="16" property="releaseStartDate"/></td>
 		</tr>
 		<tr>
-			<td>Deactivation Date</td>
+			<td><fmt:message key="gwiki.page.CreateBranch.enddate"/>:</td>
 			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="16" property="releaseEndDate"/></td>
 		</tr>
 	</table>
-	<input class="gwikiButton main" type="submit" name="method_onCreateBranch" value="Create Branch"/>
+	<br/>
+	<input class="gwikiButton main" type="submit" name="method_onCreateBranch" value="<fmt:message key="gwiki.page.CreateBranch.create"/>"/>
 </form>
-
 <% wikiContext.skinInclude("standardfoot"); %>
