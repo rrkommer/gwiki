@@ -62,8 +62,8 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         ctx.append(ctx.renderExistingLink(ei, "(E)", "?pageId="
             + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId())
             + "&sectionName="
-            + URLEncoder.encode(name))
-            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor))));
+            + URLEncoder.encode(name)
+            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor)))));
       }
       // ctx.append("{E}");
     }
