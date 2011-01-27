@@ -6,15 +6,15 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 %>
 
 <script language="JavaScript">
-	function toggleVisibility(me){
-		var elem = document.getElementById(me);
-		if (elem.style.display=="none"){
-			elem.style.display="table-row";
-			}
-		else {
-			elem.style.display="none";
-			}
-		}
+  function toggleVisibility(me){
+    var elem = document.getElementById(me);
+    if (elem.style.display=="none"){
+      elem.style.display="table-row";
+      }
+    else {
+      elem.style.display="none";
+      }
+    }
 </script>
 
 
@@ -23,103 +23,103 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 <form class="gwikiForm col" method="post">
 <fieldset>
 <legend><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.title"/></legend>
-	<table>
-		<tr>
-			<td text-align="right">Log Level:</td> 
-			<td colspan="3"><gwiki:select property="selectedLogLevel" >
-      				<gwiki:optionsCollection property="logLevels" label="key" value="value" />
-    			</gwiki:select>
-    		</td>
-		</tr>
+  <table>
+    <tr>
+      <td text-align="right"><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.LogLevel"/></td> 
+      <td colspan="3"><gwiki:select property="selectedLogLevel" >
+              <gwiki:optionsCollection property="logLevels" label="key" value="value" />
+          </gwiki:select>
+        </td>
+    </tr>
 
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		
-		<tr>
-			<td>Message:</td> 
-			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="searchMessage" /></td>
-		</tr>
-		<tr>
-			<td>Param Key:</td> 
-			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey1" /></td>
-			<td>Value:</td> 
-			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue1" /></td>
-		</tr>
-		
-		<tr>
-			<td>Param Key:</td> 
-			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey2" /></td>
-			<td>Value:</td> 
-			<td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue2" /></td>
-		</tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.message"/></td> 
+      <td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="searchMessage" /></td>
+    </tr>
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.paramKey"/></td> 
+      <td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey1" /></td>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.value"/></td> 
+      <td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue1" /></td>
+    </tr>
+    
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.paramKey"/></td> 
+      <td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramKey2" /></td>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.value"/></td> 
+      <td colspan="3"><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="30" property="paramValue2" /></td>
+    </tr>
 
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		
-		<tr>
-			<td>From Date:</td> 
-			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="fromDate" /></td>
-		
-			<td>Time:</td> 
-			<td>
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromHour" />
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromMin" />
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromSec" />
-			</td>
-		</tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.fromDate"/></td> 
+      <td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="fromDate" /></td>
+    
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.time"/></td> 
+      <td>
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromHour" />
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromMin" />
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="fromSec" />
+      </td>
+    </tr>
 
-		<tr>
-			<td>To Date:</td> 
-			<td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="toDate" /></td>
-		
-			<td>Time:</td> 
-			<td>
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toHour" />
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toMin" />
-				<gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toSec" />
-			</td>
-		</tr>
-		
-		<tr>
-			<td>Page Size:</td> 
-			<td colspan="3">
-				<gwiki:select property="selectedPageSize" >
-      				<option value="10">10</option>
-      				<option value="50">50</option>
-      				<option value="100">100</option>
-      				<option value="1000">1000</option>
-    			</gwiki:select>
-    		</td>
-		</tr>
-		
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-	</table>
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.toDate"/></td> 
+      <td><gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="10" property="toDate" /></td>
+    
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.time"/></td> 
+      <td>
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toHour" />
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toMin" />
+        <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="2" property="toSec" />
+      </td>
+    </tr>
+    
+    <tr>
+      <td><fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.pageSize"/></td> 
+      <td colspan="3">
+        <gwiki:select property="selectedPageSize" >
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="1000">1000</option>
+          </gwiki:select>
+        </td>
+    </tr>
+    
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
 
-	<input class="gwikiButton main" type="submit" name="method_onSearch" value="Search"> 
-	<input class="gwikiButton main" type="submit" name="method_onClear" value="Clear"> 
+  <input class="gwikiButton main" type="submit" name="method_onSearch" value="<fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.search"/>"> 
+  <input class="gwikiButton main" type="submit" name="method_onClear" value="<fmt:message key="gwiki.page.admin.LogViewer.SearchLogEntries.clear"/>"> 
 </fieldset>
 
 <!-- Suchergebnis -->
 <c:if test="${not empty form.result}">
-	<fieldset>
-		<legend>Search Results</legend>
-		<table border=1 width="100%">
-			<tr>
-				<th width="4%"></th>
-				<th width="16%">Date</th>
-				<th width="5%">Level</th>
-				<th width="75%">Message</th>
-			</tr>
-			<c:forEach var="row" items="${form.result}" varStatus="status" begin="0">
-				<tr>
+  <fieldset>
+    <legend><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.title"/></legend>
+    <table border=1 width="100%">
+      <tr>
+        <th width="4%"></th>
+        <th width="16%"><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.date"/></th>
+        <th width="5%"><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.LogLevel"/></th>
+        <th width="75%"><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.message"/></th>
+      </tr>
+      <c:forEach var="row" items="${form.result}" varStatus="status" begin="0">
+        <tr>
                     <td>
                     <!-- Button fuer Params -->
-    				<c:if test="${not empty row.paramMap}">
-					   <a onclick="toggleVisibility('pa${status.count}')"><img src="../inc/img/info.png" alt="Params"/></a>
+            <c:if test="${not empty row.paramMap}">
+             <a onclick="toggleVisibility('pa${status.count}')"><img src="../inc/img/info.png" alt="Params"/></a>
                     </c:if>
                     <c:if test="${row.ex != null}">
                     <a onclick="toggleVisibility('st${status.count}')">
@@ -127,40 +127,40 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                     </c:if>
                     </td>
 
-					<td><fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-					<td><c:out value="${row.logLevel}"/></td>
-					<td><c:out value="${row.message}"/></td>
-				</tr>
+          <td><fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+          <td><c:out value="${row.logLevel}"/></td>
+          <td><c:out value="${row.message}"/></td>
+        </tr>
 
-				<!-- Log Params -->
-				<c:if test="${not empty row.paramMap}">
-					<tr id="pa${status.count}" style="display:none;">
-						<td colspan="4">
-							<table border="1" width="100%">
-								<tr>
-									<th>Key</th>
-									<th>Value</th>
-								</tr>
-								<c:forEach var="detail" items="${row.paramMap}">
-									<tr>
-										<td>${detail.key}</td>
-										<td>${detail.value}</td>
-									</tr>
-								</c:forEach>
-							</table>
-						</td>
-					</tr>
-				</c:if>
-				
-				<!-- Stacktrace -->
-				<c:if test="${row.ex != null}">
-					<tr id="st${status.count}" style="display:none;">
-						<td colspan="4"><pre>${row.stacktrace}</pre></td>
-					</tr>
-				</c:if>
-			</c:forEach>
-		</table>
-	</fieldset>	
+        <!-- Log Params -->
+        <c:if test="${not empty row.paramMap}">
+          <tr id="pa${status.count}" style="display:none;">
+            <td colspan="4">
+              <table border="1" width="100%">
+                <tr>
+                  <th><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.key"/></th>
+                  <th><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.value"/></th>
+                </tr>
+                <c:forEach var="detail" items="${row.paramMap}">
+                  <tr>
+                    <td>${detail.key}</td>
+                    <td>${detail.value}</td>
+                  </tr>
+                </c:forEach>
+              </table>
+            </td>
+          </tr>
+        </c:if>
+        
+        <!-- Stacktrace -->
+        <c:if test="${row.ex != null}">
+          <tr id="st${status.count}" style="display:none;">
+            <td colspan="4"><pre>${row.stacktrace}</pre></td>
+          </tr>
+        </c:if>
+      </c:forEach>
+    </table>
+  </fieldset> 
 </c:if>
 </form>
 
