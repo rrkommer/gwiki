@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -29,6 +30,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
@@ -48,6 +50,10 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class ViewBranchContentActionBean extends ActionBeanBase
 {
+  /**
+   * Map tenant-id -> Map of containing elements
+   */
+  private Map<String, Map<GWikiElementInfo, FileStatsDO>> contentMap = new HashMap<String, Map<GWikiElementInfo, FileStatsDO>>();
 
   /**
    * location of filestats file in a tenant
@@ -62,11 +68,6 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   private String selectedPageId;
 
   private String selectedTenant;
-  
-  /**
-   * Map tenant-id -> Map of containing elements
-   */
-  private Map<String, Map<GWikiElementInfo, FileStatsDO>> contentMap = new HashMap<String, Map<GWikiElementInfo, FileStatsDO>>();
 
   @Override
   public Object onInit()
@@ -152,6 +153,52 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     return null;
   }
 
+  public Object renderInfo(final String tenant) {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.loadtenantcontent");
+      return null;
+    }
+    List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
+    if (tenants == null || tenants.size() == 0 || tenants.contains(tenant) == false) {
+      return null;
+    }
+
+    wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        // if no branch filestats present only consider element infos
+        GWikiElement branchInfo = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchInfoElement");
+        if (branchInfo == null || branchInfo.getMainPart() == null) {
+          return null;
+        }
+
+        GWikiArtefakt< ? > artefakt = branchInfo.getMainPart();
+        if (artefakt instanceof GWikiPropsArtefakt == false) {
+          return null;
+        }
+        
+        GWikiPropsArtefakt infoArtefakt = (GWikiPropsArtefakt) artefakt;
+        GWikiProps props = infoArtefakt.getCompiledObject();
+        
+        wikiContext.append("<div style=\"font-size:0.6em;size:0.6em;border:1px dashed;width:50%;\" \">");
+        wikiContext.append("<table width=\"100%\" cellspacing=\"0\">");
+        for (Entry<String, String> e: props.getMap().entrySet()) {
+          wikiContext.append("<tr>");
+          wikiContext.append("<td width=\"15%\">").append(e.getKey()).append("</td>");
+          wikiContext.append("<td>").append(e.getValue()).append("</td>");
+          wikiContext.append("</tr>");
+        }
+        wikiContext.append("</table>");
+        wikiContext.append("</div>").append("<br/>");
+        return null;
+      
+      }
+    });
+    return null;
+  
+  }
+  
   /**
    * Loads the content of the several branches
    */
@@ -168,7 +215,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     }
 
     for (final String tenant : tenants) {
-      runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+      wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
         public Void call() throws RuntimeException
         {
           if (getContentMap().get(tenant) == null) {
@@ -195,21 +242,24 @@ public class ViewBranchContentActionBean extends ActionBeanBase
             return null;
           }
 
+          GWikiArtefakt< ? > artefakt = branchFileStats.getMainPart();
+          if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+            return null;
+          }
+          
+          GWikiBranchFileStatsArtefakt branchArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+          BranchFileStats fileStats = branchArtefakt.getCompiledObject();
           // collecting filestats information for each item
           for (GWikiElementInfo ei : tenantContent) {
             // ignore blacklisted files
             if (blackListMatcher.match(ei.getId()) == true) {
               continue;
             }
-            
-            GWikiArtefakt< ? > artefakt = branchFileStats.getMainPart();
-            if (artefakt instanceof GWikiBranchFileStatsArtefakt) {
-              GWikiBranchFileStatsArtefakt branchArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
-              BranchFileStats fileStats = branchArtefakt.getCompiledObject();
-              FileStatsDO fileStatsDO = fileStats.getFileStatsForId(ei.getId()); // cannot be null
-              getContentMap().get(tenant).put(ei, fileStatsDO);
-            } else {
+            FileStatsDO fileStatsDO = fileStats.getFileStatsForId(ei.getId());
+            if (fileStatsDO == null) {
               getContentMap().get(tenant).put(ei, new FileStatsDO());
+            } else {
+              getContentMap().get(tenant).put(ei, fileStatsDO);
             }
           }
           return null;
@@ -233,7 +283,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
       return;
     }
 
-    runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
         GWikiElement fileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
@@ -268,35 +318,6 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     });
   }
 
-  /**
-   * runs the callback code inside specified tenant
-   * 
-   * @param tenantId
-   * @param wikiSelector
-   * @param callBack
-   * @return
-   */
-  private Void runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector, CallableX<Void, RuntimeException> callBack)
-  {
-    String currentTenant = null;
-    try {
-      currentTenant = wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
-      if (StringUtils.equals(currentTenant, tenantId) == false) {
-        wikiSelector.enterTenant(wikiContext, tenantId);
-      }
-      return callBack.call();
-    } finally {
-      // switch to previous tenant
-      if (StringUtils.equals(currentTenant, tenantId) == true) {
-        return null;
-      }
-      if (StringUtils.isBlank(currentTenant) == true) {
-        wikiSelector.leaveTenant(wikiContext);
-      } else {
-        wikiSelector.enterTenant(wikiContext, currentTenant);
-      }
-    }
-  }
 
   private GWikiMultipleWikiSelector getWikiSelector()
   {

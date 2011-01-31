@@ -56,6 +56,7 @@ import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiTextArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
@@ -66,6 +67,7 @@ import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.gwiki.utils.AbstractAppendable;
 import de.micromata.genome.gwiki.utils.TimeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.ArraySet;
@@ -597,6 +599,36 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
       return cb.call();
     } finally {
       setCurrentPart(oa);
+    }
+  }
+  
+  /**
+   * runs the callback code inside specified tenant
+   * 
+   * @param tenantId
+   * @param wikiSelector
+   * @param callBack
+   * @return
+   */
+  public Void runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector, CallableX<Void, RuntimeException> callBack)
+  {
+    String currentTenant = null;
+    try {
+      currentTenant = wikiSelector.getTenantId(GWikiServlet.INSTANCE, getRequest());
+      if (StringUtils.equals(currentTenant, tenantId) == false) {
+        wikiSelector.enterTenant(this, tenantId);
+      }
+      return callBack.call();
+    } finally {
+      // switch to previous tenant
+      if (StringUtils.equals(currentTenant, tenantId) == true) {
+        return null;
+      }
+      if (StringUtils.isBlank(currentTenant) == true) {
+        wikiSelector.leaveTenant(this);
+      } else {
+        wikiSelector.enterTenant(this, currentTenant);
+      }
     }
   }
 

@@ -1,11 +1,19 @@
-<% wikiContext.skinInclude("standardhead"); %>
 <@include file="inc/stdtags.gspt" @> 
+<% 
+import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude("standardhead"); %>
 
 <gwiki:errors />
 
 <c:forEach var="map" items="${form.contentMap}">
 	<fieldset>
 		<legend><c:out value="${map.key}"/></legend>
+		
+		<% def form = wikiContext.getRequestAttribute("form"); %>
+		<% form.renderInfo(pageContext.getAttribute("map").getKey()); %>
+		
 		<form class="gwikiForm col" method="post">
 			<input type="hidden" name="selectedTenant" value="<c:out value="${map.key}"/>"/>
 			<c:choose>
