@@ -58,207 +58,180 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
 /**
  * @author Ingo Joseph
  */
-public class RssFeedFilter implements GWikiServeElementFilter {
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata
-	 * .genome.gwiki.model.filter.GWikiFilterChain,
-	 * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
-	 */
-	public Void filter(
-			GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
-			GWikiServeElementFilterEvent event) {
-		GWikiContext wikiContext = event.getWikiContext();
-		// RequestParameter
-		String feed = wikiContext.getRequestParameter("feed");
+public class RssFeedFilter implements GWikiServeElementFilter
+{
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata .genome.gwiki.model.filter.GWikiFilterChain,
+   * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
+   */
+  public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain, GWikiServeElementFilterEvent event)
+  {
+    GWikiContext wikiContext = event.getWikiContext();
+    // RequestParameter
+    String feed = wikiContext.getRequestParameter("feed");
 
-		// render holen
-		boolean renderChilds = false;
-		String renderChildsParam = wikiContext
-				.getRequestParameter("renderChilds");
+    // render holen
+    boolean renderChilds = false;
+    String renderChildsParam = wikiContext.getRequestParameter("renderChilds");
 
-		// gucken ob null
-		if (renderChildsParam == null) {
-		} else if ("true".equals(renderChildsParam)) {
-			renderChilds = true;
-		}
-		// gucken ob true -> renderChilds=true
+    // gucken ob null
+    if (renderChildsParam == null) {
+    } else if ("true".equals(renderChildsParam)) {
+      renderChilds = true;
+    }
+    // gucken ob true -> renderChilds=true
 
-		// nullcheck wenn null nächster filter
-		if (feed == null) {
-			return chain.nextFilter(event);
-		}
+    // nullcheck wenn null nächster filter
+    if (feed == null) {
+      return chain.nextFilter(event);
+    }
 
-		if ("rss".equals(feed) == false && "atom".equals(feed) == false) {
-			return chain.nextFilter(event);
-		}
+    if ("rss".equals(feed) == false && "atom".equals(feed) == false) {
+      return chain.nextFilter(event);
+    }
 
-		GWikiArtefakt<?> artefakt = event.getElement().getPart("MainPage");
-		GWikiElementInfo elementInfo = event.getElement().getElementInfo();
-		if (artefakt instanceof GWikiWikiPageArtefakt) {
-			GWikiWikiPageArtefakt wikiPage = (GWikiWikiPageArtefakt) artefakt;
-			String wikiPageHtmlContent = getPageContent(wikiContext, wikiPage);
+    GWikiArtefakt< ? > artefakt = event.getElement().getPart("MainPage");
+    GWikiElementInfo elementInfo = event.getElement().getElementInfo();
+    if (artefakt instanceof GWikiWikiPageArtefakt) {
+      GWikiWikiPageArtefakt wikiPage = (GWikiWikiPageArtefakt) artefakt;
+      String wikiPageHtmlContent = getPageContent(wikiContext, wikiPage);
 
-			String title = elementInfo.getTitle();
-			String autor = elementInfo.getCreatedBy();
+      String title = elementInfo.getTitle();
+      String autor = elementInfo.getCreatedBy();
 
-			DateFormat dfmt = new SimpleDateFormat(
-					"EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
-			String createDate = dfmt.format(elementInfo.getCreatedAt());
-			String currentDate = dfmt.format(new java.util.Date());
-			wikiContext.getResponse().setHeader("Content-Type",
-					"application/xml");
+      DateFormat dfmt = new SimpleDateFormat("EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
+      String createDate = dfmt.format(elementInfo.getCreatedAt());
+      String currentDate = dfmt.format(new java.util.Date());
+      wikiContext.getResponse().setHeader("Content-Type", "application/xml");
 
-			List<GWikiElementInfo> children = null;
-			if (renderChilds == true) {
-				children = wikiContext.getElementFinder().getAllDirectChilds(
-						elementInfo);
-			}
+      List<GWikiElementInfo> children = null;
+      if (renderChilds == true) {
+        children = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
+      }
 
-			if ("rss".equals(feed)) {
-				renderRSS(wikiContext, title, wikiPageHtmlContent, createDate,
-						currentDate, autor, children, renderChilds);
-			}
+      if ("rss".equals(feed)) {
+        renderRSS(wikiContext, title, wikiPageHtmlContent, createDate, currentDate, autor, children, renderChilds);
+      }
 
-			if ("atom".equals(feed)) {
-				renderAtom(wikiContext, title, wikiPageHtmlContent, createDate,
-						currentDate, autor, children, renderChilds);
-			}
-		}
-		return null;
-	}
+      if ("atom".equals(feed)) {
+        renderAtom(wikiContext, title, wikiPageHtmlContent, createDate, currentDate, autor, children, renderChilds);
+      }
+    }
+    return null;
+  }
 
-	/**
-	 * @param wikiContext
-	 * @param wikiPage
-	 * @return
-	 */
-	private String getPageContent(GWikiContext wikiContext,
-			GWikiWikiPageArtefakt wikiPage) {
-		GWikiStandaloneContext standaloneContext = GWikiStandaloneContext
-				.create();
-		standaloneContext.setWikiElement(wikiContext.getCurrentElement());
-		standaloneContext.setCurrentPart(wikiPage);
-		standaloneContext.setRenderMode(RenderModes.combine(RenderModes.NoToc));
-		wikiPage.render(standaloneContext);
-		standaloneContext.flush();
-		String wikiPageHtmlContent = standaloneContext.getOutString();
-		return wikiPageHtmlContent;
-	}
+  /**
+   * @param wikiContext
+   * @param wikiPage
+   * @return
+   */
+  private String getPageContent(GWikiContext wikiContext, GWikiWikiPageArtefakt wikiPage)
+  {
+    GWikiStandaloneContext standaloneContext = GWikiStandaloneContext.create();
+    standaloneContext.setWikiElement(wikiContext.getCurrentElement());
+    standaloneContext.setCurrentPart(wikiPage);
+    standaloneContext.setRenderMode(RenderModes.combine(RenderModes.NoToc));
+    wikiPage.render(standaloneContext);
+    standaloneContext.flush();
+    String wikiPageHtmlContent = standaloneContext.getOutString();
+    return wikiPageHtmlContent;
+  }
 
-	private void renderAtom(GWikiContext wikiContext, String title,
-			String wikiPageHtmlContent, String createDate, String currentDate,
-			String autor, List<GWikiElementInfo> children, boolean renderChilds) {
-		XmlElement atom = feed("http://www.w3.org/2005/Atom").nest(
-				author((name(Xml.text("Ingo Joseph")))),//
-				(title(Xml.text("GWiki Atom-Feeds"))),//
-				(link("http://localhost:8081/")),//
-				(subtitle(Xml.text("Hier siehst du Feeds von GWiki!"))),//
-				(updated(Xml.text(currentDate))),//
-				(entry((title(Xml.text(title))),//
-						(link(wikiContext.getRequest().getRequestURL()
-								.toString())),//
-						(updated(Xml.text(createDate))),//
-						(summary("html").nest(Xml.text(StringUtils.left(
-								wikiPageHtmlContent, 100) + "[...]"))),//
-						(content("html").nest(Xml.text(wikiPageHtmlContent))),//
-						author((name(Xml.text(autor))))//
-				)));
+  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+      String autor, List<GWikiElementInfo> children, boolean renderChilds)
+  {
+    XmlElement atom = feed("http://www.w3.org/2005/Atom").nest(author((name(Xml.text("Ingo Joseph")))),//
+        (title(Xml.text("GWiki Atom-Feeds"))),//
+        (link("http://localhost:8081/")),//
+        (subtitle(Xml.text("Hier siehst du Feeds von GWiki!"))),//
+        (updated(Xml.text(currentDate))),//
+        (entry((title(Xml.text(title))),//
+            (link(wikiContext.getRequest().getRequestURL().toString())),//
+            (updated(Xml.text(createDate))),//
+            (summary("html").nest(Xml.text(StringUtils.left(wikiPageHtmlContent, 100) + "[...]"))),//
+            (content("html").nest(Xml.text(wikiPageHtmlContent))),//
+            author((name(Xml.text(autor))))//
+        )));
 
-		if (renderChilds == true) {
-			atom.getChilds().addAll(renderAtomEntries(wikiContext, children));
-		}
+    if (renderChilds == true) {
+      atom.getChilds().addAll(renderAtomEntries(wikiContext, children));
+    }
 
-		wikiContext.append(atom.toString());
-		wikiContext.flush();
-	}
+    wikiContext.append(atom.toString());
+    wikiContext.flush();
+  }
 
-	private void renderRSS(GWikiContext wikiContext, String title,
-			String wikiPageHtmlContent, String createDate, String currentDate,
-			String autor, List<GWikiElementInfo> children, boolean renderChilds) {
-		XmlElement rss = rss("2.0").nest(
-				channel((title(Xml.text("GWiki RSS-Feeds"))),//
-						(link(Xml.text("http://localhost:8081/"))),//
-						(description(Xml
-								.text("Hier siehst du Feeds von GWiki!"))),//
-						(copyright(Xml.text("ingo"))),//
-						(language(Xml.text("de-de"))),//
-						(pubData(Xml.text(currentDate)))),//
-				(item((title(Xml.text(title))),//
-						(link(Xml.text(wikiContext.getRequest().getRequestURL()
-								.toString()))),//
-						(pubData(Xml.text(createDate))),//
-						(description(Xml.text(wikiPageHtmlContent))),//
-						(author(Xml.text(autor)))//
-				))//
-				);
+  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+      String autor, List<GWikiElementInfo> children, boolean renderChilds)
+  {
+    XmlElement rss = rss("2.0").nest(channel((title(Xml.text("GWiki RSS-Feeds"))),//
+        (link(Xml.text("http://localhost:8081/"))),//
+        (description(Xml.text("Hier siehst du Feeds von GWiki!"))),//
+        (copyright(Xml.text("ingo"))),//
+        (language(Xml.text("de-de"))),//
+        (pubData(Xml.text(currentDate)))),//
+        (item((title(Xml.text(title))),//
+            (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))),//
+            (pubData(Xml.text(createDate))),//
+            (description(Xml.text(wikiPageHtmlContent))),//
+            (author(Xml.text(autor)))//
+        ))//
+        );
 
-		if (renderChilds == true) {
-			rss.getChilds().addAll(renderRSSItems(wikiContext, children));
-		}
+    if (renderChilds == true) {
+      rss.getChilds().addAll(renderRSSItems(wikiContext, children));
+    }
 
-		wikiContext.append(rss.toString());
-		wikiContext.flush();
-	}
+    wikiContext.append(rss.toString());
+    wikiContext.flush();
+  }
 
-	private Collection<XmlNode> renderAtomEntries(GWikiContext wikiContext,
-			List<GWikiElementInfo> children) {
-		List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
-		for (GWikiElementInfo child : children) {
+  private Collection<XmlNode> renderAtomEntries(GWikiContext wikiContext, List<GWikiElementInfo> children)
+  {
+    List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
+    for (GWikiElementInfo child : children) {
 
-			GWikiElement element = wikiContext.getWikiWeb().findElement(
-					child.getId());
-			GWikiArtefakt<?> artefakt = element.getPart("MainPage");
+      GWikiElement element = wikiContext.getWikiWeb().findElement(child.getId());
+      GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
 
-			if (artefakt instanceof GWikiWikiPageArtefakt) {
-				GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
-				String pageContent = getPageContent(wikiContext,
-						wikiPageArtefakt);
+      if (artefakt instanceof GWikiWikiPageArtefakt) {
+        GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
+        String pageContent = getPageContent(wikiContext, wikiPageArtefakt);
 
-				DateFormat dfmt = new SimpleDateFormat(
-						"EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
-				String createDate = dfmt.format(child.getCreatedAt());
-				XmlNode c = entry(
-						title(Xml.text(child.getTitle())),
-						(link(child.getId())),//
-						(updated(Xml.text(createDate))),//
-						(summary("html").nest(Xml.text(StringUtils.left(
-								pageContent, 100) + "[...]"))),
-						(content("html").nest(Xml.text(pageContent))),
-						(author(Xml.text(child.getCreatedBy()))));
-				childrenNodes.add(c);
-			}
-		}
-		return childrenNodes;
-	}
-	
-	private Collection<XmlNode> renderRSSItems(GWikiContext wikiContext,
-			List<GWikiElementInfo> children) {
-		List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
-		for (GWikiElementInfo child : children) {
-			GWikiElement element = wikiContext.getWikiWeb().findElement(
-					child.getId());
-			GWikiArtefakt<?> artefakt = element.getPart("MainPage");
+        DateFormat dfmt = new SimpleDateFormat("EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
+        String createDate = dfmt.format(child.getCreatedAt());
+        XmlNode c = entry(title(Xml.text(child.getTitle())),
+            (link(child.getId())),//
+            (updated(Xml.text(createDate))),//
+            (summary("html").nest(Xml.text(StringUtils.left(pageContent, 100) + "[...]"))), (content("html").nest(Xml.text(pageContent))),
+            (author(Xml.text(child.getCreatedBy()))));
+        childrenNodes.add(c);
+      }
+    }
+    return childrenNodes;
+  }
 
-			if (artefakt instanceof GWikiWikiPageArtefakt) {
-				GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
-				String pageContent = getPageContent(wikiContext,
-						wikiPageArtefakt);
-				
-				DateFormat dfmt = new SimpleDateFormat(
-						"EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
-				String createDate = dfmt.format(child.getCreatedAt());
-				XmlNode c = item(
-						title(Xml.text(child.getTitle())),
-						(link(Xml.text(child.getId()))),//
-						(pubData(Xml.text(createDate))),//
-						(description(Xml.text(pageContent))),
-						(author(Xml.text(child.getCreatedBy()))));
-				childrenNodes.add(c);
-			}
-		}
-		return childrenNodes;
-	}
+  private Collection<XmlNode> renderRSSItems(GWikiContext wikiContext, List<GWikiElementInfo> children)
+  {
+    List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
+    for (GWikiElementInfo child : children) {
+      GWikiElement element = wikiContext.getWikiWeb().findElement(child.getId());
+      GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
+
+      if (artefakt instanceof GWikiWikiPageArtefakt) {
+        GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
+        String pageContent = getPageContent(wikiContext, wikiPageArtefakt);
+
+        DateFormat dfmt = new SimpleDateFormat("EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
+        String createDate = dfmt.format(child.getCreatedAt());
+        XmlNode c = item(title(Xml.text(child.getTitle())), (link(Xml.text(child.getId()))),//
+            (pubData(Xml.text(createDate))),//
+            (description(Xml.text(pageContent))), (author(Xml.text(child.getCreatedBy()))));
+        childrenNodes.add(c);
+      }
+    }
+    return childrenNodes;
+  }
 }
