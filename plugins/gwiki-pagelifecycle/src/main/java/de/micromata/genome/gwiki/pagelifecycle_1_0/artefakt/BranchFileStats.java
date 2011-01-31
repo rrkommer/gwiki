@@ -53,10 +53,7 @@ public class BranchFileStats implements Serializable
    */
   public FileStatsDO getFileStatsForId(String id)
   {
-	  if (contentMap.get(id) != null) {
-		  return contentMap.get(id);
-	  }
-	  return new FileStatsDO();
+	  return contentMap.get(id);
   }
   
   public boolean isPagePresent(final String pageId) {
