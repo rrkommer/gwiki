@@ -21,7 +21,6 @@ package de.micromata.genome.gwiki.controls;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
-import de.micromata.genome.util.web.MimeUtils;
 
 /**
  * Standard Page not found ActionBean.
@@ -41,10 +40,6 @@ public class GWikiPageNotFound extends GWikiCreateOrShowPage
     if (StringUtils.isNotEmpty(getPageId()) == true) {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == true) {
         allowCreatePage = true;
-      }
-      String mime = MimeUtils.getMimeTypeFromFile(getPageId());
-      if (StringUtils.isNotEmpty(mime) && StringUtils.endsWith(mime, "html") == false) {
-        return noForward();
       }
     }
 
