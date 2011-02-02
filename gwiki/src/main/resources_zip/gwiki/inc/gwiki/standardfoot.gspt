@@ -25,5 +25,6 @@ by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>
 				</div> <!-- gwikiFooter END -->
 		</div> <!-- gwikiWrapper END -->
 		</div><!-- #gwikiWrapperWrapper END -->
+		<% wikiContext.getWikiWeb().getFilter().renderSkinGuiElement(wikiContext, "EndBody"); %>
 	</body>
 </html>

@@ -47,6 +47,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
 <ul  class="menu gwikiMenuone" style="top: 3em;background-color: #EEEEEE; height: 2em;">
 			<% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
       <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
+      <% wikiContext.getWikiWeb().getFilter().renderSkinGuiElement(wikiContext, "HeadMenu"); %>
 </ul>
  <ul id="gwikiMenuone" class="menu gwikiMenuone">
  
@@ -73,11 +74,6 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
              <span><a href="<gwiki:url value="/edit/EditPage?pageId=${wikiPage.elementInfo.id}"/>" title="Edit">
  								&nbsp;<img border="0" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>"/>&nbsp;</a>
  							</span>
-             <%--
-             	<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>');">
-             		<gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
-             	</span>
-             	 --%>
              </li>
 		<% } %>
 
@@ -89,9 +85,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
      					<img border="0" src="<gwiki:url value='/inc/gwiki/img/icons/paperplus32.png'/>"/>
      						</a>&nbsp;
      				</span>
-					<%-- <span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/paperplus32.png'/>');"></span> --%>
-					
-						<%-- <gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.NewPage}" urlParams="?newPage=true&amp;parentPageId=${wikiPage.elementInfo.id}"/> --%>
+				
 						<ul>
      					<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
      					<% wikiContext.setRequestAttribute("wktp", pair); %>
@@ -121,6 +115,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
              	
              </li>
              <% } %>
+   			<% wikiContext.getWikiWeb().getFilter().renderSkinGuiElement(wikiContext, "PageMenu"); %>
    </ul>  
  <script type="text/javascript">
   // \$(document).ready(function(){
