@@ -23,6 +23,6 @@
 </head>
 <% def gwikiWithNavBar = wikiContext.getUserBooleanProp("WITH_NAVBAR", true); %>
 <body class="gwikibody<%= gwikiWithNavBar ? "" : " gwikibodyNoNav" %>">
-
+<% wikiContext.getWikiWeb().getFilter().renderSkinGuiElement(wikiContext, "BeginBody"); %>
 <script src='<gwiki:url value="/static/skins/dhl2009/js/wz_tooltip.js"/>' type="text/javascript"></script>
 <!-- head.gspt END -->
