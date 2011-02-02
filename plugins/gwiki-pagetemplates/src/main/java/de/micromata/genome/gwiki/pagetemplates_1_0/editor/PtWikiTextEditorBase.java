@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagetemplates_1_0;
+package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,13 +31,25 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
  */
 public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 {
+  private static final long serialVersionUID = -6191445352617140361L;
+
+  /**
+   * content of whole page
+   */
   protected String wikiText;
 
+  /**
+   * start idx of section 
+   */
   protected int startSec = -1;
 
+  /**
+   * end idx of section
+   */
   protected int endSec = -1;
 
-  GWikiWikiPageArtefakt wikiArtefakt;
+  
+  private GWikiWikiPageArtefakt wikiArtefakt;
 
   /**
    * @param element
@@ -56,7 +68,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     return true;
   }
 
-  private GWikiWikiPageArtefakt getWiki()
+  private GWikiWikiPageArtefakt getPageArtefakt()
   {
     Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
     element.collectParts(map);
@@ -84,7 +96,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   {
     String start = "{pteditsection:name=" + sectionName;
 
-    wikiArtefakt = getWiki();
+    wikiArtefakt = getPageArtefakt();
     if (wikiArtefakt == null) {
       return;
     }

@@ -15,15 +15,32 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagetemplates_1_0;
+package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
-import de.micromata.genome.gwiki.page.GWikiContext;
+import java.io.Serializable;
+
+import de.micromata.genome.gwiki.model.GWikiArtefaktBase;
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public interface PtSectionEditor
+public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiArtefaktBase<T> implements GWikiEditorArtefakt<T>
 {
-  void render(GWikiContext wikiContext);
+  private static final long serialVersionUID = 7611579351674072940L;
+
+  protected GWikiElement element;
+
+  protected String sectionName;
+
+  protected String editor;
+
+  public PtSectionEditorBase(GWikiElement element, String sectionName, String editor)
+  {
+    this.element = element;
+    this.sectionName = sectionName;
+    this.editor = editor;
+  }
 }

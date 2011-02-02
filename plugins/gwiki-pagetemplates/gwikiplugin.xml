@@ -9,7 +9,7 @@
 		<property name="macros">
 			<map>
 				<entry key="pteditsection"
-					value="de.micromata.genome.gwiki.pagetemplates_1_0.PtSectionMacroBean" />
+					value="de.micromata.genome.gwiki.pagetemplates_1_0.macro.PtSectionMacroBean" />
 			</map>
 		</property>
 	</bean>

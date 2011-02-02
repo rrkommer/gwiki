@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagetemplates_1_0;
+package de.micromata.genome.gwiki.pagetemplates_1_0.macro;
 
 import java.net.URLEncoder;
 
@@ -29,7 +29,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * Defines an editable section.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro
 {
@@ -55,20 +54,28 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
+    GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/PageSectionEditor");
     if (ctx.getCurrentElement() != null
         && ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
-      GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/PageSectionEditor");
+     
+      
       if (ei != null) {
-        ctx.append(ctx.renderExistingLink(ei, "(E)", "?pageId="
+        ctx.append("<div onmouseover=\"this.style.border = '1px dashed'\" onmouseout=\"this.style.border = '0px'\"");
+        
+        String link = ctx.renderExistingLink(ei, "(E)", "?pageId="
             + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId())
             + "&sectionName="
             + URLEncoder.encode(name)
-            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor)))));
+            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor))));
+        
+        ctx.append(link);
       }
-      // ctx.append("{E}");
     }
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
+    }
+    if (ei != null) {
+      ctx.append("</div>");
     }
     return true;
   }
@@ -92,5 +99,4 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   {
     this.editor = editor;
   }
-
 }

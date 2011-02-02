@@ -15,7 +15,7 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagetemplates_1_0;
+package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -24,7 +24,6 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class PtWikiRawTextEditor extends PtWikiTextEditorBase
 {
