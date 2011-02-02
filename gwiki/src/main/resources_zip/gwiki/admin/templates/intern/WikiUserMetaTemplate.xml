@@ -180,7 +180,7 @@ def onValidate(pct)
 											<property name="type" value="PAGEID" />
 										</bean>
 										<bean
-											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											class="de.micromata.genome.gwiki.controls.GWikiUserRightsPropsDescriptorValue">
 											<property name="key" value="rightsrule" />
 											<property name="label" value="I{gwiki.profile.rightsrule.label}" />
 											<property name="description"
