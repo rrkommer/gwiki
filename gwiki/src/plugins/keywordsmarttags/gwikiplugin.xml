@@ -5,6 +5,8 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.keywordssmarttags" />
 		<property name="version" value="1.0.0" />
+<property name="author" value="Roger Kommer"/>
+		<property name="category" value="Wiki Extension"/>
 		<property name="description"
 			value="Create Smartlinks of Keywords between pages in same GWIKI Space." />
 		<property name="filter">
