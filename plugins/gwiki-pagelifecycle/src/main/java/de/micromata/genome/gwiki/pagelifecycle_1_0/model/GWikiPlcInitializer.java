@@ -39,8 +39,6 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
   public void activated(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
     super.activated(wikiWeb, plugin);
-    GWikiLog.note("Activate PLC Plugin");
-    
     // TODO stefan. Das funktioniert noch nicht wirklich
     if (wikiWeb.getDaoContext().getWikiSelector() instanceof GWikiMultipleWikiSelector == false) {
       previousSelector = wikiWeb.getDaoContext().getWikiSelector();
@@ -54,7 +52,6 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
   @Override
   public void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GWikiLog.note("Deactivate PLC Plugin");
     if (previousSelector != null) {
       wikiWeb.getDaoContext().setWikiSelector(previousSelector);
     }
