@@ -1,6 +1,0 @@
-<@include file="/inc/vwvo/standardhead.gspt"@>
-
-<% MainPage.render(wikiContext); %>
-
-
-<@include file="/inc/vwvo/standardfoot.gspt"@>
