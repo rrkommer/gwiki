@@ -4,6 +4,12 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
+/**
+ * Sample ActionBean.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
 public class SampleActionBean extends ActionBeanBase
 {
   private String message;

@@ -5,6 +5,15 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.sampleplugin" />
 		<property name="version" value="1.0.0" />
+		<property name="author" value="Roger Kommer"/>
+		<property name="category" value="Samples"/>
 		<property name="description" value="Sample Plugin for GWiki" />
+		<property name="filter">
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<constructor-arg value="de.micromata.genome.gwiki.sampleplugin_1_0.SampleSkinRenderFilter"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
 </beans>
