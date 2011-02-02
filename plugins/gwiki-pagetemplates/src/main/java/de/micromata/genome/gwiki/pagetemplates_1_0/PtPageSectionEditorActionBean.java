@@ -54,7 +54,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     return null;
   }
 
-  public Object onSafe()
+  public Object onSave()
   {
     init();
     secEditor.onSave(wikiContext);

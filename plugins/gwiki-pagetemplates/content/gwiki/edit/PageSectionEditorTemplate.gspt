@@ -7,13 +7,12 @@ Edit page here.
 <gwiki:hidden property="pageId"/>
 <gwiki:hidden property="sectionName"/>
 <gwiki:hidden property="editor"/>
-<input class="gwikiButton main" type="submit" name="method_onSafe" value="Speichern">&nbsp;
+<input class="gwikiButton main" type="submit" name="method_onSave" value="Speichern">&nbsp;
 <input class="gwikiButton reset" type="submit" name="method_onCancel" value="Abbrechen"><br/>
 
 <% form = pageContext.getRequest().getAttribute("form"); %>
 
 <% form.secEditor.render(wikiContext); %>
-
 
 </form>
 <% wikiContext.skinInclude('standardfoot'); %>
