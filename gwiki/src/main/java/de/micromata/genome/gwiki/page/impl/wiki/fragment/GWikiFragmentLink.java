@@ -202,7 +202,8 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     if (ctx.getWikiElement() != null) {
       parentUrl = ctx.getWikiElement().getElementInfo().getId();
     }
-    if (isGlobalUrl(url) == false) {
+    boolean globalUrl = isGlobalUrl(url);
+    if (globalUrl == false) {
       int li = url.indexOf('#');
       if (li != -1) {
         localAnchor = url.substring(li);
@@ -254,6 +255,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         if (StringUtils.isNotEmpty(tip) == true) {
           ctx.append(" title='", StringEscapeUtils.escapeHtml(tip), "'");
         }
+        if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
+          ctx.append(" class='gwikiMissingLink'");
+        }
         ctx.append(">");
         renderTitle(ctx, ttitel);
         ctx.append("</a>");
@@ -264,6 +268,14 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
       if (allowToView == false) {
         renderTitle(ctx, ttitel);
       } else {
+        String tlinkClass = linkClass;
+        if (tlinkClass == null && RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
+          if (globalUrl == true) {
+            tlinkClass = "gwikiGlobalLink";
+          } else {
+            tlinkClass = "gwikiLocalLink";
+          }
+        }
         String turl = url;
         if (localAnchor != null) {
           turl = turl + localAnchor;
@@ -274,8 +286,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         } else {
           ctx.append(" title='", StringEscapeUtils.escapeHtml(ttitel), "'");
         }
-        if (linkClass != null) {
-          ctx.append(" class=\"").append(StringEscapeUtils.escapeXml(linkClass)).append("\"");
+
+        if (tlinkClass != null) {
+          ctx.append(" class=\"").append(StringEscapeUtils.escapeXml(tlinkClass)).append("\"");
         }
         if (windowTarget != null) {
           ctx.append(" target=\"").append(StringEscapeUtils.escapeXml(windowTarget)).append("\"");
