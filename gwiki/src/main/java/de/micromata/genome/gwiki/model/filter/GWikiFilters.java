@@ -66,6 +66,8 @@ public class GWikiFilters
 
   private List<GWikiPageChangedFilter> pageChangedFilters = new ArrayList<GWikiPageChangedFilter>();
 
+  private List<GWikiSkinRenderFilter> skinRenderFilters = new ArrayList<GWikiSkinRenderFilter>();
+
   public ThreadLocal<List<Class< ? >>> skipFilters = new ThreadLocal<List<Class< ? >>>() {
 
     @Override
@@ -139,7 +141,6 @@ public class GWikiFilters
         return null;
       }
     });
-
   }
 
   public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageArtefakt artefakt, GWikiWikiPageRenderFilter target)
@@ -194,6 +195,23 @@ public class GWikiFilters
     return event.getPageInfos();
   }
 
+  public void renderSkinGuiElement(GWikiContext ctx, String guiElement)
+  {
+    if (skinRenderFilters.isEmpty() == true) {
+      return;
+    }
+    GWikiSkinRenderFilterEvent event = new GWikiSkinRenderFilterEvent(ctx, ctx.getCurrentElement(), guiElement);
+    new GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter>(this, new GWikiSkinRenderFilter() {
+
+      public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain, GWikiSkinRenderFilterEvent event)
+      {
+        return null;
+      }
+    }, skinRenderFilters)//
+        .nextFilter(event);
+
+  }
+
   public void registerNewFilterClass(GWikiWeb wikiWeb, Class< ? > filter)
   {
     Object obj = ClassUtils.createDefaultInstance(filter);
@@ -225,6 +243,9 @@ public class GWikiFilters
     }
     if (obj instanceof GWikiPageChangedFilter) {
       pageChangedFilters.add((GWikiPageChangedFilter) obj);
+    }
+    if (obj instanceof GWikiSkinRenderFilter) {
+      skinRenderFilters.add((GWikiSkinRenderFilter) obj);
     }
   }
 
