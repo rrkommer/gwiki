@@ -17,9 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.macro;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
@@ -57,18 +59,22 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/PageSectionEditor");
     if (ctx.getCurrentElement() != null
         && ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
-     
       
       if (ei != null) {
+        ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "i18n/PtI18N");
+        final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
         ctx.append("<div onmouseover=\"this.style.border = '1px dashed'\" onmouseout=\"this.style.border = '0px'\"");
         
-        String link = ctx.renderExistingLink(ei, "(E)", "?pageId="
-            + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId())
-            + "&sectionName="
-            + URLEncoder.encode(name)
-            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor))));
-        
-        ctx.append(link);
+        try {
+          String link = ctx.renderExistingLinkWithAttr(ei, edit, "?pageId="
+              + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
+              + "&sectionName=" + URLEncoder.encode(name, "UTF-8")
+              + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8"))),
+              "class", "edit");
+          ctx.append(link);
+        } catch (UnsupportedEncodingException ex) {
+          GWikiLog.warn("Error rendering section edit link");
+        }
       }
     }
     if (attrs.getChildFragment() != null) {
