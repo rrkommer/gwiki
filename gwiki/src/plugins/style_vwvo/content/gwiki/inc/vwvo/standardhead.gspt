@@ -1,0 +1,18 @@
+<@include file="/inc/vwvo/head.gspt"@>
+
+<% boolean wikiWithNavNavigation = false; %>
+<% boolean wikiWithMainTopicNavNavigation = false; %>
+<% boolean wikiWithMainTopicTopNavigation = false; %>
+<% boolean wikiWithBreadcrumb = false; %>
+
+
+<@include file="inc/vwvo/mainNav.gspt" @>
+
+<h1 id="pagetitle"><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+
+<div id="quicksearch">
+	<form id="gwikiQuicksearch" class="Quicksearch" action="<gwiki:url value="/edit/Search"/>" method="post">
+		<input id="gwikiQuicksearchQuery" class="gwikiQuicksearchQuery" type="text" size="25" name="searchExpression" value="Search" accesskey="n"/>
+		<input id="gwikiQuicksearchSubmit" class="gwikiQuicksearchSubmit" type="submit" value="Suchen" name="method_onSearch"/>
+	</form>					
+</div><!-- END #quicksearch -->
