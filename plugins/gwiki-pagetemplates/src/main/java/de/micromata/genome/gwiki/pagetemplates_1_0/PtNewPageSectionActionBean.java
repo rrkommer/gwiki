@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.pagetemplates_1_0;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagetemplates_1_0.macro.PtSectionMacroBean;
 
 /**
  * 

@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.pagetemplates_1_0;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -110,5 +111,4 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   {
     this.secEditor = secEditor;
   }
-
 }
