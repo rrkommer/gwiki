@@ -654,9 +654,21 @@ public class Html2WikiFilter extends DefaultFilter
   protected String escapeText(String t)
   {
     StringBuilder sb = null;
+    boolean insideMacro = false;
     for (int i = 0; i < t.length(); ++i) {
       char c = t.charAt(i);
-      if (specialCharacters.indexOf(c) != -1 && c != '{' && c != '}') {
+      if (insideMacro == true && c == '}') {
+        insideMacro = false;
+        if (sb != null) {
+          sb.append(c);
+        }
+        continue;
+      }
+      if (insideMacro == false && c == '{') {
+        insideMacro = true;
+      }
+      if (insideMacro == false && specialCharacters.indexOf(c) != -1) {
+
         if (sb == null) {
           sb = new StringBuilder();
           if (i > 0) {
