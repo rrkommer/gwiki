@@ -59,5 +59,6 @@
    </tr>
    </c:forEach>
    </table>
+   <hr/>
    </c:forEach>
 <% wikiContext.skinInclude('standardfoot'); %>
