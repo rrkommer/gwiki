@@ -56,11 +56,11 @@ public class GWikiWikiParserTableTest extends GWikiWikiParserTestBase
   {
     w2htest(
         "|[http://www.mydomain.de]|\n",
-        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\"><a href=\"http://www.mydomain.de\" title='http://www.mydomain.de'>http://www.mydomain.de</a></td>\n</tr></tbody></table>");
+        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\"><a href=\"http://www.mydomain.de\" title='http://www.mydomain.de' class=\"gwikiGlobalLink\">http://www.mydomain.de</a></td>\n</tr></tbody></table>");
 
     w2htest(
         "|a|[http://www.mydomain.de]|b|\n",
-        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\">a</td><td class=\"gwikitd\"><a href=\"http://www.mydomain.de\" title='http://www.mydomain.de'>http://www.mydomain.de</a></td><td class=\"gwikitd\">b</td>\n</tr></tbody></table>");
+        "<table class=\"gwikiTable\"><tbody><tr>\n<td class=\"gwikitd\">a</td><td class=\"gwikitd\"><a href=\"http://www.mydomain.de\" title='http://www.mydomain.de' class=\"gwikiGlobalLink\">http://www.mydomain.de</a></td><td class=\"gwikitd\">b</td>\n</tr></tbody></table>");
   }
 
   public void testTableWithSpace()
