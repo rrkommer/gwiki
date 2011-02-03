@@ -56,12 +56,12 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/PageSectionEditor");
+    GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null
         && ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
       
       if (ei != null) {
-        ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "i18n/PtI18N");
+        ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
         ctx.append("<div onmouseover=\"this.style.border = '1px dashed'\" onmouseout=\"this.style.border = '0px'\"");
         

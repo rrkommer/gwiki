@@ -14,5 +14,12 @@
 					value="de.micromata.genome.gwiki.pagetemplates_1_0.macro.PtSectionMacroBean" />
 			</map>
 		</property>
+		<property name="filter">
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<constructor-arg value="de.micromata.genome.gwiki.pagetemplates_1_0.PtPageMenuSkinRenderFilter"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
 </beans>

@@ -1,0 +1,163 @@
+<@include file="inc/stdtags.gspt" @> 
+<% 
+import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude("standardhead"); %>
+
+<script src="/static/js/SmartWizard.js" type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/style_wizard.css" />
+
+<gwiki:errors />
+
+<form id="wizardForm" class="gwikiForm col" method="post">
+
+	<div id="smartwizard" class="wiz-container" style="height:600px;">
+		<ul id="wizard-anchor">
+	    	<li>
+	      		<a href="#category">
+		      		<big><fmt:message key="gwiki.page.articleWizard.step1"/></big><br/>
+		      		<small><fmt:message	key="gwiki.page.articleWizard.category.title" /></small>
+	      		</a>
+	      	</li>   
+	      	<li>
+	      		<a href="#template">
+	      			<big><fmt:message key="gwiki.page.articleWizard.step2"/></big><br/>
+	        		<small><fmt:message key="gwiki.page.articleWizard.template.title"/></small>
+	        	</a>
+	        </li>
+		</ul>
+	     
+		<div id="wizard-body" class="wiz-body">
+      		<div id="category" >
+	        	<div class="wiz-content" style="height:500px;">
+		      		<!-- Kategorie waehlen -->
+					<fieldset>
+						<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
+						<table>
+							<tr>
+								<td width="40%"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
+								<td>
+									<gwiki:select id="selectedCategory1" property="selectedCategory1" onchange="loadAsync(2)" >
+										<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
+										<c:forEach var="cat" items="${form.rootCategories}">
+											<option value="${cat.key}">${cat.value}</option>
+										</c:forEach>
+									</gwiki:select>
+									<a class="addCategory" href="#" title="<fmt:message key="gwiki.page.articleWizard.category.add"/>" onclick="showCategoryPanel()">+</a>
+								</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td id="s2"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td id="s3"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td id="s4"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td id="s5"></td>
+							</tr>
+						</table>
+					</fieldset>
+					<br/>
+					
+					<!-- Neue Kategorie erstellen -->
+					<div id="newCat" style="display:none;">
+						<fieldset>
+							<legend><fmt:message key="gwiki.page.articleWizard.createCategory"/></legend>
+							<table>
+								<tr>
+									<td width="40%"><fmt:message key="gwiki.page.articleWizard.parentCategory"/>:</td>
+									<td>
+										<gwiki:select id="parentCategory" property="parentCategory" >
+											<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
+											<c:forEach var="cat" items="${form.allCategories}">
+												<option value="${cat.key}">${cat.value}</option>
+											</c:forEach>
+										</gwiki:select>
+										<input class="btn" id="next" type="submit" name="method_onCreateCategory" value="<fmt:message key="gwiki.page.articleWizard.category.add"/>" />
+									</td>
+								</tr>
+								<!-- Kategoriename -->								
+								<tr>
+									<td><fmt:message key="gwiki.page.articleWizard.nameNewCategory"/>:</td>
+									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryName" /></td>
+								</tr>
+
+								<!-- Beschreibung -->								
+								<tr>
+									<td><fmt:message key="gwiki.page.articleWizard.descNewCategory"/>:</td>
+									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryDesc" /></td>
+								</tr>
+
+								<!-- Inhaltsverzeichnis -->								
+								<tr>
+									<td><fmt:message key="gwiki.page.articleWizard.tocNewCategory"/>:</td>
+									<td><gwiki:checkbox errorStyleClass="text error" property="newCategoryToc" /></td>
+								</tr>
+							</table>
+						</fieldset>
+					</div>
+	        	</div>       
+	        	<div class="wiz-nav">
+	            	<input class="next btn" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
+	        	</div>         
+	      	</div>
+      	
+      		<!-- Vorlage waehlen -->
+      		<div id="template">
+        		<div class="wiz-content" style="height:500px;">
+				<fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:
+				<gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" />        		
+				<% def form = wikiContext.getRequestAttribute("form");
+					form.renderTemplates(); 
+				%>
+        		</div> 
+        		<div class="wiz-nav">
+            		<input class="back btn" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
+            		<input class="btn" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
+        		</div>                       
+      		</div>
+    	</div>
+	</div>
+
+	<script type="text/javascript">
+	  \$(document).ready(function(){
+	    \$('#smartwizard').smartWizard();
+	 });
+	  
+	  function loadAsync(level)  {
+		  var sel = \$("select[name=selectedCategory" + (level-1) + "]").val();
+		  
+		  jQuery.ajax({
+		    cache: false,
+		    url: '<gwiki:url value="/edit/pagetemplates/CreateArticleWizard"/>?method_onLoadCategoryAsync=true',
+		    type: 'POST',
+		    dataType: "html",
+		    data: {depth: level, cat: sel},
+		    complete: function(res, status) {
+		    	cleanUp(level);
+		    	jQuery('#s' + level).html(res.responseText);
+		      }
+		  });
+		} 
+	  
+	  function cleanUp(level) {
+		  for (var i = level ; i <= 5; i++) {
+	    	jQuery('#s' + i).html("");
+		  }
+	  }
+	  
+	  function showCategoryPanel() {
+		  jQuery('#newCat').css("display", "block");
+	  }
+	</script>
+</form>
+
+<% wikiContext.skinInclude("standardfoot"); %>
