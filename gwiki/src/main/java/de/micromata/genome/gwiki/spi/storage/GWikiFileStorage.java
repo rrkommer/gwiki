@@ -94,6 +94,8 @@ public class GWikiFileStorage implements GWikiStorage
   /** TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist */
   private Map<String, String> artefaktTypes = new HashMap<String, String>();
 
+  private final static String BeanConfigMetaTemplateSettingsFile = "admin/templates/BeanConfigMetaTemplateSettings.properties";
+
   private GWikiWeb wikiWeb;
 
   public GWikiFileStorage(FileSystem storage)
@@ -221,11 +223,17 @@ public class GWikiFileStorage implements GWikiStorage
           String e = storage2WikiPath(fo.getName());
           GWikiSettingsProps settings = new GWikiSettingsProps();
           loadProperties(e, settings.getMap());
-          GWikiElementInfo el = new GWikiElementInfo(settings, wikiWeb.findMetaTemplate(settings
-              .getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
+          String mt = settings.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE);
+          GWikiMetaTemplate template = wikiWeb.findMetaTemplate(mt);
+          if (template == null) {
+            if (BeanConfigMetaTemplateSettingsFile.equals(e) == false) {
+              GWikiLog.warn("Cannot load Metatemplate: '" + mt + "' for pageId:" + e);
+              continue;
+            }
+          }
+          GWikiElementInfo el = new GWikiElementInfo(settings, template);
           String id = e.substring(0, e.length() - GWikiStorage.SETTINGS_SUFFIX.length());
           el.setId(id);
-          // TODO delete if work: p.setStringValue(GWikiPropKeys.PAGEID, id);
           el = afterPageInfoLoad(fo, el, ret);
           if (el != null) {
             ret.put(id, el);
@@ -247,11 +255,14 @@ public class GWikiFileStorage implements GWikiStorage
   protected GWikiElementInfo createElementInfo(FsObject e)
   {
     GWikiProps p = new GWikiProps(loadProperties(e.getName()));
-    GWikiElementInfo el = new GWikiElementInfo(p, wikiWeb.findMetaTemplate(p.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)));
+    String mt = p.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE);
+
+    GWikiElementInfo el = new GWikiElementInfo(p, wikiWeb.findMetaTemplate(mt));
     String sp = storage2WikiPath(e.getName());
     String cid = sp.substring(0, sp.length() - GWikiStorage.SETTINGS_SUFFIX.length());
     el.setId(cid);
-    p.setStringValue(GWikiPropKeys.PAGEID, cid);
+    // TODO delete next line if working
+    // p.setStringValue(GWikiPropKeys.PAGEID, cid);
     return el;
   }
 
