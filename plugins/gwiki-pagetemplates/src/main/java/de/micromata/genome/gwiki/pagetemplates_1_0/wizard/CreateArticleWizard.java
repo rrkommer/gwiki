@@ -1,5 +1,14 @@
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.th;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +21,9 @@ import de.micromata.genome.gwiki.model.GWikiAttachment;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
-import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
-import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
@@ -30,6 +37,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * Wizard for creating articles
@@ -39,7 +47,9 @@ import de.micromata.genome.util.runtime.CallableX;
 public class CreateArticleWizard extends ActionBeanBase
 {
 
-  private static final String ROOT_PAGE = "volkswagen/Index";
+  private static final String DEFAULT_ROOT_PAGE = "volkswagen/Index";
+
+  private String rootPage = DEFAULT_ROOT_PAGE;
 
   private static final String DRAFT_ID = "_DRAFT";
 
@@ -81,21 +91,23 @@ public class CreateArticleWizard extends ActionBeanBase
   }
 
   /**
-   * renders a table with available page temapltes
+   * renders a table with available page templates
    */
   public void renderTemplates()
   {
-    final GWikiI18nProvider i18n = wikiContext.getWikiWeb().getI18nProvider();
-
     // find page templates
     final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
     final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
-    wikiContext.append("<table width=\"100%\" border=\"1\" cellspacing=\"0\">");
-    wikiContext.append("<tr><th>").append(i18n.translate(wikiContext, "gwiki.page.articleWizard.template.select")).append("</th>");
-    wikiContext.append("<th>").append(i18n.translate(wikiContext, "gwiki.page.articleWizard.template.name")).append("</th>");
-    wikiContext.append("<th>").append(i18n.translate(wikiContext, "gwiki.page.articleWizard.template.desc")).append("</th>");
-    wikiContext.append("<th>").append(i18n.translate(wikiContext, "gwiki.page.articleWizard.template.preview")).append("</th></tr>");
+    // table header
+    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
+    table.nest(//
+        tr(//
+            th(text(translate("gwiki.page.articleWizard.template.select"))), //
+            th(text(translate("gwiki.page.articleWizard.template.name"))), //
+            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
+            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
+        ));
 
     // render each template in row
     for (final GWikiElementInfo ei : ret) {
@@ -116,32 +128,34 @@ public class CreateArticleWizard extends ActionBeanBase
       }
       final String desc = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("DESCRIPTION"), "n/a");
       final String name = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("NAME"), "n/a");
-
-      wikiContext.append("<tr>");
-      wikiContext.append("<td>").append("<input type=\"radio\" name=\"selectedPageTemplate\" value=\"" + ei.getId() + "\" />")
-          .append("</td>");
-      wikiContext.append("<td>").append(name).append("</td>");
-      wikiContext.append("<td>").append(desc).append("</td>");
-
-      wikiContext.append("<td valign=\"top\">");
-
       final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
       final String renderedPreview = renderPreview(exec);
 
-      // build preview tooltip
-      wikiContext.append("<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('");
+      StringBuffer sb = new StringBuffer();
+      sb.append("displayHilfeLayer('<div style=\"font-size:0.6em;size:0.6em;\">");
+      sb.append(StringEscapeUtils.escapeJavaScript(renderedPreview));
+      sb.append("</div>");
+      sb.append("', '").append(wikiContext.genHtmlId(""));
+      sb.append("')");
 
-      wikiContext.append(StringEscapeUtils.escapeHtml("<div style=\"font-size:0.6em;size:0.6em;\">"));
-      wikiContext.append(StringEscapeUtils.escapeJavaScript(StringEscapeUtils.escapeHtml(renderedPreview)));
-      wikiContext.append(StringEscapeUtils.escapeHtml("</div>"));
-      wikiContext.append("', '").append(wikiContext.genHtmlId(""));
-      wikiContext.append("')\" onmouseout=\"doNotOpenHilfeLayer();\">");
-      wikiContext.append(i18n.translate(wikiContext, "gwiki.page.articleWizard.template.preview")).append("</a>");
-
-      wikiContext.append("</td>");
-      wikiContext.append("</tr>");
+      // render template row
+      table.nest( //
+          tr(//
+              td(input("type", "radio", "name", "selectedPageTemplate", "value", ei.getId())), //
+              td(text(name)), //
+              td(text(desc)), //
+              td(new String[][]{{"valign", "top"}}, //
+                a(new String[][]{ //
+                    {"class", "wikiSmartTag"},{"href", "#"},{"onclick" , "return false;"},
+                    {"onmouseout", "doNotOpenHilfeLayer();"}, {"onmouseover", sb.toString()}//
+                },                    
+                text(translate("gwiki.page.articleWizard.template.preview")))
+              )
+          ));
     }
-    wikiContext.append("</table>");
+    
+    // write table
+    wikiContext.append(table.toString());
   }
 
   /**
@@ -156,8 +170,8 @@ public class CreateArticleWizard extends ActionBeanBase
 
     String newCategoryId;
     if (NOT_A_CATEGORY.equalsIgnoreCase(this.parentCategory) == true) {
-      newCategoryId = StringUtils.removeEnd(ROOT_PAGE, CATEGORY_SUFFIX) + "/" + newCategoryName + CATEGORY_SUFFIX;
-      this.parentCategory = ROOT_PAGE;
+      newCategoryId = StringUtils.removeEnd(rootPage, CATEGORY_SUFFIX) + "/" + newCategoryName + CATEGORY_SUFFIX;
+      this.parentCategory = rootPage;
     } else {
       newCategoryId = StringUtils.removeEnd(this.parentCategory, CATEGORY_SUFFIX) + "/" + newCategoryName + CATEGORY_SUFFIX;
     }
@@ -173,7 +187,7 @@ public class CreateArticleWizard extends ActionBeanBase
     props.setStringValue(GWikiPropKeys.PARENTPAGE, this.parentCategory);
 
     ensureDraftBranch(getWikiSelector());
-    
+
     // save new category in draft
     wikiContext.runInTenantContext(DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
@@ -313,7 +327,7 @@ public class CreateArticleWizard extends ActionBeanBase
         return null;
       }
     });
-    
+
     wikiSelector.enterTenant(wikiContext, DRAFT_ID);
     return newPageId;
   }
@@ -444,7 +458,7 @@ public class CreateArticleWizard extends ActionBeanBase
 
       public Void call() throws RuntimeException
       {
-        final GWikiElement el = wikiContext.getWikiWeb().findElement(ROOT_PAGE);
+        final GWikiElement el = wikiContext.getWikiWeb().findElement(rootPage);
         final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
 
         for (final GWikiElementInfo c : childs) {
@@ -726,6 +740,22 @@ public class CreateArticleWizard extends ActionBeanBase
   public boolean isNewCategoryToc()
   {
     return newCategoryToc;
+  }
+
+  /**
+   * @param rootPage the rootPage to set
+   */
+  public void setRootPage(String rootPage)
+  {
+    this.rootPage = rootPage;
+  }
+
+  /**
+   * @return the rootPage
+   */
+  public String getRootPage()
+  {
+    return rootPage;
   }
 
 }

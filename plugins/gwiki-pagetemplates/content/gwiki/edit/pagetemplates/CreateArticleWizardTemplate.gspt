@@ -13,6 +13,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 <form id="wizardForm" class="gwikiForm col" method="post">
 
 	<div id="smartwizard" class="wiz-container" style="height:600px;">
+	
+		<!-- navigation steps -->
 		<ul id="wizard-anchor">
 	    	<li>
 	      		<a href="#category">
@@ -26,17 +28,35 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	        		<small><fmt:message key="gwiki.page.articleWizard.template.title"/></small>
 	        	</a>
 	        </li>
+	      	<li>
+	      		<a href="#time">
+	      			<big><fmt:message key="gwiki.page.articleWizard.step2"/></big><br/>
+	        		<small><fmt:message key="gwiki.page.articleWizard.template.title"/></small>
+	        	</a>
+	        </li>
 		</ul>
 	     
 		<div id="wizard-body" class="wiz-body">
       		<div id="category" >
 	        	<div class="wiz-content" style="height:500px;">
+		      		
+		      		<!-- Seitentitel waehlen -->
+					<fieldset>
+						<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
+						<table>
+							<tr>
+								<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
+								<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" /></td>
+							</tr>
+						</table>
+					</fieldset>
+						      			
 		      		<!-- Kategorie waehlen -->
 					<fieldset>
 						<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
 						<table>
 							<tr>
-								<td width="40%"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
+								<td width="200px"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
 								<td>
 									<gwiki:select id="selectedCategory1" property="selectedCategory1" onchange="loadAsync(2)" >
 										<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
@@ -73,7 +93,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 							<legend><fmt:message key="gwiki.page.articleWizard.createCategory"/></legend>
 							<table>
 								<tr>
-									<td width="40%"><fmt:message key="gwiki.page.articleWizard.parentCategory"/>:</td>
+									<td width="200px"><fmt:message key="gwiki.page.articleWizard.parentCategory"/>:</td>
 									<td>
 										<gwiki:select id="parentCategory" property="parentCategory" >
 											<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
@@ -81,7 +101,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 												<option value="${cat.key}">${cat.value}</option>
 											</c:forEach>
 										</gwiki:select>
-										<input class="btn" id="next" type="submit" name="method_onCreateCategory" value="<fmt:message key="gwiki.page.articleWizard.category.add"/>" />
 									</td>
 								</tr>
 								<!-- Kategoriename -->								
@@ -102,22 +121,24 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 									<td><gwiki:checkbox errorStyleClass="text error" property="newCategoryToc" /></td>
 								</tr>
 							</table>
+							<input class="gwikiButton main" id="next" type="submit" name="method_onCreateCategory" value="<fmt:message key="gwiki.page.articleWizard.category.add"/>" />
 						</fieldset>
 					</div>
 	        	</div>       
 	        	<div class="wiz-nav">
-	            	<input class="next btn" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
+	            	<input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
 	        	</div>         
 	      	</div>
       	
       		<!-- Vorlage waehlen -->
       		<div id="template">
         		<div class="wiz-content" style="height:500px;">
-				<fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:
-				<gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" />        		
-				<% def form = wikiContext.getRequestAttribute("form");
-					form.renderTemplates(); 
-				%>
+	        		<fieldset>
+						<legend><fmt:message key="gwiki.page.articleWizard.template.title"/></legend>
+						<% def form = wikiContext.getRequestAttribute("form");
+							form.renderTemplates(); 
+						%>
+	        		</fieldset>
         		</div> 
         		<div class="wiz-nav">
             		<input class="back btn" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
@@ -146,7 +167,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 		    	jQuery('#s' + level).html(res.responseText);
 		      }
 		  });
-		} 
+	  } 
 	  
 	  function cleanUp(level) {
 		  for (var i = level ; i <= 5; i++) {

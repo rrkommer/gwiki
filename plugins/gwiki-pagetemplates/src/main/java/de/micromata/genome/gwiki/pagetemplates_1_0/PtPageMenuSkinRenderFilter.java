@@ -44,10 +44,14 @@ public class PtPageMenuSkinRenderFilter implements GWikiSkinRenderFilter
       ctx.append("<img border=\"0\" src=\"/inc/gwiki/img/icons/article32.png\">");
       ctx.append("</a>");
       ctx.append("</span>");
-      ctx.append("<ul>");
-      ctx.append("<li>").append(ctx.renderLocalUrl("edit/pagetemplates/CreateArticleWizard"));
-      ctx.append("</ul>");
-      ctx.append("</li>");
+
+      // TODO: take user roles?
+      if (event.getWikiContext().isAllowTo("*EDITOR*")) {
+        ctx.append("<ul>");
+        ctx.append("<li>").append(ctx.renderLocalUrl("edit/pagetemplates/CreateArticleWizard"));
+        ctx.append("</ul>");
+        ctx.append("</li>");
+      }
     }
     
     return null;
