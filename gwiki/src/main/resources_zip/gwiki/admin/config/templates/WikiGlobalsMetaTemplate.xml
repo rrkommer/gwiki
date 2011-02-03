@@ -119,6 +119,28 @@
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="gwikidocs/help/WikiHelp" />
 										</bean>
+										
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_ARCHIVE_MAX_COUNT" />
+											<property name="label" value="Maximum archived versions" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_ARCHIVE_MAX_COUNT" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="INTEGER" />
+											<property name="defaultValue" value="100" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="GWIKI_ARCHIVE_MAX_DAYS" />
+											<property name="label" value="Maximum archived days" />
+											<property name="helpLink"
+												value="gwikidocs/help/GWikiConfig#GWIKI_ARCHIVE_MAX_DAYS" />
+											<property name="readOnly" value="false" />
+											<property name="type" value="INTEGER" />
+											<property name="defaultValue" value="-1" />
+										</bean>
+										
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FILTER_CLASSES" />
