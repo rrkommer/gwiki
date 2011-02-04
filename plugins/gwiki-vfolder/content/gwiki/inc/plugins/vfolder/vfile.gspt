@@ -1,0 +1,6 @@
+<% wikiContext.skinInclude('standardhead'); %>
+
+Hello from vfile.<p/>
+
+
+<% wikiContext.skinInclude('standardfoot'); %>
