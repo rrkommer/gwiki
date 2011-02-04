@@ -9,6 +9,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.th;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class CreateArticleWizard extends ActionBeanBase
+public class CreateArticleWizardAction extends ActionBeanBase
 {
 
   private static final String DEFAULT_ROOT_PAGE = "volkswagen/Index";
@@ -52,6 +53,17 @@ public class CreateArticleWizard extends ActionBeanBase
   private String rootPage = DEFAULT_ROOT_PAGE;
 
   private static final String DRAFT_ID = "_DRAFT";
+
+  /*
+   * Category
+   */
+  private static final String NOT_A_CATEGORY = "-1";
+
+  private static final String CATEGORY_SUFFIX = "/Index";
+
+  private Map<String, String> rootCategories;
+
+  private Map<String, String> allCategories;
 
   private String selectedCategory1;
 
@@ -63,13 +75,7 @@ public class CreateArticleWizard extends ActionBeanBase
 
   private String selectedCategory5;
 
-  private String selectedPageTemplate;
-
   private String pageTitle;
-
-  private Map<String, String> rootCategories;
-
-  private Map<String, String> allCategories;
 
   private String newCategoryName;
 
@@ -79,83 +85,49 @@ public class CreateArticleWizard extends ActionBeanBase
 
   private String parentCategory;
 
-  private static final String NOT_A_CATEGORY = "-1";
+  /*
+   * Template
+   */
+  private String selectedPageTemplate;
 
-  private static final String CATEGORY_SUFFIX = "/Index";
+  /*
+   * Release
+   */
+  private List<String> availableReviewers;
+  
+  private String selectedReviewer;
+
+  private boolean immediately = true;
+  
+  private Date from;
+
+  private String fromDate;
+
+  private int fromHour;
+
+  private int fromMin;
+
+  private int fromSec;
+
+  private Date to;
+
+  private String toDate;
+
+  private int toHour;
+
+  private int toMin;
+
+  private int toSec;
+  
+  /////////////////////////////////////
+  // Action-Handler
+  /////////////////////////////////////
 
   @Override
   public Object onInit()
   {
     fillCategories();
     return null;
-  }
-
-  /**
-   * renders a table with available page templates
-   */
-  public void renderTemplates()
-  {
-    // find page templates
-    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
-    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
-
-    // table header
-    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
-    table.nest(//
-        tr(//
-            th(text(translate("gwiki.page.articleWizard.template.select"))), //
-            th(text(translate("gwiki.page.articleWizard.template.name"))), //
-            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
-            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
-        ));
-
-    // render each template in row
-    for (final GWikiElementInfo ei : ret) {
-      final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
-      if (el == null || ei.isViewable() == false) {
-        continue;
-      }
-
-      final String part = "MainPage";
-      GWikiArtefakt< ? > art = null;
-      if (StringUtils.isNotEmpty(part) == true) {
-        art = el.getPart(part);
-      } else {
-        art = el.getMainPart();
-      }
-      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
-        continue;
-      }
-      final String desc = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("DESCRIPTION"), "n/a");
-      final String name = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("NAME"), "n/a");
-      final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
-      final String renderedPreview = renderPreview(exec);
-
-      StringBuffer sb = new StringBuffer();
-      sb.append("displayHilfeLayer('<div style=\"font-size:0.6em;size:0.6em;\">");
-      sb.append(StringEscapeUtils.escapeJavaScript(renderedPreview));
-      sb.append("</div>");
-      sb.append("', '").append(wikiContext.genHtmlId(""));
-      sb.append("')");
-
-      // render template row
-      table.nest( //
-          tr(//
-              td(input("type", "radio", "name", "selectedPageTemplate", "value", ei.getId())), //
-              td(text(name)), //
-              td(text(desc)), //
-              td(new String[][]{{"valign", "top"}}, //
-                a(new String[][]{ //
-                    {"class", "wikiSmartTag"},{"href", "#"},{"onclick" , "return false;"},
-                    {"onmouseout", "doNotOpenHilfeLayer();"}, {"onmouseover", sb.toString()}//
-                },                    
-                text(translate("gwiki.page.articleWizard.template.preview")))
-              )
-          ));
-    }
-    
-    // write table
-    wikiContext.append(table.toString());
   }
 
   /**
@@ -195,11 +167,11 @@ public class CreateArticleWizard extends ActionBeanBase
         final GWikiWikiPageArtefakt pageArtfekt = (GWikiWikiPageArtefakt) artefakt;
         final StringBuilder sb = new StringBuilder();
 
-        if (StringUtils.isNotBlank(CreateArticleWizard.this.newCategoryDesc) == true) {
-          sb.append("{pageintro}").append(CreateArticleWizard.this.newCategoryDesc).append("{pageintro}").append("\n");
+        if (StringUtils.isNotBlank(CreateArticleWizardAction.this.newCategoryDesc) == true) {
+          sb.append("{pageintro}").append(CreateArticleWizardAction.this.newCategoryDesc).append("{pageintro}").append("\n");
         }
 
-        if (CreateArticleWizard.this.newCategoryToc == true) {
+        if (CreateArticleWizardAction.this.newCategoryToc == true) {
           sb.append("{children:depth=2|sort=title|withPageIntro=true}").append("\n");
         }
 
@@ -301,7 +273,7 @@ public class CreateArticleWizard extends ActionBeanBase
     final GWikiElementInfo pageEi = new GWikiElementInfo(tplEi);
     pageEi.setId(newPageId);
 
-    // switch template from to standard wikipage template
+    // switch template to standard wikipage template
     final GWikiMetaTemplate wikiPageMetaTemplate = wikiContext.getWikiWeb()
         .findMetaTemplate("admin/templates/StandardWikiPageMetaTemplate");
     if (wikiPageMetaTemplate != null) {
@@ -328,10 +300,82 @@ public class CreateArticleWizard extends ActionBeanBase
       }
     });
 
+    updateFileStatsWithReleaseAndWorkflowDate(newPageId);    
+
+    // switch to tenant and view created page
     wikiSelector.enterTenant(wikiContext, DRAFT_ID);
     return newPageId;
   }
+  
+  /**
+   * renders a table with available page templates
+   */
+  public void renderTemplates()
+  {
+    // find page templates
+    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
+    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
+    // table header
+    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
+    table.nest(//
+        tr(//
+        th(text(translate("gwiki.page.articleWizard.template.select"))), //
+        th(text(translate("gwiki.page.articleWizard.template.name"))), //
+            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
+            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
+        ));
+
+    // render each template in row
+    for (final GWikiElementInfo ei : ret) {
+      final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
+      if (el == null || ei.isViewable() == false) {
+        continue;
+      }
+
+      final String part = "MainPage";
+      GWikiArtefakt< ? > art = null;
+      if (StringUtils.isNotEmpty(part) == true) {
+        art = el.getPart(part);
+      } else {
+        art = el.getMainPart();
+      }
+      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
+        continue;
+      }
+      final String desc = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("DESCRIPTION"), "n/a");
+      final String name = StringUtils.defaultIfEmpty(ei.getProps().getStringValue("NAME"), "n/a");
+      final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
+      final String renderedPreview = renderPreview(exec);
+
+      StringBuffer sb = new StringBuffer();
+      sb.append("displayHilfeLayer('<div style=\"font-size:0.6em;size:0.6em;\">");
+      sb.append(StringEscapeUtils.escapeJavaScript(renderedPreview));
+      sb.append("</div>");
+      sb.append("', '").append(wikiContext.genHtmlId(""));
+      sb.append("')");
+
+      // render template row
+      table.nest( //
+          tr(//
+          td(input("type", "radio", "name", "selectedPageTemplate", "value", ei.getId())), //
+              td(text(name)), //
+              td(text(desc)), //
+              td(new String[][] { { "valign", "top"}}, //
+                  a(new String[][] { //
+                  { "class", "wikiSmartTag"}, { "href", "#"}, { "onclick", "return false;"}, { "onmouseout", "doNotOpenHilfeLayer();"},
+                      { "onmouseover", sb.toString()}//
+                  }, text(translate("gwiki.page.articleWizard.template.preview"))))));
+    }
+
+    // write table
+    wikiContext.append(table.toString());
+  }
+
+  
+  /////////////////////////////////////
+  // Helper
+  /////////////////////////////////////
   /**
    * @return the page id of super category of new page
    */
@@ -511,6 +555,31 @@ public class CreateArticleWizard extends ActionBeanBase
       return false;
     }
     return true;
+  }
+  
+  /**
+   * Updates BranchFilestats with new meta information of recent created file
+   */
+  private void updateFileStatsWithReleaseAndWorkflowDate(final String newPageId)
+  {
+//    // no additional meta information
+//    if (StringUtils.isBlank(this.fromDate) == true && "-1".equals(this.selectedReviewer) == true) {
+//      return;
+//    }
+//    
+//    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
+//    if (fileStats == null) {
+//      return;
+//    }
+//
+//    GWikiArtefakt< ? > artefakt = fileStats.getMainPart();    
+//    if (artefakt instanceof GWikiBranc)
+//    
+//    // set reviewer
+//    if ("-1".equals(this.selectedReviewer) == false) {
+//      
+//    }
+    
   }
 
   /**
@@ -756,6 +825,182 @@ public class CreateArticleWizard extends ActionBeanBase
   public String getRootPage()
   {
     return rootPage;
+  }
+
+  /**
+   * @param availableReviewers the availableReviewers to set
+   */
+  public void setAvailableReviewers(List<String> availableReviewers)
+  {
+    this.availableReviewers = availableReviewers;
+  }
+
+  /**
+   * @return the availableReviewers
+   */
+  public List<String> getAvailableReviewers()
+  {
+    return availableReviewers;
+  }
+
+  /**
+   * @param fromDate the fromDate to set
+   */
+  public void setFromDate(String fromDate)
+  {
+    this.fromDate = fromDate;
+  }
+
+  /**
+   * @return the fromDate
+   */
+  public String getFromDate()
+  {
+    return fromDate;
+  }
+
+  /**
+   * @param fromHour the fromHour to set
+   */
+  public void setFromHour(int fromHour)
+  {
+    this.fromHour = fromHour;
+  }
+
+  /**
+   * @return the fromHour
+   */
+  public int getFromHour()
+  {
+    return fromHour;
+  }
+
+  /**
+   * @param fromMin the fromMin to set
+   */
+  public void setFromMin(int fromMin)
+  {
+    this.fromMin = fromMin;
+  }
+
+  /**
+   * @return the fromMin
+   */
+  public int getFromMin()
+  {
+    return fromMin;
+  }
+
+  /**
+   * @param fromSec the fromSec to set
+   */
+  public void setFromSec(int fromSec)
+  {
+    this.fromSec = fromSec;
+  }
+
+  /**
+   * @return the fromSec
+   */
+  public int getFromSec()
+  {
+    return fromSec;
+  }
+
+  /**
+   * @param toDate the toDate to set
+   */
+  public void setToDate(String toDate)
+  {
+    this.toDate = toDate;
+  }
+
+  /**
+   * @return the toDate
+   */
+  public String getToDate()
+  {
+    return toDate;
+  }
+
+  /**
+   * @param toHour the toHour to set
+   */
+  public void setToHour(int toHour)
+  {
+    this.toHour = toHour;
+  }
+
+  /**
+   * @return the toHour
+   */
+  public int getToHour()
+  {
+    return toHour;
+  }
+
+  /**
+   * @param toMin the toMin to set
+   */
+  public void setToMin(int toMin)
+  {
+    this.toMin = toMin;
+  }
+
+  /**
+   * @return the toMin
+   */
+  public int getToMin()
+  {
+    return toMin;
+  }
+
+  /**
+   * @param toSec the toSec to set
+   */
+  public void setToSec(int toSec)
+  {
+    this.toSec = toSec;
+  }
+
+  /**
+   * @return the toSec
+   */
+  public int getToSec()
+  {
+    return toSec;
+  }
+
+  /**
+   * @param selectedReviewer the selectedReviewer to set
+   */
+  public void setSelectedReviewer(String selectedReviewer)
+  {
+    this.selectedReviewer = selectedReviewer;
+  }
+
+  /**
+   * @return the selectedReviewer
+   */
+  public String getSelectedReviewer()
+  {
+    return selectedReviewer;
+  }
+
+  /**
+   * @param immediately the immediately to set
+   */
+  public void setImmediately(boolean immediately)
+  {
+    this.immediately = immediately;
+  }
+
+  /**
+   * @return the immediately
+   */
+  public boolean isImmediately()
+  {
+    return immediately;
   }
 
 }
