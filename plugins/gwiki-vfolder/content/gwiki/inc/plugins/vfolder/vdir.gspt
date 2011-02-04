@@ -1,0 +1,18 @@
+<%
+import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+import de.micromata.genome.gwiki.page.impl.wiki.*;	
+wikiContext.skinInclude('standardhead'); %>
+
+Hello from vdir.<p/>
+
+<%
+	GWikiChildrenMacro cm = new GWikiChildrenMacro();
+	cm.setDepth(1);
+	cm.render(new MacroAttributes(), wikiContext);
+%>
+<hr></hr>
+<%
+	GWikiPageAttachmentsMacro atm = new GWikiPageAttachmentsMacro();
+	atm.render(new MacroAttributes(), wikiContext);
+%>
+<% wikiContext.skinInclude('standardfoot'); %>
