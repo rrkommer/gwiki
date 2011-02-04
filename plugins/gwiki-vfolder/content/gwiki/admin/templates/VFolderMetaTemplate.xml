@@ -10,6 +10,16 @@
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
 			<map>
+			<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="beanClassName"
+							value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderActionBean" />
+							<property name="forward">
+								<bean class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt"/>
+							</property>
+					</bean>
+				</entry>
+			<!--  
 				<entry key="Controler">
 					<bean
 						class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
@@ -24,6 +34,7 @@
 						</property>
 					</bean>
 				</entry>
+				-->
 				<entry key="VFolderConfig">
 					<bean class="de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt" />
 				</entry>
