@@ -1,0 +1,46 @@
+{pageintro}
+GWiki can send Emails to user as notification. Use Email Templates to provide predefined Emails.
+{pageintro}
+
+h2. Standard Emails via Java/Groovy
+
+The Email Dao expects a simple map of string key/values with parameters for the email:
+
+{code}
+final Map<String, String> ctx = new HashMap<String, String>();
+  ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
+ ctx.put(GWikiEmailProvider.SUBJECT, "GWiki; Page changed: " + title);
+ String body = "The Page " + title + " (" + url + ") has beend changed";
+ ctx.put(GWikiEmailProvider.TEXT, body);
+ctx.put(GWikiEmailProvider.TO, "sample@sample.com");
+
+
+wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
+
+{code}
+
+h2. Template
+
+Sending an email using Mail Templates is quite similar. 
+In the email context map you provide a page ID to a template
+element via the {{"MAILTEMPLATE"}} ({{GWikiEmailProvider.MAILTEMPLATE}}) key.
+
+The context map also contains the standard parameter, like FROM, TO, etc. 
+You can also add parameters, which are evaluated by the template itself.
+
+To create an email template, you can use GWiki itself. Create an "JSP Mail Template".
+
+
+Inside the template the mail context is mapped to request attributes. You can read
+and set these attributes inside the template. 
+
+JSP is used as technique to render an email body text.
+If the JSP renders to an empty text, the TEXT attribute will be used.
+
+h2. I18N
+{todo}
+Describe
+{todo}
+
+h2. Test
+If you install the admintools plugin, you have a webpage to send emails: [SendEmails|admin/plugins/admintools/SendEmail]
