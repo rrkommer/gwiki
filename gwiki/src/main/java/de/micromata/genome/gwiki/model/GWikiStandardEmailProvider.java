@@ -58,14 +58,6 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
   {
     GWikiStandaloneContext wikiContext = GWikiStandaloneContext.create();
     wikiContext.setRequestAttribute("mailContext", ctx);
-    // wikiContext.getWikiWeb().getAuthorization().runAsUser("asdf", wikiContext, new CallableX<Void, RuntimeException>() {
-    //
-    // public Void call() throws RuntimeException
-    // {
-    //
-    // return null;
-    // }
-    // });
 
     for (Map.Entry<String, String> me : ctx.entrySet()) {
       wikiContext.setRequestAttribute(me.getKey(), me.getValue());
