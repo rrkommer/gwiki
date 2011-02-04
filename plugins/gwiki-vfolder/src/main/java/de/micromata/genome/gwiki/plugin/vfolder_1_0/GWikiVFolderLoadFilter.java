@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -44,7 +45,11 @@ public class GWikiVFolderLoadFilter implements GWikiLoadElementInfosFilter
 
   protected List<String> loadFiles(GWikiContext wikiContext, GWikiVFolderNode node)
   {
-    List<FsObject> files = wikiContext.getWikiWeb().getStorage().getFileSystem().listFilesByPattern("", node.getMatcherRule(), 'F', true);
+    FileSystem fs = node.getFileSystem();
+    if (fs == null) {
+      fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
+    }
+    List<FsObject> files = fs.listFilesByPattern("", node.getMatcherRule(), 'F', true);
     List<String> ret = new ArrayList<String>();
     for (FsObject fso : files) {
       ret.add(fso.getName());

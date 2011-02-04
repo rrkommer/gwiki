@@ -17,7 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import java.io.Serializable;
 import java.util.List;
+
+import de.micromata.genome.gdbfs.FileSystem;
 
 /**
  * Configuration Bean for a VFolder Node
@@ -25,12 +28,14 @@ import java.util.List;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiVFolderNode
+public class GWikiVFolderNode implements Serializable
 {
   /**
    * Matcher role to find on file system.
    */
   private String matcherRule;
+
+  private FileSystem fileSystem;
 
   /**
    * Has children
@@ -102,6 +107,16 @@ public class GWikiVFolderNode
   public void setAddCss(List<String> addCss)
   {
     this.addCss = addCss;
+  }
+
+  public FileSystem getFileSystem()
+  {
+    return fileSystem;
+  }
+
+  public void setFileSystem(FileSystem fileSystem)
+  {
+    this.fileSystem = fileSystem;
   }
 
 }
