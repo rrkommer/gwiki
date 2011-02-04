@@ -17,11 +17,18 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.li;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.span;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.ul;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent.GuiElementType;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * Filter for rendering separate menu
@@ -30,30 +37,45 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public class PtSkinRenderFilter implements GWikiSkinRenderFilter
 {
-
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain, de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain,
+   * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
    */
   public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain, GWikiSkinRenderFilterEvent event)
   {
+    GWikiContext ctx = event.getWikiContext();
+    
+    // TODO stefan berechtigung korrekt setzen
+    if (event.getWikiContext().isAllowTo("*EDITOR*") == false) {
+      return chain.nextFilter(event);
+    }
+    
     if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
-      GWikiContext ctx = event.getWikiContext();
-      ctx.append("<li class=\"gwikiMenuIcon\"");
-      ctx.append("<span>");
-      ctx.append("<a href=\"\" title=\"").append(ctx.getTranslated("gwiki.pt.common.edit")).append("\">");
-      ctx.append("<img border=\"0\" src=\"/inc/gwiki/img/icons/article32.png\">");
-      ctx.append("</a>");
-      ctx.append("</span>");
+      ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
-      // TODO: take user roles?
+      XmlElement menu = li(new String[][] { { "class", "gwikiMenuIcon"}}, //
+          span( //
+          a(new String[][] { { "href", ""}, { "title", ctx.getTranslated("gwiki.pt.common.edit")}}, //
+              img("border", "0", "src", "/inc/gwiki/img/icons/article32.png")) //
+          ));
+
       if (event.getWikiContext().isAllowTo("*EDITOR*")) {
-        ctx.append("<ul>");
-        ctx.append("<li>").append(ctx.renderLocalUrl("edit/pagetemplates/CreateArticleWizard"));
-        ctx.append("</ul>");
-        ctx.append("</li>");
+        // ul for menu entries
+        XmlElement entryList = ul("name", "");
+
+        // Wizard
+        entryList.nest(//
+            li(
+                a(new String[][] { { "href", "/edit/pagetemplates/CreateArticleWizard"}},
+                    text(ctx.getTranslated("gwiki.page.articleWizard.title")))));
+
+        menu.nest(entryList);
       }
+
+      ctx.append(menu.toString());
     }
     return chain.nextFilter(event);
   }
-
 }
