@@ -1,0 +1,66 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<form class="gwikiForm col" method="post">
+
+<div id="tabs" style="min-height: 600px">
+<ul>
+    <li><a href="#StandardTab"><span>Standard</span></a></li>
+    <li><a href="#TemplateTab"><span>Template</span></a></li>
+</ul>
+
+<div id="StandardTab" style="width: 100%; height: 100%">
+
+
+Receiver: <gwiki:text size="50" property="receiver"/><br/>
+Subject: <gwiki:text size="50" property="subject"/><br/>
+<gwiki:textarea cols="80" rows="30" property="input"/><br/>
+
+<input type="submit" name="method_onSendNormal" value="Send"><p/>
+</div>
+
+<div id="TemplateTab" style="width: 100%; height: 100%">
+<gwiki:select property="selectedTemplate">
+	<gwiki:optionsCollection property="availableTemplates" label="key" value="value" />
+</gwiki:select>
+<p/>
+<% int i = 0; %>
+<input type="text" name="KEY<%= i %>" value="FROM"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<input type="text" name="KEY<%= i %>" value="TO"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<input type="text" name="KEY<%= i %>" value="CC"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<input type="text" name="KEY<%= i %>" value="BCC"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<input type="text" name="KEY<%= i %>" value="SUBJECT"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<input type="text" name="KEY<%= i %>" value="TEXT"/> : <input type="text" name="VALUE<%= i %>"/><br/>
+<% ++i; %>
+<% for (; i < 10; ++i) { 
+%>	<input type="text" name="KEY<%= i %>"/> : <input type="text" name="VALUE<%= i %>"/><br/> 
+<%}
+%>
+<p/>
+
+<input type="submit" name="method_onSendByTemplate" value="Send"><p/>
+</div>
+</div>
+</form>
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    var tabs = $("#tabs").tabs(
+          { selected: 0,
+            select: function(event, ui) {
+            return true;
+          }      
+          });
+    
+ });
+  
+</script> 
+
+<% wikiContext.skinInclude("standardfoot"); %>
