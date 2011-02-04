@@ -1,0 +1,16 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+<gwiki:errors />
+Hallo
+<c:if test="${form.input != null}">
+	Hallo: <c:out value="${form.input}"/>
+</c:if>
+<hr>
+<h2>Formular</h2>
+<form method="post">
+
+<gwiki:text property="input"/>
+<input type="submit" name="method_onOk" value="OK"><p/>
+
+<%	MainPage.render(wikiContext); %>
+<% wikiContext.skinInclude('standardfoot'); %>

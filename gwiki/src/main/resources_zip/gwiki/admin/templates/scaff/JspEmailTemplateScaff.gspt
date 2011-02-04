@@ -1,0 +1,31 @@
+<@include file="inc/stdtags.gspt" @> 
+<% 
+	import de.micromata.genome.gwiki.*;
+	import de.micromata.genome.gwiki.model.*;
+%>
+<%-- 
+This is an email template.
+
+The Mail context - provided by the program is given by the attribute mailContext.
+
+Text body of the email is the output of this file. If it is blank the TEXT request attribute will be used.
+
+
+Following predefined request attributes are given:
+- TEXT Text body
+- TO
+- FROM
+- CC
+- BCC
+- SUBJECT
+- MAILTEMPLATE: identifies the page id of this templates
+
+You can use <c:out value="${}"/> to use to output values of the mailContext attributes.
+Alternativally you can use pageContext.getRequestAttribute("MYATTR") to read mailContext attribute.
+pageContext.setReqeuestAttribute("MyKey", "MyValue") to set mailContext attribute.
+F.e. use pageContext.setReqeuestAttribute("BCC", "myEmail@sample.com"); to send email. 
+
+You can delete this comment section. 
+--%>
+
+Hello Folks.
