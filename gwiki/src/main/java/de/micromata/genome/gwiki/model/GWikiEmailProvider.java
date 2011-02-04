@@ -57,5 +57,10 @@ public interface GWikiEmailProvider
 
   public static final String TEXT = "TEXT";
 
+  /**
+   * if given, mail will be evaluated by given pageId mailtemplate. All Parameter are passed pageAttributes.
+   */
+  public static final String MAILTEMPLATE = "MAILTEMPLATE";
+
   void sendEmail(Map<String, String> mailContext);
 }
