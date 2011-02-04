@@ -143,33 +143,6 @@ Version: 0.98
     float:left;
   }
   
-  .btn{
-      width                 : 100px;
-      -moz-border-radius    : 8px;
-      -webkit-border-radius : 8px;
-      background            : #5A5655;
-      color                 : #FFFFFF;
-      margin                : 2px 10px 0px 10px;
-      padding               : 5px 5px 5px 5px;
-      text-align            : center;
-      border                : 1px solid #5A5655;    
-      text-decoration       : none; 
-  }
-  .btn:hover{
-      background      : #444444;
-      color           : #FFFFFF;
-      border          : 1px solid #919CA9; 
-      text-decoration : none; 
-  }
-  
-  .wiz-body .text{ 
-    border: 1px solid #E0E0E0; 
-    width:300px;
-    padding:4px;
-  }  
-  .wiz-body .text:focus{ 
-    border: 1px solid #444444; 
-  } 
   .wiz-nav div.error{
     font : bold 12px Verdana, Arial, Helvetica, sans-serif;
     display:none;
@@ -185,4 +158,3 @@ Version: 0.98
     border:1px solid #FED22F;
     color:#363636;    
   }
-  /* End Button Styles */

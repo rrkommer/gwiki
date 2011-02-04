@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class PtPageMenuSkinRenderFilter implements GWikiSkinRenderFilter
+public class PtSkinRenderFilter implements GWikiSkinRenderFilter
 {
 
   /* (non-Javadoc)
@@ -53,8 +53,7 @@ public class PtPageMenuSkinRenderFilter implements GWikiSkinRenderFilter
         ctx.append("</li>");
       }
     }
-    
-    return null;
+    return chain.nextFilter(event);
   }
 
 }

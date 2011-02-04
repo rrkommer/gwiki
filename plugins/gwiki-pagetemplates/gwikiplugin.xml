@@ -17,7 +17,7 @@
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-					<constructor-arg value="de.micromata.genome.gwiki.pagetemplates_1_0.PtPageMenuSkinRenderFilter"/>
+					<constructor-arg value="de.micromata.genome.gwiki.pagetemplates_1_0.PtSkinRenderFilter"/>
 				</bean>
 			</list>
 		</property>

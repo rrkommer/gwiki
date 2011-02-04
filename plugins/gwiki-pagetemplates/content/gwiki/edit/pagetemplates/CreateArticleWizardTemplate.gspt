@@ -29,15 +29,17 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	        	</a>
 	        </li>
 	      	<li>
-	      		<a href="#time">
-	      			<big><fmt:message key="gwiki.page.articleWizard.step2"/></big><br/>
-	        		<small><fmt:message key="gwiki.page.articleWizard.template.title"/></small>
+	      		<a href="#release">
+	      			<big><fmt:message key="gwiki.page.articleWizard.step3"/></big><br/>
+	        		<small><fmt:message key="gwiki.page.articleWizard.release.title"/></small>
 	        	</a>
 	        </li>
 		</ul>
 	     
 		<div id="wizard-body" class="wiz-body">
-      		<div id="category" >
+	        	
+	        	<!--  Step 1 -->
+	      		<div id="category" >
 	        	<div class="wiz-content" style="height:500px;">
 		      		
 		      		<!-- Seitentitel waehlen -->
@@ -51,7 +53,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 						</table>
 					</fieldset>
 						      			
-		      		<!-- Kategorie waehlen -->
+		      		<!-- Choose Category -->
 					<fieldset>
 						<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
 						<table>
@@ -87,7 +89,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 					</fieldset>
 					<br/>
 					
-					<!-- Neue Kategorie erstellen -->
+					<!-- Create Category -->
 					<div id="newCat" style="display:none;">
 						<fieldset>
 							<legend><fmt:message key="gwiki.page.articleWizard.createCategory"/></legend>
@@ -103,19 +105,19 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 										</gwiki:select>
 									</td>
 								</tr>
-								<!-- Kategoriename -->								
+								<!-- category name -->								
 								<tr>
 									<td><fmt:message key="gwiki.page.articleWizard.nameNewCategory"/>:</td>
 									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryName" /></td>
 								</tr>
 
-								<!-- Beschreibung -->								
+								<!-- category desc -->								
 								<tr>
 									<td><fmt:message key="gwiki.page.articleWizard.descNewCategory"/>:</td>
 									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryDesc" /></td>
 								</tr>
 
-								<!-- Inhaltsverzeichnis -->								
+								<!-- toc -->								
 								<tr>
 									<td><fmt:message key="gwiki.page.articleWizard.tocNewCategory"/>:</td>
 									<td><gwiki:checkbox errorStyleClass="text error" property="newCategoryToc" /></td>
@@ -130,7 +132,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	        	</div>         
 	      	</div>
       	
-      		<!-- Vorlage waehlen -->
+      		<!-- Step 2 : Choose template -->
       		<div id="template">
         		<div class="wiz-content" style="height:500px;">
 	        		<fieldset>
@@ -141,10 +143,73 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	        		</fieldset>
         		</div> 
         		<div class="wiz-nav">
-            		<input class="back btn" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
-            		<input class="btn" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
+            		<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
+	            	<input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
+            		<input class="gwikiButton main" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
         		</div>                       
       		</div>
+      		
+      		      	
+      		<!-- Step 3: Release and Workflow  -->
+      		<div id="release">
+        		<div class="wiz-content" style="height:500px;">
+	        		<!-- Timing -->
+	        		<fieldset>
+						<legend><fmt:message key="gwiki.page.articleWizard.timing"/></legend>
+						<table width="50%">
+							<tr>
+								<td><fmt:message key="gwiki.page.articleWizard.timing.immediately"/></td>
+								<td><gwiki:checkbox errorStyleClass="text error" property="immediately" selected="true"/></td>
+							</tr>
+							<tr>
+						      <td><fmt:message key="gwiki.page.articleWizard.startdate"/></td> 
+						      <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="fromDate" /></td>
+						      <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
+						      <td>
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromHour" />
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromMin" />
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromSec" />
+						      </td>
+						    </tr>
+						
+						    <tr>
+						      <td><fmt:message key="gwiki.page.articleWizard.enddate"/></td> 
+						      <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="toDate" /></td>
+						    
+						      <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
+						      <td>
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toHour" />
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toMin" />
+						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toSec" />
+						      </td>
+						    </tr>
+						</table>
+	        		</fieldset>
+
+	        		<!-- Workflow -->
+	        		<fieldset>
+						<legend><fmt:message key="gwiki.page.articleWizard.lifecycle"/></legend>
+						<table>
+							<tr>
+								<td><fmt:message key="gwiki.page.articleWizard.reviewer"/></td>
+								<td>
+									<gwiki:select property="selectedReviewer">
+										<option value="-1"><fmt:message key="gwiki.page.articleWizard.reviewer.choose"/></option>
+										<c:forEach var="reviewer" items="${form.availableReviewers}">
+											<option value="${reviewer}">${reviewer}</option>
+										</c:forEach>
+									</gwiki:select>
+								</td>
+							</tr>
+						</table>
+	        		</fieldset>
+        		</div> 
+        		<div class="wiz-nav">
+            		<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
+            		<input class="gwikiButton main" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
+        		</div>                       
+      		</div>
+
     	</div>
 	</div>
 
