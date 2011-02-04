@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="gwiki" />
+		<!--  10 minutes -->
+		<property name="elementLifeTime" value="600000" />
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="beanClassName"
+							value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVDirActionBean" />
+						<!--
+							<property name="parts"> <map> <entry key="File"> <bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt"
+							/> </entry> </map> </property>
+						-->
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="addPropsDescriptor">
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
+				<property name="descriptors">
+					<list>
+						<bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+							<property name="key" value="SIZE" />
+							<property name="label" value="I{gwiki.settings.SIZE.label}" />
+							<!--
+								<property name="description"
+								value="I{gwiki.settings.SIZE.description}" />
+							-->
+							<property name="readOnly" value="true" />
+							<property name="helpLink" value="gwikidocs/help/ElementSettings#SIZE" />
+							<property name="type" value="INTEGER" />
+						</bean>
+						<bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+							<property name="key" value="FVOLDER" />
+							<property name="type" value="PAGEID" />
+							<property name="readOnly" value="true" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
