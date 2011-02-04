@@ -29,6 +29,8 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+
 /**
  * Standard implementation for a GWikiEmailProvider.
  * 
@@ -42,10 +44,44 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
   public void sendEmail(Map<String, String> ctx)
   {
     try {
+      if (ctx.containsKey("MAILTEMPLATE") == true) {
+        evaluateMailTemplate(ctx.get("MAILTEMPLATE"), ctx);
+      }
       sendEmailImpl(ctx);
       GWikiLog.note("Send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
     } catch (MessagingException ex) {
       GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage, ctx.toString());
+    }
+  }
+
+  protected void evaluateMailTemplate(String mailTemplate, Map<String, String> ctx)
+  {
+    GWikiStandaloneContext wikiContext = GWikiStandaloneContext.create();
+    wikiContext.setRequestAttribute("mailContext", ctx);
+    // wikiContext.getWikiWeb().getAuthorization().runAsUser("asdf", wikiContext, new CallableX<Void, RuntimeException>() {
+    //
+    // public Void call() throws RuntimeException
+    // {
+    //
+    // return null;
+    // }
+    // });
+
+    for (Map.Entry<String, String> me : ctx.entrySet()) {
+      wikiContext.setRequestAttribute(me.getKey(), me.getValue());
+    }
+    GWikiElement el = wikiContext.getWikiWeb().getElement(mailTemplate);
+    el.serve(wikiContext);
+    wikiContext.flush();
+    String text = wikiContext.getOutString();
+    for (Map.Entry<String, Object> me : wikiContext.getRequestAttributes().entrySet()) {
+      if (me.getValue() instanceof String) {
+        ctx.put(me.getKey(), (String) me.getValue());
+      }
+    }
+    text = StringUtils.trimToEmpty(text);
+    if (StringUtils.isNotBlank(text) == true) {
+      ctx.put(TEXT, text);
     }
   }
 
