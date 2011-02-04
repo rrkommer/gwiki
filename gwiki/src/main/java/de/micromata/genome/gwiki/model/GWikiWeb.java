@@ -296,7 +296,8 @@ public class GWikiWeb
         GWikiLog.note("PageNot Found: " + pageId);
         el = findElement(pageId);
         ctx.setRequestAttribute("NotFoundPageId", pageId);
-        el = findElement("admin/PageNotFound");
+        pageId = "admin/PageNotFound";
+        el = findElement(pageId);
         if (el == null)
           throw new RuntimeException("No Wiki page found: " + "admin/PageNotFound");
       }
@@ -467,8 +468,8 @@ public class GWikiWeb
   {
     GWikiContext wikiContext = GWikiContext.getCurrent();
     if (wikiContext != null) {
-      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider()
-          .getSessionAttribute(GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
+      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider().getSessionAttribute(
+          GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
       if (el != null && StringUtils.equals(el.getElementInfo().getId(), path) == true) {
         return el;
       }
