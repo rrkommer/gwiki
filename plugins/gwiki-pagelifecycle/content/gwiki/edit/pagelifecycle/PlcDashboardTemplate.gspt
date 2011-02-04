@@ -1,0 +1,72 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+
+<span id="rsperror" style="color:red"></span> 
+
+<table id="list2" class="scroll" cellpadding="0" cellspacing="0"></table>
+<div id="pager2" class="scroll" style="text-align: center;"></div>
+
+
+<script type="text/JavaScript">
+jQuery(document).ready(function() {
+  var gridimgpath = '<gwiki:url value="/static/css/ui-lightness/images"/>';
+  
+      
+  var mygrid =  jQuery("#list2")
+    .jqGrid(
+      { url:'<gwiki:url value="/edit/pagelifecycle/PlcDashboard?fields=NAME|CATEGORY|CREATEDBY|CREATEDAT|STATUS|RELEASEDATE|action"/>' 
+          + '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
+        datatype: "xml",
+        colNames:['<fmt:message key="gwiki.plc.dashboard.grid.id"/>', 
+                  '<fmt:message key="gwiki.plc.dashboard.grid.name"/>', 
+                  '<fmt:message key="gwiki.plc.dashboard.grid.category"/>', 
+                  '<fmt:message key="gwiki.plc.dashboard.grid.createdBy"/>', 
+                  '<fmt:message key="gwiki.plc.dashboard.grid.createdAt"/>',
+                  '<fmt:message key="gwiki.plc.dashboard.grid.status"/>',
+                  '<fmt:message key="gwiki.plc.dashboard.grid.releaseDate"/>',
+                  '<fmt:message key="gwiki.plc.dashboard.grid.action"/>'], 
+        colModel:[
+                {name:'id',index:'ID', width:12},  
+                {name:'name',index:'NAME', width:40},  
+                {name:'category',index:'CATEGORY', width:40},
+                {name:'createdBy',index:'CREATEDBY', width:60},
+                {name:'createdAt',index:'CREATEDAT', width:60},
+                {name:'status',index:'STATUS', width:60},
+                {name:'releaseDate',index:'RELEASEDATE', width:60},
+                {name:'action',index:'action', width:20, sortable:false}
+                 ], 
+        height: 400,
+        autowidth: true,
+        hidegrid: false,
+        rowNum:30, 
+        rowList:[30,50,100], 
+        imgpath: gridimgpath, 
+        pager: jQuery('#pager2'), 
+        viewrecords: true, 
+        caption:"<fmt:message key="gwiki.plc.dashboard.title"/>",
+        loadError : function(xhr,st,err) { 
+           jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
+        }
+      })
+      .navGrid('#pager2',{edit:false,add:false,del:false})
+      .navButtonAdd("#pager2",
+            {caption:"<fmt:message key="gwiki.page.edit.ListControls.label.toggle"/>",
+          title:"<fmt:message key="gwiki.page.edit.ListControls.title.toggle"/>", buttonicon :'ui-icon-pin-s', 
+          onClickButton: function(){ mygrid[0].toggleToolbar() } 
+      }) 
+      .navButtonAdd("#pager2",{
+          caption:"<fmt:message key="gwiki.page.edit.ListControls.label.clear"/>",
+          title:"<fmt:message key="gwiki.page.edit.ListControls.title.clear"/>",
+          buttonicon :'ui-icon-refresh',
+          onClickButton:function(){ mygrid[0].clearToolbar() } 
+      }); 
+      mygrid.filterToolbar();
+      ; 
+}); 
+</script>
+
+<% wikiContext.skinInclude('standardfoot'); %>
