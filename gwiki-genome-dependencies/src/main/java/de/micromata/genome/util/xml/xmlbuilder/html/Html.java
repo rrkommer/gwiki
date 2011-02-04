@@ -213,21 +213,44 @@ public class Html
   }
   public static XmlElement li(String[][] attributes, XmlNode... childs)
   {
-    final XmlElement ret = new XmlElement("li", attributes);
-    ret.nest(childs);
-    return ret;
+    return new XmlElement("li", attributes, childs);
   }
 
   public static XmlElement li(String... attributes)
   {
-    final XmlElement ret = new XmlElement("li", attributes);
-    return ret;
+    return new XmlElement("li", attributes);
   }
 
   public static XmlElement li(XmlNode... childs)
   {
     final XmlElement ret = new XmlElement("li", Xml.attrs());
     ret.nest(childs);
+    return ret;
+  }
+
+  public static XmlElement span(String[][] attributes, XmlNode... childs)
+  {
+    final XmlElement ret = new XmlElement("span", attributes);
+    ret.nest(childs);
+    return ret;
+  }
+  
+  public static XmlElement span(String... attributes)
+  {
+    final XmlElement ret = new XmlElement("span", attributes);
+    return ret;
+  }
+  
+  public static XmlElement span(XmlNode... childs)
+  {
+    final XmlElement ret = new XmlElement("span", Xml.attrs());
+    ret.nest(childs);
+    return ret;
+  }
+  
+  public static XmlElement img(String... attributes)
+  {
+    final XmlElement ret = new XmlElement("img", attributes);
     return ret;
   }
 }
