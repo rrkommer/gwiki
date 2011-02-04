@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="gwiki.logviewer">
+    <property name="plugintarget" value="target" />
+    <property name="gwikipluginversion" value="gwiki.admintools-1.0.0" />
+
+
+    <target name="gwiki.logviewer">
+        <mkdir dir="${plugintarget}" />
+        <delete file="${plugintarget}/${gwikipluginversion}.zip" />
+        <zip zipfile="${plugintarget}/${gwikipluginversion}.zip">
+            <fileset dir="target" includes="classes/**" />
+            <fileset dir="" includes="content/**" />
+            <fileset dir="" includes="gwikiplugin.xml" />
+        </zip>
+    </target>
+    
+</project>
