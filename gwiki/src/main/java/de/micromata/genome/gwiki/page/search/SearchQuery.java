@@ -38,7 +38,7 @@ public class SearchQuery
 {
   private String searchExpression;
 
-  private boolean withSampleText = true;
+  private boolean withSampleText = false;
 
   /**
    * sample text as HTML
