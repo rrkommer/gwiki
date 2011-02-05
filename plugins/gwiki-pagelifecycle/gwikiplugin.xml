@@ -6,6 +6,8 @@
 		<property name="name" value="gwiki.pagelifecycle" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="Plugin for Release Management" />
+		<property name="author" value="Roger Kommer, Stefan Stützer"/>
+		<property name="category" value="CMS"/>	
 		<property name="requiredPlugins">
 		<list>
 			<value>gwiki.scheduler:1.0</value>
