@@ -122,6 +122,7 @@ public class GWikiSearchActionBean extends ActionBeanBase
     SearchQuery query = new SearchQuery(se, true, sr);
     query.setSearchOffset(searchOffset);
     query.setMaxCount(pageSize);
+    query.setWithSampleText(true);
     try {
       QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
       if (qr.getLookupWords().isEmpty() == false) {
