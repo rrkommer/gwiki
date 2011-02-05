@@ -40,6 +40,16 @@ public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<Str
 
   private String pageId;
 
+  public GWikiDelegateToPageExecutableArtefakt()
+  {
+
+  }
+
+  public GWikiDelegateToPageExecutableArtefakt(String pageId)
+  {
+    this.pageId = pageId;
+  }
+
   public String getResolvePageId(final GWikiContext ctx)
   {
     return PropUtils.eval(pageId, "skin", ctx.getSkin());
@@ -50,16 +60,6 @@ public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<Str
     GWikiElement el = ctx.getWikiWeb().getElement(getResolvePageId(ctx));
     el.serve(ctx);
     return true;
-  }
-
-  public String getPageId()
-  {
-    return pageId;
-  }
-
-  public void setPageId(String pageId)
-  {
-    this.pageId = pageId;
   }
 
   @Override
@@ -75,4 +75,13 @@ public class GWikiDelegateToPageExecutableArtefakt extends GWikiArtefaktBase<Str
     el.prepareHeader(wikiContext);
   }
 
+  public String getPageId()
+  {
+    return pageId;
+  }
+
+  public void setPageId(String pageId)
+  {
+    this.pageId = pageId;
+  }
 }
