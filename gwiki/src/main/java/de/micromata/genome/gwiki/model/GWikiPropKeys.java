@@ -70,8 +70,6 @@ public interface GWikiPropKeys
 
   public static final String KEYWORDS = "KEYWORDS";
 
-  public static final String WIKITEMPLATE = "WIKITEMPLATE";
-
   public static final String WIKIMETATEMPLATE = "WIKIMETATEMPLATE";
 
   public static final String WIKICONTROLERCLASS = "WIKICONTROLERCLASS";
