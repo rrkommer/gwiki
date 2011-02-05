@@ -1,6 +1,9 @@
 <% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> 
 
-Hello from vfile.<p/>
+<form method="post">
+File: <c:out value="${form.pageId}"/><p/>
 
-
+Download <gwiki:link pageId="${form.pageId}" title="${form.pageId}" urlParams="?dl=true"/>
+</form>
 <% wikiContext.skinInclude('standardfoot'); %>

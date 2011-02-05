@@ -8,6 +8,13 @@
 		<property name="description" value="Mount virtual folders into gwiki structure" />
 		<property name="author" value="Roger Kommer" />
 		<property name="category" value="Wiki" />
-		
+		<property name="filter">
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<property name="className"
+						value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderLoadFilter" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 </beans>

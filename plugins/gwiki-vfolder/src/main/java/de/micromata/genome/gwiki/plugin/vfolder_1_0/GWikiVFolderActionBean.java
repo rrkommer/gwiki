@@ -18,7 +18,6 @@
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
@@ -36,9 +35,7 @@ public class GWikiVFolderActionBean extends ActionBeanBase
   public Object onScanFiles()
   {
     GWikiElement el = wikiContext.getCurrentElement();
-    GWikiXmlConfigArtefakt cfa = (GWikiXmlConfigArtefakt) el.getPart("VFolderConfig");
-    GWikiVFolderNode fn = (GWikiVFolderNode) cfa.getCompiledObject();
-
+    GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     GWikiVFolderUtils.checkFolders(wikiContext, el, fn);
     return null;
   }
@@ -46,8 +43,7 @@ public class GWikiVFolderActionBean extends ActionBeanBase
   public Object onMountFs()
   {
     GWikiElement el = wikiContext.getCurrentElement();
-    GWikiXmlConfigArtefakt cfa = (GWikiXmlConfigArtefakt) el.getPart("VFolderConfig");
-    GWikiVFolderNode fn = (GWikiVFolderNode) cfa.getCompiledObject();
+    GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     GWikiVFolderUtils.mountFs(wikiContext, el, fn);
     return null;
   }
@@ -55,8 +51,7 @@ public class GWikiVFolderActionBean extends ActionBeanBase
   public Object onDismoutFs()
   {
     GWikiElement el = wikiContext.getCurrentElement();
-    GWikiXmlConfigArtefakt cfa = (GWikiXmlConfigArtefakt) el.getPart("VFolderConfig");
-    GWikiVFolderNode fn = (GWikiVFolderNode) cfa.getCompiledObject();
+    GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     GWikiVFolderUtils.dismountFs(wikiContext, el, fn);
     return null;
   }
