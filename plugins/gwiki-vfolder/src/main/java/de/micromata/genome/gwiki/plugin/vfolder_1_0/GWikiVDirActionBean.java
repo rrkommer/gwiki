@@ -32,7 +32,6 @@ public class GWikiVDirActionBean extends ActionBeanBase
     // wikiContext.append("VDir:");
     GWikiElement cel = wikiContext.getCurrentElement();
     GWikiElementInfo pid = cel.getElementInfo().getParent(wikiContext);
-    wikiContext.include("inc/plugins/vfolder/vdir");
     return null;
   }
 }

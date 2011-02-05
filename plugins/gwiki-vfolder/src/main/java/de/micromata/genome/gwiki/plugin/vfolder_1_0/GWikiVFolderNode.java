@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import de.micromata.genome.gdbfs.FileSystem;
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
 
 /**
  * Configuration Bean for a VFolder Node
@@ -58,6 +60,13 @@ public class GWikiVFolderNode implements Serializable
    * Only valid if extractBody = true.
    */
   private List<String> addCss;
+
+  public static GWikiVFolderNode getVFolderFromElement(GWikiElement el)
+  {
+    GWikiXmlConfigArtefakt cfa = (GWikiXmlConfigArtefakt) el.getPart("VFolderConfig");
+    GWikiVFolderNode fn = (GWikiVFolderNode) cfa.getCompiledObject();
+    return fn;
+  }
 
   public String getMatcherRule()
   {

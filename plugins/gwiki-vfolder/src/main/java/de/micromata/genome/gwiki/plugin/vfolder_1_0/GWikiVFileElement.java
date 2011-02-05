@@ -23,9 +23,11 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiVFileElement extends GWikiAbstractElement
 {
 

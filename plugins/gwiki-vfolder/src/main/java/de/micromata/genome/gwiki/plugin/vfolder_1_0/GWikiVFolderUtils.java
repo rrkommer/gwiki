@@ -17,12 +17,17 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,12 +36,15 @@ import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPageCache;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiSettingsProps;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.attachments.TextExtractorUtils;
+import de.micromata.genome.gwiki.utils.AppendableI;
 import de.micromata.genome.util.text.PipeValueList;
 import de.micromata.genome.util.types.Converter;
 
@@ -46,16 +54,25 @@ import de.micromata.genome.util.types.Converter;
  */
 public class GWikiVFolderUtils
 {
+  public static final String FVOLDER = "FVOLDER";
+
   public static final String VFOLDERCACHEFILE = "gwikivfoldercache.txt";
 
   public static final String VDIRMETATEMPLATE = "admin/templates/intern/VDirMetaTemplate";
 
   public static final String VFILEMETATEMPLATE = "admin/templates/intern/VFileMetaTemplate";
 
-  public static void mountFs(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
+  public static List<GWikiElementInfo> loadFsElements(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
     List<GWikiElementInfo> ell = resolveParents(wikiContext, el, cache);
+    return ell;
+
+  }
+
+  public static void mountFs(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
+  {
+    List<GWikiElementInfo> ell = loadFsElements(wikiContext, el, node);
     GWikiPageCache pageCache = wikiContext.getWikiWeb().getDaoContext().getPageCache();
     for (GWikiElementInfo ei : ell) {
       pageCache.putPageInfo(ei);
@@ -79,11 +96,11 @@ public class GWikiVFolderUtils
     for (Map.Entry<String, GWikiElementInfo> me : cache.getVfolderFiles().entrySet()) {
 
       String id = el.getElementInfo().getId() + "/" + me.getKey();
-      GWikiElement nel = GWikiWebUtils.createNewElement(wikiContext, id, me.getValue().getProps().getStringValue(
-          GWikiPropKeys.WIKIMETATEMPLATE), me.getValue().getTitle());
+      String mt = me.getValue().getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE);
+      GWikiElement nel = GWikiWebUtils.createNewElement(wikiContext, id, mt, me.getValue().getTitle());
       GWikiElementInfo nei = nel.getElementInfo();
       nei.getProps().getMap().putAll(me.getValue().getProps().getMap());
-      nei.getProps().setStringValue("FVOLDER", el.getElementInfo().getId());
+      nei.getProps().setStringValue(FVOLDER, el.getElementInfo().getId());
 
       // me.getValue().setMetaTemplate(wikiContext.getWikiWeb().findMetaTemplate(me.getValue().getProps().f))
       String pid = FileNameUtils.getParentDir(me.getKey());
@@ -205,4 +222,39 @@ public class GWikiVFolderUtils
     node.getFileSystem().writeTextFile(VFOLDERCACHEFILE, sb.toString(), true);
   }
 
+  static String getLocalFromFilePageId(GWikiElement vfolderEl, String filePageId)
+  {
+    String vfid = vfolderEl.getElementInfo().getId();
+    return filePageId.substring(vfid.length());
+  }
+
+  public static void writeContent(GWikiElement vfolderEl, String filePageId, HttpServletResponse resp) throws IOException
+  {
+
+    // resp.setContentType(getContentType());
+    String localName = getLocalFromFilePageId(vfolderEl, filePageId);
+    GWikiVFolderNode fvn = GWikiVFolderNode.getVFolderFromElement(vfolderEl);
+
+    FsObject file = fvn.getFileSystem().getFileObject(localName);
+    if (file.exists() == false) {
+      return;
+    }
+    resp.setContentLength((int) file.getLength());
+    OutputStream os = resp.getOutputStream();
+    fvn.getFileSystem().readBinaryFile(localName, os);
+  }
+
+  public static void getPreview(GWikiContext wikiContext, GWikiElement vfileEl, AppendableI sb)
+  {
+    GWikiElement vfe = wikiContext.getWikiWeb().getElement(vfileEl.getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER));
+    String localName = getLocalFromFilePageId(vfe, vfileEl.getElementInfo().getId());
+    GWikiVFolderNode fvn = GWikiVFolderNode.getVFolderFromElement(vfe);
+    try {
+      byte[] data = fvn.getFileSystem().readBinaryFile(localName);
+      String t = TextExtractorUtils.getTextExtract(wikiContext, vfileEl.getElementInfo().getId(), new ByteArrayInputStream(data));
+      sb.append(t);
+    } catch (Throwable ex) {
+      GWikiLog.note("Failure extracting text: " + ex.getMessage(), ex);
+    }
+  }
 }

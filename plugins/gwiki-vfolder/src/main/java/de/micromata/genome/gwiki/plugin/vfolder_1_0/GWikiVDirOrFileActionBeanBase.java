@@ -17,43 +17,28 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
-import java.io.IOException;
-
-import org.apache.commons.lang.StringUtils;
-
-import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
+public class GWikiVDirOrFileActionBeanBase extends ActionBeanBase
 {
+  protected String pageId;
+
   public void init()
   {
-    super.init();
+    pageId = wikiContext.getCurrentElement().getElementInfo().getId();
   }
 
-  public Object onInit()
+  public String getPageId()
   {
-    if (StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
-      return onDownload();
-    }
-    init();
-    return null;
+    return pageId;
   }
 
-  public Object onDownload()
+  public void setPageId(String pageId)
   {
-    init();
-    GWikiElement vfe = wikiContext.getWikiWeb().getElement(
-        wikiContext.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER));
-    try {
-      GWikiVFolderUtils.writeContent(vfe, pageId, wikiContext.getResponse());
-    } catch (IOException ex) {
-      GWikiLog.note("Error writing attachment: " + pageId);
-    }
-    return noForward();
+    this.pageId = pageId;
   }
 }

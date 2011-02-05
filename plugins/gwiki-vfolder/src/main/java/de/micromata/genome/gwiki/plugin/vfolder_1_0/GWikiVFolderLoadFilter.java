@@ -20,16 +20,9 @@ package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gdbfs.FsObject;
-import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiProps;
-import de.micromata.genome.gwiki.model.GWikiSettingsProps;
-import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
-import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiLoadElementInfosFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiLoadElementInfosFilterEvent;
@@ -41,61 +34,15 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public class GWikiVFolderLoadFilter implements GWikiLoadElementInfosFilter
 {
-  public static final String VFILE_METATEMPLATEID = "admin/templates/VFileMetaTemplate";
+  public static final String VFILE_METATEMPLATEID = "admin/templates/VFolderMetaTemplate";
 
-  protected List<String> loadFiles(GWikiContext wikiContext, GWikiVFolderNode node)
+  protected List<GWikiElementInfo> onLoadVFolderElement(GWikiContext wikiContext, GWikiElementInfo ei)
   {
-    FileSystem fs = node.getFileSystem();
-    if (fs == null) {
-      fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
-    }
-    List<FsObject> files = fs.listFilesByPattern("", node.getMatcherRule(), 'F', true);
-    List<String> ret = new ArrayList<String>();
-    for (FsObject fso : files) {
-      ret.add(fso.getName());
-    }
-    return ret;
-  }
-
-  protected void createElement(GWikiContext wikiContext, GWikiElementInfo ei, GWikiVFolderNode node, String fn)
-  {
-    if (fn.startsWith("/") == true) {
-      fn = fn.substring(1);
-    }
-    GWikiProps props = new GWikiSettingsProps();
-    props.setStringValue(GWikiPropKeys.PARENTPAGE, ei.getId());
-    props.setStringValue("VFILE_FILE", fn);
-
-    // TODO how to put node may derive GWikiElementInfo to hold node.
-    GWikiMetaTemplate mt = wikiContext.getWikiWeb().findMetaTemplate(VFILE_METATEMPLATEID);
-    GWikiElementInfo ninf = new GWikiElementInfo(props, mt);
-    ninf.setId(fn);
-    wikiContext.getWikiWeb().getDaoContext().getPageCache().putPageInfo(ninf);
-  }
-
-  protected void onLoadVFolderElement(GWikiContext wikiContext, GWikiElementInfo ei, GWikiVFolderNode node)
-  {
-    List<String> fl = loadFiles(wikiContext, node);
-    for (String fn : fl) {
-      createElement(wikiContext, ei, node, fn);
-    }
-  }
-
-  protected void onLoadVFolderElement(GWikiContext wikiContext, GWikiElementInfo ei)
-  {
-    GWikiElement el = wikiContext.getWikiWeb().loadNewElement(ei.getId());
-    GWikiArtefakt< ? > art = el.getPart("VFolderConfig");
-    if ((art instanceof GWikiXmlConfigArtefakt< ? >) == false) {
-      return;
-    }
-    GWikiXmlConfigArtefakt< ? > cfg = (GWikiXmlConfigArtefakt< ? >) art;
-    List<GWikiVFolderNode> nodes = (List<GWikiVFolderNode>) cfg.getCompiledObject();
-    if (nodes == null) {
-      return;
-    }
-    for (GWikiVFolderNode node : nodes) {
-      onLoadVFolderElement(wikiContext, ei, node);
-    }
+    GWikiElement el = wikiContext.getWikiWeb().getElement(ei);
+    GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
+    List<GWikiElementInfo> ell = GWikiVFolderUtils.loadFsElements(wikiContext, el, fn);
+    // GWikiVFolderUtils.mountFs(wikiContext, el, fn);
+    return ell;
   }
 
   /*
@@ -108,10 +55,14 @@ public class GWikiVFolderLoadFilter implements GWikiLoadElementInfosFilter
       GWikiLoadElementInfosFilterEvent event)
   {
     chain.nextFilter(event);
+    List<GWikiElementInfo> newEls = new ArrayList<GWikiElementInfo>();
     for (GWikiElementInfo ei : event.getPageInfos().values()) {
-      if ("admin/templates/VFolderMetaTemplate".equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)) == true) {
-        onLoadVFolderElement(event.getWikiContext(), ei);
+      if (VFILE_METATEMPLATEID.equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)) == true) {
+        newEls.addAll(onLoadVFolderElement(event.getWikiContext(), ei));
       }
+    }
+    for (GWikiElementInfo nei : newEls) {
+      event.getPageInfos().put(nei.getId(), nei);
     }
     return null;
   }

@@ -13,11 +13,11 @@
 					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
 						<property name="beanClassName"
 							value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVDirActionBean" />
-						<!--
-							<property name="parts"> <map> <entry key="File"> <bean
-							class="de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt"
-							/> </entry> </map> </property>
-						-->
+							<property name="forward">
+								<bean class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
+									<constructor-arg value="inc/plugins/vfolder/vdir"/>
+								</bean>
+							</property>
 					</bean>
 				</entry>
 			</map>
