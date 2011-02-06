@@ -38,6 +38,10 @@ public class GWikiAbstractPluginLifecycleListener implements GWikiPluginLifecycl
   {
   }
 
+  public void webLoaded(GWikiWeb wikiWeb, GWikiPlugin plugin)
+  {
+  }
+
   /*
    * (non-Javadoc)
    * 

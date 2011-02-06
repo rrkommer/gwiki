@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gdbfs;
 
+import java.util.Date;
+
 import de.micromata.genome.dao.db.StdRecordDO;
 
 /**
@@ -43,15 +45,13 @@ public class FsObject extends StdRecordDO implements Cloneable
 
   protected int length;
 
-  protected long lastModified;
-
   public FsObject(FileSystem fileSystem, String name, char type, String mimeType, long lastModified)
   {
     this.fileSystem = fileSystem;
     this.name = name;
     this.type = type;
     this.mimeType = mimeType;
-    this.lastModified = lastModified;
+    this.setLastModified(lastModified);
   }
 
   public FsObject(FsObject other)
@@ -61,7 +61,6 @@ public class FsObject extends StdRecordDO implements Cloneable
     this.name = other.name;
     this.type = other.type;
     this.mimeType = other.mimeType;
-    this.lastModified = other.lastModified;
     this.length = other.length;
     this.attributes = other.attributes;
   }
@@ -175,14 +174,28 @@ public class FsObject extends StdRecordDO implements Cloneable
     this.length = length;
   }
 
+  /**
+   * use getModifiedAt
+   * 
+   * @return
+   */
   public long getLastModified()
   {
-    return lastModified;
+    Date d = getModifiedAt();
+    if (d == null) {
+      return 0;
+    }
+    return d.getTime();
   }
 
+  /**
+   * use setModifiedAt()
+   * 
+   * @param lastModified
+   */
   public void setLastModified(long lastModified)
   {
-    this.lastModified = lastModified;
+    this.setModifiedAt(new Date(lastModified));
   }
 
 }

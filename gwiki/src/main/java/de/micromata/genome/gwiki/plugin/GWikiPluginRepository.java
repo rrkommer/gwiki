@@ -389,6 +389,21 @@ public class GWikiPluginRepository
     }
   }
 
+  public void afterWebLoaded(final GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
+  {
+    for (final GWikiPlugin plugin : activePlugins) {
+      wikiWeb.runInPluginContext(new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          for (GWikiPluginLifecycleListener lcl : plugin.getLifeCycleListener()) {
+            lcl.webLoaded(wikiWeb, plugin);
+          }
+          return null;
+        }
+      });
+    }
+  }
+
   /**
    * Set Thread context class loader with plugins.
    * 

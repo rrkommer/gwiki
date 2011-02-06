@@ -416,7 +416,7 @@ public class GWikiFileStorage implements GWikiStorage
       FsObject fsobj = storage.getFileObject(fname);
       if (fsobj == null)
         continue;
-      long modtime = fsobj.getModifiedAt().getTime();
+      long modtime = fsobj.getLastModified();
       // long now = System.currentTimeMillis();
       if (modtime > ei.getLoadedTimeStamp())
         return loadElement(ei);
