@@ -326,7 +326,6 @@ public class StdFileSystem extends AbstractFileSystem
     }
     ret.setModifiedAt(new Date(f.lastModified()));
     ret.setCreatedAt(ret.getModifiedAt());
-
     return ret;
   }
 

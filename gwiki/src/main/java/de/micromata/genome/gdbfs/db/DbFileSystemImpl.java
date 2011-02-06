@@ -804,9 +804,9 @@ public class DbFileSystemImpl extends AbstractFileSystem
         .query(sql, new Object[] { fileSystemName, new Date(lastEventCollected)}, new DbObjectRowMapper(this, false));
     long lastMod = lastEventCollected;
     for (FsObject obj : ret) {
-      long modTime = obj.getModifiedAt().getTime();
+      long modTime = obj.getLastModified();
       FileSystemEventType fsEvent = FileSystemEventType.Modified;
-      if (obj.getCreatedAt().getTime() == obj.getModifiedAt().getTime() && obj.getUpdateCounter() == 0) {
+      if (obj.getCreatedAt() == obj.getModifiedAt() && obj.getUpdateCounter() == 0) {
         fsEvent = FileSystemEventType.Created;
       }
       String name = obj.getName();
@@ -814,7 +814,7 @@ public class DbFileSystemImpl extends AbstractFileSystem
         fsEvent = FileSystemEventType.Deleted;
         name = name.substring(DEL_PREFIX.length());
       }
-      if (lastMod < obj.getModifiedAt().getTime()) {
+      if (lastMod < obj.getLastModified()) {
         lastMod = modTime;
       }
       if (name.startsWith("/") == true) {

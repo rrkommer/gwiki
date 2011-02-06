@@ -31,6 +31,14 @@ public interface GWikiPluginLifecycleListener
 
   void activated(GWikiWeb wikiWeb, GWikiPlugin plugin);
 
+  /**
+   * Web pages are loaded and web is ready.
+   * 
+   * @param wikiWeb
+   * @param plugin
+   */
+  void webLoaded(GWikiWeb wikiWeb, GWikiPlugin plugin);
+
   void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin);
 
   void deactivated(GWikiWeb wikiWeb, GWikiPlugin plugin);

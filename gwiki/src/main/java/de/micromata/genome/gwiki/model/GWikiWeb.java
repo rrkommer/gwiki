@@ -216,6 +216,7 @@ public class GWikiWeb
           return null;
         }
       });
+      daoContext.getPluginRepository().afterWebLoaded(this, config);
     } finally {
       getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
       inBootStrapping = false;
