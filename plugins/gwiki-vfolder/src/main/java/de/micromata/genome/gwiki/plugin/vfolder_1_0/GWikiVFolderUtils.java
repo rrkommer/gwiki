@@ -130,23 +130,37 @@ public class GWikiVFolderUtils
     }
     GWikiElement nel = GWikiWebUtils.createNewElement(wikiContext, id, fileMetaTemplate, fs.getNamePart());
     GWikiElementInfo ei = nel.getElementInfo();
+    String mby = fs.getModifiedBy();
+    if (mby == null) {
+      mby = "SYSTEM";
+    }
     ei.getProps().setDateValue(GWikiPropKeys.MODIFIEDAT, fs.getModifiedAt());
-    ei.getProps().setStringValue(GWikiPropKeys.MODIFIEDBY, fs.getModifiedBy());
-    ei.getProps().setStringValue(GWikiPropKeys.CREATEDBY, fs.getCreatedBy());
+    ei.getProps().setStringValue(GWikiPropKeys.MODIFIEDBY, mby);
+    ei.getProps().setStringValue(GWikiPropKeys.CREATEDBY, mby);
     ei.getProps().setDateValue(GWikiPropKeys.CREATEDAT, fs.getCreatedAt());
+    ei.getProps().setIntValue(GWikiPropKeys.SIZE, fs.getLength());
     return nel.getElementInfo();
 
   }
 
-  public static void checkFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
+  public static boolean anyChangesInFs(GWikiVFolderCachedFileInfos cache)
+  {
+    return true;
+  }
+
+  public static void checkFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, boolean incrementel)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
-    if (updateFolders(wikiContext, el, node, cache) == true) {
+    if (anyChangesInFs(cache) == false) {
+      return;
+    }
+    if (updateFolders(wikiContext, el, node, cache, incrementel) == true) {
       writeCache(node, cache);
     }
   }
 
-  public static boolean updateFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, GWikiVFolderCachedFileInfos cache)
+  public static boolean updateFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, GWikiVFolderCachedFileInfos cache,
+      boolean increment)
   {
     Map<String, FsObject> newFiles = new TreeMap<String, FsObject>();
     Map<String, FsObject> allFiles = new HashMap<String, FsObject>();
@@ -159,7 +173,7 @@ public class GWikiVFolderUtils
       allFiles.put(name, file);
       // System.out.println(name);
       GWikiElementInfo ei = cache.getElementInfoByLocalName(name);
-      if (ei == null) {
+      if (increment == false || ei == null) {
         newFiles.put(name, file);
         continue;
       }

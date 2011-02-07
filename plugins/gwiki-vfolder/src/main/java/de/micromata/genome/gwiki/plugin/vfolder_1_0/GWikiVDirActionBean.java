@@ -17,6 +17,9 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
@@ -27,11 +30,28 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
  */
 public class GWikiVDirActionBean extends ActionBeanBase
 {
+  private List<GWikiElementInfo> files = new ArrayList<GWikiElementInfo>();
+
   public Object onInit()
   {
-    // wikiContext.append("VDir:");
     GWikiElement cel = wikiContext.getCurrentElement();
     GWikiElementInfo pid = cel.getElementInfo().getParent(wikiContext);
+    List<GWikiElementInfo> alels = wikiContext.getElementFinder().getDirectChilds(cel.getElementInfo());
+    for (GWikiElementInfo ei : alels) {
+      if (GWikiVFolderUtils.VFILEMETATEMPLATE.equals(ei.getMetaTemplate().getPageId())) {
+        files.add(ei);
+      }
+    }
     return null;
+  }
+
+  public List<GWikiElementInfo> getFiles()
+  {
+    return files;
+  }
+
+  public void setFiles(List<GWikiElementInfo> files)
+  {
+    this.files = files;
   }
 }

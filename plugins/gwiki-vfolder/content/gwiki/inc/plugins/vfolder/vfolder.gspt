@@ -1,0 +1,15 @@
+<% wikiContext.skinInclude('standardhead'); %>
+
+<gwiki:errors />
+
+Hello from vfolder.<p/>
+
+<@include file="admin/macros/pagetreesearch" @>
+
+<form method="post">
+<input type="submit" name="method_onScanFiles" value="Scan folder"><br/>
+<input type="submit" name="method_onMountFs" value="Mount folder"><br/>
+<input type="submit" name="method_onDismoutFs" value="Dismount folder"><br/>
+</form>
+
+<% wikiContext.skinInclude('standardfoot'); %>

@@ -2,8 +2,31 @@
 <@include file="inc/stdtags.gspt" @> 
 
 <form method="post">
-File: <c:out value="${form.pageId}"/><p/>
 
-Download <gwiki:link pageId="${form.pageId}" title="${form.pageId}" urlParams="?dl=true"/>
+Download <gwiki:link pageId="${form.pageId}" urlParams="?dl=true"/>
 </form>
+<c:if test="${form.rawText != null}">
+<p/>
+<a href="javascript:openPreviewDialog();">Show preview</a>
+<div id="previewdialog" title="Dialog Title">
+<div style="overflow: auto">
+<pre>
+<c:out value="${form.rawText}"/>
+</pre>
+</div>
+</div>
+<script>
+function openPreviewDialog()
+{
+	$("#previewdialog").dialog('open');
+}
+  $(document).ready(function() {
+    $("#previewdialog").dialog(
+    		{ autoOpen: false,
+      		height: 600,
+      		width: 800 }
+        );
+  });
+  </script>
+</c:if>
 <% wikiContext.skinInclude('standardfoot'); %>

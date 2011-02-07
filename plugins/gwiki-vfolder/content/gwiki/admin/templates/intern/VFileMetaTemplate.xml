@@ -5,6 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
+		<property name="noToc" value="true"/>
 		<!--  10 minutes -->
 		<property name="elementLifeTime" value="600000" />
 		<property name="parts">
