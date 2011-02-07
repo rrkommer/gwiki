@@ -412,6 +412,32 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return sb.toString();
   }
 
+  public String renderExistingLinkWithAttr(GWikiElementInfo ei, String title, String addArgs, String... attr)
+  {
+    if (title == null) {
+      title = getTranslatedProp(ei.getTitle());
+    } else {
+      title = getTranslatedProp(title);
+    }
+    
+    StringBuilder sb = new StringBuilder();
+    boolean allow = wikiWeb.getAuthorization().isAllowToView(this, ei);
+    if (allow == false) {
+      sb.append("<i>").append(StringEscapeUtils.escapeHtml(title)).append("</i>");
+    } else {
+      String url = localUrl("/" + ei.getId());
+      if (addArgs != null) {
+        url += addArgs;
+      }
+      sb.append("<a href='").append(url).append("'");
+      for (int i = 0; i < attr.length; i+=2) {
+        sb.append(" ").append(attr[i]).append("='").append(attr[i+1]).append("' ");
+      }
+      sb.append(">").append(StringEscapeUtils.escapeHtml(title)).append("</a>");
+    }
+    return sb.toString();
+  }
+
   public boolean isAllowTo(String right)
   {
     return wikiWeb.getAuthorization().isAllowTo(this, right);
