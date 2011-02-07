@@ -32,6 +32,12 @@ public class GWikiVFolderCachedFileInfos implements Serializable
 
   private static final long serialVersionUID = -3087624148091649306L;
 
+  /**
+   * Modifycounter of file system.
+   */
+
+  private long lastFsModifiedCounter = 0;
+
   private Map<String, GWikiElementInfo> vfolderFiles = new TreeMap<String, GWikiElementInfo>();
 
   public GWikiElementInfo getElementInfoByLocalName(String localFsName)
@@ -67,5 +73,15 @@ public class GWikiVFolderCachedFileInfos implements Serializable
   public void setVfolderFiles(Map<String, GWikiElementInfo> vfolderFiles)
   {
     this.vfolderFiles = vfolderFiles;
+  }
+
+  public long getLastFsModifiedCounter()
+  {
+    return lastFsModifiedCounter;
+  }
+
+  public void setLastFsModifiedCounter(long lastFsModifiedCounter)
+  {
+    this.lastFsModifiedCounter = lastFsModifiedCounter;
   }
 }

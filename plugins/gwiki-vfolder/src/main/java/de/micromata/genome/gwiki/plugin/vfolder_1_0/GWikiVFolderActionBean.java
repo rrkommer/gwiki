@@ -26,7 +26,6 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
  */
 public class GWikiVFolderActionBean extends ActionBeanBase
 {
-
   public Object onInit()
   {
     return null;
@@ -36,7 +35,15 @@ public class GWikiVFolderActionBean extends ActionBeanBase
   {
     GWikiElement el = wikiContext.getCurrentElement();
     GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
-    GWikiVFolderUtils.checkFolders(wikiContext, el, fn);
+    GWikiVFolderUtils.checkFolders(wikiContext, el, fn, false);
+    return null;
+  }
+
+  public Object onScanIncrementelFiles()
+  {
+    GWikiElement el = wikiContext.getCurrentElement();
+    GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
+    GWikiVFolderUtils.checkFolders(wikiContext, el, fn, true);
     return null;
   }
 

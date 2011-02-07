@@ -3,7 +3,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
 import de.micromata.genome.gwiki.page.impl.wiki.*;	
 wikiContext.skinInclude('standardhead'); %>
 
-Hello from vdir.<p/>
+<@include file="admin/macros/pagetreesearch" @>
 
 <%
 	GWikiChildrenMacro cm = new GWikiChildrenMacro();
@@ -11,8 +11,20 @@ Hello from vdir.<p/>
 	cm.render(new MacroAttributes(), wikiContext);
 %>
 <hr></hr>
+<table width="100%">
+<tr><th>Name</th><th>Size</th><th>Modified</th><th></th></tr>
 <%
+	for (el in wikiContext.getRequestAttribute("form").files) {
+		wikiContext.setRequestAttribute("el", el); %>
+		<tr><td><gwiki:link pageId="${el.id}"/></td>
+		<td><%= el.getProps().getIntValue("SIZE", 0) %></td>
+		<td><%= el.getProps().getDateValue("MODIFIEDAT") %></td>
+		<td><%= el.getProps().getStringValue("MODIFIEDBY") %></td>
+		</tr>
+		<%
+	}
 	GWikiPageAttachmentsMacro atm = new GWikiPageAttachmentsMacro();
 	atm.render(new MacroAttributes(), wikiContext);
 %>
+</table>
 <% wikiContext.skinInclude('standardfoot'); %>

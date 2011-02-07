@@ -41,7 +41,6 @@ public class GWikiVFolderLoadFilter implements GWikiLoadElementInfosFilter
     GWikiElement el = wikiContext.getWikiWeb().getElement(ei);
     GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     List<GWikiElementInfo> ell = GWikiVFolderUtils.loadFsElements(wikiContext, el, fn);
-    // GWikiVFolderUtils.mountFs(wikiContext, el, fn);
     return ell;
   }
 
