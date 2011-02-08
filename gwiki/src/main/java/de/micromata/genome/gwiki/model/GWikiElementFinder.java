@@ -37,6 +37,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisi
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -99,11 +100,16 @@ public class GWikiElementFinder
   {
     List<GWikiElementInfo> childs = getPageInfos(//
     new AndMatcher<GWikiElementInfo>(//
-        new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
-            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)),//
+        new GWikiViewableMatcher(wikiContext), // 
+        new AndMatcher<GWikiElementInfo>(//
+            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
+                new EqualsMatcher<String>(pageId)),//
             new GWikiElementTypeMatcher(wikiContext, "gwiki"))));
-    Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
-        "ORDER", 0))));
+
+    Collections.sort(childs, new GWikiElementByChildOrderComparator(//
+        new GWikiElementByOrderComparator(//
+            new GWikiElementByIntPropComparator("ORDER", 0, //
+                new GWikiElementByPropComparator("TITLE")))));
     return childs;
   }
 
