@@ -1,0 +1,59 @@
+<@include file="inc/stdtags.gspt" @> 
+<div id="TimingStep">
+	<div class="wiz-content" style="height:500px;">
+	<!-- Timing -->
+	<fieldset>
+		<legend><fmt:message key="gwiki.page.articleWizard.timing"/></legend>
+		<table width="50%">
+			<tr>
+				<td><fmt:message key="gwiki.page.articleWizard.timing.immediately"/></td>
+				<td><gwiki:checkbox errorStyleClass="text error" property="immediately" selected="true"/></td>
+			</tr>
+			<tr>
+			     <td><fmt:message key="gwiki.page.articleWizard.startdate"/></td> 
+			     <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="fromDate" /></td>
+			     <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
+			     <td>
+			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromHour" />
+			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromMin" />
+			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromSec" />
+			     </td>
+			</tr>
+			
+			<tr>
+				<td><fmt:message key="gwiki.page.articleWizard.enddate"/></td> 
+				<td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="toDate" /></td>
+				    
+				<td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
+				<td>
+				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toHour" />
+				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toMin" />
+				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toSec" />
+				</td>
+			</tr>
+			</table>
+	</fieldset>
+		
+	<!-- Workflow -->
+	<fieldset>
+		<legend><fmt:message key="gwiki.page.articleWizard.lifecycle"/></legend>
+		<table>
+			<tr>
+				<td><fmt:message key="gwiki.page.articleWizard.reviewer"/></td>
+				<td>
+					<gwiki:select property="selectedReviewer">
+						<option value="-1"><fmt:message key="gwiki.page.articleWizard.reviewer.choose"/></option>
+						<c:forEach var="reviewer" items="${form.availableReviewers}">
+							<option value="${reviewer}">${reviewer}</option>
+						</c:forEach>
+					</gwiki:select>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+	</div> 
+	<div class="wiz-nav">
+		<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
+		<input class="gwikiButton main" id="next" type="submit" name="method_onSave" value="<fmt:message key="gwiki.common.finish"/>" />
+	</div>                       
+</div>

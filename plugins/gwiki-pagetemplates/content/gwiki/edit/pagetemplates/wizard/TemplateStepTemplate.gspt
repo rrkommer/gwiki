@@ -1,0 +1,16 @@
+<@include file="inc/stdtags.gspt" @> 
+<div id="TemplateStep">
+	<div class="wiz-content" style="height:500px;">
+   		<fieldset>
+			<legend><fmt:message key="gwiki.page.articleWizard.template.title"/></legend>
+			<% def form = wikiContext.getRequestAttribute("form");
+				form.renderTemplates(); 
+			%>
+       	</fieldset>
+      	</div> 
+      	<div class="wiz-nav">
+       	<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
+        <input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
+       	<input class="gwikiButton main" id="next" type="submit" name="method_onSave" value="<fmt:message key="gwiki.common.finish"/>" />
+      </div>                       
+</div>
