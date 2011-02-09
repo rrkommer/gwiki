@@ -49,6 +49,11 @@ class WikiControlActionBean extends ActionBeanBase
     wikiContext.wikiWeb.rebuildIndex();
     return null;
   }
+  public Object onRebuildIndexFull()
+  {
+    wikiContext.wikiWeb.rebuildIndex(true);
+    return null;
+  }
   public Object onReIndexPage()
   {
      if (pageId == null)
