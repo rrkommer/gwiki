@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -90,6 +92,11 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     }
     String nc = wikiText.substring(0, startSec) + newContent + wikiText.substring(endSec);
     wikiArtefakt.setStorageData(nc);
+  }
+  
+  protected void renderAttr(GWikiContext ctx, String key, String value)
+  {
+    ctx.append(" " + key + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
   }
 
   private void extractContent()
