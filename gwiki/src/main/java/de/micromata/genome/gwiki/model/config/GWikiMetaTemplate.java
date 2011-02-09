@@ -22,6 +22,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -34,7 +37,7 @@ import de.micromata.genome.util.types.TimeInMillis;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiMetaTemplate implements Serializable
+public class GWikiMetaTemplate implements Serializable, InitializingBean
 {
 
   private static final long serialVersionUID = 7116843033071027993L;
@@ -102,6 +105,8 @@ public class GWikiMetaTemplate implements Serializable
    */
   private String editHelpPageId = null;
 
+  private String allowedNewChildMetaTemplatesRule = null;
+
   /**
    * Template ids of allowed new childs of this element type.
    * 
@@ -113,6 +118,8 @@ public class GWikiMetaTemplate implements Serializable
    * only allow to create new if parent metatemplate matches.
    */
   private Matcher<String> allowedNewParentMetaTemplates = null;
+
+  private String allowedNewParentMetaTemplatesRule = null;
 
   /**
    * Additionally properties descriptor for settings.
@@ -127,6 +134,22 @@ public class GWikiMetaTemplate implements Serializable
   public GWikiMetaTemplate(String pageId)
   {
     this.pageId = pageId;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+   */
+  public void afterPropertiesSet() throws Exception
+  {
+
+    if (StringUtils.isNotBlank(allowedNewChildMetaTemplatesRule) == true) {
+      allowedNewChildMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(allowedNewChildMetaTemplatesRule);
+    }
+    if (StringUtils.isNotBlank(allowedNewParentMetaTemplatesRule) == true) {
+      allowedNewParentMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(allowedNewParentMetaTemplatesRule);
+    }
   }
 
   public Map<String, GWikiArtefakt< ? >> getParts()
@@ -317,6 +340,16 @@ public class GWikiMetaTemplate implements Serializable
   public void setAddPropsDescriptor(GWikiPropsDescriptor addPropsDescriptor)
   {
     this.addPropsDescriptor = addPropsDescriptor;
+  }
+
+  public String getAllowedNewChildMetaTemplatesRule()
+  {
+    return allowedNewChildMetaTemplatesRule;
+  }
+
+  public String getAllowedNewParentMetaTemplatesRule()
+  {
+    return allowedNewParentMetaTemplatesRule;
   }
 
 }
