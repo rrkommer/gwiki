@@ -44,15 +44,19 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
   {
     try {
       String pageId = args.get("pageId");
+      boolean full = false;
+      if (StringUtils.equals(args.get("full"), "true") == true) {
+        full = true;
+      }
       if (StringUtils.isNotEmpty(pageId) == true) {
         List<GWikiElementInfo> eil = new ArrayList<GWikiElementInfo>();
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
         if (ei != null) {
           eil.add(ei);
         }
-        rebuildIndex(wikiContext, eil, false);
+        rebuildIndex(wikiContext, eil, full);
       } else {
-        rebuildIndex(wikiContext, wikiContext.getWikiWeb().getElementInfos(), true);
+        rebuildIndex(wikiContext, wikiContext.getWikiWeb().getElementInfos(), full);
       }
     } catch (Exception ex) {
       GWikiLog.warn("Job failed: " + SearchExpressionIndexerCallback.class.getName() + "; " + ex.getMessage(), ex);

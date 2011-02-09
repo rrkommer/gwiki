@@ -18,7 +18,9 @@
 
 package de.micromata.genome.gwiki.page.search;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +35,7 @@ import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Format. <id1\n LocalIndex entries >id1\n <id2 LocalIndex entries >id1\n
@@ -106,7 +109,7 @@ public class GlobalIndexFile implements GWikiPropKeys
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
 
-  public static void updateSegment(GWikiStorage storage, GWikiElement elm, String indexContent)
+  public static void updateSegments(GWikiStorage storage, List<Pair<GWikiElement, String>> elmL)
   {
     final GWikiContext ctx = GWikiContext.getCurrent();
     GWikiElement el = ctx.getWikiWeb().findElement(GLOBAL_INDEX_PAGEID);
@@ -116,28 +119,32 @@ public class GlobalIndexFile implements GWikiPropKeys
     GlobalWordIndexTextArtefakt art = (GlobalWordIndexTextArtefakt) el.getMainPart();
 
     String cont = StringUtils.defaultString(art.getStorageData());
+    for (Pair<GWikiElement, String> elmp : elmL) {
+      GWikiElement elm = elmp.getFirst();
+      String pageId = elm.getElementInfo().getId();
+      String startTag = "<" + pageId + "\n";
+      String endTag = ">" + pageId + "\n";
 
-    String pageId = elm.getElementInfo().getId();
-    String startTag = "<" + pageId + "\n";
-    String endTag = ">" + pageId + "\n";
-
-    int idx = cont.indexOf(startTag);
-    String ncont;
-    if (idx == -1) {
-      ncont = cont + startTag + indexContent + endTag;
-    } else {
-      int eidx = cont.indexOf(endTag);
-      if (eidx == -1) {
-        // oops
-        ncont = cont + startTag + indexContent + endTag;
+      int idx = cont.indexOf(startTag);
+      String ncont;
+      if (idx == -1) {
+        ncont = cont + startTag + elmp.getSecond() + endTag;
       } else {
-        ncont = cont.substring(0, idx) + startTag + indexContent + endTag + cont.substring(eidx + endTag.length());
+        int eidx = cont.indexOf(endTag);
+        if (eidx == -1) {
+          // oops
+          ncont = cont + startTag + elmp.getSecond() + endTag;
+        } else {
+          ncont = cont.substring(0, idx) + startTag + elmp.getSecond() + endTag + cont.substring(eidx + endTag.length());
+        }
+      }
+      cont = ncont;
+      if (art.getIndexFileMap() != null) {
+        art.getIndexFileMap().put(pageId, elmp.getSecond());
       }
     }
-    art.setStorageData(ncont);
-    if (art.getIndexFileMap() != null) {
-      art.getIndexFileMap().put(pageId, indexContent);
-    }
+    art.setStorageData(cont);
+
     final GWikiElement fel = el;
     ctx.getWikiWeb().getAuthorization().runAsSu(ctx, new CallableX<Void, RuntimeException>() {
 
@@ -147,6 +154,13 @@ public class GlobalIndexFile implements GWikiPropKeys
         return null;
       }
     });
+  }
 
+  public static void updateSegment(GWikiStorage storage, GWikiElement elm, String indexContent)
+  {
+
+    List<Pair<GWikiElement, String>> l = new ArrayList<Pair<GWikiElement, String>>(1);
+    l.add(Pair.make(elm, indexContent));
+    updateSegments(storage, l);
   }
 }

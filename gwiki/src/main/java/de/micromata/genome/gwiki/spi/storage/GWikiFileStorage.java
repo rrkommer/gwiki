@@ -414,12 +414,14 @@ public class GWikiFileStorage implements GWikiStorage
       GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
       String fname = art.buildFileName(ei.getId(), me.getKey());
       FsObject fsobj = storage.getFileObject(fname);
-      if (fsobj == null)
+      if (fsobj == null) {
         continue;
+      }
       long modtime = fsobj.getLastModified();
       // long now = System.currentTimeMillis();
-      if (modtime > ei.getLoadedTimeStamp())
+      if (modtime > ei.getLoadedTimeStamp()) {
         return loadElement(ei);
+      }
     }
     return null;
   }
@@ -427,8 +429,9 @@ public class GWikiFileStorage implements GWikiStorage
   public GWikiElementInfo loadElementInfo(String path)
   {
     String fname = path + GWikiStorage.SETTINGS_SUFFIX;
-    if (storage.exists(fname) == false)
+    if (storage.exists(fname) == false) {
       return null;
+    }
     FsObject obj = storage.getFileObject(fname);
     return createElementInfo(obj);
   }
@@ -869,8 +872,22 @@ public class GWikiFileStorage implements GWikiStorage
   {
     Map<String, WordIndexTextArtefakt> textIndice = new HashMap<String, WordIndexTextArtefakt>();
     IndexStoragePersistHandler pe = new IndexStoragePersistHandler();
+    List<Pair<GWikiElement, String>> ll = new ArrayList<Pair<GWikiElement, String>>();
+
     for (GWikiElementInfo ei : eis) {
       try {
+        if (completeUpdate == false) {
+          Date d = ei.getModifiedAt();
+          String idxName = ei.getId() + IndexStoragePersistHandler.TEXTINDEX_PARTNAME + ".txt";
+
+          FileSystem fs = getFsForWrite(idxName);
+          if (fs.existsForWrite(idxName) == true) {
+            long lm = fs.getLastModified(idxName);
+            if (d != null && d.getTime() != 0 && lm > d.getTime()) {
+              continue;
+            }
+          }
+        }
         GWikiElement el = loadElement(ei);
         Map<String, GWikiArtefakt< ? >> parts = getParts(el);
         Map<String, GWikiArtefakt< ? >> cp = new HashMap<String, GWikiArtefakt< ? >>();
@@ -885,15 +902,22 @@ public class GWikiFileStorage implements GWikiStorage
         np.put(IndexStoragePersistHandler.TEXTINDEX_PARTNAME, wit);
         np.put(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE, cp.get(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE));
         storeImplNoTrans(el, np);
+
         if (completeUpdate == false) {
-          GlobalIndexFile.updateSegment(wikiContext.getWikiWeb().getStorage(), el, wit.getStorageData());
+          ll.add(Pair.make(el, wit.getStorageData()));
+          // GlobalIndexFile.updateSegment(wikiContext.getWikiWeb().getStorage(), el, wit.getStorageData());
         }
+        GWikiLog.note("Index updated for: " + ei.getId());
       } catch (Exception ex) {
         GWikiLog.warn("Failed to index: " + ei.getId() + ": " + ex.getMessage(), ex);
       }
     }
     if (completeUpdate == true) {
       GlobalIndexFile.writeGlobalIndexFiles(wikiContext, textIndice);
+    } else {
+      if (ll.isEmpty() == false) {
+        GlobalIndexFile.updateSegments(this, ll);
+      }
     }
   }
 
@@ -950,7 +974,7 @@ public class GWikiFileStorage implements GWikiStorage
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiStorage#setFileSystem(de.micromata.genome.gdbfs.FileSystem)
+   * @see de.micromata.genome.gwiki.model.GWikiStorage#setFileSystem(de.micromata.genome.gdb`.FileSystem)
    */
   public void setFileSystem(FileSystem fileSystem)
   {

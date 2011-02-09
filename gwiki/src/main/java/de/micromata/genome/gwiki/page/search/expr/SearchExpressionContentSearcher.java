@@ -46,11 +46,11 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     return parser.getCommandExpressions().keySet();
   }
 
-  public void rebuildIndex(GWikiContext wikiContext, String pageId)
+  public void rebuildIndex(GWikiContext wikiContext, String pageId, boolean full)
   {
     Map<String, String> args = new HashMap<String, String>();
     args.put("pageId", pageId == null ? "" : pageId);
-
+    args.put("full", Boolean.toString(full));
     wikiContext.getWikiWeb().getSchedulerProvider().execAsyncOne(wikiContext, SearchExpressionIndexerCallback.class, args);
   }
 

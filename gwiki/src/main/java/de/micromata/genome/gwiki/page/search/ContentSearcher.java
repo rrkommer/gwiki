@@ -30,7 +30,14 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public interface ContentSearcher
 {
-  public void rebuildIndex(GWikiContext wikiContext, String pageId);
+  /**
+   * Start rebuilding index.
+   * 
+   * @param wikiContext
+   * @param pageId may null if all pages should be reindexed
+   * @param full if false indexer reindex only changed documents.
+   */
+  public void rebuildIndex(GWikiContext wikiContext, String pageId, boolean full);
 
   /**
    * return a collection of searchmacros, like parentpageid:id, etc.
