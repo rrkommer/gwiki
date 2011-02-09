@@ -27,6 +27,9 @@ import de.micromata.genome.util.matcher.Matcher;
  */
 public class GWikiRight implements Serializable
 {
+
+  private static final long serialVersionUID = 5380752128076783419L;
+
   /**
    * the right is a page oriented right
    */

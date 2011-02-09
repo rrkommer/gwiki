@@ -49,4 +49,8 @@ public enum GWikiAuthorizationRights
    * Allow to access Webdav file system.
    */
   GWIKI_FSWEBDAV, //
+  /**
+   * Does not allow anybody even not system editor
+   */
+  GWIKI_DISALLOW, //
 }
