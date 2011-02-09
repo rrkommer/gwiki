@@ -17,10 +17,13 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRichTextEditor;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -28,6 +31,9 @@ import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
  */
 public class PtPageSectionEditorActionBean extends ActionBeanBase
 {
+  private static final String EDITOR_RTE = "rte";
+  private static final String EDITOR_RAW = "text";
+  
   private String pageId;
 
   private String sectionName;
@@ -40,13 +46,23 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 
   private GWikiEditorArtefakt< ? > createEditor()
   {
-    element = wikiContext.getWikiWeb().getElement(pageId);
-    return new PtWikiRawTextEditor(element, sectionName, editor);
+    if (pageId != null) {
+      element = wikiContext.getWikiWeb().getElement(pageId);
+      
+      if (StringUtils.equals(editor, EDITOR_RTE)) {
+        return new PtWikiRichTextEditor(element, sectionName, editor);   
+      } else if (StringUtils.equals(editor, EDITOR_RAW)) {
+        return new PtWikiRawTextEditor(element, sectionName, editor);
+      }
+      
+    }
+    return null;
   }
 
   private void init()
   {
     secEditor = createEditor();
+    secEditor.prepareHeader(wikiContext);
   }
 
   public Object onInit()
@@ -60,11 +76,11 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     init();
     secEditor.onSave(wikiContext);
 
-    if (wikiContext.hasValidationErrors() == false) {
-      return pageId;
+    if (wikiContext.hasValidationErrors()) {
+      return null;
     }
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, element, false);
-    return null;
+    return pageId;
   }
 
   public Object onCancel()
