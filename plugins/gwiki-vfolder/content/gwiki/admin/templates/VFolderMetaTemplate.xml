@@ -5,7 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
-		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">

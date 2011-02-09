@@ -21,12 +21,8 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gdbfs.FsFileObject;
-import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiLog;
-import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -41,28 +37,13 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
     super.init();
   }
 
-  public String readFileContent(GWikiContext wikiContext, String indexFile)
-  {
-    GWikiFileStorage gstore = (GWikiFileStorage) wikiContext.getWikiWeb().getStorage();
-    FsObject obj = gstore.getStorage().getFileObject(indexFile);
-    if (obj == null)
-      return null;
-    if ((obj instanceof FsFileObject) == false)
-      return null;
-    FsFileObject file = (FsFileObject) obj;
-    String content = file.readString();
-    return content;
-  }
-
   public Object onInit()
   {
     if (StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
       return onDownload();
     }
     init();
-
-    String indexFile = pageId + "TextExtract.txt";
-    rawText = readFileContent(wikiContext, indexFile);
+    rawText = wikiContext.getWikiWeb().getContentSearcher().getHtmlPreview(wikiContext, pageId);
     return null;
   }
 

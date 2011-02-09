@@ -31,9 +31,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
+import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gdbfs.FsObject;
+import de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
@@ -57,6 +60,8 @@ public class GWikiVFolderUtils
   public static final String FVOLDER = "FVOLDER";
 
   public static final String VFOLDERCACHEFILE = "gwikivfoldercache.txt";
+
+  public static final String VFOLDERSTATUSFILE = "gwikivfolderstatus.txt";
 
   public static final String VDIRMETATEMPLATE = "admin/templates/intern/VDirMetaTemplate";
 
@@ -143,15 +148,27 @@ public class GWikiVFolderUtils
 
   }
 
-  public static boolean anyChangesInFs(GWikiVFolderCachedFileInfos cache)
+  public static boolean anyChangesInFs(GWikiVFolderNode node, GWikiVFolderCachedFileInfos cache)
   {
+    FileSystem fs = node.getFileSystem();
+    if (fs instanceof ReadWriteCombinedFileSystem) {
+      fs = ((ReadWriteCombinedFileSystem) fs).getSecondary();
+    }
+    long mc = fs.getModificationCounter();
+    if (mc == 0) {
+      return true;
+    }
+    if (mc <= cache.getLastFsModifiedCounter()) {
+      return false;
+    }
+    cache.setLastFsModifiedCounter(mc);
     return true;
   }
 
   public static void checkFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, boolean incrementel)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
-    if (anyChangesInFs(cache) == false) {
+    if (anyChangesInFs(node, cache) == false) {
       return;
     }
     if (updateFolders(wikiContext, el, node, cache, incrementel) == true) {
@@ -221,6 +238,13 @@ public class GWikiVFolderUtils
 
       ret.addElement(localName, ei);
     }
+    if (node.getFileSystem().exists(VFOLDERSTATUSFILE) == true) {
+      String tc = node.getFileSystem().readTextFile(VFOLDERSTATUSFILE);
+      Map<String, String> m = PipeValueList.decode(tc);
+      if (StringUtils.isNumeric(m.get("fsmodcounter")) == true) {
+        ret.setLastFsModifiedCounter(NumberUtils.createLong(m.get("fsmodcounter")));
+      }
+    }
     return ret;
   }
 
@@ -234,6 +258,10 @@ public class GWikiVFolderUtils
       sb.append("\n");
     }
     node.getFileSystem().writeTextFile(VFOLDERCACHEFILE, sb.toString(), true);
+    Map<String, String> m = new TreeMap<String, String>();
+    m.put("fsmodcounter", Long.toString(cache.getLastFsModifiedCounter()));
+    String s = PipeValueList.encode(m);
+    node.getFileSystem().writeTextFile(VFOLDERSTATUSFILE, s, true);
   }
 
   static String getLocalFromFilePageId(GWikiElement vfolderEl, String filePageId)

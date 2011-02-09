@@ -18,16 +18,16 @@
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiVFolderActionBean extends ActionBeanBase
+public class GWikiVFolderActionBean extends GWikiVDirActionBean
 {
   public Object onInit()
   {
+    super.onInit();
     return null;
   }
 
