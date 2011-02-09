@@ -52,6 +52,7 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
     renderAttr(ctx, "name", sectionName);
     renderAttr(ctx, "cols", "120");
     renderAttr(ctx, "rows", "40");
+    renderAttr(ctx, "onchange", "javascript:gwikiEditorContentChanged = true");
     ctx.append(">" + StringEscapeUtils.escapeHtml(getEditContent()) + "</textarea>");
     return true;
   }
