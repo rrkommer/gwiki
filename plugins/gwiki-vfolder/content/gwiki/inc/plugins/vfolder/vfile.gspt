@@ -10,9 +10,7 @@ Download <gwiki:link pageId="${form.pageId}" urlParams="?dl=true"/>
 <a href="javascript:openPreviewDialog();">Show preview</a>
 <div id="previewdialog" title="Dialog Title">
 <div style="overflow: auto">
-<pre>
-<c:out value="${form.rawText}"/>
-</pre>
+<c:out value="${form.rawText}" escapeXml="false"/>
 </div>
 </div>
 <script>
