@@ -77,6 +77,16 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     return true;
   }
 
+  public boolean getEditRightFromTemplate(GWikiContext ctx, GWikiElementInfo ei)
+  {
+    if (ei.getMetaTemplate() != null && ei.getMetaTemplate().getRequiredEditRight() != null) {
+      if (isAllowTo(ctx, ei.getMetaTemplate().getRequiredEditRight()) == false) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public boolean isAllowToEdit(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (generalPublicEdit == true) {
@@ -84,19 +94,15 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
     Boolean cp = checkPageSpecificRight(ctx, AUTH_EDIT, ei);
     if (cp != null) {
-      return cp;
+      return ((boolean) cp) && getEditRightFromTemplate(ctx, ei) == true;
     }
 
     boolean hasEditRight = isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITPAGES.name());
     if (hasEditRight == false) {
       return false;
     }
-    if (ei.getMetaTemplate() != null && ei.getMetaTemplate().getRequiredEditRight() != null) {
-      if (isAllowTo(ctx, ei.getMetaTemplate().getRequiredEditRight()) == false) {
-        return false;
-      }
-    }
-    return true;
+    return getEditRightFromTemplate(ctx, ei);
+
   }
 
   protected String getMetaTemplateRight(GWikiContext ctx, GWikiElementInfo ei, String pageRight)
@@ -177,6 +183,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
       }
       return null;
     }
+
     if (r.equals(GWikiAuthorizationRights.GWIKI_PRIVATE.name()) == true) {
       if (isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == true) {
         return true;
@@ -187,6 +194,8 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
       return false;
     } else if (r.equals(GWikiAuthorizationRights.GWIKI_PUBLIC.name()) == true) {
       return true;
+    } else if (r.equals(GWikiAuthorizationRights.GWIKI_DISALLOW.name()) == true) {
+      return false;
     }
     return isAllowTo(ctx, r);
   }
