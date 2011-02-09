@@ -34,6 +34,8 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
  */
 public interface GWikiWikiSelector
 {
+  public static final String DRAFT_ID = "_DRAFT";
+  
   /**
    * Initializes GWiki with given request.
    * 

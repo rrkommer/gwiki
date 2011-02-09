@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.page.impl.actionbean;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class ActionBeanBase implements ActionBean
@@ -86,5 +88,20 @@ public class ActionBeanBase implements ActionBean
   protected final String translateEsc(String key, Object... args)
   {
     return esc(translate(key, args));
+  }
+  
+  protected GWikiMultipleWikiSelector getWikiSelector()
+  {
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
+      return null;
+    }
+
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
+      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+      return multipleSelector;
+    }
+    return null;
   }
 }

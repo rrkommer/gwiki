@@ -86,7 +86,7 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     }
   }
 
-  protected ActionBean getActionBean(GWikiContext ctx)
+  public ActionBean getActionBean(GWikiContext ctx)
   {
     try {
       Class< ? extends ActionBean> cls = getActionBeanClass(ctx);
@@ -142,5 +142,5 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
   {
     this.forward = forward;
   }
-
+  
 }
