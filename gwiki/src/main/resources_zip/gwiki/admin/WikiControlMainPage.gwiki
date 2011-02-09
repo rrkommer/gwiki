@@ -113,6 +113,12 @@ Reindex
 {chunk:name=index.indexpagebutton:de}
 Neu indizieren 
 {chunk}
+{chunk:name=index.indexfullwebbutton:en}
+Reindex full
+{chunk}
+{chunk:name=index.indexfullwebbutton:de}
+Neu indizieren (Voll)
+{chunk}
 
 {chunk:name=index.indexwebdescription:en}
 Reindex the complete GWiki Web.

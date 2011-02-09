@@ -53,6 +53,7 @@
 <div class="clearAll">&nbsp;</div>
   <p><label for="reindexwiki" ><gwiki:include part="MainPage" chunk="index.indexwebdescription"/></label></p>
   <input class="gwikiButton" id="reindexwiki" type="submit" name="method_onRebuildIndex" value="<gwiki:include part="MainPage" chunk="index.indexwebbutton"/>" />
+  <input class="gwikiButton" id="reindexwiki" type="submit" name="method_onRebuildIndexFull" value="<gwiki:include part="MainPage" chunk="index.indexfullwebbutton"/>" />
 
 </fieldset>
 <fieldset>
