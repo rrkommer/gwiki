@@ -27,12 +27,14 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilterEvent.LoginState;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.attachments.TextExtractor;
 import de.micromata.genome.gwiki.page.attachments.TxtTextExtractor;
@@ -67,6 +69,8 @@ public class GWikiFilters
   private List<GWikiPageChangedFilter> pageChangedFilters = new ArrayList<GWikiPageChangedFilter>();
 
   private List<GWikiSkinRenderFilter> skinRenderFilters = new ArrayList<GWikiSkinRenderFilter>();
+
+  private List<GWikiUserLogonFilter> userLogonFilters = new ArrayList<GWikiUserLogonFilter>();
 
   public ThreadLocal<List<Class< ? >>> skipFilters = new ThreadLocal<List<Class< ? >>>() {
 
@@ -195,6 +199,47 @@ public class GWikiFilters
     return event.getPageInfos();
   }
 
+  /**
+   * 
+   * @param ctx
+   * @param user
+   * @return true if login was successfull
+   */
+  public boolean onLogin(GWikiContext ctx, GWikiSimpleUser user)
+  {
+    GWikiUserLogonFilterEvent event = new GWikiUserLogonFilterEvent(ctx, LoginState.Login, user);
+    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter() {
+
+      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
+      {
+        if (event.isAbort() == true) {
+          event.getWikiContext().getWikiWeb().getAuthorization().logout(event.getWikiContext());
+        }
+        return null;
+      }
+    }, userLogonFilters).nextFilter(event);
+    return true;
+  }
+
+  /**
+   * 
+   * @param ctx
+   * @param user
+   * @return true if login was successfull
+   */
+  public boolean onLogout(GWikiContext ctx, GWikiSimpleUser user)
+  {
+    GWikiUserLogonFilterEvent event = new GWikiUserLogonFilterEvent(ctx, LoginState.Logout, user);
+    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter() {
+
+      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
+      {
+        return null;
+      }
+    }, userLogonFilters).nextFilter(event);
+    return true;
+  }
+
   public void renderSkinGuiElement(GWikiContext ctx, String guiElement)
   {
     if (skinRenderFilters.isEmpty() == true) {
@@ -246,6 +291,9 @@ public class GWikiFilters
     }
     if (obj instanceof GWikiSkinRenderFilter) {
       skinRenderFilters.add((GWikiSkinRenderFilter) obj);
+    }
+    if (obj instanceof GWikiUserLogonFilter) {
+      userLogonFilters.add((GWikiUserLogonFilter) obj);
     }
   }
 

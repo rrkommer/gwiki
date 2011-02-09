@@ -128,6 +128,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return null;
   }
 
+  @Deprecated
   public boolean login(GWikiContext ctx, String user, String password)
   {
     GWikiSimpleUser su = getConfig(ctx).getUser(user);
@@ -151,6 +152,12 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public void logout(GWikiContext ctx)
   {
+    GWikiSimpleUser su = getSingleUser(ctx);
+    if (su != null) {
+      if (ctx.getWikiWeb().getFilter().onLogout(ctx, su) == false) {
+        return;
+      }
+    }
     ctx.removeSessionAttribute(SINGLEUSER_SESSION_KEY);
     clearSession(ctx);
   }

@@ -239,6 +239,10 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
     setSingleUser(ctx, su);
     GWikiUserServeElementFilterEvent.setUser(su);
+    if (ctx.getWikiWeb().getFilter().onLogin(ctx, su) == false) {
+      GWikiUserServeElementFilterEvent.setUser(null);
+      return false;
+    }
     GWikiLog.note("User logged in: " + user);
     return true;
   }
