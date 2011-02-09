@@ -622,8 +622,13 @@ public class GWikiWeb
 
   public void rebuildIndex()
   {
+    rebuildIndex(false);
+  }
+
+  public void rebuildIndex(boolean full)
+  {
     long start = System.currentTimeMillis();
-    getContentSearcher().rebuildIndex(GWikiContext.getCurrent(), null);
+    getContentSearcher().rebuildIndex(GWikiContext.getCurrent(), null, full);
     getLogging().addPerformance("GWikiWeb.rebuildIndex", System.currentTimeMillis() - start, 0);
   }
 
@@ -634,7 +639,7 @@ public class GWikiWeb
       ctx.addValidationError("gwiki.page.admin.WikiControl.message.rebuildpageidnotfound", pageId);
       return;
     }
-    getContentSearcher().rebuildIndex(ctx, pageId);
+    getContentSearcher().rebuildIndex(ctx, pageId, true);
   }
 
   public GWikiGlobalConfig getWikiConfig()

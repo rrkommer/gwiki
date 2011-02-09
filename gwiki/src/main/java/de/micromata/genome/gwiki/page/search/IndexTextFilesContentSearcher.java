@@ -363,7 +363,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return new QueryResult(lres, lres.size());
   }
 
-  public void rebuildIndex(GWikiContext wikiContext, String pageId)
+  public void rebuildIndex(GWikiContext wikiContext, String pageId, boolean full)
   {
     throw new RuntimeException("rebuildIndex not supported");
   }
