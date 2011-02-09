@@ -28,6 +28,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gdbfs.FsFileObject;
 import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -57,7 +60,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return Collections.emptyList();
   }
 
-  public String readFileContent(GWikiContext ctx, String indexFile)
+  public static String readFileContent(GWikiContext ctx, String indexFile)
   {
     GWikiFileStorage gstore = (GWikiFileStorage) ctx.getWikiWeb().getStorage();
     FsObject obj = gstore.getStorage().getFileObject(indexFile);
@@ -366,5 +369,27 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   public void rebuildIndex(GWikiContext wikiContext, String pageId, boolean full)
   {
     throw new RuntimeException("rebuildIndex not supported");
+  }
+
+  public static String reworkRawTextForPreview(String str)
+  {
+    str = StringEscapeUtils.escapeHtml(str);
+    str = StringUtils.replace(str, "\n", "<br/>\n");
+    return str;
+  }
+
+  public static String getHtmlPreviewS(GWikiContext ctx, String pageId)
+  {
+    String indexFile = pageId + "TextExtract.txt";
+    String ret = readFileContent(ctx, indexFile);
+    if (ret == null) {
+      return ret;
+    }
+    return reworkRawTextForPreview(ret);
+  }
+
+  public String getHtmlPreview(GWikiContext ctx, String pageId)
+  {
+    return getHtmlPreviewS(ctx, pageId);
   }
 }

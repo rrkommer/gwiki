@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
+import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -139,6 +140,17 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     qr.setGetTextExamleTime(System.currentTimeMillis() - startQuerySampleTime);
     return qr;
 
+  }
+
+  public String reworkRawTextForPreview(String str)
+  {
+    str = StringUtils.replace(str, "\n", "<br/>\n");
+    return str;
+  }
+
+  public String getHtmlPreview(GWikiContext ctx, String pageId)
+  {
+    return IndexTextFilesContentSearcher.getHtmlPreviewS(ctx, pageId);
   }
 
   public SearchExpressionParser getParser()

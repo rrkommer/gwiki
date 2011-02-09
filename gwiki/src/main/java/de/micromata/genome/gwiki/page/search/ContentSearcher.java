@@ -53,4 +53,13 @@ public interface ContentSearcher
    */
   QueryResult search(GWikiContext ctx, SearchQuery query);
 
+  /**
+   * Give a HTML fragment for the preview of given pageId.
+   * 
+   * @param ctx
+   * @param pageId
+   * @return null if no preview
+   */
+  String getHtmlPreview(GWikiContext ctx, String pageId);
+
 }
