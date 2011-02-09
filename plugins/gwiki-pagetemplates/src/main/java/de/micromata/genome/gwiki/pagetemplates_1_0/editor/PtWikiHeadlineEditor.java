@@ -23,14 +23,14 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * @author Christian Claus (c.claus@micromata.de)
  */
-public class PtWikiRawTextEditor extends PtWikiTextEditorBase
+public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiHeadlineEditor(GWikiElement element, String sectionName, String editor)
   {
     super(element, sectionName, editor);
   }
@@ -43,12 +43,13 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    ctx.append("<textarea name=\"" + sectionName + "\"");
+    ctx.append("Headline: ");
+    ctx.append("<input");
     renderAttr(ctx, "name", sectionName);
-    renderAttr(ctx, "cols", "120");
-    renderAttr(ctx, "rows", "40");
-    renderAttr(ctx, "onchange", "javascript:gwikiEditorContentChanged = true");
-    ctx.append(">" + StringEscapeUtils.escapeHtml(getEditContent()) + "</textarea>");
+    renderAttr(ctx, "value", StringEscapeUtils.escapeHtml(getEditContent()));
+    renderAttr(ctx, "style", "margin:10px 0 25px 0;");
+    renderAttr(ctx, "width", "200px");
+    ctx.append("/>");
     return true;
   }
 
@@ -61,7 +62,6 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   {
     String newContent = ctx.getRequestParameter(sectionName);
     updateSection(newContent);
-
   }
 
   /*

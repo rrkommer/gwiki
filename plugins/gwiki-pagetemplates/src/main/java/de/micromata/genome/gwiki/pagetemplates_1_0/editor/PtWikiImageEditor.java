@@ -21,16 +21,18 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.WikiParserUtils;
 
 /**
- * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * @author Christian Claus (c.claus@micromata.de)
  */
-public class PtWikiRawTextEditor extends PtWikiTextEditorBase
+public class PtWikiImageEditor extends PtWikiTextEditorBase
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor)
   {
     super(element, sectionName, editor);
   }
@@ -43,12 +45,21 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    ctx.append("<textarea name=\"" + sectionName + "\"");
-    renderAttr(ctx, "name", sectionName);
-    renderAttr(ctx, "cols", "120");
-    renderAttr(ctx, "rows", "40");
-    renderAttr(ctx, "onchange", "javascript:gwikiEditorContentChanged = true");
-    ctx.append(">" + StringEscapeUtils.escapeHtml(getEditContent()) + "</textarea>");
+      String content = StringEscapeUtils.escapeHtml(getEditContent());
+      String img = WikiParserUtils.wiki2html(content, RenderModes.combine(RenderModes.GlobalImageLinks, RenderModes.LocalImageLinks));
+      
+      ctx.append(img);
+      
+      final String discover = ctx.getTranslated("gwiki.editor.image.discover");
+      
+      ctx.append(discover);
+      ctx.append("<input");
+      renderAttr(ctx, "type", "file");
+      renderAttr(ctx, "size", "50");
+      renderAttr(ctx, "accept", "image/*");
+      renderAttr(ctx, "style", "margin:10px 0 25px 10px;");
+      ctx.append("/>");
+    
     return true;
   }
 
@@ -59,8 +70,7 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
    */
   public void onSave(GWikiContext ctx)
   {
-    String newContent = ctx.getRequestParameter(sectionName);
-    updateSection(newContent);
+    // TODO: GWikiUploadAttachmentActionBean does all, we want. reuse! (next week) :)
 
   }
 
@@ -71,6 +81,7 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
    */
   public String getTabTitle()
   {
+
     return "";
   }
 

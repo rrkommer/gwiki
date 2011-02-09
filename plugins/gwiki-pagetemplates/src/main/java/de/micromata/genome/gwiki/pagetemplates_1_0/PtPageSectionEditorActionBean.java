@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiHeadlineEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiImageEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRichTextEditor;
 
@@ -33,6 +35,8 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 {
   private static final String EDITOR_RTE = "rte";
   private static final String EDITOR_RAW = "text";
+  private static final String EDITOR_HL  = "headline";
+  private static final String EDITOR_IMAGE = "image";
   
   private String pageId;
 
@@ -53,6 +57,10 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
         return new PtWikiRichTextEditor(element, sectionName, editor);   
       } else if (StringUtils.equals(editor, EDITOR_RAW)) {
         return new PtWikiRawTextEditor(element, sectionName, editor);
+      } else if (StringUtils.equals(editor, EDITOR_HL)) {
+        return new PtWikiHeadlineEditor(element, sectionName, editor);
+      } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
+        return new PtWikiImageEditor(element, sectionName, editor);
       }
       
     }
