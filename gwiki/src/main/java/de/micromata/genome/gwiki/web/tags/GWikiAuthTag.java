@@ -43,7 +43,7 @@ public class GWikiAuthTag extends TagSupport
    */
   private static final long serialVersionUID = -52584218565083852L;
 
-  private String ifHasAllOf = "";
+  private String ifHasAll = "";
 
   private String ifHasAny = "";
 
@@ -84,10 +84,10 @@ public class GWikiAuthTag extends TagSupport
     }
 
     /* The user must have all rights */
-    if (StringUtils.isNotBlank(ifHasAllOf)) {
+    if (StringUtils.isNotBlank(ifHasAll)) {
 
       boolean hasAll = true;
-      for (String right : splitRights(ifHasAllOf)) {
+      for (String right : splitRights(ifHasAll)) {
         hasAll &= auth.isAllowTo(ctx, StringUtils.trim(right));
       }
       if (hasAll) {
@@ -112,7 +112,7 @@ public class GWikiAuthTag extends TagSupport
   public void release()
   {
     super.release();
-    ifHasAllOf = null;
+    ifHasAll = null;
     ifHasAny = null;
     ifHasNot = null;
   }
@@ -122,14 +122,14 @@ public class GWikiAuthTag extends TagSupport
     return StringUtils.split(rightsString, RIGHTS_SEPARATOR);
   }
 
-  public String getIfHasAllOf()
+  public String getIfHasAll()
   {
-    return ifHasAllOf;
+    return ifHasAll;
   }
 
-  public void setIfHasAllOf(String ifHasAllOf)
+  public void setIfHasAll(String ifHasAll)
   {
-    this.ifHasAllOf = ifHasAllOf;
+    this.ifHasAll = ifHasAll;
   }
 
   public String getIfHasAny()
