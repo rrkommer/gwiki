@@ -636,7 +636,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * @param callBack
    * @return
    */
-  public Void runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector, CallableX<Void, RuntimeException> callBack)
+  public <R, E extends RuntimeException> R runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector, CallableX<R, E> callBack)
   {
     String currentTenant = null;
     try {

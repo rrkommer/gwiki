@@ -108,7 +108,7 @@ public class ActionBeanUtils
 
   }
 
-  private static Object dispatchToMethodImpl(ActionBean bean, String methodName, GWikiContext ctx)
+  public static Object dispatchToMethodImpl(ActionBean bean, String methodName, GWikiContext ctx)
   {
     if (methodName.startsWith("on") == false) {
       throw new IllegalArgumentException("Invalid method specified " + methodName);
