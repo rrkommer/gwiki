@@ -32,7 +32,6 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
@@ -316,22 +315,6 @@ public class ViewBranchContentActionBean extends ActionBeanBase
         return null;
       }
     });
-  }
-
-
-  private GWikiMultipleWikiSelector getWikiSelector()
-  {
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.tenantsNotSupported");
-      return null;
-    }
-
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
-      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
-      return multipleSelector;
-    }
-    return null;
   }
 
   /**

@@ -16,233 +16,36 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	
 		<!-- navigation steps -->
 		<ul id="wizard-anchor">
-	    	<li>
-	      		<a href="#category">
-		      		<big><fmt:message key="gwiki.page.articleWizard.step1"/></big><br/>
-		      		<small><fmt:message	key="gwiki.page.articleWizard.category.title" /></small>
-	      		</a>
-	      	</li>   
-	      	<li>
-	      		<a href="#template">
-	      			<big><fmt:message key="gwiki.page.articleWizard.step2"/></big><br/>
-	        		<small><fmt:message key="gwiki.page.articleWizard.template.title"/></small>
-	        	</a>
-	        </li>
-	      	<li>
-	      		<a href="#release">
-	      			<big><fmt:message key="gwiki.page.articleWizard.step3"/></big><br/>
-	        		<small><fmt:message key="gwiki.page.articleWizard.release.title"/></small>
-	        	</a>
-	        </li>
+	    	<% def form = wikiContext.getRequestAttribute("form"); %>
+	    	<% form.renderHeaders() %>
 		</ul>
 	     
-		<div id="wizard-body" class="wiz-body">
-	        	
-	        	<!--  Step 1 -->
-	      		<div id="category" >
-	        	<div class="wiz-content" style="height:500px;">
-		      		
-		      		<!-- Seitentitel waehlen -->
-					<fieldset>
-						<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
-						<table>
-							<tr>
-								<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
-								<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" /></td>
-							</tr>
-						</table>
-					</fieldset>
-						      			
-		      		<!-- Choose Category -->
-					<fieldset>
-						<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
-						<table>
-							<tr>
-								<td width="200px"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
-								<td>
-									<gwiki:select id="selectedCategory1" property="selectedCategory1" onchange="loadAsync(2)" >
-										<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
-										<c:forEach var="cat" items="${form.rootCategories}">
-											<option value="${cat.key}">${cat.value}</option>
-										</c:forEach>
-									</gwiki:select>
-									<a class="addCategory" href="#" title="<fmt:message key="gwiki.page.articleWizard.category.add"/>" onclick="showCategoryPanel()">+</a>
-								</td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td id="s2"></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td id="s3"></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td id="s4"></td>
-							</tr>
-							<tr>
-								<td>&nbsp;</td>
-								<td id="s5"></td>
-							</tr>
-						</table>
-					</fieldset>
-					<br/>
-					
-					<!-- Create Category -->
-					<div id="newCat" style="display:none;">
-						<fieldset>
-							<legend><fmt:message key="gwiki.page.articleWizard.createCategory"/></legend>
-							<table>
-								<tr>
-									<td width="200px"><fmt:message key="gwiki.page.articleWizard.parentCategory"/>:</td>
-									<td>
-										<gwiki:select id="parentCategory" property="parentCategory" >
-											<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
-											<c:forEach var="cat" items="${form.allCategories}">
-												<option value="${cat.key}">${cat.value}</option>
-											</c:forEach>
-										</gwiki:select>
-									</td>
-								</tr>
-								<!-- category name -->								
-								<tr>
-									<td><fmt:message key="gwiki.page.articleWizard.nameNewCategory"/>:</td>
-									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryName" /></td>
-								</tr>
-
-								<!-- category desc -->								
-								<tr>
-									<td><fmt:message key="gwiki.page.articleWizard.descNewCategory"/>:</td>
-									<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="newCategoryDesc" /></td>
-								</tr>
-
-								<!-- toc -->								
-								<tr>
-									<td><fmt:message key="gwiki.page.articleWizard.tocNewCategory"/>:</td>
-									<td><gwiki:checkbox errorStyleClass="text error" property="newCategoryToc" /></td>
-								</tr>
-							</table>
-							<input class="gwikiButton main" id="next" type="submit" name="method_onCreateCategory" value="<fmt:message key="gwiki.page.articleWizard.category.add"/>" />
-						</fieldset>
-					</div>
-	        	</div>       
-	        	<div class="wiz-nav">
-	            	<input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
-	        	</div>         
-	      	</div>
-      	
-      		<!-- Step 2 : Choose template -->
-      		<div id="template">
-        		<div class="wiz-content" style="height:500px;">
-	        		<fieldset>
-						<legend><fmt:message key="gwiki.page.articleWizard.template.title"/></legend>
-						<% def form = wikiContext.getRequestAttribute("form");
-							form.renderTemplates(); 
-						%>
-	        		</fieldset>
-        		</div> 
-        		<div class="wiz-nav">
-            		<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
-	            	<input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
-            		<input class="gwikiButton main" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
-        		</div>                       
-      		</div>
-      		
-      		      	
-      		<!-- Step 3: Release and Workflow  -->
-      		<div id="release">
-        		<div class="wiz-content" style="height:500px;">
-	        		<!-- Timing -->
-	        		<fieldset>
-						<legend><fmt:message key="gwiki.page.articleWizard.timing"/></legend>
-						<table width="50%">
-							<tr>
-								<td><fmt:message key="gwiki.page.articleWizard.timing.immediately"/></td>
-								<td><gwiki:checkbox errorStyleClass="text error" property="immediately" selected="true"/></td>
-							</tr>
-							<tr>
-						      <td><fmt:message key="gwiki.page.articleWizard.startdate"/></td> 
-						      <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="fromDate" /></td>
-						      <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
-						      <td>
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromHour" />
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromMin" />
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromSec" />
-						      </td>
-						    </tr>
-						
-						    <tr>
-						      <td><fmt:message key="gwiki.page.articleWizard.enddate"/></td> 
-						      <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="toDate" /></td>
-						    
-						      <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
-						      <td>
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toHour" />
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toMin" />
-						        <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toSec" />
-						      </td>
-						    </tr>
-						</table>
-	        		</fieldset>
-
-	        		<!-- Workflow -->
-	        		<fieldset>
-						<legend><fmt:message key="gwiki.page.articleWizard.lifecycle"/></legend>
-						<table>
-							<tr>
-								<td><fmt:message key="gwiki.page.articleWizard.reviewer"/></td>
-								<td>
-									<gwiki:select property="selectedReviewer">
-										<option value="-1"><fmt:message key="gwiki.page.articleWizard.reviewer.choose"/></option>
-										<c:forEach var="reviewer" items="${form.availableReviewers}">
-											<option value="${reviewer}">${reviewer}</option>
-										</c:forEach>
-									</gwiki:select>
-								</td>
-							</tr>
-						</table>
-	        		</fieldset>
-        		</div> 
-        		<div class="wiz-nav">
-            		<input class="back gwikiButton main" id="back" type="button" value="< <fmt:message key="gwiki.common.previous"/>" />
-            		<input class="gwikiButton main" id="next" type="submit" name="method_onCreateArticle" value="<fmt:message key="gwiki.common.finish"/>" />
-        		</div>                       
-      		</div>
-
-    	</div>
+	     <!-- wizard content -->
+		<div id="wizard-body" class="wiz-body"></div>
 	</div>
 
 	<script type="text/javascript">
 	  \$(document).ready(function(){
-	    \$('#smartwizard').smartWizard();
-	 });
+		<%  for (tab in form.wizardSteps) {%>
+			loadAsyncWizardStep('<%=tab%>');
+		<% } %>
 	  
-	  function loadAsync(level)  {
-		  var sel = \$("select[name=selectedCategory" + (level-1) + "]").val();
-		  
+	    \$('#smartwizard').smartWizard();
+	  });
+	  
+	  function loadAsyncWizardStep(pageId)  {
 		  jQuery.ajax({
+			async : false,
 		    cache: false,
-		    url: '<gwiki:url value="/edit/pagetemplates/CreateArticleWizard"/>?method_onLoadCategoryAsync=true',
+		    url: pageId, 
 		    type: 'POST',
 		    dataType: "html",
-		    data: {depth: level, cat: sel},
+		    data: {},
 		    complete: function(res, status) {
-		    	cleanUp(level);
-		    	jQuery('#s' + level).html(res.responseText);
+		    	jQuery('#wizard-body').append(res.responseText);
 		      }
 		  });
 	  } 
-	  
-	  function cleanUp(level) {
-		  for (var i = level ; i <= 5; i++) {
-	    	jQuery('#s' + i).html("");
-		  }
-	  }
-	  
-	  function showCategoryPanel() {
-		  jQuery('#newCat').css("display", "block");
-	  }
 	</script>
 </form>
 

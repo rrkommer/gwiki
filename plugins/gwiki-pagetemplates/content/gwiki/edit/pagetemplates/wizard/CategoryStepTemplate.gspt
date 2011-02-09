@@ -1,0 +1,142 @@
+<@include file="inc/stdtags.gspt" @> 
+<div id="CategoryStep" >
+   	<div class="wiz-content" style="height:500px;">
+	    		
+   		<!-- Seitentitel waehlen -->
+		<fieldset>
+			<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
+			<table>
+				<tr>
+					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
+					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" /></td>
+				</tr>
+			</table>
+		</fieldset>
+			      			
+	    		<!-- Choose Category -->
+		<fieldset>
+			<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
+			<table>
+				<tr>
+					<td width="200px"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
+					<td>
+						<gwiki:select id="selectedCategory1" property="selectedCategory1" onchange="loadAsync(2)" >
+							<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
+							<c:forEach var="cat" items="${form.rootCategories}">
+								<option value="${cat.key}">${cat.value}</option>
+							</c:forEach>
+						</gwiki:select>
+						<a class="addCategory" href="#" title="<fmt:message key="gwiki.page.articleWizard.category.add"/>" onclick="showCategoryPanel()">+</a>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td id="s2"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td id="s3"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td id="s4"></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td id="s5"></td>
+				</tr>
+			</table>
+		</fieldset>
+		<br/>
+		
+		<!-- Create Category -->
+		<div id="newCat" style="display:none;">
+			<fieldset>
+				<legend><fmt:message key="gwiki.page.articleWizard.createCategory"/></legend>
+				<table>
+					<tr>
+						<td width="200px"><fmt:message key="gwiki.page.articleWizard.parentCategory"/>:</td>
+						<td>
+							<select id="parentCategory">
+								<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
+								<c:forEach var="cat" items="${form.allCategories}">
+									<option value="${cat.key}">${cat.value}</option>
+								</c:forEach>
+							</select>
+						</td>
+					</tr>
+					
+					<!-- category name -->								
+					<tr>
+						<td><fmt:message key="gwiki.page.articleWizard.nameNewCategory"/>:</td>
+						<td><input type="text" id="newCategoryName" errorStyleClass="text error" styleClass="text" size="20"/></td>
+					</tr>
+	
+					<!-- category desc -->								
+					<tr>
+						<td><fmt:message key="gwiki.page.articleWizard.descNewCategory"/>:</td>
+						<td><input type="text" id="newCategoryDesc" rrorStyleClass="text error" styleClass="text" size="20" /></td>
+					</tr>
+	
+					<!-- toc -->								
+					<tr>
+						<td><fmt:message key="gwiki.page.articleWizard.tocNewCategory"/>:</td>
+						<td><input type="checkbox" id="newCategoryToc" errorStyleClass="text error"/></td>
+					</tr>
+				</table>
+				<input class="gwikiButton main" id="next" type="button" onclick="javascript:createCategory()" value="<fmt:message key="gwiki.page.articleWizard.category.add"/>" />
+			</fieldset>
+		</div>
+     	</div       
+     	<div class="wiz-nav">
+         	<input class="next gwikiButton main" id="next" type="button" value="<fmt:message key="gwiki.common.next"/> >" />
+     	</div>         
+ 	</div>
+ 	
+ 	
+	<script type="text/javascript">
+	  function loadAsync(level)  {
+		  var sel = \$("select[name=selectedCategory" + (level-1) + "]").val();
+		  
+		  jQuery.ajax({
+		    cache: false,
+		    url: '<gwiki:url value="/edit/pagetemplates/wizard/CategoryStep"/>?method_onLoadCategoryAsync=true',
+		    type: 'POST',
+		    dataType: "html",
+		    data: {depth: level, cat: sel},
+		    complete: function(res, status) {
+		    	cleanUp(level);
+		    	jQuery('#s' + level).html(res.responseText);
+		      }
+		  });
+	  } 
+	  
+	  function cleanUp(level) {
+		  for (var i = level ; i <= 5; i++) {
+	    	jQuery('#s' + i).html("");
+		  }
+	  }
+	  
+	  function showCategoryPanel() {
+		  jQuery('#newCat').css("display", "block");
+	  }
+	  
+	  function createCategory()  {
+		  var parentCategory = jQuery("#parentCategory").val();
+		  var categoryName = jQuery("#newCategoryName").val();
+		  var categoryDesc = jQuery("#newCategoryDesc").val();
+		  var categoryToc  = jQuery("#newCategoryToc").is(':checked');
+		  
+		  jQuery.ajax({
+			async: false,
+		    cache: false,
+		    url: '<gwiki:url value="/edit/pagetemplates/wizard/CategoryStep"/>?method_onCreateCategory=true',
+		    type: 'POST',
+		    dataType: "html",
+		    data: {categoryName: categoryName, categoryDesc: categoryDesc, categoryToc: categoryToc, parentCategory: parentCategory},
+		    complete: function(res, status) {
+		    	location.reload();
+		      }
+		  });
+	  } 
+	</script>
