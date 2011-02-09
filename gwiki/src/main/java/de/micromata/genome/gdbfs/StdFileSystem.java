@@ -117,7 +117,7 @@ public class StdFileSystem extends AbstractFileSystem
 
   public boolean exists(String name)
   {
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     ensureFileInFs(f);
     return f.exists();
   }
@@ -126,9 +126,9 @@ public class StdFileSystem extends AbstractFileSystem
   {
     File f;
     if (name.length() == 0 || name.equals("/") == true) {
-      f = new File(root);
+      f = rootFile;
     } else {
-      f = new File(root, name);
+      f = new File(rootFile, name);
     }
     ensureFileInFs(f);
     if (f.exists() == false) {
@@ -145,7 +145,7 @@ public class StdFileSystem extends AbstractFileSystem
   public boolean mkdir(String name)
   {
     checkReadOnly();
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     ensureFileInFs(f);
     boolean ret = f.mkdir();
     if (ret == true) {
@@ -160,7 +160,10 @@ public class StdFileSystem extends AbstractFileSystem
     String cn;
     try {
       // TODO note: this is on windows a very expensive method:
+      // long ms = System.currentTimeMillis();
       cn = f.getCanonicalPath();
+      // long end = System.currentTimeMillis();
+      // long dif = end - ms;
     } catch (IOException ex) {
       throw new FsInvalidNameException("Cannot resolve filename: " + f.getName() + "; " + ex.getMessage(), ex);
     }
@@ -177,7 +180,7 @@ public class StdFileSystem extends AbstractFileSystem
   public boolean mkdirs(String name)
   {
     checkReadOnly();
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     ensureFileInFs(f);
     boolean ret = f.mkdirs();
     if (ret == true) {
@@ -190,9 +193,9 @@ public class StdFileSystem extends AbstractFileSystem
   public boolean rename(String oldName, String newName)
   {
     checkReadOnly();
-    File f = new File(root, oldName);
+    File f = new File(rootFile, oldName);
     ensureFileInFs(f);
-    File toFile = new File(root, newName);
+    File toFile = new File(rootFile, newName);
     ensureFileInFs(toFile);
     boolean ret = f.renameTo(toFile);
     if (ret == true) {
@@ -216,7 +219,7 @@ public class StdFileSystem extends AbstractFileSystem
 
   public void readBinaryFile(String name, OutputStream os)
   {
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     ensureFileInFs(f);
     try {
       FileInputStream fin = new FileInputStream(f);
@@ -229,7 +232,7 @@ public class StdFileSystem extends AbstractFileSystem
 
   private void checkUnexistantFile(String file)
   {
-    File f = new File(root, file);
+    File f = new File(rootFile, file);
     if (f.exists() == true) {
       throw new FsFileExistsException("File exists: " + file);
     }
@@ -252,7 +255,7 @@ public class StdFileSystem extends AbstractFileSystem
     checkReadOnly();
     FileSystemEventType eventType = FileSystemEventType.Modified;
 
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     createParentDirectories(f);
     ensureFileInFs(f);
     if (overWrite == false) {
@@ -332,7 +335,7 @@ public class StdFileSystem extends AbstractFileSystem
   public List<FsObject> listFiles(final String name, final Matcher<String> matcher, final Character searchType, boolean recursive)
   {
     final List<FsObject> ret = new ArrayList<FsObject>();
-    File f = new File(root, name);
+    File f = new File(rootFile, name);
     if (f.exists() == false || f.isDirectory() == false) {
       return ret;
     }
@@ -559,8 +562,8 @@ public class StdFileSystem extends AbstractFileSystem
   public void setRoot(String root)
   {
     this.root = root;
-    this.rootFile = new File(root);
-    this.canonRoot = canonPath(rootFile);
+    this.canonRoot = canonPath(new File(root));
+    this.rootFile = new File(canonRoot);
     if (rootFile.exists() == false) {
       boolean success = rootFile.mkdirs();
       if (success == false) {
