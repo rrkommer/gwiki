@@ -34,9 +34,9 @@ import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 public class GWikiSchedInitializer extends GWikiAbstractPluginLifecycleListener
 {
   @Override
-  public void activated(GWikiWeb wikiWeb, GWikiPlugin plugin)
+  public void webLoaded(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GWikiLog.note("GWikiSchedInitializer:activate");
+    GWikiLog.info("GWikiSchedInitializer:webLoaded");
     StaticDaoManager.get().setSchedulerDAO(new GWikiSchedulerDAOImpl());
     SchedulerManager schedm = SchedulerManager.get();
     SchedulerFactory ssf = new SchedulerFactory();
@@ -48,7 +48,7 @@ public class GWikiSchedInitializer extends GWikiAbstractPluginLifecycleListener
   @Override
   public void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GWikiLog.note("GWikiSchedInitializer:deactivate");
+    GWikiLog.info("GWikiSchedInitializer:deactivate");
     SchedulerManager schedm = SchedulerManager.get();
     try {
       schedm.shutdown();
