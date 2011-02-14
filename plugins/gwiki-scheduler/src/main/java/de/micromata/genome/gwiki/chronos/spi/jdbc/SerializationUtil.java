@@ -32,6 +32,9 @@ public class SerializationUtil
 {
   public static String serializeJobDefinition(Object obj)
   {
+    if (obj instanceof GWikiSchedClassJobDefinition) {
+      return ((GWikiSchedClassJobDefinition) obj).serialize();
+    }
     if (obj instanceof ClassJobDefinition) {
       return ((ClassJobDefinition) obj).getJobClassName();
     }
@@ -61,7 +64,6 @@ public class SerializationUtil
 
   public static JobDefinition deserializeJobDefinition(String s)
   {
-    ClassJobDefinition jd = new GWikiSchedClassJobDefinition(s);
-    return jd;
+    return GWikiSchedClassJobDefinition.deserialize(s);
   }
 }

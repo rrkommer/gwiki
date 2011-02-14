@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
 import de.micromata.genome.gwiki.chronos.util.CronTrigger;
 import de.micromata.genome.gwiki.chronos.util.DelayTrigger;
+import de.micromata.genome.gwiki.chronos.util.FixedTrigger;
 import de.micromata.genome.gwiki.chronos.util.SchedulerFactory;
 import de.micromata.genome.util.text.PipeValueList;
 import de.micromata.genome.util.types.TimeInMillis;
@@ -359,6 +360,8 @@ public class SchedulerManager implements InitializingBean
   {
     if (definition.startsWith("+")) {
       return new DelayTrigger(definition);
+    } else if (definition.startsWith("!") == true) {
+      return new FixedTrigger(definition);
     } else {
       return new CronTrigger(definition);
     }

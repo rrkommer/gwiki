@@ -40,12 +40,13 @@ public class GWikiScheduler
     if (StringUtils.isBlank(scheduler) == true) {
       scheduler = "standard";
     }
-    JobDefinition jobDefinition = new GWikiSchedClassJobDefinition(className);
+    JobDefinition jobDefinition = new GWikiSchedClassJobDefinition(className, null);
     Trigger trigger = TriggerJobUtils.createTriggerDefinition(triggerDefintion);
     StaticDaoManager.get().getSchedulerManager().submit(scheduler, jobDefinition, PipeValueList.encode(args), trigger);
   }
+
   public static JobStore getJobStore()
   {
     return StaticDaoManager.get().getJobStore();
   }
-  }
+}

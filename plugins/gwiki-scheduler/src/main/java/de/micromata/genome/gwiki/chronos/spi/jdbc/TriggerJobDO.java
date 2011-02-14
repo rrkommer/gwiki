@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.chronos.State;
 import de.micromata.genome.gwiki.chronos.Trigger;
 import de.micromata.genome.gwiki.chronos.util.CronTrigger;
 import de.micromata.genome.gwiki.chronos.util.DelayTrigger;
+import de.micromata.genome.gwiki.chronos.util.FixedTrigger;
 import de.micromata.genome.util.types.Converter;
 
 /**
@@ -222,10 +223,8 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
   {
     if (definition.startsWith("+")) {
       return new DelayTrigger(definition);
-
-      // TODO parse ! with fixed date
-      // } else if (definition.startsWith("<")) {
-      // return SerializationUtil.deserialize(definition, Trigger.class);
+    } else if (definition.startsWith("!")) {
+      return new FixedTrigger(definition);
     } else {
       return new CronTrigger(definition);
     }
