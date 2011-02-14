@@ -17,13 +17,16 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJobBase;
+import de.micromata.genome.gwiki.model.matcher.GWikiElementMetatemplateMatcher;
 import de.micromata.genome.util.types.Converter;
 
 /**
@@ -43,11 +46,17 @@ public class GWikiVFileSyncJob extends GWikiSchedulerJobBase
   @Override
   public void call()
   {
+    List<String> pages;
     String pageIds = args.get("PAGEIDS");
     if (StringUtils.isEmpty(pageIds) == true) {
-      return;
+      pages = new ArrayList<String>();
+      for (GWikiElementInfo ei : wikiContext.getElementFinder().getPageInfos(
+          new GWikiElementMetatemplateMatcher(wikiContext, GWikiVFolderLoadFilter.VFILE_METATEMPLATEID))) {
+        pages.add(ei.getId());
+      }
+    } else {
+      pages = Converter.parseStringTokens(pageIds, ", ", false);
     }
-    List<String> pages = Converter.parseStringTokens(pageIds, ", ", false);
     for (String page : pages) {
       check(page);
     }
