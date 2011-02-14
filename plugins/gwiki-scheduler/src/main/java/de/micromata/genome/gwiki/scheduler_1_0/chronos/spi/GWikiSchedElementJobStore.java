@@ -40,9 +40,11 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
+import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -55,6 +57,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedJobDefineMacroBean;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedSchedDefineMacroBean;
+import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.web.HostUtils;
 
@@ -110,10 +113,12 @@ public class GWikiSchedElementJobStore extends RamJobStore
     }
     return -1;
   }
-   private void createStandardScheduler()
+
+  private void createStandardScheduler()
   {
     StaticDaoManager.get().getSchedulerManager().getScheduler("standard");
   }
+
   public void loadStandardJobs()
   {
     if (needReload() == false) {
@@ -159,7 +164,10 @@ public class GWikiSchedElementJobStore extends RamJobStore
         jt = new HashMap<Long, TriggerJobDO>();
         allJobs.put(schedName, jt);
       }
-      jt.put(job.getPk(), job);
+      // only put into alljobs, if not already exists. otherwise every time firetime will be overwritten.
+      if (jt.containsKey(job.getPk()) == false) {
+        jt.put(job.getPk(), job);
+      }
     }
     createStandardScheduler();
   }
@@ -172,7 +180,13 @@ public class GWikiSchedElementJobStore extends RamJobStore
     if (pei == null) {
       return ret;
     }
-    for (GWikiElementInfo ei : wikiContext.getElementFinder().getDirectChilds(pei)) {
+
+    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageInfos(//
+        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
+            new EqualsMatcher<String>(pei.getId()))//
+        );
+
+    for (GWikiElementInfo ei : childs) {
       TriggerJobDO trigger = createJobByPage(ei);
       ret.add(trigger);
     }
@@ -440,7 +454,6 @@ public class GWikiSchedElementJobStore extends RamJobStore
   public TriggerJobDO reserveJob(TriggerJobDO job)
   {
     GWikiLog.note("Scheduler; reserveJob: " + job);
-
     return super.reserveJob(job);
   }
 
@@ -448,7 +461,15 @@ public class GWikiSchedElementJobStore extends RamJobStore
   public int setJobState(long pk, String newState, String oldState)
   {
     GWikiLog.note("Scheduler; setJobState: " + pk);
-    return super.setJobState(pk, newState, oldState);
+    if (super.setJobState(pk, newState, oldState) == 1) {
+      if (StringUtils.equals(newState, State.CLOSED.name()) == true) {
+        TriggerJobDO job = getAdminJobByPk(pk);
+        jobRemove(job, null, getDispatcher().getScheduler(job.getSchedulerName()));
+      } else {
+        updateJob(getAdminJobByPk(pk));
+      }
+      return 1;
+    }
+    return 0;
   }
-
 }

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.util.ClassJobDefinition;
+import de.micromata.genome.gwiki.scheduler_1_0.chronos.spi.GWikiSchedClassJobDefinition;
 import de.micromata.genome.util.text.PipeValueList;
 
 /**
@@ -31,6 +32,9 @@ public class SerializationUtil
 {
   public static String serializeJobDefinition(Object obj)
   {
+    if (obj instanceof ClassJobDefinition) {
+      return ((ClassJobDefinition) obj).getJobClassName();
+    }
     return obj.getClass().getCanonicalName();
   }
 
@@ -57,7 +61,7 @@ public class SerializationUtil
 
   public static JobDefinition deserializeJobDefinition(String s)
   {
-    ClassJobDefinition jd = new ClassJobDefinition(s);
+    ClassJobDefinition jd = new GWikiSchedClassJobDefinition(s);
     return jd;
   }
 }
