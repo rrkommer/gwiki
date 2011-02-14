@@ -6,5 +6,5 @@ This page defines the standard jobs for the scheduler.
 {usemacro:localName=schedJob|macroClass=de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedJobDefineMacroBean}
 
 {schedScheduler:name=standard}
-{schedJob:name=SayHello|trigger=+1000|className=de.micromata.genome.gwiki.scheduler_1_0.jobs.GWikiSchedSayHelloJob}
+{code}{schedJob:name=SayHello|trigger=+1000|className=de.micromata.genome.gwiki.scheduler_1_0.jobs.GWikiSchedSayHelloJob}{code}
 {schedScheduler}
