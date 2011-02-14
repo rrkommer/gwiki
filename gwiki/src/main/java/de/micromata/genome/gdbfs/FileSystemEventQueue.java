@@ -80,7 +80,7 @@ public class FileSystemEventQueue
     this.fileSystem = fileSystem;
   }
 
-  public void addListener(FileSystemEventType eventType, Matcher<String> matcher, FileSystemEventListener listener)
+  public synchronized void addListener(FileSystemEventType eventType, Matcher<String> matcher, FileSystemEventListener listener)
   {
     listenerList.add(new Listener(eventType, matcher, listener));
   }
@@ -88,7 +88,7 @@ public class FileSystemEventQueue
   /**
    * send all events
    */
-  public void sendEvents()
+  public synchronized void sendEvents()
   {
     Map<FileSystemFinalizedEventListener, Void> allListener = new IdentityHashMap<FileSystemFinalizedEventListener, Void>();
     for (Pair<Listener, FileSystemEvent> event : events) {
