@@ -34,19 +34,9 @@ import de.micromata.genome.gwiki.chronos.manager.GenomeClassJobFactory;
 public class ClassJobDefinition implements JobDefinition
 {
 
-  private final Class< ? extends FutureJob> classToStart;
+  protected final Class< ? extends FutureJob> classToStart;
 
-  private Map<String, Object> beanProperties = null;
-
-  public Map<String, Object> getBeanProperties()
-  {
-    return beanProperties;
-  }
-
-  public void setBeanProperties(Map<String, Object> beanProperties)
-  {
-    this.beanProperties = beanProperties;
-  }
+  protected Map<String, Object> beanProperties = null;
 
   @SuppressWarnings("unchecked")
   public ClassJobDefinition(final String classNameToStart)
@@ -110,5 +100,15 @@ public class ClassJobDefinition implements JobDefinition
   public String getJobClassName()
   {
     return classToStart.getCanonicalName();
+  }
+
+  public Map<String, Object> getBeanProperties()
+  {
+    return beanProperties;
+  }
+
+  public void setBeanProperties(Map<String, Object> beanProperties)
+  {
+    this.beanProperties = beanProperties;
   }
 }

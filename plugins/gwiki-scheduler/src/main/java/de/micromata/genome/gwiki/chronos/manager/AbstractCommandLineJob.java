@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.chronos.manager;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import de.micromata.genome.gwiki.chronos.JobAbortException;
@@ -48,9 +49,12 @@ public abstract class AbstractCommandLineJob extends AbstractFutureJob
     // StopWatch sw = AbstractGenomeJob.prepareJob(this);
     long waitTime = getWaitTime();
     try {
-      args = getStandardArgs(argument);
-      parseStandardValues(args);
-
+      if (argument == null) {
+        args = new HashMap<String, String>();
+      } else {
+        args = getStandardArgs(argument);
+        parseStandardValues(args);
+      }
       return call(args);
 
     } catch (JobAbortException ex) {

@@ -75,7 +75,9 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
     if (StringUtils.isBlank(newState) == true) {
       return null;
     }
-    GWikiScheduler.getJobStore().setJobState(selectedJob, newState, oldState);
+    if (GWikiScheduler.getJobStore().setJobState(selectedJob, newState, oldState) == 0) {
+      wikiContext.addSimpleValidationError("Could not update Job");
+    }
 
     initJobList();
     return super.onInit();

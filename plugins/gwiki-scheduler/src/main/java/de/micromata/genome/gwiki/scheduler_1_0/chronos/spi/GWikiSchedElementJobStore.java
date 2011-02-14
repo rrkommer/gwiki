@@ -35,7 +35,6 @@ import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SerializationUtil;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
 import de.micromata.genome.gwiki.chronos.spi.ram.RamJobStore;
-import de.micromata.genome.gwiki.chronos.util.ClassJobDefinition;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -333,8 +332,8 @@ public class GWikiSchedElementJobStore extends RamJobStore
   {
     final GWikiProps props = ei.getProps();
     JobDefinition jd = job.getJobDefinition();
-    if (jd instanceof ClassJobDefinition) {
-      props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_CLASS, ((ClassJobDefinition) jd).getJobClassName());
+    if (jd instanceof GWikiSchedClassJobDefinition) {
+      props.setStringValue(GWikiSchedPropKeys.SCHED_JOB_CLASS, ((GWikiSchedClassJobDefinition) jd).serialize());
     } else {
       throw new RuntimeException("Cannot support JobDefintion type: " + job.getClass().getName() + "; " + job);
     }
