@@ -101,6 +101,7 @@ public class FileSystemEventQueue
     for (FileSystemFinalizedEventListener fl : allListener.keySet()) {
       fl.onFileSystemChangedFinalized();
     }
+
     events.clear();
   }
 
