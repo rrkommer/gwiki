@@ -27,20 +27,19 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiElementTypeMatcher extends GWikiElementMatcherBase
+public class GWikiElementMetatemplateMatcher extends GWikiElementMatcherBase
 {
+  private static final long serialVersionUID = -6074725629800113828L;
 
-  private static final long serialVersionUID = -4409390062352940849L;
-
-  private String elementType;
+  private String metaTemplateId;
 
   /**
    * @param wikiContext
    */
-  public GWikiElementTypeMatcher(GWikiContext wikiContext, String elementType)
+  public GWikiElementMetatemplateMatcher(GWikiContext wikiContext, String metaTemplateId)
   {
     super(wikiContext);
-    this.elementType = elementType;
+    this.metaTemplateId = metaTemplateId;
   }
 
   /*
@@ -55,7 +54,7 @@ public class GWikiElementTypeMatcher extends GWikiElementMatcherBase
       GWikiLog.warn("Element without metatemplate: " + ei.getId());
       return false;
     }
-    final String et = ei.getMetaTemplate().getElementType();
-    return StringUtils.equals(elementType, et);
+    final String et = ei.getMetaTemplate().getPageId();
+    return StringUtils.equals(metaTemplateId, et);
   }
 }
