@@ -58,12 +58,6 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
  				<span><a href="<gwiki:url value="/edit/PageInfo?pageId=${wikiPage.elementInfo.id}"/>" title="Info">
  					&nbsp;<img border="0" src="<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>"/>&nbsp;</a>
  				</span>
- 				
- 				<%-- 
- 				<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/lightbulb16.png'/>');">
- 					<gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/>
- 				</span>
- 				 --%>
  				</li>
  		
  		</gwiki:authorize>
@@ -102,12 +96,6 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
        		  //pageContext.setAttribute("helpPageId", helpPageId);
        %>
         <li class="gwikiMenuIcon">
-            <%--  	<span style="background-image: url('<gwiki:url value='/inc/gwiki/img/icons/questionbook32.png'/>');">
-            		<a href="<%= wikiContext.localUrl(helpPageId) %>"
-             		   onclick="window.open('<%= wikiContext.localUrl(helpPageId) %>', 'gwiki_help', 'resizable, scrollbars'); return false;"
-             		 ><fmt:message key="gwiki.page.headmenu.Help"/></a>  
-             	</span>
-             	--%> 
              	 	<span><a href="<%= wikiContext.localUrl(helpPageId) %>" title="<fmt:message key="gwiki.page.headmenu.Help"/>"
              	 				onclick="window.open('<%= wikiContext.localUrl(helpPageId) %>', 'gwiki_help', 'resizable, scrollbars'); return false;">
  					&nbsp;<img border="0" src="<gwiki:url value='/inc/gwiki/img/icons/questionbook32.png'/>"/>&nbsp;</a>
