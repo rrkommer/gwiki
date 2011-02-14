@@ -1,0 +1,69 @@
+{pageintro}
+With Virtual Folder you can mount foreign file systems (f.e. Disc, WebDAV or SVN) as Wiki Elements.
+{pageintro}
+
+h2. Create Virtual Folder
+To use Virtual Folder you have to install and activate the gwiki-vfolder plugin.
+You need administrational rights to be able to create a virtual folder.
+In the page menu you can create "Virtual FS Folder".
+All directories and files in the folder will be shown inside gwiki in a read only access. 
+If a file system is mounted you can use the gwiki full text search index to search in all documents like, Word, PDF, etc.
+
+Beside name, rights and parent element you have to specify the file system folder which should be mounted.
+
+In the VFolderConfig you have to specify a config bean:
+
+
+!gwikidocs/howtos/en/vfolder_editconfig.png!
+
+The bean has to be named as "config" and contains a GWikiVFolderNode.
+The {{fileSystem}} attribute defines a Filesystem. In the sample above a combined file system will be used. The first constructor argument of {{ReadWriteCombinedFileSystem}} will used for writing files - like index files, etc.
+The second constructor argument will only used for read access and contains the document files which should be mounted into the wiki structure.
+The attribute {{matcherRule}} can be used to define a matcher expression to exclude some files of the {{filesystem}}  to be mounted into gwiki.
+
+
+h2. Mount Virtual Folder
+Because scanning a file system directory for files can take a lot of time, GWiki stores a local cache off all filenames with some additionally information (size, modfied date, etc.).
+
+After a Virtual Folder is created this cache can be created manually by the "Scan folder" button.
+
+h2. Mount a SVN via WebDAV.
+With the {{gwiki-fssvn}} plugin also SVN folder can be mounted over WebDav.
+
+Example configuration:
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderNode"
+		singleton="false">
+		<property name="matcherRule" value="+*,-*/.svn/*,-.svn/*,-gwikivfoldercache.txt" />
+		<property name="fileSystem">
+			<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg
+							value="C:\Users\roger\d\dhl\gwiki\temp\tdata\MySvnFolderTmp" />
+					</bean>
+				</constructor-arg>
+				<constructor-arg>
+					<bean
+						class="de.micromata.genome.gwiki.model.config.GWikiPluginSpringBeanFactory">
+						<property name="className"
+							value="de.micromata.genome.gwiki.fssvn.DavFileSystem" />
+						<property name="pluginName" value="gwiki.fssvn" />
+						<property name="beanProps">
+							<map>
+								<entry key="url" value="https://svn.mycompany.com/svn/testsvn/trunk" />
+								<entry key="user" value="mysvnuser" />
+								<entry key="pass" value="mysvnpass" />
+							</map>
+						</property>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+</beans>
+{code}
