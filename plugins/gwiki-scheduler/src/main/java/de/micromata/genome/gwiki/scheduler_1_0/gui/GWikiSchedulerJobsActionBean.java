@@ -20,10 +20,13 @@ package de.micromata.genome.gwiki.scheduler_1_0.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.chronos.JobStore;
 import de.micromata.genome.gwiki.chronos.StaticDaoManager;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDisplayDO;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.scheduler_1_0.api.GWikiScheduler;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -37,6 +40,12 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
 
   private String filterJobName;
 
+  private String filterJobDefinition;
+
+  private String newState;
+
+  private String oldState;
+
   private long selectedJob = -1;
 
   private String selectedState = null;
@@ -47,6 +56,7 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
   {
     JobStore js = StaticDaoManager.get().getJobStore();
     jobs = js.getAdminJobs(null, filterJobName, filterState, filterScheduler, 10000);
+    TriggerJobDisplayDO tdj = null;
   }
 
   @Override
@@ -56,9 +66,19 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
     return super.onInit();
   }
 
-  public Object onSetState()
+  public Object onSetJobState()
   {
-    return null;
+    if (selectedJob == -1) {
+      wikiContext.addSimpleValidationError("No Job selected");
+      return null;
+    }
+    if (StringUtils.isBlank(newState) == true) {
+      return null;
+    }
+    GWikiScheduler.getJobStore().setJobState(selectedJob, newState, oldState);
+
+    initJobList();
+    return super.onInit();
   }
 
   public long getSelectedJob()
@@ -119,6 +139,36 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
   public void setJobs(List<TriggerJobDisplayDO> jobs)
   {
     this.jobs = jobs;
+  }
+
+  public String getFilterJobDefinition()
+  {
+    return filterJobDefinition;
+  }
+
+  public void setFilterJobDefinition(String filterJobDefinition)
+  {
+    this.filterJobDefinition = filterJobDefinition;
+  }
+
+  public String getNewState()
+  {
+    return newState;
+  }
+
+  public void setNewState(String newState)
+  {
+    this.newState = newState;
+  }
+
+  public String getOldState()
+  {
+    return oldState;
+  }
+
+  public void setOldState(String oldState)
+  {
+    this.oldState = oldState;
   }
 
 }
