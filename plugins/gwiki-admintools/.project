@@ -1,6 +1,7 @@
 <projectDescription>
   <name>gwiki-admintools</name>
-  <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <comment>GWiki is a Wiki plattform for CMS and creating CMS based web plattforms.
+							 The gwiki-parent is just the parent pom. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects/>
   <buildSpec>
     <buildCommand>
