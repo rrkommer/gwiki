@@ -163,8 +163,9 @@ public class GWikiProps implements Serializable
   public List<String> getStringList(String key)
   {
     String val = map.get(key);
-    if (StringUtils.isEmpty(val) == true)
+    if (StringUtils.isEmpty(val) == true) {
       return Collections.emptyList();
+    }
     return CommaListParser.parseCommaList(map.get(key));
   }
 

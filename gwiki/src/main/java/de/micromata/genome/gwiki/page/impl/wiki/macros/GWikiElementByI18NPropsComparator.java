@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,53 +13,47 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.Comparator;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * Compatator to compare two GWikiElementInfo by a property string value.
- * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiElementByPropComparator extends GWikiElementComparatorBase
+public class GWikiElementByI18NPropsComparator extends GWikiElementByPropComparator
 {
-  protected String propName;
 
-  protected String defaultValue;
+  private GWikiContext wikiContext;
 
-  public GWikiElementByPropComparator()
+  public GWikiElementByI18NPropsComparator(GWikiContext wikiContext, String propName, Comparator<GWikiElementInfo> parentComparator)
   {
-
+    super(propName, parentComparator);
+    this.wikiContext = wikiContext;
   }
 
-  public GWikiElementByPropComparator(String propName)
+  public GWikiElementByI18NPropsComparator(GWikiContext wikiContext, String propName, String defaultValue)
   {
-    this.propName = propName;
+    super(propName, defaultValue);
+    this.wikiContext = wikiContext;
   }
 
-  public GWikiElementByPropComparator(String propName, String defaultValue)
+  public GWikiElementByI18NPropsComparator(GWikiContext wikiContext, String propName)
   {
-    this.propName = propName;
-    this.defaultValue = defaultValue;
+    super(propName);
+    this.wikiContext = wikiContext;
   }
 
-  public GWikiElementByPropComparator(String propName, Comparator<GWikiElementInfo> parentComparator)
-  {
-    super(parentComparator);
-    this.propName = propName;
-  }
-
+  @Override
   public int compare(GWikiElementInfo o1, GWikiElementInfo o2)
   {
-    String s1 = o1.getProps().getStringValue(propName, defaultValue);
-    String s2 = o2.getProps().getStringValue(propName, defaultValue);
+    String s1 = wikiContext.getWikiWeb().getI18nProvider().translateProp(wikiContext, o1.getProps().getStringValue(propName, defaultValue));
+    String s2 = wikiContext.getWikiWeb().getI18nProvider().translateProp(wikiContext, o2.getProps().getStringValue(propName, defaultValue));
     if (s1 == s2)
       return compareParent(o1, o2);
     if (s1 == null)
@@ -70,16 +64,6 @@ public class GWikiElementByPropComparator extends GWikiElementComparatorBase
     if (ret != 0)
       return ret;
     return compareParent(o1, o2);
-  }
-
-  public String getPropName()
-  {
-    return propName;
-  }
-
-  public void setPropName(String propName)
-  {
-    this.propName = propName;
   }
 
 }
