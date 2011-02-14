@@ -1,0 +1,25 @@
+
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @> Create a Job
+<p /><gwiki:errors />
+<form method="post">
+<fieldset><legend>Scheduler</legend> 
+	<gwiki:select	property="scheduler">
+		<gwiki:optionsCollection property="schedulers" label="key" value="value" />
+</gwiki:select>
+</fieldset>
+
+<fieldset><legend>Job Definition (Class Name)</legend> 
+	<gwiki:text	size="80" property="jobDefinition" /><br />
+</fieldset>
+
+<fieldset><legend>Job Arguments (Pipe Value List)</legend> 
+	<gwiki:textarea	cols="50" property="jobArguments" />
+</fieldset>
+<fieldset><legend>Trigger</legend> 
+	<gwiki:text	size="80" property="triggerDefinition"  />
+</fieldset>
+<input class="gwikiButton main" type="submit" name="method_onCreate"	value="Create Job"></input>
+
+</form>
+<% wikiContext.skinInclude('standardfoot'); %>

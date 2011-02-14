@@ -1,0 +1,63 @@
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @>
+
+This is the scheduler job listening.<p/>
+<form method="get">
+<input class="gwikiButton main" type="submit" value="Reload" name="method_onInit"/>
+</form>
+<table border="1" cellpadding="0" cellspacing="0">
+<tr>
+<th>PK</th>
+<th>JobName</th>
+<th>State</th>
+<th>&nbsp;</th>
+<th>Job</th>
+<th>Arguments</th>
+<th>Trigger</th>
+<th>Fire Time</th>
+<th>Modification Time</th>
+<th>&nbsp;</th>
+</tr>
+<c:forEach var="r" items="${form.jobs}">
+<tr>
+<td><c:out value="${r.pk}"/></td>
+<td><c:out value="${r.jobName}"/></td>
+<td><c:out value="${r.stateString}"/></td>
+<td> <form action="" method="GET">
+
+  <table cellspacing="0" cellpadding="0" border="0">
+    <tr><td>
+      <input type="hidden" name="filterScheduler" value="">
+      <input type="hidden" name="filterState" value="">
+      <input type="hidden" name="filterJobName" value="">
+      <input type="hidden" name="selectedJob" value="<c:out value="${r.pk}"/>">
+      <input type="hidden" name="oldState" value="WAIT">
+      <input type="hidden" name="method_onSetJobState" value="">
+      <select name="newState" onchange="if (confirm('Job Status setzen?') == true) submit()">
+
+        <option></option>
+        <option>WAIT</option>
+        <option>STOP</option>
+        <option>FINISHED</option>
+        <option>CLOSED</option>
+      </select>
+      </td>
+
+      </tr>
+    </table>
+    </form>
+
+ </td>
+<td><c:out value="${r.jobDefinitionString}"/></td>
+<td><c:out value="${r.argumentDefinitionString}"/></td>
+<td><c:out value="${r.triggerDefintionString}"/></td>
+
+<td><c:out value="${r.fireTimeString}"/></td>
+<td><c:out value="${r.modifiedAtString}"/></td>
+<td><gwiki:link pageId="admin/system/scheduler/GWikiSchedulerCreateJob" urlParams="?cloneJobId=${r.pk}" title="Clone Job"/></td>
+<td></td>
+</tr>
+</c:forEach>
+</table>
+
+<% wikiContext.skinInclude('standardfoot'); %>
