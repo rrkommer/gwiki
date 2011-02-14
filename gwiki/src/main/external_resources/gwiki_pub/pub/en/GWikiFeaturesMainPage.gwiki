@@ -86,9 +86,10 @@ GUI Features
 -- Flexible way to store documents
 -- Standard OS Filesystem
 -- Database
+-- WebDAV/SVN (read only)
 -- Embeeded as ZIP inside the application
 -- Mound combination of storages together 
--- WEB-DAV access to storage.
+-- Integrated WEB-DAV Server to access documents.
 -- Change detection in clustered environments.
 -- Import of Confluence spaces including attachments.
 -- Filtered export and import of Documents as ZIP File.
@@ -124,7 +125,7 @@ Architecture
 -- confluence importer
 -- blog. Writing blogs
 -- forum. Forum functions
--- scheduler: start and manage jobs
+-- scheduler: start and manage jobs with chron tab features
 -- slideshows: Create slide shows in Wiki
 -- pmprofiler: Poor Mans profiler
 -- logviewer: Show/Filter logfiles
@@ -132,3 +133,5 @@ Architecture
 -- pdftextextractor: Full text search for pdf documents
 -- msotextextractor: Full text search for Microsoft Office documents.
 -- pagelifecyle: CMS workflow process with author, chief editor, release manager
+-- pagetemplates: Edit page sections based templates and specific editors
+-- vfolder: Mount external virtual filesystems as folder with containing documents with full text search
