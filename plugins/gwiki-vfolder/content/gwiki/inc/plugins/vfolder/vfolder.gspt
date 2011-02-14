@@ -9,11 +9,14 @@ wikiContext.skinInclude('standardhead'); %>
 <@include file="admin/macros/pagetreesearch" @>
 
 <gwiki:authorize ifHasAll="GWIKI_ADMIN">
+<fieldset>
+	<legend>Admin operations</legend>
 <form method="post">
-<input type="submit" name="method_onScanFiles" value="Scan folder"><br/>
-<input type="submit" name="method_onMountFs" value="Mount folder"><br/>
-<input type="submit" name="method_onDismoutFs" value="Dismount folder"><br/>
+<input class="gwikiButton" type="submit" name="method_onScanFiles" value="Scan folder"><br/>
+<input class="gwikiButton main" type="submit" name="method_onMountFs" value="Mount folder"><br/>
+<input class="gwikiButton reset" type="submit" name="method_onDismoutFs" value="Dismount folder"><br/>
 </form>
+</fieldset>
 </gwiki:authorize>
 
 <%
