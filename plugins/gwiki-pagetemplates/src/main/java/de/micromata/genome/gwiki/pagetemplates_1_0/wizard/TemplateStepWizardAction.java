@@ -55,16 +55,17 @@ import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
- * @author Stefan Stuetzer (s.stuetzer@micromata.com) 
+ * Step which applies the selected template to the recent saved page
+ * 
+ * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class TemplateStepWizardAction extends ActionBeanBase
 {
-  
   /*
    * Template
    */
   private String selectedPageTemplate;
-  
+
   /*
    * (non-Javadoc)
    * 
@@ -177,30 +178,23 @@ public class TemplateStepWizardAction extends ActionBeanBase
     if (StringUtils.isBlank(tplContent) == true) {
       return noForward();
     }
-    
+
     // updates element in draft branch
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        final GWikiElement page = wikiContext.getWikiWeb().findElement((String) newPage);
-        if (page == null) {
-          return null;
-        }
-        
-        GWikiArtefakt< ? > artefakt = page.getPart("MainPage");
-        if (artefakt instanceof GWikiWikiPageArtefakt == false) {
-          return null;
-        }
-        
-        GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
-        wikiPageArtefakt.setStorageData(tplContent);
-        wikiContext.getWikiWeb().saveElement(wikiContext, page, false);
-        return null;
-      }
-    });
+    final GWikiElement page = wikiContext.getWikiWeb().findElement((String) newPage);
+    if (page == null) {
+      return null;
+    }
+    GWikiArtefakt< ? > artefakt = page.getPart("MainPage");
+    if (artefakt instanceof GWikiWikiPageArtefakt == false) {
+      return null;
+    }
+    GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
+    wikiPageArtefakt.setStorageData(tplContent);
+    wikiContext.getWikiWeb().saveElement(wikiContext, page, false);
+
     return noForward();
   }
-    
+
   public Object onValidate()
   {
     if (StringUtils.isBlank(this.selectedPageTemplate)) {

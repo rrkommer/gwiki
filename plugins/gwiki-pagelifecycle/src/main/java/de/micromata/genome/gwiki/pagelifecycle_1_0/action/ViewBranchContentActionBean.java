@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
@@ -63,7 +64,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
    * blacklist of files which not should be considered in content list
    */
   private Matcher<String> blackListMatcher = new BooleanListRulesFactory<String>().createMatcher("*intern/*,*admin/*");
-  
+
   private String selectedPageId;
 
   private String selectedTenant;
@@ -75,7 +76,8 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     return null;
   }
 
-  public Object onViewPageInTenantContext() {
+  public Object onViewPageInTenantContext()
+  {
     String pageId = getSelectedPageId();
     String tenant = getSelectedTenant();
     if (StringUtils.isBlank(pageId) == true || StringUtils.isBlank(tenant) == true) {
@@ -85,13 +87,13 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     getWikiSelector().enterTenant(wikiContext, tenant);
     return pageId;
   }
-  
+
   public Object onReviewCreator()
   {
     setFileStatus(FileState.TO_REVIEW);
     updateList();
     return null;
-  }  
+  }
 
   public Object onRejectChiefEditor()
   {
@@ -99,14 +101,14 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     updateList();
     return null;
   }
-  
+
   public Object onApproveChiefEditor()
   {
     setFileStatus(FileState.APPROVED_CHIEF_EDITOR);
     updateList();
     return null;
   }
-  
+
   public Object onRejectContentAdmin()
   {
     setFileStatus(FileState.TO_REVIEW);
@@ -120,39 +122,42 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     updateList();
     return null;
   }
-  
-  public Object onEnterTenant() {
+
+  public Object onEnterTenant()
+  {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
       wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
       updateList();
-      return null; 
+      return null;
     }
-    
+
     String tenant = getSelectedTenant();
     if (StringUtils.isBlank(tenant) == true) {
       wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
       updateList();
-      return null; 
+      return null;
     }
     wikiSelector.enterTenant(wikiContext, tenant);
     updateList();
     return null;
   }
 
-  public Object onLeaveTenant() {
+  public Object onLeaveTenant()
+  {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
       wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.leavetenant");
       updateList();
-      return null; 
+      return null;
     }
     wikiSelector.leaveTenant(wikiContext);
     updateList();
     return null;
   }
 
-  public Object renderInfo(final String tenant) {
+  public Object renderInfo(final String tenant)
+  {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
       wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.loadtenantcontent");
@@ -176,13 +181,13 @@ public class ViewBranchContentActionBean extends ActionBeanBase
         if (artefakt instanceof GWikiPropsArtefakt == false) {
           return null;
         }
-        
+
         GWikiPropsArtefakt infoArtefakt = (GWikiPropsArtefakt) artefakt;
         GWikiProps props = infoArtefakt.getCompiledObject();
-        
+
         wikiContext.append("<div style=\"font-size:0.6em;size:0.6em;border:1px dashed;width:50%;\" \">");
         wikiContext.append("<table width=\"100%\" cellspacing=\"0\">");
-        for (Entry<String, String> e: props.getMap().entrySet()) {
+        for (Entry<String, String> e : props.getMap().entrySet()) {
           wikiContext.append("<tr>");
           wikiContext.append("<td width=\"15%\">").append(e.getKey()).append("</td>");
           wikiContext.append("<td>").append(e.getValue()).append("</td>");
@@ -191,13 +196,13 @@ public class ViewBranchContentActionBean extends ActionBeanBase
         wikiContext.append("</table>");
         wikiContext.append("</div>").append("<br/>");
         return null;
-      
+
       }
     });
     return null;
-  
+
   }
-  
+
   /**
    * Loads the content of the several branches
    */
@@ -245,7 +250,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
           if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
             return null;
           }
-          
+
           GWikiBranchFileStatsArtefakt branchArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
           BranchFileStats fileStats = branchArtefakt.getCompiledObject();
           // collecting filestats information for each item
@@ -364,12 +369,28 @@ public class ViewBranchContentActionBean extends ActionBeanBase
   {
     return selectedTenant;
   }
-  
-  public String getCurrentTenant() {
+
+  public String getCurrentTenant()
+  {
     GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
     if (wikiSelector == null) {
       return StringUtils.EMPTY;
     }
     return wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
+  }
+
+  protected GWikiMultipleWikiSelector getWikiSelector()
+  {
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
+      return null;
+    }
+
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
+      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+      return multipleSelector;
+    }
+    return null;
   }
 }

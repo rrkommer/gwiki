@@ -89,19 +89,4 @@ public class ActionBeanBase implements ActionBean
   {
     return esc(translate(key, args));
   }
-  
-  protected GWikiMultipleWikiSelector getWikiSelector()
-  {
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
-      return null;
-    }
-
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
-      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
-      return multipleSelector;
-    }
-    return null;
-  }
 }

@@ -52,7 +52,7 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
     GWikiContext ctx = event.getWikiContext();
 
     // TODO stefan berechtigung korrekt setzen
-    if (event.getWikiContext().isAllowTo("*EDITOR*") == false) {
+    if (event.getWikiContext().isAllowTo("EDIT_*") == false) {
       return chain.nextFilter(event);
     }
     

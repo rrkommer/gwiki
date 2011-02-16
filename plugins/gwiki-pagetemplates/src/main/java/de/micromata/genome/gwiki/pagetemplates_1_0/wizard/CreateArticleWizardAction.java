@@ -59,9 +59,6 @@ public class CreateArticleWizardAction extends ActionBeanBase
     }
     
     Object newPage = wikiContext.getRequestAttribute(PAGE_ID_REQ_ATTR);
-    
-    // switch to tenant and view created page
-    getWikiSelector().enterTenant(wikiContext, GWikiWikiSelector.DRAFT_ID);
     return newPage;
   }
 

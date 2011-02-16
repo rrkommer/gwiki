@@ -28,7 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.controls.GWikiPageListActionBean;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.util.matcher.MatcherBase;
@@ -87,5 +89,20 @@ public class PlcDashboardAction extends GWikiPageListActionBean
   public String renderField(String fieldName, GWikiElementInfo elementInfo)
   {
     return super.renderField(fieldName, elementInfo);
+  }
+  
+  protected GWikiMultipleWikiSelector getWikiSelector()
+  {
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
+      return null;
+    }
+
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
+      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+      return multipleSelector;
+    }
+    return null;
   }
 }
