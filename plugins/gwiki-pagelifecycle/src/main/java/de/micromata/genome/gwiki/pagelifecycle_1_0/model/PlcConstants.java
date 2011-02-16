@@ -20,15 +20,7 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 /**
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public enum GWikiPlcRights
+public interface PlcConstants
 {
-  PLC_CREATE_BRANCH,
-  
-  PLC_VIEW_BRANCH,
-  
-  PLC_EDIT_BRANCH, 
-  
-  PLC_APPROVE_BRANCH,
-  
-  PLC_RELEASE_BRANCH;
+  public final static String DRAFT_ID = "_DRAFT";
 }

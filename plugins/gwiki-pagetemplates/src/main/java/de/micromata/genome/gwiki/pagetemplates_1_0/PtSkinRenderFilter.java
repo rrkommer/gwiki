@@ -48,7 +48,7 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
     GWikiContext ctx = event.getWikiContext();
     
     // TODO stefan berechtigung korrekt setzen
-    if (event.getWikiContext().isAllowTo("*EDITOR*") == false) {
+    if (event.getWikiContext().isAllowTo("EDIT_*") == false) {
       return chain.nextFilter(event);
     }
     
@@ -61,7 +61,7 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
               img("border", "0", "src", "/inc/gwiki/img/icons/article32.png")) //
           ));
 
-      if (event.getWikiContext().isAllowTo("*EDITOR*")) {
+      if (event.getWikiContext().isAllowTo("EDIT_*")) {
         // ul for menu entries
         XmlElement entryList = ul("name", "");
 

@@ -6,14 +6,15 @@
 		<property name="name" value="gwiki.pagelifecycle" />
 		<property name="version" value="1.0.0" />
 		<property name="description" value="Plugin for Release Management" />
-		<property name="author" value="Roger Kommer, Stefan Stützer"/>
-		<property name="category" value="CMS"/>	
+		<property name="author" value="Roger Kommer, Stefan Stützer" />
+		<property name="category" value="CMS" />
 		<property name="requiredPlugins">
-		<list>
-			<value>gwiki.scheduler:1.0</value>
-		</list>
+			<list>
+				<value>gwiki.scheduler:1.0</value>
+			</list>
 		</property>
-		<property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcInitializer"/>
+		<property name="pluginLifecycleListener"
+			value="de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcInitializer" />
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
@@ -21,7 +22,16 @@
 						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiUpdateFileStatsFilter" />
 				</bean>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-					<constructor-arg value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.PlcSkinRenderFilter"/>
+					<constructor-arg
+						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.PlcSkinRenderFilter" />
+				</bean>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<constructor-arg
+						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiSwitchUserToDraftFilter" />
+				</bean>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<constructor-arg
+						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiStoreElemementsInDraftFilter" />
 				</bean>
 			</list>
 		</property>

@@ -41,7 +41,7 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class CategoryStepWizardAction extends ActionBeanBase
 {
-  
+
   private static final String DEFAULT_ROOT_PAGE = "volkswagen/Index";
 
   private String rootPage = DEFAULT_ROOT_PAGE;
@@ -83,30 +83,18 @@ public class CategoryStepWizardAction extends ActionBeanBase
 
   public Object onSave()
   {
-    final GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
-    if (wikiSelector == null) {
-      fillCategories();
-      return null;
-    }
-
     // save new empty page
     final String newPageId = getNewPageId();
-    final GWikiElement newPage = GWikiWebUtils.createNewElement(wikiContext, newPageId, "admin/templates/StandardWikiPageMetaTemplate", this.pageTitle);
+    final GWikiElement newPage = GWikiWebUtils.createNewElement(wikiContext, newPageId, "admin/templates/StandardWikiPageMetaTemplate",
+        this.pageTitle);
     newPage.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, getParentPageId());
-    
-    // ensures that all required meta files are present
-    ensureDraftBranch(wikiSelector);
 
     // saves element in draft branch
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, wikiSelector, new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        wikiContext.getWikiWeb().saveElement(wikiContext, newPage, false);
-        return null;
-      }
-    });
+    wikiContext.getWikiWeb().saveElement(wikiContext, newPage, false);
 
+    // save page-id in request-attribute for possible later usage
     wikiContext.setRequestAttribute(PAGE_ID_REQ_ATTR, newPageId);
+
     return noForward();
   }
 
@@ -117,7 +105,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
     }
     return null;
   }
-  
+
   /**
    * Creates a new category (Index-Page)
    */
@@ -127,9 +115,9 @@ public class CategoryStepWizardAction extends ActionBeanBase
     final String newCategoryDesc = wikiContext.getRequest().getParameter("categoryDesc");
     final String newCategoryToc = wikiContext.getRequest().getParameter("categoryToc");
     String parentCategory = wikiContext.getRequest().getParameter("parentCategory");
-    
+
     final boolean toc = "true".equalsIgnoreCase(newCategoryToc);
-    
+
     if (StringUtils.isBlank(newCategoryName) == true) {
       wikiContext.addValidationFieldError("gwiki.page.articleWizard.error.noCategoryName", "newCategoryName");
       return null;
@@ -153,49 +141,33 @@ public class CategoryStepWizardAction extends ActionBeanBase
     final GWikiProps props = newCategoryElement.getElementInfo().getProps();
     props.setStringValue(GWikiPropKeys.PARENTPAGE, parentCategory);
 
-    ensureDraftBranch(getWikiSelector());
-
     // save new category in draft
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        final GWikiWikiPageArtefakt pageArtfekt = (GWikiWikiPageArtefakt) artefakt;
-        final StringBuilder sb = new StringBuilder();
-
-        if (StringUtils.isNotBlank(newCategoryDesc) == true) {
-          sb.append("{pageintro}").append(newCategoryDesc).append("{pageintro}").append("\n");
-        }
-
-        if (toc == true) {
-          sb.append("{children:depth=2|sort=title|withPageIntro=true}").append("\n");
-        }
-
-        pageArtfekt.setStorageData(sb.toString());
-
-        wikiContext.getWikiWeb().saveElement(wikiContext, newCategoryElement, false);
-        return null;
-      }
-    });
+    final GWikiWikiPageArtefakt pageArtfekt = (GWikiWikiPageArtefakt) artefakt;
+    final StringBuilder sb = new StringBuilder();
+    if (StringUtils.isNotBlank(newCategoryDesc) == true) {
+      sb.append("{pageintro}").append(newCategoryDesc).append("{pageintro}").append("\n");
+    }
+    if (toc == true) {
+      sb.append("{children:depth=2|sort=title|withPageIntro=true}").append("\n");
+    }
+    pageArtfekt.setStorageData(sb.toString());
+    wikiContext.getWikiWeb().saveElement(wikiContext, newCategoryElement, false);
 
     // reload categories
     fillCategories();
     return null;
   }
-  
+
   /**
    * Ajax-Handler for loading sub-categories asynchronously
-   * 
-   * @return
    */
   public Object onLoadCategoryAsync()
   {
     final String sDepth = wikiContext.getRequest().getParameter("depth");
     final String superCategory = wikiContext.getRequest().getParameter("cat");
-
     if (StringUtils.isBlank(superCategory) || StringUtils.isBlank(sDepth)) {
       return noForward();
     }
-
     if (superCategory.equalsIgnoreCase(NOT_A_CATEGORY)) {
       return noForward();
     }
@@ -203,75 +175,29 @@ public class CategoryStepWizardAction extends ActionBeanBase
     final int depth = Integer.parseInt(sDepth);
     final String defaultText = wikiContext.getWikiWeb().getI18nProvider()
         .translate(wikiContext, "gwiki.page.articleWizard.category.choose");
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
 
-      public Void call() throws RuntimeException
-      {
-        final GWikiElement el = wikiContext.getWikiWeb().findElement(superCategory);
-        final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
+    final GWikiElement el = wikiContext.getWikiWeb().findElement(superCategory);
+    final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
 
-        final StringBuffer sb = new StringBuffer("<select name=\"selectedCategory").append(depth).append("\" onchange=\"loadAsync(")
-            .append(depth + 1).append(")\">");
-
-        sb.append("<option value=\"").append(NOT_A_CATEGORY).append("\">").append(defaultText).append("</option>");
-        for (final GWikiElementInfo ei : childs) {
-          if (ei.getId().endsWith(CATEGORY_SUFFIX) == false) {
-            continue;
-          }
-          sb.append("<option value=\"").append(ei.getId()).append("\">").append(ei.getTitle()).append("</option>");
-        }
-        sb.append("</select>");
-
-        wikiContext.append(sb.toString());
-        wikiContext.flush();
-        return null;
+    final StringBuffer sb = new StringBuffer("<select name=\"selectedCategory").append(depth).append("\" onchange=\"loadAsync(")
+        .append(depth + 1).append(")\">");
+    sb.append("<option value=\"").append(NOT_A_CATEGORY).append("\">").append(defaultText).append("</option>");
+    for (final GWikiElementInfo ei : childs) {
+      if (ei.getId().endsWith(CATEGORY_SUFFIX) == false) {
+        continue;
       }
-    });
+      sb.append("<option value=\"").append(ei.getId()).append("\">").append(ei.getTitle()).append("</option>");
+    }
+    sb.append("</select>");
 
+    wikiContext.append(sb.toString());
+    wikiContext.flush();
     return noForward();
   }
-  
-  /**
-   * Ensures that all required branch meta files are present. if not they will be created
-   */
-  private void ensureDraftBranch(final GWikiMultipleWikiSelector wikiSelector)
-  {
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        // ensure filestats present
-        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
-        if (fileStats == null) {
-          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats",
-              "admin/templates/intern/GWikiBranchFileStatsTemplate", "Branch File Stats");
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-        }
 
-        // ensure branchinfo present
-        final GWikiElement infoElement = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchInfoElement");
-        if (infoElement == null) {
-          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement",
-              "admin/templates/intern/GWikiBranchInfoElementTemplate", "BranchInfo");
-          final GWikiArtefakt< ? > artefakt = el.getMainPart();
-
-          final GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
-          final GWikiProps props = art.getCompiledObject();
-          props.setStringValue("BRANCH_ID", GWikiWikiSelector.DRAFT_ID);
-          props.setStringValue("DESCRIPTION", "Draft branch");
-          props.setStringValue("BRANCH_STATE", "OFFLINE");
-          props.setStringValue("RELEASE_DATE", "");
-          props.setStringValue("RELEASE_END_DATE", "");
-
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-        }
-        return null;
-      }
-    });
-  }
-  
-  /////////////////////////////////////
+  // ///////////////////////////////////
   // Helper
-  /////////////////////////////////////
+  // ///////////////////////////////////
   /**
    * @return the page id of super category of new page
    */
@@ -292,7 +218,6 @@ public class CategoryStepWizardAction extends ActionBeanBase
     return this.selectedCategory1 + CATEGORY_SUFFIX;
   }
 
-  
   /**
    * TODO stefan: Muss page-id alle Kategorien enthalten oder genügt die korrekte parentverlinkung
    * 
@@ -319,33 +244,26 @@ public class CategoryStepWizardAction extends ActionBeanBase
     sb.append(this.pageTitle);
     return sb.toString();
   }
-  
+
   /**
    * Fills the root categories and recursively all subcategories
    */
   private void fillCategories()
   {
-    wikiContext.runInTenantContext(GWikiWikiSelector.DRAFT_ID, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    final GWikiElement el = wikiContext.getWikiWeb().findElement(rootPage);
+    final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
 
-      public Void call() throws RuntimeException
-      {
-        final GWikiElement el = wikiContext.getWikiWeb().findElement(rootPage);
-        final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
-
-        for (final GWikiElementInfo c : childs) {
-          // all categories ends on "/Index"
-          if (c.getId().endsWith(CATEGORY_SUFFIX) == false) {
-            continue;
-          }
-          getRootCategories().put(c.getId(), c.getTitle());
-          getAllCategories().put(c.getId(), c.getTitle());
-
-          // fill recursively all categories
-          fillAllCategories(c);
-        }
-        return null;
+    for (final GWikiElementInfo c : childs) {
+      // all categories ends on "/Index"
+      if (c.getId().endsWith(CATEGORY_SUFFIX) == false) {
+        continue;
       }
-    });
+      getRootCategories().put(c.getId(), c.getTitle());
+      getAllCategories().put(c.getId(), c.getTitle());
+
+      // fill recursively all categories
+      fillAllCategories(c);
+    }
   }
 
   /**
@@ -362,7 +280,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
       fillAllCategories(c);
     }
   }
-  
+
   /**
    * @return the rootPage
    */
