@@ -38,11 +38,14 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
+import de.micromata.genome.gwiki.model.GWikiRight;
+import de.micromata.genome.gwiki.model.GWikiRoleConfig;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
+import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.runtime.CallableX;
@@ -205,6 +208,14 @@ public class GWikiPluginRepository
       GWikiElement el = wikiContext.getWikiWeb().getElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH);
       ((GWikiPropsArtefakt) el.getMainPart()).setCompiledObject(wikiConfig);
       wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+    }
+    if (plugin.getDescriptor().getRights() != null) {
+      GWikiRoleConfig roleConfig = GWikiUserAuthorization.getRoleConfig(wikiContext);
+      if (roleConfig != null) {
+        for (GWikiRight r : plugin.getDescriptor().getRights()) {
+          roleConfig.addRight(r);
+        }
+      }
     }
     if (reloadAfterActivation == true && deactivated == true) {
       wikiContext.getWikiWeb().reloadWeb();
