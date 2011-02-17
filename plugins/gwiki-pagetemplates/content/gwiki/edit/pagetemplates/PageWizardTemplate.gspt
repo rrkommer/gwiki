@@ -2,6 +2,7 @@
 <% 
 import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
 import de.micromata.genome.gwiki.page.impl.wiki.*;
+import org.apache.commons.lang.StringUtils;
 %>
 <% wikiContext.skinInclude("standardhead"); %>
 
@@ -34,10 +35,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 	  });
 	  
 	  function loadAsyncWizardStep(pageId)  {
+		  var p = pageId;
+		  <% if (StringUtils.isNotBlank(wikiContext.getRequest().getQueryString())) {%>
+		  	  p = p + "?" + "<%= wikiContext.getRequest().getQueryString() %>";
+		  <% } %>
 		  jQuery.ajax({
 			async : false,
 		    cache: false,
-		    url: pageId, 
+		    url: p, 
 		    type: 'POST',
 		    dataType: "html",
 		    data: {},

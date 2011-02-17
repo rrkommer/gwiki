@@ -22,8 +22,6 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 public interface ActionBean
 {
-  public static final String PAGE_ID_REQ_ATTR = "_page_id";
-  
   public GWikiContext getWikiContext();
 
   public void setWikiContext(GWikiContext wikiContext);

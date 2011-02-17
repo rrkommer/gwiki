@@ -1,7 +1,9 @@
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -9,19 +11,21 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
+import de.micromata.genome.gwiki.utils.ClassUtils;
 
 /**
  * Wizard for creating articles
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class CreateArticleWizardAction extends ActionBeanBase
+public class PageWizardAction extends ActionBeanBase
 {
+  // TODO: stefan dynamisch hinterlegen und durch Plugin auch erweiterbar machen
   private List<String> wizardSteps = Arrays.asList("/edit/pagetemplates/wizard/CategoryStep",
       "/edit/pagetemplates/wizard/TemplateStep", "/edit/pagelifecycle/wizard/TimingStep");
 
@@ -46,10 +50,13 @@ public class CreateArticleWizardAction extends ActionBeanBase
     if (wikiContext.hasValidationErrors() == true) {
       return null;
     }
+    
+    // if validation ok create new element
+    final GWikiElement newPage = GWikiWebUtils.createNewElement(wikiContext, "", "admin/templates/StandardWikiPageMetaTemplate","");
 
-    // call save handlers
+    // call step save handlers
     for (String wizardStep : this.wizardSteps) {
-      runInActionContext(wizardStep, new Callable<RuntimeException, Void>() {
+      runInActionContext(wizardStep, newPage, new Callable<RuntimeException, Void>() {
         public Void call(ActionBean bean) throws RuntimeException
         {
           ActionBeanUtils.dispatchToMethodImpl(bean, "onSave", wikiContext);
@@ -58,17 +65,20 @@ public class CreateArticleWizardAction extends ActionBeanBase
       });
     }
     
-    Object newPage = wikiContext.getRequestAttribute(PAGE_ID_REQ_ATTR);
+    // saves element
+    wikiContext.getWikiWeb().saveElement(wikiContext, newPage, false);
+    
+    // save page-id in request-attribute for possible later usage
     return newPage;
   }
 
   /**
-   * 
+   * calls validate methods of each wizard step
    */
   private void performValidation()
   {
     for (String wizardStep : wizardSteps) {
-      runInActionContext(wizardStep, new Callable<RuntimeException, Void>() {
+      runInActionContext(wizardStep, null, new Callable<RuntimeException, Void>() {
         public Void call(ActionBean bean) throws RuntimeException
         {
           ActionBeanUtils.dispatchToMethodImpl(bean, "onValidate", wikiContext);
@@ -78,7 +88,7 @@ public class CreateArticleWizardAction extends ActionBeanBase
     }
   }
 
-  public Void runInActionContext(String actionPageId, Callable<RuntimeException, Void> callback)
+  public Void runInActionContext(String actionPageId, GWikiElement element, Callable<RuntimeException, Void> callback)
   {
     GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
     GWikiArtefakt< ? > controller = page.getPart("Controler");
@@ -89,7 +99,12 @@ public class CreateArticleWizardAction extends ActionBeanBase
     ActionBean bean = actionBeanArtefakt.getActionBean(wikiContext);
     bean.setWikiContext(wikiContext);
 
-    // populate properies
+    // populate element to step action beans
+    Map<String, Object> elementParam = new HashMap<String, Object>();
+    elementParam.put("element", element);
+    ClassUtils.populateBeanWithPuplicMembers(bean, elementParam);
+    
+    // populate form properies to step action beans
     ActionBeanUtils.fillForm((ActionBean) bean, wikiContext);
     return callback.call(bean);
   }
@@ -114,5 +129,4 @@ public class CreateArticleWizardAction extends ActionBeanBase
   {
     R call(ActionBean bean) throws E;
   }
-
 }

@@ -61,6 +61,9 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  */
 public class TemplateStepWizardAction extends ActionBeanBase
 {
+  
+  private GWikiElement element;
+  
   /*
    * Template
    */
@@ -162,9 +165,8 @@ public class TemplateStepWizardAction extends ActionBeanBase
 
   public Object onSave()
   {
-    final Object newPage = wikiContext.getRequestAttribute(PAGE_ID_REQ_ATTR);
-    if (newPage == null || newPage instanceof String == false) {
-      return noForward();
+    if (element == null) {
+      return null;
     }
 
     // load page template and extract content
@@ -179,18 +181,12 @@ public class TemplateStepWizardAction extends ActionBeanBase
       return noForward();
     }
 
-    // updates element in draft branch
-    final GWikiElement page = wikiContext.getWikiWeb().findElement((String) newPage);
-    if (page == null) {
-      return null;
-    }
-    GWikiArtefakt< ? > artefakt = page.getPart("MainPage");
+    GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
     if (artefakt instanceof GWikiWikiPageArtefakt == false) {
       return null;
     }
     GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
     wikiPageArtefakt.setStorageData(tplContent);
-    wikiContext.getWikiWeb().saveElement(wikiContext, page, false);
 
     return noForward();
   }
@@ -217,5 +213,21 @@ public class TemplateStepWizardAction extends ActionBeanBase
   public String getSelectedPageTemplate()
   {
     return selectedPageTemplate;
+  }
+
+  /**
+   * @param element the element to set
+   */
+  public void setElement(GWikiElement element)
+  {
+    this.element = element;
+  }
+
+  /**
+   * @return the element
+   */
+  public GWikiElement getElement()
+  {
+    return element;
   }
 }

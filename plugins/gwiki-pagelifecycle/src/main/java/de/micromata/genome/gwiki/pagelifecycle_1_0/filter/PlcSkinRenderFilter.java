@@ -22,13 +22,20 @@ import static de.micromata.genome.util.xml.xmlbuilder.Xml.*;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent.GuiElementType;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
@@ -55,8 +62,47 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
     if (event.getWikiContext().isAllowTo("EDIT_*") == false) {
       return chain.nextFilter(event);
     }
+
+    // render current branch and links to accessable branches
+    if (GuiElementType.HeadMenu.name().equals(event.getGuiElementType()) == true) {
+      GWikiWikiSelector wikiSelector = ctx.getWikiWeb().getDaoContext().getWikiSelector();
+      if (wikiSelector == null) {
+        return chain.nextFilter(event);
+      }
+
+      if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
+        GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+        List<String> availableTenants = multipleSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
+        String currentTenant = multipleSelector.getTenantId(GWikiServlet.INSTANCE, ctx.getRequest());
+        
+        if (StringUtils.isBlank(currentTenant) == true) {
+          currentTenant = "ONLINE";
+        }
+          
+        XmlElement menu = li(new String[][] { { "class", "gwikiMenumain"}}, //
+            span(attrs("style", "background-image: url(\"/inc/gwiki/img/icons/shield32.png\")"), text("View: " + currentTenant) //
+               //
+            ));
+        
+        if (availableTenants != null && availableTenants.size() > 0) {
+       // ul for menu entries
+          XmlElement entryList = ul("name", "");
+
+          // TODO stefan link soll branch wechseln
+          for (String tenant : availableTenants) {
+            entryList.nest(li( //
+                a(new String[][] { { "href", "#" }}, text(ctx.getTranslatedProp(tenant)))
+            ));
+          }
+          menu.nest(entryList);
+        }
+        ctx.append(menu.toString());
+      }
+      
+    } 
     
-    if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
+    // render pagelifecycle menu entries
+    else if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
       ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagelifecycle/i18n/PlcI18N");
 
       XmlElement menu = li(new String[][] { { "class", "gwikiMenuIcon"}}, //
