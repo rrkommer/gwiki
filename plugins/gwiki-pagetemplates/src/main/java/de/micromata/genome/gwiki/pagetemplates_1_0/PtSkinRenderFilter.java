@@ -68,7 +68,7 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
         // Wizard
         entryList.nest(//
             li(
-                a(new String[][] { { "href", "/edit/pagetemplates/CreateArticleWizard"}},
+                a(new String[][] { { "href", "/edit/pagetemplates/PageWizard"}},
                     text(ctx.getTranslated("gwiki.page.articleWizard.title")))));
 
         menu.nest(entryList);

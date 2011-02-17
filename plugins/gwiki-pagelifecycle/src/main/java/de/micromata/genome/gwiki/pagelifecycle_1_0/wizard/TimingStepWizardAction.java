@@ -51,13 +51,15 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  */
 public class TimingStepWizardAction extends ActionBeanBase
 {
+
+  private GWikiElement element;
   
-private List<String> availableReviewers;
-  
+  private List<String> availableReviewers;
+
   private String selectedReviewer;
 
   private boolean immediately = true;
-  
+
   private Date from;
 
   private String fromDate;
@@ -77,7 +79,7 @@ private List<String> availableReviewers;
   private int toMin;
 
   private int toSec;
-  
+
   /**
    * renders a table with available page templates
    */
@@ -142,7 +144,7 @@ private List<String> availableReviewers;
     // write table
     wikiContext.append(table.toString());
   }
-  
+
   /**
    * Generates HTML Output of given executable artefakt
    * 
@@ -388,5 +390,21 @@ private List<String> availableReviewers;
   public Object onInit()
   {
     return null;
+  }
+
+  /**
+   * @param element the element to set
+   */
+  public void setElement(GWikiElement element)
+  {
+    this.element = element;
+  }
+
+  /**
+   * @return the element
+   */
+  public GWikiElement getElement()
+  {
+    return element;
   }
 }
