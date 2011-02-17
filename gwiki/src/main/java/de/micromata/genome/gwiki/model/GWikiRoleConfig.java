@@ -66,6 +66,15 @@ public class GWikiRoleConfig implements InitializingBean, Serializable
     }
   }
 
+  public void addRight(GWikiRight right)
+  {
+    if (roles.containsKey(right.getName()) == true) {
+      return;
+    }
+    roles.put(right.getName(), right);
+    rights.add(right);
+  }
+
   public List<GWikiRight> getRights()
   {
     return rights;

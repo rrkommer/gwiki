@@ -263,7 +263,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
 
-  protected GWikiRoleConfig getRoleConfig(GWikiContext wikiContext)
+  public static GWikiRoleConfig getRoleConfig(GWikiContext wikiContext)
   {
     GWikiElement el = wikiContext.getWikiWeb().findElement("admin/config/GWikiUserRolesConfig");
     if (el == null) {

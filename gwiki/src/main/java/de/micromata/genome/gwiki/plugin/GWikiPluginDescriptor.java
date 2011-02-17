@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 
+import de.micromata.genome.gwiki.model.GWikiRight;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 
@@ -56,16 +57,16 @@ public class GWikiPluginDescriptor implements InitializingBean
    * Description
    */
   private String description;
-  
+
   /**
    * Author
    */
   private String author;
-  
+
   private String category;
 
   private String logoPath;
-  
+
   /**
    * List of element ids uses as public templates.
    */
@@ -111,6 +112,8 @@ public class GWikiPluginDescriptor implements InitializingBean
    * will be initialized via primaryFsReadMatcherRule.
    */
   private Matcher<String> primaryFsReadMatcher = null;
+
+  private List<GWikiRight> rights = new ArrayList<GWikiRight>();
 
   /*
    * (non-Javadoc)
@@ -171,7 +174,7 @@ public class GWikiPluginDescriptor implements InitializingBean
   {
     this.description = description;
   }
-  
+
   public Map<String, String> getMacros()
   {
     return macros;
@@ -290,6 +293,16 @@ public class GWikiPluginDescriptor implements InitializingBean
   public String getCategory()
   {
     return category;
+  }
+
+  public List<GWikiRight> getRights()
+  {
+    return rights;
+  }
+
+  public void setRights(List<GWikiRight> rights)
+  {
+    this.rights = rights;
   }
 
 }
