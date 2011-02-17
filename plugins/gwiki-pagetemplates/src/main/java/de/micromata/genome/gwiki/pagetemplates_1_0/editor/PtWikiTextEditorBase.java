@@ -98,7 +98,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   {
     ctx.append(" " + key + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
   }
-
+  
   private void extractContent()
   {
     String start = "{pteditsection:name=" + sectionName;

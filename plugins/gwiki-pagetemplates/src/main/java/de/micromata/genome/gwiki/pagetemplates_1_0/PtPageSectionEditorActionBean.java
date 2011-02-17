@@ -24,8 +24,10 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiHeadlineEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiImageEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiLinkEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRichTextEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiSingleAttachmentEditor;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -35,8 +37,10 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 {
   private static final String EDITOR_RTE = "rte";
   private static final String EDITOR_RAW = "text";
-  private static final String EDITOR_HL  = "headline";
+  private static final String EDITOR_HL = "headline";
   private static final String EDITOR_IMAGE = "image";
+  private static final String EDITOR_LINK = "link";
+  private static final String EDITOR_ATTACHMENT = "attachment";
   
   private String pageId;
 
@@ -47,9 +51,10 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   private GWikiEditorArtefakt< ? > secEditor;
 
   private GWikiElement element;
-
+  
   private GWikiEditorArtefakt< ? > createEditor()
   {
+    
     if (pageId != null) {
       element = wikiContext.getWikiWeb().getElement(pageId);
       
@@ -61,6 +66,10 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
         return new PtWikiHeadlineEditor(element, sectionName, editor);
       } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
         return new PtWikiImageEditor(element, sectionName, editor);
+      } else if (StringUtils.equals(editor, EDITOR_LINK)) {
+        return new PtWikiLinkEditor(element, sectionName, editor);
+      } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
+        return new PtWikiSingleAttachmentEditor(element, sectionName, editor);
       }
       
     }
@@ -82,15 +91,18 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   public Object onSave()
   {
     init();
+    
     secEditor.onSave(wikiContext);
 
     if (wikiContext.hasValidationErrors()) {
       return null;
     }
+    
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, element, false);
+    
     return pageId;
   }
-
+  
   public Object onCancel()
   {
     return pageId;
@@ -135,4 +147,5 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   {
     this.secEditor = secEditor;
   }
+  
 }

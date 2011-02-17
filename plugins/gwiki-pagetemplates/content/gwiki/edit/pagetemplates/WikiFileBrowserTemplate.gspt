@@ -1,13 +1,14 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 
-<%-- is multipart free of conflicts with textareas etc.? --%>
-<form method="post" enctype="multipart/form-data">
+Edit page here.
+
+<form method="post">
 <gwiki:hidden property="pageId"/>
 <gwiki:hidden property="sectionName"/>
 <gwiki:hidden property="editor"/>
-<input class="gwikiButton main" type="submit" name="method_onSave" value="<fmt:message key='gwiki.edit.EditPage.button.save'/>">&nbsp;
-<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key='gwiki.edit.button.cancel'/>"><br/>
+<input class="gwikiButton main" type="submit" name="method_onSave" value="Speichern" onclick="javascript:gwikiEditorContentChanged = false">&nbsp;
+<input class="gwikiButton reset" type="submit" name="method_onCancel" value="Abbrechen"><br/>
 
 <%--
 <script type="text/javascript">

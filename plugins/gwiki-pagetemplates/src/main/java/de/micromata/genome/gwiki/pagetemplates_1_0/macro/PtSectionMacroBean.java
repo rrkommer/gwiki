@@ -63,7 +63,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
       if (ei != null) {
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
-        ctx.append("<div onmouseover=\"this.style.border = '1px dashed'\" onmouseout=\"this.style.border = '0px'\"");
+        ctx.append("<div style=\"padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
         
         try {
           String link = ctx.renderExistingLinkWithAttr(ei, edit, "?pageId="
