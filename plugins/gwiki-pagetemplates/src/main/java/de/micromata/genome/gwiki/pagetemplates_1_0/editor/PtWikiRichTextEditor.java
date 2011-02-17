@@ -41,7 +41,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase //implements GWik
     
     super.prepareHeader(wikiContext);
     
-    // TODO: add more gwiki specialized headers
+    // TODO: add more GWiki specific headers
     wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-min-frame-0.3.js");
   }

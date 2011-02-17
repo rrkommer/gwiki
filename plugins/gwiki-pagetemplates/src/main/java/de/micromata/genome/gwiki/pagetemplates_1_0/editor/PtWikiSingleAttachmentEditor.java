@@ -35,12 +35,12 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 /**
  * @author Christian Claus (c.claus@micromata.de)
  */
-public class PtWikiImageEditor extends PtWikiUploadEditor
+public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor)
   {
     super(element, sectionName, editor);
     
@@ -60,18 +60,27 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     ctx.append(img);
       
     final String discover = ctx.getTranslated("gwiki.editor.image.discover");
+      
+    XmlElement inputFile = input( //
+        attrs("name", sectionName, "type", "file", "size", "50", "accept", "*"));
     
-    XmlElement input = input( //
-        attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
-        
+    XmlElement inputTitle = input( //
+        attrs("name", "title"));
+   
     XmlElement table = table( //
         attrs()).nest( //
             tr( //
                 td(text(discover)), //
-                td(input) //
-            ));
+                td(inputFile) //
+            ), //
+            tr( //
+                td(text("Title: ")), //
+                td(inputTitle) //
+            )
+        );
     
     ctx.append(table.toString());
+    
     return true;
   }
 
