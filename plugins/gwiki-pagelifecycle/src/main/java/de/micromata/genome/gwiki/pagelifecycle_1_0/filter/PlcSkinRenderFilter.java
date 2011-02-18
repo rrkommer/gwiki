@@ -35,6 +35,7 @@ import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -85,13 +86,21 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
             ));
         
         if (availableTenants != null && availableTenants.size() > 0) {
-       // ul for menu entries
+          final String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(ctx.localUrl(ctx.getCurrentElement().getElementInfo().getId()));
+          
+          // ul for menu entries
           XmlElement entryList = ul("name", "");
 
-          // TODO stefan link soll branch wechseln
+          // add ONLINE space to selection
+          availableTenants.add("");
+          
           for (String tenant : availableTenants) {
+            final String newBranchParam = "newBranchId=" + WebUtils.encodeUrlParam(tenant);
+            // TODO stefan auf sichtbarkeit für user prüfen
+
             entryList.nest(li( //
-                a(new String[][] { { "href", "#" }}, text(ctx.getTranslatedProp(tenant)))
+                a(new String[][] { { "href", "/edit/pagelifecycle/intern/SwitchBranch?" + newBranchParam + "&" + backUrlParam}}, //
+                    text(StringUtils.isBlank(tenant) == true ? "ONLINE" : ctx.getTranslatedProp(tenant)))
             ));
           }
           menu.nest(entryList);
