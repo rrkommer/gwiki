@@ -654,6 +654,8 @@ public class GWikiFileStorage implements GWikiStorage
   {
     GWikiProps p = el.getElementInfo().getProps();
     String uname = wikiWeb.getAuthorization().getCurrentUserName(GWikiContext.getCurrent());
+    int oldVersion = p.getIntValue(GWikiPropKeys.VERSION, 0);
+    p.setIntValue(GWikiPropKeys.VERSION, oldVersion + 1);
     Date now = new Date();
     if (p.getStringValue(GWikiPropKeys.CREATEDBY, null) == null) {
       p.setStringValue(GWikiPropKeys.CREATEDBY, uname);

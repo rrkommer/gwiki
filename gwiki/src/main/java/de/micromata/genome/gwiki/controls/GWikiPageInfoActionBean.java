@@ -50,6 +50,8 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+import de.micromata.genome.gwiki.page.impl.GWikiChangeCommentArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
@@ -57,6 +59,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.utils.WebUtils;
+import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
@@ -283,6 +286,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     ta.nest(//
         tr(//
             th(code("&nbsp;")), //
+            th(code("&nbsp;")), //
             th(text(translate("gwiki.page.edit.PageInfo.version.label.author"))), //
             th(text(translate("gwiki.page.edit.PageInfo.version.label.time"))), //
             th(text(translate("gwiki.page.edit.PageInfo.version.label.action"))) //
@@ -293,6 +297,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       ta.nest(//
           tr(//
               td(code("<input type=\"checkbox\" name=\"compareVersions\" value=\"" + ei.getId() + "\"")), //
+              td(text(Integer.toString(ei.getProps().getIntValue(GWikiPropKeys.VERSION, 0)))), //
               td(text(StringUtils.defaultString(ei.getProps().getStringValue(MODIFIEDBY), "Unknown"))), //
               td(text(getDisplayDate(ei.getProps().getDateValue(MODIFIEDAT)))), //
               td(//
@@ -319,6 +324,26 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     return ArrayUtils.indexOf(showBoxElements, boxName) != -1;
   }
 
+  protected String buildChangeComments()
+  {
+    GWikiElement el = wikiContext.getWikiWeb().findElement(elementInfo.getId());
+    if (el == null) {
+      return null;
+    }
+    GWikiArtefakt< ? > cc = el.getPart("ChangeComment");
+    if (cc == null && (cc instanceof GWikiChangeCommentArtefakt) == false) {
+      return null;
+    }
+    GWikiChangeCommentArtefakt cca = (GWikiChangeCommentArtefakt) cc;
+    GWikiStandaloneContext swk = GWikiStandaloneContext.create();
+    swk.setWikiElement(el);
+    swk.setCurrentPart(cca);
+    cca.render(swk);
+    String outs = swk.getOutString();
+    outs = getBoxFrame(translate("gwiki.page.edit.PageInfo.ChangeComments.title"), Xml.code(outs)).toString();
+    return outs;
+  }
+
   protected void initialize()
   {
     if (StringUtils.isEmpty(pageId) == true) {
@@ -341,6 +366,12 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     }
     if (showInfo("Attachments") == true) {
       infoBoxen.put("Attachments", buildAttachmentsBox());
+    }
+    if (showInfo("ChangeComments") == true) {
+      String cl = buildChangeComments();
+      if (StringUtils.isNotEmpty(cl) == true) {
+        infoBoxen.put("ChangeComments", cl);
+      }
     }
   }
 

@@ -39,7 +39,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.attachments.TextExtractor;
 import de.micromata.genome.gwiki.page.attachments.TxtTextExtractor;
 import de.micromata.genome.gwiki.page.attachments.XmlTextExtractor;
-import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 import de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.runtime.CallableX;
@@ -147,14 +147,15 @@ public class GWikiFilters
     });
   }
 
-  public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageArtefakt artefakt, GWikiWikiPageRenderFilter target)
+  public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageBaseArtefakt artefakt, GWikiWikiPageRenderFilter target)
   {
     GWikiWikiPageRenderFilterEvent event = new GWikiWikiPageRenderFilterEvent(ctx, artefakt);
     return new GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter>(this, target, renderWikiPageFilters)
         .nextFilter(event);
   }
 
-  public void compileWikiWikiPage(GWikiContext ctx, GWikiElement element, GWikiWikiPageArtefakt artefakt, GWikiWikiPageCompileFilter target)
+  public void compileWikiWikiPage(GWikiContext ctx, GWikiElement element, GWikiWikiPageBaseArtefakt artefakt,
+      GWikiWikiPageCompileFilter target)
   {
     GWikiWikiPageCompileFilterEvent event = new GWikiWikiPageCompileFilterEvent(ctx, element, artefakt);
     new GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter>(this, target, wikiCompileFilters)
