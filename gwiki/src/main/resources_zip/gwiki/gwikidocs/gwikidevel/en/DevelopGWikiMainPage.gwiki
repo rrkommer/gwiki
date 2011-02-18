@@ -60,3 +60,12 @@ In your debug environment you have to define two variables:
 - {{-Dde.micromata.genome.gwiki.contextfile=src/main/resources/GWikiContext.xml}}.
 - {{-Dgwiki.dev.path=../gwiki}}: Point to the project path, where the gwiki project is checked out.
 
+h2. Releases
+h3. Patch Versions
+Unfortunatelly in all project files, you have to modify version nummerns.
+In the gwiki project there is a Java class PatchVersion, which replaces the current gwiki version number.
+If you add a gwiki project (plugin, library or application) which should base on the gwiki head development
+version, you should add there the file to patch.
+
+Call the Java class with following command line 
+-expected <oldversion> newversion.
