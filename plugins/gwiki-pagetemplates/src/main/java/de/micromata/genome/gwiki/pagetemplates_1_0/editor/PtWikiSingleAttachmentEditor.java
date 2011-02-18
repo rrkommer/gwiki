@@ -25,10 +25,12 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.WikiParserUtils;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
@@ -54,11 +56,6 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
   @Override
   public boolean renderWithParts(GWikiContext ctx)  
   {
-    String content = StringEscapeUtils.escapeHtml(getEditContent());
-    String img = WikiParserUtils.wiki2html(content, RenderModes.combine(RenderModes.LocalImageLinks));
-      
-    ctx.append(img);
-      
     final String discover = ctx.getTranslated("gwiki.editor.image.discover");
       
     XmlElement inputFile = input( //
@@ -82,6 +79,26 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
     ctx.append(table.toString());
     
     return true;
+  }
+
+  /* (non-Javadoc)
+   * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void onSave(GWikiContext ctx) 
+  {
+    String href = super.saveContent(ctx);
+    
+    String title = ctx.getRequest().getParameter("title");
+    
+    GWikiFragmentLink link = new GWikiFragmentLink(href);
+    
+    if (StringUtils.isNotEmpty(title)) 
+    {
+      link.setTitle(title);
+    }
+
+    updateSection(link.toString());
+    
   }
 
 }

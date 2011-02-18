@@ -17,10 +17,16 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.textarea;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -43,12 +49,15 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    ctx.append("<textarea name=\"" + sectionName + "\"");
-    renderAttr(ctx, "name", sectionName);
-    renderAttr(ctx, "cols", "120");
-    renderAttr(ctx, "rows", "40");
-    renderAttr(ctx, "onchange", "javascript:gwikiEditorContentChanged = true");
-    ctx.append(">" + StringEscapeUtils.escapeHtml(getEditContent()) + "</textarea>");
+    XmlElement textarea = textarea( //
+        attrs("name", sectionName, //
+            "cols", "120", //
+            "rows", "40")) //
+            //"onchange", "javascript:gwikiEditorContentChanged = true")) //
+        .nest(text(StringEscapeUtils.escapeHtml(getEditContent())));
+        
+    ctx.append(textarea.toString());
+    
     return true;
   }
 

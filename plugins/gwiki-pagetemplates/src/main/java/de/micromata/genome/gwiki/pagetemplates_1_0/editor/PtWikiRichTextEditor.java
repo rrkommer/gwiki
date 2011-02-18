@@ -92,8 +92,13 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase //implements GWik
     
     String result = sctx.getOutString();
     
-    String html = Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", textareaId, "id", textareaId), // 
+    String html = Html.textarea( //
+        Xml.attrs("rows", "40", //
+            "cols", "120", //
+            "name", textareaId, //
+            "id", textareaId), // 
         Xml.text(result)).toString();
+    
     String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n" + "setTimeout(function() {\n"
         + "gwikiCreateTiny('"
         + textareaId
@@ -104,6 +109,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase //implements GWik
 
     ctx.append(html);
     ctx.append(script);
+    
     return true;
   }
 

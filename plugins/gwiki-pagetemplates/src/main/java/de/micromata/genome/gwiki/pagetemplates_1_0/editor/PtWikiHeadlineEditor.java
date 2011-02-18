@@ -17,10 +17,14 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
@@ -43,13 +47,19 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    ctx.append("Headline: ");
-    ctx.append("<input");
-    renderAttr(ctx, "name", sectionName);
-    renderAttr(ctx, "value", StringEscapeUtils.escapeHtml(getEditContent()));
-    renderAttr(ctx, "style", "margin:10px 0 25px 0;");
-    renderAttr(ctx, "width", "200px");
-    ctx.append("/>");
+    
+    XmlElement input = input( //
+        attrs("name", sectionName,// 
+            "value", StringEscapeUtils.escapeHtml(getEditContent()), // 
+            "style", "margin:10px 0 25px 0;", // 
+            "size", "50"));
+    
+
+    final String headline = ctx.getTranslated("gwiki.editor.headline.headline");
+    
+    ctx.append(headline);
+    ctx.append(input.toString());
+
     return true;
   }
 

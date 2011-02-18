@@ -28,8 +28,10 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.RenderModes;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.WikiParserUtils;
+import de.micromata.genome.gwiki.page.impl.GWikiContent;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -55,17 +57,28 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
   public boolean renderWithParts(GWikiContext ctx)  
   {
     String content = StringEscapeUtils.escapeHtml(getEditContent());
-    String img = WikiParserUtils.wiki2html(content, RenderModes.combine(RenderModes.LocalImageLinks));
-      
-    ctx.append(img);
-      
+    GWikiWikiParser wkparse = new GWikiWikiParser();
+    GWikiContent gwikiContent = wkparse.parse(ctx, content);
+    
+    GWikiCollectFragmentTypeVisitor images = new GWikiCollectFragmentTypeVisitor(GWikiFragmentImage.class);
+    gwikiContent.iterate(images);
+    
+    GWikiFragmentImage img = null;
+    
+    if (!images.getFound().isEmpty())
+    {
+      img = (GWikiFragmentImage) images.getFound().get(0);
+      img.setStyle("margin-top:20px");
+      img.render(ctx);
+    }
+    
     final String discover = ctx.getTranslated("gwiki.editor.image.discover");
     
     XmlElement input = input( //
         attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
         
     XmlElement table = table( //
-        attrs()).nest( //
+        attrs("style", "margin:20px 0")).nest( //
             tr( //
                 td(text(discover)), //
                 td(input) //
@@ -74,5 +87,15 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     ctx.append(table.toString());
     return true;
   }
+  
+  public void onSave(GWikiContext ctx) {
+    String content = super.saveContent(ctx);
+    
+    GWikiFragmentImage image = new GWikiFragmentImage(content);
+    String newContent = image.toString();
+    
+    updateSection(newContent);
+  }
+  
 
 }

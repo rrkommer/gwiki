@@ -55,20 +55,32 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   private GWikiEditorArtefakt< ? > createEditor()
   {
     
-    if (pageId != null) {
+    if (pageId != null) 
+    {
       element = wikiContext.getWikiWeb().getElement(pageId);
       
-      if (StringUtils.equals(editor, EDITOR_RTE)) {
+      if (StringUtils.equals(editor, EDITOR_RTE)) 
+      {
         return new PtWikiRichTextEditor(element, sectionName, editor);   
-      } else if (StringUtils.equals(editor, EDITOR_RAW)) {
+      } 
+      else if (StringUtils.equals(editor, EDITOR_RAW)) 
+      {
         return new PtWikiRawTextEditor(element, sectionName, editor);
-      } else if (StringUtils.equals(editor, EDITOR_HL)) {
+      } 
+      else if (StringUtils.equals(editor, EDITOR_HL)) 
+      {
         return new PtWikiHeadlineEditor(element, sectionName, editor);
-      } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
+      } 
+      else if (StringUtils.equals(editor, EDITOR_IMAGE)) 
+      {
         return new PtWikiImageEditor(element, sectionName, editor);
-      } else if (StringUtils.equals(editor, EDITOR_LINK)) {
+      } 
+      else if (StringUtils.equals(editor, EDITOR_LINK)) 
+      {
         return new PtWikiLinkEditor(element, sectionName, editor);
-      } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
+      } 
+      else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) 
+      {
         return new PtWikiSingleAttachmentEditor(element, sectionName, editor);
       }
       
@@ -147,5 +159,5 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   {
     this.secEditor = secEditor;
   }
-  
+
 }

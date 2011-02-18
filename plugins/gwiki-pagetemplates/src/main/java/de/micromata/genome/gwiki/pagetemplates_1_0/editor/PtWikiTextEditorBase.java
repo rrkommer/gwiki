@@ -25,7 +25,13 @@ import org.apache.commons.lang.StringEscapeUtils;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -155,5 +161,5 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     }
     return wikiText.substring(startSec, endSec);
   }
-
+  
 }

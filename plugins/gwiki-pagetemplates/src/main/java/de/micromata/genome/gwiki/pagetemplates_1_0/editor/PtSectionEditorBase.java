@@ -36,7 +36,8 @@ public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiA
   protected String sectionName;
 
   protected String editor;
-
+  
+  
   public PtSectionEditorBase(GWikiElement element, String sectionName, String editor)
   {
     this.element = element;
