@@ -30,6 +30,10 @@ renderBox('Attachments', '', '<br/>');
 </td>
 <% renderBox('VersionInfo', '<td valign="top">', '</td>'); %>
 </tr>
+<tr>
+<% renderBox('ChangeComments', '<td valign="top">', '</td>'); %>
+
+</tr>
 </table>
 </form>
 </div>
