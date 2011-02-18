@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -47,14 +48,17 @@ public class GWikiProps implements Serializable
 
   private static final long serialVersionUID = 6530388862209381595L;
 
+  public static final TimeZone UTC_TIMEZONE = TimeZone.getTimeZone("UTC");
+
   public static ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>() {
 
     @Override
     protected SimpleDateFormat initialValue()
     {
-      return new SimpleDateFormat("yyyyMMddHHmmssSSS");
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+      sdf.setTimeZone(UTC_TIMEZONE);
+      return sdf;
     }
-
   };
 
   /**
@@ -70,7 +74,8 @@ public class GWikiProps implements Serializable
       return null;
     }
     try {
-      return internalTimestamp.get().parse(date);
+      Date ld = internalTimestamp.get().parse(date);
+      return ld;
     } catch (ParseException ex) {
       throw new RuntimeException("Cannot parse date: " + date + "; " + ex.getMessage(), ex);
 
@@ -154,7 +159,7 @@ public class GWikiProps implements Serializable
   {
     if (date == null)
       return null;
-    return internalTimestamp.get().format(date);
+    return date2string(date);
   }
 
   public static Date parseTimeStamp(String d)
@@ -162,11 +167,8 @@ public class GWikiProps implements Serializable
     if (StringUtils.isBlank(d) == true) {
       return null;
     }
-    try {
-      return internalTimestamp.get().parse(d);
-    } catch (ParseException ex) {
-      throw new RuntimeException(ex);
-    }
+    return string2date(d);
+
   }
 
   public String getStringValue(String key)
@@ -216,7 +218,7 @@ public class GWikiProps implements Serializable
     if (date == null)
       map.remove(key);
     else
-      map.put(key, internalTimestamp.get().format(date));
+      map.put(key, date2string(date));
   }
 
   public Date getDateValue(String key)
@@ -225,11 +227,7 @@ public class GWikiProps implements Serializable
     if (StringUtils.isBlank(sv) == true) {
       return null;
     }
-    try {
-      return internalTimestamp.get().parse(sv);
-    } catch (ParseException ex) {
-      throw new RuntimeException(ex);
-    }
+    return string2date(sv);
   }
 
   public boolean getBooleanValue(String key)
