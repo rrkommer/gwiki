@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<%
+
+	/**
+	used home page by default
+	*/
+	String rootPage = null;
+/*
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="always"/>
+<xsd:enumeration value="hourly"/>
+<xsd:enumeration value="daily"/>
+<xsd:enumeration value="weekly"/>
+<xsd:enumeration value="monthly"/>
+<xsd:enumeration value="yearly"/>
+<xsd:enumeration value="never"/>
+</xsd:restriction>
+*/
+	String defaultChangeFrag = "daily";
+	de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro.renderSitemap(wikiContext, rootPage, defaultChangeFrag); 
+%>
+</urlset>
