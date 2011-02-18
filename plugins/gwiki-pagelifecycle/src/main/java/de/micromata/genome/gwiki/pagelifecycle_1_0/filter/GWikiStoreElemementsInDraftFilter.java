@@ -32,7 +32,7 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
- * Filter that ensures the user in the draft context while stroring new elements
+ * Filter that ensures the user in the draft context while storing new elements
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
@@ -60,7 +60,7 @@ public class GWikiStoreElemementsInDraftFilter implements GWikiStorageStoreEleme
 
     GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
 
-    ensureDraftBranch(multipleSelector, ctx);
+    ensureDraftBranchMetaFiles(multipleSelector, ctx);
     multipleSelector.enterTenant(ctx, PlcConstants.DRAFT_ID);
     return chain.nextFilter(event);
   }
@@ -68,7 +68,7 @@ public class GWikiStoreElemementsInDraftFilter implements GWikiStorageStoreEleme
   /**
    * Ensures that all required branch meta files are present. if not they will be created
    */
-  private void ensureDraftBranch(final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
+  private void ensureDraftBranchMetaFiles(final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
   {
     wikiContext.runInTenantContext(PlcConstants.DRAFT_ID, wikiSelector, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException

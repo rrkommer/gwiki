@@ -23,6 +23,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilterEvent;
 import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilterEvent.LoginState;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
+import de.micromata.genome.gwiki.model.mpt.GWikiReqSessionMptIdSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 
@@ -37,6 +38,7 @@ public class GWikiSwitchUserToDraftFilter implements GWikiUserLogonFilter
   public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
   {
     if (LoginState.Logout.equals(event.getLoginState()) == true) {
+      event.getWikiContext().getRequest().getSession().removeAttribute(GWikiReqSessionMptIdSelector.MPT_KEY);
       return chain.nextFilter(event);
     }
 

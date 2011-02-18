@@ -1,0 +1,5 @@
+{pageintro}
+This is the category title
+{pageintro}
+
+{children:depth=3|sort=title|withPageIntro=true}

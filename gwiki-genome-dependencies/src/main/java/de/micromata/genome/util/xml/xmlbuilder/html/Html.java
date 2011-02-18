@@ -211,6 +211,7 @@ public class Html
     ret.nest(childs);
     return ret;
   }
+  
   public static XmlElement li(String[][] attributes, XmlNode... childs)
   {
     return new XmlElement("li", attributes, childs);
@@ -244,6 +245,26 @@ public class Html
   public static XmlElement span(XmlNode... childs)
   {
     final XmlElement ret = new XmlElement("span", Xml.attrs());
+    ret.nest(childs);
+    return ret;
+  }
+
+  public static XmlElement div(String[][] attributes, XmlNode... childs)
+  {
+    final XmlElement ret = new XmlElement("div", attributes);
+    ret.nest(childs);
+    return ret;
+  }
+  
+  public static XmlElement div(String... attributes)
+  {
+    final XmlElement ret = new XmlElement("div", attributes);
+    return ret;
+  }
+  
+  public static XmlElement div(XmlNode... childs)
+  {
+    final XmlElement ret = new XmlElement("div", Xml.attrs());
     ret.nest(childs);
     return ret;
   }
