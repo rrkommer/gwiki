@@ -57,6 +57,34 @@ public class GWikiProps implements Serializable
 
   };
 
+  /**
+   * convert Stringified date to internal Date
+   * 
+   * @Todo use utc.
+   * @param date
+   * @return
+   */
+  public static Date string2date(String date)
+  {
+    if (StringUtils.isEmpty(date) == true) {
+      return null;
+    }
+    try {
+      return internalTimestamp.get().parse(date);
+    } catch (ParseException ex) {
+      throw new RuntimeException("Cannot parse date: " + date + "; " + ex.getMessage(), ex);
+
+    }
+  }
+
+  public static String date2string(Date date)
+  {
+    if (date == null) {
+      return null;
+    }
+    return internalTimestamp.get().format(date);
+  }
+
   private Map<String, String> map;
 
   public GWikiProps()

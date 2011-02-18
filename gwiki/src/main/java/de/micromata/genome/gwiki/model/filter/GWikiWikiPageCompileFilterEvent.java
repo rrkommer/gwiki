@@ -20,7 +20,7 @@ package de.micromata.genome.gwiki.model.filter;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 
 /**
  * Event for a GWikiWikiPageCompileFilter.
@@ -32,21 +32,21 @@ public class GWikiWikiPageCompileFilterEvent extends GWikiFilterEvent
 {
   protected GWikiElement element;
 
-  protected GWikiWikiPageArtefakt wikiPageArtefakt;
+  protected GWikiWikiPageBaseArtefakt wikiPageArtefakt;
 
-  public GWikiWikiPageCompileFilterEvent(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiPageArtefakt)
+  public GWikiWikiPageCompileFilterEvent(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageBaseArtefakt wikiPageArtefakt)
   {
     super(wikiContext);
     this.element = element;
     this.wikiPageArtefakt = wikiPageArtefakt;
   }
 
-  public GWikiWikiPageArtefakt getWikiPageArtefakt()
+  public GWikiWikiPageBaseArtefakt getWikiPageArtefakt()
   {
     return wikiPageArtefakt;
   }
 
-  public void setWikiPageArtefakt(GWikiWikiPageArtefakt wikiPageArtefakt)
+  public void setWikiPageArtefakt(GWikiWikiPageBaseArtefakt wikiPageArtefakt)
   {
     this.wikiPageArtefakt = wikiPageArtefakt;
   }

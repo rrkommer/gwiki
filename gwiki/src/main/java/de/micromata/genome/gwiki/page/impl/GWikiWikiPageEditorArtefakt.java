@@ -44,10 +44,10 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
 
   private static final long serialVersionUID = -3208103086581392210L;
 
-  private GWikiWikiPageArtefakt wikiPage;
+  private GWikiWikiPageBaseArtefakt wikiPage;
 
   public GWikiWikiPageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
-      GWikiWikiPageArtefakt wikiPage)
+      GWikiWikiPageBaseArtefakt wikiPage)
   {
     super(elementToEdit, editBean, partName, wikiPage);
     this.wikiPage = wikiPage;

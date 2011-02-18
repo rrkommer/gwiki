@@ -46,6 +46,11 @@ public interface GWikiPropKeys
 
   public static final String MODIFIEDBY = "MODIFIEDBY";
 
+  /**
+   * Simple Counter.
+   */
+  public static final String VERSION = "VERSION";
+
   public static final String PARENTPAGE = "PARENTPAGE";
 
   public static final String TITLE = "TITLE";

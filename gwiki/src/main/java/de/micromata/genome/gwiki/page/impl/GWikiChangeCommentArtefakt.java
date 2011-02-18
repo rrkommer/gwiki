@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,38 +13,37 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
+package de.micromata.genome.gwiki.page.impl;
 
-package de.micromata.genome.gwiki.model.filter;
-
-import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
+import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 
 /**
- * Event for a GWikiWikiPageRenderFilter.
- * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiWikiPageRenderFilterEvent extends GWikiFilterEvent
+public class GWikiChangeCommentArtefakt extends GWikiWikiPageBaseArtefakt implements GWikiExecutableArtefakt<GWikiContent>,
+    GWikiEditableArtefakt
 {
-  protected GWikiWikiPageBaseArtefakt wikiPageArtefakt;
 
-  public GWikiWikiPageRenderFilterEvent(GWikiContext wikiContext, GWikiWikiPageBaseArtefakt wikiPageArtefakt)
+  private static final long serialVersionUID = 9215091726776945882L;
+
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
   {
-    super(wikiContext);
-    this.wikiPageArtefakt = wikiPageArtefakt;
+    return new GWikiChangeCommentEditorArtefakt(elementToEdit, bean, partName, this);
   }
 
-  public GWikiWikiPageBaseArtefakt getWikiPageArtefakt()
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiPersistArtefakt#getFileSuffix()
+   */
+  public String getFileSuffix()
   {
-    return wikiPageArtefakt;
-  }
-
-  public void setWikiPageArtefakt(GWikiWikiPageBaseArtefakt wikiPageArtefakt)
-  {
-    this.wikiPageArtefakt = wikiPageArtefakt;
+    return ".gwiki";
   }
 
 }
