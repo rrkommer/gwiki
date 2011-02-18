@@ -18,13 +18,17 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiContextUtils;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -241,6 +245,56 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       ctx.append("</li>\n"); // close child
     }
     ctx.append("\n</ul>\n");
+  }
+
+  public static final ThreadLocal<SimpleDateFormat> SITE_CONTENT_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+
+    @Override
+    protected SimpleDateFormat initialValue()
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+      sdf.setTimeZone(GWikiProps.UTC_TIMEZONE);
+      return sdf;
+    }
+
+  };
+
+  public static void renderSitemapChildren(GWikiContext wikiContext, GWikiElementInfo ei, String defaultChageFreq)
+  {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
+      return;
+    }
+    if (ei.isNoToc() == true) {
+      return;
+    }
+    wikiContext.getWikiWeb().getWikiConfig().getPublicURL();
+    wikiContext.append("<url><loc>").append(wikiContext.globalUrl(ei.getId())).append("</loc>\n"); //
+    Date d = ei.getModifiedAt();
+    if (d != null) {
+      wikiContext.append("<lastmod>").append(SITE_CONTENT_FORMAT.get().format(d)).append("</lastmod>");
+    }
+    if (StringUtils.isNotEmpty(defaultChageFreq) == true) {
+      wikiContext.append("<changefreq>").append(StringEscapeUtils.escapeXml(defaultChageFreq)).append("</changefreq>\n");
+    }
+
+    wikiContext.append("</url>\n");
+
+    List<GWikiElementInfo> cl = wikiContext.getElementFinder().getAllDirectChilds(ei);
+    for (GWikiElementInfo ce : cl) {
+      renderSitemapChildren(wikiContext, ce, defaultChageFreq);
+    }
+  }
+
+  public static void renderSitemap(GWikiContext wikiContext, String rootId, String defaultChageFreq)
+  {
+    if (StringUtils.isEmpty(rootId) == true) {
+      rootId = wikiContext.getWikiWeb().getWikiConfig().getWelcomePageId();
+    }
+    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(rootId);
+    if (ei != null) {
+      renderSitemapChildren(wikiContext, ei, defaultChageFreq);
+    }
+
   }
 
   public boolean isAll()
