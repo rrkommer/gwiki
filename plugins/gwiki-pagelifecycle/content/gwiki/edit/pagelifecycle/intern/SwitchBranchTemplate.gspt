@@ -1,0 +1,4 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<% wikiContext.skinInclude("standardfoot"); %>
