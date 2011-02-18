@@ -1,0 +1,62 @@
+{pageintro}
+How to create a robots.txt and sitemap.xml for search engines.
+{pageintro}
+
+h2. Create a robots.txt
+If gwiki is deployed under the root context on a web server, you can create an robots.txt inside the
+gwiki itself.
+You need {{GWIKI_ADMIN}} and {{GWIKI_DEVELOPER}} right for this.
+
+In the root directory create robots.txt as new "Jsp Page".
+{note}
+Sometime a new file will be created under the directory of the current page. so {{robots.txt}} may be created
+in a subdirectory. You can move the {{robots.txt}} after created to the root directory of the GWiki Storage.
+{note}
+
+Sample Content:
+{code}
+# Configuration of web crawler
+User-agent: *
+Disallow:
+Disallow: /admin/
+Disallow: /edit/
+Disallow: /inc/
+Disallow: /tmp/
+
+# Sitemap
+Sitemap: <%= wikiContext.globalUrl("inc/sitemap.xml") %>
+{code}
+
+h2. sitemap.xml
+GWiki provides a standard {{sitemap.xml}} in the inc directory. As shown in the last chapter, you can refer this {{sitemap.xml}} in the {{robots.txt}}.
+
+The content of {{sitemap.xml}}:
+{code}
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+ http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<%
+
+	/**
+	used home page by default
+	*/
+	String rootPage = null;
+/*
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="always"/>
+<xsd:enumeration value="hourly"/>
+<xsd:enumeration value="daily"/>
+<xsd:enumeration value="weekly"/>
+<xsd:enumeration value="monthly"/>
+<xsd:enumeration value="yearly"/>
+<xsd:enumeration value="never"/>
+</xsd:restriction>
+*/
+	String defaultChangeFrag = "daily";
+	de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro.renderSitemap(wikiContext, rootPage, defaultChangeFrag); 
+%>
+</urlset>
+{code}
+You can edit the rootPage (a pageId inside gwiki) and defaultChangeFrag value in the code.
