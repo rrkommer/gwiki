@@ -21,6 +21,10 @@
 									<bean
 										class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
 								</entry>
+								<entry key="ChangeComment">
+									<bean
+										class="de.micromata.genome.gwiki.page.impl.GWikiChangeCommentArtefakt" />
+								</entry>
 							</map>
 						</property>
 					</bean>
