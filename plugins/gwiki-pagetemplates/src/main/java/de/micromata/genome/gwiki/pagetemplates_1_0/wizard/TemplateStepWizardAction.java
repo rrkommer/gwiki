@@ -18,8 +18,10 @@
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.code;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.div;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
@@ -28,22 +30,14 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gdbfs.NIOUtils;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAttachment;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
-import de.micromata.genome.gwiki.model.GWikiLog;
-import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiProps;
-import de.micromata.genome.gwiki.model.GWikiWikiSelector;
-import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
-import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
@@ -51,11 +45,10 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
-import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
- * Step which applies the selected template to the recent saved page
+ * Step which applies the selected template to the recent saved page/category
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
@@ -67,8 +60,8 @@ public class TemplateStepWizardAction extends ActionBeanBase
   /*
    * Template
    */
-  private String selectedPageTemplate;
-
+  private String tplSelectedPageTemplate;
+  
   /*
    * (non-Javadoc)
    * 
@@ -79,90 +72,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
   {
     return null;
   }
-
-  /**
-   * renders a table with available page templates
-   */
-  public void renderTemplates()
-  {
-    // find page templates
-    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
-    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
-
-    // table header
-    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
-    table.nest(//
-        tr(//
-        th(text(translate("gwiki.page.articleWizard.template.select"))), //
-        th(text(translate("gwiki.page.articleWizard.template.name"))), //
-            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
-            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
-        ));
-
-    // render each template in row
-    for (final GWikiElementInfo ei : ret) {
-      final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
-      if (el == null || ei.isViewable() == false) {
-        continue;
-      }
-
-      final String part = "MainPage";
-      GWikiArtefakt< ? > art = null;
-      if (StringUtils.isNotEmpty(part) == true) {
-        art = el.getPart(part);
-      } else {
-        art = el.getMainPart();
-      }
-      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
-        continue;
-      }
-      final String desc = wikiContext.getTranslatedProp(ei.getProps().getStringValue("DESCRIPTION"));
-      final String name = wikiContext.getTranslatedProp(ei.getProps().getStringValue("NAME"));
-      final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
-      final String renderedPreview = renderPreview(exec);
-
-      StringBuffer sb = new StringBuffer();
-      sb.append("displayHilfeLayer('<div style=\"font-size:0.6em;size:0.6em;\">");
-      sb.append(StringEscapeUtils.escapeJavaScript(renderedPreview));
-      sb.append("</div>");
-      sb.append("', '").append(wikiContext.genHtmlId(""));
-      sb.append("')");
-
-      // render template row
-      table.nest( //
-          tr(//
-          td(input("type", "radio", "name", "selectedPageTemplate", "value", ei.getId())), //
-              td(text(name)), //
-              td(text(desc)), //
-              td(new String[][] { { "valign", "top"}}, //
-                  a(new String[][] { //
-                  { "class", "wikiSmartTag"}, { "href", "#"}, { "onclick", "return false;"}, { "onmouseout", "doNotOpenHilfeLayer();"},
-                      { "onmouseover", sb.toString()}//
-                  }, text(translate("gwiki.page.articleWizard.template.preview"))))));
-    }
-
-    // write table
-    wikiContext.append(table.toString());
-  }
-
-  /**
-   * Generates HTML Output of given executable artefakt
-   * 
-   * @param exec artefakt
-   * @return rendered output
-   */
-  private String renderPreview(final GWikiExecutableArtefakt< ? > exec)
-  {
-    final GWikiStandaloneContext standaloneContext = GWikiStandaloneContext.create();
-    standaloneContext.setRequestAttribute(GWikiFragmentImage.WIKI_MAX_IMAGE_WIDTH, "100px");
-    standaloneContext.setRenderMode(RenderModes.LocalImageLinks.getFlag());
-    standaloneContext.setWikiElement(wikiContext.getCurrentElement());
-    standaloneContext.setCurrentPart(exec);
-    exec.render(standaloneContext);
-    standaloneContext.flush();
-    return standaloneContext.getOutString();
-  }
-
+  
   public Object onSave()
   {
     if (element == null) {
@@ -170,7 +80,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
     }
 
     // load page template and extract content
-    final GWikiElement tpl = wikiContext.getWikiWeb().findElement(selectedPageTemplate);
+    final GWikiElement tpl = wikiContext.getWikiWeb().findElement(tplSelectedPageTemplate);
     GWikiArtefakt< ? > tplArtefakt = tpl.getPart("MainPage");
     if (tplArtefakt instanceof GWikiWikiPageArtefakt == false) {
       return noForward();
@@ -193,26 +103,112 @@ public class TemplateStepWizardAction extends ActionBeanBase
 
   public Object onValidate()
   {
-    if (StringUtils.isBlank(this.selectedPageTemplate)) {
+    if (StringUtils.isBlank(this.tplSelectedPageTemplate)) {
       wikiContext.addValidationError("gwiki.page.articleWizard.error.noTemplate");
     }
     return null;
   }
 
+
+  /**
+   * renders a table with available page templates
+   */
+  public void renderTemplates() {
+    // find page templates
+    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
+    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
+
+    // table header
+    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
+    table.nest(//
+        tr(//
+        th(text(translate("gwiki.page.articleWizard.template.select"))), //
+        th(text(translate("gwiki.page.articleWizard.template.name"))), //
+            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
+            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
+        ));
+
+
+    StringBuilder script = new StringBuilder("<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n");
+    
+    // render each template in row
+    int row = 1;
+    for (final GWikiElementInfo ei : ret) {
+      final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
+      if (el == null || ei.isViewable() == false) {
+        continue;
+      }
+
+      final String part = "MainPage";
+      GWikiArtefakt< ? > art = null;
+      if (StringUtils.isNotEmpty(part) == true) {
+        art = el.getPart(part);
+      } else {
+        art = el.getMainPart();
+      }
+      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
+        continue;
+      }
+      final String desc = wikiContext.getTranslatedProp(ei.getProps().getStringValue("DESCRIPTION"));
+      final String name = wikiContext.getTranslatedProp(ei.getProps().getStringValue("TITLE"));
+      final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
+      final String renderedPreview = renderPreview(exec);
+
+      // render template row
+      table.nest( //
+          tr(//
+              td(input("type", "radio", "name", "tplSelectedPageTemplate", "value", ei.getId())), //
+              td(text(name)), //
+              td(text(desc)), //
+              td(a(new String[][]{{"href", "javascript:openPreviewDialog('tpl" + row + "')"}}, //
+                  text(wikiContext.getTranslated("gwiki.page.articleWizard.template.preview"))), //
+                  div(new String[][]{{"id", "tpl" + row}}, code(renderedPreview))
+                )
+             )
+       );
+      script.append("$(\"#tpl").append(row).append("\").dialog({ autoOpen: false,  height: 800,  width: 800 , modal: true});");
+      row++;
+    }
+    script.append("});\n" + "</script>");
+
+    // write table and JavaScript
+    wikiContext.append(table.toString());
+    wikiContext.append(script.toString());
+  }
+  
+  /**
+   * Generates HTML Output of given executable artefakt
+   * 
+   * @param exec artefakt
+   * @return rendered output
+   */
+  private String renderPreview(final GWikiExecutableArtefakt< ? > exec)
+  {
+    final GWikiStandaloneContext standaloneContext = GWikiStandaloneContext.create();
+    standaloneContext.setRequestAttribute(GWikiFragmentImage.WIKI_MAX_IMAGE_WIDTH, "300px");
+    standaloneContext.setRenderMode(RenderModes.LocalImageLinks.getFlag());
+    standaloneContext.setWikiElement(wikiContext.getCurrentElement());
+    standaloneContext.setCurrentPart(exec);
+    exec.render(standaloneContext);
+    standaloneContext.flush();
+    String prev = standaloneContext.getOutString();
+    return prev;
+  }
+
   /**
    * @param selectedPageTemplate the selectedPageTemplate to set
    */
-  public void setSelectedPageTemplate(String selectedPageTemplate)
+  public void setTplSelectedPageTemplate(String selectedPageTemplate)
   {
-    this.selectedPageTemplate = selectedPageTemplate;
+    this.tplSelectedPageTemplate = selectedPageTemplate;
   }
 
   /**
    * @return the selectedPageTemplate
    */
-  public String getSelectedPageTemplate()
+  public String getTplSelectedPageTemplate()
   {
-    return selectedPageTemplate;
+    return tplSelectedPageTemplate;
   }
 
   /**

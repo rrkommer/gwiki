@@ -50,12 +50,11 @@ import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
 {
 
-  private GWikiMptIdSelector mptIdSelector = new GWikiReqSessionMptIdSelector();
+  private GWikiMptIdSelector mptIdSelector;
 
   private Map<String, GWikiWeb> customWikis = Collections.synchronizedMap(new HashMap<String, GWikiWeb>());
 

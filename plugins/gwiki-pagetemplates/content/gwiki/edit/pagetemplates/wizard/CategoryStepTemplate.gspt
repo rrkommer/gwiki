@@ -2,13 +2,18 @@
 <div id="CategoryStep" >
    	<div class="wiz-content" style="height:500px;">
 	    		
-   		<!-- Seitentitel waehlen -->
 		<fieldset>
 			<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
 			<table>
+		   		<!-- Seitentitel waehlen -->
 				<tr>
 					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
-					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="pageTitle" /></td>
+					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageTitle" /></td>
+				</tr>
+		   		<!-- Seiten-ID waehlen -->
+				<tr>
+					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageId"/>:</td>
+					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageId" /></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -20,7 +25,7 @@
 				<tr>
 					<td width="200px"><fmt:message key="gwiki.page.articleWizard.category"/>:</td>
 					<td>
-						<gwiki:select id="selectedCategory1" property="selectedCategory1" onchange="loadAsync(2)" >
+						<gwiki:select id="catSelectedCategory1" property="catSelectedCategory1" onchange="loadAsync(2)" >
 							<option value="-1"><fmt:message key="gwiki.page.articleWizard.category.choose"/></option>
 							<c:forEach var="cat" items="${form.rootCategories}">
 								<option value="${cat.key}">${cat.value}</option>
@@ -53,7 +58,7 @@
  	
 	<script type="text/javascript">
 	  function loadAsync(level)  {
-		  var sel = \$("select[name=selectedCategory" + (level-1) + "]").val();
+		  var sel = \$("select[name=catSelectedCategory" + (level-1) + "]").val();
 		  
 		  jQuery.ajax({
 		    cache: false,

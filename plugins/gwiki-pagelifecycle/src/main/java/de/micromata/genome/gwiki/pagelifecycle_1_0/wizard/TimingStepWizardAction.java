@@ -17,36 +17,32 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.wizard;
 
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.th;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
-
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
-import de.micromata.genome.gwiki.model.GWikiAttachment;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
-import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
-import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
-import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiWebUtils;
+import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
-import de.micromata.genome.util.matcher.BooleanListRulesFactory;
-import de.micromata.genome.util.matcher.Matcher;
-import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.runtime.CallableX;
 
 /**
+ * Wizard step for persist article timing options 
+ * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
 public class TimingStepWizardAction extends ActionBeanBase
@@ -54,331 +50,297 @@ public class TimingStepWizardAction extends ActionBeanBase
 
   private GWikiElement element;
   
-  private List<String> availableReviewers;
+  private List<String> tmAvailableReviewers;
 
-  private String selectedReviewer;
+  private String tmSelectedReviewer;
 
-  private boolean immediately = true;
+  private boolean tmImmediately = true;
 
-  private Date from;
+  private Date tmFrom;
 
-  private String fromDate;
+  private String tmFromDate;
 
-  private int fromHour;
+  private int tmFromHour;
 
-  private int fromMin;
+  private int tmFromMin;
 
-  private int fromSec;
+  private Date tmTo;
 
-  private Date to;
+  private String tmToDate;
 
-  private String toDate;
+  private int tmToHour;
 
-  private int toHour;
-
-  private int toMin;
-
-  private int toSec;
-
-  /**
-   * renders a table with available page templates
-   */
-  public void renderTemplates()
-  {
-    // find page templates
-    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
-    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
-
-    // table header
-    XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
-    table.nest(//
-        tr(//
-        th(text(translate("gwiki.page.articleWizard.template.select"))), //
-        th(text(translate("gwiki.page.articleWizard.template.name"))), //
-            th(text(translate("gwiki.page.articleWizard.template.desc"))), //
-            th(text(translate("gwiki.page.articleWizard.template.preview"))) //
-        ));
-
-    // render each template in row
-    for (final GWikiElementInfo ei : ret) {
-      final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
-      if (el == null || ei.isViewable() == false) {
-        continue;
-      }
-
-      final String part = "MainPage";
-      GWikiArtefakt< ? > art = null;
-      if (StringUtils.isNotEmpty(part) == true) {
-        art = el.getPart(part);
-      } else {
-        art = el.getMainPart();
-      }
-      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
-        continue;
-      }
-      final String desc = wikiContext.getTranslatedProp(ei.getProps().getStringValue("DESCRIPTION"));
-      final String name = wikiContext.getTranslatedProp(ei.getProps().getStringValue("NAME"));
-      final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
-      final String renderedPreview = renderPreview(exec);
-
-      StringBuffer sb = new StringBuffer();
-      sb.append("displayHilfeLayer('<div style=\"font-size:0.6em;size:0.6em;\">");
-      sb.append(StringEscapeUtils.escapeJavaScript(renderedPreview));
-      sb.append("</div>");
-      sb.append("', '").append(wikiContext.genHtmlId(""));
-      sb.append("')");
-
-      // render template row
-      table.nest( //
-          tr(//
-          td(input("type", "radio", "name", "selectedPageTemplate", "value", ei.getId())), //
-              td(text(name)), //
-              td(text(desc)), //
-              td(new String[][] { { "valign", "top"}}, //
-                  a(new String[][] { //
-                  { "class", "wikiSmartTag"}, { "href", "#"}, { "onclick", "return false;"}, { "onmouseout", "doNotOpenHilfeLayer();"},
-                      { "onmouseover", sb.toString()}//
-                  }, text(translate("gwiki.page.articleWizard.template.preview"))))));
-    }
-
-    // write table
-    wikiContext.append(table.toString());
-  }
-
-  /**
-   * Generates HTML Output of given executable artefakt
-   * 
-   * @param exec artefakt
-   * @return rendered output
-   */
-  private String renderPreview(final GWikiExecutableArtefakt< ? > exec)
-  {
-    final GWikiStandaloneContext standaloneContext = GWikiStandaloneContext.create();
-    standaloneContext.setRequestAttribute(GWikiFragmentImage.WIKI_MAX_IMAGE_WIDTH, "100px");
-    standaloneContext.setRenderMode(RenderModes.LocalImageLinks.getFlag());
-    standaloneContext.setWikiElement(wikiContext.getCurrentElement());
-    standaloneContext.setCurrentPart(exec);
-    exec.render(standaloneContext);
-    standaloneContext.flush();
-    return standaloneContext.getOutString();
-  }
+  private int tmToMin;
 
   public Object onSave()
   {
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null || element == null) {
+      return noForward();
+    }
+
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
+      return noForward();
+    }
+
+    GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+    String currentTenant = multipleSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
+    if (StringUtils.isBlank(currentTenant) == true) {
+      // TODO stefan Das ist blöd da hier mögliche Infos verloren gehen. Spätestens beim Persisitieren wird der 
+      // Nutzer implizit in einem Branch gewechselt (wenn er kein Admin ist) 
+      GWikiLog.warn("Could not save timing information. User is not in tenant context.");  
+      return noForward();
+    }
+    
+    // ensures branchfileststats present
+    ensureBranchFileStatsPresent(currentTenant, multipleSelector, wikiContext);
+    
+    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
+    synchronized (fileStats.getElementInfo()) {
+      GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+      if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+        return noForward();
+      }
+
+      GWikiBranchFileStatsArtefakt fileStatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+      BranchFileStats fileStatsContent = fileStatsArtefakt.getCompiledObject();
+
+      String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
+      
+      FileStatsDO newFileStat = new FileStatsDO();
+      newFileStat.setPageId(element.getElementInfo().getId());
+      newFileStat.setFileState(FileState.DRAFT);
+      newFileStat.setCreatedAt(GWikiProps.formatTimeStamp(new Date()));
+      newFileStat.setCreatedBy(currentUserName);
+      newFileStat.setAssignedTo(currentUserName); // initial assigned to creator
+      newFileStat.setStartAt(getStartAt());
+      newFileStat.setEndAt(getEndAt());
+      newFileStat.setOperators(new HashSet<String>(Arrays.asList(currentUserName)));
+      fileStatsContent.addFileStats(newFileStat);
+
+      fileStatsArtefakt.setStorageData(fileStatsContent.toString());
+      wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+    }
+    return null;
+  }
+
+  /**
+   * @return
+   */
+  private String getEndAt()
+  {
+    return null;
+  }
+
+  /**
+   * @return
+   */
+  private String getStartAt()
+  {
+    // TODO Auto-generated method stub
     return null;
   }
 
   public Object onValidate()
   {
+    //ensure
     return null;
+  }
+  
+  /**
+   * Ensures that all required branch meta files are present. if not they will be created
+   */
+  private void ensureBranchFileStatsPresent(final String branchId, final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
+  {
+    wikiContext.runInTenantContext(branchId, wikiSelector, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        // ensure filestats present
+        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
+        if (fileStats == null) {
+          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats",
+              "admin/templates/intern/GWikiBranchFileStatsTemplate", "Branch File Stats");
+          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+        }
+        return null;
+      }
+    });
   }
 
   /**
    * @return the availableReviewers
    */
-  public List<String> getAvailableReviewers()
+  public List<String> getTmAvailableReviewers()
   {
-    return availableReviewers;
+    return tmAvailableReviewers;
   }
 
   /**
    * @param availableReviewers the availableReviewers to set
    */
-  public void setAvailableReviewers(List<String> availableReviewers)
+  public void setTmAvailableReviewers(List<String> availableReviewers)
   {
-    this.availableReviewers = availableReviewers;
+    this.tmAvailableReviewers = availableReviewers;
   }
 
   /**
    * @return the selectedReviewer
    */
-  public String getSelectedReviewer()
+  public String getTmSelectedReviewer()
   {
-    return selectedReviewer;
+    return tmSelectedReviewer;
   }
 
   /**
    * @param selectedReviewer the selectedReviewer to set
    */
-  public void setSelectedReviewer(String selectedReviewer)
+  public void setTmSelectedReviewer(String selectedReviewer)
   {
-    this.selectedReviewer = selectedReviewer;
+    this.tmSelectedReviewer = selectedReviewer;
   }
 
   /**
    * @return the immediately
    */
-  public boolean isImmediately()
+  public boolean isTmImmediately()
   {
-    return immediately;
+    return tmImmediately;
   }
 
   /**
    * @param immediately the immediately to set
    */
-  public void setImmediately(boolean immediately)
+  public void setTmImmediately(boolean immediately)
   {
-    this.immediately = immediately;
+    this.tmImmediately = immediately;
   }
 
   /**
    * @return the from
    */
-  public Date getFrom()
+  public Date getTmFrom()
   {
-    return from;
+    return tmFrom;
   }
 
   /**
    * @param from the from to set
    */
-  public void setFrom(Date from)
+  public void setTmFrom(Date from)
   {
-    this.from = from;
+    this.tmFrom = from;
   }
 
   /**
    * @return the fromDate
    */
-  public String getFromDate()
+  public String getTmFromDate()
   {
-    return fromDate;
+    return tmFromDate;
   }
 
   /**
    * @param fromDate the fromDate to set
    */
-  public void setFromDate(String fromDate)
+  public void setTmFromDate(String fromDate)
   {
-    this.fromDate = fromDate;
+    this.tmFromDate = fromDate;
   }
 
   /**
    * @return the fromHour
    */
-  public int getFromHour()
+  public int getTmFromHour()
   {
-    return fromHour;
+    return tmFromHour;
   }
 
   /**
    * @param fromHour the fromHour to set
    */
-  public void setFromHour(int fromHour)
+  public void setTmFromHour(int fromHour)
   {
-    this.fromHour = fromHour;
+    this.tmFromHour = fromHour;
   }
 
   /**
    * @return the fromMin
    */
-  public int getFromMin()
+  public int getTmFromMin()
   {
-    return fromMin;
+    return tmFromMin;
   }
 
   /**
    * @param fromMin the fromMin to set
    */
-  public void setFromMin(int fromMin)
+  public void setTmFromMin(int fromMin)
   {
-    this.fromMin = fromMin;
-  }
-
-  /**
-   * @return the fromSec
-   */
-  public int getFromSec()
-  {
-    return fromSec;
-  }
-
-  /**
-   * @param fromSec the fromSec to set
-   */
-  public void setFromSec(int fromSec)
-  {
-    this.fromSec = fromSec;
+    this.tmFromMin = fromMin;
   }
 
   /**
    * @return the to
    */
-  public Date getTo()
+  public Date getTmTo()
   {
-    return to;
+    return tmTo;
   }
 
   /**
    * @param to the to to set
    */
-  public void setTo(Date to)
+  public void setTmTo(Date to)
   {
-    this.to = to;
+    this.tmTo = to;
   }
 
   /**
    * @return the toDate
    */
-  public String getToDate()
+  public String getTmToDate()
   {
-    return toDate;
+    return tmToDate;
   }
 
   /**
    * @param toDate the toDate to set
    */
-  public void setToDate(String toDate)
+  public void setTmToDate(String toDate)
   {
-    this.toDate = toDate;
+    this.tmToDate = toDate;
   }
 
   /**
    * @return the toHour
    */
-  public int getToHour()
+  public int getTmToHour()
   {
-    return toHour;
+    return tmToHour;
   }
 
   /**
    * @param toHour the toHour to set
    */
-  public void setToHour(int toHour)
+  public void setTmToHour(int toHour)
   {
-    this.toHour = toHour;
+    this.tmToHour = toHour;
   }
 
   /**
    * @return the toMin
    */
-  public int getToMin()
+  public int getTmToMin()
   {
-    return toMin;
+    return tmToMin;
   }
 
   /**
    * @param toMin the toMin to set
    */
-  public void setToMin(int toMin)
+  public void setTmToMin(int toMin)
   {
-    this.toMin = toMin;
-  }
-
-  /**
-   * @return the toSec
-   */
-  public int getToSec()
-  {
-    return toSec;
-  }
-
-  /**
-   * @param toSec the toSec to set
-   */
-  public void setToSec(int toSec)
-  {
-    this.toSec = toSec;
+    this.tmToMin = toMin;
   }
 
   /*

@@ -17,8 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
@@ -93,6 +96,18 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
       fileStatsDO.setLastModifiedAt(map.get(FileStatsDO.MODIFIED_AT));
       fileStatsDO.setLastModifiedBy(map.get(FileStatsDO.MODIFIED_BY));
       fileStatsDO.setAssignedTo(map.get(FileStatsDO.ASSIGNED_TO));
+      fileStatsDO.setStartAt(map.get(FileStatsDO.START_AT));
+      fileStatsDO.setEndAt(map.get(FileStatsDO.END_AT));
+      
+      String operatorsString = map.get(FileStatsDO.OPERATORS);
+      String[] operatorArray = StringUtils.split(operatorsString, ",");
+      if (operatorArray != null) {
+        Set<String> operators = new HashSet<String>();
+        for (String operator : operatorArray) {
+          operators.add(operator); 
+        }
+        fileStatsDO.setOperators(operators);
+      }
 
       fileStats.addFileStats(fileStatsDO);
     }

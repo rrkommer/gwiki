@@ -119,6 +119,9 @@
 		</property>
 		<property name="wikiSelector">
 			<bean class="de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector">
+				<property name="mptIdSelector">
+					<bean class="de.micromata.genome.gwiki.model.mpt.GWikiSessionMptIdSelector"/>
+				</property>
 			</bean>
 		</property>
 	</bean>

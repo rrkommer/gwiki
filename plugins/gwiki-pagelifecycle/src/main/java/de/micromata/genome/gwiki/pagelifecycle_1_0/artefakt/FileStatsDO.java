@@ -20,7 +20,9 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiProps;
@@ -48,6 +50,12 @@ public class FileStatsDO
 
   public static final String ASSIGNED_TO = "assigned_to";
 
+  public static final String OPERATORS = "operators";
+
+  public static final String START_AT = "start_at";
+
+  public static final String END_AT = "end_at";
+
   private String pageId;
 
   private FileState fileState;
@@ -61,6 +69,12 @@ public class FileStatsDO
   private String lastModifiedAt;
 
   private String assignedTo;
+
+  private Set<String> operators;
+
+  private String startAt;
+
+  private String endAt;
 
   /**
    * @return the pageId
@@ -179,6 +193,9 @@ public class FileStatsDO
     contentMap.put(CREATED_BY, createdBy);
     contentMap.put(MODIFIED_AT, StringUtils.defaultString(lastModifiedAt));
     contentMap.put(MODIFIED_BY, StringUtils.defaultString(lastModifiedBy));
+    contentMap.put(OPERATORS, StringUtils.defaultString(StringUtils.join(operators, ",")));
+    contentMap.put(START_AT, StringUtils.defaultString(startAt));
+    contentMap.put(END_AT, StringUtils.defaultString(endAt));
     return contentMap;
   }
 
@@ -196,5 +213,53 @@ public class FileStatsDO
   public String getAssignedTo()
   {
     return assignedTo;
+  }
+
+  /**
+   * @param operators the operators to set
+   */
+  public void setOperators(Set<String> operators)
+  {
+    this.operators = operators;
+  }
+
+  /**
+   * @return the operators
+   */
+  public Set<String> getOperators()
+  {
+    return operators;
+  }
+
+  /**
+   * @param startAt the startAt to set
+   */
+  public void setStartAt(String startAt)
+  {
+    this.startAt = startAt;
+  }
+
+  /**
+   * @return the startAt
+   */
+  public String getStartAt()
+  {
+    return startAt;
+  }
+
+  /**
+   * @param endAt the endAt to set
+   */
+  public void setEndAt(String endAt)
+  {
+    this.endAt = endAt;
+  }
+
+  /**
+   * @return the endAt
+   */
+  public String getEndAt()
+  {
+    return endAt;
   }
 }

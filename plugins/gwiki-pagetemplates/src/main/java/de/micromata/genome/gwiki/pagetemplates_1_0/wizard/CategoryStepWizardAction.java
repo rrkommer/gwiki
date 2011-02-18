@@ -27,6 +27,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Wizard step for choosing category
@@ -50,17 +51,19 @@ public class CategoryStepWizardAction extends ActionBeanBase
 
   private Map<String, String> rootCategories;
 
-  private String selectedCategory1;
+  private String catSelectedCategory1;
 
-  private String selectedCategory2;
+  private String catSelectedCategory2;
 
-  private String selectedCategory3;
+  private String catSelectedCategory3;
 
-  private String selectedCategory4;
+  private String catSelectedCategory4;
 
-  private String selectedCategory5;
+  private String catSelectedCategory5;
 
-  private String pageTitle;
+  private String catPageTitle;
+  
+  private String catPageId;
 
   /*
    * (non-Javadoc)
@@ -82,18 +85,25 @@ public class CategoryStepWizardAction extends ActionBeanBase
 
     final String parentPage = getParentPageId();
     
-    final String newPageId = parentPage + "/" + pageTitle;
+    final String newPageId = parentPage + "/" + WebUtils.encodeUrlParam(catPageId);
     element.getElementInfo().setId(newPageId);
     element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPage);
-    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, pageTitle);
+    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, catPageTitle);
 
     return noForward();
   }
 
   public Object onValidate()
   {
-    if (StringUtils.isBlank(this.pageTitle) == true) {
+    if (StringUtils.isBlank(catPageTitle) == true) {
       wikiContext.addValidationError("gwiki.page.articleWizard.error.noPageTitle");
+    }
+    if (StringUtils.isBlank(catPageId) == true) {
+      wikiContext.addValidationError("gwiki.page.articleWizard.error.noPageId");
+      return null;
+    }
+    if (catPageId.length() > 30) {
+      wikiContext.addValidationError("gwiki.page.articleWizard.error.invalidPageId");
     }
     return null;
   }
@@ -119,7 +129,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
     final GWikiElement el = wikiContext.getWikiWeb().findElement(superCategory);
     final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
 
-    final StringBuffer sb = new StringBuffer("<select name=\"selectedCategory").append(depth).append("\" onchange=\"loadAsync(")
+    final StringBuffer sb = new StringBuffer("<select name=\"catSelectedCategory").append(depth).append("\" onchange=\"loadAsync(")
         .append(depth + 1).append(")\">");
     sb.append("<option value=\"").append(NOT_A_CATEGORY).append("\">").append(defaultText).append("</option>");
     for (final GWikiElementInfo ei : childs) {
@@ -140,20 +150,20 @@ public class CategoryStepWizardAction extends ActionBeanBase
    */
   private String getParentPageId()
   {
-    if (StringUtils.isNotBlank(this.selectedCategory5) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.selectedCategory5) == false) {
-      return this.selectedCategory5;
+    if (StringUtils.isNotBlank(this.catSelectedCategory5) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.catSelectedCategory5) == false) {
+      return this.catSelectedCategory5;
     }
-    if (StringUtils.isNotBlank(this.selectedCategory4) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.selectedCategory4) == false) {
-      return this.selectedCategory4;
+    if (StringUtils.isNotBlank(this.catSelectedCategory4) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.catSelectedCategory4) == false) {
+      return this.catSelectedCategory4;
     }
-    if (StringUtils.isNotBlank(this.selectedCategory3) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.selectedCategory3) == false) {
-      return this.selectedCategory3;
+    if (StringUtils.isNotBlank(this.catSelectedCategory3) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.catSelectedCategory3) == false) {
+      return this.catSelectedCategory3;
     }
-    if (StringUtils.isNotBlank(this.selectedCategory2) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.selectedCategory2) == false) {
-      return this.selectedCategory2;
+    if (StringUtils.isNotBlank(this.catSelectedCategory2) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.catSelectedCategory2) == false) {
+      return this.catSelectedCategory2;
     }
-    if (StringUtils.isNotBlank(this.selectedCategory1) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.selectedCategory1) == false) {
-      return this.selectedCategory1;
+    if (StringUtils.isNotBlank(this.catSelectedCategory1) == true && NOT_A_CATEGORY.equalsIgnoreCase(this.catSelectedCategory1) == false) {
+      return this.catSelectedCategory1;
     }
     return getRootPage();
   }
@@ -207,97 +217,97 @@ public class CategoryStepWizardAction extends ActionBeanBase
   /**
    * @return the pageTitle
    */
-  public String getPageTitle()
+  public String getCatPageTitle()
   {
-    return pageTitle;
+    return catPageTitle;
   }
 
   /**
    * @param pageTitle the pageTitle to set
    */
-  public void setPageTitle(String pageTitle)
+  public void setCatPageTitle(String pageTitle)
   {
-    this.pageTitle = pageTitle;
+    this.catPageTitle = pageTitle;
   }
 
   /**
    * @param selectedCategory1 the selectedCategory1 to set
    */
-  public void setSelectedCategory1(String selectedCategory1)
+  public void setCatSelectedCategory1(String selectedCategory1)
   {
-    this.selectedCategory1 = selectedCategory1;
+    this.catSelectedCategory1 = selectedCategory1;
   }
 
   /**
    * @return the selectedCategory1
    */
-  public String getSelectedCategory1()
+  public String getCatSelectedCategory1()
   {
-    return selectedCategory1;
+    return catSelectedCategory1;
   }
 
   /**
    * @param selectedCategory2 the selectedCategory2 to set
    */
-  public void setSelectedCategory2(String selectedCategory2)
+  public void setCatSelectedCategory2(String selectedCategory2)
   {
-    this.selectedCategory2 = selectedCategory2;
+    this.catSelectedCategory2 = selectedCategory2;
   }
 
   /**
    * @return the selectedCategory2
    */
-  public String getSelectedCategory2()
+  public String getCatSelectedCategory2()
   {
-    return selectedCategory2;
+    return catSelectedCategory2;
   }
 
   /**
    * @param selectedCategory3 the selectedCategory3 to set
    */
-  public void setSelectedCategory3(String selectedCategory3)
+  public void setCatSelectedCategory3(String selectedCategory3)
   {
-    this.selectedCategory3 = selectedCategory3;
+    this.catSelectedCategory3 = selectedCategory3;
   }
 
   /**
    * @return the selectedCategory3
    */
-  public String getSelectedCategory3()
+  public String getCatSelectedCategory3()
   {
-    return selectedCategory3;
+    return catSelectedCategory3;
   }
 
   /**
    * @param selectedCategory4 the selectedCategory4 to set
    */
-  public void setSelectedCategory4(String selectedCategory4)
+  public void setCatSelectedCategory4(String selectedCategory4)
   {
-    this.selectedCategory4 = selectedCategory4;
+    this.catSelectedCategory4 = selectedCategory4;
   }
 
   /**
    * @return the selectedCategory4
    */
-  public String getSelectedCategory4()
+  public String getCatSelectedCategory4()
   {
-    return selectedCategory4;
+    return catSelectedCategory4;
   }
 
   /**
    * @param selectedCategory5 the selectedCategory5 to set
    */
-  public void setSelectedCategory5(String selectedCategory5)
+  public void setCatSelectedCategory5(String selectedCategory5)
   {
-    this.selectedCategory5 = selectedCategory5;
+    this.catSelectedCategory5 = selectedCategory5;
   }
 
   /**
    * @return the selectedCategory5
    */
-  public String getSelectedCategory5()
+  public String getCatSelectedCategory5()
   {
-    return selectedCategory5;
+    return catSelectedCategory5;
   }
 
   /**
@@ -314,5 +324,21 @@ public class CategoryStepWizardAction extends ActionBeanBase
   public GWikiElement getElement()
   {
     return element;
+  }
+
+  /**
+   * @param pageId the pageId to set
+   */
+  public void setCatPageId(String pageId)
+  {
+    this.catPageId = pageId;
+  }
+
+  /**
+   * @return the pageId
+   */
+  public String getCatPageId()
+  {
+    return catPageId;
   }
 }

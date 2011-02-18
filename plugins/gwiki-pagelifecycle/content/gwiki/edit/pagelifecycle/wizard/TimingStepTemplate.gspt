@@ -7,28 +7,26 @@
 		<table width="50%">
 			<tr>
 				<td><fmt:message key="gwiki.page.articleWizard.timing.immediately"/></td>
-				<td><gwiki:checkbox errorStyleClass="text error" property="immediately" selected="true"/></td>
+				<td><gwiki:checkbox errorStyleClass="text error" property="tmImmediately" selected="true"/></td>
 			</tr>
 			<tr>
 			     <td><fmt:message key="gwiki.page.articleWizard.startdate"/></td> 
-			     <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="fromDate" /></td>
+			     <td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="tmFromDate" /></td>
 			     <td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
 			     <td>
-			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromHour" />
-			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromMin" />
-			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="fromSec" />
+			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="tmFromHour" />
+			       <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="tmFromMin" />
 			     </td>
 			</tr>
 			
 			<tr>
 				<td><fmt:message key="gwiki.page.articleWizard.enddate"/></td> 
-				<td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="toDate" /></td>
+				<td><gwiki:text errorStyleClass="text error" styleClass="text" size="10" property="tmToDate" /></td>
 				    
 				<td><fmt:message key="gwiki.page.articleWizard.time"/></td> 
 				<td>
-				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toHour" />
-				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toMin" />
-				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="toSec" />
+				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="tmToHour" />
+				   <gwiki:text errorStyleClass="text error" styleClass="text" size="2" property="tmToMin" />
 				</td>
 			</tr>
 			</table>
@@ -41,9 +39,9 @@
 			<tr>
 				<td><fmt:message key="gwiki.page.articleWizard.reviewer"/></td>
 				<td>
-					<gwiki:select property="selectedReviewer">
+					<gwiki:select property="tmSelectedReviewer">
 						<option value="-1"><fmt:message key="gwiki.page.articleWizard.reviewer.choose"/></option>
-						<c:forEach var="reviewer" items="${form.availableReviewers}">
+						<c:forEach var="reviewer" items="${form.tmAvailableReviewers}">
 							<option value="${reviewer}">${reviewer}</option>
 						</c:forEach>
 					</gwiki:select>
