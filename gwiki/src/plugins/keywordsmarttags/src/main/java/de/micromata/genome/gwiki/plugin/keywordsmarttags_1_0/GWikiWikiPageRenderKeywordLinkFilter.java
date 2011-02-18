@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilterEvent;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
-import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -48,7 +48,7 @@ public class GWikiWikiPageRenderKeywordLinkFilter implements GWikiWikiPageCompil
         || RenderModes.ForRichTextEdit.isSet(renderMode) == true) {
       return null;
     }
-    GWikiWikiPageArtefakt a = event.getWikiPageArtefakt();
+    GWikiWikiPageBaseArtefakt a = event.getWikiPageArtefakt();
     GWikiContent content = a.getCompiledObject();
     GWikiKeywordLoadElementInfosFilter fe = GWikiKeywordLoadElementInfosFilter.getInstance();
     if (fe != null && content != null) {
