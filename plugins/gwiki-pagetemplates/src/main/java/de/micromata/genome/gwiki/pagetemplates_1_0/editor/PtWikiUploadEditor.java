@@ -36,12 +36,10 @@ import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
  */
 public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
 {
-
   private static final long serialVersionUID = 5901053792188232570L;
 
   private FileItem dataFile;
   private byte[] data;
-  private String title = null;
   
   public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor)
   {
@@ -54,13 +52,25 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
-  public void onSave(final GWikiContext ctx)
+  public String saveContent(final GWikiContext ctx)
+  {
+    String parentPageId = uploadFile(ctx);
+    String pageId = parentPageId + "/" + dataFile.getName();
+    
+    return pageId;
+  }
+
+  /**
+   * @param ctx
+   * @return
+   */
+  private String uploadFile(final GWikiContext ctx)
   {
     dataFile = ctx.getFileItem(sectionName);
 
     String parentPageId = ctx.getRequestParameter("pageId");
     String pageId = parentPageId + "/" + dataFile.getName();
-
+    String title = ctx.getRequest().getParameter("title");
     try 
     {
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -90,12 +100,7 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
     } catch (IOException ex) {
       ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", ex.getMessage());
     }
-    
-    String contextPath = ctx.getWikiWeb().getContextPath() + "/";
-    String newContent = contextPath + pageId;
-
-    //updateSection("!" + newContent + "!");
-    updateSection(newContent);
+    return parentPageId;
   }
 
 
@@ -109,20 +114,4 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
     return "";
   }
 
-  /**
-   * @param title the title to set
-   */
-  public void setTitle(String title)
-  {
-    this.title = title;
-  }
-
-  /**
-   * @return the title
-   */
-  public String getTitle()
-  {
-    return title;
-  }
-  
 }
