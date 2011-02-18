@@ -225,11 +225,18 @@ public class GWikiPageListActionBean extends ActionBeanBase
 
   public String renderField(String fieldName, GWikiElementInfo elementInfo)
   {
+    if (StringUtils.equals(fieldName, "PAGEID") == true) {
+      return elementInfo.getId();
+    }
+    if (StringUtils.equals(fieldName, GWikiPropKeys.TITLE) == true) {
+      return elementInfo.getTitle();
+    }
     String val = elementInfo.getProps().getStringValue(fieldName);
+
     if (GWikiPropKeys.CREATEDAT.equals(fieldName) == true || GWikiPropKeys.MODIFIEDAT.equals(fieldName) == true) {
       val = wikiContext.getUserDateString(GWikiProps.parseTimeStamp(val));
     }
-    return val;
+    return StringUtils.defaultString(val);
   }
 
   public void writeXmlErrorResponse(String message)
