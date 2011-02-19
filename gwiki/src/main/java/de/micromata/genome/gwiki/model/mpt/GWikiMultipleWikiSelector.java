@@ -96,6 +96,9 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
 
   public String getTenantId(GWikiServlet servlet, HttpServletRequest req)
   {
+    if (mptIdSelector == null) {
+      return null;
+    }
     return mptIdSelector.getTenantId(servlet, req);
   }
 
@@ -150,8 +153,9 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
         el.getElementInfo().getProps().setStringValue(GWikiPropKeys.TENANT_ID, cid);
         return el;
       }
-      
-      public GWikiElement loadElement(final GWikiElementInfo ei) {
+
+      public GWikiElement loadElement(final GWikiElementInfo ei)
+      {
         if (getStorage().exists(ei.getId() + GWikiStorage.SETTINGS_SUFFIX) == true) {
           return super.loadElement(ei);
         }
@@ -234,7 +238,7 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
     initWiki(GWikiServlet.INSTANCE, wikiContext.getRequest(), wikiContext.getResponse());
     wikiContext.setWikiWeb(THREAD_WIKI.get());
   }
-  
+
   @Override
   public void createTenant(GWikiContext wikiContext, String tenantId)
   {
@@ -242,14 +246,14 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
       GWikiLog.warn("tenant already exists");
       return;
     }
-    
+
     GWikiWeb newTenant = createDerivedWiki(GWikiServlet.INSTANCE, tenantId);
     customWikis.put(tenantId, newTenant);
   }
-  
+
   @Override
   public void leaveTenant(GWikiContext wikiContext)
   {
-   enterTenant(wikiContext, StringUtils.EMPTY);
+    enterTenant(wikiContext, StringUtils.EMPTY);
   }
 }
