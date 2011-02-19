@@ -74,6 +74,7 @@ public class GWikiChangeCommentEditorArtefakt extends GWikiTextPageEditorArtefak
     } else {
       ntext = oldText;
     }
+    ntext = StringUtils.trimToNull(ntext);
     textPage.setStorageData(ntext);
   }
 
