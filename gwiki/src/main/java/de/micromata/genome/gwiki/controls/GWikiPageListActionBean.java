@@ -81,10 +81,13 @@ public class GWikiPageListActionBean extends ActionBeanBase
       if (StringUtils.isBlank(sval) == true) {
         continue;
       }
-      if (sb.length() != 0) {
-        sb.append(" and ");
+      List<String> args = Converter.parseStringTokens(sval, " ", false);
+      for (String a : args) {
+        if (sb.length() != 0) {
+          sb.append(" and ");
+        }
+        sb.append("prop:" + f + " ~ " + a);
       }
-      sb.append("prop:" + f + " ~ " + sval);
     }
     if (sb.length() == 0) {
       return null;
