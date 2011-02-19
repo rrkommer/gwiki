@@ -13,7 +13,7 @@
 				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
 					<property name="name" value="SysAdminRole" />
 					<property name="category" value="System" />
-					<property name="definition" value="*"/>
+					<property name="definition" value="*,-GWIKI_DISALLOW"/>
 					<property name="description" value="System right. Includes all other rights"/>
 				</bean>
 				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
