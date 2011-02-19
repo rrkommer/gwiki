@@ -222,11 +222,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
         return "<a href='" + wikiContext.localUrl(ei.getId()) + "'>" + ei.getId() + "</a>";
       }
     }
-    // if (fieldName.equals("MODIFIEDAT") == true || fieldName.equals("CREATEDAT") == true) {
-    // String s = super.renderField(fieldName, ei);
-    // s = wikiContext.getUserDateString(GWikiProps.parseTimeStamp(s));
-    // return s;
-    // }
+
     return super.renderField(fieldName, ei);
   }
 
