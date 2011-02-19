@@ -1,0 +1,62 @@
+{pageintro}
+With the fancyboxy popup windows can be created.
+{pageintro}
+
+The fancyboxmacro is a wrapper to the Fancybox JQuery Plugin.
+Please see [http://fancybox.net].
+
+All macro elements except href, title will be used as parameters to the jQuery fencybox function.
+For parameters refer in {fancybox:href=http://fancybox.net/api|type=iframe|width=800|height=800}fencydoc Reference{fancybox}
+
+Show another page in a dialog box.
+{code}
+{fancybox:href=gwikidocs/macros/en/Macrochunk}Information about chunks{fancybox}
+{code}
+
+Sample:
+{fancybox:href=gwikidocs/macros/en/Macrochunk}Information about chunks{fancybox}
+
+Same, but as iframe, so that following links doesn't replace current page:
+Code:
+{code}
+{fancybox:href=gwikidocs/macros/en/Macrochunk|type=iframe}Information about chunks{fancybox}
+{code}
+
+Sample:
+{fancybox:href=gwikidocs/macros/en/Macrochunk|type=iframe}Information about chunks{fancybox}
+
+Show external page:
+{code}
+ {fancybox:href=http://fancybox.net/api|type=iframe|width=800|height=800}fencydoc Reference{fancybox}
+{code}
+Sample:  {fancybox:href=http://fancybox.net/api|type=iframe|width=800|height=800}fencydoc Reference{fancybox}
+
+Image:
+{code}
+{fancybox:href=inc/gwiki/img/gui/gwikiLogo.png|type=image}An Image{fancybox}
+{code}
+Sample:
+{fancybox:href=inc/gwiki/img/gui/gwikiLogo.png|type=image}An Image{fancybox}
+
+Inline:
+{code}
+{fancybox:href=#LocalSection}Inline Shown {fancybox}
+{div:style=display: none}
+{div:id=LocalSection}
+This is the content.
+
+Yoo.
+{div}
+{div}
+{code}
+{fancybox:href=#LocalSection}Inline Shown {fancybox}
+{div:style=display: none}
+{div:id=LocalSection}
+This is the content.
+
+Yoo.
+{div}
+{div}
+
+
+Macro class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiFancyBoxMacroBean}}.
