@@ -29,7 +29,6 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
@@ -77,7 +76,7 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
     int i = 0;
     int colNo = 0;
     ctx.setRequestAttribute(GWikiFragmentImage.WIKI_MAX_IMAGE_WIDTH, columnWidth);
-    ctx.setRenderMode(RenderModes.LocalImageLinks.getFlag());
+
     for (GWikiElementInfo c : childs) {
       GWikiElement el = ctx.getWikiWeb().findElement(c.getId());
       if (el == null) {
