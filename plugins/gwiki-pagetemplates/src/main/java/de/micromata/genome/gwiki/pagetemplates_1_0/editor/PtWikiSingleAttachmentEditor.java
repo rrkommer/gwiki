@@ -56,7 +56,7 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
   @Override
   public boolean renderWithParts(GWikiContext ctx)  
   {
-    final String discover = ctx.getTranslated("gwiki.editor.image.discover");
+    final String discover = ctx.getTranslated("gwiki.editor.image.browse");
       
     XmlElement inputFile = input( //
         attrs("name", sectionName, "type", "file", "size", "50", "accept", "*"));
@@ -87,7 +87,6 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
   public void onSave(GWikiContext ctx) 
   {
     String href = super.saveContent(ctx);
-    
     String title = ctx.getRequest().getParameter("title");
     
     GWikiFragmentLink link = new GWikiFragmentLink(href);
@@ -98,7 +97,6 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
     }
 
     updateSection(link.toString());
-    
   }
 
 }

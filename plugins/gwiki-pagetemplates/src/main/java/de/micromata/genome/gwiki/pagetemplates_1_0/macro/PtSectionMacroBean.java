@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.macro;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -62,19 +64,30 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
       
       if (ei != null) {
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
+
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
-        ctx.append("<div style=\"padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
+        final String editImage = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
+
+        ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
         
-        try {
-          String link = ctx.renderExistingLinkWithAttr(ei, edit, "?pageId="
-              + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
-              + "&sectionName=" + URLEncoder.encode(name, "UTF-8")
-              + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8"))),
-              "class", "edit");
-          ctx.append(link);
-        } catch (UnsupportedEncodingException ex) {
-          GWikiLog.warn("Error rendering section edit link");
-        }
+        boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
+
+        if (allowed) {
+          try {
+            String id = ei.getId();
+            String url = ctx.localUrl("/" + id)
+                + "?pageId="
+                + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
+                + "&sectionName="
+                + URLEncoder.encode(name, "UTF-8")
+                + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")));
+
+            ctx.append("<a title=\"" + edit + "\" href=\"" + url + "\">" + editImage + "</a>");
+            
+            } catch (UnsupportedEncodingException ex) {
+              GWikiLog.warn("Error rendering section edit link");
+            }
+        } 
       }
     }
     if (attrs.getChildFragment() != null) {

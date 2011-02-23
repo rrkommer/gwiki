@@ -91,6 +91,8 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
       if (!StringUtils.isEmpty(title))
       {
         imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, title);
+      } else {
+        imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, dataFile.getName());
       }
       
       imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
