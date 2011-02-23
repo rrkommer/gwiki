@@ -41,7 +41,8 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
-
+  private String imageConfig = "";
+  
   public PtWikiImageEditor(GWikiElement element, String sectionName, String editor)
   {
     super(element, sectionName, editor);
@@ -56,23 +57,9 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
   @Override
   public boolean renderWithParts(GWikiContext ctx)  
   {
-    String content = StringEscapeUtils.escapeHtml(getEditContent());
-    GWikiWikiParser wkparse = new GWikiWikiParser();
-    GWikiContent gwikiContent = wkparse.parse(ctx, content);
+    parseImageConfig(ctx);
     
-    GWikiCollectFragmentTypeVisitor images = new GWikiCollectFragmentTypeVisitor(GWikiFragmentImage.class);
-    gwikiContent.iterate(images);
-    
-    GWikiFragmentImage img = null;
-    
-    if (!images.getFound().isEmpty())
-    {
-      img = (GWikiFragmentImage) images.getFound().get(0);
-      img.setStyle("margin-top:20px");
-      img.render(ctx);
-    }
-    
-    final String discover = ctx.getTranslated("gwiki.editor.image.discover");
+    final String discover = ctx.getTranslated("gwiki.editor.image.browse");
     
     XmlElement input = input( //
         attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
@@ -87,11 +74,42 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     ctx.append(table.toString());
     return true;
   }
+
+  /**
+   * @param ctx
+   */
+  private void parseImageConfig(GWikiContext ctx)
+  {
+    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    GWikiWikiParser wkparse = new GWikiWikiParser();
+    GWikiContent gwikiContent = wkparse.parse(ctx, content);
+    
+    GWikiCollectFragmentTypeVisitor images = new GWikiCollectFragmentTypeVisitor(GWikiFragmentImage.class);
+    gwikiContent.iterate(images);
+    
+    GWikiFragmentImage img = null;
+    
+    if (!images.getFound().isEmpty())
+    {
+      img = (GWikiFragmentImage) images.getFound().get(0);
+
+      final StringBuilder sb = new StringBuilder();
+      img.getSource(sb);
+      int idx = sb.indexOf("|");
+      imageConfig = sb.toString().substring(idx, sb.length() - 1);      
+      
+      img.setStyle("margin-top:20px");
+      img.render(ctx);
+    }
+  }
   
   public void onSave(GWikiContext ctx) {
+    parseImageConfig(ctx);
+    
     String content = super.saveContent(ctx);
     
-    GWikiFragmentImage image = new GWikiFragmentImage(content);
+    String target = content + imageConfig;
+    GWikiFragmentImage image = new GWikiFragmentImage(target);
     String newContent = image.toString();
     
     updateSection(newContent);

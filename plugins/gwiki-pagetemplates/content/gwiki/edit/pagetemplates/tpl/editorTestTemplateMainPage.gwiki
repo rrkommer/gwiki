@@ -1,0 +1,40 @@
+{usemacro:localName=div|macroClass=de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro}
+
+{div:id=mainContent|class=section|style=float:left;heigth:100%;width:70%}
+{pageintro}
+{pteditsection:name=teaser|editor=headline}That's a nice headline{pteditsection}
+{pageintro}
+
+
+{pteditsection:name=intro|editor=rte}*Lorem ipsum dolor sit amet, consetetur sadipscing elitr,*
+
+{_}sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua{_}.
+At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. +Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.  +
+
+# punkt
+# punkt
+# punkt
+* asdf
+* asdf
+* asdf
+{+}{_}{*}Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse  molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero  eros et accumsan et iusto odio dignissim qui blandit praesent luptatum  zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum  dolor sit amet,
+{*}{_}{+}
+
+{pteditsection}
+
+{pteditsection:name=image|editor=image}!http://www.auto-illustrierte.ch/fileadmin/ddt/public/PICS/08_08/Golf_6/golf6-front.jpg|width=150px!
+{pteditsection}
+
+{pteditsection:name=normalText|editor=text}Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.  
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
+{pteditsection}
+{div}
+
+{div:id=rightSidebar|class=aside|style=border-left:1px dashed;heigth:100%;float:right;width:15%;padding:10px}
+Attachments:
+{pteditsection:name=attachment1|editor=attachment}{pteditsection}
+{pteditsection:name=attachment2|editor=attachment}{pteditsection}
+
+Links:
+{pteditsection:name=link1|editor=link}{pteditsection}
+{div}
