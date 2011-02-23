@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
@@ -60,8 +61,17 @@
 		<property name="pluginRepository">
 			<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
 				  <property name="storePluginLocation">
-					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
-						<constructor-arg value="${gwiki.dev.path}/src/plugins" />
+					<bean class="de.micromata.genome.gdbfs.MultiMergeFileSystem">
+						<property name="fileSystems">
+							<list>
+								<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+									<constructor-arg value="${gwiki.dev.path}/src/plugins" />
+								</bean>
+								<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+									<constructor-arg value="${gwiki.dev.path}/../plugins" />
+								</bean>
+							</list>
+						</property>
 					</bean>
 				</property>
 			</bean>
