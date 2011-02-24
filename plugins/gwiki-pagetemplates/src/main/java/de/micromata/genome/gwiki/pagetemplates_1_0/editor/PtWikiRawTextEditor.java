@@ -19,13 +19,13 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.textarea;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -35,10 +35,13 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
-
-  public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor)
+  
+  private boolean allowWikiSyntax = false;
+  
+  public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor, String hint, boolean allowWikiSyntax)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
+    this.allowWikiSyntax = allowWikiSyntax;
   }
 
   /*
@@ -49,18 +52,21 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
+    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    content = Html2WikiFilter.unescapeWiki(content);
+    
     XmlElement textarea = textarea( //
         attrs("name", sectionName, //
             "cols", "120", //
             "rows", "40")) //
             //"onchange", "javascript:gwikiEditorContentChanged = true")) //
-        .nest(text(StringEscapeUtils.escapeHtml(getEditContent())));
-        
+        .nest(text(content));
+    
     ctx.append(textarea.toString());
     
     return true;
   }
-
+  
   /*
    * (non-Javadoc)
    * 
@@ -69,6 +75,11 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
   public void onSave(GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
+    
+    if (! allowWikiSyntax) {
+      newContent = Html2WikiFilter.escapeWiki(newContent);
+    }
+    
     updateSection(newContent);
 
   }

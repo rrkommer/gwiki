@@ -34,9 +34,9 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiHeadlineEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiHeadlineEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
   }
 
   /*
@@ -47,13 +47,11 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    
     XmlElement input = input( //
         attrs("name", sectionName,// 
             "value", StringEscapeUtils.escapeHtml(getEditContent()), // 
             "style", "margin:10px 0 25px 0;", // 
             "size", "50"));
-    
 
     final String headline = ctx.getTranslated("gwiki.editor.headline.headline");
     

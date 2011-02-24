@@ -42,11 +42,12 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
 
   private static final long serialVersionUID = 5901053792188232570L;
   private String imageConfig = "";
+  private String maxWidth;
   
-  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor, String hint, String maxWidth)
   {
-    super(element, sectionName, editor);
-    
+    super(element, sectionName, editor, hint);
+    this.maxWidth = maxWidth;
   }
 
   /*
@@ -57,9 +58,9 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
   @Override
   public boolean renderWithParts(GWikiContext ctx)  
   {
-    parseImageConfig(ctx);
+    parseImageConfig(ctx, true);
     
-    final String discover = ctx.getTranslated("gwiki.editor.image.browse");
+    final String browse = ctx.getTranslated("gwiki.editor.image.browse");
     
     XmlElement input = input( //
         attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
@@ -67,7 +68,7 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     XmlElement table = table( //
         attrs("style", "margin:20px 0")).nest( //
             tr( //
-                td(text(discover)), //
+                td(text(browse)), //
                 td(input) //
             ));
     
@@ -78,7 +79,7 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
   /**
    * @param ctx
    */
-  private void parseImageConfig(GWikiContext ctx)
+  private void parseImageConfig(GWikiContext ctx, boolean render)
   {
     String content = StringEscapeUtils.escapeHtml(getEditContent());
     GWikiWikiParser wkparse = new GWikiWikiParser();
@@ -96,23 +97,40 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
       final StringBuilder sb = new StringBuilder();
       img.getSource(sb);
       int idx = sb.indexOf("|");
-      imageConfig = sb.toString().substring(idx, sb.length() - 1);      
+      if (idx > 1) {
+        imageConfig = sb.toString().substring(idx, sb.length() - 1);        
+      }
       
-      img.setStyle("margin-top:20px");
-      img.render(ctx);
+      if (render) {
+        img.setStyle("margin-top:20px");
+        img.render(ctx);
+      }
     }
   }
   
-  public void onSave(GWikiContext ctx) {
-    parseImageConfig(ctx);
+  public void onSave(final GWikiContext ctx) {
+    parseImageConfig(ctx, false);
     
-    String content = super.saveContent(ctx);
+    String cleaned = maxWidth.replaceAll("px", "");
+    String content = null;
     
-    String target = content + imageConfig;
-    GWikiFragmentImage image = new GWikiFragmentImage(target);
-    String newContent = image.toString();
+    if (! cleaned.isEmpty()) {
+      int maxWidthInPx = Integer.parseInt(cleaned);
+      content = super.saveContent(ctx, maxWidthInPx);
+    } else {
+      content = super.saveContent(ctx);
+    }
     
-    updateSection(newContent);
+    if (ctx.hasValidationErrors()) {
+      return;
+    } else {
+      String target = content + imageConfig;
+      GWikiFragmentImage image = new GWikiFragmentImage(target);
+      String newContent = image.toString();
+      
+      updateSection(newContent);  
+    }
+    
   }
   
 

@@ -17,7 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
@@ -41,9 +44,9 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
   private FileItem dataFile;
   private byte[] data;
   
-  public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
     
   }
 
@@ -54,21 +57,54 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
    */
   public String saveContent(final GWikiContext ctx)
   {
-    String parentPageId = uploadFile(ctx);
+    return saveContent(ctx, -1);
+  }
+  
+  
+  /**
+   * @param ctx
+   * @param maxWidthInPx
+   * @return
+   */
+  public String saveContent(final GWikiContext ctx, int maxWidthInPx)
+  {
+    String parentPageId = uploadFile(ctx, maxWidthInPx);
+    
+    if (parentPageId == null) {
+      return null;
+    }
+    
     String pageId = parentPageId + "/" + dataFile.getName();
     
     return pageId;
   }
+  
 
   /**
    * @param ctx
+   * @param maxWidthInPx 
    * @return
    */
-  private String uploadFile(final GWikiContext ctx)
+  private String uploadFile(final GWikiContext ctx, int maxWidthInPx)
   {
+    // TODO ab hier auslagern - UNTERSCHIED von img zu file!
     dataFile = ctx.getFileItem(sectionName);
-
     String parentPageId = ctx.getRequestParameter("pageId");
+    
+    try {
+      BufferedImage img = ImageIO.read(dataFile.getInputStream());
+      int width = img.getWidth();
+      
+      if (width > maxWidthInPx) {
+        ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", 
+            "Be sure the width of the image is less eqals " + maxWidthInPx + " px");
+        return null;
+      }
+    } catch (IOException ex1) {
+      ex1.printStackTrace();
+    }
+    // TODO bis hier auslagern
+
     String pageId = parentPageId + "/" + dataFile.getName();
     String title = ctx.getRequest().getParameter("title");
     try 
