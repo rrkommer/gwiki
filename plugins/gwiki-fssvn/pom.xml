@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>gwiki-parent</artifactId>
+		<groupId>de.micromata.genome.gwiki</groupId>
+		<version>0.4.2-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.micromata.genome.gwiki</groupId>
+	<artifactId>gwiki-fssvn</artifactId>
+	<packaging>jar</packaging>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildPlugin</id>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<mkdir dir="target" />
+								<delete file="target/${pom.artifactId}-${project.version}.zip" />
+								<zip zipfile="target/${pom.artifactId}-${project.version}.zip">
+									<fileset dir="target" includes="classes/**" />
+									<fileset dir="" includes="content/**" />
+									<fileset dir="" includes="gwikiplugin.xml" />
+								</zip>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+	<repositories>
+		<repository>
+			<id>micromata_labs</id>
+			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+        <id>sardine-google-svn-repo</id>
+        <snapshots> <enabled>true</enabled> </snapshots>
+        <name>Sardine maven repo at Google Code</name>
+        <url>http://sardine.googlecode.com/svn/maven/</url>
+     </repository>
+
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>snapshots</id>
+			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+
+	</pluginRepositories>
+
+
+	<scm>
+		<connection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+		</connection>
+		<developerConnection>
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+		</developerConnection>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.micromata.genome.gwiki</groupId>
+			<artifactId>gwiki</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+      <groupId>com.googlecode.sardine</groupId>
+      <artifactId>sardine</artifactId>
+      <!-- <version>146</version> --> 
+      <version>129</version>
+    </dependency>
+    <!--  sardine dependencies -->
+    <!-- 
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.0.1</version>
+    </dependency>
+     -->
+    <!-- JAXB is not included in JDK 5. 
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.1.12</version>
+      <scope>provided</scope>
+    </dependency>
+-->
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    
+    
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+	<!--
+		<repositories> <repository> <id>central</id>
+		<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		<snapshots> <enabled>true</enabled> </snapshots> </repository>
+		</repositories> <pluginRepositories> <pluginRepository>
+		<id>central</id>
+		<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
+		</pluginRepository> </pluginRepositories>
+	-->
+</project>
