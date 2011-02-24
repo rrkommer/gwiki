@@ -50,10 +50,11 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase //implements GWik
    * @param element
    * @param sectionName
    * @param editor
+   * @param hint 
    */
-  public PtWikiRichTextEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiRichTextEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
   }
 
   /* (non-Javadoc)

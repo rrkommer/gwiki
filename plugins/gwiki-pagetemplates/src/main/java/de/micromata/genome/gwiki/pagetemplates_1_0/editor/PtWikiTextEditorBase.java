@@ -64,14 +64,15 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
    * @param sectionName
    * @param editor
    */
-  public PtWikiTextEditorBase(GWikiElement element, String sectionName, String editor)
+  public PtWikiTextEditorBase(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
     extractContent();
   }
 
   public boolean render(final GWikiContext ctx)
   {
+    showHint(ctx);
     renderWithParts(ctx);
     return true;
   }
@@ -90,6 +91,13 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     return wiki;
   }
 
+  private void showHint(final GWikiContext ctx) {
+    if (hint != null && ! hint.isEmpty()) {
+      String hintDesc = ctx.getTranslated("gwiki.editor.hint");
+      ctx.append("<p>" + hintDesc + ": " + hint + "</p>");
+    }
+  }
+  
   protected void updateSection(String newContent)
   {
     extractContent();

@@ -51,9 +51,9 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiLinkEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiLinkEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
   }
   
   @Override

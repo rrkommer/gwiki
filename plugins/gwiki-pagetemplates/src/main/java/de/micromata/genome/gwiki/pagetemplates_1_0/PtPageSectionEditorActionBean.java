@@ -47,6 +47,12 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   private String sectionName;
 
   private String editor;
+  
+  private String hint;
+  
+  private String maxWidth;
+  
+  private boolean allowWikiSyntax;
 
   private GWikiEditorArtefakt< ? > secEditor;
 
@@ -61,27 +67,27 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       
       if (StringUtils.equals(editor, EDITOR_RTE)) 
       {
-        return new PtWikiRichTextEditor(element, sectionName, editor);   
+        return new PtWikiRichTextEditor(element, sectionName, editor, hint);   
       } 
       else if (StringUtils.equals(editor, EDITOR_RAW)) 
       {
-        return new PtWikiRawTextEditor(element, sectionName, editor);
+        return new PtWikiRawTextEditor(element, sectionName, editor, hint, allowWikiSyntax);
       } 
       else if (StringUtils.equals(editor, EDITOR_HL)) 
       {
-        return new PtWikiHeadlineEditor(element, sectionName, editor);
+        return new PtWikiHeadlineEditor(element, sectionName, editor, hint);
       } 
       else if (StringUtils.equals(editor, EDITOR_IMAGE)) 
       {
-        return new PtWikiImageEditor(element, sectionName, editor);
+        return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth);
       } 
       else if (StringUtils.equals(editor, EDITOR_LINK)) 
       {
-        return new PtWikiLinkEditor(element, sectionName, editor);
+        return new PtWikiLinkEditor(element, sectionName, editor, hint);
       } 
       else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) 
       {
-        return new PtWikiSingleAttachmentEditor(element, sectionName, editor);
+        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint);
       }
       
     }
@@ -149,7 +155,17 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   {
     this.editor = editor;
   }
-
+  
+  public String getHint()
+  {
+    return hint;
+  }
+  
+  public void setHint(String hint)
+  {
+    this.hint = hint;
+  }
+  
   public GWikiEditorArtefakt< ? > getSecEditor()
   {
     return secEditor;
@@ -158,6 +174,38 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   public void setSecEditor(GWikiEditorArtefakt< ? > secEditor)
   {
     this.secEditor = secEditor;
+  }
+
+  /**
+   * @param wikiSyntax the wikiSyntax to set
+   */
+  public void setAllowWikiSyntax(boolean allowWikiSyntax)
+  {
+    this.allowWikiSyntax = allowWikiSyntax;
+  }
+
+  /**
+   * @return the wikiSyntax
+   */
+  public boolean isAllowWikiSyntax()
+  {
+    return allowWikiSyntax;
+  }
+
+  /**
+   * @param maxWidth the maxWidth to set
+   */
+  public void setMaxWidth(String maxWidth)
+  {
+    this.maxWidth = maxWidth;
+  }
+
+  /**
+   * @return the maxWidth
+   */
+  public String getMaxWidth()
+  {
+    return maxWidth;
   }
 
 }

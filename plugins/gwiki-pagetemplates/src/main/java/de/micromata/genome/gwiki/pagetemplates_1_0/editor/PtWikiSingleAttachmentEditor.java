@@ -42,9 +42,9 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
     
   }
 

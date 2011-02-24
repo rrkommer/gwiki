@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
 
 /**
  * Defines an editable section.
@@ -48,6 +49,21 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    * type of the editor.
    */
   private String editor;
+  
+  /**
+   * optional hint, displays in a html-paragraph before the editor appears
+   */
+  private String hint;
+  
+  /**
+   * optional field for images to limit the width of an uploaded image
+   */
+  private String maxWidth;
+  
+  /**
+   * optional field, that allows to render wiki elements in the {@link PtWikiRawTextEditor}
+   */
+  private boolean allowWikiSyntax = false;
 
   /*
    * (non-Javadoc)
@@ -80,7 +96,10 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
                 + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
                 + "&sectionName="
                 + URLEncoder.encode(name, "UTF-8")
-                + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")));
+                + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+                + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
+                + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
+                + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")));
 
             ctx.append("<a title=\"" + edit + "\" href=\"" + url + "\">" + editImage + "</a>");
             
@@ -117,5 +136,53 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   public void setEditor(String editor)
   {
     this.editor = editor;
+  }
+
+  /**
+   * @param hint the hint to set
+   */
+  public void setHint(String hint)
+  {
+    this.hint = hint;
+  }
+
+  /**
+   * @return the hint
+   */
+  public String getHint()
+  {
+    return hint;
+  }
+
+  /**
+   * @param allowWikiSyntax the allowWikiSyntax to set
+   */
+  public void setAllowWikiSyntax(boolean allowWikiSyntax)
+  {
+    this.allowWikiSyntax = allowWikiSyntax;
+  }
+
+  /**
+   * @return the allowWikiSyntax
+   */
+  public boolean isAllowWikiSyntax()
+  {
+    return allowWikiSyntax;
+  }
+
+  /**
+   * @param maxWidth the maxWidth to set
+   */
+  public void setMaxWidth(String maxWidth)
+  {
+    this.maxWidth = maxWidth;
+  }
+
+  /**
+   * @return the maxWidth
+   */
+  public String getMaxWidth()
+  {
+    return maxWidth;
   }
 }

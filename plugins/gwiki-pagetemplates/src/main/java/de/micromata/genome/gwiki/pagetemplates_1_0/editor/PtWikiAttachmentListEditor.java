@@ -30,9 +30,9 @@ public class PtWikiAttachmentListEditor extends PtWikiTextEditorBase
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiAttachmentListEditor(GWikiElement element, String sectionName, String editor)
+  public PtWikiAttachmentListEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
-    super(element, sectionName, editor);
+    super(element, sectionName, editor, hint);
   }
 
   /*
