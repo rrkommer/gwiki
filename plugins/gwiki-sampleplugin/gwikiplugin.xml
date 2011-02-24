@@ -8,6 +8,7 @@
 		<property name="author" value="Roger Kommer"/>
 		<property name="category" value="Samples"/>
 		<property name="description" value="Sample Plugin for GWiki" />
+		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">

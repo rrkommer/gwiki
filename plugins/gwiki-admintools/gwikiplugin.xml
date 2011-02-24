@@ -9,6 +9,7 @@
 		<property name="author" value="Roger Kommer, Stefan Stützer" />
 		<property name="logoPath" value="/inc/img/Logviewer_Logo.png" />
 		<property name="category" value="Admin Tools" />
+		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
 	</bean>
 </beans>

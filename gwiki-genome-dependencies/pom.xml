@@ -81,13 +81,6 @@
 	-->
 	<repositories>
 		<repository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>mavenrepo</id>
 			<url>http://repo1.maven.org/maven2</url>
 			<snapshots>
@@ -103,9 +96,5 @@
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-		</pluginRepository>
 	</pluginRepositories>
 </project>
