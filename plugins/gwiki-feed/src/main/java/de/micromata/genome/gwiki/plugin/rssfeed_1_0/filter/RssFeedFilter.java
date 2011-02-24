@@ -111,7 +111,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
 
       // DateFormat dfmt = new SimpleDateFormat("EE, d MMM yyyy hh:mm:ss +0100", Locale.ENGLISH);
       String createDate = formatDate(elementInfo.getCreatedAt());
-      String currentDate = formatDate(new java.util.Date());
+      String modifiedDate = formatDate(elementInfo.getModifiedAt());
       wikiContext.getResponse().setHeader("Content-Type", "application/xml");
 
       List<GWikiElementInfo> children = null;
@@ -120,11 +120,11 @@ public class RssFeedFilter implements GWikiServeElementFilter
       }
 
       if ("rss".equals(feed) == true) {
-        renderRSS(wikiContext, title, wikiPageHtmlContent, createDate, currentDate, autor, children, renderChilds);
+        renderRSS(wikiContext, title, wikiPageHtmlContent, createDate, modifiedDate, autor, children, renderChilds);
       }
 
       if ("atom".equals(feed) == true) {
-        renderAtom(wikiContext, title, wikiPageHtmlContent, createDate, currentDate, autor, children, renderChilds);
+        renderAtom(wikiContext, title, wikiPageHtmlContent, createDate, modifiedDate, autor, children, renderChilds);
       }
     }
     return null;
@@ -180,7 +180,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return wikiPageHtmlContent;
   }
 
-  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String modifiedDate,
       String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
     XmlElement atom = feed("http://www.w3.org/2005/Atom").nest( //
@@ -188,7 +188,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
         (title(Xml.text(title))),//
         (link(wikiContext.getWikiWeb().getWikiConfig().getPublicURL())),//
         (subtitle(Xml.text(""))),//
-        (updated(Xml.text(currentDate))),//
+        (updated(Xml.text(modifiedDate))),//
         (entry((title(Xml.text(title))),//
             (link(wikiContext.getRequest().getRequestURL().toString())),//
             (updated(Xml.text(createDate))),//
@@ -232,7 +232,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return childrenNodes;
   }
 
-  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String currentDate,
+  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String modDate,
       String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
     // GWikiElement el = wikiContext.getCurrentElement();
@@ -247,10 +247,10 @@ public class RssFeedFilter implements GWikiServeElementFilter
         (description(Xml.text("Hier siehst du Feeds von GWiki!"))),// TODO
         (copyright(Xml.text(""))),// TODO
         (language(Xml.text("de-de"))),// TODO
-        (pubData(Xml.text(currentDate)))),//
+        (pubData(Xml.text(modDate)))),//
         (item((title(Xml.text(title))),//
             (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))),//
-            (pubData(Xml.text(createDate))),//
+            (pubData(Xml.text(modDate))),//
             (description(Xml.text(wikiPageHtmlContent))),//
             (author(Xml.text(autor)))//
         ))//
