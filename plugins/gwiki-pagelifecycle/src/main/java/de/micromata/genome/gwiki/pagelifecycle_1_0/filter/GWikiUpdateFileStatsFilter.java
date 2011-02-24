@@ -31,6 +31,8 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * Filter for updating branch filestats 
@@ -48,11 +50,11 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
   public Void filter(GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
       GWikiStorageStoreElementFilterEvent event)
   {
-    GWikiContext wikiContext = event.getWikiContext();
+    final GWikiContext wikiContext = event.getWikiContext();
     GWikiElement storedElement = event.getElement();
     GWikiElementInfo storedElementInfo = storedElement.getElementInfo();
 
-    GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
+    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
 
     if (fileStats == null) {
       return chain.nextFilter(event);
@@ -81,7 +83,14 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       fileStatsContent.addFileStats(newFileStat);
 
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
-      wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+      
+      // because filestats is located in /admin folder you need to be su to store/update that file
+      wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+          return null;
+        }});
     }
     
     return chain.nextFilter(event);

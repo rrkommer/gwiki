@@ -29,6 +29,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEven
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -36,6 +37,7 @@ import de.micromata.genome.util.runtime.CallableX;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
+@SuppressWarnings("unused")
 public class GWikiStoreElemementsInDraftFilter implements GWikiStorageStoreElementFilter
 {
 
@@ -59,48 +61,9 @@ public class GWikiStoreElemementsInDraftFilter implements GWikiStorageStoreEleme
     }
 
     GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
-
-    ensureDraftBranchMetaFiles(multipleSelector, ctx);
     multipleSelector.enterTenant(ctx, PlcConstants.DRAFT_ID);
+    PlcUtils.ensureDraftBranchMetaFiles(multipleSelector, ctx);
     return chain.nextFilter(event);
-  }
-
-  /**
-   * Ensures that all required branch meta files are present. if not they will be created
-   */
-  private void ensureDraftBranchMetaFiles(final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
-  {
-    wikiContext.runInTenantContext(PlcConstants.DRAFT_ID, wikiSelector, new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        // ensure filestats present
-        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
-        if (fileStats == null) {
-          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats",
-              "admin/templates/intern/GWikiBranchFileStatsTemplate", "Branch File Stats");
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-        }
-
-        // ensure branchinfo present
-        final GWikiElement infoElement = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchInfoElement");
-        if (infoElement == null) {
-          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement",
-              "admin/templates/intern/GWikiBranchInfoElementTemplate", "BranchInfo");
-          final GWikiArtefakt< ? > artefakt = el.getMainPart();
-
-          final GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
-          final GWikiProps props = art.getCompiledObject();
-          props.setStringValue("BRANCH_ID", PlcConstants.DRAFT_ID);
-          props.setStringValue("DESCRIPTION", "Draft branch");
-          props.setStringValue("BRANCH_STATE", "OFFLINE");
-          props.setStringValue("RELEASE_DATE", "");
-          props.setStringValue("RELEASE_END_DATE", "");
-
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-        }
-        return null;
-      }
-    });
   }
 
 }

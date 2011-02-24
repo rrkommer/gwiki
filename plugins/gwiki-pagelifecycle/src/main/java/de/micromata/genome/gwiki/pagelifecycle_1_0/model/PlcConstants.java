@@ -23,4 +23,13 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 public interface PlcConstants
 {
   public final static String DRAFT_ID = "_DRAFT";
+  
+  /**
+   * location of filestats file in a tenant
+   */
+  public static final String FILE_STATS_LOCATION = "admin/branch/intern/BranchFileStats";
+  public static final String BRANCH_INFO_LOCATION = "admin/branch/intern/BranchInfoElement";
+
+  public static final String BRANCH_INFO_TEMPLATE_ID = "admin/templates/intern/GWikiBranchInfoElementTemplate";
+  public static final String FILESTATS_TEMPLATE_ID = "admin/templates/intern/GWikiBranchFileStatsTemplate";
 }

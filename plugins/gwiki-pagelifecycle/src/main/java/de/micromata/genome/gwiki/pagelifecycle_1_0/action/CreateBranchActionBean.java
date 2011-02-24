@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 
 /**
  * Actionbean for creating new branches (content-releases)
@@ -81,7 +82,7 @@ public class CreateBranchActionBean extends ActionBeanBase
 
   private void createBranchFileStats()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats", FILESTATS_TEMPLATE_ID,
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID,
         "Branch File Stats");
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
   }

@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.WebUtils;
@@ -62,7 +65,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
   private String catSelectedCategory5;
 
   private String catPageTitle;
-  
+
   private String catPageId;
 
   /*
@@ -84,7 +87,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
     }
 
     final String parentPage = getParentPageId();
-    
+
     final String newPageId = parentPage + "/" + WebUtils.encodeUrlParam(catPageId);
     element.getElementInfo().setId(newPageId);
     element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPage);
@@ -102,10 +105,21 @@ public class CategoryStepWizardAction extends ActionBeanBase
       wikiContext.addValidationError("gwiki.page.articleWizard.error.noPageId");
       return null;
     }
-    if (catPageId.length() > 30) {
-      wikiContext.addValidationError("gwiki.page.articleWizard.error.invalidPageId");
+
+    try {
+      String encodedPageId = URLEncoder.encode(catPageId, "UTF-8");
+      if (catPageId.equalsIgnoreCase(encodedPageId) == false && catPageId.length() > 30) {
+        wikiContext.addValidationError("gwiki.page.articleWizard.error.invalidPageId");
+      }
+    } catch (UnsupportedEncodingException ex) {
+      GWikiLog.error("encoding error");
     }
     return null;
+  }
+
+  public boolean onIsVisible()
+  {
+    return true;
   }
 
   /**
@@ -174,7 +188,7 @@ public class CategoryStepWizardAction extends ActionBeanBase
   private void fillCategories()
   {
     final GWikiElement el = wikiContext.getWikiWeb().findElement(getRootPage());
-    final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
+    final List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChildsByType(el.getElementInfo(), "gwiki");
 
     for (final GWikiElementInfo c : childs) {
       getRootCategories().put(c.getId(), c.getTitle());

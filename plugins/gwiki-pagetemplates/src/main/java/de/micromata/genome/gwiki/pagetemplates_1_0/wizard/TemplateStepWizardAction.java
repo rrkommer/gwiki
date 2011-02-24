@@ -45,6 +45,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
+import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -108,7 +109,10 @@ public class TemplateStepWizardAction extends ActionBeanBase
     }
     return null;
   }
-
+  
+  public boolean onIsVisible() {
+    return true;
+  }
 
   /**
    * renders a table with available page templates
@@ -116,7 +120,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
   public void renderTemplates() {
     // find page templates
     final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("*tpl/*Template*");
-    final List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
+    final List<GWikiElementInfo> tpl = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
     // table header
     XmlElement table = table(attrs("border", "1", "cellspacing", "0", "cellpadding", "2", "width", "100%"));
@@ -133,7 +137,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
     
     // render each template in row
     int row = 1;
-    for (final GWikiElementInfo ei : ret) {
+    for (final GWikiElementInfo ei : tpl) {
       final GWikiElement el = wikiContext.getWikiWeb().findElement(ei.getId());
       if (el == null || ei.isViewable() == false) {
         continue;
@@ -152,8 +156,14 @@ public class TemplateStepWizardAction extends ActionBeanBase
       final String desc = wikiContext.getTranslatedProp(ei.getProps().getStringValue("DESCRIPTION"));
       final String name = wikiContext.getTranslatedProp(ei.getProps().getStringValue("TITLE"));
       final GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
-      final String renderedPreview = renderPreview(exec);
+      String renderedPreview = wikiContext.runElement(el, new CallableX<String, RuntimeException>() {
+        public String call() throws RuntimeException
+        {
+          return renderPreview(exec);
+        }
+      });
 
+      
       // render template row
       table.nest( //
           tr(//

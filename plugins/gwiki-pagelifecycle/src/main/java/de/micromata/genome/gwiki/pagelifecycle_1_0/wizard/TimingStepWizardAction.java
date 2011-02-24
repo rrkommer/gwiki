@@ -17,10 +17,15 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.wizard;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -37,11 +42,13 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
- * Wizard step for persist article timing options 
+ * Wizard step for persist article timing options
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
@@ -49,12 +56,12 @@ public class TimingStepWizardAction extends ActionBeanBase
 {
 
   private GWikiElement element;
-  
+
   private List<String> tmAvailableReviewers;
 
   private String tmSelectedReviewer;
 
-  private boolean tmImmediately = true;
+  private boolean tmImmediately;
 
   private Date tmFrom;
 
@@ -71,6 +78,18 @@ public class TimingStepWizardAction extends ActionBeanBase
   private int tmToHour;
 
   private int tmToMin;
+  
+  public static final TimeZone UTC_TIMEZONE = TimeZone.getTimeZone("UTC");
+
+  public ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>() {
+    @Override
+    protected SimpleDateFormat initialValue()
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      sdf.setTimeZone(UTC_TIMEZONE);
+      return sdf;
+    }
+  };
 
   public Object onSave()
   {
@@ -85,17 +104,11 @@ public class TimingStepWizardAction extends ActionBeanBase
 
     GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
     String currentTenant = multipleSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
-    if (StringUtils.isBlank(currentTenant) == true) {
-      // TODO stefan Das ist blöd da hier mögliche Infos verloren gehen. Spätestens beim Persisitieren wird der 
-      // Nutzer implizit in einem Branch gewechselt (wenn er kein Admin ist) 
-      GWikiLog.warn("Could not save timing information. User is not in tenant context.");  
-      return noForward();
-    }
-    
+
     // ensures branchfileststats present
-    ensureBranchFileStatsPresent(currentTenant, multipleSelector, wikiContext);
-    
-    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
+    PlcUtils.ensureBranchMetaFiles(currentTenant, multipleSelector, wikiContext);
+
+    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
     synchronized (fileStats.getElementInfo()) {
       GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
       if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
@@ -106,7 +119,7 @@ public class TimingStepWizardAction extends ActionBeanBase
       BranchFileStats fileStatsContent = fileStatsArtefakt.getCompiledObject();
 
       String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
-      
+
       FileStatsDO newFileStat = new FileStatsDO();
       newFileStat.setPageId(element.getElementInfo().getId());
       newFileStat.setFileState(FileState.DRAFT);
@@ -119,9 +132,72 @@ public class TimingStepWizardAction extends ActionBeanBase
       fileStatsContent.addFileStats(newFileStat);
 
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
-      wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+
+      wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+          return null;
+        }
+      });
     }
     return null;
+  }
+
+  /**
+   * Is this step visible in wizard 
+   * @return
+   */
+  public boolean onIsVisible()
+  {
+    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
+    if (wikiSelector == null) {
+      return false;
+    }
+
+    if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
+      return false;
+    }
+
+    GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
+    String currentTenant = multipleSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
+    if (StringUtils.isBlank(currentTenant) == true) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Formats the date to internat String repesentation
+   * @param stringDate
+   * @param hour
+   * @param min
+   * @param sec
+   * @return
+   */
+  private String formatDate(String stringDate, int hour, int min, int sec)
+  {
+    // if release imeediately then store no timestamp
+    if (isTmImmediately() == true) {
+      return StringUtils.EMPTY;
+    }
+    try {
+      Date date = internalTimestamp.get().parse(stringDate);
+      Calendar c = Calendar.getInstance();
+      c.setTime(date);
+      c.set(Calendar.HOUR_OF_DAY, hour);
+      c.set(Calendar.MINUTE, min);
+      c.set(Calendar.SECOND, sec);
+
+      Date dateTime = c.getTime();
+      if (dateTime.before(new Date()) == true) {
+        wikiContext.addValidationError("gwiki.page.articleWizard.error.date.past");
+      }
+      return GWikiProps.formatTimeStamp(dateTime);
+    } catch (ParseException ex) {
+      wikiContext.addValidationError("gwiki.page.articleWizard.error.date.invalid");
+    }
+    return StringUtils.EMPTY;
   }
 
   /**
@@ -129,7 +205,7 @@ public class TimingStepWizardAction extends ActionBeanBase
    */
   private String getEndAt()
   {
-    return null;
+    return formatDate(tmToDate, tmToHour, tmToMin, 0);
   }
 
   /**
@@ -137,34 +213,15 @@ public class TimingStepWizardAction extends ActionBeanBase
    */
   private String getStartAt()
   {
-    // TODO Auto-generated method stub
-    return null;
+    return formatDate(tmFromDate, tmFromHour, tmFromMin, 0);
   }
 
   public Object onValidate()
   {
-    //ensure
+    // check for correct date formats
+    getStartAt();
+    getEndAt();
     return null;
-  }
-  
-  /**
-   * Ensures that all required branch meta files are present. if not they will be created
-   */
-  private void ensureBranchFileStatsPresent(final String branchId, final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
-  {
-    wikiContext.runInTenantContext(branchId, wikiSelector, new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        // ensure filestats present
-        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement("admin/branch/intern/BranchFileStats");
-        if (fileStats == null) {
-          final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchFileStats",
-              "admin/templates/intern/GWikiBranchFileStatsTemplate", "Branch File Stats");
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-        }
-        return null;
-      }
-    });
   }
 
   /**

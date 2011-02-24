@@ -75,17 +75,24 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   private int selectedPageSize;
 
   private List<GWikiLogEntry> result;
+  
+  public ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>() {
+    @Override
+    protected SimpleDateFormat initialValue()
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      return sdf;
+    }
+  };
 
   @Override
   public Object onInit()
   {
-    // TODO stefan aus UserSettings holen
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     Calendar cal = Calendar.getInstance();
     Date now = new Date();
 
-    fromDate = df.format(now);
-    toDate = df.format(now);
+    fromDate = internalTimestamp.get().format(now);
+    toDate = internalTimestamp.get().format(now);
 
     // prefill from time
     cal.setTime(now);
@@ -153,8 +160,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
 
   private Date formatDate(String stringDate, int hour, int min, int sec) throws ParseException
   {
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    Date date = df.parse(stringDate);
+    Date date = internalTimestamp.get().parse(stringDate);
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     c.set(Calendar.HOUR_OF_DAY, hour);

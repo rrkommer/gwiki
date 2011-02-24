@@ -39,6 +39,7 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -54,11 +55,6 @@ public class ViewBranchContentActionBean extends ActionBeanBase
    * Map tenant-id -> Map of containing elements
    */
   private Map<String, Map<GWikiElementInfo, FileStatsDO>> contentMap = new HashMap<String, Map<GWikiElementInfo, FileStatsDO>>();
-
-  /**
-   * location of filestats file in a tenant
-   */
-  private static final String FILE_STATS_LOCATION = "admin/branch/intern/BranchFileStats";
 
   /**
    * blacklist of files which not should be considered in content list
@@ -238,7 +234,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
           });
 
           // if no branch filestats present only consider element infos
-          GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
+          GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
           if (branchFileStats == null || branchFileStats.getMainPart() == null) {
             for (GWikiElementInfo ei : tenantContent) {
               getContentMap().get(tenant).put(ei, new FileStatsDO());
@@ -290,7 +286,7 @@ public class ViewBranchContentActionBean extends ActionBeanBase
     wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
-        GWikiElement fileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
+        GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
         if (fileStats == null || fileStats.getMainPart() == null) {
           wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
