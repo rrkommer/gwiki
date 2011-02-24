@@ -95,8 +95,8 @@
 			</snapshots>
 		</repository>
 		<repository>
-			<id>micromata_labs</id>
-			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
+			<id>labs.micromata.de-snapshots</id>
+			<url>https://labs.micromata.de/nexus/content/repositories/snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
