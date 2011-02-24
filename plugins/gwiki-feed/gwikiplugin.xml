@@ -9,6 +9,7 @@
 		<property name="author" value="Ingo Joseph" />
 		<property name="logoPath" value="/inc/img/rss-button.png" />
 		<property name="category" value="Import/Export" />
+		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">

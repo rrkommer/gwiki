@@ -61,21 +61,6 @@
 
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>snapshots</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-
 	</pluginRepositories>
 
 
@@ -148,13 +133,5 @@
 		</dependency>
 
 	</dependencies>
-	<!--
-		<repositories> <repository> <id>central</id>
-		<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-		<snapshots> <enabled>true</enabled> </snapshots> </repository>
-		</repositories> <pluginRepositories> <pluginRepository>
-		<id>central</id>
-		<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-		</pluginRepository> </pluginRepositories>
-	-->
+
 </project>
