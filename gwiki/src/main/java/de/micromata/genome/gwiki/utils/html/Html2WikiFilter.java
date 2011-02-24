@@ -709,6 +709,44 @@ public class Html2WikiFilter extends DefaultFilter
   {
     return escapeWiki(t, specialCharacters);
   }
+  
+  /**
+   * Takes wiki text and returns a escaped String
+   * 
+   * @param wiki
+   * @return null if result is empty
+   */
+  public static String unescapeWiki(String wiki) {
+    return unescapeWiki(wiki, DEFAULT_SPECIAL_CHARACTERS);
+  }
+  
+  
+  /**
+   * Takes wiki text and returns a escaped String
+   * 
+   * @param wiki
+   * @return null if result is empty
+   */
+  public static String unescapeWiki(String wiki, String speacialCharacters) {
+    StringBuilder result = new StringBuilder();
+    
+    for (int i = 0; i < (wiki.length() - 1); i++) {
+      char curr = wiki.charAt(i);
+      char lookAhead = wiki.charAt(i + 1);
+      
+      if (curr == '\\' && speacialCharacters.indexOf(lookAhead) != -1) {
+        // ignore '\'
+        continue;
+      } else {
+        result.append(curr);
+      }
+    }
+    
+    if (result.length() > 1) {
+      return result.toString();
+    }
+    return null;
+  }
 
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
