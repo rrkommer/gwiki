@@ -91,13 +91,6 @@
 	<!--  -->
 	<repositories>
 		<repository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>micromata_labs</id>
 			<url>http://labs.micromata.de/nexus/content/groups/public/</url>
 			<snapshots>
@@ -106,17 +99,7 @@
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		<pluginRepository>
-			<id>central</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>snapshots</id>
-			<url>http://repo.micromata.priv:8081/nexus/content/groups/public-snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
+		
 
 	</pluginRepositories>
 
@@ -124,13 +107,13 @@
 		<repository>
 			<id>labs.micromata.de-releases</id>
 			<name>labs.micromata.de-releases</name>
-			<url>http://labs.micromata.de/nexus/content/repositories/releases</url>
-			<uniqueVersion>false</uniqueVersion>
+			<url>https://labs.micromata.de/nexus/content/repositories/releases</url>
+			<uniqueVersion>true</uniqueVersion>
 		</repository>
 		<snapshotRepository>
 			<id>labs.micromata.de-snapshots</id>
 			<name>labs.micromata.de-snapshots</name>
-			<url>http://labs.micromata.de/nexus/content/repositories/snapshots</url>
+			<url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
