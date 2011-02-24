@@ -67,6 +67,8 @@ public class GWikiPluginDescriptor implements InitializingBean
 
   private String logoPath;
 
+  private String license;
+
   /**
    * List of element ids uses as public templates.
    */
@@ -303,6 +305,16 @@ public class GWikiPluginDescriptor implements InitializingBean
   public void setRights(List<GWikiRight> rights)
   {
     this.rights = rights;
+  }
+
+  public String getLicense()
+  {
+    return license;
+  }
+
+  public void setLicense(String licence)
+  {
+    this.license = licence;
   }
 
 }
