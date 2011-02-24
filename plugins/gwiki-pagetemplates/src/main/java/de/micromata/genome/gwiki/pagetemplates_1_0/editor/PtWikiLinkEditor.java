@@ -24,23 +24,20 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
@@ -76,14 +73,38 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
   {
     ctx.append("<p>" + ctx.getTranslated("gwiki.editor.hyperlink.headline") + "</p>");
     
+    String editContent = "http://";
+    String title = "";
+    
+    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    GWikiWikiParser wkparse = new GWikiWikiParser();
+    GWikiContent gwikiContent = wkparse.parse(ctx, content);
+    
+    GWikiCollectFragmentTypeVisitor links = new GWikiCollectFragmentTypeVisitor(GWikiFragmentLink.class);
+    gwikiContent.iterate(links);
+    
+    GWikiFragmentLink link = null;
+    
+    if (!links.getFound().isEmpty()) {
+      link = (GWikiFragmentLink) links.getFound().get(0);
+    }
+    
+    if (link != null) {
+      editContent = link.getTarget();
+      
+      if (link.getTitle() != null) {
+        title = link.getTitle();
+      }
+    }
+    
     XmlElement inputFile = input( //
-        attrs("id", sectionName + "_filechooser", "name", sectionName, "value", "http://", "size", "50"));
+        attrs("id", sectionName + "_filechooser", "name", sectionName, "value", editContent, "size", "50"));
     
     XmlElement chooseButton = input( //
         attrs("value", "choose", "type", "button", "onclick", "$(\"#filechooser\").toggle()"));
     
     XmlElement inputTitle = input( //
-        attrs("name", "title"));
+        attrs("name", "title", "value", title));
     
     XmlElement table = table( //
         attrs()).nest( //
@@ -109,17 +130,6 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
     attrs.getArgs().setStringValue("type", "all");
     attrs.getArgs().setStringValue("viewAll", "true");
 
-//    attrs.getArgs().setStringValue("type", "attachment");
-//    GWikiChildrenMacro children = new GWikiChildrenMacro();
-//    children.render(attrs, ctx);
-    
-//    GWikiWikiParser wkparse = new GWikiWikiParser();
-//    GWikiContent content = wkparse.parse(ctx, "{children:all=true|sort=title|page=pub/en/Index}");
-//    GWikiStandaloneContext sctx = GWikiStandaloneContext.create();
-//    sctx.setRenderMode(RenderModes.combine(RenderModes.InMem));
-//    content.render(sctx);
-//    sctx.flush();
-//    ctx.append(sctx.getOutString());
     
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("pub/en/Index");;
 
@@ -132,14 +142,13 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
       ctx.append("<script type=\"text/javascript\">");
       ctx.append("$(function () {");
       ctx.append("  $(\"#filechooser\").jstree({");
-      ctx.append("  \"themes\" : { \"theme\" : \"apple\", \"dots\" : false, \"icons\" : false },");
+      ctx.append("  \"themes\" : { \"theme\" : \"classic\", \"dots\" : true, \"icons\" : true },");
 //      ctx.append("  \"ui: {select_limit\" : 1}");
       ctx.append("\"plugins\" : [ \"themes\", \"html_data\", \"ui\" ]");
       ctx.append("});");
       ctx.append("});");
       ctx.append("$(\"#filechooser\").jstree(\"set_theme\",\"apple\");");
       ctx.append("</script>");
-      
       
           
     }
@@ -222,7 +231,7 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
       renderLocalUrl = link.getTarget();
       String filename = renderLocalUrl.substring(renderLocalUrl.lastIndexOf("/") + 1);
       
-        if (ctx.getElementFinder().getAllDirectChilds(ci).isEmpty()) {
+        if (ctx.getElementFinder().getAllDirectChilds(ci).isEmpty() && StringUtils.equals(ci.getType(), "attachment")) {
           String id = sectionName + "_filechooser";
           ctx.append("\n<li>").append("<a style='cursor:pointer' onclick=\"document.getElementById('" + id + "').value='" + renderLocalUrl + "';" + "\">" + filename + "</a>");
         } else {
