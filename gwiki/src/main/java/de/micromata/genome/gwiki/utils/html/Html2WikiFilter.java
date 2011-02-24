@@ -87,10 +87,12 @@ public class Html2WikiFilter extends DefaultFilter
    */
   private String[] autoCloseTags = new String[] { "hr", "br"};
 
+  private static final String DEFAULT_SPECIAL_CHARACTERS = "*-_~^+{}[]!#|\\";
+
   /**
    * Character, which has to be escaped.
    */
-  private String specialCharacters = "*-_~^+{}[]!#|\\";
+  private String specialCharacters = DEFAULT_SPECIAL_CHARACTERS;
 
   private boolean ignoreWsNl = true;
 
@@ -651,8 +653,23 @@ public class Html2WikiFilter extends DefaultFilter
     super.endElement(element, augs);
   }
 
-  protected String escapeText(String t)
+  /**
+   * Take a string and return escaped wiki text.
+   * 
+   * @param t string
+   * @return escaped version of string. if t is null, returns null.
+   */
+  public static String escapeWiki(String t)
   {
+
+    return escapeWiki(t, DEFAULT_SPECIAL_CHARACTERS);
+  }
+
+  public static String escapeWiki(String t, String specialCharacters)
+  {
+    if (t == null) {
+      return t;
+    }
     StringBuilder sb = null;
     boolean insideMacro = false;
     for (int i = 0; i < t.length(); ++i) {
@@ -686,6 +703,11 @@ public class Html2WikiFilter extends DefaultFilter
       return sb.toString();
     }
     return t;
+  }
+
+  protected String escapeText(String t)
+  {
+    return escapeWiki(t, specialCharacters);
   }
 
   public void characters(XMLString text, Augmentations augs) throws XNIException
