@@ -114,7 +114,7 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     String cleaned = maxWidth.replaceAll("px", "");
     String content = null;
     
-    if (! cleaned.isEmpty()) {
+    if (cleaned.length() > 0) {
       int maxWidthInPx = Integer.parseInt(cleaned);
       content = super.saveContent(ctx, maxWidthInPx);
     } else {

@@ -583,11 +583,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return new GWikiElementFinder(this);
   }
 
-  public void runElement(GWikiElement el, CallableX<Void, RuntimeException> cb)
+  public <T> T runElement(GWikiElement el, CallableX<T, RuntimeException> cb)
   {
     try {
       pushWikiElement(el);
-      cb.call();
+      return cb.call();
     } finally {
       popWikiElement();
     }

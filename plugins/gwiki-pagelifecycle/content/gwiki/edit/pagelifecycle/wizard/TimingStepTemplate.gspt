@@ -7,7 +7,7 @@
 		<table width="50%">
 			<tr>
 				<td><fmt:message key="gwiki.page.articleWizard.timing.immediately"/></td>
-				<td><gwiki:checkbox errorStyleClass="text error" property="tmImmediately" selected="true"/></td>
+				<td><gwiki:checkbox property="tmImmediately" /></td>
 			</tr>
 			<tr>
 			     <td><fmt:message key="gwiki.page.articleWizard.startdate"/></td> 

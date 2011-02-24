@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiReqSessionMptIdSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 
 /**
  * Filter which switches the context of current user to draft context
@@ -56,7 +57,11 @@ public class GWikiSwitchUserToDraftFilter implements GWikiUserLogonFilter
     if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
       GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
       multipleSelector.enterTenant(ctx, PlcConstants.DRAFT_ID);
+      
+      // on first switch we have to ensure that needed metafiles are present in branch
+      PlcUtils.ensureDraftBranchMetaFiles(multipleSelector, ctx);
     }
+    
     return chain.nextFilter(event);
   }
 }

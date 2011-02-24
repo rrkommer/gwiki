@@ -1,5 +1,6 @@
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.utils.ClassUtils;
+import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * Wizard for creating articles
@@ -25,13 +27,13 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
  */
 public class PageWizardAction extends ActionBeanBase
 {
-  // TODO: stefan dynamisch hinterlegen und durch Plugin auch erweiterbar machen
-  private List<String> wizardSteps = Arrays.asList("/edit/pagetemplates/wizard/CategoryStep",
-      "/edit/pagetemplates/wizard/TemplateStep", "/edit/pagelifecycle/wizard/TimingStep");
+  // TODO stefan dynamisch hinterlegen und durch Plugin auch erweiterbar machen
+  private List<String> wizardSteps = Arrays.asList("/edit/pagetemplates/wizard/CategoryStep", "/edit/pagetemplates/wizard/TemplateStep",
+      "/edit/pagelifecycle/wizard/TimingStep");
 
   public void renderHeaders()
   {
-    for (String stepPageId : this.wizardSteps) {
+    for (String stepPageId : getVisibleWizardSteps()) {
       GWikiElement stepElement = wikiContext.getWikiWeb().findElement(stepPageId);
       GWikiElementInfo info = stepElement.getElementInfo();
       String tabTitle = info.getProps().getStringValue(GWikiPropKeys.TITLE);
@@ -50,12 +52,12 @@ public class PageWizardAction extends ActionBeanBase
     if (wikiContext.hasValidationErrors() == true) {
       return null;
     }
-    
+
     // if validation ok create new element
-    final GWikiElement newPage = GWikiWebUtils.createNewElement(wikiContext, "", "admin/templates/StandardWikiPageMetaTemplate","");
+    final GWikiElement newPage = GWikiWebUtils.createNewElement(wikiContext, "", "admin/templates/StandardWikiPageMetaTemplate", "");
 
     // call step save handlers
-    for (String wizardStep : this.wizardSteps) {
+    for (String wizardStep : getVisibleWizardSteps()) {
       runInActionContext(wizardStep, newPage, new Callable<RuntimeException, Void>() {
         public Void call(ActionBean bean) throws RuntimeException
         {
@@ -64,10 +66,10 @@ public class PageWizardAction extends ActionBeanBase
         }
       });
     }
-    
-    // saves element
+
+    // saves new page
     wikiContext.getWikiWeb().saveElement(wikiContext, newPage, false);
-    
+
     // save page-id in request-attribute for possible later usage
     return newPage;
   }
@@ -88,25 +90,30 @@ public class PageWizardAction extends ActionBeanBase
     }
   }
 
-  public Void runInActionContext(String actionPageId, GWikiElement element, Callable<RuntimeException, Void> callback)
+  public Void runInActionContext(final String actionPageId, final GWikiElement element, final Callable<RuntimeException, Void> callback)
   {
-    GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
-    GWikiArtefakt< ? > controller = page.getPart("Controler");
-    if (controller instanceof GWikiActionBeanArtefakt == false) {
-      return null;
-    }
-    GWikiActionBeanArtefakt actionBeanArtefakt = (GWikiActionBeanArtefakt) controller;
-    ActionBean bean = actionBeanArtefakt.getActionBean(wikiContext);
-    bean.setWikiContext(wikiContext);
-
-    // populate element to step action beans
-    Map<String, Object> elementParam = new HashMap<String, Object>();
-    elementParam.put("element", element);
-    ClassUtils.populateBeanWithPuplicMembers(bean, elementParam);
-    
-    // populate form properies to step action beans
-    ActionBeanUtils.fillForm((ActionBean) bean, wikiContext);
-    return callback.call(bean);
+    return wikiContext.runElement(element, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
+        wikiContext.pushWikiElement(page);
+        GWikiArtefakt< ? > controller = page.getPart("Controler");
+        if (controller instanceof GWikiActionBeanArtefakt == false) {
+          return null;
+        }
+        GWikiActionBeanArtefakt actionBeanArtefakt = (GWikiActionBeanArtefakt) controller;
+        ActionBean bean = actionBeanArtefakt.getActionBean(wikiContext);
+        bean.setWikiContext(wikiContext);
+        
+        // populate element to step action beans
+        Map<String, Object> elementParam = new HashMap<String, Object>();
+        elementParam.put("element", element);
+        ClassUtils.populateBeanWithPuplicMembers(bean, elementParam);
+        
+        // populate form properies to step action bean
+        ActionBeanUtils.fillForm((ActionBean) bean, wikiContext);
+        return callback.call(bean);
+      }});
   }
 
   /**
@@ -123,6 +130,29 @@ public class PageWizardAction extends ActionBeanBase
   public List<String> getWizardSteps()
   {
     return wizardSteps;
+  }
+
+  /**
+   * Returns steps that are visible in the wizard
+   */
+  public List<String> getVisibleWizardSteps()
+  {
+    final List<String> visibleSteps = new ArrayList<String>();
+
+    // call step visible handlers
+    for (final String wizardStep : this.wizardSteps) {
+      runInActionContext(wizardStep, null, new Callable<RuntimeException, Void>() {
+        public Void call(ActionBean bean) throws RuntimeException
+        {
+          boolean visible = (Boolean) ActionBeanUtils.dispatchToMethodImpl(bean, "onIsVisible", wikiContext);
+          if (visible == true) {
+            visibleSteps.add(wizardStep);
+          }
+          return null;
+        }
+      });
+    }
+    return visibleSteps;
   }
 
   interface Callable<E extends RuntimeException, R>

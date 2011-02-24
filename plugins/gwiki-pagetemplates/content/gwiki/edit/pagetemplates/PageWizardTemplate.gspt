@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 	<script type="text/javascript">
 	  \$(document).ready(function(){
-		<%  for (tab in form.wizardSteps) {%>
+		<%  for (tab in form.visibleWizardSteps) {%>
 			loadAsyncWizardStep('<%=tab%>');
 		<% } %>
 	  

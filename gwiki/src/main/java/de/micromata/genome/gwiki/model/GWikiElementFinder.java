@@ -146,6 +146,12 @@ public class GWikiElementFinder
     return childs;
   }
 
+  public List<GWikiElementInfo> getAllDirectChildsByType(GWikiElementInfo ei, final String type) {
+    return getPageInfos(new AndMatcher<GWikiElementInfo>(//
+        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(ei.getId())), // 
+        new GWikiElementTypeMatcher(wikiContext, type)));
+  }
+  
   public static interface FragmentCallback<T extends GWikiFragment>
   {
     void callback(GWikiElement element, String partName, GWikiArtefakt< ? > artefakt, T fragment);

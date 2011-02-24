@@ -92,7 +92,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   }
 
   private void showHint(final GWikiContext ctx) {
-    if (hint != null && ! hint.isEmpty()) {
+    if (hint != null && hint.length() > 0) {
       String hintDesc = ctx.getTranslated("gwiki.editor.hint");
       ctx.append("<p>" + hintDesc + ": " + hint + "</p>");
     }
