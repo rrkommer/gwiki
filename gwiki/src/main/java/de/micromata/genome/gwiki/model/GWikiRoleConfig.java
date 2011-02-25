@@ -74,6 +74,10 @@ public class GWikiRoleConfig implements InitializingBean, Serializable
     roles.put(right.getName(), right);
     rights.add(right);
   }
+  
+  public void removeRight(GWikiRight right) {
+    roles.remove(right.getName());
+  }
 
   public List<GWikiRight> getRights()
   {

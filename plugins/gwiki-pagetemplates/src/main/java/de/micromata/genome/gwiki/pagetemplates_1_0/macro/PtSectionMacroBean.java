@@ -20,8 +20,6 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.macro;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -75,8 +73,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
-    if (ctx.getCurrentElement() != null
-        && ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
+    if (ctx.getCurrentElement() != null) {
       
       if (ei != null) {
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
@@ -84,29 +81,35 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
         final String editImage = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
 
-        ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
-        
-        boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
-
-        if (allowed) {
-          try {
-            String id = ei.getId();
-            String url = ctx.localUrl("/" + id)
-                + "?pageId="
-                + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
-                + "&sectionName="
-                + URLEncoder.encode(name, "UTF-8")
-                + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
-                + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
-                + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
-                + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")));
-
-            ctx.append("<a title=\"" + edit + "\" href=\"" + url + "\">" + editImage + "</a>");
-            
+        if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
+          ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
+          boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
+          if (allowed) {
+            try {
+              String id = ei.getId();
+              String url = ctx.localUrl("/" + id)
+              + "?pageId="
+              + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
+              + "&sectionName="
+              + URLEncoder.encode(name, "UTF-8")
+              + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+              + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
+              + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
+              + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")));
+              
+              ctx.append("<a title=\"" + edit + "\" href=\"" + url + "\">" + editImage + "</a>");
+              
             } catch (UnsupportedEncodingException ex) {
               GWikiLog.warn("Error rendering section edit link");
             }
+          } 
         } 
+        
+        // render simple div if no edit rights
+        else {
+          ctx.append("<div>");
+        }
+        
       }
     }
     if (attrs.getChildFragment() != null) {

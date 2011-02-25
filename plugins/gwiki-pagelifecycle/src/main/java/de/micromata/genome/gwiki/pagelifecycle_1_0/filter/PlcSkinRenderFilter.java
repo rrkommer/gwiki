@@ -17,8 +17,13 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.filter;
 
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.*;
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.*;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.li;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.span;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.ul;
 
 import java.util.List;
 
@@ -34,7 +39,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent.GuiElem
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcRights;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -42,7 +47,7 @@ import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
- * Filter for rendering plugin dependent menu items for pagelifycycle option
+ * Filter for rendering plugin dependent menu items for pagelifycycle options
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
@@ -59,8 +64,7 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
   {
     GWikiContext ctx = event.getWikiContext();
 
-    // TODO stefan berechtigung korrekt setzen
-    if (event.getWikiContext().isAllowTo("EDIT_*") == false) {
+    if (event.getWikiContext().isAllowTo(GWikiPlcRights.PLC_VIEW_MENU.name()) == false) {
       return chain.nextFilter(event);
     }
 
@@ -95,9 +99,14 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
           availableTenants.add("");
           
           for (String tenant : availableTenants) {
-            final String newBranchParam = "newBranchId=" + WebUtils.encodeUrlParam(tenant);
-            // TODO stefan auf sichtbarkeit für user prüfen
+            // check if we can access branch
+            if (StringUtils.isNotBlank(tenant) && //
+                ctx.isAllowTo(GWikiPlcRights.PLC_VIEW_ALL_BRANCHES.name()) == false && //
+                ctx.isAllowTo("VIEW_" + tenant) == false) {
+              continue;
+            }
 
+            final String newBranchParam = "newBranchId=" + WebUtils.encodeUrlParam(tenant);
             entryList.nest(li( //
                 a(new String[][] { { "href", "/edit/pagelifecycle/intern/SwitchBranch?" + newBranchParam + "&" + backUrlParam}}, //
                     text(StringUtils.isBlank(tenant) == true ? "ONLINE" : ctx.getTranslatedProp(tenant)))
