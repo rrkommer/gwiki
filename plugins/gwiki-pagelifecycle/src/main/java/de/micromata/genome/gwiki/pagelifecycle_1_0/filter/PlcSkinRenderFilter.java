@@ -40,6 +40,7 @@ import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcRights;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -63,7 +64,6 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
   public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain, GWikiSkinRenderFilterEvent event)
   {
     GWikiContext ctx = event.getWikiContext();
-
     if (event.getWikiContext().isAllowTo(GWikiPlcRights.PLC_VIEW_MENU.name()) == false) {
       return chain.nextFilter(event);
     }
@@ -100,9 +100,10 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
           
           for (String tenant : availableTenants) {
             // check if we can access branch
-            if (StringUtils.isNotBlank(tenant) && //
-                ctx.isAllowTo(GWikiPlcRights.PLC_VIEW_ALL_BRANCHES.name()) == false && //
-                ctx.isAllowTo("VIEW_" + tenant) == false) {
+            if (StringUtils.isBlank(tenant) == false && // always show Online
+                StringUtils.equals(PlcConstants.DRAFT_ID, tenant) == false && // always show draft 
+                ctx.isAllowTo(GWikiPlcRights.PLC_VIEW_ALL_BRANCHES.name()) == false && // right to see all branches
+                ctx.isAllowTo("VIEW_" + tenant) == false) { // right to see specific branch
               continue;
             }
 
@@ -140,7 +141,7 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
         if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, page)) {
           entryList.nest(
               li(
-                  a(new String[][] { { "href", "/" + page.getId()}},
+                  a(new String[][] { { "href", "/" + page.getId()}}, // 
                       text(ctx.getTranslatedProp(page.getTitle())))
               ));
         }
