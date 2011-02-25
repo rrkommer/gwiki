@@ -1,7 +1,7 @@
 package de.micromata.genome.gwiki.pagetemplates_1_0.wizard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +27,8 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class PageWizardAction extends ActionBeanBase
 {
-  // TODO stefan dynamisch hinterlegen und durch Plugin auch erweiterbar machen
-  private List<String> wizardSteps = Arrays.asList("/edit/pagetemplates/wizard/CategoryStep", "/edit/pagetemplates/wizard/TemplateStep",
-      "/edit/pagelifecycle/wizard/TimingStep");
-
+  private List<String> wizardSteps;
+  
   public void renderHeaders()
   {
     for (String stepPageId : getVisibleWizardSteps()) {
@@ -79,7 +77,7 @@ public class PageWizardAction extends ActionBeanBase
    */
   private void performValidation()
   {
-    for (String wizardStep : wizardSteps) {
+    for (String wizardStep : getWizardSteps()) {
       runInActionContext(wizardStep, null, new Callable<RuntimeException, Void>() {
         public Void call(ActionBean bean) throws RuntimeException
         {
@@ -117,19 +115,22 @@ public class PageWizardAction extends ActionBeanBase
   }
 
   /**
-   * @param wizardSteps the wizardSteps to set
-   */
-  public void setWizardSteps(List<String> wizardSteps)
-  {
-    this.wizardSteps = wizardSteps;
-  }
-
-  /**
    * @return the wizardSteps
    */
   public List<String> getWizardSteps()
   {
-    return wizardSteps;
+    if (this.wizardSteps == null) {
+      GWikiElement wizard = wikiContext.getWikiWeb().findElement("/edit/pagetemplates/PageWizard");
+      if (wizard == null) {
+        return Collections.emptyList();
+      }
+      List<String> wizardSteps = wizard.getElementInfo().getProps().getStringList("WIZARDSTEPS");
+      if (wizardSteps == null) {
+        return Collections.emptyList();
+      }
+      this.wizardSteps = wizardSteps;
+    }
+    return this.wizardSteps;
   }
 
   /**
@@ -140,7 +141,7 @@ public class PageWizardAction extends ActionBeanBase
     final List<String> visibleSteps = new ArrayList<String>();
 
     // call step visible handlers
-    for (final String wizardStep : this.wizardSteps) {
+    for (final String wizardStep : getWizardSteps()) {
       runInActionContext(wizardStep, null, new Callable<RuntimeException, Void>() {
         public Void call(ActionBean bean) throws RuntimeException
         {

@@ -15,28 +15,16 @@
 // limitations under the License.
 // 
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
+package de.micromata.genome.gwiki.pagetemplates_1_0;
 
 /**
- * Pagelifeycycle specific rights
+ * Pagetemplate specific rights
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public enum GWikiPlcRights
+public enum GWikiPtRights
 {
-  PLC_VIEW_MENU,
+  PT_VIEW_MENU,
   
-  PLC_EDIT_ARTICLE,
-  
-  PLC_APPROVE_ARTICLE,
-
-  PLC_REJECT_ARTICLE,
-  
-  PLC_CREATE_BRANCH,
-  
-  PLC_VIEW_ALL_BRANCHES,
-  
-  PLC_ASSIGN_BRANCH,
-  
-  PLC_RELEASE_BRANCH;
+  PT_CREATE_ARTICLE,
 }

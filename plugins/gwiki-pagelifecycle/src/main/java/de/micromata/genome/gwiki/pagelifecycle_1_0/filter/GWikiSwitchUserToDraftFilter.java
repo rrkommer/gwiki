@@ -25,6 +25,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilterEvent.LoginSta
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiReqSessionMptIdSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcRights;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 
@@ -35,7 +36,6 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
  */
 public class GWikiSwitchUserToDraftFilter implements GWikiUserLogonFilter
 {
-
   public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
   {
     if (LoginState.Logout.equals(event.getLoginState()) == true) {
@@ -44,8 +44,7 @@ public class GWikiSwitchUserToDraftFilter implements GWikiUserLogonFilter
     }
 
     GWikiContext ctx = event.getWikiContext();
-    // TODO stefan Rollen abprüfen!?
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, "*") == true) {
+    if (ctx.isAllowTo(GWikiPlcRights.PLC_VIEW_ALL_BRANCHES.name()) == true) {
       return chain.nextFilter(event);
     }
 
@@ -61,7 +60,6 @@ public class GWikiSwitchUserToDraftFilter implements GWikiUserLogonFilter
       // on first switch we have to ensure that needed metafiles are present in branch
       PlcUtils.ensureDraftBranchMetaFiles(multipleSelector, ctx);
     }
-    
     return chain.nextFilter(event);
   }
 }

@@ -5,23 +5,16 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
-		<!--  1 Hour -->
-		<property name="elementLifeTime" value="3600000" />
-		<!--  no controlerId -->
-		<!--  no controlerClass -->
+		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
+		<!--  1 Week -->
+		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
 			<map>
 				<entry key="Controler">
-					<bean
-						class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
-						<property name="pageId" value="inc/${skin}/standardtemplate" />
-						<property name="parts">
-							<map>
-								<entry key="MainPage">
-									<bean
-										class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
-								</entry>
-							</map>
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="forward">
+							<bean
+								class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt" />
 						</property>
 					</bean>
 				</entry>
@@ -33,8 +26,8 @@
 					<list>
 						<bean
 							class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-							<property name="key" value="DESCRIPTION" />
-							<property name="type" value="STRING" />
+							<property name="key" value="WIZARDSTEPS" />
+							<property name="type" value="STRINGLIST" />
 						</bean>
 					</list>
 				</property>

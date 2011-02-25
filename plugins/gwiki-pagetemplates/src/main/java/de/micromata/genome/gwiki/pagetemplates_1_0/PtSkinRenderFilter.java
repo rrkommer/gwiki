@@ -23,6 +23,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.li;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.span;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.ul;
+import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiSkinRenderFilterEvent;
@@ -45,13 +46,11 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
    */
   public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain, GWikiSkinRenderFilterEvent event)
   {
-    GWikiContext ctx = event.getWikiContext();
-    
-    // TODO stefan berechtigung korrekt setzen
-    if (event.getWikiContext().isAllowTo("EDIT_*") == false) {
+    final GWikiContext ctx = event.getWikiContext();
+    if (ctx.isAllowTo(GWikiPtRights.PT_VIEW_MENU.name()) == false) {
       return chain.nextFilter(event);
     }
-    
+
     if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
       ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
@@ -61,16 +60,18 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
               img("border", "0", "src", "/inc/gwiki/img/icons/article32.png")) //
           ));
 
-      if (event.getWikiContext().isAllowTo("EDIT_*")) {
-        // ul for menu entries
-        XmlElement entryList = ul("name", "");
+      // ul for menu entries
+      XmlElement entryList = ul("name", "");
 
-        // Wizard
+      // Wizard
+      GWikiElement wiz = ctx.getWikiWeb().findElement("/edit/pagetemplates/PageWizard");
+      if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, wiz.getElementInfo())) {
         entryList.nest(//
-            li(
-                a(new String[][] { { "href", "/edit/pagetemplates/PageWizard"}},
-                    text(ctx.getTranslated("gwiki.page.articleWizard.title")))));
-
+            li( //
+                a(new String[][] { { "href", "/edit/pagetemplates/PageWizard"}}, // 
+                text(ctx.getTranslated("gwiki.page.articleWizard.title")))
+               ) //
+        ); //
         menu.nest(entryList);
       }
 

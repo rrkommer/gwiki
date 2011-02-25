@@ -41,6 +41,7 @@ import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiRight;
 import de.micromata.genome.gwiki.model.GWikiRoleConfig;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
@@ -188,6 +189,14 @@ public class GWikiPluginRepository
     initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
+    if (plugin.getDescriptor().getRights() != null) {
+      GWikiRoleConfig roleConfig = GWikiUserAuthorization.getRoleConfig(GWikiContext.getCreateContext());
+      if (roleConfig != null) {
+        for (GWikiRight r : plugin.getDescriptor().getRights()) {
+          roleConfig.addRight(r);
+        }
+      }
+    }
   }
 
   public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
@@ -213,7 +222,7 @@ public class GWikiPluginRepository
       GWikiRoleConfig roleConfig = GWikiUserAuthorization.getRoleConfig(wikiContext);
       if (roleConfig != null) {
         for (GWikiRight r : plugin.getDescriptor().getRights()) {
-          roleConfig.addRight(r);
+          roleConfig.removeRight(r);
         }
       }
     }
@@ -222,6 +231,12 @@ public class GWikiPluginRepository
     }
   }
 
+  /**
+   * Manual activation of one plugin 
+   * 
+   * @param wikiContext
+   * @param pluginName
+   */
   public void activePlugin(GWikiContext wikiContext, String pluginName)
   {
     GWikiPlugin plugin = plugins.get(pluginName);
@@ -242,7 +257,6 @@ public class GWikiPluginRepository
     }
     if (this.activePlugins.contains(plugin) == false) {
       activatePlugin(wikiContext.getWikiWeb(), plugin);
-
       if (reloadAfterActivation == true) {
         wikiContext.getWikiWeb().reloadWeb();
       }

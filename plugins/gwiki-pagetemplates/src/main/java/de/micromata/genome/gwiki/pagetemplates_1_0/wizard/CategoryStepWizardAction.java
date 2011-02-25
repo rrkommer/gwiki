@@ -86,12 +86,12 @@ public class CategoryStepWizardAction extends ActionBeanBase
       return noForward();
     }
 
-    final String parentPage = getParentPageId();
-
-    final String newPageId = parentPage + "/" + WebUtils.encodeUrlParam(catPageId);
+    final String parentPageId = getParentPageId();
+    final String newPageId = getPageId();
     element.getElementInfo().setId(newPageId);
-    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPage);
+    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
     element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, catPageTitle);
+    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.AUTH_EDIT, "");
 
     return noForward();
   }
@@ -106,6 +106,10 @@ public class CategoryStepWizardAction extends ActionBeanBase
       return null;
     }
 
+    // TODO stefan alle Branches durchsuchen
+    if (wikiContext.getWikiWeb().findElement(getPageId()) != null) {
+      wikiContext.addValidationError("gwiki.page.articleWizard.error.duplicatePageId");
+    }
     try {
       String encodedPageId = URLEncoder.encode(catPageId, "UTF-8");
       if (catPageId.equalsIgnoreCase(encodedPageId) == false && catPageId.length() > 30) {
@@ -180,6 +184,14 @@ public class CategoryStepWizardAction extends ActionBeanBase
       return this.catSelectedCategory1;
     }
     return getRootPage();
+  }
+
+  /**
+   * @return
+   */
+  private String getPageId()
+  {
+    return getParentPageId() + "/" + WebUtils.encodeUrlParam(catPageId);
   }
 
   /**
