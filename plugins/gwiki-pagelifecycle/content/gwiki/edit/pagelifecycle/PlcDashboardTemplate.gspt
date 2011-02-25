@@ -1,72 +1,64 @@
-<% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
+<% 
+import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude("standardhead"); %>
 
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<gwiki:errors />
 
-<span id="rsperror" style="color:red"></span> 
+	<fieldset>
+		<legend>Artikelverwaltung</legend>
+		
+		<% def form = wikiContext.getRequestAttribute("form"); %>
+		<br/>
+		<table width="100%">
+			<tr>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.title"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.pageid"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.createdby"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.createdat"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.assignee"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.state"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.action"/></th>
+				<th><fmt:message key="gwiki.page.ViewBranchContent.workflow"/></th>
+			</tr>
+				<c:forEach var="map" items="${form.contentMap}">
+				<form class="gwikiForm col" method="post">
+					<input type="hidden" name="selectedPageId" value="<c:out value="${map.key.id}"/>"/>
+					<tr style="border: 1px solid #EEE; padding:1px;">
+						<td><c:out value="${map.key.title}"/></td>
+						<td><c:out value="${map.key.id}"/></td>
+						<td><c:out value="${map.value.createdBy}"/></td>
+						<td><fmt:formatDate value="${map.value.createdAtDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+						<td><c:out value="${map.value.assignedTo}"/></td>
+						<td><fmt:message key="${map.value.fileState.name}"/></td>
+						<td style="text-align: center;"><input type="submit" name="method_onViewPageInTenantContext" value="<fmt:message key="gwiki.page.ViewBranchContent.view"/>" class="gwikiButton main"/></td>
+						<td style="text-align: center;">
+							<c:choose>
+								<!-- content creator -->
+								<c:when test="${map.value.fileState == 'DRAFT'}">
+								    <input type="submit" name="method_onReviewCreator" value="<fmt:message key="gwiki.page.ViewBranchContent.review"/>" class="gwikiButton main"/>
+								</c:when>
 
-<table id="list2" class="scroll" cellpadding="0" cellspacing="0"></table>
-<div id="pager2" class="scroll" style="text-align: center;"></div>
+								<!-- chief editor -->
+								<c:when test="${map.value.fileState == 'TO_REVIEW'}">
+								    <input type="submit" name="method_onRejectChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/ >
+								    <input type="submit" name="method_onApproveChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.approve"/>" class="gwikiButton main"/>
+								</c:when>
 
+								<!-- content admin -->
+								<c:otherwise>
+								    <input type="submit" name="method_onRejectContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/>
+								    <input type="submit" name="method_onReleaseContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.release"/>" class="gwikiButton main"/>
+								</c:otherwise>
+							</c:choose>							
+						</td>
+					</tr>
+				</form>
+				</c:forEach>
+		</table>
+	</fieldset>
+	<br/>
 
-<script type="text/JavaScript">
-jQuery(document).ready(function() {
-  var gridimgpath = '<gwiki:url value="/static/css/ui-lightness/images"/>';
-  
-      
-  var mygrid =  jQuery("#list2")
-    .jqGrid(
-      { url:'<gwiki:url value="/edit/pagelifecycle/PlcDashboard?fields=TITLE|CATEGORY|CREATEDBY|CREATEDAT|STATUS|RELEASEDATE|action"/>' 
-          + '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
-        datatype: "xml",
-        colNames:['<fmt:message key="gwiki.plc.dashboard.grid.id"/>', 
-                  '<fmt:message key="gwiki.plc.dashboard.grid.name"/>', 
-                  '<fmt:message key="gwiki.plc.dashboard.grid.category"/>', 
-                  '<fmt:message key="gwiki.plc.dashboard.grid.createdBy"/>', 
-                  '<fmt:message key="gwiki.plc.dashboard.grid.createdAt"/>',
-                  '<fmt:message key="gwiki.plc.dashboard.grid.status"/>',
-                  '<fmt:message key="gwiki.plc.dashboard.grid.releaseDate"/>',
-                  '<fmt:message key="gwiki.plc.dashboard.grid.action"/>'], 
-        colModel:[
-                {name:'id',index:'ID', width:12},  
-                {name:'name',index:'NAME', width:40},  
-                {name:'category',index:'CATEGORY', width:40},
-                {name:'createdBy',index:'CREATEDBY', width:60},
-                {name:'createdAt',index:'CREATEDAT', width:60},
-                {name:'status',index:'STATUS', width:60},
-                {name:'releaseDate',index:'RELEASEDATE', width:60},
-                {name:'action',index:'action', width:20, sortable:false}
-                 ], 
-        height: 400,
-        autowidth: true,
-        hidegrid: false,
-        rowNum:30, 
-        rowList:[30,50,100], 
-        imgpath: gridimgpath, 
-        pager: jQuery('#pager2'), 
-        viewrecords: true, 
-        caption:"<fmt:message key="gwiki.plc.dashboard.title"/>",
-        loadError : function(xhr,st,err) { 
-           jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
-        }
-      })
-      .navGrid('#pager2',{edit:false,add:false,del:false})
-      .navButtonAdd("#pager2",
-            {caption:"<fmt:message key="gwiki.page.edit.ListControls.label.toggle"/>",
-          title:"<fmt:message key="gwiki.page.edit.ListControls.title.toggle"/>", buttonicon :'ui-icon-pin-s', 
-          onClickButton: function(){ mygrid[0].toggleToolbar() } 
-      }) 
-      .navButtonAdd("#pager2",{
-          caption:"<fmt:message key="gwiki.page.edit.ListControls.label.clear"/>",
-          title:"<fmt:message key="gwiki.page.edit.ListControls.title.clear"/>",
-          buttonicon :'ui-icon-refresh',
-          onClickButton:function(){ mygrid[0].clearToolbar() } 
-      }); 
-      mygrid.filterToolbar();
-      ; 
-}); 
-</script>
-
-<% wikiContext.skinInclude('standardfoot'); %>
+<% wikiContext.skinInclude("standardfoot"); %>

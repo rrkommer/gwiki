@@ -17,80 +17,297 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.collections15.CollectionUtils;
-import org.apache.commons.collections15.Transformer;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.controls.GWikiPageListActionBean;
+import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.GWikiProps;
+import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
-import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
-import de.micromata.genome.gwiki.page.search.QueryResult;
-import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.MatcherBase;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
+ * Dashboard for pagelifecycle specific actions
+ * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class PlcDashboardAction extends GWikiPageListActionBean
+public class PlcDashboardAction extends ActionBeanBase
 {
   
-  public PlcDashboardAction()
-  {
-    super();
-    fixedFilterExpression = "prop:PAGEID like \"*\"";
-  }
-  
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.controls.GWikiPageListActionBean#onFilter()
+  /**
+   * Map tenant-id -> Map of containing elements
    */
-  @Override
-  public Object onFilter()
-  {
-    List<SearchResult> res = new ArrayList<SearchResult>();
-    List<GWikiElementInfo> elems = wikiContext.runInTenantContext("_DRAFT", getWikiSelector(), new CallableX<List<GWikiElementInfo>, RuntimeException>() {
+  private Map<GWikiElementInfo, FileStatsDO> contentMap = new HashMap<GWikiElementInfo, FileStatsDO>();
 
-      public List<GWikiElementInfo> call() throws RuntimeException
-      {
-        List<GWikiElementInfo> pageInfos = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>() {
-          private static final long serialVersionUID = -6020166500681070082L;
-          
-          public boolean match(GWikiElementInfo ei)
-          {
-            String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);
-            return StringUtils.equals("_DRAFT", tid);
+  /**
+   * blacklist of files which not should be considered in content list
+   */
+  private Matcher<String> blackListMatcher = new BooleanListRulesFactory<String>().createMatcher("*intern/*,*admin/*");
+
+  private String selectedPageId;
+
+  private String selectedTenant;
+
+  @Override
+  public Object onInit()
+  {
+    updateList();
+    return null;
+  }
+
+  public Object onViewPageInTenantContext()
+  {
+    String pageId = getSelectedPageId();
+    String tenant = getSelectedTenant();
+    if (StringUtils.isBlank(pageId) == true || StringUtils.isBlank(tenant) == true) {
+      return null;
+    }
+
+    getWikiSelector().enterTenant(wikiContext, tenant);
+    return pageId;
+  }
+
+  public Object onReviewCreator()
+  {
+    setFileStatus(FileState.TO_REVIEW);
+    updateList();
+    return null;
+  }
+
+  public Object onRejectChiefEditor()
+  {
+    setFileStatus(FileState.DRAFT);
+    updateList();
+    return null;
+  }
+
+  public Object onApproveChiefEditor()
+  {
+    setFileStatus(FileState.APPROVED_CHIEF_EDITOR);
+    updateList();
+    return null;
+  }
+
+  public Object onRejectContentAdmin()
+  {
+    setFileStatus(FileState.TO_REVIEW);
+    updateList();
+    return null;
+  }
+
+  public Object onReleaseContentAdmin()
+  {
+    setFileStatus(FileState.APPROVED_CONTENT_ADMIN);
+    updateList();
+    return null;
+  }
+
+  public Object onEnterTenant()
+  {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
+      updateList();
+      return null;
+    }
+
+    String tenant = getSelectedTenant();
+    if (StringUtils.isBlank(tenant) == true) {
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
+      updateList();
+      return null;
+    }
+    wikiSelector.enterTenant(wikiContext, tenant);
+    updateList();
+    return null;
+  }
+
+  public Object onLeaveTenant()
+  {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.leavetenant");
+      updateList();
+      return null;
+    }
+    wikiSelector.leaveTenant(wikiContext);
+    updateList();
+    return null;
+  }
+
+  /**
+   * Loads the content of the several branches
+   */
+  private Object updateList()
+  {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.loadtenantcontent");
+      return null;
+    }
+    List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
+    if (tenants == null || tenants.size() == 0) {
+      return null;
+    }
+
+    for (final String tenant : tenants) {
+      wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          // get all elemtinfos of tenant
+          List<GWikiElementInfo> tenantContent = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>() {
+            private static final long serialVersionUID = -6020166500681070082L;
+            public boolean match(GWikiElementInfo ei)
+            {
+              String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);
+              return StringUtils.equals(tenant, tid);
+            }
+          });
+
+          // if no branch filestats present add empty filestats for each item
+          GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+          if (branchFileStats == null || branchFileStats.getMainPart() == null) {
+            for (GWikiElementInfo ei : tenantContent) {
+              getContentMap().put(ei, new FileStatsDO());
+            }
+            return null;
           }
-        });
-        return pageInfos;
+
+          GWikiArtefakt< ? > artefakt = branchFileStats.getMainPart();
+          if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+            return null;
+          }
+
+          GWikiBranchFileStatsArtefakt branchArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+          BranchFileStats fileStats = branchArtefakt.getCompiledObject();
+          // collecting filestats information for each item
+          for (GWikiElementInfo ei : tenantContent) {
+            // ignore blacklisted files
+            if (blackListMatcher.match(ei.getId()) == true) {
+              continue;
+            }
+            FileStatsDO fileStatsDO = fileStats.getFileStatsForId(ei.getId());
+            if (fileStatsDO == null) {
+              getContentMap().put(ei, new FileStatsDO());
+            } else {
+              getContentMap().put(ei, fileStatsDO);
+            }
+          }
+          return null;
+        }
+      });
+    }
+    return null;
+  }
+
+  /**
+   * @param fileState
+   * 
+   */
+  private void setFileStatus(final FileState fileState)
+  {
+    final String pageToApprove = getSelectedPageId();
+    String tenant = getSelectedTenant();
+
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      return;
+    }
+
+    wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+        if (fileStats == null || fileStats.getMainPart() == null) {
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
+          return null;
+        }
+
+        GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+        if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
+          return null;
+        }
+
+        GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+        BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
+        FileStatsDO fileStatsForPage = pageStats.getFileStatsForId(pageToApprove);
+        if (fileStatsForPage == null) {
+          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
+          return null;
+        }
+
+        fileStatsForPage.setFileState(fileState);
+        fileStatsForPage.setLastModifiedAt(GWikiProps.formatTimeStamp(new Date()));
+        fileStatsForPage.setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+        branchFilestatsArtefakt.setStorageData(pageStats.toString());
+
+        wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, true);
+
+        return null;
       }
     });
-
-    for (GWikiElementInfo pageInfo : elems) {
-      res.add(new SearchResult(pageInfo));
-    }
-    
-    QueryResult qr = new QueryResult(res, res.size());
-    writeXmlResult(qr);
-    
-    return noForward();
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.controls.GWikiPageListActionBean#renderField(java.lang.String, de.micromata.genome.gwiki.model.GWikiElementInfo)
+  /**
+   * @param selectedPageId the selectedPageId to set
    */
-  @Override
-  public String renderField(String fieldName, GWikiElementInfo elementInfo)
+  public void setSelectedPageId(String selectedPageId)
   {
-    return super.renderField(fieldName, elementInfo);
+    this.selectedPageId = selectedPageId;
   }
-  
+
+  /**
+   * @return the selectedPageId
+   */
+  public String getSelectedPageId()
+  {
+    return selectedPageId;
+  }
+
+  /**
+   * @param selectedTenant the selectedTenant to set
+   */
+  public void setSelectedTenant(String selectedTenant)
+  {
+    this.selectedTenant = selectedTenant;
+  }
+
+  /**
+   * @return the selectedTenant
+   */
+  public String getSelectedTenant()
+  {
+    return selectedTenant;
+  }
+
+  public String getCurrentTenant()
+  {
+    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
+    if (wikiSelector == null) {
+      return StringUtils.EMPTY;
+    }
+    return wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
+  }
+
   protected GWikiMultipleWikiSelector getWikiSelector()
   {
     GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
@@ -104,5 +321,21 @@ public class PlcDashboardAction extends GWikiPageListActionBean
       return multipleSelector;
     }
     return null;
+  }
+
+  /**
+   * @param contentMap the contentMap to set
+   */
+  public void setContentMap(Map<GWikiElementInfo, FileStatsDO> contentMap)
+  {
+    this.contentMap = contentMap;
+  }
+
+  /**
+   * @return the contentMap
+   */
+  public Map<GWikiElementInfo, FileStatsDO> getContentMap()
+  {
+    return contentMap;
   }
 }
