@@ -38,15 +38,11 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
-import de.micromata.genome.gwiki.model.GWikiRight;
-import de.micromata.genome.gwiki.model.GWikiRoleConfig;
 import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
-import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.runtime.CallableX;
@@ -189,14 +185,6 @@ public class GWikiPluginRepository
     initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
-    if (plugin.getDescriptor().getRights() != null) {
-      GWikiRoleConfig roleConfig = GWikiUserAuthorization.getRoleConfig(GWikiContext.getCreateContext());
-      if (roleConfig != null) {
-        for (GWikiRight r : plugin.getDescriptor().getRights()) {
-          roleConfig.addRight(r);
-        }
-      }
-    }
   }
 
   public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
@@ -218,21 +206,13 @@ public class GWikiPluginRepository
       ((GWikiPropsArtefakt) el.getMainPart()).setCompiledObject(wikiConfig);
       wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
     }
-    if (plugin.getDescriptor().getRights() != null) {
-      GWikiRoleConfig roleConfig = GWikiUserAuthorization.getRoleConfig(wikiContext);
-      if (roleConfig != null) {
-        for (GWikiRight r : plugin.getDescriptor().getRights()) {
-          roleConfig.removeRight(r);
-        }
-      }
-    }
     if (reloadAfterActivation == true && deactivated == true) {
       wikiContext.getWikiWeb().reloadWeb();
     }
   }
 
   /**
-   * Manual activation of one plugin 
+   * Manual activation of one plugin
    * 
    * @param wikiContext
    * @param pluginName

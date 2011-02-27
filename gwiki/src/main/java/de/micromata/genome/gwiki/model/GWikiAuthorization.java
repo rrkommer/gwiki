@@ -182,6 +182,26 @@ public interface GWikiAuthorization
   public Locale getCurrentUserLocale(GWikiContext ctx);
 
   /**
+   * 
+   * @param <T> return type of callable
+   * @param wikiContext current wiki context
+   * @param addRight the user should temparary get this right.
+   * @return
+   */
+  public <T> T runWithRight(GWikiContext wikiContext, String addRight, CallableX<T, RuntimeException> callback);
+
+  /**
+   * Same as runWithRight
+   * 
+   * @param <T>
+   * @param wikiContext
+   * @param addRights
+   * @param callback
+   * @return
+   */
+  public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback);
+
+  /**
    * Run a code block with all rights granted.
    * 
    * @param <T> return value. If no return value use Void.

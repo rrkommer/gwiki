@@ -26,6 +26,9 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
+import de.micromata.genome.util.matcher.EqualsMatcher;
+import de.micromata.genome.util.matcher.Matcher;
+import de.micromata.genome.util.matcher.OrMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
 
@@ -76,6 +79,29 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       return callback.call();
     } finally {
       GWikiUserServeElementFilterEvent.setUser(pu);
+    }
+  }
+
+  private Matcher<String> addRights(Matcher<String> rightsMatcher, String[] rights)
+  {
+    Matcher<String> ret = rightsMatcher;
+    for (String r : rights) {
+      ret = new OrMatcher<String>(new EqualsMatcher<String>(r), ret);
+    }
+    return ret;
+
+  }
+
+  public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback)
+  {
+    GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
+
+    try {
+      GWikiSimpleUser cu = new GWikiSimpleUser(su);
+      cu.setRightsMatcher(addRights(cu.getRightsMatcher(), addRights));
+      return callback.call();
+    } finally {
+      GWikiUserServeElementFilterEvent.setUser(su);
     }
   }
 

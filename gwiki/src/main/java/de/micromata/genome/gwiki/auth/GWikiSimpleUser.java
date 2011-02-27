@@ -62,8 +62,10 @@ public class GWikiSimpleUser implements Serializable
   {
     this.user = other.user;
     this.email = other.email;
+    this.password = other.password;
     this.rightsMatcher = other.rightsMatcher;
     this.rightsMatcherRule = other.rightsMatcherRule;
+    this.props.putAll(other.props);
   }
 
   public GWikiSimpleUser(String user, String password, String email, String rule)
