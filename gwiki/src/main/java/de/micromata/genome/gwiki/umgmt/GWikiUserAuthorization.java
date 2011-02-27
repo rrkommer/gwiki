@@ -27,6 +27,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -41,12 +42,15 @@ import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiRight;
 import de.micromata.genome.gwiki.model.GWikiRoleConfig;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
+import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 import de.micromata.genome.util.matcher.BooleanListMatcher;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.TreeStateMatcher;
+import de.micromata.genome.util.matcher.string.StartWithMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
 
@@ -269,7 +273,19 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     if (el == null) {
       return null;
     }
-    return (GWikiRoleConfig) el.getMainPart().getCompiledObject();
+    GWikiRoleConfig rc = (GWikiRoleConfig) el.getMainPart().getCompiledObject();
+    for (GWikiPlugin plugin : wikiContext.getWikiWeb().getDaoContext().getPluginRepository().getActivePlugins()) {
+      if (plugin.getDescriptor().getRights() == null || plugin.getDescriptor().getRights().isEmpty() == true) {
+        continue;
+      }
+      for (GWikiRight r : plugin.getDescriptor().getRights()) {
+        if (rc.getRoles().containsKey(r.getName()) == true) {
+          continue;
+        }
+        rc.addRight(r);
+      }
+    }
+    return rc;
   }
 
   protected void getConfigSystemRights(GWikiContext wikiContext, Map<String, GWikiRight> rights)
@@ -307,11 +323,28 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     }
   }
 
+  public void getUsersRights(GWikiContext wikiContext, SortedMap<String, GWikiRight> rights)
+  {
+    List<GWikiElementInfo> users = wikiContext.getElementFinder().getPageInfos(
+        new GWikiPageIdMatcher(wikiContext, new StartWithMatcher<String>("admin/user/")));
+    for (GWikiElementInfo el : users) {
+      GWikiSimpleUser user = findUser(wikiContext, FileNameUtils.getNamePart(el.getId()));
+      String rules = user.getRightsMatcherRule();
+      List<String> roles = getRoleListFromUserRoleString(rules);
+      for (String r : roles) {
+        if (rights.containsKey(r) == false) {
+          rights.put(r, new GWikiRight(r, GWikiRight.RIGHT_CAT_OTHER_RIGHT, ""));
+        }
+      }
+    }
+  }
+
   public SortedMap<String, GWikiRight> getSystemRights(GWikiContext wikiContext)
   {
     SortedMap<String, GWikiRight> ret = new TreeMap<String, GWikiRight>();
     getSystemRights(wikiContext, ret);
     getPageRights(wikiContext, ret);
+    getUsersRights(wikiContext, ret);
     return ret;
   }
 
@@ -352,6 +385,20 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return false;
   }
 
+  List<String> getRoleListFromUserRoleString(String roleString)
+  {
+    List<String> roles = Converter.parseStringTokens(roleString, ",", false);
+    for (int i = 0; i < roles.size(); ++i) {
+      String role = roles.get(i);
+
+      if (role.startsWith("+") == true) {
+        role = role.substring(1);
+        roles.set(i, role);
+      }
+    }
+    return roles;
+  }
+
   public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights, String roleString)
   {
     Matcher<String> rightsMatcher = new BooleanListRulesFactory<String>().createMatcher(roleString);
@@ -365,11 +412,8 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return ret;
     }
     ret = new TreeMap<String, GWikiRight>();
-    List<String> roles = Converter.parseStringTokens(roleString, ",", false);
+    List<String> roles = getRoleListFromUserRoleString(roleString);
     for (String role : roles) {
-      if (role.startsWith("+") == true) {
-        role = role.substring(1);
-      }
       if (systemRights.containsKey(role) == true) {
         ret.put(role, systemRights.get(role));
       } else {

@@ -242,4 +242,12 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
     return true;
   }
+
+  public <T> T runWithRight(GWikiContext wikiContext, String addRight, CallableX<T, RuntimeException> callback)
+  {
+    String[] rights = new String[1];
+    rights[0] = addRight;
+    return runWithRights(wikiContext, rights, callback);
+  }
+
 }
