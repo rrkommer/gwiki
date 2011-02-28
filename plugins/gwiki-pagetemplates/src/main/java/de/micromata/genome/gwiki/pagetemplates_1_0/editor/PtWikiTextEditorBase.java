@@ -47,7 +47,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   protected String wikiText;
 
   /**
-   * start idx of section 
+   * start idx of section
    */
   protected int startSec = -1;
 
@@ -56,7 +56,6 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
    */
   protected int endSec = -1;
 
-  
   private GWikiWikiPageArtefakt wikiArtefakt;
 
   /**
@@ -74,6 +73,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   {
     showHint(ctx);
     renderWithParts(ctx);
+    
     return true;
   }
 
@@ -91,13 +91,14 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     return wiki;
   }
 
-  private void showHint(final GWikiContext ctx) {
+  private void showHint(final GWikiContext ctx)
+  {
     if (hint != null && hint.length() > 0) {
       String hintDesc = ctx.getTranslated("gwiki.editor.hint");
       ctx.append("<p>" + hintDesc + ": " + hint + "</p>");
     }
   }
-  
+
   protected void updateSection(String newContent)
   {
     extractContent();
@@ -107,12 +108,12 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     String nc = wikiText.substring(0, startSec) + newContent + wikiText.substring(endSec);
     wikiArtefakt.setStorageData(nc);
   }
-  
-  protected void renderAttr(GWikiContext ctx, String key, String value)
+
+  protected void renderAttr(final GWikiContext ctx, String key, String value)
   {
     ctx.append(" " + key + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
   }
-  
+
   private void extractContent()
   {
     String start = "{pteditsection:name=" + sectionName;
@@ -169,5 +170,5 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     }
     return wikiText.substring(startSec, endSec);
   }
-  
+
 }

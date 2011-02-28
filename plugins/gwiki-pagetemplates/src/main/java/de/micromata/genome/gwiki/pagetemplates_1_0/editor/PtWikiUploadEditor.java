@@ -17,10 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.IOUtils;
@@ -29,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -43,17 +41,19 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
 
   protected FileItem dataFile;
 
+  private String maxFileSize;
+
   private byte[] data;
 
-  public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor, String hint)
+  public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor, String hint, String maxFileSize)
   {
     super(element, sectionName, editor, hint);
 
+    this.maxFileSize = maxFileSize;
   }
 
   /**
    * @param ctx
-   * @param maxWidthInPx
    * @return
    */
   public String saveContent(final GWikiContext ctx)
@@ -81,7 +81,7 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
     if (dataFile == null) {
       dataFile = ctx.getFileItem(sectionName);
     }
-    
+
     String pageId = parentPageId + "/" + dataFile.getName();
     String title = ctx.getRequest().getParameter("title");
     try {
@@ -107,11 +107,26 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
 
       imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
 
-      ctx.getWikiWeb().getStorage().storeElement(ctx, imageElement, false);
+      if (maxFileSize != null && StringUtils.isNotEmpty(maxFileSize)) {
+        try {
+          long maxSize = Long.parseLong(StringUtils.trimToEmpty(maxFileSize)) * 1024;
+          long currSize = dataFile.getSize();
 
+          if (maxSize < currSize) {
+            ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.upload.filesize") + maxFileSize + " kB");
+          } else {
+            ctx.getWikiWeb().saveElement(ctx, imageElement, false);
+          }
+        } catch (Exception e) {
+          GWikiLog.error(e.getMessage(), e);
+        }
+      } else {
+        ctx.getWikiWeb().saveElement(ctx, imageElement, false);
+      }
     } catch (IOException ex) {
       ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", ex.getMessage());
     }
+
     return parentPageId;
   }
 

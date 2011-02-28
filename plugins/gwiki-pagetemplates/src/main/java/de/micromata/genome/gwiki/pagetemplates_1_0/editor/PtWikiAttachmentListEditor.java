@@ -41,7 +41,7 @@ public class PtWikiAttachmentListEditor extends PtWikiTextEditorBase
    * @see de.micromata.genome.gwiki.model.GWikiArtefaktBase#renderWithParts(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
-  public boolean renderWithParts(GWikiContext ctx)
+  public boolean renderWithParts(final GWikiContext ctx)
   {
     ctx.append("Headline: ");
     ctx.append("<input");
@@ -58,7 +58,7 @@ public class PtWikiAttachmentListEditor extends PtWikiTextEditorBase
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
-  public void onSave(GWikiContext ctx)
+  public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
     updateSection(newContent);
