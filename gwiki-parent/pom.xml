@@ -8,7 +8,7 @@
 	<description>GWiki is a Wiki plattform for CMS and creating CMS based web plattforms.
 							 The gwiki-parent is just the parent pom.</description>
 	<packaging>pom</packaging>
-	
+
 	<profiles>
 		<profile>
 			<id>default</id>
@@ -97,9 +97,16 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>ettrema</id>
+			<url>http://www.ettrema.com/maven2/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 	<pluginRepositories>
-		
+
 
 	</pluginRepositories>
 
