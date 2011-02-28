@@ -41,106 +41,79 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
 {
   private static final long serialVersionUID = 5901053792188232570L;
 
-  private FileItem dataFile;
+  protected FileItem dataFile;
+
   private byte[] data;
-  
+
   public PtWikiUploadEditor(GWikiElement element, String sectionName, String editor, String hint)
   {
     super(element, sectionName, editor, hint);
-    
+
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
-   */
-  public String saveContent(final GWikiContext ctx)
-  {
-    return saveContent(ctx, -1);
-  }
-  
-  
   /**
    * @param ctx
    * @param maxWidthInPx
    * @return
    */
-  public String saveContent(final GWikiContext ctx, int maxWidthInPx)
+  public String saveContent(final GWikiContext ctx)
   {
-    String parentPageId = uploadFile(ctx, maxWidthInPx);
-    
+    String parentPageId = uploadFile(ctx);
+
     if (parentPageId == null) {
       return null;
     }
-    
+
     String pageId = parentPageId + "/" + dataFile.getName();
-    
+
     return pageId;
   }
-  
 
   /**
    * @param ctx
-   * @param maxWidthInPx 
+   * @param maxWidthInPx
    * @return
    */
-  private String uploadFile(final GWikiContext ctx, int maxWidthInPx)
+  private String uploadFile(final GWikiContext ctx)
   {
-    // TODO ab hier auslagern - UNTERSCHIED von img zu file!
-    dataFile = ctx.getFileItem(sectionName);
     String parentPageId = ctx.getRequestParameter("pageId");
-    
-    try {
-      BufferedImage img = ImageIO.read(dataFile.getInputStream());
-      int width = img.getWidth();
-      
-      if (width > maxWidthInPx) {
-        ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", 
-            "Be sure the width of the image is less eqals " + maxWidthInPx + " px");
-        return null;
-      }
-    } catch (IOException ex1) {
-      ex1.printStackTrace();
-    }
-    // TODO bis hier auslagern
 
+    if (dataFile == null) {
+      dataFile = ctx.getFileItem(sectionName);
+    }
+    
     String pageId = parentPageId + "/" + dataFile.getName();
     String title = ctx.getRequest().getParameter("title");
-    try 
-    {
+    try {
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       IOUtils.copy(dataFile.getInputStream(), bout);
       data = bout.toByteArray();
-      
+
       String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
       GWikiElement imageElement = GWikiWebUtils.createNewElement(ctx, pageId, metaTemplateId, parentPageId);
       GWikiArtefakt< ? > art = imageElement.getMainPart();
       GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
       att.setStorageData(data);
-      
-      if (data != null) 
-      {
+
+      if (data != null) {
         imageElement.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
       }
-      
-      if (!StringUtils.isEmpty(title))
-      {
+
+      if (!StringUtils.isEmpty(title)) {
         imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, title);
       } else {
         imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, dataFile.getName());
       }
-      
+
       imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
-      
+
       ctx.getWikiWeb().getStorage().storeElement(ctx, imageElement, false);
-      
+
     } catch (IOException ex) {
       ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", ex.getMessage());
     }
     return parentPageId;
   }
-
 
   /*
    * (non-Javadoc)
