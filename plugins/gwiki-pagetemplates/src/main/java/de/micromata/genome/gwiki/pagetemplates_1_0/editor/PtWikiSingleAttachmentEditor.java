@@ -42,10 +42,10 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor, String hint)
+  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor, String hint, String maxFileSize)
   {
-    super(element, sectionName, editor, hint);
-    
+    super(element, sectionName, editor, hint, maxFileSize);
+
   }
 
   /*
@@ -54,45 +54,45 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
    * @see de.micromata.genome.gwiki.model.GWikiArtefaktBase#renderWithParts(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
-  public boolean renderWithParts(GWikiContext ctx)  
+  public boolean renderWithParts(final GWikiContext ctx)
   {
     final String discover = ctx.getTranslated("gwiki.editor.image.browse");
-      
+
     XmlElement inputFile = input( //
-        attrs("name", sectionName, "type", "file", "size", "50", "accept", "*"));
-    
+    attrs("name", sectionName, "type", "file", "size", "50", "accept", "*"));
+
     XmlElement inputTitle = input( //
-        attrs("name", "title"));
-   
+    attrs("name", "title"));
+
     XmlElement table = table( //
         attrs()).nest( //
-            tr( //
-                td(text(discover)), //
-                td(inputFile) //
-            ), //
-            tr( //
-                td(text("Title: ")), //
-                td(inputTitle) //
-            )
-        );
-    
+        tr( //
+        td(text(discover)), //
+        td(inputFile) //
+        ), //
+        tr( //
+        td(text("Title: ")), //
+        td(inputTitle) //
+        ));
+
     ctx.append(table.toString());
-    
+
     return true;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
-  public void onSave(GWikiContext ctx) 
+  public void onSave(final GWikiContext ctx)
   {
     String href = super.saveContent(ctx);
     String title = ctx.getRequest().getParameter("title");
-    
+
     GWikiFragmentLink link = new GWikiFragmentLink(href);
-    
-    if (StringUtils.isNotEmpty(title)) 
-    {
+
+    if (StringUtils.isNotEmpty(title)) {
       link.setTitle(title);
     }
 

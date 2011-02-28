@@ -45,16 +45,16 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
    * @see de.micromata.genome.gwiki.model.GWikiArtefaktBase#renderWithParts(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
-  public boolean renderWithParts(GWikiContext ctx)
+  public boolean renderWithParts(final GWikiContext ctx)
   {
     XmlElement input = input( //
-        attrs("name", sectionName,// 
-            "value", StringEscapeUtils.escapeHtml(getEditContent()), // 
-            "style", "margin:10px 0 25px 0;", // 
-            "size", "50"));
+    attrs("name", sectionName,//
+        "value", StringEscapeUtils.escapeHtml(getEditContent()), //
+        "style", "margin:10px 0 25px 0;", //
+        "size", "50"));
 
     final String headline = ctx.getTranslated("gwiki.editor.headline.headline");
-    
+
     ctx.append(headline);
     ctx.append(input.toString());
 
@@ -66,7 +66,7 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
-  public void onSave(GWikiContext ctx)
+  public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
     updateSection(newContent);

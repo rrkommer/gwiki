@@ -47,17 +47,22 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    * type of the editor.
    */
   private String editor;
-  
+
   /**
    * optional hint, displays in a html-paragraph before the editor appears
    */
   private String hint;
-  
+
   /**
    * optional field for images to limit the width of an uploaded image
    */
   private String maxWidth;
-  
+
+  /**
+   * optional field for attachments or images to limit the physical size
+   */
+  private String maxFileSize;
+
   /**
    * optional field, that allows to render wiki elements in the {@link PtWikiRawTextEditor}
    */
@@ -74,7 +79,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   {
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null) {
-      
+
       if (ei != null) {
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
@@ -88,28 +93,47 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
             try {
               String id = ei.getId();
               String url = ctx.localUrl("/" + id)
-              + "?pageId="
-              + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
-              + "&sectionName="
-              + URLEncoder.encode(name, "UTF-8")
-              + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
-              + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
-              + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
-              + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")));
-              
-              ctx.append("<a title=\"" + edit + "\" href=\"" + url + "\">" + editImage + "</a>");
-              
+                  + "?pageId="
+                  + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
+                  + "&sectionName="
+                  + URLEncoder.encode(name, "UTF-8")
+                  + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+                  + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
+                  + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
+                  + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")))
+                  + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")))
+                  + "&init=true";
+
+              ctx.append("<a id=\""
+                  + URLEncoder.encode(name, "UTF-8")
+                  + "\" title=\""
+                  + edit
+                  + "\" href=\""
+                  + url
+                  + "\">"
+                  + editImage
+                  + "</a>");
+
+              ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
+                  + "$(\"#"
+                  + URLEncoder.encode(name, "UTF-8")
+                  + "\").fancybox({\n"
+                  + "width: 1200,\n"
+                  + "height: 800,\n"
+                  + "type: 'iframe'\n"
+                  + "});\n" + "});\n" + "</script>\n");
+
             } catch (UnsupportedEncodingException ex) {
               GWikiLog.warn("Error rendering section edit link");
             }
-          } 
-        } 
-        
+          }
+        }
+
         // render simple div if no edit rights
         else {
           ctx.append("<div>");
         }
-        
+
       }
     }
     if (attrs.getChildFragment() != null) {
@@ -187,5 +211,21 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   public String getMaxWidth()
   {
     return maxWidth;
+  }
+
+  /**
+   * @param maxFileSize the maxFileSize to set
+   */
+  public void setMaxFileSize(String maxFileSize)
+  {
+    this.maxFileSize = maxFileSize;
+  }
+
+  /**
+   * @return the maxFileSize
+   */
+  public String getMaxFileSize()
+  {
+    return maxFileSize;
   }
 }

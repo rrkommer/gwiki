@@ -53,9 +53,9 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
 
   private String maxWidth;
 
-  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor, String hint, String maxWidth)
+  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor, String hint, String maxWidth, String maxFileSize)
   {
-    super(element, sectionName, editor, hint);
+    super(element, sectionName, editor, hint, maxFileSize);
     this.maxWidth = maxWidth;
   }
 

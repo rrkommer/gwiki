@@ -36,60 +36,55 @@ import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiSingleAttachment
 public class PtPageSectionEditorActionBean extends ActionBeanBase
 {
   private static final String EDITOR_RTE = "rte";
+
   private static final String EDITOR_RAW = "text";
+
   private static final String EDITOR_HL = "headline";
+
   private static final String EDITOR_IMAGE = "image";
+
   private static final String EDITOR_LINK = "link";
+
   private static final String EDITOR_ATTACHMENT = "attachment";
-  
+
   private String pageId;
 
   private String sectionName;
 
   private String editor;
-  
+
   private String hint;
-  
+
   private String maxWidth;
-  
+
+  private String maxFileSize;
+
   private boolean allowWikiSyntax;
 
   private GWikiEditorArtefakt< ? > secEditor;
 
   private GWikiElement element;
-  
+
   private GWikiEditorArtefakt< ? > createEditor()
   {
-    
-    if (pageId != null) 
-    {
+
+    if (pageId != null) {
       element = wikiContext.getWikiWeb().getElement(pageId);
-      
-      if (StringUtils.equals(editor, EDITOR_RTE)) 
-      {
-        return new PtWikiRichTextEditor(element, sectionName, editor, hint);   
-      } 
-      else if (StringUtils.equals(editor, EDITOR_RAW)) 
-      {
+
+      if (StringUtils.equals(editor, EDITOR_RTE)) {
+        return new PtWikiRichTextEditor(element, sectionName, editor, hint);
+      } else if (StringUtils.equals(editor, EDITOR_RAW)) {
         return new PtWikiRawTextEditor(element, sectionName, editor, hint, allowWikiSyntax);
-      } 
-      else if (StringUtils.equals(editor, EDITOR_HL)) 
-      {
+      } else if (StringUtils.equals(editor, EDITOR_HL)) {
         return new PtWikiHeadlineEditor(element, sectionName, editor, hint);
-      } 
-      else if (StringUtils.equals(editor, EDITOR_IMAGE)) 
-      {
-        return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth);
-      } 
-      else if (StringUtils.equals(editor, EDITOR_LINK)) 
-      {
+      } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
+        return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth, maxFileSize);
+      } else if (StringUtils.equals(editor, EDITOR_LINK)) {
         return new PtWikiLinkEditor(element, sectionName, editor, hint);
-      } 
-      else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) 
-      {
-        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint);
+      } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
+        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint, maxFileSize);
       }
-      
+
     }
     return null;
   }
@@ -109,18 +104,21 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   public Object onSave()
   {
     init();
-    
+
     secEditor.onSave(wikiContext);
 
     if (wikiContext.hasValidationErrors()) {
       return null;
     }
-    
+
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, element, false);
-    
-    return pageId;
+
+    // returns noForward to close the fancybox!
+    wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
+    wikiContext.flush();
+    return noForward();
   }
-  
+
   public Object onCancel()
   {
     return pageId;
@@ -155,17 +153,17 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   {
     this.editor = editor;
   }
-  
+
   public String getHint()
   {
     return hint;
   }
-  
+
   public void setHint(String hint)
   {
     this.hint = hint;
   }
-  
+
   public GWikiEditorArtefakt< ? > getSecEditor()
   {
     return secEditor;
@@ -206,6 +204,22 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   public String getMaxWidth()
   {
     return maxWidth;
+  }
+
+  /**
+   * @param maxFileSize the maxFileSize to set
+   */
+  public void setMaxFileSize(String maxFileSize)
+  {
+    this.maxFileSize = maxFileSize;
+  }
+
+  /**
+   * @return the maxFileSize
+   */
+  public String getMaxFileSize()
+  {
+    return maxFileSize;
   }
 
 }

@@ -35,9 +35,9 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
-  
+
   private boolean allowWikiSyntax = false;
-  
+
   public PtWikiRawTextEditor(GWikiElement element, String sectionName, String editor, String hint, boolean allowWikiSyntax)
   {
     super(element, sectionName, editor, hint);
@@ -50,36 +50,36 @@ public class PtWikiRawTextEditor extends PtWikiTextEditorBase
    * @see de.micromata.genome.gwiki.model.GWikiArtefaktBase#renderWithParts(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
-  public boolean renderWithParts(GWikiContext ctx)
+  public boolean renderWithParts(final GWikiContext ctx)
   {
     String content = StringEscapeUtils.escapeHtml(getEditContent());
     content = Html2WikiFilter.unescapeWiki(content);
-    
+
     XmlElement textarea = textarea( //
         attrs("name", sectionName, //
             "cols", "120", //
             "rows", "40")) //
-            //"onchange", "javascript:gwikiEditorContentChanged = true")) //
+        // "onchange", "javascript:gwikiEditorContentChanged = true")) //
         .nest(text(content));
-    
+
     ctx.append(textarea.toString());
-    
+
     return true;
   }
-  
+
   /*
    * (non-Javadoc)
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
-  public void onSave(GWikiContext ctx)
+  public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
-    
-    if (! allowWikiSyntax) {
+
+    if (!allowWikiSyntax) {
       newContent = Html2WikiFilter.escapeWiki(newContent);
     }
-    
+
     updateSection(newContent);
 
   }
