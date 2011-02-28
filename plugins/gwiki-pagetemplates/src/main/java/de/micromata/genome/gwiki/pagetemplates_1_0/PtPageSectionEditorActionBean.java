@@ -111,7 +111,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       return null;
     }
 
-    wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, element, false);
+    wikiContext.getWikiWeb().saveElement(wikiContext, element, false);
 
     // returns noForward to close the fancybox!
     wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
