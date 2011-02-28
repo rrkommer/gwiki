@@ -100,6 +100,7 @@ public class GWikiWikiParserContext
           return null;
         }
       }
+      return null;
     }
     return top.get(top.size() - 1);
   }
