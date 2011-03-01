@@ -49,7 +49,7 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   {
     w2htest(
         "{pageintro}- a {{m}} b\n- c{pageintro}\n",
-        "<div class=\"wikiPageIntro\"><ul class=\"minus\" type=\"square\"><li>a <span style=\"font-family:monospace\">m</span> b</li><li>c</li></ul></div>",
+        "<div class=\"wikiPageIntro\"><ul class=\"minus\" type=\"square\"><li>a <span style=\"font-family:courier new,courier,monospace;\">m</span> b</li><li>c</li></ul></div>",
         macroFactories);
   }
 
