@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiHeadlineEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiImageEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiLinkEditor;
@@ -61,15 +62,17 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 
   private boolean allowWikiSyntax;
 
-  private GWikiEditorArtefakt< ? > secEditor;
+  private GWikiSectionEditorArtefakt< ? > secEditor;
 
   private GWikiElement element;
 
-  private GWikiEditorArtefakt< ? > createEditor()
+  private GWikiSectionEditorArtefakt< ? > createEditor()
   {
 
     if (pageId != null) {
       element = wikiContext.getWikiWeb().getElement(pageId);
+
+      String fieldNumber = wikiContext.getRequestParameter("field");
 
       if (StringUtils.equals(editor, EDITOR_RTE)) {
         return new PtWikiRichTextEditor(element, sectionName, editor, hint);
@@ -82,7 +85,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       } else if (StringUtils.equals(editor, EDITOR_LINK)) {
         return new PtWikiLinkEditor(element, sectionName, editor, hint);
       } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
-        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint, maxFileSize);
+        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
       }
 
     }
@@ -117,6 +120,19 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
     wikiContext.flush();
     return noForward();
+  }
+
+  public Object onDelete()
+  {
+    init();
+
+    secEditor.onDelete(wikiContext);
+
+    if (wikiContext.hasValidationErrors()) {
+      return null;
+    }
+
+    return pageId;
   }
 
   public Object onCancel()
@@ -169,7 +185,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     return secEditor;
   }
 
-  public void setSecEditor(GWikiEditorArtefakt< ? > secEditor)
+  public void setSecEditor(GWikiSectionEditorArtefakt< ? > secEditor)
   {
     this.secEditor = secEditor;
   }

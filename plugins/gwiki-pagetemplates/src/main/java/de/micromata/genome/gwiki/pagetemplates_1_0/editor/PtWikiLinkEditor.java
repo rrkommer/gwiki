@@ -258,4 +258,13 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
     ctx.append("\n</ul>\n");
   }
 
+  /* (non-Javadoc)
+   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void onDelete(GWikiContext ctx)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

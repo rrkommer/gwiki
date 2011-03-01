@@ -82,4 +82,13 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
     return "";
   }
 
+  /* (non-Javadoc)
+   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void onDelete(GWikiContext ctx)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

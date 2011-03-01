@@ -19,30 +19,14 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
 import java.io.Serializable;
 
-import de.micromata.genome.gwiki.model.GWikiArtefaktBase;
-import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 
 /**
- * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
+ * @author Christian Claus (c.claus@micromata.de)
+ *
  */
-public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiArtefaktBase<T> implements GWikiSectionEditorArtefakt<T>//GWikiEditorArtefakt<T>
+public interface GWikiSectionEditorArtefakt<T extends Serializable> extends GWikiEditorArtefakt<T>
 {
-  private static final long serialVersionUID = 7611579351674072940L;
-
-  protected GWikiElement element;
-
-  protected String sectionName;
-
-  protected String editor;
-  
-  protected String hint;
-  
-  public PtSectionEditorBase(GWikiElement element, String sectionName, String editor, String hint)
-  {
-    this.element = element;
-    this.sectionName = sectionName;
-    this.editor = editor;
-    this.hint = hint;
-  }
+  public void onDelete(GWikiContext ctx);
 }
