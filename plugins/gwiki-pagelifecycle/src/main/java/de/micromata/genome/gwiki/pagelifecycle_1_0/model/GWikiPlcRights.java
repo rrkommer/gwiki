@@ -24,19 +24,36 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
  */
 public enum GWikiPlcRights
 {
+  /** right to view plc menu */
   PLC_VIEW_MENU,
   
+  /** right to edit an article */
   PLC_EDIT_ARTICLE,
   
-  PLC_APPROVE_ARTICLE,
+  /** right to approve a draft article */
+  PLC_APPROVE_DRAFT_ARTICLE,
 
-  PLC_REJECT_ARTICLE,
+  /** right to reject a draft article */
+  PLC_REJECT_DRAFT_ARTICLE,
   
+  /** right to approve a article */
+  PLC_APPROVE_ARTICLE,
+  
+  /** right to reject a article */
+  PLC_REJECT_ARTICLE,
+
+  /** right to release an article */
+  PLC_RELEASE_ARTICLE,
+
+  /** right to create a new branch */
   PLC_CREATE_BRANCH,
   
+  /** right to view all branches */
   PLC_VIEW_ALL_BRANCHES,
   
+  /** right to assign objects to a branch */
   PLC_ASSIGN_BRANCH,
   
+  /** right to release a branch */
   PLC_RELEASE_BRANCH;
 }

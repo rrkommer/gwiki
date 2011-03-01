@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -387,6 +388,9 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
   List<String> getRoleListFromUserRoleString(String roleString)
   {
+    if (StringUtils.isEmpty(roleString)) {
+      return Collections.emptyList();
+    }
     List<String> roles = Converter.parseStringTokens(roleString, ",", false);
     for (int i = 0; i < roles.size(); ++i) {
       String role = roles.get(i);

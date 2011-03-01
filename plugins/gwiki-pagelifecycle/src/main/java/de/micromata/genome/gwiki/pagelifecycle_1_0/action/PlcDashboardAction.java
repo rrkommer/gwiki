@@ -17,10 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -36,6 +37,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileInfoWrapper;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.web.GWikiServlet;
@@ -49,13 +51,14 @@ import de.micromata.genome.util.runtime.CallableX;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class PlcDashboardAction extends ActionBeanBase
+public class PlcDashboardAction extends PlcActionBeanBase
 {
+  private String orderBy = "RELEASE_DATE";
   
   /**
-   * Map tenant-id -> Map of containing elements
+   * 
    */
-  private Map<GWikiElementInfo, FileStatsDO> contentMap = new HashMap<GWikiElementInfo, FileStatsDO>();
+  private List<FileInfoWrapper> content = new ArrayList<FileInfoWrapper>();
 
   /**
    * blacklist of files which not should be considered in content list
@@ -80,7 +83,6 @@ public class PlcDashboardAction extends ActionBeanBase
     if (StringUtils.isBlank(pageId) == true || StringUtils.isBlank(tenant) == true) {
       return null;
     }
-
     getWikiSelector().enterTenant(wikiContext, tenant);
     return pageId;
   }
@@ -186,7 +188,7 @@ public class PlcDashboardAction extends ActionBeanBase
           GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
           if (branchFileStats == null || branchFileStats.getMainPart() == null) {
             for (GWikiElementInfo ei : tenantContent) {
-              getContentMap().put(ei, new FileStatsDO());
+              getContent().add(new FileInfoWrapper(tenant, ei, null));
             }
             return null;
           }
@@ -206,15 +208,17 @@ public class PlcDashboardAction extends ActionBeanBase
             }
             FileStatsDO fileStatsDO = fileStats.getFileStatsForId(ei.getId());
             if (fileStatsDO == null) {
-              getContentMap().put(ei, new FileStatsDO());
+              getContent().add(new FileInfoWrapper(tenant, ei, null));
             } else {
-              getContentMap().put(ei, fileStatsDO);
+              getContent().add(new FileInfoWrapper(tenant, ei, fileStatsDO));
             }
           }
           return null;
         }
       });
     }
+    Collections.sort(getContent(), new FileInfoComparator(orderBy));
+    
     return null;
   }
 
@@ -308,34 +312,65 @@ public class PlcDashboardAction extends ActionBeanBase
     return wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
   }
 
-  protected GWikiMultipleWikiSelector getWikiSelector()
-  {
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
-      return null;
-    }
-
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
-      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
-      return multipleSelector;
-    }
-    return null;
-  }
-
   /**
    * @param contentMap the contentMap to set
    */
-  public void setContentMap(Map<GWikiElementInfo, FileStatsDO> contentMap)
+  public void setContent(List<FileInfoWrapper> contentMap)
   {
-    this.contentMap = contentMap;
+    this.content = contentMap;
   }
 
   /**
    * @return the contentMap
    */
-  public Map<GWikiElementInfo, FileStatsDO> getContentMap()
+  public List<FileInfoWrapper> getContent()
   {
-    return contentMap;
+    return content;
+  }
+
+  /**
+   * @param orderBy the orderBy to set
+   */
+  public void setOrderBy(String orderBy)
+  {
+    this.orderBy = orderBy;
+  }
+
+  /**
+   * @return the orderBy
+   */
+  public String getOrderBy()
+  {
+    return orderBy;
+  }
+  
+  class FileInfoComparator implements Comparator<FileInfoWrapper> {
+
+    private String orderBy;
+    
+    public FileInfoComparator(final String orderBy) {
+      this.orderBy = orderBy;
+    }
+    
+    /* (non-Javadoc)
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
+    public int compare(FileInfoWrapper o1, FileInfoWrapper o2)
+    {
+      if ("RELEASE_DATE".equals(this.orderBy) == true) {
+        if (o1.getStartAt() == null && o2.getStartAt() == null) {
+          return 0;
+        }
+        if (o1.getStartAt() == null) {
+          return 1;
+        }
+        if (o2.getStartAt() == null) {
+          return -1;
+        }
+        return o1.getStartAt().before(o2.getStartAt()) == true ? 1 : -1;
+      }
+      return 0;
+    }
+    
   }
 }
