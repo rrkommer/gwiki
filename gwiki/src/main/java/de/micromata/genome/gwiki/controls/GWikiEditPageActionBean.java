@@ -473,6 +473,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     if (newPage == true) {
       if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
         wikiContext.addValidationError("gwiki.edit.EditPage.message.pageidalreadyexists", pageId);
+        pageId = null;
         return null;
       }
       elementToEdit.getElementInfo().setId(pageId);
