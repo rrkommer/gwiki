@@ -101,8 +101,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
                   + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
                   + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
                   + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")))
-                  + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")))
-                  + "&init=true";
+                  + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
 
               ctx.append("<a id=\""
                   + URLEncoder.encode(name, "UTF-8")
