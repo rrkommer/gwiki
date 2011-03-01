@@ -27,7 +27,7 @@ public class GWikiFragmentFixedFont extends GWikiFragmentDecorator
 
   public GWikiFragmentFixedFont(List<GWikiFragment> childs)
   {
-    super("<span style=\"font-family:monospace\">", "</span>", childs);
+    super("<span style=\"font-family:courier new,courier,monospace;\">", "</span>", childs);
   }
 
   @Override
