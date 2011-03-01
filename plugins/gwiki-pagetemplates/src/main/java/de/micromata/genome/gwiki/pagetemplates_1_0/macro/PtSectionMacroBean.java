@@ -17,8 +17,17 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.macro;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
@@ -26,7 +35,10 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * Defines an editable section.
@@ -68,6 +80,10 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    */
   private boolean allowWikiSyntax = false;
 
+  private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
+
+  private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
+
   /*
    * (non-Javadoc)
    * 
@@ -75,7 +91,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
-  public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
+  public boolean renderImpl(final GWikiContext ctx, MacroAttributes attrs)
   {
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null) {
@@ -84,47 +100,26 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
-        final String editImage = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
+        String image = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
+        boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
 
-        if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true) {
-          ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\"");
-          boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
-          if (allowed) {
-            try {
-              String id = ei.getId();
-              String url = ctx.localUrl("/" + id)
-                  + "?pageId="
-                  + URLEncoder.encode(ctx.getCurrentElement().getElementInfo().getId(), "UTF-8")
-                  + "&sectionName="
-                  + URLEncoder.encode(name, "UTF-8")
-                  + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
-                  + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
-                  + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
-                  + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")))
-                  + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
+        if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true && allowed) {
+          ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\">");
 
-              ctx.append("<a id=\""
-                  + URLEncoder.encode(name, "UTF-8")
-                  + "\" title=\""
-                  + edit
-                  + "\" href=\""
-                  + url
-                  + "\">"
-                  + editImage
-                  + "</a>");
+          if ("attachment".equals(editor) || "link".equals(editor)) {
+            image = "<img src='/inc/gwiki/img/icons/linedpaperplus32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
+          }
 
-              ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
-                  + "$(\"#"
-                  + URLEncoder.encode(name, "UTF-8")
-                  + "\").fancybox({\n"
-                  + "width: 1200,\n"
-                  + "height: 800,\n"
-                  + "type: 'iframe'\n"
-                  + "});\n" + "});\n" + "</script>\n");
+          try {
+            String id = ei.getId();
+            String url = getUrl(ctx, id, ctx.getCurrentElement().getElementInfo().getId());
 
-            } catch (UnsupportedEncodingException ex) {
-              GWikiLog.warn("Error rendering section edit link");
-            }
+            ctx.append("<a id=\"" + URLEncoder.encode(name, "UTF-8") + "\" title=\"" + edit + "\" href=\"" + url + "\">" + image + "</a>");
+
+            renderFancyBox(ctx, name);
+
+          } catch (UnsupportedEncodingException ex) {
+            GWikiLog.warn("Error rendering section edit link");
           }
         }
 
@@ -135,13 +130,115 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
 
       }
     }
+
     if (attrs.getChildFragment() != null) {
-      attrs.getChildFragment().render(ctx);
+      if ("attachment".equals(editor)) {
+        List<GWikiFragment> childs = attrs.getChildFragment().getChilds();
+
+        XmlElement ta = table(attrs("border", "0", "cellspacing", "0", "cellpadding", "2"));
+
+        int i = 0;
+        for (GWikiFragment child : childs) {
+          if (child instanceof GWikiFragmentLink) {
+            GWikiFragmentLink attachment = (GWikiFragmentLink) child;
+            addTableRow(ctx, "edit", ta, attachment, i);
+            i++;
+          }
+          try {
+            renderFancyBox(ctx, name + i);
+          } catch (UnsupportedEncodingException ex) {
+            GWikiLog.warn("", ex);
+          }
+        }
+
+        ctx.append(ta.toString());
+
+      } else {
+        attrs.getChildFragment().render(ctx);
+      }
     }
     if (ei != null) {
       ctx.append("</div>");
     }
     return true;
+  }
+
+  /**
+   * @param ctx
+   * @param id
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  private String getUrl(final GWikiContext ctx, String id, String parentElem) throws UnsupportedEncodingException
+  {
+    String url = ctx.localUrl("/" + id)
+        + "?pageId="
+        + URLEncoder.encode(parentElem, "UTF-8")
+        + "&sectionName="
+        + URLEncoder.encode(name, "UTF-8")
+        + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+        + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
+        + (allowWikiSyntax ? ("&allowWikiSyntax=" + URLEncoder.encode(allowWikiSyntax + "", "UTF-8")) : "")
+        + (maxWidth == null ? "" : ("&maxWidth=" + URLEncoder.encode(maxWidth, "UTF-8")))
+        + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
+    return url;
+  }
+
+  /**
+   * @param ctx
+   * @throws UnsupportedEncodingException
+   */
+  private void renderFancyBox(final GWikiContext ctx, String id) throws UnsupportedEncodingException
+  {
+    ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
+        + "$(\"#"
+        + URLEncoder.encode(id, "UTF-8")
+        + "\").fancybox({\n"
+        + "width: 1200,\n"
+        + "height: 800,\n"
+        + "type: 'iframe'\n"
+        + "});\n"
+        + "});\n"
+        + "</script>\n");
+  }
+
+  /**
+   * @param ctx
+   * @param edit
+   * @param ta
+   * @param link
+   */
+  private void addTableRow(final GWikiContext ctx, final String edit, final XmlElement ta, GWikiFragmentLink attachment, int i)
+  {
+    try {
+      GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
+      String parentElem = ctx.getWikiWeb().findElement(attachment.getTargetPageId()).getElementInfo().getParentId();
+
+      String url = ctx.localUrl("/" + ei.getId())
+          + "?pageId="
+          + URLEncoder.encode(parentElem, "UTF-8")
+          + "&sectionName="
+          + URLEncoder.encode(name, "UTF-8")
+          + "&field="
+          + i
+          + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+          + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
+          + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
+
+      XmlElement editUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", url), editImage);
+      XmlElement minusUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", (url + "&method_onDelete=true")),
+          minusImage);
+
+      XmlElement link = a(attrs("href", ctx.localUrl(attachment.getTargetPageId())), text(attachment.getTitle()));
+
+      ta.nest(//
+      tr(//
+      td(attrs("width", "180px"), link), //
+      td(editUrl, minusUrl))//
+      );
+    } catch (UnsupportedEncodingException ex) {
+      GWikiLog.warn("Error rendering block section link", ex);
+    }
   }
 
   public String getName()
@@ -164,65 +261,41 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
     this.editor = editor;
   }
 
-  /**
-   * @param hint the hint to set
-   */
   public void setHint(String hint)
   {
     this.hint = hint;
   }
 
-  /**
-   * @return the hint
-   */
   public String getHint()
   {
     return hint;
   }
 
-  /**
-   * @param allowWikiSyntax the allowWikiSyntax to set
-   */
   public void setAllowWikiSyntax(boolean allowWikiSyntax)
   {
     this.allowWikiSyntax = allowWikiSyntax;
   }
 
-  /**
-   * @return the allowWikiSyntax
-   */
   public boolean isAllowWikiSyntax()
   {
     return allowWikiSyntax;
   }
 
-  /**
-   * @param maxWidth the maxWidth to set
-   */
   public void setMaxWidth(String maxWidth)
   {
     this.maxWidth = maxWidth;
   }
 
-  /**
-   * @return the maxWidth
-   */
   public String getMaxWidth()
   {
     return maxWidth;
   }
 
-  /**
-   * @param maxFileSize the maxFileSize to set
-   */
   public void setMaxFileSize(String maxFileSize)
   {
     this.maxFileSize = maxFileSize;
   }
 
-  /**
-   * @return the maxFileSize
-   */
   public String getMaxFileSize()
   {
     return maxFileSize;

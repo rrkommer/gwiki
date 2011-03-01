@@ -24,14 +24,11 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.WikiParserUtils;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -42,10 +39,14 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
 
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor, String hint, String maxFileSize)
+  private String fieldNumber;
+
+  public PtWikiSingleAttachmentEditor(GWikiElement element, String sectionName, String editor, String hint, String maxFileSize,
+      String fieldNumber)
   {
     super(element, sectionName, editor, hint, maxFileSize);
 
+    this.fieldNumber = fieldNumber;
   }
 
   /*
@@ -95,8 +96,22 @@ public class PtWikiSingleAttachmentEditor extends PtWikiUploadEditor
     if (StringUtils.isNotEmpty(title)) {
       link.setTitle(title);
     }
+    String target = link.getTargetPageId();
 
-    updateSection(link.toString());
+    updateSection(link.toString(), fieldNumber);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   */
+  public void onDelete(GWikiContext ctx)
+  {
+    super.deleteContent(ctx);
+    updateSection("", fieldNumber);
+
   }
 
 }

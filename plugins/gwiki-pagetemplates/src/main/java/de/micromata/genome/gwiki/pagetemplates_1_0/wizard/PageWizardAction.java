@@ -94,7 +94,6 @@ public class PageWizardAction extends ActionBeanBase
       public Void call() throws RuntimeException
       {
         GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
-        wikiContext.pushWikiElement(page);
         GWikiArtefakt< ? > controller = page.getPart("Controler");
         if (controller instanceof GWikiActionBeanArtefakt == false) {
           return null;

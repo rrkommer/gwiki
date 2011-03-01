@@ -24,14 +24,9 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
-import de.micromata.genome.gwiki.page.RenderModes;
-import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -68,6 +63,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     super(element, sectionName, editor, hint);
     extractContent();
   }
+  
 
   public boolean render(final GWikiContext ctx)
   {
@@ -98,7 +94,55 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
       ctx.append("<p>" + hintDesc + ": " + hint + "</p>");
     }
   }
-
+  
+  protected void updateSection(String newContent, String fieldNumber) 
+  {
+    extractContent();
+    if (endSec == -1) {
+      return;
+    }
+    
+    StringBuilder sb = new StringBuilder();
+    
+    if (fieldNumber != null) {
+      int index = 0;
+      
+      try {
+        index = Integer.parseInt(fieldNumber);
+      } catch(NumberFormatException e) {
+        GWikiLog.warn("failed to parse number", e);
+        return;
+      }      
+    
+      String[] contentArray = wikiText.substring(startSec, endSec).split(",");
+      
+      if (index >= contentArray.length) {
+        return;
+      }
+      
+      contentArray[index] = newContent;
+      
+      sb.append(wikiText.substring(0, startSec));
+      
+      for (int i = 0; i < contentArray.length; i++) {
+        sb.append(contentArray[i]);
+        if (i < (contentArray.length - 1)) {
+          sb.append(",");
+        }
+      }
+      
+      sb.append(wikiText.substring(endSec));
+    } else {
+      sb.append(wikiText.substring(0, endSec));
+      sb.append(",");
+      sb.append(newContent);
+      sb.append(wikiText.substring(endSec));
+    }
+    
+    wikiArtefakt.setStorageData(sb.toString());
+  }
+  
+  
   protected void updateSection(String newContent)
   {
     extractContent();
