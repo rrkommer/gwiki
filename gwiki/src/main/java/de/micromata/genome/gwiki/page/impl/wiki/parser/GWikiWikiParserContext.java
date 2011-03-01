@@ -92,17 +92,13 @@ public class GWikiWikiParserContext
     if (frags.size() == 0) {
       return null;
     }
-    List<GWikiFragment> top = frags.get(frags.size() - 1);
-    if (top.size() == 0) {
-      if (frags.size() > 1) {
-        top = frags.get(frags.size() - 2);
-        if (top.size() == 0) {
-          return null;
-        }
+    for (int i = frags.size() - 1; i >= 0; --i) {
+      List<GWikiFragment> ltop = frags.get(i);
+      if (ltop.size() > 0) {
+        return ltop.get(ltop.size() - 1);
       }
-      return null;
     }
-    return top.get(top.size() - 1);
+    return null;
   }
 
   public List<GWikiFragment> peek(int i)

@@ -83,7 +83,7 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
   {
     List<GWikiFragment> frags = parseText("{html}asdf", "html", new GWikiMacroClassFactory(GWikiHtmlBodyMacro.class));
     frags = unwrapP(frags);
-    assertEquals(2, frags.size());
+    assertEquals(3, frags.size());
     assertTrue(frags.get(0) instanceof GWikiFragmentParseError);
   }
 

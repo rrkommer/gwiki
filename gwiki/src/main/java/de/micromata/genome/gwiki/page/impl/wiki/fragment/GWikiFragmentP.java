@@ -21,7 +21,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 import java.util.List;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.RenderModes;
 
 /**
  * Represents p html element.
@@ -59,11 +58,11 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   // @Override
   public boolean render(GWikiContext ctx)
   {
-    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-      renderChilds(ctx);
-      ctx.append("<br/>\n<br/>\n");
-      return true;
-    }
+    // if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+    // renderChilds(ctx);
+    // ctx.append("<br/>\n<br/>\n");
+    // return true;
+    // }
     if (childs != null && childs.size() > 0) {
       if (addClass != null) {
         ctx.append("<p class=\"").append(addClass).append("\">");

@@ -461,17 +461,16 @@ public class GWikiWikiParser
             parseMacro(tks, ctx);
             continue;
           } else {
-            ctx.popFragList();
+            List<GWikiFragment> body = ctx.popFragList();
             String source = frag.getSource();
             ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName + "; " + source, tks
                 .getLineNoFromTokenOffset(curTokePos)));
+            ctx.addFragments(body);
+            ctx.addFragments(ctx.popFragList());
             return;
           }
         } while (true);
 
-        // GWikiWikiTokens tnks = new GWikiWikiTokens(tks, endToken);
-        // tnks.setTokenPos(tnks.getTokenPos() - 1);
-        // parseText(tnks, ctx);
         List<GWikiFragment> childs = ctx.popFragList();
         if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
           childs = removeWsTokensFromEnd(childs);
@@ -479,15 +478,18 @@ public class GWikiWikiParser
         if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true && isPAllowedInDom(ctx)) {
           // TODO frisst P
           childs = addWrappedP(childs);
-          // childs = wrappBodyWithP(ctx, childs);
         }
         frag.addChilds(childs);
         ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
       } else {
         int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
         if (endToken == -1) {
-          ctx.popFragList();
+          List<GWikiFragment> fragl = ctx.popFragList();
           ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName, tks.getLineNoFromTokenOffset(curTokePos)));
+          ctx.addFragments(fragl);
+          endToken = tks.getLastToken();
+          String body = tks.getTokenString(startToken, endToken);
+          ctx.addFragment(new GWikiFragmentText(body));
           return;
         }
         String body = tks.getTokenString(startToken, endToken);
@@ -707,9 +709,6 @@ public class GWikiWikiParser
 
     if (nextToken == '\n') {
       nextToken = tks.nextToken();
-      // GWikiFragmentP p = new GWikiFragmentP(ctx.popFragList());
-      // ctx.pushFragList();
-      // ctx.addFragment(p);
 
       ctx.addFragment(new GWikiFragmentP());
     } else if (isSentenceTerminator(ctx, preToken)) {
@@ -1068,22 +1067,8 @@ public class GWikiWikiParser
       ctx.pushFragList(l);
       return;
     }
-    // l = removeBrsAfterParagraph(l);
     l = addWrappedP(l);
     ctx.pushFragList(l);
-    // int startP = 0;
-    // List<GWikiFragment> fl = new ArrayList<GWikiFragment>();
-    // for (int i = 0; i < l.size(); ++i) {
-    // GWikiFragment f = l.get(i);
-    // if (isParagraphLike(f) == true) {
-    // if (startP != i) {
-    // fl.add();
-    // } else {
-    // fl.add(f);
-    // startP = i;
-    // }
-    // }
-    // }
   }
 
   public void parseText(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
@@ -1097,79 +1082,10 @@ public class GWikiWikiParser
       parseLine(tks, ctx);
       List<GWikiFragment> l = ctx.popFragList();
       if (l.isEmpty() == false) {
-        // l = removeBrsAfterParagraph(l);
-        // l = addWrappedP(l);
         ctx.addFragments(l);
       }
-
-      //        
-      // boolean pprocessed = false;
-      //
-      // if (l.size() > 0) {
-      // boolean wrapP = false;
-      // GWikiFragment ff = l.get(0);
-      // l = removeBrsAfterParagraph(l);
-      // // if (l.size() == 2 && isParagraphLike(ff) == true && l.get(1) instanceof GWikiFragmentBr) {
-      // // l = l.subList(0, 1);
-      // // }
-      // boolean toPList = false;
-      // if ((l.size() > 1 || tks.eof()) && isParagraphLike(ff) == false) {
-      // toPList = true;
-      // }
-      // GWikiFragment lf = l.get(l.size() - 1);
-      // if (lf instanceof GWikiFragmentP || (tks.eof() && lf instanceof GWikiFragmentBr)) {
-      // l = l.subList(0, l.size() - 1);
-      // wrapP = true;
-      // }
-      // if (wrapP == true) {
-      // if (l.size() > 0 && l.get(l.size() - 1) instanceof GWikiFragmentBr) {
-      // l = l.subList(0, l.size() - 1);
-      // }
-      // List<GWikiFragment> addList = l;
-      // if (startPlIdx != -1) {
-      // List<GWikiFragment> plist = ctx.popFragList();
-      // List<GWikiFragment> rl = plist.subList(0, startPlIdx);
-      // ctx.pushFragList(rl);
-      // List<GWikiFragment> ll = plist.subList(startPlIdx, plist.size());
-      // addList = new ArrayList<GWikiFragment>();
-      // addList.addAll(ll);
-      // addList.addAll(l);
-      // l = addList;
-      // startPlIdx = -1;
-      // }
-      // addWrappedP(ctx, l);
-      //
-      // pprocessed = true;
-      // } else if (toPList == true) {
-      // if (startPlIdx == -1) {
-      // startPlIdx = ctx.peek(0).size();
-      // }
-      // }
-      // }
-      // if (pprocessed == false) {
-      // ctx.addFragments(l);
-      // }
-      // if (tks.eof() == true) {
-      // break;
-      // }
     }
     convertPs(ctx);
-    // if (startPlIdx != -1) {
-    // List<GWikiFragment> plist = ctx.popFragList();
-    // int minpidx = Math.min(startPlIdx, plist.size());
-    // List<GWikiFragment> rl = plist.subList(0, minpidx);
-    // ctx.pushFragList(rl);
-    // List<GWikiFragment> ll = plist.subList(minpidx, plist.size());
-    // if (ll.size() > 0 && ll.get(ll.size() - 1) instanceof GWikiFragmentBr) {
-    // ll = ll.subList(0, ll.size() - 1);
-    // }
-    // List<GWikiFragment> addList = new ArrayList<GWikiFragment>();
-    // addList.addAll(ll);
-    // // addList.addAll(l);
-    // // l = addList;
-    // startPlIdx = -1;
-    // ctx.addFragment(new GWikiFragmentP(addList));
-    // }
   }
 
   public void reworkPs(GWikiWikiParserContext ctx)
