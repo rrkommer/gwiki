@@ -54,6 +54,13 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 
 public class Html2WikiFilterTest extends Html2WikiBase
 {
+  public void testMacro()
+  {
+    String html = "{todo:title=Ungekl&auml;rt}\nx\n{todo}";
+    String wiki = transform(html);
+    System.out.println(wiki);
+    // assertEquals("a \\*NotBold\\* b", wiki);
+  }
 
   public void testSpecialCharacters()
   {

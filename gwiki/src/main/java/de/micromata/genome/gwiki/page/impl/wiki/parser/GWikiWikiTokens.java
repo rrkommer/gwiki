@@ -86,7 +86,7 @@ public class GWikiWikiTokens
   public String getTokens()
   {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i /*                                      * 2 */< tokenOffsets.size(); ++i) {
+    for (int i = 0; i /*                                       * 2 */< tokenOffsets.size(); ++i) {
       String s = text.substring(tokenOffsets.getInt(i), tokenOffsets.getInt(i + 1));
       sb.append("[").append(s).append("]\n");
     }
@@ -424,5 +424,10 @@ public class GWikiWikiTokens
       return startTokenPos;
     } while (true);
     // return -1;
+  }
+
+  public int getLastToken()
+  {
+    return tokenOffsets.size() - 1;
   }
 }

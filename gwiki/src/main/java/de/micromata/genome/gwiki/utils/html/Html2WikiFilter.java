@@ -126,6 +126,12 @@ public class Html2WikiFilter extends DefaultFilter
 
   private List<Html2WikiTransformer> macroTransformer = new ArrayList<Html2WikiTransformer>();
 
+  /**
+   * because character will be intercepted if an entity like &auml; is in the character text, this will be used to collect all characters
+   * before parsing it.
+   */
+  private StringBuilder collectedText = new StringBuilder();
+
   // protected boolean in
   public static String html2Wiki(String text)
   {
@@ -497,6 +503,7 @@ public class Html2WikiFilter extends DefaultFilter
   @Override
   public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
+    flushText();
     String en = element.rawname.toLowerCase();
     if (en.equals("br") == true) {
       parseContext.addFragment(getNlFragement(new GWikiFragmentBr()));
@@ -518,6 +525,7 @@ public class Html2WikiFilter extends DefaultFilter
 
   public void startElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
+    flushText();
     // todo <span style="font-family: monospace;">sadf</span> {{}}
     String en = element.rawname.toLowerCase();
 
@@ -597,6 +605,7 @@ public class Html2WikiFilter extends DefaultFilter
 
   public void endElement(QName element, Augmentations augs) throws XNIException
   {
+    flushText();
     List<GWikiFragment> frags;
     String en = element.rawname.toLowerCase();
     if (handleAutoCloseTag(en) == true) {
@@ -709,31 +718,32 @@ public class Html2WikiFilter extends DefaultFilter
   {
     return escapeWiki(t, specialCharacters);
   }
-  
+
   /**
    * Takes wiki text and returns a escaped String
    * 
    * @param wiki
    * @return null if result is empty
    */
-  public static String unescapeWiki(String wiki) {
+  public static String unescapeWiki(String wiki)
+  {
     return unescapeWiki(wiki, DEFAULT_SPECIAL_CHARACTERS);
   }
-  
-  
+
   /**
    * Takes wiki text and returns a escaped String
    * 
    * @param wiki
    * @return null if result is empty
    */
-  public static String unescapeWiki(String wiki, String speacialCharacters) {
+  public static String unescapeWiki(String wiki, String speacialCharacters)
+  {
     StringBuilder result = new StringBuilder();
-    
+
     for (int i = 0; i < (wiki.length() - 1); i++) {
       char curr = wiki.charAt(i);
       char lookAhead = wiki.charAt(i + 1);
-      
+
       if (curr == '\\' && speacialCharacters.indexOf(lookAhead) != -1) {
         // ignore '\'
         continue;
@@ -741,16 +751,21 @@ public class Html2WikiFilter extends DefaultFilter
         result.append(curr);
       }
     }
-    
+
     if (result.length() > 1) {
       return result.toString();
     }
     return null;
   }
 
-  public void characters(XMLString text, Augmentations augs) throws XNIException
+  private void flushText()
   {
-    String t = text.toString();
+    if (collectedText.length() == 0) {
+      return;
+    }
+    String t = collectedText.toString();
+    collectedText.setLength(0);
+
     if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
       GWikiFragment lf = parseContext.lastFrag();
       if (lf instanceof GWikiFragmentTextDeco) {
@@ -760,18 +775,44 @@ public class Html2WikiFilter extends DefaultFilter
     if (ignoreWsNl == true) {
       String s = StringUtils.trim(t);
       if (StringUtils.isBlank(s) || StringUtils.isNewLine(s)) {
-        super.characters(text, augs);
         return;
       }
     }
-    int cp = Character.codePointAt(t.toCharArray(), 0);
+    // int cp = Character.codePointAt(t.toCharArray(), 0);
     if (t.startsWith("<!--") == true) {
-      super.characters(text, augs);
       return;
     }
     if (StringUtils.isNewLine(t) == false) {
       parseContext.addTextFragement(escapeText(t));
     }
+  }
+
+  public void characters(XMLString text, Augmentations augs) throws XNIException
+  {
+    String t = text.toString();
+    if (t.startsWith("<!--") == true) {
+      super.characters(text, augs);
+      return;
+    }
+    collectedText.append(t);
+    // if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
+    // GWikiFragment lf = parseContext.lastFrag();
+    // if (lf instanceof GWikiFragmentTextDeco) {
+    // ((GWikiFragmentTextDeco) lf).setRequireMacroSyntax(true);
+    // }
+    // }
+    // if (ignoreWsNl == true) {
+    // String s = StringUtils.trim(t);
+    // if (StringUtils.isBlank(s) || StringUtils.isNewLine(s)) {
+    // super.characters(text, augs);
+    // return;
+    // }
+    // }
+    // // int cp = Character.codePointAt(t.toCharArray(), 0);
+    //    
+    // if (StringUtils.isNewLine(t) == false) {
+    // parseContext.addTextFragement(escapeText(t));
+    // }
 
     super.characters(text, augs);
   }
