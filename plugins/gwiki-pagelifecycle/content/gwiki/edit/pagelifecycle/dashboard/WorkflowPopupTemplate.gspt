@@ -1,0 +1,39 @@
+<@include file="inc/stdtags.gspt" @> 
+<% wikiContext.skinInclude('popuphead'); %>
+
+<gwiki:errors />
+
+<%-- is multipart free of conflicts with textareas etc.? --%>
+<form method="post" enctype="multipart/form-data">
+
+<input class="gwikiButton main" type="submit" name="method_onSave" value="<fmt:message key='gwiki.edit.EditPage.button.save'/>">&nbsp;
+<input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key='gwiki.edit.button.cancel'/>"><br/>
+
+<% form = pageContext.getRequest().getAttribute("form"); %>
+
+<!-- branch zuweisen -->
+<c:if test="${form.branchMode eq true && not empty form.availableBranches}">
+	<table>
+		<tr>
+			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
+			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
+			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
+			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
+		</tr>
+		<c:forEach var="branch" items="${form.availableBranches}">
+			<tr>
+				<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
+				<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
+				<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
+				<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
+				<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
+			</tr>		
+		</c:forEach>
+	</table>
+
+</c:if>
+
+<!-- Kommentar -->
+<gwiki:textarea rows="4" cols="80" property="comment"/>
+
+</form>

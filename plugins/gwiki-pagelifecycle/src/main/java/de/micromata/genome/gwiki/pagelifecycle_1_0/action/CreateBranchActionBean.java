@@ -33,13 +33,14 @@ import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * Actionbean for creating new branches (content-releases)
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class CreateBranchActionBean extends ActionBeanBase
+public class CreateBranchActionBean extends PlcActionBeanBase
 {
   private static final String INFO_TEMPLATE_ID = "admin/templates/intern/GWikiBranchInfoElementTemplate";
 
@@ -62,20 +63,13 @@ public class CreateBranchActionBean extends ActionBeanBase
       return null;
     }
 
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == false) {
-      wikiContext.addSimpleValidationError("No multiple branches supported.");
-      return null;
-    }
-
-    // create or enter new branch
-    wikiSelector.enterTenant(wikiContext, this.branchId);
-
-    createBranchInfoElement();
-    createBranchFileStats();
-
-    // leave branch
-    wikiSelector.leaveTenant(wikiContext);
+    wikiContext.runInTenantContext(this.branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        createBranchInfoElement();
+        createBranchFileStats();
+        return null;
+      }});
 
     return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }

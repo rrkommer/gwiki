@@ -49,7 +49,7 @@ import de.micromata.genome.util.runtime.CallableX;
 /**
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class ViewBranchContentActionBean extends ActionBeanBase
+public class ViewBranchContentActionBean extends PlcActionBeanBase
 {
   /**
    * Map tenant-id -> Map of containing elements
@@ -373,20 +373,5 @@ public class ViewBranchContentActionBean extends ActionBeanBase
       return StringUtils.EMPTY;
     }
     return wikiSelector.getTenantId(GWikiServlet.INSTANCE, wikiContext.getRequest());
-  }
-
-  protected GWikiMultipleWikiSelector getWikiSelector()
-  {
-    GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.error.tenantsNotSupported");
-      return null;
-    }
-
-    if (wikiSelector instanceof GWikiMultipleWikiSelector == true) {
-      GWikiMultipleWikiSelector multipleSelector = (GWikiMultipleWikiSelector) wikiSelector;
-      return multipleSelector;
-    }
-    return null;
   }
 }

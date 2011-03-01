@@ -4,61 +4,117 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
 import de.micromata.genome.gwiki.page.impl.wiki.*;
 %>
 <% wikiContext.skinInclude("standardhead"); %>
+<% def form = wikiContext.getRequestAttribute("form"); %>
+<script src='<gwiki:url value="/static/js/formSubmit.js" />' type="text/JavaScript"></script>
 
 <gwiki:errors />
 
-	<fieldset>
-		<legend>Artikelverwaltung</legend>
-		
-		<% def form = wikiContext.getRequestAttribute("form"); %>
-		<br/>
-		<table width="100%">
-			<tr>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.title"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.pageid"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.createdby"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.createdat"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.assignee"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.state"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.action"/></th>
-				<th><fmt:message key="gwiki.page.ViewBranchContent.workflow"/></th>
-			</tr>
-				<c:forEach var="map" items="${form.contentMap}">
-				<form class="gwikiForm col" method="post">
-					<input type="hidden" name="selectedPageId" value="<c:out value="${map.key.id}"/>"/>
-					<tr style="border: 1px solid #EEE; padding:1px;">
-						<td><c:out value="${map.key.title}"/></td>
-						<td><c:out value="${map.key.id}"/></td>
-						<td><c:out value="${map.value.createdBy}"/></td>
-						<td><fmt:formatDate value="${map.value.createdAtDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td><c:out value="${map.value.assignedTo}"/></td>
-						<td><fmt:message key="${map.value.fileState.name}"/></td>
-						<td style="text-align: center;"><input type="submit" name="method_onViewPageInTenantContext" value="<fmt:message key="gwiki.page.ViewBranchContent.view"/>" class="gwikiButton main"/></td>
-						<td style="text-align: center;">
+<!-- filter and search options -->
+<fieldset>
+	<legend><fmt:message key="gwiki.plc.dashboard.filter"/></legend>
+</fieldset>
+
+<!-- table -->
+<fieldset>
+	<legend><fmt:message key="gwiki.plc.dashboard.management"/></legend>
+	
+	<br/>
+	<table width="100%">
+		<tr>
+			<th><fmt:message key="gwiki.plc.dashboard.name"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.category"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.createdBy"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.status"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.releasedate"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.assignee"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.actions"/></th>
+		</tr>
+			<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="1" step="1">
+			<form class="gwikiForm col" method="post" name="dashboard${l.count}">
+				<input type="hidden" name="selectedPageId" value="<c:out value="${fileInfo.elementInfo.id}"/>"/>
+				<input type="hidden" name="selectedTenant" value="<c:out value="${fileInfo.branch}"/>"/>
+				<tr style="border: 1px solid #EEE; padding:1px;">
+					<td><c:out value="${fileInfo.elementInfo.title}"/></td>
+					<td><c:out value="${fileInfo.elementInfo.id}"/></td>
+					<td><c:out value="${fileInfo.fileStats.createdBy}"/></td>
+					<td><fmt:message key="${fileInfo.fileStats.fileState.name}"/></td>
+					<td><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd"/></td>
+					<td><c:out value="${fileInfo.fileStats.assignedTo}"/></td>
+					<td style="text-align: center;">
+						<table>
+						<tr>
+							<td>
+								<a href="#" onclick="ok2('method_onViewPageInTenantContext', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.view"/>">
+							    	<img border="0" src="/inc/gwiki/img/icons/search16.png">
+							    </a>
+						    </td>
 							<c:choose>
 								<!-- content creator -->
-								<c:when test="${map.value.fileState == 'DRAFT'}">
-								    <input type="submit" name="method_onReviewCreator" value="<fmt:message key="gwiki.page.ViewBranchContent.review"/>" class="gwikiButton main"/>
+								<c:when test="${fileInfo.fileStats.fileState == 'DRAFT'}">
+									<gwiki:authorize ifHasAny="PLC_APPROVE_DRAFT_ARTICLE">
+										<td>
+											<a id="approve0${l.count}" href="#" onclick="ok2('method_onReviewCreator', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.review"/>">
+										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
+										    </a>
+									    </td>
+									</gwiki:authorize>
 								</c:when>
-
+								
 								<!-- chief editor -->
-								<c:when test="${map.value.fileState == 'TO_REVIEW'}">
-								    <input type="submit" name="method_onRejectChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/ >
-								    <input type="submit" name="method_onApproveChiefEditor" value="<fmt:message key="gwiki.page.ViewBranchContent.approve"/>" class="gwikiButton main"/>
+								<c:when test="${fileInfo.fileStats.fileState == 'TO_REVIEW'}">
+									<gwiki:authorize ifHasAny="PLC_REJECT_DRAFT_ARTICLE">
+										<td>
+											<a id="reject0${l.count}" href="#" onclick="ok2('method_onRejectChiefEditor', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
+										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
+										    </a>
+									    </td>
+									</gwiki:authorize>
+									<gwiki:authorize ifHasAny="PLC_APPROVE_ARTICLE">
+										<td>
+											<a 	id="approve1${l.count}" href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&branchMode=true" 
+												title="<fmt:message key="gwiki.plc.dashboard.approve"/>">
+										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
+										    </a>
+									    </td>
+									</gwiki:authorize>
 								</c:when>
-
+	
 								<!-- content admin -->
 								<c:otherwise>
-								    <input type="submit" name="method_onRejectContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.reject"/>" class="gwikiButton reset"/>
-								    <input type="submit" name="method_onReleaseContentAdmin" value="<fmt:message key="gwiki.page.ViewBranchContent.release"/>" class="gwikiButton main"/>
+									<gwiki:authorize ifHasAny="PLC_REJECT_ARTICLE">
+										<td>
+											<a id="reject1${l.count}" href="#" onclick="ok2('method_onRejectContentAdmin', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
+										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
+										    </a>
+										</td>
+									</gwiki:authorize>
+									<gwiki:authorize ifHasAny="PLC_RELEASE_ARTICLE">
+										<td>
+											<a href="#" onclick="ok2('method_onReleaseContentAdmin', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.release"/>">
+										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
+										    </a>
+									    </td>
+									</gwiki:authorize>
 								</c:otherwise>
 							</c:choose>							
-						</td>
-					</tr>
-				</form>
-				</c:forEach>
-		</table>
-	</fieldset>
-	<br/>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</form>
+			
+			<script type="text/javascript">
+			jQuery(document).ready(function() {
+				jQuery("#approve1" + ${l.count}).fancybox({
+					'type'	: 'iframe',
+					'width'	: 1200,
+					'height': 800});
+			});
+</script>
+			</c:forEach>
+	</table>
+</fieldset>
+
+ 
 
 <% wikiContext.skinInclude("standardfoot"); %>
