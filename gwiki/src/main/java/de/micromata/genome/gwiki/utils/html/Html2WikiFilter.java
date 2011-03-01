@@ -51,6 +51,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBrInLine;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentFixedFont;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHr;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
@@ -523,6 +524,31 @@ public class Html2WikiFilter extends DefaultFilter
     super.emptyElement(element, attributes, augs);
   }
 
+  protected boolean handleSpanStart(QName element, XMLAttributes attributes)
+  {
+    String value = attributes.getValue("style");
+    if (StringUtils.equals(value, "font-family: courier new,courier,monospace;") == true
+        || StringUtils.equals(value, "font-family: courier new,courier;") == true) {
+      parseContext.addFragment(new GWikiFragmentFixedFont(new ArrayList<GWikiFragment>()));
+      parseContext.pushFragList();
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean handleSpanEnd()
+  {
+    if (parseContext.getFrags().size() >= 2) {
+      List<GWikiFragment> fl = parseContext.getFrags().get(parseContext.getFrags().size() - 2);
+      if (fl.size() > 0 && fl.get(fl.size() - 1) instanceof GWikiFragmentFixedFont) {
+        GWikiFragmentFixedFont ff = (GWikiFragmentFixedFont) fl.get(fl.size() - 1);
+        ff.addChilds(parseContext.popFragList());
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void startElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
     flushText();
@@ -558,6 +584,8 @@ public class Html2WikiFilter extends DefaultFilter
       createThTd(element, attributes);
     } else if (en.equals("td") == true) {
       createThTd(element, attributes);
+    } else if (en.equals("span") == true && handleSpanStart(element, attributes) == true) {
+      // nothing
     } else {
       if (supportedHtmlTags.contains(en) == true) {
         parseContext.addFragment(convertToBodyMacro(element, attributes, 0));
@@ -650,6 +678,8 @@ public class Html2WikiFilter extends DefaultFilter
       endTdTh();
     } else if (en.equals("td") == true) {
       endTdTh();
+    } else if (en.equals("span") == true && handleSpanEnd() == true) {
+      // nothing
     } else if (supportedHtmlTags.contains(en) == true) {
       frags = parseContext.popFragList();
       GWikiMacroFragment maf = (GWikiMacroFragment) parseContext.lastFragment();
