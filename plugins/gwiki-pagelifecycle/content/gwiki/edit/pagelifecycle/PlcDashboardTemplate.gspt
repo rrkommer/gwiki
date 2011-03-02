@@ -29,7 +29,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			<th><fmt:message key="gwiki.plc.dashboard.assignee"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.actions"/></th>
 		</tr>
-			<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="1" step="1">
+		<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="1" step="1">
 			<form class="gwikiForm col" method="post" name="dashboard${l.count}">
 				<input type="hidden" name="selectedPageId" value="<c:out value="${fileInfo.elementInfo.id}"/>"/>
 				<input type="hidden" name="selectedTenant" value="<c:out value="${fileInfo.branch}"/>"/>
@@ -53,7 +53,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:when test="${fileInfo.fileStats.fileState == 'DRAFT'}">
 									<gwiki:authorize ifHasAny="PLC_APPROVE_DRAFT_ARTICLE">
 										<td>
-											<a id="approve0${l.count}" href="#" onclick="ok2('method_onReviewCreator', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.review"/>">
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW" 
+												title="<fmt:message key="gwiki.plc.dashboard.review"/>" id="approve0${l.count}">
 										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
 										    </a>
 									    </td>
@@ -64,15 +65,16 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:when test="${fileInfo.fileStats.fileState == 'TO_REVIEW'}">
 									<gwiki:authorize ifHasAny="PLC_REJECT_DRAFT_ARTICLE">
 										<td>
-											<a id="reject0${l.count}" href="#" onclick="ok2('method_onRejectChiefEditor', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
+											<a  href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=DRAFT" 
+												id="reject0${l.count}" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
 										    </a>
 									    </td>
 									</gwiki:authorize>
 									<gwiki:authorize ifHasAny="PLC_APPROVE_ARTICLE">
 										<td>
-											<a 	id="approve1${l.count}" href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&branchMode=true" 
-												title="<fmt:message key="gwiki.plc.dashboard.approve"/>">
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&branchMode=true&assignMode=true&newPageState=APPROVED_CHIEF_EDITOR" 
+												id="approve1${l.count}" title="<fmt:message key="gwiki.plc.dashboard.approve"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
 										    </a>
 									    </td>
@@ -83,14 +85,16 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:otherwise>
 									<gwiki:authorize ifHasAny="PLC_REJECT_ARTICLE">
 										<td>
-											<a id="reject1${l.count}" href="#" onclick="ok2('method_onRejectContentAdmin', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW" 
+												id="reject1${l.count}" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
 										    </a>
 										</td>
 									</gwiki:authorize>
 									<gwiki:authorize ifHasAny="PLC_RELEASE_ARTICLE">
 										<td>
-											<a href="#" onclick="ok2('method_onReleaseContentAdmin', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.release"/>">
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true?newPageState=APPROVED_CONTENT_ADMIN" 
+												id="release${l.count}" title="<fmt:message key="gwiki.plc.dashboard.release"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
 										    </a>
 									    </td>
@@ -105,13 +109,29 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			
 			<script type="text/javascript">
 			jQuery(document).ready(function() {
+				jQuery("#approve0" + ${l.count}).fancybox({
+					'type'	: 'iframe',
+					'width'	: 800,
+					'height': 480});
+				jQuery("#reject0" + ${l.count}).fancybox({
+					'type'	: 'iframe',
+					'width'	: 800,
+					'height': 480});
+				jQuery("#reject1" + ${l.count}).fancybox({
+					'type'	: 'iframe',
+					'width'	: 800,
+					'height': 480});
 				jQuery("#approve1" + ${l.count}).fancybox({
 					'type'	: 'iframe',
-					'width'	: 1200,
-					'height': 800});
+					'width'	: 800,
+					'height': 480});
+				jQuery("#release" + ${l.count}).fancybox({
+					'type'	: 'iframe',
+					'width'	: 800,
+					'height': 480});
 			});
-</script>
-			</c:forEach>
+			</script>
+		</c:forEach>
 	</table>
 </fieldset>
 
