@@ -1,5 +1,8 @@
 <@include file="inc/stdtags.gspt" @> 
-<% wikiContext.skinInclude('popuphead'); %>
+<% wikiContext.skinInclude('simplepopuphead'); %>
+<% form = pageContext.getRequest().getAttribute("form"); %>
+
+<h2><c:out value="${form.pageTitle}"/></h2>
 
 <gwiki:errors />
 
@@ -8,32 +11,52 @@
 
 <input class="gwikiButton main" type="submit" name="method_onSave" value="<fmt:message key='gwiki.edit.EditPage.button.save'/>">&nbsp;
 <input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key='gwiki.edit.button.cancel'/>"><br/>
-
-<% form = pageContext.getRequest().getAttribute("form"); %>
-
-<!-- branch zuweisen -->
-<c:if test="${form.branchMode eq true && not empty form.availableBranches}">
-	<table>
-		<tr>
-			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
-			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
-			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
-			<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
-		</tr>
-		<c:forEach var="branch" items="${form.availableBranches}">
-			<tr>
-				<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
-				<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
-				<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
-				<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
-				<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
-			</tr>		
-		</c:forEach>
-	</table>
-
-</c:if>
+<br/>
 
 <!-- Kommentar -->
-<gwiki:textarea rows="4" cols="80" property="comment"/>
+<div>
+	<fmt:message key="gwiki.plc.dashboard.popup.comment.changecomment"/>
+	<gwiki:textarea rows="4" cols="80" property="comment"/>
+</div>
+<br/>
+
+<!-- Branch zuweisen -->
+<div>
+	<c:if test="${form.branchMode eq true && not empty form.availableBranches}">
+		<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>
+		<table border="1" width="100%">
+			<tr>
+				<th>&nbsp;</th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
+			</tr>
+			<c:forEach var="branch" items="${form.availableBranches}">
+				<tr>
+					<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
+					<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
+					<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
+					<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
+					<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
+				</tr>		
+			</c:forEach>
+		</table>
+		<br/>
+	</c:if>
+</div>
+
+<!-- Reviewer zuweisen -->
+<div>
+	<c:if test="${form.assignMode eq true && not empty form.availableAssignees}">
+		<fmt:message key="gwiki.plc.dashboard.popup.reviewer.assign"/>
+		<gwiki:select property="selectedAssignee">
+			<option value="-1"><fmt:message key="gwiki.plc.dashboard.popup.reviewer.choose"/></option>
+			<c:forEach var="user" items="${form.availableAssignees}">
+				<option value="${user}"><c:out value="${user}"/></option>
+			</c:forEach>
+		</gwiki:select>
+	</c:if>
+</div>
 
 </form>

@@ -90,10 +90,10 @@ public class PageWizardAction extends ActionBeanBase
 
   public Void runInActionContext(final String actionPageId, final GWikiElement element, final Callable<RuntimeException, Void> callback)
   {
-    return wikiContext.runElement(element, new CallableX<Void, RuntimeException>() {
+    final GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
+    return wikiContext.runElement(page, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
-        GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
         GWikiArtefakt< ? > controller = page.getPart("Controler");
         if (controller instanceof GWikiActionBeanArtefakt == false) {
           return null;
