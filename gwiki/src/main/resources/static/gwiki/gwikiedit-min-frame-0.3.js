@@ -68,6 +68,7 @@ function gwikiCreateTiny(partName, content) {
 		  +"|onmouseup|style|title|type],"
 		  ,
 		extended_valid_elements : "",
+		content_css : gwikiContentCss,
 		setup : function(ed) {
 			ed.onChange.add(function(ed, l) {
 					gwikiSetEditorContentChanged();
