@@ -84,6 +84,10 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
 
   private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
+  
+  private static String edit = "";
+  
+  private static String delete = "";
 
   /*
    * (non-Javadoc)
@@ -94,13 +98,16 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   @Override
   public boolean renderImpl(final GWikiContext ctx, MacroAttributes attrs)
   {
+    edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
+    delete = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.delete");
+    
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null) {
 
       if (ei != null) {
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
-        final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
+        final String add = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.add");
         String image = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
         boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
 
@@ -115,7 +122,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
             String id = ei.getId();
             String url = getUrl(ctx, id, ctx.getCurrentElement().getElementInfo().getId());
 
-            ctx.append("<a id=\"" + URLEncoder.encode(name, "UTF-8") + "\" title=\"" + edit + "\" href=\"" + url + "\">" + image + "</a>");
+            ctx.append("<a id=\"" + URLEncoder.encode(name, "UTF-8") + "\" title=\"" + add + "\" href=\"" + url + "\">" + image + "</a>");
 
             renderFancyBox(ctx, name);
 
@@ -142,7 +149,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         for (GWikiFragment child : childs) {
           if (child instanceof GWikiFragmentLink) {
             GWikiFragmentLink attachment = (GWikiFragmentLink) child;
-            addTableRow(ctx, "edit", ta, attachment, i);
+            addTableRow(ctx, ta, attachment, i);
             
             try {
               renderFancyBox(ctx, name + i);
@@ -211,7 +218,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    * @param ta
    * @param link
    */
-  private void addTableRow(final GWikiContext ctx, final String edit, final XmlElement ta, GWikiFragmentLink link, int i)
+  private void addTableRow(final GWikiContext ctx, final XmlElement ta, GWikiFragmentLink link, int i)
   {
     try {
       GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
@@ -230,7 +237,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
           + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
 
       XmlElement editUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", url), editImage);
-      XmlElement minusUrl = a(attrs("title", edit, "href", (url + "&method_onDelete=true")), minusImage);
+      XmlElement minusUrl = a(attrs("title", delete, "href", (url + "&method_onDelete=true")), minusImage);
 
       String title = (link.getTitle() != null) ? link.getTitle() : "";
       String target;
