@@ -28,4 +28,4 @@ F.e. use pageContext.setReqeuestAttribute("BCC", "myEmail@sample.com"); to send 
 You can delete this comment section. 
 --%>
 
-Hello Folks.
+<c:out value="${TEXT}"/>

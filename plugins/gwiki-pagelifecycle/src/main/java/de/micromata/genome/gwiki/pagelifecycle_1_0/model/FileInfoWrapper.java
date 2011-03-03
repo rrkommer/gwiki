@@ -19,6 +19,8 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
@@ -47,6 +49,11 @@ public class FileInfoWrapper
     this.branch = branch;
     this.elementInfo = elementInfo;
     this.fileStats = fileStats;
+  }
+  
+  public String getCategoryString() {
+    final String cat = StringUtils.substringBeforeLast(elementInfo.getId(), "/");
+    return StringUtils.replace(cat, "/", " -> ");
   }
 
   /**
@@ -98,6 +105,6 @@ public class FileInfoWrapper
   }
   
   public Date getStartAt() {
-    return GWikiProps.string2date(getFileStats().getStartAt());
+    return GWikiProps.parseTimeStamp(getFileStats().getStartAt());
   }
 }

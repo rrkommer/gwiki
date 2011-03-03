@@ -176,7 +176,7 @@ public class PlcDashboardAction extends PlcActionBeanBase
         {
           // get all elemtinfos of tenant
           List<GWikiElementInfo> tenantContent = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>() {
-            private static final long serialVersionUID = -6020166500681070082L;
+            private static final long serialVersionUID = -6020166500681050082L;
             public boolean match(GWikiElementInfo ei)
             {
               String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);

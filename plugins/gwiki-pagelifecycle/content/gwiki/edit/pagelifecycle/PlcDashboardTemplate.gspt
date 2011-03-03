@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			<th><fmt:message key="gwiki.plc.dashboard.createdBy"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.status"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.releasedate"/></th>
+			<th><fmt:message key="gwiki.plc.dashboard.currentBranch"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.assignee"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.actions"/></th>
 		</tr>
@@ -35,10 +36,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 				<input type="hidden" name="selectedTenant" value="<c:out value="${fileInfo.branch}"/>"/>
 				<tr style="border: 1px solid #EEE; padding:1px;">
 					<td><c:out value="${fileInfo.elementInfo.title}"/></td>
-					<td><c:out value="${fileInfo.elementInfo.id}"/></td>
+					<td><c:out value="${fileInfo.categoryString}"/></td>
 					<td><c:out value="${fileInfo.fileStats.createdBy}"/></td>
 					<td><fmt:message key="${fileInfo.fileStats.fileState.name}"/></td>
 					<td><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd"/></td>
+					<td><c:out value="${fileInfo.branch}"/></td>
 					<td><c:out value="${fileInfo.fileStats.assignedTo}"/></td>
 					<td style="text-align: center;">
 						<table>
@@ -65,7 +67,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:when test="${fileInfo.fileStats.fileState == 'TO_REVIEW'}">
 									<gwiki:authorize ifHasAny="PLC_REJECT_DRAFT_ARTICLE">
 										<td>
-											<a  href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=DRAFT" 
+											<a  href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=DRAFT&commentRequired=true" 
 												id="reject0${l.count}" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
 										    </a>
@@ -85,7 +87,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:otherwise>
 									<gwiki:authorize ifHasAny="PLC_REJECT_ARTICLE">
 										<td>
-											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW" 
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW&commentRequired=true" 
 												id="reject1${l.count}" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
 										    </a>
