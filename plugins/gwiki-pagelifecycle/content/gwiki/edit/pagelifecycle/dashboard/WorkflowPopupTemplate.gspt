@@ -1,4 +1,5 @@
 <@include file="inc/stdtags.gspt" @> 
+<% import de.micromata.genome.gwiki.model.GWikiProps; %>
 <% wikiContext.skinInclude('simplepopuphead'); %>
 <% form = pageContext.getRequest().getAttribute("form"); %>
 
@@ -15,7 +16,7 @@
 
 <!-- Kommentar -->
 <div>
-	<fmt:message key="gwiki.plc.dashboard.popup.comment.changecomment"/>
+	<fmt:message key="gwiki.plc.dashboard.popup.comment.changecomment"/><c:if test="${form.commentRequired eq true}">*</c:if>:
 	<gwiki:textarea rows="4" cols="80" property="comment"/>
 </div>
 <br/>
@@ -23,7 +24,7 @@
 <!-- Branch zuweisen -->
 <div>
 	<c:if test="${form.branchMode eq true && not empty form.availableBranches}">
-		<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>
+		<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:
 		<table border="1" width="100%">
 			<tr>
 				<th>&nbsp;</th>		
@@ -49,14 +50,18 @@
 <!-- Reviewer zuweisen -->
 <div>
 	<c:if test="${form.assignMode eq true && not empty form.availableAssignees}">
-		<fmt:message key="gwiki.plc.dashboard.popup.reviewer.assign"/>
+		<fmt:message key="gwiki.plc.dashboard.popup.reviewer.assign"/>:
 		<gwiki:select property="selectedAssignee">
 			<option value="-1"><fmt:message key="gwiki.plc.dashboard.popup.reviewer.choose"/></option>
 			<c:forEach var="user" items="${form.availableAssignees}">
 				<option value="${user}"><c:out value="${user}"/></option>
 			</c:forEach>
 		</gwiki:select>
+		<br/><br/>
 	</c:if>
 </div>
+
+<!-- Mail senden -->
+<gwiki:checkbox id="send" property="sendMail"/><label for="send"><fmt:message key="gwiki.plc.dashboard.popup.sendmail"/></label>
 
 </form>

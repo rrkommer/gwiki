@@ -22,19 +22,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
-import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiChangeCommentArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
@@ -54,26 +56,30 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class WorkflowPopupActionBean extends PlcActionBeanBase
 {
+  private static final String EMPTY_SELECTION = "-1";
+
+  private boolean assignMode;
+  
+  private boolean branchMode;
+  
+  private boolean commentRequired;
+
   private String pageId;
 
   private String comment;
 
   private String newPageState;
 
-  private boolean assignMode;
-
   private String selectedAssignee;
 
-  private boolean branchMode;
+  private boolean sendMail;
 
   private String branch = "";
 
   private String selectedBranch;
 
-  private GWikiChangeCommentArtefakt commentArtefakt;
-
-  private GWikiElement element;
-
+  private GWikiElement page;
+  
   /*
    * (non-Javadoc)
    * 
@@ -89,23 +95,51 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   public Object onSave()
   {
     init();
-    saveComment();
+    performValidation();
     if (wikiContext.hasValidationErrors()) {
       return null;
     }
-
-    updateFileStats(FileState.valueOf(newPageState), selectedAssignee);
-
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        wikiContext.getWikiWeb().saveElement(wikiContext, element, false);
-        return null;
-      }
-    });
-
-    sendStatusUpdateMail();
+    applyComment();
     
+    // if branch switch
+    if (branchMode == true && StringUtils.equals(branch, selectedBranch) == false) {
+      // add new page information to filestats of new branch
+      updateFileStats(FileState.valueOf(newPageState), selectedAssignee, selectedBranch);
+      
+      // save in new branch
+      wikiContext.runInTenantContext(selectedBranch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          wikiContext.getWikiWeb().saveElement(wikiContext, page, true);
+          return null;
+        }});
+
+      // remove page in old branch
+      wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          wikiContext.getWikiWeb().removeWikiPage(wikiContext, page);
+          return null;
+        }});
+    } 
+    // stay in branch
+    else {
+      updateFileStats(FileState.valueOf(newPageState), selectedAssignee, branch);
+      wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+        public Void call() throws RuntimeException
+        {
+          wikiContext.getWikiWeb().saveElement(wikiContext, page, false);
+          return null;
+        }
+      });
+    }
+    
+    
+
+    if (sendMail == true) {
+      sendStatusUpdateMail();
+    }
+
     wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
     wikiContext.flush();
     return noForward();
@@ -119,7 +153,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   }
 
   /**
-   * loads the page
+   * loads the page from branch
    */
   private void init()
   {
@@ -127,40 +161,51 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
       public Void call() throws RuntimeException
       {
         GWikiElement page = wikiContext.getWikiWeb().getElement(pageId);
-        if (page == null) {
-          return null;
-        }
-        Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
-        page.collectParts(map);
-        element = page;
-
-        GWikiArtefakt< ? > artefakt = map.get("ChangeComment");
-        if (artefakt instanceof GWikiChangeCommentArtefakt == true) {
-          commentArtefakt = (GWikiChangeCommentArtefakt) artefakt;
-        }
+        WorkflowPopupActionBean.this.page = page;
         return null;
       }
     });
   }
 
   /**
-   * Updates current page statuses in central filestats element
+   * Validates user input
    */
-  private void updateFileStats(final FileState fileState, final String newAssignee)
+  private void performValidation()
   {
+    if (page == null) {
+      wikiContext.addValidationError("gwiki.plc.dashboard.popup.error.pagenotfound");
+    }
+    
+    if (assignMode == true && EMPTY_SELECTION.equals(selectedAssignee) == true) {
+      wikiContext.addValidationError("gwiki.plc.dashboard.popup.error.noreviewer");
+    }
 
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    if (branchMode == true && StringUtils.isBlank(selectedBranch) == true) {
+      wikiContext.addValidationError("gwiki.plc.dashboard.popup.error.nobranch");
+    }
+
+    if (commentRequired == true && StringUtils.isBlank(comment) == true) {
+      wikiContext.addValidationError("gwiki.plc.dashboard.popup.error.nocomment");
+    }
+  }
+
+  /**
+   * Updates current page statuses in central filestats element in specified branch
+   * 
+   * @param branchId 
+   */
+  private void updateFileStats(final FileState fileState, final String newAssignee, final String branchId)
+  {
+    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
         GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
         if (fileStats == null || fileStats.getMainPart() == null) {
-          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
         }
 
         GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
         if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
-          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
           return null;
         }
 
@@ -188,6 +233,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
 
         return null;
       }
+
     });
   }
 
@@ -196,26 +242,103 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   private void sendStatusUpdateMail()
   {
+    if (sendMail == false) {
+      return;
+    }
+    
+    // TODO stefan internationalisierung der Mail. In den eingestellten Sprachen der Empfänger??
+    StringBuilder body = new StringBuilder();
+    body.append("The state of page ").append(this.getPageTitle()).append(" (").append(wikiContext.globalUrl(pageId))
+        .append(") was changed by ") //
+        .append(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+
+    if (StringUtils.isNotBlank(newPageState) == true) {
+      body.append(" to new state ").append(newPageState);
+    }
+
+    if (StringUtils.isNotBlank(comment) == true) {
+      body.append("\n\nComment:\n").append(comment);
+    }
+
     final Map<String, String> ctx = new HashMap<String, String>();
     ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
-    ctx.put(GWikiEmailProvider.SUBJECT, "Statusupdate: ");
-    String body = "The status of the page was changed";
-    ctx.put(GWikiEmailProvider.TEXT, body);
+    ctx.put(GWikiEmailProvider.SUBJECT, "The workflow state of the page was changed.");
+    ctx.put(GWikiEmailProvider.TEXT, body.toString());
     ctx.put(GWikiEmailProvider.MAILTEMPLATE, "edit/pagelifecycle/mailtemplates/StatusUpdateMailTemplate");
+    String receipients = getRecipients();
     ctx.put(GWikiEmailProvider.TO, "s.stuetzer@micromata.com");
 
+    GWikiLog.note("Sent status update mail", "Recipient", receipients);
     wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
+  }
+
+  /**
+   * @return
+   */
+  private String getRecipients()
+  {
+    return wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
+
+      public String call() throws RuntimeException
+      {
+        GWikiElement filestats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+        if (filestats == null) {
+          return StringUtils.EMPTY;
+        }
+        GWikiArtefakt< ? > artefakt = filestats.getMainPart();
+        if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
+          return StringUtils.EMPTY;
+        }
+
+        GWikiBranchFileStatsArtefakt fileStatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
+        BranchFileStats stats = fileStatsArtefakt.getCompiledObject();
+        FileStatsDO statsForId = stats.getFileStatsForId(pageId);
+        if (statsForId == null) {
+          return StringUtils.EMPTY;
+        }
+
+        final List<String> mailAdresses = new ArrayList<String>();
+        Set<String> operators = statsForId.getOperators();
+        for (final String operator : operators) {
+          try {
+            wikiContext.getWikiWeb().getAuthorization().runAsUser(operator, wikiContext, new CallableX<Void, RuntimeException>() {
+              public Void call() throws RuntimeException
+              {
+                String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
+                if (StringUtils.isEmpty(email) == true) {
+                  return null;
+                }
+                mailAdresses.add(email);
+                return null;
+              }
+            });
+          } catch (AuthorizationFailedException ex) {
+            GWikiLog.warn("Cannot determine email for user: " + operator, ex);
+          }
+        }
+
+        return StringUtils.join(mailAdresses, ",");
+      }
+    });
   }
 
   /**
    * saves the new comment for the page
    */
-  private void saveComment()
+  private void applyComment()
   {
+    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    page.collectParts(map);
+    GWikiArtefakt< ? > artefakt = map.get("ChangeComment");
+    if (artefakt instanceof GWikiChangeCommentArtefakt == false) {
+      return;
+    }
+    
+    GWikiChangeCommentArtefakt commentArtefakt = (GWikiChangeCommentArtefakt) artefakt;
     String oldText = commentArtefakt.getStorageData();
     String ntext;
     String uname = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
-    int prevVersion = element.getElementInfo().getProps().getIntValue(GWikiPropKeys.VERSION, 0);
+    int prevVersion = page.getElementInfo().getProps().getIntValue(GWikiPropKeys.VERSION, 0);
     if (StringUtils.isNotBlank(comment) == true) {
       Date now = new Date();
       ntext = "{changecomment:modifiedBy="
@@ -256,12 +379,10 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
               if (branchInfoElement == null) {
                 return null;
               }
-
               GWikiArtefakt< ? > artefakt = branchInfoElement.getMainPart();
               if (artefakt instanceof GWikiPropsArtefakt == false) {
                 return null;
               }
-
               GWikiPropsArtefakt propsArtefakt = (GWikiPropsArtefakt) artefakt;
               return propsArtefakt.getCompiledObject();
             }
@@ -301,13 +422,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   public String getPageTitle()
   {
-    return wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
-      public String call() throws RuntimeException
-      {
-        GWikiElement page = wikiContext.getWikiWeb().getElement(pageId);
-        return page == null ? StringUtils.EMPTY : page.getElementInfo().getTitle();
-      }
-    });
+     return page == null ? StringUtils.EMPTY : page.getElementInfo().getTitle();
   }
 
   /**
@@ -436,5 +551,37 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   public String getNewPageState()
   {
     return newPageState;
+  }
+
+  /**
+   * @param commentRequired the commentRequired to set
+   */
+  public void setCommentRequired(boolean commentRequired)
+  {
+    this.commentRequired = commentRequired;
+  }
+
+  /**
+   * @return the commentRequired
+   */
+  public boolean isCommentRequired()
+  {
+    return commentRequired;
+  }
+
+  /**
+   * @param sendMail the sendMail to set
+   */
+  public void setSendMail(boolean sendMail)
+  {
+    this.sendMail = sendMail;
+  }
+
+  /**
+   * @return the sendMail
+   */
+  public boolean isSendMail()
+  {
+    return sendMail;
   }
 }
