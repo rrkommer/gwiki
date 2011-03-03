@@ -167,18 +167,21 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
       GWikiFragmentImage image = new GWikiFragmentImage(target);
       String newContent = image.toString();
 
-      updateSection(newContent);
+      updateSection(ctx, newContent);
     }
 
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
    */
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

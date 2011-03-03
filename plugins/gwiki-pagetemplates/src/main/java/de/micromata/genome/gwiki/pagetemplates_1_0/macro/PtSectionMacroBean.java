@@ -44,6 +44,7 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  * Defines an editable section.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * @author Christian Claus (c.claus@micromata.de)
  */
 public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro
 {
@@ -132,7 +133,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
     }
 
     if (attrs.getChildFragment() != null) {
-      if ("attachment".equals(editor)) {
+      if ("attachment".equals(editor) || "link".equals(editor)) {
         List<GWikiFragment> childs = attrs.getChildFragment().getChilds();
 
         XmlElement ta = table(attrs("border", "0", "cellspacing", "0", "cellpadding", "2"));
@@ -142,12 +143,14 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
           if (child instanceof GWikiFragmentLink) {
             GWikiFragmentLink attachment = (GWikiFragmentLink) child;
             addTableRow(ctx, "edit", ta, attachment, i);
+            
+            try {
+              renderFancyBox(ctx, name + i);
+            } catch (UnsupportedEncodingException ex) {
+              GWikiLog.warn("", ex);
+            }
+            
             i++;
-          }
-          try {
-            renderFancyBox(ctx, name + i);
-          } catch (UnsupportedEncodingException ex) {
-            GWikiLog.warn("", ex);
           }
         }
 
@@ -208,11 +211,12 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    * @param ta
    * @param link
    */
-  private void addTableRow(final GWikiContext ctx, final String edit, final XmlElement ta, GWikiFragmentLink attachment, int i)
+  private void addTableRow(final GWikiContext ctx, final String edit, final XmlElement ta, GWikiFragmentLink link, int i)
   {
     try {
       GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
-      String parentElem = ctx.getWikiWeb().findElement(attachment.getTargetPageId()).getElementInfo().getParentId();
+      
+      String parentElem = ctx.getCurrentElement().getElementInfo().getId();
 
       String url = ctx.localUrl("/" + ei.getId())
           + "?pageId="
@@ -226,14 +230,22 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
           + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
 
       XmlElement editUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", url), editImage);
-      XmlElement minusUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", (url + "&method_onDelete=true")),
-          minusImage);
+      XmlElement minusUrl = a(attrs("title", edit, "href", (url + "&method_onDelete=true")), minusImage);
 
-      XmlElement link = a(attrs("href", ctx.localUrl(attachment.getTargetPageId())), text(attachment.getTitle()));
+      String title = (link.getTitle() != null) ? link.getTitle() : "";
+      String target;
+      
+      if (GWikiFragmentLink.isGlobalUrl(link.getTarget())) {
+        target = link.getTarget();
+      } else {
+        target = ctx.localUrl(link.getTargetPageId());
+      }
+      
+      XmlElement targetLink = a(attrs("href", target), text(title));
 
       ta.nest(//
       tr(//
-      td(attrs("width", "180px"), link), //
+      td(attrs("width", "180px"), targetLink), //
       td(editUrl, minusUrl))//
       );
     } catch (UnsupportedEncodingException ex) {

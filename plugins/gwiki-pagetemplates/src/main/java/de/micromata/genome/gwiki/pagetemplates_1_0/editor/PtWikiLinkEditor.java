@@ -27,20 +27,16 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
-import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -48,12 +44,15 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  */
 public class PtWikiLinkEditor extends PtWikiTextEditorBase
 {
-
   private static final long serialVersionUID = 5901053792188232570L;
 
-  public PtWikiLinkEditor(GWikiElement element, String sectionName, String editor, String hint)
+  private String fieldNumber;
+
+  public PtWikiLinkEditor(GWikiElement element, String sectionName, String editor, String hint, String fieldNumber)
   {
     super(element, sectionName, editor, hint);
+
+    this.fieldNumber = fieldNumber;
   }
 
   @Override
@@ -75,27 +74,6 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
 
     String editContent = "http://";
     String title = "";
-
-    String content = StringEscapeUtils.escapeHtml(getEditContent());
-    GWikiWikiParser wkparse = new GWikiWikiParser();
-    GWikiContent gwikiContent = wkparse.parse(ctx, content);
-
-    GWikiCollectFragmentTypeVisitor links = new GWikiCollectFragmentTypeVisitor(GWikiFragmentLink.class);
-    gwikiContent.iterate(links);
-
-    GWikiFragmentLink link = null;
-
-    if (!links.getFound().isEmpty()) {
-      link = (GWikiFragmentLink) links.getFound().get(0);
-    }
-
-    if (link != null) {
-      editContent = link.getTarget();
-
-      if (link.getTitle() != null) {
-        title = link.getTitle();
-      }
-    }
 
     XmlElement inputFile = input( //
     attrs("id", sectionName + "_filechooser", "name", sectionName, "value", editContent, "size", "50"));
@@ -168,10 +146,9 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
     String target = ctx.getRequestParameter(sectionName);
     String title = ctx.getRequest().getParameter("title");
 
-    if (GWikiFragmentLink.isGlobalUrl(target)) {
-
-    } else {
-
+    if (StringUtils.isEmpty(target)) {
+      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.empty"));
+      return;
     }
 
     GWikiFragmentLink link = new GWikiFragmentLink(target);
@@ -180,7 +157,7 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
       link.setTitle(title);
     }
 
-    updateSection(link.toString());
+    updateSection(ctx, link.toString(), fieldNumber);
   }
 
   /*
@@ -258,13 +235,16 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
     ctx.append("\n</ul>\n");
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
    */
   public void onDelete(GWikiContext ctx)
   {
-    // TODO Auto-generated method stub
-    
+    updateSection(ctx, StringUtils.EMPTY, fieldNumber);
+
   }
 
 }
