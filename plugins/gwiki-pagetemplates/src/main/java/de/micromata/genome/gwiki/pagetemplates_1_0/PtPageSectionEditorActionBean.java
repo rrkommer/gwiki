@@ -83,7 +83,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
         return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth, maxFileSize);
       } else if (StringUtils.equals(editor, EDITOR_LINK)) {
-        return new PtWikiLinkEditor(element, sectionName, editor, hint);
+        return new PtWikiLinkEditor(element, sectionName, editor, hint, fieldNumber);
       } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
         return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
       }
@@ -131,6 +131,8 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     if (wikiContext.hasValidationErrors()) {
       return null;
     }
+
+    wikiContext.getWikiWeb().saveElement(wikiContext, element, false);
 
     return pageId;
   }

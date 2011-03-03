@@ -69,7 +69,7 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
-    updateSection(newContent);
+    updateSection(ctx, newContent);
   }
 
   /*
@@ -82,13 +82,16 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
     return "";
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
    */
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

@@ -67,7 +67,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
     String htmlCode = ctx.getRequestParameter(sectionName + ".htmlText");
     String result = Html2WikiFilter.html2Wiki(htmlCode);
 
-    updateSection(result);
+    updateSection(ctx, result);
   }
 
   /*
@@ -122,13 +122,16 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
    */
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub
-    
+
   }
 
 }

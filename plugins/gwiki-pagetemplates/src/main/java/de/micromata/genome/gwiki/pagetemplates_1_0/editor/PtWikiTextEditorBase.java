@@ -21,12 +21,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -95,11 +100,23 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     }
   }
   
-  protected void updateSection(String newContent, String fieldNumber) 
+  
+  /**
+   * returns a pageId to for deletion
+   * 
+   * @param ctx
+   * @param newContent
+   * @param fieldNumber
+   * @return
+   */
+  protected String updateSection(final GWikiContext ctx, String newContent, String fieldNumber) 
   {
+    String fieldPageId = null;
+    
     extractContent();
+    
     if (endSec == -1) {
-      return;
+      return null;
     }
     
     StringBuilder sb = new StringBuilder();
@@ -111,13 +128,21 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
         index = Integer.parseInt(fieldNumber);
       } catch(NumberFormatException e) {
         GWikiLog.warn("failed to parse number", e);
-        return;
-      }      
+        return null;
+      }
     
-      String[] contentArray = wikiText.substring(startSec, endSec).split(",");
+      String[] contentArray = getEditContent().split(",");
       
       if (index >= contentArray.length) {
-        return;
+        return null;
+      }
+      
+      if (StringUtils.isEmpty(newContent)) {
+        GWikiFragmentLink link = getLinkForField(ctx, index, contentArray);
+        
+        if (link != null) {
+          fieldPageId = link.getTargetPageId();
+        }
       }
       
       contentArray[index] = newContent;
@@ -125,26 +150,63 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
       sb.append(wikiText.substring(0, startSec));
       
       for (int i = 0; i < contentArray.length; i++) {
-        sb.append(contentArray[i]);
-        if (i < (contentArray.length - 1)) {
-          sb.append(",");
+        if (StringUtils.isNotEmpty(contentArray[i])) {
+          sb.append(contentArray[i]);
+          if (i != 0 && i < (contentArray.length - 1)) {
+            sb.append(",");
+          }
         }
       }
       
       sb.append(wikiText.substring(endSec));
     } else {
       sb.append(wikiText.substring(0, endSec));
-      sb.append(",");
+      
+      if (StringUtils.isEmpty(wikiText.substring(startSec, endSec))) {
+        sb.append(",");
+      }
+      
       sb.append(newContent);
       sb.append(wikiText.substring(endSec));
     }
     
     wikiArtefakt.setStorageData(sb.toString());
+    
+    return fieldPageId;
+  }
+
+
+  /**
+   * @param ctx
+   * @param fieldPageId
+   * @param index
+   * @param contentArray
+   * @return
+   */
+  protected GWikiFragmentLink getLinkForField(final GWikiContext ctx, int index, String[] contentArray)
+  {
+    GWikiFragmentLink link = null;
+    GWikiWikiParser wkparse = new GWikiWikiParser();
+    GWikiContent gwikiContent = wkparse.parse(ctx, contentArray[index]);
+
+    GWikiCollectFragmentTypeVisitor links = new GWikiCollectFragmentTypeVisitor(GWikiFragmentLink.class);
+    gwikiContent.iterate(links);
+
+    if (!links.getFound().isEmpty()) {
+      link = (GWikiFragmentLink) links.getFound().get(0);
+    }
+    
+    return link;
   }
   
   
-  protected void updateSection(String newContent)
+  protected void updateSection(final GWikiContext ctx, String newContent)
   {
+    if (StringUtils.isEmpty(newContent)) {
+      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.empty"));
+      return;
+    }
+    
     extractContent();
     if (endSec == -1) {
       return;
@@ -184,27 +246,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
       return;
     }
     endSec = startSec + lidx - 1;
-    //
-    // wiki.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
-    //
-    // public void begin(GWikiFragment fragment)
-    // {
-    // if ((fragment instanceof GWikiMacroFragment) == false) {
-    // return;
-    // }
-    // GWikiMacroFragment mf = (GWikiMacroFragment) fragment;
-    // if ((mf.getMacro() instanceof PtSectionMacroBean) == false) {
-    // return;
-    // }
-    // PtSectionMacroBean secm = (PtSectionMacroBean) mf.getMacro();
-    // if (mf.getAttrs().getChildFragment() == null) {
-    // return;
-    // }
-    // StringBuilder sb = new StringBuilder();
-    // mf.getAttrs().getChildFragment().getChildSouce(sb);
-    // content = sb.toString();
-    // }
-    // });
+
   }
 
   protected String getEditContent()

@@ -1,4 +1,5 @@
 <%-- wikiContext.skinInclude('standardhead'); --%>
+<%-- wikiContext.skinInclude('fancyboxhead'); --%>
 <% wikiContext.skinInclude('popuphead'); %>
 <@include file="inc/stdtags.gspt" @> 
 
@@ -19,11 +20,16 @@
 <input class="gwikiButton reset" type="submit" onclick="parent.$.fancybox.close();" value="<fmt:message key='gwiki.edit.button.cancel'/>">
 <!--input class="gwikiButton reset" type="submit" name="method_onCancel" value="<fmt:message key='gwiki.edit.button.cancel'/>"--><br/>
 
-<%--
-<script type="text/javascript">
-var gwikiContentCss = '<%= localCsse.toString() %>';
-</script>
- --%>
+<%
+ StringBuilder localCsse = new StringBuilder();
+ for (String lp : wikiContext.getContentCsse()) {
+   if (localCsse.length() > 0) {
+     localCsse.append(",");
+   }
+   localCsse.append(wikiContext.localUrl(lp));
+ }
+%>
+
 <script type="text/javascript">
 var gwikiEditorContentChanged = false;
 
@@ -34,6 +40,8 @@ function gwikiEditorOnUnload() {
 }
 
 window.onbeforeunload = gwikiEditorOnUnload;
+
+var gwikiContentCss = '<%= localCsse.toString() %>';
 </script>
  
 <% form = pageContext.getRequest().getAttribute("form"); %>

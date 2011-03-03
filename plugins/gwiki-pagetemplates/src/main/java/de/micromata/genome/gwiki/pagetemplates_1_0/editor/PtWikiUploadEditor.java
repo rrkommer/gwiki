@@ -95,8 +95,11 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
       GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
       att.setStorageData(data);
 
-      if (data != null) {
+      if (data.length > 0) {
         element.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
+      } else {
+        ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.empty"));
+        return null;
       }
 
       if (!StringUtils.isEmpty(title)) {
@@ -139,14 +142,5 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
   {
     return "";
   }
-
-  /**
-   * @param ctx
-   */
-  public void deleteContent(GWikiContext ctx)
-  {
-    FileItem fileItem = ctx.getFileItem(sectionName);
-    String end = " ";
-  }
-
+  
 }
