@@ -30,7 +30,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			<th><fmt:message key="gwiki.plc.dashboard.assignee"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.actions"/></th>
 		</tr>
-		<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="1" step="1">
+		<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="0" step="1">
 			<form class="gwikiForm col" method="post" name="dashboard${l.count}">
 				<input type="hidden" name="selectedPageId" value="<c:out value="${fileInfo.elementInfo.id}"/>"/>
 				<input type="hidden" name="selectedTenant" value="<c:out value="${fileInfo.branch}"/>"/>

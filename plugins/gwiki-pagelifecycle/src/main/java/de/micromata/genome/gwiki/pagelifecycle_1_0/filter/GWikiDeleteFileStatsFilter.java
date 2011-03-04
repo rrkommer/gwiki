@@ -17,32 +17,24 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.filter;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
-import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
-import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
+import de.micromata.genome.gwiki.model.filter.GWikiStorageDeleteElementFilter;
+import de.micromata.genome.gwiki.model.filter.GWikiStorageDeleteElementFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
-import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
-import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
- * Filter for updating branch filestats 
+ * Filter which removes page entries from filestats file when they are deleted
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilter
+public class GWikiDeleteFileStatsFilter implements GWikiStorageDeleteElementFilter
 {
   /*
    * (non-Javadoc)
@@ -50,15 +42,20 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
    * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain,
    * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
    */
-  public Void filter(GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
-      GWikiStorageStoreElementFilterEvent event)
+  public Void filter(GWikiFilterChain<Void, GWikiStorageDeleteElementFilterEvent, GWikiStorageDeleteElementFilter> chain,
+      GWikiStorageDeleteElementFilterEvent event)
   {
-    final GWikiContext wikiContext = event.getWikiContext();
-    GWikiElement storedElement = event.getElement();
-    GWikiElementInfo storedElementInfo = storedElement.getElementInfo();
+    final GWikiContext ctx = event.getWikiContext();
+    GWikiElement elementToDelete = event.getElement();
 
-    final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+    // if you update filestats it will be deleten and stored again. --> loop
+    if (PlcConstants.FILE_STATS_LOCATION.equals(elementToDelete.getElementInfo().getId()) == true) {
+      return chain.nextFilter(event);
+    }
+    
+    final GWikiElement fileStats = ctx.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
 
+    // if we are not in a branch context
     if (fileStats == null) {
       return chain.nextFilter(event);
     }
@@ -68,36 +65,25 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
         return chain.nextFilter(event);
       }
-
       GWikiBranchFileStatsArtefakt fileStatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
       BranchFileStats fileStatsContent = fileStatsArtefakt.getCompiledObject();
 
-      // if page already contained in fielstats file continue
-      if (fileStatsContent.isPagePresent(storedElementInfo.getId()) == true) {
+      // if page already removed from fielstats file continue  
+      if (fileStatsContent.isPagePresent(elementToDelete.getElementInfo().getId()) == false) {
         return chain.nextFilter(event);
       }
-
-      String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
-      FileStatsDO newFileStat = new FileStatsDO();
-      newFileStat.setPageId(storedElementInfo.getId());
-      newFileStat.setFileState(FileState.DRAFT);
-      newFileStat.setCreatedAt(GWikiProps.formatTimeStamp(new Date()));
-      newFileStat.setCreatedBy(currentUserName);
-      newFileStat.setAssignedTo(currentUserName); // initial assigned to creator
-      newFileStat.setOperators(new HashSet<String>(Arrays.asList(currentUserName)));
-      fileStatsContent.addFileStats(newFileStat);
-
+      fileStatsContent.removePage(elementToDelete.getElementInfo().getId());
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
-      
+
       // because filestats is located in /admin folder you need to be su to store/update that file
-      wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+      ctx.getWikiWeb().getAuthorization().runAsSu(ctx, new CallableX<Void, RuntimeException>() {
         public Void call() throws RuntimeException
         {
-          wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, false);
+          ctx.getWikiWeb().saveElement(ctx, fileStats, false);
           return null;
-        }});
+        }
+      });
     }
-    
     return chain.nextFilter(event);
   }
 }

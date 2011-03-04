@@ -21,33 +21,42 @@
 </div>
 <br/>
 
-<!-- Branch zuweisen -->
+<!-- Assign Branch -->
 <div>
-	<c:if test="${form.branchMode eq true && not empty form.availableBranches}">
-		<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:
-		<table border="1" width="100%">
-			<tr>
-				<th>&nbsp;</th>		
-				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
-				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
-				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
-				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
-			</tr>
-			<c:forEach var="branch" items="${form.availableBranches}">
+	<c:if test="${form.branchMode eq true}">
+		<c:choose>
+		<c:when test="${empty form.availableBranches}">
+			<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:<br/>
+			<b><fmt:message key="gwiki.plc.dashboard.popup.branch.nobranches"/></b>
+			<br/>
+		</c:when>
+		<c:otherwise>
+			<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:
+			<table border="1" width="100%">
 				<tr>
-					<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
-					<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
-					<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
-					<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
-					<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
-				</tr>		
-			</c:forEach>
-		</table>
+					<th>&nbsp;</th>		
+					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
+					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
+					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
+					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
+				</tr>
+				<c:forEach var="branch" items="${form.availableBranches}">
+					<tr>
+						<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
+						<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
+						<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
+						<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
+						<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
+					</tr>		
+				</c:forEach>
+			</table>
+		</c:otherwise>
+		</c:choose>
 		<br/>
 	</c:if>
 </div>
 
-<!-- Reviewer zuweisen -->
+<!-- Assign Reviewer -->
 <div>
 	<c:if test="${form.assignMode eq true && not empty form.availableAssignees}">
 		<fmt:message key="gwiki.plc.dashboard.popup.reviewer.assign"/>:
@@ -61,7 +70,23 @@
 	</c:if>
 </div>
 
-<!-- Mail senden -->
+<!-- Dependent objects -->
+<div>
+	<c:if test="${not empty form.depObjects}">
+		<fmt:message key="gwiki.plc.dashboard.popup.dependentobjects"/>:
+		<table>
+			<c:forEach var="objMap" items="${form.depObjects}">
+				<tr>
+					<td><input type="checkbox" name="selectedDepObjects" value="${objMap.key}"/></td>
+					<td><c:out value="${objMap.value.elementInfo.title}"/></td>
+				</tr>
+			</c:forEach>
+		</table>
+		<br/>
+	</c:if>
+</div>
+
+<!-- Send Mail -->
 <gwiki:checkbox id="send" property="sendMail"/><label for="send"><fmt:message key="gwiki.plc.dashboard.popup.sendmail"/></label>
 
 </form>

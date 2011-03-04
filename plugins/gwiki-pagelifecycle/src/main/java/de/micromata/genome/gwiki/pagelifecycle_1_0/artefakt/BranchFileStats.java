@@ -18,8 +18,10 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
@@ -55,9 +57,32 @@ public class BranchFileStats implements Serializable
   {
 	  return contentMap.get(id);
   }
+
+  /**
+   * Returns filestats for given id. returns an empty object if id is not present
+   * @param id
+   */
+  public List<FileStatsDO> getFileStatsForIds(List<String> pageIds)
+  {
+    List<FileStatsDO> fileStats = new ArrayList<FileStatsDO>();
+    for (final String id : pageIds) {
+      if (contentMap.containsKey(id)) {
+        fileStats.add(contentMap.get(id));
+      }
+    }
+    return fileStats;
+  }
   
   public boolean isPagePresent(final String pageId) {
 	  return contentMap.get(pageId) == null ? false : true;
+  }
+  
+  /**
+   * @param id
+   */
+  public void removePage(String id)
+  {
+    getContentMap().remove(id);
   }
   
   /**
