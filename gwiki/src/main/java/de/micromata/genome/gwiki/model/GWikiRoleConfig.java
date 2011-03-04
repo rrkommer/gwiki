@@ -71,11 +71,16 @@ public class GWikiRoleConfig implements InitializingBean, Serializable
     if (roles.containsKey(right.getName()) == true) {
       return;
     }
+    if (StringUtils.isNotEmpty(right.getDefinition()) == true && right.getDefinitionRule() == null) {
+      BooleanListRulesFactory<String> fac = new BooleanListRulesFactory<String>();
+      right.setDefinitionRule(fac.createMatcher(right.getDefinition()));
+    }
     roles.put(right.getName(), right);
     rights.add(right);
   }
-  
-  public void removeRight(GWikiRight right) {
+
+  public void removeRight(GWikiRight right)
+  {
     roles.remove(right.getName());
   }
 
