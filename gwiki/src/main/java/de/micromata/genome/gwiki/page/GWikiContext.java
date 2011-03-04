@@ -647,13 +647,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
       return callBack.call();
     } finally {
       // switch to previous tenant
-      if (StringUtils.equals(currentTenant, tenantId) == true) {
-        return null;
-      }
-      if (StringUtils.isBlank(currentTenant) == true) {
-        wikiSelector.leaveTenant(this);
-      } else {
-        wikiSelector.enterTenant(this, currentTenant);
+      if (StringUtils.equals(currentTenant, tenantId) == false) {
+        if (StringUtils.isBlank(currentTenant) == true) {
+          wikiSelector.leaveTenant(this);
+        } else {
+          wikiSelector.enterTenant(this, currentTenant);
+        }
       }
     }
   }

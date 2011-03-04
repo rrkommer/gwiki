@@ -53,7 +53,7 @@ public class FileInfoWrapper
   
   public String getCategoryString() {
     final String cat = StringUtils.substringBeforeLast(elementInfo.getId(), "/");
-    return StringUtils.replace(cat, "/", " -> ");
+    return StringUtils.replace(cat, "/", " > ");
   }
 
   /**

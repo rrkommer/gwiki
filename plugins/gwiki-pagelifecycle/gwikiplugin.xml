@@ -22,6 +22,10 @@
 						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiUpdateFileStatsFilter" />
 				</bean>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<property name="className"
+						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiDeleteFileStatsFilter" />
+				</bean>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
 					<constructor-arg
 						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.PlcSkinRenderFilter" />
 				</bean>

@@ -69,16 +69,24 @@ public class CreateBranchActionBean extends PlcActionBeanBase
         createBranchInfoElement();
         createBranchFileStats();
         return null;
-      }});
+      }
+    });
 
     return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }
 
   private void createBranchFileStats()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID,
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID,
         "Branch File Stats");
-    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+    // because filestats is located in /admin folder you need to be su to store/update that file
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+        return null;
+      }
+    });
   }
 
   /**
@@ -86,7 +94,8 @@ public class CreateBranchActionBean extends PlcActionBeanBase
    */
   private void createBranchInfoElement()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement", INFO_TEMPLATE_ID, "BranchInfo");
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement", INFO_TEMPLATE_ID,
+        "BranchInfo");
     GWikiArtefakt< ? > artefakt = el.getMainPart();
 
     GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
@@ -97,7 +106,14 @@ public class CreateBranchActionBean extends PlcActionBeanBase
     props.setStringValue("RELEASE_DATE", getDateString(this.releaseStartDate));
     props.setStringValue("RELEASE_END_DATE", getDateString(this.releaseEndDate));
 
-    wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+    // because branchinfo is located in /admin folder you need to be su to store/update that file
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+        return null;
+      }
+    });
   }
 
   private boolean isBranchIdValid()

@@ -30,7 +30,7 @@ public enum GWikiPlcRights
   /** right to edit an article */
   PLC_EDIT_ARTICLE,
   
-  /** right to approve a draft article */
+  /** right to send a draft article to a reviewer */
   PLC_APPROVE_DRAFT_ARTICLE,
 
   /** right to reject a draft article */
