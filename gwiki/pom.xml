@@ -90,27 +90,7 @@
 			<version>1.9.13</version>
 		</dependency>
 
-		<!--  used for pdftextextractor plugin -->
-		<dependency>
-			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox</artifactId>
-			<version>0.8.0-incubating</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--  used for msotextextractor plugin -->
-			<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.2-FINAL</version>
-			<scope>provided</scope>
-		</dependency>
-		<!--  used for msotextextractor plugin -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-scratchpad</artifactId>
-			<version>3.2-FINAL</version>
-			<scope>provided</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
@@ -148,14 +128,7 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-		<dependency>
-			<!--  used for confluenceimporter plugin -->
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-			<!--   <version>1.4</version> -->
-			<version>1.6.1</version>
-			<scope>provided</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-api</artifactId>
