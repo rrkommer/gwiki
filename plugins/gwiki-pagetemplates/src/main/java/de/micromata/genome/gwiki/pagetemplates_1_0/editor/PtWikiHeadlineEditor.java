@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -47,9 +48,12 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(final GWikiContext ctx)
   {
+    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    content = Html2WikiFilter.unescapeWiki(content);
+
     XmlElement input = input( //
     attrs("name", sectionName,//
-        "value", StringEscapeUtils.escapeHtml(getEditContent()), //
+        "value", content, //
         "style", "margin:10px 0 25px 0;", //
         "size", "50"));
 
@@ -69,6 +73,9 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
+
+    newContent = Html2WikiFilter.escapeWiki(newContent);
+
     updateSection(ctx, newContent);
   }
 
