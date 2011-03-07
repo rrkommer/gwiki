@@ -70,7 +70,7 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     } else if (newIndex == Boolean.FALSE) {
       return false;
     }
-    
+
     updateGlobalIndex(wikiContext, storage, element, parts);
     return true;
   }
@@ -92,7 +92,7 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
           }
         });
   }
-  
+
   public Boolean createNewIndex(final GWikiContext wikiContext, GWikiStorage storage, GWikiElement element,
       Map<String, GWikiArtefakt< ? >> parts)
   {
@@ -154,44 +154,6 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     parts.put(TEXTINDEX_PARTNAME, ret.getFirst());
     return true;
   }
-
-  // protected boolean createOldIndex(GWikiContext wikiContext, GWikiStorage storage, GWikiElement element, Map<String, GWikiArtefakt>
-  // parts)
-  // {
-  // if (element.getElementInfo().getProps().getBooleanValue(GWikiPropKeys.NOINDEX) == true) {
-  // return true;
-  // }
-  // if (element.getMetaTemplate() != null && element.getMetaTemplate().isNoSearchIndex() == true) {
-  // return true;
-  // }
-  // CollectTextWordCallback collector = new CollectTextWordCallback();
-  // boolean hasIndexArtefakt = false;
-  // for (Map.Entry<String, GWikiArtefakt> me : parts.entrySet()) {
-  // if (me.getValue() instanceof GWikiIndexedArtefakt) {
-  // GWikiIndexedArtefakt ia = (GWikiIndexedArtefakt) me.getValue();
-  // ia.collectWords(collector);
-  // hasIndexArtefakt = true;
-  // }
-  // }
-  // if (hasIndexArtefakt == false) {
-  // return true;
-  // }
-  // String rt = collector.getBuffer().toString();
-  // if (StringUtils.isBlank(rt) == true) {
-  // return true;
-  // }
-  // GWikiTextContentArtefakt rta = new GWikiTextContentArtefakt() {
-  // @Override
-  // public boolean isNoArchiveData()
-  // {
-  // return true;
-  // }
-  // };
-  // rta.setStorageData(rt);
-  // parts.put("TextExtract", rta);
-  // // createIndex(wikiContext, storage, element, parts, rt);
-  // return true;
-  // }
 
   private Map<String, Integer> getStopWords(GWikiStorage storage)
   {
@@ -313,88 +275,6 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     rta.setStopWords(ts);
     return Pair.make(rta, parsedText);
   }
-
-  // protected void createIndex(final GWikiContext wikiContext, final GWikiStorage storage, final GWikiElement element,
-  // Map<String, GWikiArtefakt> parts, String rawText)
-  // {
-  //
-  // // List<String> words = Converter.parseStringTokens(rawText, " \t\n.,:!?", false);
-  //
-  // final Map<String, Integer> ts = new TreeMap<String, Integer>();
-  // Stack<Integer> curLevel = new Stack<Integer>();
-  // curLevel.push(1);
-  // int i = 0;
-  // char c1;
-  // char c2;
-  // char c3;
-  // int startWordIndex = 0;
-  // int endWordIndex = 0;
-  // String word;
-  // for (; i < rawText.length(); ++i) {
-  // c1 = rawText.charAt(i);
-  // switch (c1) {
-  // case '<': {
-  // endWordIndex = i;
-  // if (endWordIndex > startWordIndex) {
-  // word = rawText.substring(startWordIndex, endWordIndex);
-  // addWord(storage, ts, curLevel, word);
-  // }
-  // c2 = rawText.charAt(i + 1);
-  // if (c2 == '^') {
-  // i = parseNextLevel(rawText, i + 2, curLevel);
-  // startWordIndex = i;
-  // break;
-  // }
-  // }
-  // case '\t':
-  // case '\n':
-  // case '.':
-  // case ',':
-  // case '?':
-  // case '!':
-  // case ':':
-  // case ' ':
-  // case '-':
-  // case '/':
-  // case '[':
-  // case ']':
-  // case '{':
-  // case '}':
-  // case '(':
-  // case ')':
-  // case '\'':
-  // case '"':
-  // if (i > startWordIndex) {
-  // word = rawText.substring(startWordIndex, i);
-  // addWord(storage, ts, curLevel, word);
-  // }
-  // startWordIndex = i + 1;
-  // break;
-  // default:
-  // if (Character.isLetterOrDigit(c1) == false) {
-  // if (i > startWordIndex) {
-  // word = rawText.substring(startWordIndex, i);
-  // addWord(storage, ts, curLevel, word);
-  // startWordIndex = i + 1;
-  // }
-  // }
-  // break;
-  // }
-  // }
-  // WordIndexTextArtefakt rta = new WordIndexTextArtefakt();
-  // rta.setStopWords(ts);
-  // parts.put("TextIndex", rta);
-  // wikiContext.getWikiWeb().getFilter().runWithoutFilters(new Class< ? >[] { IndexStoragePersistHandler.class},
-  // new CallableX<Void, RuntimeException>() {
-  //
-  // public Void call() throws RuntimeException
-  // {
-  // GlobalIndexFile.updateSegment(storage, element, WordIndexTextArtefakt.stopWordsToString(ts));
-  // return null;
-  // }
-  // });
-  //
-  // }
 
   public Void filter(GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
       GWikiStorageStoreElementFilterEvent event)
