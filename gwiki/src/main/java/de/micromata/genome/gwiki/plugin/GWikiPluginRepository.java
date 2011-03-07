@@ -85,7 +85,7 @@ public class GWikiPluginRepository
     pluginCombinedFileSystem = null;
   }
 
-  private GWikiPluginDescriptor loadDescriptor(FileSystem fs, String fn)
+  public static GWikiPluginDescriptor loadDescriptor(FileSystem fs, String fn)
   {
     byte[] data = fs.readBinaryFile(fn);
 
