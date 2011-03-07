@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+		<property name="apiVersion" value="1.0.0" />
+		<property name="name" value="gwiki.pdftextextracteor" />
+		<property name="requiredPlugins">
+			<list>
+				<value>org.apache.pdfbox:1.5.0</value>
+			</list>
+		</property>
+		<property name="version" value="1.0.0" />
+		<property name="description"
+			value="Plugin for PDF full text search text extraction" />
+		<property name="author" value="Roger Kommer" />
+		<property name="category" value="Full Text Search Text Extractor" />
+		<property name="textExtractors">
+			<map>
+				<entry key=".pdf"
+					value="de.micromata.genome.gwiki.plugin.pdftextextractor_1_0.PdfTextExtractor" />
+			</map>
+		</property>
+	</bean>
+</beans>
