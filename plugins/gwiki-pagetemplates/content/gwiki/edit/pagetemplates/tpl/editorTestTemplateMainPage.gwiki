@@ -33,7 +33,6 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
 {div:id=rightSidebar|class=aside|style=border-left:1px dashed;heigth:100%;float:right;width:15%;padding:10px}
 Attachments:
 {pteditsection:name=attachment1|editor=attachment}{pteditsection}
-{pteditsection:name=attachment2|editor=attachment}{pteditsection}
 
 Links:
 {pteditsection:name=link1|editor=link}{pteditsection}
