@@ -261,8 +261,6 @@ public class GWikiFileStorage implements GWikiStorage
     String sp = storage2WikiPath(e.getName());
     String cid = sp.substring(0, sp.length() - GWikiStorage.SETTINGS_SUFFIX.length());
     el.setId(cid);
-    // TODO delete next line if working
-    // p.setStringValue(GWikiPropKeys.PAGEID, cid);
     return el;
   }
 
