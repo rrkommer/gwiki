@@ -205,20 +205,24 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   {
     int width = 1100;
     int height = 650;
-    
+
     if ("link".equals(editor) || "attachment".equals(editor)) {
       width = 700;
       height = 400;
     } else if ("image".equals(editor)) {
       width = 700;
     }
-    
+
     ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
         + "$(\"#"
         + URLEncoder.encode(id, "UTF-8")
         + "\").fancybox({\n"
-        + "width: " + width + ",\n"
-        + "height: " + height + ",\n"
+        + "width: "
+        + width
+        + ",\n"
+        + "height: "
+        + height
+        + ",\n"
         + "type: 'iframe'\n"
         + "});\n"
         + "});\n"
@@ -249,8 +253,11 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
           + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")))
           + (maxFileSize == null ? "" : ("&maxFileSize=" + URLEncoder.encode(maxFileSize, "UTF-8")));
 
+      String confirmMsg = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.edit.message.confirmdelete");
+
       XmlElement editUrl = a(attrs("id", URLEncoder.encode(name + i, "UTF-8"), "title", edit, "href", url), editImage);
-      XmlElement minusUrl = a(attrs("title", delete, "href", (url + "&method_onDelete=true")), minusImage);
+      XmlElement minusUrl = a(
+          attrs("title", delete, "href", (url + "&method_onDelete=true"), "onclick", "return confirm('" + confirmMsg + "');"), minusImage);
 
       String title = (link.getTitle() != null) ? link.getTitle() : "";
       String target;
