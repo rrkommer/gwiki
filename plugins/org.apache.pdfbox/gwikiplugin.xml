@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+		<property name="apiVersion" value="1.0.0" />
+		<property name="name" value="org.apache.pdfbox" />
+		<property name="version" value="1.5.0" />
+		<property name="description" value="PDFBox libraries" />
+		<property name="author" value="The Apache Software Foundation" />
+		<property name="license" value="Apache License Version 2.0, Copyright 1999-2009 The Apache Software Foundation" />
+		<property name="category" value="Library" />
+	</bean>
+</beans>
