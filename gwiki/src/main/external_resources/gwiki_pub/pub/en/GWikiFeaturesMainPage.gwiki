@@ -101,6 +101,7 @@ Architecture
 - Documents
 -- Document types (Wiki, JSP, HTML, Attachments, etc.) are defined by Metatemplates
 -- Register handler for rendering, storing, editing for own document types.
+-- Tenant enabled. Share documents and user for root tenant, Create tenant users, documents, etc.
 
 - Rapid prototype
 -- Edit JSP online
