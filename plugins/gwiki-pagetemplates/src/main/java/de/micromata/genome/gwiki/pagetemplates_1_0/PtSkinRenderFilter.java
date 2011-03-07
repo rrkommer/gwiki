@@ -51,32 +51,32 @@ public class PtSkinRenderFilter implements GWikiSkinRenderFilter
       return chain.nextFilter(event);
     }
 
-    if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
-      ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
-
-      XmlElement menu = li(new String[][] { { "class", "gwikiMenuIcon"}}, //
-          span( //
-          a(new String[][] { { "href", ""}, { "title", ctx.getTranslated("gwiki.pt.common.edit")}}, //
-              img("border", "0", "src", "/inc/gwiki/img/icons/article32.png")) //
-          ));
-
-      // ul for menu entries
-      XmlElement entryList = ul("name", "");
-
-      // Wizard
-      GWikiElement wiz = ctx.getWikiWeb().findElement("/edit/pagetemplates/PageWizard");
-      if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, wiz.getElementInfo())) {
-        entryList.nest(//
-            li( //
-                a(new String[][] { { "href", "/edit/pagetemplates/PageWizard"}}, // 
-                text(ctx.getTranslated("gwiki.page.articleWizard.title")))
-               ) //
-        ); //
-        menu.nest(entryList);
-      }
-
-      ctx.append(menu.toString());
-    }
+//    if (GuiElementType.PageMenu.name().equals(event.getGuiElementType()) == true) {
+//      ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
+//
+//      XmlElement menu = li(new String[][] { { "class", "gwikiMenuIcon"}}, //
+//          span( //
+//          a(new String[][] { { "href", ""}, { "title", ctx.getTranslated("gwiki.pt.common.edit")}}, //
+//              img("border", "0", "src", "/inc/gwiki/img/icons/article32.png")) //
+//          ));
+//
+//      // ul for menu entries
+//      XmlElement entryList = ul("name", "");
+//
+//      // Wizard
+//      GWikiElement wiz = ctx.getWikiWeb().findElement("/edit/pagetemplates/PageWizard");
+//      if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, wiz.getElementInfo())) {
+//        entryList.nest(//
+//            li( //
+//                a(new String[][] { { "href", "/edit/pagetemplates/PageWizard"}}, // 
+//                text(ctx.getTranslated("gwiki.page.articleWizard.title")))
+//               ) //
+//        ); //
+//        menu.nest(entryList);
+//      }
+//
+//      ctx.append(menu.toString());
+//    }
     return chain.nextFilter(event);
   }
 }

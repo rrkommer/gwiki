@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
@@ -29,6 +31,8 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 public class PlcActionBeanBase extends ActionBeanBase
 {
 
+  private String backUrl;
+  
   protected GWikiMultipleWikiSelector getWikiSelector()
   {
     GWikiWikiSelector wikiSelector = wikiContext.getWikiWeb().getDaoContext().getWikiSelector();
@@ -42,5 +46,21 @@ public class PlcActionBeanBase extends ActionBeanBase
       return multipleSelector;
     }
     return null;
+  }
+  
+  protected Object goBack()
+  {
+    if (StringUtils.isNotBlank(backUrl)) {
+      return backUrl;
+    }
+    return wikiContext.getWikiWeb().getHomeElement(wikiContext);
+  }
+
+  /**
+   * @param backUrl the backUrl to set
+   */
+  public void setBackUrl(String backUrl)
+  {
+    this.backUrl = backUrl;
   }
 }

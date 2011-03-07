@@ -28,7 +28,7 @@ import de.micromata.genome.util.runtime.CallableX;
 public class PageWizardAction extends ActionBeanBase
 {
   private List<String> wizardSteps;
-  
+
   public void renderHeaders()
   {
     for (String stepPageId : getVisibleWizardSteps()) {
@@ -68,8 +68,15 @@ public class PageWizardAction extends ActionBeanBase
     // saves new page
     wikiContext.getWikiWeb().saveElement(wikiContext, newPage, false);
 
-    // save page-id in request-attribute for possible later usage
-    return newPage;
+    // close box and load new page
+    StringBuffer sb = new StringBuffer("<script type='text/javascript'>");
+    sb.append("parent.$.fancybox.close();");
+    sb.append("window.parent.location.href=").append(newPage.getElementInfo().getId()).append(";");
+    sb.append("window.parent.location.reload();");
+    sb.append("</script>");
+    wikiContext.append(sb.toString());
+    wikiContext.flush();
+    return noForward();
   }
 
   /**
@@ -101,16 +108,17 @@ public class PageWizardAction extends ActionBeanBase
         GWikiActionBeanArtefakt actionBeanArtefakt = (GWikiActionBeanArtefakt) controller;
         ActionBean bean = actionBeanArtefakt.getActionBean(wikiContext);
         bean.setWikiContext(wikiContext);
-        
+
         // populate element to step action beans
         Map<String, Object> elementParam = new HashMap<String, Object>();
         elementParam.put("element", element);
         ClassUtils.populateBeanWithPuplicMembers(bean, elementParam);
-        
+
         // populate form properies to step action bean
         ActionBeanUtils.fillForm((ActionBean) bean, wikiContext);
         return callback.call(bean);
-      }});
+      }
+    });
   }
 
   /**

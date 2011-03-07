@@ -17,7 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -28,11 +31,13 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
@@ -68,6 +73,8 @@ public class PlcDashboardAction extends PlcActionBeanBase
   private String selectedPageId;
 
   private String selectedTenant;
+  
+  private List<String> actionLinks = Arrays.asList("edit/pagetemplates/PageWizard");
 
   @Override
   public Object onInit()
@@ -85,74 +92,6 @@ public class PlcDashboardAction extends PlcActionBeanBase
     }
     getWikiSelector().enterTenant(wikiContext, tenant);
     return pageId;
-  }
-
-  public Object onReviewCreator()
-  {
-    setFileStatus(FileState.TO_REVIEW);
-    updateList();
-    return null;
-  }
-
-  public Object onRejectChiefEditor()
-  {
-    setFileStatus(FileState.DRAFT);
-    updateList();
-    return null;
-  }
-
-  public Object onApproveChiefEditor()
-  {
-    setFileStatus(FileState.APPROVED_CHIEF_EDITOR);
-    updateList();
-    return null;
-  }
-
-  public Object onRejectContentAdmin()
-  {
-    setFileStatus(FileState.TO_REVIEW);
-    updateList();
-    return null;
-  }
-
-  public Object onReleaseContentAdmin()
-  {
-    setFileStatus(FileState.APPROVED_CONTENT_ADMIN);
-    updateList();
-    return null;
-  }
-
-  public Object onEnterTenant()
-  {
-    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
-      updateList();
-      return null;
-    }
-
-    String tenant = getSelectedTenant();
-    if (StringUtils.isBlank(tenant) == true) {
-      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.entertenant");
-      updateList();
-      return null;
-    }
-    wikiSelector.enterTenant(wikiContext, tenant);
-    updateList();
-    return null;
-  }
-
-  public Object onLeaveTenant()
-  {
-    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
-    if (wikiSelector == null) {
-      wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.leavetenant");
-      updateList();
-      return null;
-    }
-    wikiSelector.leaveTenant(wikiContext);
-    updateList();
-    return null;
   }
 
   /**
@@ -180,7 +119,11 @@ public class PlcDashboardAction extends PlcActionBeanBase
             public boolean match(GWikiElementInfo ei)
             {
               String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);
-              return StringUtils.equals(tenant, tid);
+              String et = "";
+              if (ei.getMetaTemplate() != null) {
+                et = ei.getMetaTemplate().getElementType();
+              }
+              return StringUtils.equals(tenant, tid) && StringUtils.equals("gwiki", et);
             }
           });
 
@@ -218,59 +161,55 @@ public class PlcDashboardAction extends PlcActionBeanBase
       });
     }
     Collections.sort(getContent(), new FileInfoComparator(orderBy));
-    
     return null;
   }
 
-  /**
-   * @param fileState
-   * 
-   */
-  private void setFileStatus(final FileState fileState)
-  {
-    final String pageToApprove = getSelectedPageId();
-    String tenant = getSelectedTenant();
-
-    GWikiMultipleWikiSelector wikiSelector = getWikiSelector();
-    if (wikiSelector == null) {
-      return;
-    }
-
-    wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
-      public Void call() throws RuntimeException
-      {
-        GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
-        if (fileStats == null || fileStats.getMainPart() == null) {
-          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
-          return null;
-        }
-
-        GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
-        if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
-          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
-          return null;
-        }
-
-        GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
-        BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
-        FileStatsDO fileStatsForPage = pageStats.getFileStatsForId(pageToApprove);
-        if (fileStatsForPage == null) {
-          wikiContext.addValidationError("gwiki.page.ViewBranchContent.error.setstate");
-          return null;
-        }
-
-        fileStatsForPage.setFileState(fileState);
-        fileStatsForPage.setLastModifiedAt(GWikiProps.formatTimeStamp(new Date()));
-        fileStatsForPage.setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
-        branchFilestatsArtefakt.setStorageData(pageStats.toString());
-
-        wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, true);
-
-        return null;
+  public void renderActionLinks() {
+    int i = 0;
+    for (final String actionLink : getActionLinks()) {
+      GWikiElement el = wikiContext.getWikiWeb().findElement(actionLink);
+      if (el == null) {
+        continue;
       }
-    });
+      if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, el.getElementInfo()) == false) {
+        continue;
+      }
+      String link = wikiContext.renderExistingLinkWithAttr(el.getElementInfo(), "Create Article", "", "id", "actionLink" + i);
+      try {
+        renderFancyBox(wikiContext, "actionLink" + String.valueOf(i++));
+      } catch (UnsupportedEncodingException ex) {
+        GWikiLog.error("Error rendering actionLink", ex);
+      }
+      wikiContext.append(link);
+    }
+    wikiContext.flush();
   }
+  
+  /**
+   * @param ctx
+   * @throws UnsupportedEncodingException
+   */
+  private void renderFancyBox(final GWikiContext ctx, String id) throws UnsupportedEncodingException
+  {
+    int width = 1100;
+    int height = 650;
 
+    ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
+        + "$(\"#"
+        + URLEncoder.encode(id, "UTF-8")
+        + "\").fancybox({\n"
+        + "width: "
+        + width
+        + ",\n"
+        + "height: "
+        + height
+        + ",\n"
+        + "type: 'iframe'\n"
+        + "});\n"
+        + "});\n"
+        + "</script>\n");
+  }
+  
   /**
    * @param selectedPageId the selectedPageId to set
    */
@@ -344,6 +283,22 @@ public class PlcDashboardAction extends PlcActionBeanBase
     return orderBy;
   }
   
+  /**
+   * @param availableActionLinks the availableActionLinks to set
+   */
+  public void setActionLinks(List<String> availableActionLinks)
+  {
+    this.actionLinks = availableActionLinks;
+  }
+
+  /**
+   * @return the availableActionLinks
+   */
+  public List<String> getActionLinks()
+  {
+    return actionLinks;
+  }
+
   class FileInfoComparator implements Comparator<FileInfoWrapper> {
 
     private String orderBy;

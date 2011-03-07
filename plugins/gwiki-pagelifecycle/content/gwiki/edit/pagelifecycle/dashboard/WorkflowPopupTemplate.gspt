@@ -74,15 +74,11 @@
 <div>
 	<c:if test="${not empty form.depObjects}">
 		<fmt:message key="gwiki.plc.dashboard.popup.dependentobjects"/>:
-		<table>
-			<c:forEach var="objMap" items="${form.depObjects}">
-				<tr>
-					<td><input type="checkbox" name="selectedDepObjects" value="${objMap.key}"/></td>
-					<td><c:out value="${objMap.value.elementInfo.title}"/></td>
-				</tr>
+		<ul>
+			<c:forEach var="obj" items="${form.depObjects}">
+				<li><c:out value="${obj.elementInfo.title}"/></li>
 			</c:forEach>
-		</table>
-		<br/>
+		</ul>		
 	</c:if>
 </div>
 
