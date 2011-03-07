@@ -68,6 +68,16 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
 
   };
 
+  public GWikiMultipleWikiSelector()
+  {
+
+  }
+
+  public GWikiMultipleWikiSelector(GWikiWeb rootWiki)
+  {
+    super(rootWiki);
+  }
+
   public GWikiWeb getWikiWeb(GWikiServlet servlet)
   {
     final GWikiWeb wiki = THREAD_WIKI.get();
@@ -256,4 +266,5 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
   {
     enterTenant(wikiContext, StringUtils.EMPTY);
   }
+
 }

@@ -18,6 +18,7 @@
 package de.micromata.genome.gwiki.model.config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -63,7 +64,10 @@ public class GWikiPluginSpringBeanFactory extends AbstractFactoryBean
     if (classClass != null) {
       return;
     }
-    for (GWikiPlugin wp : GWikiWeb.get().getDaoContext().getPluginRepository().getActivePlugins()) {
+    GWikiWeb wikiWeb = GWikiWeb.get();
+
+    List<GWikiPlugin> plugins = wikiWeb.getDaoContext().getPluginRepository().getActivePlugins();
+    for (GWikiPlugin wp : plugins) {
       if (wp.isActivated() == false) {
         continue;
       }

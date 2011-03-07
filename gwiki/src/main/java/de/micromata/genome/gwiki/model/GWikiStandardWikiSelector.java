@@ -33,6 +33,16 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
 {
   protected GWikiWeb wiki;
 
+  public GWikiStandardWikiSelector()
+  {
+
+  }
+
+  public GWikiStandardWikiSelector(GWikiWeb wiki)
+  {
+    this.wiki = wiki;
+  }
+
   protected void initServletContext(GWikiServlet servlet, GWikiWeb nwiki, GWikiContext ctx)
   {
     if (servlet.getServletPath() == null) {
@@ -89,6 +99,9 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
       GWikiContext.setCurrent(wikiContext);
       nwiki.setContextPath(servlet.getContextPath());
       nwiki.setServletPath(servlet.getServletPath());
+      if (wiki == null) {
+        wiki = nwiki;
+      }
       nwiki.loadWeb();
       wiki = nwiki;
     } finally {
