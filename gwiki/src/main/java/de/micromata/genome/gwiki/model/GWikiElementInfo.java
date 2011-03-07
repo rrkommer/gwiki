@@ -23,6 +23,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
@@ -104,7 +105,7 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
     String title = props.getStringValue(GWikiPropKeys.TITLE);
     if (StringUtils.isNotEmpty(title) == true)
       return title;
-    return id;
+    return FileNameUtils.getNamePart(id);
   }
 
   public boolean isViewable()
