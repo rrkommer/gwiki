@@ -203,12 +203,23 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
    */
   private void renderFancyBox(final GWikiContext ctx, String id) throws UnsupportedEncodingException
   {
+    int width = 1100;
+    int height = 650;
+    
+    if ("link".equals(editor) || "attachment".equals(editor)) {
+      width = 700;
+      height = 400;
+    } else if ("image".equals(editor)) {
+      width = 700;
+    }
+    
     ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
         + "$(\"#"
         + URLEncoder.encode(id, "UTF-8")
         + "\").fancybox({\n"
-        + "type: 'iframe',\n"
-        + "autoScale: true\n"
+        + "width: " + width + ",\n"
+        + "height: " + height + ",\n"
+        + "type: 'iframe'\n"
         + "});\n"
         + "});\n"
         + "</script>\n");
