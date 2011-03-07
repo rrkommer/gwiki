@@ -1,0 +1,43 @@
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>
+<!-- htmlHead.gspt START -->
+<%@ page contentType="text/html; charset=UTF-8" %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta name="ROBOTS" content="NOINDEX">
+
+<%-- TODO gwiki include nach skin --%>
+
+<link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
+
+<script src='<gwiki:url value="/static/js/jquery-1.3.2.min.js" />' type="text/JavaScript"></script>
+<script src='<gwiki:url value="/static/js/jquery-ui-1.7.2.custom.min.js" />' type="text/JavaScript"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
+<script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-searchbox-0.1.js'/>"></script>
+<script src='<gwiki:url value="/static/js/jquery.menu.v009/jquery.menu.js" />' type="text/JavaScript"></script>
+<link href="<gwiki:url value="/static/js/jquery.menu.v009/demo/style.css"/>" rel="stylesheet" type="text/css" />
+<link type="text/css" href="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
+<script type="text/javascript">
+        function displayHilfeLayer(content, backwardscompparam){
+            Tip(content,
+                    STICKY, true,
+                    CLICKCLOSE, false,
+                    WIDTH, 300,
+                    BGCOLOR,'#EEEEEE',
+                    BORDERCOLOR,'#FFFFFF',
+                    FONTSIZE, "0.8em",
+                    FONTFACE, "Arial, Helvetica, sans-serif",
+                    FONTCOLOR, '#000000',
+                    CLOSEBTNPOP,true,
+                    CLOSEBTNIMG, "<gwiki:url value="/static/skins/dhl2009/img/closetooltips.gif"/>"
+                    );
+        }
+        </script>
+        
+<% wikiContext.addContentCss("/inc/gwiki.css"); %>
+
+<title>Hallo und erstmal guten Tach: <%= esc(wikiContext.getTranslatedProp(wikiContext?.wikiElement?.elementInfo?.title)) %></title>
+
+<!-- htmlHead.gspt END -->
