@@ -124,29 +124,6 @@ public class GWikiServlet extends HttpServlet
   public void initWiki(HttpServletRequest req, HttpServletResponse resp)
   {
     daoContext.getWikiSelector().initWiki(this, req, resp);
-    // // TODO plc check thread local
-    // if (wiki != null && wiki.getWikiConfig() != null) {
-    // return;
-    // }
-    // synchronized (this) {
-    // GWikiWeb nwiki = new GWikiWeb(daoContext);
-    // try {
-    // GWikiContext ctx = new GWikiContext(nwiki, this, req, resp);
-    // if (servletPath == null) {
-    // servletPath = ctx.getRealServletPath();
-    // }
-    // if (contextPath == null) {
-    // contextPath = ctx.getRealContextPath();
-    // }
-    // nwiki.setContextPath(contextPath);
-    // GWikiContext.setCurrent(ctx);
-    // nwiki.setServletPath(servletPath);
-    // nwiki.loadWeb();
-    // } finally {
-    // GWikiContext.setCurrent(null);
-    // }
-    // wiki = nwiki;
-    // }
   }
 
   protected String getWikiPage(GWikiContext ctx)

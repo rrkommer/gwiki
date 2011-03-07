@@ -198,6 +198,9 @@ public class GWikiWeb
 
         public Void call() throws RuntimeException
         {
+          // if (GWikiServlet.INSTANCE.getRootWikiWeb() == null) {
+          // daoContext.getWikiSelector().
+          // }
           initFilters(config);
           // / force to load config first to register listener
 
