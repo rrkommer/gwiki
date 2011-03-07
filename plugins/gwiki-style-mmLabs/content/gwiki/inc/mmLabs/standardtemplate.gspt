@@ -1,0 +1,6 @@
+<@include file="/inc/mmLabs/standardhead.gspt"@>
+
+<% MainPage.render(wikiContext); %>
+
+
+<@include file="/inc/mmLabs/standardfoot.gspt"@>
