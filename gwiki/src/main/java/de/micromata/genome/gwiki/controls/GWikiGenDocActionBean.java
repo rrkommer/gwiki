@@ -71,8 +71,12 @@ public class GWikiGenDocActionBean extends ActionBeanBase
   public Object onInit()
   {
     if (StringUtils.isEmpty(rootPageId) == true) {
-      wikiContext.addSimpleValidationError("Eine Root-PageID auswählen");
-      return null;
+      if (StringUtils.isNotBlank(wikiContext.getRequestParameter("refPageId")) == true) {
+        rootPageId = wikiContext.getRequestParameter("refPageId");
+      } else {
+        wikiContext.addSimpleValidationError("Eine Root-PageID auswählen");
+        return null;
+      }
     }
     GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(rootPageId);
     if (ei == null || wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
