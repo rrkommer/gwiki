@@ -72,7 +72,7 @@ public class CreateBranchActionBean extends PlcActionBeanBase
       }
     });
 
-    return wikiContext.getWikiWeb().getHomeElement(wikiContext);
+    return goBack();
   }
 
   private void createBranchFileStats()

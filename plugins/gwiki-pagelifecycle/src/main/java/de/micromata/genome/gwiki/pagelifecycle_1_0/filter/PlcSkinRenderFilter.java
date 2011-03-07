@@ -90,7 +90,7 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
             ));
         
         if (availableTenants != null && availableTenants.size() > 0) {
-          final String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(ctx.localUrl(ctx.getCurrentElement().getElementInfo().getId()));
+          final String backUrlParam = getBackUrl(ctx);
           
           // ul for menu entries
           XmlElement entryList = ul("name", "");
@@ -141,7 +141,7 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
         if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, page)) {
           entryList.nest(
               li(
-                  a(new String[][] { { "href", "/" + page.getId()}}, // 
+                  a(new String[][] { { "href", "/" + page.getId() + "?" + getBackUrl(ctx)}}, // 
                       text(ctx.getTranslatedProp(page.getTitle())))
               ));
         }
@@ -151,5 +151,15 @@ public class PlcSkinRenderFilter implements GWikiSkinRenderFilter
       ctx.append(menu.toString());
     }
     return chain.nextFilter(event);
+  }
+
+  /**
+   * @param ctx
+   * @return
+   */
+  private String getBackUrl(GWikiContext ctx)
+  {
+    final String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(ctx.localUrl(ctx.getCurrentElement().getElementInfo().getId()));
+    return backUrlParam;
   }
 }

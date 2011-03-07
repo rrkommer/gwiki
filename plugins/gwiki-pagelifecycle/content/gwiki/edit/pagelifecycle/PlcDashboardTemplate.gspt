@@ -11,13 +11,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 
 <!-- filter and search options -->
 <fieldset>
-	<legend><fmt:message key="gwiki.plc.dashboard.filter"/></legend>
+	<% form.renderActionLinks(); %>
 </fieldset>
 
 <!-- table -->
 <fieldset>
 	<legend><fmt:message key="gwiki.plc.dashboard.management"/></legend>
-	
 	<br/>
 	<table width="100%">
 		<tr>
@@ -95,7 +94,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 									</gwiki:authorize>
 									<gwiki:authorize ifHasAny="PLC_RELEASE_ARTICLE">
 										<td>
-											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true?newPageState=APPROVED_CONTENT_ADMIN" 
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=APPROVED_CONTENT_ADMIN" 
 												id="release${l.count}" title="<fmt:message key="gwiki.plc.dashboard.release"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/check16.png">
 										    </a>
@@ -136,7 +135,5 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 		</c:forEach>
 	</table>
 </fieldset>
-
- 
 
 <% wikiContext.skinInclude("standardfoot"); %>

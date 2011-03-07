@@ -4,7 +4,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
 import de.micromata.genome.gwiki.page.impl.wiki.*;
 import org.apache.commons.lang.StringUtils;
 %>
-<% wikiContext.skinInclude("standardhead"); %>
+<% wikiContext.skinInclude("simplepopuphead"); %>
 
 <script src="/static/js/SmartWizard.js" type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="/static/css/style_wizard.css" />
@@ -53,5 +53,3 @@ import org.apache.commons.lang.StringUtils;
 	  } 
 	</script>
 </form>
-
-<% wikiContext.skinInclude("standardfoot"); %>

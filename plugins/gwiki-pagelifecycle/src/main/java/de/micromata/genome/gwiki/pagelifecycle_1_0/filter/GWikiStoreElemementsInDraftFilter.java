@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.GWikiPlcRights;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.util.runtime.CallableX;
@@ -47,7 +48,7 @@ public class GWikiStoreElemementsInDraftFilter implements GWikiStorageStoreEleme
     GWikiContext ctx = event.getWikiContext();
 
     // admins do not switch to draft by default
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, "*") == true) {
+    if (ctx.isAllowTo(GWikiPlcRights.PLC_VIEW_ALL_BRANCHES.name()) == true) {
       return chain.nextFilter(event);
     }
 
