@@ -84,9 +84,9 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
 
   private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
-  
+
   private static String edit = "";
-  
+
   private static String delete = "";
 
   /*
@@ -100,7 +100,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   {
     edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
     delete = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.delete");
-    
+
     GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null) {
 
@@ -150,18 +150,20 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
           if (child instanceof GWikiFragmentLink) {
             GWikiFragmentLink attachment = (GWikiFragmentLink) child;
             addTableRow(ctx, ta, attachment, i);
-            
+
             try {
               renderFancyBox(ctx, name + i);
             } catch (UnsupportedEncodingException ex) {
               GWikiLog.warn("", ex);
             }
-            
+
             i++;
           }
         }
 
-        ctx.append(ta.toString());
+        if (ta.getChilds().size() > 0) {
+          ctx.append(ta.toString());
+        }
 
       } else {
         attrs.getChildFragment().render(ctx);
@@ -170,6 +172,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
     if (ei != null) {
       ctx.append("</div>");
     }
+
     return true;
   }
 
@@ -204,9 +207,8 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         + "$(\"#"
         + URLEncoder.encode(id, "UTF-8")
         + "\").fancybox({\n"
-        + "width: 1200,\n"
-        + "height: 800,\n"
-        + "type: 'iframe'\n"
+        + "type: 'iframe',\n"
+        + "autoScale: true\n"
         + "});\n"
         + "});\n"
         + "</script>\n");
@@ -222,7 +224,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   {
     try {
       GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
-      
+
       String parentElem = ctx.getCurrentElement().getElementInfo().getId();
 
       String url = ctx.localUrl("/" + ei.getId())
@@ -241,13 +243,13 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
 
       String title = (link.getTitle() != null) ? link.getTitle() : "";
       String target;
-      
+
       if (GWikiFragmentLink.isGlobalUrl(link.getTarget())) {
         target = link.getTarget();
       } else {
         target = ctx.localUrl(link.getTargetPageId());
       }
-      
+
       XmlElement targetLink = a(attrs("href", target), text(title));
 
       ta.nest(//
