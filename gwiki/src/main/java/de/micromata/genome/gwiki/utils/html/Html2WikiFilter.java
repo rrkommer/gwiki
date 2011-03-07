@@ -782,6 +782,11 @@ public class Html2WikiFilter extends DefaultFilter
       }
     }
 
+    // append last
+    if (wiki.charAt(wiki.length() - 1) != '\\') {
+      result.append(wiki.charAt(wiki.length() - 1));
+    }
+
     if (result.length() > 1) {
       return result.toString();
     }
