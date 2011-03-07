@@ -42,7 +42,9 @@ var gwikiContentCss = '<%= localCsse.toString() %>';
  
 <% form = pageContext.getRequest().getAttribute("form"); %>
 
+<div>
 <% form.secEditor.render(wikiContext); %>
+</div>
 
 </form>
 
