@@ -89,7 +89,7 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
   @Override
   public boolean renderImpl(final GWikiContext ctx, MacroAttributes attrs)
   {
-    GWikiElementInfo ei = ctx.getCurrentElement().getElementInfo();
+    GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo("edit/pagetemplates/PageSectionEditor");
     if (ctx.getCurrentElement() != null) {
 
       if (ei != null) {
