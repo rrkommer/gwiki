@@ -28,9 +28,9 @@ import de.micromata.genome.util.runtime.CallableX;
  * @author Christian Claus (c.claus@micromata.de)
  *
  */
-public class GWikiAuthorizationWrapper implements GWikiAuthorization 
+public class GWikiAuthorizationWrapper implements GWikiAuthorization
 {
-  private GWikiAuthorization parent;
+  protected GWikiAuthorization parent;
 
   public GWikiAuthorizationWrapper()
   {
