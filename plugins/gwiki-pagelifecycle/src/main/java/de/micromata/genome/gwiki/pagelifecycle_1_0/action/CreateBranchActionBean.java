@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -42,10 +43,6 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class CreateBranchActionBean extends PlcActionBeanBase
 {
-  private static final String INFO_TEMPLATE_ID = "admin/templates/intern/GWikiBranchInfoElementTemplate";
-
-  private static final String FILESTATS_TEMPLATE_ID = "admin/templates/intern/GWikiBranchFileStatsTemplate";
-
   private String branchId;
 
   private String description;
@@ -77,8 +74,7 @@ public class CreateBranchActionBean extends PlcActionBeanBase
 
   private void createBranchFileStats()
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID,
-        "Branch File Stats");
+    final GWikiElement el = PlcUtils.createFileStats(wikiContext);
     // because filestats is located in /admin folder you need to be su to store/update that file
     wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
@@ -94,18 +90,7 @@ public class CreateBranchActionBean extends PlcActionBeanBase
    */
   private void createBranchInfoElement()
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, "admin/branch/intern/BranchInfoElement", INFO_TEMPLATE_ID,
-        "BranchInfo");
-    GWikiArtefakt< ? > artefakt = el.getMainPart();
-
-    GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
-    GWikiProps props = art.getCompiledObject();
-    props.setStringValue("BRANCH_ID", this.branchId);
-    props.setStringValue("DESCRIPTION", this.description);
-    props.setStringValue("BRANCH_STATE", BranchState.OFFLINE.name());
-    props.setStringValue("RELEASE_DATE", getDateString(this.releaseStartDate));
-    props.setStringValue("RELEASE_END_DATE", getDateString(this.releaseEndDate));
-
+    final GWikiElement el = PlcUtils.createInfoElement(wikiContext, this.branchId, this.description, getDateString(this.releaseStartDate), getDateString(this.releaseEndDate));
     // because branchinfo is located in /admin folder you need to be su to store/update that file
     wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException

@@ -18,7 +18,6 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.filter;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -78,6 +77,7 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       }
 
       String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
+      
       FileStatsDO newFileStat = new FileStatsDO();
       newFileStat.setPageId(storedElementInfo.getId());
       newFileStat.setFileState(FileState.DRAFT);
@@ -85,8 +85,8 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
       newFileStat.setCreatedBy(currentUserName);
       newFileStat.setAssignedTo(currentUserName); // initial assigned to creator
       newFileStat.setOperators(new HashSet<String>(Arrays.asList(currentUserName)));
-      fileStatsContent.addFileStats(newFileStat);
-
+      
+      fileStatsContent.addFileStats(newFileStat);      
       fileStatsArtefakt.setStorageData(fileStatsContent.toString());
       
       // because filestats is located in /admin folder you need to be su to store/update that file
@@ -97,7 +97,6 @@ public class GWikiUpdateFileStatsFilter implements GWikiStorageStoreElementFilte
           return null;
         }});
     }
-    
     return chain.nextFilter(event);
   }
 }

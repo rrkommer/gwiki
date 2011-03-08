@@ -19,6 +19,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.runtime.CallableX1;
 
 /**
  * Wizard for creating articles
@@ -32,15 +33,12 @@ public class PageWizardAction extends ActionBeanBase
   public void renderHeaders()
   {
     for (String stepPageId : getVisibleWizardSteps()) {
-      GWikiElement stepElement = wikiContext.getWikiWeb().findElement(stepPageId);
-      GWikiElementInfo info = stepElement.getElementInfo();
-      String tabTitle = info.getProps().getStringValue(GWikiPropKeys.TITLE);
-
-      if (tabTitle.startsWith("I{") == true) {
-        tabTitle = wikiContext.getTranslatedProp(tabTitle);
-      }
-      String divAnchor = StringUtils.substringAfterLast(stepPageId, "/");
-      wikiContext.append("<li><a href='#").append(divAnchor).append("'>").append(tabTitle).append("</a></li>");
+      runInActionContext(stepPageId, null, new Callable<RuntimeException, Void>() {
+        public Void call(final ActionBean bean) throws RuntimeException
+        {
+          ActionBeanUtils.dispatchToMethodImpl(bean, "onRenderHeader", wikiContext);
+          return null;
+        }});
     }
   }
 
@@ -71,8 +69,7 @@ public class PageWizardAction extends ActionBeanBase
     // close box and load new page
     StringBuffer sb = new StringBuffer("<script type='text/javascript'>");
     sb.append("parent.$.fancybox.close();");
-    sb.append("window.parent.location.href=").append(newPage.getElementInfo().getId()).append(";");
-    sb.append("window.parent.location.reload();");
+    sb.append("window.parent.location.href='/").append(newPage.getElementInfo().getId()).append("';");
     sb.append("</script>");
     wikiContext.append(sb.toString());
     wikiContext.flush();
@@ -95,13 +92,21 @@ public class PageWizardAction extends ActionBeanBase
     }
   }
 
+  /**
+   * Runs the callbck code in scope of the action that is addresses by actionPageId
+   * 
+   * @param actionPageId The pageId of the action
+   * @param element An optional element which is populated to the actionbean
+   * @param callback The callback code
+   * @return
+   */
   public Void runInActionContext(final String actionPageId, final GWikiElement element, final Callable<RuntimeException, Void> callback)
   {
-    final GWikiElement page = wikiContext.getWikiWeb().getElement(actionPageId);
-    return wikiContext.runElement(page, new CallableX<Void, RuntimeException>() {
+    final GWikiElement actionPage = wikiContext.getWikiWeb().getElement(actionPageId);
+    return wikiContext.runElement(actionPage, new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
-        GWikiArtefakt< ? > controller = page.getPart("Controler");
+        GWikiArtefakt< ? > controller = actionPage.getPart("Controler");
         if (controller instanceof GWikiActionBeanArtefakt == false) {
           return null;
         }

@@ -2,22 +2,6 @@
 <div id="CategoryStep" >
    	<div class="wiz-content" style="height:500px;">
 	    		
-		<fieldset>
-			<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
-			<table>
-		   		<!-- Seitentitel waehlen -->
-				<tr>
-					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
-					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageTitle" /></td>
-				</tr>
-		   		<!-- Seiten-ID waehlen -->
-				<tr>
-					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageId"/>:</td>
-					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageId" /></td>
-				</tr>
-			</table>
-		</fieldset>
-			      			
 	    <!-- Choose Category -->
 		<fieldset>
 			<legend><fmt:message key="gwiki.page.articleWizard.category.title" /></legend>
@@ -48,6 +32,23 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td id="s5"></td>
+				</tr>
+			</table>
+		</fieldset>
+		
+		<!-- Choose Title -->
+		<fieldset>
+			<legend><fmt:message key="gwiki.page.articleWizard.pageTitle.title" /></legend>
+			<table>
+		   		<!-- Seitentitel waehlen -->
+				<tr>
+					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageTitle"/>:</td>
+					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageTitle" /></td>
+				</tr>
+		   		<!-- Seiten-ID waehlen -->
+				<tr>
+					<td width="200px"><fmt:message key="gwiki.page.articleWizard.template.pageId"/>:</td>
+					<td><gwiki:text errorStyleClass="text error" styleClass="text" size="20" property="catPageId" /></td>
 				</tr>
 			</table>
 		</fieldset>
