@@ -24,9 +24,10 @@ import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
- *
+ * 
  */
-public interface GWikiSectionEditorArtefakt<T extends Serializable> extends GWikiEditorArtefakt<T>
+public interface PtWikiSectionEditorArtefakt<T extends Serializable> extends GWikiEditorArtefakt<T>
 {
   public void onDelete(GWikiContext ctx);
+
 }
