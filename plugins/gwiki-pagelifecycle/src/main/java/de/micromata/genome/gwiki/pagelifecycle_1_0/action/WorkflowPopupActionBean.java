@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStats
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
@@ -56,7 +58,14 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class WorkflowPopupActionBean extends PlcActionBeanBase
 {
+  /** some global constants for possible user inputs from select boxes etc. */
   private static final String EMPTY_SELECTION = "-1";
+
+  private static final String CURRENT_ASSIGNEE = "current";
+
+  private static final String PREVIOUS_ASSIGNEE = "previous";
+
+  private static final String NEW_BRANCH = "new";
 
   /**
    * id of current selected page
@@ -118,8 +127,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   private String selectedBranch;
 
-  private int depth = 5;
-
   /*
    * (non-Javadoc)
    * 
@@ -173,8 +180,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         // check if dependent objects exists
         List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(page.getElementInfo());
         for (final GWikiElementInfo child : childs) {
-            getDepObjects().add(wikiContext.getWikiWeb().getElement(child));
-            getSubpagesRec(child, 2);
+          getDepObjects().add(wikiContext.getWikiWeb().getElement(child));
+          getSubpagesRec(child, 2);
         }
         return null;
       }
@@ -184,14 +191,11 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
        */
       private void getSubpagesRec(GWikiElementInfo parent, int curDepth)
       {
-        if (curDepth > depth) {
-          return;
-        }
         List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(parent);
-          for (final GWikiElementInfo child : childs) {
-            getDepObjects().add(wikiContext.getWikiWeb().getElement(child));
-            getSubpagesRec(child, ++curDepth);
-          }
+        for (final GWikiElementInfo child : childs) {
+          getDepObjects().add(wikiContext.getWikiWeb().getElement(child));
+          getSubpagesRec(child, ++curDepth);
+        }
       }
     });
   }
@@ -219,6 +223,10 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   private void copyAndSave()
   {
+    // create new branch
+    if (NEW_BRANCH.equals(selectedBranch)) {
+      createAndSetNewBranch();
+    }
     List<String> updatePages = getAllPageIdsForUpdate();
 
     // copy current filestats entry to source target branch
@@ -248,6 +256,62 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         return null;
       }
     });
+  }
+
+  /**
+   * Creates a new a branch considering the meta information of currently transformed page
+   */
+  private void createAndSetNewBranch()
+  {
+    Date startDateOfArticle = getStartDateOfArticle();
+    final String branchId = startDateOfArticle == null ? GWikiProps.formatTimeStamp(new Date()) : GWikiProps
+        .formatTimeStamp(startDateOfArticle);
+    
+    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+      public Void call() throws RuntimeException
+      {
+        final GWikiElement branchInfo = PlcUtils.createInfoElement(wikiContext, branchId, "", branchId, "");
+        final GWikiElement branchFileStats = PlcUtils.createFileStats(wikiContext);
+        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+          public Void call() throws RuntimeException
+          {
+            wikiContext.getWikiWeb().saveElement(wikiContext, branchInfo, false);
+            wikiContext.getWikiWeb().saveElement(wikiContext, branchFileStats, false);
+            return null;
+          }
+        });
+        GWikiLog.note("Autocreate branch", "name", branchId);
+        return null;
+      }
+    });
+
+    // set new created branch as selected
+    selectedBranch = branchId;
+  }
+
+  /**
+   * @return The startdate of the article, or empty string if no one is specified
+   */
+  public Date getStartDateOfArticle()
+  {
+    // lookup if article had specified a release date
+    String startDate = wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
+      public String call() throws RuntimeException
+      {
+        BranchFileStats branchFileStats = PlcUtils.getBranchFileStats(wikiContext);
+        if (branchFileStats == null) {
+          return null;
+        }
+        FileStatsDO fileStatsForPage = branchFileStats.getFileStatsForId(pageId);
+        return fileStatsForPage.getStartAt();
+      }
+    });
+
+    if (StringUtils.isNotBlank(startDate) == true) {
+      return GWikiProps.parseTimeStamp(startDate);
+    }
+
+    return null;
   }
 
   /**
@@ -283,18 +347,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         new CallableX<List<FileStatsDO>, RuntimeException>() {
           public List<FileStatsDO> call() throws RuntimeException
           {
-            GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
-            if (fileStats == null || fileStats.getMainPart() == null) {
-              return null;
-            }
-
-            GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
-            if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
-              return null;
-            }
-
-            GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
-            BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
+            BranchFileStats pageStats = PlcUtils.getBranchFileStats(wikiContext);
             List<FileStatsDO> fileStatsForPage = pageStats.getFileStatsForIds(pageIds);
             return fileStatsForPage;
           }
@@ -303,7 +356,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
       return;
     }
 
-    // .. to destination
+    // ...to destination
     wikiContext.runInTenantContext(targetTenant, getWikiSelector(), new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
@@ -331,6 +384,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
             return null;
           }
         });
+        
+        GWikiLog.note("Copied BrnachFileStats information form " + sourceTenant + " to " + targetTenant, "PageIds", pageIds);
         return null;
       }
     });
@@ -358,7 +413,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
         BranchFileStats pageStats = branchFilestatsArtefakt.getCompiledObject();
 
-        // update meta data of each page
+        // update metadata of each page
         for (final String editPageId : pageIds) {
           FileStatsDO fileStatsForPage = pageStats.getFileStatsForId(editPageId);
           if (fileStatsForPage == null) {
@@ -371,8 +426,14 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
           fileStatsForPage.setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
 
           // set new assignee
-          if (StringUtils.isNotBlank(newAssignee) == true) {
+          if (PREVIOUS_ASSIGNEE.equalsIgnoreCase(newAssignee) == true
+              && StringUtils.isNotBlank(fileStatsForPage.getPreviousAssignee()) == true) {
+            String currentAssignee = fileStatsForPage.getAssignedTo();
+            fileStatsForPage.setAssignedTo(fileStatsForPage.getPreviousAssignee());
+            fileStatsForPage.setPreviousAssignee(currentAssignee);
+          } else if (CURRENT_ASSIGNEE.equalsIgnoreCase(newAssignee) == false) {
             fileStatsForPage.getOperators().add(newAssignee);
+            fileStatsForPage.setPreviousAssignee(fileStatsForPage.getAssignedTo());
             fileStatsForPage.setAssignedTo(newAssignee);
           }
         }
@@ -386,7 +447,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
             return null;
           }
         });
-
+        GWikiLog.note("Update filestats for pages", "branchId", branchId, "pageIds", pageIds, "newAssignee", newAssignee, "pageState", fileState.name());
         return null;
       }
     });
@@ -455,17 +516,10 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
 
       public String call() throws RuntimeException
       {
-        GWikiElement filestats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
-        if (filestats == null) {
+        BranchFileStats stats = PlcUtils.getBranchFileStats(wikiContext);
+        if (stats == null) {
           return StringUtils.EMPTY;
         }
-        GWikiArtefakt< ? > artefakt = filestats.getMainPart();
-        if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
-          return StringUtils.EMPTY;
-        }
-
-        GWikiBranchFileStatsArtefakt fileStatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
-        BranchFileStats stats = fileStatsArtefakt.getCompiledObject();
         FileStatsDO statsForId = stats.getFileStatsForId(pageId);
         if (statsForId == null) {
           return StringUtils.EMPTY;
@@ -497,7 +551,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   }
 
   /**
-   * saves the new comment for the page
+   * applies change comment to page
    */
   private void applyComment()
   {
@@ -535,10 +589,13 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   /**
    * returns a list of all available (offline) branches for assign an article to
    */
-  public List<GWikiProps> getAvailableBranches()
+  public List<Map<String, Object>> getAvailableBranches()
   {
     List<String> allTenants = getWikiSelector().getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
-    List<GWikiProps> branchProps = new ArrayList<GWikiProps>();
+    List<Map<String, Object>> branchProps = new ArrayList<Map<String, Object>>();
+
+    // default new branch is selected
+    this.selectedBranch = NEW_BRANCH;
 
     for (String tenantId : allTenants) {
       if (PlcConstants.DRAFT_ID.equalsIgnoreCase(tenantId) == true) {
@@ -568,7 +625,16 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
 
       // only add offline branches
       if (BranchState.OFFLINE.name().equals(branchInfoProp.getStringValue("BRANCH_STATE")) == true) {
-        branchProps.add(branchInfoProp);
+        Map<String, Object> m = new HashMap<String, Object>();
+        m.putAll(branchInfoProp.getMap());
+        m.put("RELEASE_DATE_DATE", GWikiProps.parseTimeStamp(branchInfoProp.getStringValue("RELEASE_DATE")));
+        branchProps.add(m);
+        // if branch release date matches article release date -> preselect branch
+        String release = branchInfoProp.getStringValue("RELEASE_DATE");
+        Date branchReleaseDate = GWikiProps.parseTimeStamp(release);
+        if (branchReleaseDate.equals(getStartDateOfArticle())) {
+          selectedBranch = branchInfoProp.getStringValue("BRANCH_ID");
+        }
       }
     }
     return branchProps;
@@ -584,7 +650,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     final List<GWikiElementInfo> userInfos = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
     List<String> users = new ArrayList<String>();
-
     for (final GWikiElementInfo user : userInfos) {
       users.add(GWikiContext.getNamePartFromPageId(user.getId()));
     }

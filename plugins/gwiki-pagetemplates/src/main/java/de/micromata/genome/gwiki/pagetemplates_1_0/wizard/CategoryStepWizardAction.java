@@ -37,11 +37,8 @@ import de.micromata.genome.gwiki.utils.WebUtils;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class CategoryStepWizardAction extends ActionBeanBase
+public class CategoryStepWizardAction extends AbstractStepWizardAction
 {
-
-  private GWikiElement element;
-
   /*
    * page that is the parent of categories to display
    */
@@ -82,17 +79,16 @@ public class CategoryStepWizardAction extends ActionBeanBase
 
   public Object onSave()
   {
-    if (this.element == null) {
+    if (getElement() == null) {
       return noForward();
     }
 
     final String parentPageId = getParentPageId();
     final String newPageId = getPageId();
-    element.getElementInfo().setId(newPageId);
-    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
-    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, catPageTitle);
-    element.getElementInfo().getProps().setStringValue(GWikiPropKeys.AUTH_EDIT, "");
-
+    getElement().getElementInfo().setId(newPageId);
+    getElement().getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
+    getElement().getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, catPageTitle);
+    getElement().getElementInfo().getProps().setStringValue(GWikiPropKeys.AUTH_EDIT, "");
     return noForward();
   }
 
@@ -334,22 +330,6 @@ public class CategoryStepWizardAction extends ActionBeanBase
   public String getCatSelectedCategory5()
   {
     return catSelectedCategory5;
-  }
-
-  /**
-   * @param element the element to set
-   */
-  public void setElement(GWikiElement element)
-  {
-    this.element = element;
-  }
-
-  /**
-   * @return the element
-   */
-  public GWikiElement getElement()
-  {
-    return element;
   }
 
   /**

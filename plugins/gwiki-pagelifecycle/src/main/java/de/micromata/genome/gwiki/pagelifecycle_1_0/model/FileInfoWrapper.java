@@ -105,6 +105,9 @@ public class FileInfoWrapper
   }
   
   public Date getStartAt() {
-    return GWikiProps.parseTimeStamp(getFileStats().getStartAt());
+    if (getFileStats() != null) {
+      return GWikiProps.parseTimeStamp(getFileStats().getStartAt());
+    }
+    return null;
   }
 }

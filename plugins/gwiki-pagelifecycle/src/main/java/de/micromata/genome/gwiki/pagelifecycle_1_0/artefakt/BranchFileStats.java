@@ -19,12 +19,10 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.util.text.PipeValueList;
 
 /**
@@ -43,10 +41,6 @@ public class BranchFileStats implements Serializable
   
   public void addFileStats(FileStatsDO statsDO) {
     getContentMap().put(statsDO.getPageId(), statsDO);
-  }
-  
-  public Collection<FileStatsDO> getAllFileStatsInState(FileState fileState) {
-    return null;
   }
   
   /**

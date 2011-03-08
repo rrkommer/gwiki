@@ -24,34 +24,41 @@
 <!-- Assign Branch -->
 <div>
 	<c:if test="${form.branchMode eq true}">
-		<c:choose>
-		<c:when test="${empty form.availableBranches}">
-			<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:<br/>
-			<b><fmt:message key="gwiki.plc.dashboard.popup.branch.nobranches"/></b>
-			<br/>
-		</c:when>
-		<c:otherwise>
-			<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:
-			<table border="1" width="100%">
+		<fmt:message key="gwiki.plc.dashboard.popup.branch.assign"/>:
+		<table border="1" width="100%">
+			<tr>
+				<th>&nbsp;</th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
+				<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
+			</tr>
+			<c:forEach var="branchMap" items="${form.availableBranches}">
 				<tr>
-					<th>&nbsp;</th>		
-					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.id"/></th>		
-					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.desc"/></th>		
-					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.releaseDate"/></th>		
-					<th><fmt:message key="gwiki.plc.dashboard.popup.branch.branchState"/></th>		
+					<td><gwiki:radio property="selectedBranch" value="${branchMap['BRANCH_ID']}"/></td>
+					<td><fmt:formatDate value="${branchMap['RELEASE_DATE_DATE']}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td><c:out value="${branchMap['DESCRIPTION']}"/></td>
+					<td><c:out value="${branchMap['BRANCH_ID']}"/></td>
+					<td><c:out value="${branchMap['BRANCH_STATE']}"/></td>
+				</tr>		
+			</c:forEach>
+			<c:if test="${form.selectedBranch eq 'new'}">
+				<tr>
+					<td><gwiki:radio property="selectedBranch" value="new"/></td>
+					<td colspan="4">
+						<fmt:message key="gwiki.plc.dashboard.popup.branch.new"/>
+						<c:choose>
+							<c:when test="${form.startDateOfArticle == null}">
+								(<fmt:message key="gwiki.plc.dashboard.popup.branch.asap" />)
+							</c:when>
+							<c:otherwise>
+								(<fmt:formatDate value="${form.startDateOfArticle}" pattern="yyyy-MM-dd HH:mm" />)
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
-				<c:forEach var="branch" items="${form.availableBranches}">
-					<tr>
-						<td><gwiki:radio property="selectedBranch" value="${branch.map['BRANCH_ID']}"/></td>
-						<td><c:out value="${branch.map['BRANCH_ID']}"/></td>
-						<td><c:out value="${branch.map['DESCRIPTION']}"/></td>
-						<td><c:out value="${branch.map['RELEASE_DATE']}"/></td>
-						<td><c:out value="${branch.map['BRANCH_STATE']}"/></td>
-					</tr>		
-				</c:forEach>
-			</table>
-		</c:otherwise>
-		</c:choose>
+			</c:if>
+		</table>
 		<br/>
 	</c:if>
 </div>
@@ -62,6 +69,8 @@
 		<fmt:message key="gwiki.plc.dashboard.popup.reviewer.assign"/>:
 		<gwiki:select property="selectedAssignee">
 			<option value="-1"><fmt:message key="gwiki.plc.dashboard.popup.reviewer.choose"/></option>
+			<option value="current"><fmt:message key="gwiki.plc.dashboard.popup.reviewer.current"/></option>
+			<option value="previous"><fmt:message key="gwiki.plc.dashboard.popup.reviewer.previous"/></option>
 			<c:forEach var="user" items="${form.availableAssignees}">
 				<option value="${user}"><c:out value="${user}"/></option>
 			</c:forEach>

@@ -74,14 +74,13 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
   }
 
   /**
-   * @return
+   * Compiles branchfilestats from file
    */
   private BranchFileStats compileObject()
   {
     if (StringUtils.isBlank(super.getStorageData()) == true) {
       return new BranchFileStats();
     }
-
     String[] lines = StringUtils.split(super.getStorageData(), "\n");
     BranchFileStats fileStats = new BranchFileStats();
 
@@ -98,7 +97,7 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
       fileStatsDO.setAssignedTo(map.get(FileStatsDO.ASSIGNED_TO));
       fileStatsDO.setStartAt(map.get(FileStatsDO.START_AT));
       fileStatsDO.setEndAt(map.get(FileStatsDO.END_AT));
-      
+      fileStatsDO.setPreviousAssignee(map.get(FileStatsDO.PREVIOUS_ASSIGNEE));
       String operatorsString = map.get(FileStatsDO.OPERATORS);
       String[] operatorArray = StringUtils.split(operatorsString, ",");
       if (operatorArray != null) {
@@ -108,7 +107,6 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
         }
         fileStatsDO.setOperators(operators);
       }
-
       fileStats.addFileStats(fileStatsDO);
     }
     return fileStats;

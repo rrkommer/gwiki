@@ -38,7 +38,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 					<td><c:out value="${fileInfo.categoryString}"/></td>
 					<td><c:out value="${fileInfo.fileStats.createdBy}"/></td>
 					<td><fmt:message key="${fileInfo.fileStats.fileState.name}"/></td>
-					<td><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd"/></td>
+					<td><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd hh:mm"/></td>
 					<td><c:out value="${fileInfo.branch}"/></td>
 					<td><c:out value="${fileInfo.fileStats.assignedTo}"/></td>
 					<td style="text-align: center;">

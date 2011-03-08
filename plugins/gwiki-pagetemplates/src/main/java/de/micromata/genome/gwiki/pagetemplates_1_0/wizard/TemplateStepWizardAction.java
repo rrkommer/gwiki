@@ -37,6 +37,7 @@ import de.micromata.genome.gwiki.model.GWikiAttachment;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -53,11 +54,8 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
  * 
  * @author Stefan Stuetzer (s.stuetzer@micromata.com)
  */
-public class TemplateStepWizardAction extends ActionBeanBase
+public class TemplateStepWizardAction extends AbstractStepWizardAction
 {
-  
-  private GWikiElement element;
-  
   /*
    * Template
    */
@@ -76,7 +74,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
   
   public Object onSave()
   {
-    if (element == null) {
+    if (getElement() == null) {
       return null;
     }
 
@@ -92,7 +90,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
       return noForward();
     }
 
-    GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
+    GWikiArtefakt< ? > artefakt = getElement().getPart("MainPage");
     if (artefakt instanceof GWikiWikiPageArtefakt == false) {
       return null;
     }
@@ -113,7 +111,7 @@ public class TemplateStepWizardAction extends ActionBeanBase
   public boolean onIsVisible() {
     return true;
   }
-
+  
   /**
    * renders a table with available page templates
    */
@@ -221,19 +219,4 @@ public class TemplateStepWizardAction extends ActionBeanBase
     return tplSelectedPageTemplate;
   }
 
-  /**
-   * @param element the element to set
-   */
-  public void setElement(GWikiElement element)
-  {
-    this.element = element;
-  }
-
-  /**
-   * @return the element
-   */
-  public GWikiElement getElement()
-  {
-    return element;
-  }
 }

@@ -30,6 +30,8 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
@@ -161,6 +163,20 @@ public class TimingStepWizardAction extends ActionBeanBase
       return false;
     }
     return true;
+  }
+  
+  public Object onRenderHeader() {
+    wikiContext.getWikiWeb().getDaoContext().getI18nProvider().addTranslationElement(wikiContext, "/edit/pagelifecycle/i18n/PlcI18N");
+    GWikiElement actionPage = wikiContext.getCurrentElement();
+    GWikiElementInfo info = actionPage.getElementInfo();
+    String tabTitle = info.getProps().getStringValue(GWikiPropKeys.TITLE);
+
+    if (tabTitle.startsWith("I{") == true) {
+      tabTitle = wikiContext.getTranslatedProp(tabTitle);
+    }
+    String divAnchor = StringUtils.substringAfterLast(info.getId(), "/");
+    wikiContext.append("<li><a href='#").append(divAnchor).append("'>").append(tabTitle).append("</a></li>");
+    return noForward();
   }
 
   /**

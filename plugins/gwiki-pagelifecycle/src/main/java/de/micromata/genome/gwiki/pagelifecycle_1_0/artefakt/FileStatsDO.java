@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
@@ -35,25 +37,27 @@ import de.micromata.genome.util.text.PipeValueList;
  */
 public class FileStatsDO
 {
-  public static final String PAGE_ID = "page_id";
+  public static final String PAGE_ID = "pageId";
 
-  public static final String FILE_STATE = "file_state";
+  public static final String FILE_STATE = "fileState";
 
-  public static final String CREATED_AT = "created_at";
+  public static final String CREATED_AT = "createdAt";
 
-  public static final String CREATED_BY = "created_by";
+  public static final String CREATED_BY = "createdBy";
 
-  public static final String MODIFIED_AT = "modified_at";
+  public static final String MODIFIED_AT = "modifiedAt";
 
-  public static final String MODIFIED_BY = "modified_by";
+  public static final String MODIFIED_BY = "modifiedBy";
 
-  public static final String ASSIGNED_TO = "assigned_to";
+  public static final String ASSIGNED_TO = "assignedTo";
 
   public static final String OPERATORS = "operators";
 
-  public static final String START_AT = "start_at";
+  public static final String START_AT = "startAt";
 
-  public static final String END_AT = "end_at";
+  public static final String END_AT = "endAt";
+
+  public static final String PREVIOUS_ASSIGNEE = "previousAssignee";
 
   private String pageId;
 
@@ -74,6 +78,8 @@ public class FileStatsDO
   private String startAt;
 
   private String endAt;
+  
+  private String previousAssignee;
 
   /**
    * @return the pageId
@@ -195,6 +201,8 @@ public class FileStatsDO
     contentMap.put(OPERATORS, StringUtils.defaultString(StringUtils.join(operators, ",")));
     contentMap.put(START_AT, StringUtils.defaultString(startAt));
     contentMap.put(END_AT, StringUtils.defaultString(endAt));
+    contentMap.put(PREVIOUS_ASSIGNEE, StringUtils.defaultString(previousAssignee));
+    
     return contentMap;
   }
 
@@ -260,5 +268,30 @@ public class FileStatsDO
   public String getEndAt()
   {
     return endAt;
+  }
+
+  /**
+   * @param previousAssignee the previousAssignee to set
+   */
+  public void setPreviousAssignee(String previousAssignee)
+  {
+    this.previousAssignee = previousAssignee;
+  }
+
+  /**
+   * @return the previousAssignee
+   */
+  public String getPreviousAssignee()
+  {
+    return previousAssignee;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString()
+  {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
   }
 }
