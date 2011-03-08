@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
-import de.micromata.genome.gwiki.model.GWikiAuthorization;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
@@ -34,8 +34,8 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
 {
 
   private GWikiWikiSelector previousSelector;
-  
-  private GWikiAuthorization previousAuthorization;
+
+  private GWikiAuthorizationExt previousAuthorization;
 
   /*
    * (non-Javadoc)
@@ -53,12 +53,13 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
       nms.setMptIdSelector(new GWikiReqSessionMptIdSelector());
       wikiWeb.getDaoContext().setWikiSelector(nms);
     }
-    
+
     if (wikiWeb.getDaoContext().getAuthorization() instanceof PlcSimpleUserAuthorization == false) {
-      previousAuthorization = wikiWeb.getDaoContext().getAuthorization();
+      previousAuthorization = (GWikiAuthorizationExt) wikiWeb.getDaoContext().getAuthorization();
       PlcSimpleUserAuthorization authorization = new PlcSimpleUserAuthorization(previousAuthorization);
       wikiWeb.getDaoContext().setAuthorization(authorization);
     }
+
   }
 
   /*
@@ -73,7 +74,7 @@ public class GWikiPlcInitializer extends GWikiAbstractPluginLifecycleListener
     if (previousSelector != null) {
       wikiWeb.getDaoContext().setWikiSelector(previousSelector);
     }
-    
+
     if (previousAuthorization != null) {
       wikiWeb.getDaoContext().setAuthorization(previousAuthorization);
     }

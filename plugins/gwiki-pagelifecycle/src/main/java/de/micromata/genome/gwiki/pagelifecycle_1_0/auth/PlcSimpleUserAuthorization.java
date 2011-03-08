@@ -17,22 +17,22 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.auth;
 
-import de.micromata.genome.gwiki.auth.GWikiAuthorizationWrapper;
-import de.micromata.genome.gwiki.model.GWikiAuthorization;
+import de.micromata.genome.gwiki.auth.GWikiAuthorizationExtWrapper;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
- *
+ * 
  */
-public class PlcSimpleUserAuthorization extends GWikiAuthorizationWrapper
+public class PlcSimpleUserAuthorization extends GWikiAuthorizationExtWrapper
 {
 
   /**
    * @param previousAuthorization
    */
-  public PlcSimpleUserAuthorization(GWikiAuthorization previousAuthorization)
+  public PlcSimpleUserAuthorization(GWikiAuthorizationExt previousAuthorization)
   {
     super(previousAuthorization);
   }
-  
+
 }
