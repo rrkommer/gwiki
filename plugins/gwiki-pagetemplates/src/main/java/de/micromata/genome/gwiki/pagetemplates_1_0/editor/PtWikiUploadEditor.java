@@ -82,7 +82,16 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
       dataFile = ctx.getFileItem(sectionName);
     }
 
-    String pageId = GWikiContext.getPageIdFromTitle(parentPageId + "/" + dataFile.getName());
+    String name = dataFile.getName();
+    String pageIdFromTitle = GWikiContext.getPageIdFromTitle(dataFile.getName());
+
+    if (!StringUtils.equals(name, pageIdFromTitle)) {
+      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.upload.allowdSymbols"));
+      return null;
+    }
+
+    String pageId = parentPageId + "/" + pageIdFromTitle;
+    // String pageId = parentPageId + "/" + dataFile.getName();
     String title = ctx.getRequest().getParameter("title");
     try {
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -105,7 +114,7 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
       if (!StringUtils.isEmpty(title)) {
         element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, title);
       } else {
-        element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, dataFile.getName());
+        element.getElementInfo().getProps().setStringValue(GWikiPropKeys.TITLE, pageIdFromTitle);
       }
 
       element.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
@@ -142,5 +151,5 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
   {
     return "";
   }
-  
+
 }

@@ -26,7 +26,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiArtefaktBase<T> implements GWikiSectionEditorArtefakt<T>//GWikiEditorArtefakt<T>
+public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiArtefaktBase<T> implements PtWikiSectionEditorArtefakt<T>// GWikiEditorArtefakt<T>
 {
   private static final long serialVersionUID = 7611579351674072940L;
 
@@ -35,9 +35,9 @@ public abstract class PtSectionEditorBase<T extends Serializable> extends GWikiA
   protected String sectionName;
 
   protected String editor;
-  
+
   protected String hint;
-  
+
   public PtSectionEditorBase(GWikiElement element, String sectionName, String editor, String hint)
   {
     this.element = element;

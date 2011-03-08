@@ -210,20 +210,20 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
       renderLocalUrl = link.getTarget();
       String filename = renderLocalUrl.substring(renderLocalUrl.lastIndexOf("/") + 1);
 
-      if (ctx.getElementFinder().getAllDirectChilds(ci).isEmpty() && StringUtils.equals(ci.getType(), "attachment")) {
-        String id = sectionName + "_filechooser";
-        ctx.append("\n<li>").append(
-            "<a style='cursor:pointer' onclick=\"document.getElementById('"
-                + id
-                + "').value='"
-                + renderLocalUrl
-                + "';"
-                + "\">"
-                + filename
-                + "</a>");
-      } else {
-        ctx.append("\n<li>").append("<a href=\"#\">" + filename + "</a>");
-      }
+      // if (ctx.getElementFinder().getAllDirectChilds(ci).isEmpty() && StringUtils.equals(ci.getType(), "attachment")) {
+      String id = sectionName + "_filechooser";
+      ctx.append("\n<li>").append(
+          "<a style='cursor:pointer' onclick=\"document.getElementById('"
+              + id
+              + "').value='"
+              + renderLocalUrl
+              + "';"
+              + "\">"
+              + filename
+              + "</a>");
+      // } else {
+      // ctx.append("\n<li>").append("<a href=\"#\">" + filename + "</a>");
+      // }
 
       if (level + 1 > depth) {
         ctx.append("</li>\n"); // close child

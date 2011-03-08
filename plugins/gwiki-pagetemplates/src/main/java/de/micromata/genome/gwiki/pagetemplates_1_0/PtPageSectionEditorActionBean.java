@@ -22,13 +22,14 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiAttachmentEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiEditAttachmentEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiHeadlineEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiImageEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiLinkEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRawTextEditor;
 import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiRichTextEditor;
-import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiSingleAttachmentEditor;
+import de.micromata.genome.gwiki.pagetemplates_1_0.editor.PtWikiSectionEditorArtefakt;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -62,11 +63,11 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 
   private boolean allowWikiSyntax;
 
-  private GWikiSectionEditorArtefakt< ? > secEditor;
+  private PtWikiSectionEditorArtefakt< ? > secEditor;
 
   private GWikiElement element;
 
-  private GWikiSectionEditorArtefakt< ? > createEditor()
+  private PtWikiSectionEditorArtefakt< ? > createEditor()
   {
 
     if (pageId != null) {
@@ -85,7 +86,14 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       } else if (StringUtils.equals(editor, EDITOR_LINK)) {
         return new PtWikiLinkEditor(element, sectionName, editor, hint, fieldNumber);
       } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
-        return new PtWikiSingleAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
+
+        String editParam = wikiContext.getRequest().getParameter("edit");
+
+        if (StringUtils.isNotEmpty(editParam) && StringUtils.equals(editParam, "true") && StringUtils.isNotEmpty(fieldNumber)) {
+          return new PtWikiEditAttachmentEditor(element, sectionName, editor, hint, fieldNumber);
+        } else {
+          return new PtWikiAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
+        }
       }
 
     }
@@ -134,7 +142,18 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 
     wikiContext.getWikiWeb().saveElement(wikiContext, element, false);
 
-    return pageId;
+    /*
+     * String actionPageId = wikiContext.getCurrentElement().getElementInfo().getId();
+     * 
+     * wikiContext.append("<script type='text/javascript'>window.location.href='/").append(actionPageId);
+     * wikiContext.append("?pageId=").append(pageId); wikiContext.append("&sectionName=").append(sectionName);
+     * wikiContext.append("&editor=").append(editor); wikiContext.append("'</script>");
+     */
+
+    wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
+    wikiContext.flush();
+
+    return noForward();
   }
 
   public Object onCancel()
@@ -187,7 +206,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     return secEditor;
   }
 
-  public void setSecEditor(GWikiSectionEditorArtefakt< ? > secEditor)
+  public void setSecEditor(PtWikiSectionEditorArtefakt< ? > secEditor)
   {
     this.secEditor = secEditor;
   }
