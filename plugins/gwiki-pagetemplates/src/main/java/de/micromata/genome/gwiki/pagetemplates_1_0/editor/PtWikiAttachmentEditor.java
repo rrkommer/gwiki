@@ -19,16 +19,12 @@ package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.p;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +32,6 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
@@ -54,10 +48,6 @@ public class PtWikiAttachmentEditor extends PtWikiUploadEditor
 {
 
   private static final long serialVersionUID = 5901053792188232570L;
-
-  private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
-
-  private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
 
   private String fieldNumber;
 
@@ -78,89 +68,23 @@ public class PtWikiAttachmentEditor extends PtWikiUploadEditor
   {
     final String browse = ctx.getTranslated("gwiki.editor.image.browse");
 
-    String editParam = ctx.getRequest().getParameter("edit");
     XmlElement table = table(attrs());
     String titleValue = "";
 
-    if (StringUtils.isNotEmpty(editParam) && StringUtils.equals(editParam, "true") && StringUtils.isNotEmpty(fieldNumber)) {
+    XmlElement intro = p(attrs()).nest(text("Editieren Sie bestehende Anhänge oder laden Sie eine neue Datei hoch."));
+    ctx.append(intro);
 
-      XmlElement intro = p(attrs()).nest(text("Geben Sie einen neuen Titel ein:"));
-      ctx.append(intro);
+    XmlElement displayTable = generateDisplayTable(ctx);
+    ctx.append(displayTable.toString());
 
-      String[] contentArray = getEditContent().split(",");
+    XmlElement inputFile = input( //
+    attrs("name", sectionName, "type", "file", "size", "30", "accept", "*"));
 
-      try {
-        GWikiFragmentLink link = getLinkForField(ctx, Integer.parseInt(fieldNumber), contentArray);
-        titleValue = link.getTitle();
-      } catch (NumberFormatException nfe) {
-        GWikiLog.warn("failed to parse number", nfe);
-        return false;
-      }
-
-    } else {
-      String title = "";
-      XmlElement intro = p(attrs()).nest(text("Editieren Sie bestehende Anhänge oder laden Sie eine neue Datei hoch."));
-      ctx.append(intro);
-
-      XmlElement displayTable = table(attrs("border", "0", "cellspacing", "0", "cellpadding", "2", "style", "margin-bottom:20px"));
-      displayTable.nest(tr(//
-          td(attrs("width", "400px"), text("Titel")), td(attrs("width", "200px"), text("Aktion"))) //
-          );
-
-      String[] contentArray = getEditContent().split(",");
-
-      String confirmMsg = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.edit.message.confirmdelete");
-      String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
-      String delete = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.delete");
-
-      GWikiElementInfo ei = ctx.getCurrentElement().getElementInfo();
-
-      for (int i = 0; i < contentArray.length; i++) {
-        if (StringUtils.isEmpty(contentArray[i])) {
-          continue;
-        }
-        try {
-          GWikiFragmentLink link = getLinkForField(ctx, i, contentArray);
-
-          String targetPageId = link.getTargetPageId();
-          GWikiElementInfo findElementInfo = ctx.getWikiWeb().findElementInfo(targetPageId);
-          String parentElem = findElementInfo.getParentId();
-
-          String url = ctx.localUrl("/" + ei.getId())
-              + "?pageId="
-              + parentElem
-              + "&sectionName="
-              + URLEncoder.encode(sectionName, "UTF-8")
-              + "&field="
-              + i
-              + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
-              + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")));
-
-          title = link.getTitle();
-
-          XmlElement editUrl = a(attrs("id", URLEncoder.encode(sectionName + i, "UTF-8"), "title", edit, "href", (url + "&edit=true")),
-              editImage);
-          XmlElement deleteUrl = a(
-              attrs("title", delete, "href", (url + "&method_onDelete=true"), "onclick", "return confirm('" + confirmMsg + "');"),
-              minusImage);
-
-          displayTable.nest(tr(td(text(title)), td(editUrl, deleteUrl)));
-        } catch (UnsupportedEncodingException ex) {
-          GWikiLog.warn("Error rendering block section link", ex);
-        }
-      }
-
-      ctx.append(displayTable.toString());
-
-      XmlElement inputFile = input( //
-      attrs("name", sectionName, "type", "file", "size", "30", "accept", "*"));
-
-      table.nest( //
-          tr( //
-          td(text(browse)), //
-          td(inputFile) //
-          )); //
-    }
+    table.nest( //
+        tr( //
+        td(text(browse)), //
+        td(inputFile) //
+        )); //
 
     XmlElement inputTitle = input( //
     attrs("name", "title", "value", titleValue));

@@ -86,10 +86,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
       } else if (StringUtils.equals(editor, EDITOR_LINK)) {
         return new PtWikiLinkEditor(element, sectionName, editor, hint, fieldNumber);
       } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
-
-        String editParam = wikiContext.getRequest().getParameter("edit");
-
-        if (StringUtils.isNotEmpty(editParam) && StringUtils.equals(editParam, "true") && StringUtils.isNotEmpty(fieldNumber)) {
+        if (StringUtils.isNotEmpty(fieldNumber)) {
           return new PtWikiEditAttachmentEditor(element, sectionName, editor, hint, fieldNumber);
         } else {
           return new PtWikiAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);

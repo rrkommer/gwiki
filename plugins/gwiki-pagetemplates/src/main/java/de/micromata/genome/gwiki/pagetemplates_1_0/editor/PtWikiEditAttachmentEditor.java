@@ -21,9 +21,6 @@ import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
 import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.p;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -60,7 +57,6 @@ public class PtWikiEditAttachmentEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(final GWikiContext ctx)
   {
-    XmlElement table = table(attrs());
     String titleValue = "";
 
     XmlElement intro = p(attrs()).nest(text("Geben Sie einen neuen Titel ein:"));
@@ -77,14 +73,9 @@ public class PtWikiEditAttachmentEditor extends PtWikiTextEditorBase
     }
 
     XmlElement inputTitle = input( //
-    attrs("name", "title", "value", titleValue));
+    attrs("name", "title", "value", titleValue, "size", "80"));
 
-    table.nest(tr( //
-        td(text("Title: ")), //
-        td(inputTitle) //
-        ));
-
-    ctx.append(table.toString());
+    ctx.append(inputTitle.toString());
 
     return true;
   }
@@ -98,16 +89,20 @@ public class PtWikiEditAttachmentEditor extends PtWikiTextEditorBase
   {
     String title = ctx.getRequest().getParameter("title");
 
-    if (!StringUtils.equals(title, GWikiContext.getPageIdFromTitle(title))) {
-      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.upload.allowdSymbols"));
-      return;
-    }
-
+    /*
+     * if (!StringUtils.equals(title, GWikiContext.getPageIdFromTitle(title))) {
+     * ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.upload.allowdSymbols")); return; }
+     */
     String[] contentArray = getEditContent().split(",");
 
     try {
       GWikiFragmentLink link = getLinkForField(ctx, Integer.parseInt(fieldNumber), contentArray);
-      link.setTitle(title);
+
+      if (StringUtils.isEmpty(title)) {
+        link.setTitle(GWikiContext.getPageIdFromTitle(link.getTargetPageId()));
+      } else {
+        link.setTitle(title);
+      }
 
       if (!GWikiFragmentLink.isGlobalUrl(link.getTarget())) {
         final GWikiElement element = ctx.getWikiWeb().findElement(link.getTargetPageId());
