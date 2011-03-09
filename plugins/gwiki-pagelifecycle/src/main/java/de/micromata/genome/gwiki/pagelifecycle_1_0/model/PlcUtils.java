@@ -69,7 +69,7 @@ public class PlcUtils
         // ensure branchinfo present
         final GWikiElement infoElement = wikiContext.getWikiWeb().findElement(PlcConstants.BRANCH_INFO_LOCATION);
         if (infoElement == null) {
-          final GWikiElement el = createInfoElement(wikiContext, PlcConstants.DRAFT_ID, "Draft branch", "", "");
+          final GWikiElement el = createInfoElement(wikiContext, PlcConstants.DRAFT_ID, "Draft branch", "20991291000000000", "");
           // because branchinfo is located in /admin folder you need to be su to store/update that file
           wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
             public Void call() throws RuntimeException
@@ -105,7 +105,7 @@ public class PlcUtils
     final GWikiProps props = art.getCompiledObject();
     props.setStringValue("BRANCH_ID", branchId);
     props.setStringValue("DESCRIPTION", desc);
-    props.setStringValue("BRANCH_STATE", "OFFLINE");
+    props.setStringValue("BRANCH_STATE", BranchState.OFFLINE.name()); // each branch is initailly offline
     props.setStringValue("RELEASE_DATE", releaseDate);
     props.setStringValue("RELEASE_END_DATE", releaseEndDate);
     return el;

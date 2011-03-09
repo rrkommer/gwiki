@@ -29,6 +29,7 @@ public class GWikiHtmlCheckboxTag extends GWikiBasePropertyHtmlTag
 
   private static final long serialVersionUID = -335595137230600687L;
 
+  @ElementProperty
   protected String value;
 
   @ElementProperty

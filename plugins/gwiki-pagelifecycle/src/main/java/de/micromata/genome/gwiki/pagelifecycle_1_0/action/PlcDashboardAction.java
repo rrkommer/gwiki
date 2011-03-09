@@ -21,10 +21,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections15.CollectionUtils;
+import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
@@ -33,12 +38,14 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.GWikiBranchFileStatsArtefakt;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileInfoWrapper;
+import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -54,9 +61,9 @@ import de.micromata.genome.util.runtime.CallableX;
 public class PlcDashboardAction extends PlcActionBeanBase
 {
   private String orderBy = "RELEASE_DATE";
-  
+
   /**
-   * 
+   * content to display
    */
   private List<FileInfoWrapper> content = new ArrayList<FileInfoWrapper>();
 
@@ -68,8 +75,27 @@ public class PlcDashboardAction extends PlcActionBeanBase
   private String selectedPageId;
 
   private String selectedTenant;
-  
-  private List<String> actionLinks = Arrays.asList("edit/pagetemplates/PageWizard");
+
+  private List<String> actionLinks = Arrays.asList("edit/pagetemplates/PageWizard", "edit/pagelifecycle/PlcCreateBranch");
+
+  /**
+   * Filters
+   */
+  private String titleFilter;
+
+  private String catFilter;
+
+  private String authorFilter;
+
+  private String statusFilter;
+
+  private String dateFilter;
+
+  private String releaseFilter;
+
+  private String assigneeFilter;
+
+  private int offset;
 
   @Override
   public Object onInit()
@@ -102,7 +128,10 @@ public class PlcDashboardAction extends PlcActionBeanBase
     List<String> tenants = wikiSelector.getMptIdSelector().getTenants(GWikiWeb.getRootWiki());
     if (tenants == null || tenants.size() == 0) {
       return null;
+
     }
+
+    final List<FileInfoWrapper> files = new ArrayList<FileInfoWrapper>();
 
     for (final String tenant : tenants) {
       wikiContext.runInTenantContext(tenant, wikiSelector, new CallableX<Void, RuntimeException>() {
@@ -111,6 +140,7 @@ public class PlcDashboardAction extends PlcActionBeanBase
           // get all elemtinfos of tenant
           List<GWikiElementInfo> tenantContent = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>() {
             private static final long serialVersionUID = -6020166500681050082L;
+
             public boolean match(GWikiElementInfo ei)
             {
               String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);
@@ -122,11 +152,12 @@ public class PlcDashboardAction extends PlcActionBeanBase
             }
           });
 
+          // TODO stefan PlcUtils nehmen
           // if no branch filestats present add empty filestats for each item
           GWikiElement branchFileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
           if (branchFileStats == null || branchFileStats.getMainPart() == null) {
             for (GWikiElementInfo ei : tenantContent) {
-              getContent().add(new FileInfoWrapper(tenant, ei, null));
+              files.add(new FileInfoWrapper(tenant, ei, null));
             }
             return null;
           }
@@ -146,21 +177,30 @@ public class PlcDashboardAction extends PlcActionBeanBase
             }
             FileStatsDO fileStatsDO = fileStats.getFileStatsForId(ei.getId());
             if (fileStatsDO == null) {
-              getContent().add(new FileInfoWrapper(tenant, ei, null));
+              files.add(new FileInfoWrapper(tenant, ei, null));
             } else {
-              getContent().add(new FileInfoWrapper(tenant, ei, fileStatsDO));
+              files.add(new FileInfoWrapper(tenant, ei, fileStatsDO));
             }
           }
           return null;
         }
       });
     }
-    Collections.sort(getContent(), new FileInfoComparator(orderBy));
+
+    List<FileInfoWrapper> filteredList = (List<FileInfoWrapper>) CollectionUtils.select(files, new FileInfoFilterPredicate());
+
+    Collections.sort(filteredList, new FileInfoComparator(orderBy));
+    getContent().addAll(filteredList);
     return null;
   }
 
-  public void renderActionLinks() {
+  /**
+   * Renders links
+   */
+  public void renderActionLinks()
+  {
     int i = 0;
+    wikiContext.append("<ul>");
     for (final String actionLink : getActionLinks()) {
       GWikiElement el = wikiContext.getWikiWeb().findElement(actionLink);
       if (el == null) {
@@ -169,17 +209,23 @@ public class PlcDashboardAction extends PlcActionBeanBase
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, el.getElementInfo()) == false) {
         continue;
       }
-      String link = wikiContext.renderExistingLinkWithAttr(el.getElementInfo(), "Create Article", "", "id", "actionLink" + i);
+      GWikiElementInfo info = el.getElementInfo();
+      String title = info.getProps().getStringValue(GWikiPropKeys.TITLE);
+      if (title.startsWith("I{") == true) {
+        title = wikiContext.getTranslatedProp(title);
+      }
+      String link = wikiContext.renderExistingLinkWithAttr(el.getElementInfo(), title, "", "id", "actionLink" + i);
       try {
         renderFancyBox(wikiContext, "actionLink" + String.valueOf(i++));
       } catch (UnsupportedEncodingException ex) {
         GWikiLog.error("Error rendering actionLink", ex);
       }
-      wikiContext.append(link);
+      wikiContext.append("<li>").append(link).append("</li>");
     }
+    wikiContext.append("</ul>");
     wikiContext.flush();
   }
-  
+
   /**
    * @param ctx
    * @throws UnsupportedEncodingException
@@ -204,7 +250,7 @@ public class PlcDashboardAction extends PlcActionBeanBase
         + "});\n"
         + "</script>\n");
   }
-  
+
   /**
    * @param selectedPageId the selectedPageId to set
    */
@@ -277,7 +323,7 @@ public class PlcDashboardAction extends PlcActionBeanBase
   {
     return orderBy;
   }
-  
+
   /**
    * @param availableActionLinks the availableActionLinks to set
    */
@@ -294,17 +340,161 @@ public class PlcDashboardAction extends PlcActionBeanBase
     return actionLinks;
   }
 
-  class FileInfoComparator implements Comparator<FileInfoWrapper> {
+  /**
+   * @return the titleFilter
+   */
+  public String getTitleFilter()
+  {
+    return titleFilter;
+  }
 
+  /**
+   * @param titleFilter the titleFilter to set
+   */
+  public void setTitleFilter(String titleFilter)
+  {
+    this.titleFilter = titleFilter;
+  }
+
+  /**
+   * @return the catFilter
+   */
+  public String getCatFilter()
+  {
+    return catFilter;
+  }
+
+  /**
+   * @param catFilter the catFilter to set
+   */
+  public void setCatFilter(String catFilter)
+  {
+    this.catFilter = catFilter;
+  }
+
+  /**
+   * @return the authorFilter
+   */
+  public String getAuthorFilter()
+  {
+    return authorFilter;
+  }
+
+  /**
+   * @param authorFilter the authorFilter to set
+   */
+  public void setAuthorFilter(String authorFilter)
+  {
+    this.authorFilter = authorFilter;
+  }
+
+  /**
+   * @return the statusFilter
+   */
+  public String getStatusFilter()
+  {
+    return statusFilter;
+  }
+
+  /**
+   * @param statusFilter the statusFilter to set
+   */
+  public void setStatusFilter(String statusFilter)
+  {
+    this.statusFilter = statusFilter;
+  }
+
+  /**
+   * @return the dateFilter
+   */
+  public String getDateFilter()
+  {
+    return dateFilter;
+  }
+
+  /**
+   * @param dateFilter the dateFilter to set
+   */
+  public void setDateFilter(String dateFilter)
+  {
+    this.dateFilter = dateFilter;
+  }
+
+  /**
+   * @return the releaseFilter
+   */
+  public String getReleaseFilter()
+  {
+    return releaseFilter;
+  }
+
+  /**
+   * @param releaseFilter the releaseFilter to set
+   */
+  public void setReleaseFilter(String releaseFilter)
+  {
+    this.releaseFilter = releaseFilter;
+  }
+
+  /**
+   * @return the assigneeFilter
+   */
+  public String getAssigneeFilter()
+  {
+    return assigneeFilter;
+  }
+
+  /**
+   * @param assigneeFilter the assigneeFilter to set
+   */
+  public void setAssigneeFilter(String assigneeFilter)
+  {
+    this.assigneeFilter = assigneeFilter;
+  }
+
+  public Map<String, String> getStates()
+  {
+    Map<String, String> map = new HashMap<String, String>();
+    for (FileState state : FileState.values()) {
+      map.put(state.name(), wikiContext.getTranslated(state.name()));
+    }
+    return map;
+  }
+
+  public Map<String, String> getReleases()
+  {
+    Map<String, String> map = new HashMap<String, String>();
+    for (String tenant : getWikiSelector().getMptIdSelector().getTenants(GWikiWeb.getRootWiki())) {
+      map.put(tenant, tenant);
+    }
+    return map;
+  }
+
+  public Map<String, String> getUsers()
+  {
+    final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("admin/user/*");
+    final List<GWikiElementInfo> userInfos = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
+    Map<String, String> map = new HashMap<String, String>();
+    for (final GWikiElementInfo user : userInfos) {
+      map.put(GWikiContext.getNamePartFromPageId(user.getId()), GWikiContext.getNamePartFromPageId(user.getId()));
+    }
+    return map;
+  }
+
+  /**
+   * Comparetor for ordering files
+   * 
+   * @author Stefan Stuetzer (s.stuetzer@micromata.com)
+   */
+  class FileInfoComparator implements Comparator<FileInfoWrapper>
+  {
     private String orderBy;
-    
-    public FileInfoComparator(final String orderBy) {
+
+    public FileInfoComparator(final String orderBy)
+    {
       this.orderBy = orderBy;
     }
-    
-    /* (non-Javadoc)
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
+
     public int compare(FileInfoWrapper o1, FileInfoWrapper o2)
     {
       if ("RELEASE_DATE".equals(this.orderBy) == true) {
@@ -321,6 +511,52 @@ public class PlcDashboardAction extends PlcActionBeanBase
       }
       return 0;
     }
-    
+  }
+
+  /**
+   * Predicate for filtering files
+   * 
+   * @author Stefan Stuetzer (s.stuetzer@micromata.com)
+   */
+  class FileInfoFilterPredicate implements Predicate<FileInfoWrapper>
+  {
+    public boolean evaluate(final FileInfoWrapper o)
+    {
+      // check title filter
+      if (StringUtils.isNotBlank(getTitleFilter()) == true
+          && o.getElementInfo().getTitle().toLowerCase().contains(getTitleFilter().toLowerCase()) == false) {
+        return false;
+      }
+
+      // check category filter
+      if (StringUtils.isNotBlank(getCatFilter()) == true
+          && o.getCategoryString().toLowerCase().contains(getCatFilter().toLowerCase()) == false) {
+        return false;
+      }
+
+      // check author filter
+      if (StringUtils.isNotBlank(getAuthorFilter()) == true
+          && o.getElementInfo().getCreatedBy().toLowerCase().contains(getAuthorFilter().toLowerCase()) == false) {
+        return false;
+      }
+
+      // check state filter
+      if (StringUtils.isNotBlank(getStatusFilter()) == true
+          && o.getFileStats().getFileState() != FileState.valueOf(getStatusFilter()) == true) {
+        return false;
+      }
+
+      // check content release filter
+      if (StringUtils.isNotBlank(getReleaseFilter()) == true && StringUtils.equalsIgnoreCase(o.getBranch(), getReleaseFilter()) == false) {
+        return false;
+      }
+
+      // check assignee filter
+      if (StringUtils.isNotBlank(getAssigneeFilter()) == true
+          && StringUtils.equalsIgnoreCase(o.getFileStats().getAssignedTo(), getAssigneeFilter()) == false) {
+        return false;
+      }
+      return true;
+    }
   }
 }
