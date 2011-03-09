@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
@@ -74,6 +75,21 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
 
     String editContent = "http://";
     String title = "";
+
+    if (StringUtils.isEmpty(fieldNumber)) {
+      XmlElement displayTable = generateDisplayTable(ctx);
+      ctx.append(displayTable.toString());
+    } else {
+      try {
+        String[] contentArray = getEditContent().split(",");
+        GWikiFragmentLink link = getLinkForField(ctx, Integer.parseInt(fieldNumber), contentArray);
+        editContent = link.getTarget();
+        title = link.getTitle();
+      } catch (NumberFormatException nfe) {
+        GWikiLog.warn("failed to parse number", nfe);
+        return false;
+      }
+    }
 
     XmlElement inputFile = input( //
     attrs("id", sectionName + "_filechooser", "name", sectionName, "value", editContent, "size", "50"));

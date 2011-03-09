@@ -17,6 +17,16 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +35,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
@@ -32,6 +43,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -40,6 +52,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 {
   private static final long serialVersionUID = -6191445352617140361L;
+
+  private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
+
+  private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
 
   /**
    * content of whole page
@@ -251,6 +267,61 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
       return "";
     }
     return wikiText.substring(startSec, endSec);
+  }
+
+  /**
+   * @param ctx
+   * @return
+   */
+  protected XmlElement generateDisplayTable(final GWikiContext ctx)
+  {
+    String title = "";
+
+    XmlElement displayTable = table(attrs("border", "0", "cellspacing", "0", "cellpadding", "2", "style", "margin-bottom:20px"));
+    displayTable.nest(tr(//
+        td(attrs("width", "400px"), text("Titel")), td(attrs("width", "200px"), text("Aktion"))) //
+        );
+
+    String[] contentArray = getEditContent().split(",");
+
+    String confirmMsg = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.edit.message.confirmdelete");
+    String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
+    String delete = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.delete");
+
+    GWikiElementInfo ei = ctx.getCurrentElement().getElementInfo();
+
+    for (int i = 0; i < contentArray.length; i++) {
+      if (StringUtils.isEmpty(contentArray[i])) {
+        continue;
+      }
+      try {
+        GWikiFragmentLink link = getLinkForField(ctx, i, contentArray);
+
+        String pageId = element.getElementInfo().getId();
+
+        String url = ctx.localUrl("/" + ei.getId())
+            + "?pageId="
+            + pageId
+            + "&sectionName="
+            + URLEncoder.encode(sectionName, "UTF-8")
+            + "&field="
+            + i
+            + (editor == null ? "" : ("&editor=" + URLEncoder.encode(editor, "UTF-8")))
+            + (hint == null ? "" : ("&hint=" + URLEncoder.encode(hint, "UTF-8")));
+
+        title = link.getTitle();
+
+        XmlElement editUrl = a(attrs("id", URLEncoder.encode(sectionName + i, "UTF-8"), "title", edit, "href", (url + "&edit=true")),
+            editImage);
+        XmlElement deleteUrl = a(
+            attrs("title", delete, "href", (url + "&method_onDelete=true"), "onclick", "return confirm('" + confirmMsg + "');"), minusImage);
+
+        displayTable.nest(tr(td(text(title)), td(editUrl, deleteUrl)));
+      } catch (UnsupportedEncodingException ex) {
+        GWikiLog.warn("Error rendering block section link", ex);
+      }
+    }
+    return displayTable;
   }
 
 }

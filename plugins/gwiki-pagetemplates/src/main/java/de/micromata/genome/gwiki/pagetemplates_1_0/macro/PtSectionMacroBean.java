@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -97,9 +98,11 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
 
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
         String image = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
-        boolean allowed = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
 
-        if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo()) == true && allowed) {
+        GWikiAuthorization authorization = ctx.getWikiWeb().getAuthorization();
+        GWikiElementInfo currElementInfo = ctx.getCurrentElement().getElementInfo();
+
+        if (authorization.isAllowToView(ctx, currElementInfo) && authorization.isAllowToEdit(ctx, currElementInfo)) {
           ctx.append("<div style=\"position:relative; padding: 1px\" onmouseover=\"this.style.border = '1px dashed'; this.style.padding = '0px'\" onmouseout=\"this.style.border = '0px'; this.style.padding='1px'\">");
 
           try {
