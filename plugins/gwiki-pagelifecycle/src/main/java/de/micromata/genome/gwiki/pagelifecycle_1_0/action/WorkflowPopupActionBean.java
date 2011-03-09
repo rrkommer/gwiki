@@ -17,14 +17,14 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
+import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
@@ -157,7 +158,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     } else {
       simpleSave();
     }
-    sendStatusUpdateMail();
+    sendStatusUpdateMailToOperators();
     return closeFancyBox(true);
   }
 
@@ -266,7 +267,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     Date startDateOfArticle = getStartDateOfArticle();
     final String branchId = startDateOfArticle == null ? GWikiProps.formatTimeStamp(new Date()) : GWikiProps
         .formatTimeStamp(startDateOfArticle);
-    
+
     wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
       public Void call() throws RuntimeException
       {
@@ -384,8 +385,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
             return null;
           }
         });
-        
-        GWikiLog.note("Copied BrnachFileStats information form " + sourceTenant + " to " + targetTenant, "PageIds", pageIds);
+
+        GWikiLog.note("Copied BranchFileStats information from " + sourceTenant + " to " + targetTenant, "PageIds", pageIds);
         return null;
       }
     });
@@ -447,45 +448,95 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
             return null;
           }
         });
-        GWikiLog.note("Update filestats for pages", "branchId", branchId, "pageIds", pageIds, "newAssignee", newAssignee, "pageState", fileState.name());
+        GWikiLog.note("Update filestats for pages", "branchId", branchId, "pageIds", pageIds, "newAssignee", newAssignee, "pageState",
+            fileState.name());
         return null;
       }
     });
   }
 
   /**
-   * Send an info mail to all operators who were involced in workflow process of current edited page
+   * Send an info mail to all operators who were involved in workflow process of current edited page
    */
-  private void sendStatusUpdateMail()
+  private void sendStatusUpdateMailToOperators()
   {
     if (sendMail == false) {
       return;
     }
 
-    // TODO stefan internationalisierung der Mail. In den eingestellten Sprachen der Empfänger!!
-    StringBuilder body = new StringBuilder();
-    body.append("The state of page ").append(this.getPageTitle()).append(" (").append(wikiContext.globalUrl(pageId))
-        .append(") was changed by ") //
-        .append(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
+      public String call() throws RuntimeException
+      {
+        BranchFileStats stats = PlcUtils.getBranchFileStats(wikiContext);
+        if (stats == null) {
+          return StringUtils.EMPTY;
+        }
+        FileStatsDO statsForId = stats.getFileStatsForId(pageId);
+        if (statsForId == null) {
+          return StringUtils.EMPTY;
+        }
 
-    if (StringUtils.isNotBlank(newPageState) == true) {
-      body.append(" to new state ").append(newPageState);
-    }
+        // retrieve operators and send email to each of them in their specisifed language (if no language is specified english will be taken
+        // as default)
+        final String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
+        for (final String operator : statsForId.getOperators()) {
+          try {
+            wikiContext.getWikiWeb().getAuthorization().runAsUser(operator, wikiContext, new CallableX<Void, RuntimeException>() {
 
-    if (StringUtils.isNotBlank(comment) == true) {
-      body.append("\n\nComment:\n").append(comment);
-    }
+              GWikiI18nProvider i18n = wikiContext.getWikiWeb().getI18nProvider();
 
-    final Map<String, String> ctx = new HashMap<String, String>();
-    ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
-    ctx.put(GWikiEmailProvider.SUBJECT, "The workflow state of the page was changed.");
-    ctx.put(GWikiEmailProvider.TEXT, body.toString());
-    ctx.put(GWikiEmailProvider.MAILTEMPLATE, "edit/pagelifecycle/mailtemplates/StatusUpdateMailTemplate");
-    String receipients = getRecipients();
-    ctx.put(GWikiEmailProvider.TO, "s.stuetzer@micromata.com");
+              public Void call() throws RuntimeException
+              {
+                String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
+                if (StringUtils.isEmpty(email) == true) {
+                  GWikiLog.warn("User has no mail specified. No status article update mail sent.", "username", operator);
+                  return null;
+                }
 
-    GWikiLog.note("Sent status update mail", "Recipient", receipients);
-    wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
+                // prepare email contents
+                String subject = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.subject", "Article status updated",
+                    getPageTitle());
+                String bodyString = getBodyString(currentUserName);
+
+                final Map<String, String> ctx = new HashMap<String, String>();
+                ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
+                ctx.put(GWikiEmailProvider.SUBJECT, subject);
+                ctx.put(GWikiEmailProvider.TEXT, bodyString);
+                ctx.put(GWikiEmailProvider.MAILTEMPLATE, "edit/pagelifecycle/mailtemplates/StatusUpdateMailTemplate");
+                ctx.put(GWikiEmailProvider.TO, email);
+
+                GWikiLog.note("Sent status update mail", "Recipient", email);
+                wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
+                return null;
+              }
+
+              /**
+               * Get body contents
+               * 
+               * @param currentUserName
+               * @return
+               */
+              private String getBodyString(final String currentUserName)
+              {
+                StringBuffer bodyString = new StringBuffer();
+                String body = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.body", "", wikiContext.getWikiWeb()
+                    .getAuthorization().getCurrentUserName(wikiContext), getPageTitle(), wikiContext.globalUrl(pageId), currentUserName,
+                    newPageState);
+                bodyString.append(body);
+                if (StringUtils.isNotBlank(comment) == true) {
+                  bodyString.append(i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.comment", "", comment));
+                }
+                bodyString.append(i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.foot"));
+                return bodyString.toString();
+              }
+            });
+          } catch (AuthorizationFailedException ex) {
+            GWikiLog.warn("Cannot determine email for user: " + operator, ex);
+          }
+        }
+        return null;
+      }
+    });
   }
 
   /**
@@ -505,49 +556,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     wikiContext.append(sb.toString());
     wikiContext.flush();
     return noForward();
-  }
-
-  /**
-   * @return
-   */
-  private String getRecipients()
-  {
-    return wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
-
-      public String call() throws RuntimeException
-      {
-        BranchFileStats stats = PlcUtils.getBranchFileStats(wikiContext);
-        if (stats == null) {
-          return StringUtils.EMPTY;
-        }
-        FileStatsDO statsForId = stats.getFileStatsForId(pageId);
-        if (statsForId == null) {
-          return StringUtils.EMPTY;
-        }
-
-        final List<String> mailAdresses = new ArrayList<String>();
-        Set<String> operators = statsForId.getOperators();
-        for (final String operator : operators) {
-          try {
-            wikiContext.getWikiWeb().getAuthorization().runAsUser(operator, wikiContext, new CallableX<Void, RuntimeException>() {
-              public Void call() throws RuntimeException
-              {
-                String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
-                if (StringUtils.isEmpty(email) == true) {
-                  return null;
-                }
-                mailAdresses.add(email);
-                return null;
-              }
-            });
-          } catch (AuthorizationFailedException ex) {
-            GWikiLog.warn("Cannot determine email for user: " + operator, ex);
-          }
-        }
-
-        return StringUtils.join(mailAdresses, ",");
-      }
-    });
   }
 
   /**
@@ -598,7 +606,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     this.selectedBranch = NEW_BRANCH;
 
     for (String tenantId : allTenants) {
-      if (PlcConstants.DRAFT_ID.equalsIgnoreCase(tenantId) == true) {
+      
+      // if approve you have to copy the file in a branch other than draft
+      if (PlcConstants.DRAFT_ID.equalsIgnoreCase(tenantId) == true && FileState.APPROVED_CHIEF_EDITOR.name().equals(newPageState) == true) {
         continue;
       }
 
@@ -629,10 +639,11 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         m.putAll(branchInfoProp.getMap());
         m.put("RELEASE_DATE_DATE", GWikiProps.parseTimeStamp(branchInfoProp.getStringValue("RELEASE_DATE")));
         branchProps.add(m);
+        
         // if branch release date matches article release date -> preselect branch
         String release = branchInfoProp.getStringValue("RELEASE_DATE");
         Date branchReleaseDate = GWikiProps.parseTimeStamp(release);
-        if (branchReleaseDate.equals(getStartDateOfArticle())) {
+        if (branchReleaseDate != null && branchReleaseDate.equals(getStartDateOfArticle())) {
           selectedBranch = branchInfoProp.getStringValue("BRANCH_ID");
         }
       }
@@ -663,7 +674,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   {
     List<String> pageIds = new ArrayList<String>();
     pageIds.add(pageId);
-
     for (GWikiElement depPageId : getDepObjects()) {
       pageIds.add(depPageId.getElementInfo().getId());
     }
@@ -674,7 +684,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   {
     List<GWikiElement> pages = new ArrayList<GWikiElement>();
     pages.add(page);
-
     for (GWikiElement depPage : getDepObjects()) {
       pages.add(depPage);
     }

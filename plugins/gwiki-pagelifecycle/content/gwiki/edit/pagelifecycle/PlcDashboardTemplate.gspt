@@ -11,12 +11,22 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 
 <!-- filter and search options -->
 <fieldset>
+	<legend><fmt:message key="gwiki.plc.dashboard.actionlinks"/></legend>
 	<% form.renderActionLinks(); %>
 </fieldset>
 
 <!-- table -->
+<form class="gwikiForm col" method="post" name="dashboardForm">
 <fieldset>
 	<legend><fmt:message key="gwiki.plc.dashboard.management"/></legend>
+	<br/>
+	
+	<!-- predefined filters -->
+	<gwiki:checkbox property="authorFilter" value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
+	<fmt:message key="gwiki.plc.dashboard.filter.myArticles"/>
+	<gwiki:checkbox property="assigneeFilter" value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
+	<fmt:message key="gwiki.plc.dashboard.filter.myAssignedArticles"/>
+	
 	<br/>
 	<table width="100%">
 		<tr>
@@ -29,23 +39,54 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			<th><fmt:message key="gwiki.plc.dashboard.assignee"/></th>
 			<th><fmt:message key="gwiki.plc.dashboard.actions"/></th>
 		</tr>
+		<!-- filter row -->
+		<tr>
+			<th><gwiki:text property="titleFilter"/></th>
+			<th><gwiki:text property="catFilter"/></th>
+			<th>
+				<gwiki:select property="authorFilter">
+					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
+					<gwiki:optionsCollection property="users" label="key" value="value" />
+				</gwiki:select>
+			</th>
+			<th>
+				<gwiki:select property="statusFilter">
+					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
+					<gwiki:optionsCollection property="states" label="value" value="key" />
+				</gwiki:select>
+			</th>
+			<th>&nbsp;</th>
+			<th>
+				<gwiki:select property="releaseFilter">
+					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
+					<gwiki:optionsCollection property="releases" label="key" value="value" />
+				</gwiki:select>
+			</th>
+			<th>
+				<gwiki:select property="assigneeFilter">
+					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
+					<gwiki:optionsCollection property="users" label="key" value="value" />
+				</gwiki:select>
+			</th>
+			<th>&nbsp;</th>
+		</tr>
+		
+		<!-- Files -->
 		<c:forEach var="fileInfo" items="${form.content}" varStatus="l" begin="0" step="1">
-			<form class="gwikiForm col" method="post" name="dashboard${l.count}">
-				<input type="hidden" name="selectedPageId" value="<c:out value="${fileInfo.elementInfo.id}"/>"/>
-				<input type="hidden" name="selectedTenant" value="<c:out value="${fileInfo.branch}"/>"/>
 				<tr style="border: 1px solid #EEE; padding:1px;">
 					<td><c:out value="${fileInfo.elementInfo.title}"/></td>
 					<td><c:out value="${fileInfo.categoryString}"/></td>
-					<td><c:out value="${fileInfo.fileStats.createdBy}"/></td>
+					<td style="text-align:center;"><c:out value="${fileInfo.fileStats.createdBy}"/></td>
 					<td><fmt:message key="${fileInfo.fileStats.fileState.name}"/></td>
-					<td><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd hh:mm"/></td>
-					<td><c:out value="${fileInfo.branch}"/></td>
-					<td><c:out value="${fileInfo.fileStats.assignedTo}"/></td>
-					<td style="text-align: center;">
+					<td style="text-align:center;"><fmt:formatDate value="${fileInfo.startAt}" pattern="yyyy-MM-dd hh:mm"/></td>
+					<td style="text-align:center;"><c:out value="${fileInfo.branch}"/></td>
+					<td style="text-align:center;"><c:out value="${fileInfo.fileStats.assignedTo}"/></td>
+					<td style="text-align:center;">
 						<table>
 						<tr>
 							<td>
-								<a href="#" onclick="ok2('method_onViewPageInTenantContext', 'dashboard${l.count}')" title="<fmt:message key="gwiki.plc.dashboard.view"/>">
+								<a 	onclick="ok3('method_onViewPageInTenantContext', 'dashboardForm', '&selectedPageId=${fileInfo.elementInfo.id}&selectedTenant=${fileInfo.branch}')" 
+									href="#" title="<fmt:message key="gwiki.plc.dashboard.view"/>">
 							    	<img border="0" src="/inc/gwiki/img/icons/search16.png">
 							    </a>
 						    </td>
@@ -86,7 +127,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 								<c:otherwise>
 									<gwiki:authorize ifHasAny="PLC_REJECT_ARTICLE">
 										<td>
-											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW&commentRequired=true" 
+											<a 	href="/edit/pagelifecycle/dashboard/WorkflowPopup?pageId=${fileInfo.elementInfo.id}&branch=${fileInfo.branch}&assignMode=true&newPageState=TO_REVIEW&commentRequired=true&branchMode=true" 
 												id="reject1${l.count}" title="<fmt:message key="gwiki.plc.dashboard.reject"/>">
 										    	<img border="0" src="/inc/gwiki/img/icons/stop32.png">
 										    </a>
@@ -106,7 +147,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 						</table>
 					</td>
 				</tr>
-			</form>
+				
 			
 			<script type="text/javascript">
 			jQuery(document).ready(function() {
@@ -134,6 +175,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			</script>
 		</c:forEach>
 	</table>
+	
+	<!-- Filter Button -->
+	<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key='gwiki.plc.dashboard.filter'/>">
 </fieldset>
+</form>
 
 <% wikiContext.skinInclude("standardfoot"); %>

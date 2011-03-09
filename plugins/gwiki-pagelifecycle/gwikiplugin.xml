@@ -33,10 +33,12 @@
 					<constructor-arg
 						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiSwitchUserToDraftFilter" />
 				</bean>
+				<!-- 
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
 					<constructor-arg
 						value="de.micromata.genome.gwiki.pagelifecycle_1_0.filter.GWikiStoreElemementsInDraftFilter" />
 				</bean>
+				 -->
 			</list>
 		</property>
 	</bean>
