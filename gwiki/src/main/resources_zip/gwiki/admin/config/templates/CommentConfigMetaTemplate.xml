@@ -21,12 +21,14 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="COMMENT_ALLOW_ANON" />
+											<property name="label" value="Allow anon comments"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="COMMENT_HALF_ALLOW_ANON" />
+											<property name="label" value="Allow registered comments"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
 										</bean>

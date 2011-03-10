@@ -23,6 +23,7 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_ALLOW_PASSWORD_FORGOTTEN" />
+											<property name="label" value="Password forgotten"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
 											<property name="helpLink"
@@ -31,6 +32,7 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_ALLOW_REGISTER_USER" />
+											<property name="label" value="Allow self register new user"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
 											<property name="helpLink"
@@ -39,6 +41,7 @@
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
+											<property name="label" value="Use double opt in"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
 											<property name="helpLink"
