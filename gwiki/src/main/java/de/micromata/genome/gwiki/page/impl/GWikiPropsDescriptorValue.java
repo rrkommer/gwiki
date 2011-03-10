@@ -107,6 +107,8 @@ public class GWikiPropsDescriptorValue implements Serializable
 
   private String controlerScript;
 
+  private String group;
+
   public void parseRequest(PropsEditContext pct)
   {
     if (pct.invokeOnControlerBean("onParseRequest") == true) {
@@ -280,6 +282,16 @@ public class GWikiPropsDescriptorValue implements Serializable
   public void setHelpLink(String helpLink)
   {
     this.helpLink = helpLink;
+  }
+
+  public String getGroup()
+  {
+    return group;
+  }
+
+  public void setGroup(String group)
+  {
+    this.group = group;
   }
 
 }

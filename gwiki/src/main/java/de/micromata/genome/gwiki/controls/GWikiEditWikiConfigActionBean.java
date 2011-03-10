@@ -94,6 +94,9 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
         return cmp;
       }
     });
+    for (GWikiEditorArtefakt< ? > ea : editors.values()) {
+      ea.prepareHeader(wikiContext);
+    }
     return true;
   }
 
