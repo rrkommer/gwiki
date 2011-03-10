@@ -67,13 +67,7 @@
 			<artifactId>mail</artifactId>
 			<version>1.4.1</version>
 		</dependency>
-		<!--  does not work
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>2.1.4</version>
-		</dependency>
-		 -->
+		
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -90,7 +84,7 @@
 			<version>1.9.13</version>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
@@ -117,6 +111,12 @@
 			<groupId>com.uwyn</groupId>
 			<artifactId>jhighlight</artifactId>
 			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
@@ -128,18 +128,17 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-api</artifactId>
 			<version>1.4.2</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.ettrema</groupId>
-			<artifactId>milton-console</artifactId>
-			<version>1.4.2</version>
-		</dependency>
+		<!--
+			<dependency> <groupId>com.ettrema</groupId>
+			<artifactId>milton-console</artifactId> <version>1.4.2</version>
+			</dependency>
+		-->
 		<!--
 			<dependency> <groupId>com.ettrema</groupId>
 			<artifactId>milton-filesystem</artifactId> <version>1.4.2</version>
@@ -149,6 +148,12 @@
 			<artifactId>milton-json</artifactId> <version>1.4.2</version>
 			</dependency>
 		-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.ettrema</groupId>
 			<artifactId>milton-servlet</artifactId>
@@ -224,7 +229,10 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<!-- needed to get medsea:mime-util:1.3.1 since it is required under that groupId by milton-servlet -->
+		<!--
+			needed to get medsea:mime-util:1.3.1 since it is required under that
+			groupId by milton-servlet
+		-->
 		<repository>
 			<id>glassfish</id>
 			<url>http://maven.glassfish.org/content/groups/public/</url>
@@ -234,7 +242,7 @@
 		</repository>
 	</repositories>
 	<pluginRepositories>
-		
+
 	</pluginRepositories>
 
 </project>
