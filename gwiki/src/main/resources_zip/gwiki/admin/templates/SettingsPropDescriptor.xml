@@ -4,11 +4,41 @@
 	<bean id="config"
 		class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
 		singleton="false">
+		<property name="groups">
+		<list>
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+				<property name="key" value="VERSION"/>
+				<property name="title" value="Version"/>
+				<property name="closed" value="true"/>
+			</bean>
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+				<property name="key" value="AUTH"/>
+				<property name="title" value="Authorization"/>
+				<property name="closed" value="true"/>
+			</bean>
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+				<property name="key" value="LINKS"/>
+				<property name="title" value="Linking"/>
+				<property name="closed" value="true"/>
+			</bean>
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+				<property name="key" value="CONTENT"/>
+				<property name="title" value="Content"/>
+				<property name="closed" value="true"/>
+			</bean>
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+				<property name="key" value="ELTYPE"/>
+				<property name="title" value="Elementtype"/>
+				<property name="closed" value="true"/>
+			</bean>
+		</list>
+		</property>
 		<property name="descriptors">
 			<list>
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CREATEDAT" />
+					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.CREATEDAT.label}" />
 					<!--
 						<property name="description"
@@ -34,6 +64,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CREATEDBY" />
+					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.CREATEDBY.label}" />
 					<!--
 						<property name="description"
@@ -56,6 +87,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="MODIFIEDAT" />
+					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.MODIFIEDAT.label}" />
 					<!--
 						<property name="description"
@@ -78,6 +110,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="MODIFIEDBY" />
+					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.MODIFIEDBY.label}" />
 					<!--
 						<property name="description"
@@ -99,6 +132,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="VERSION" />
+					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.VERSION.label}" />
 					<property name="helpLink" value="gwikidocs/help/ElementSettings#VERSION" />
 					<property name="readOnly" value="true" />
@@ -106,6 +140,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="PARENTPAGE" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="I{gwiki.settings.PARENTPAGE.label}" />
 					<!--
 						<property name="description"
@@ -148,6 +183,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="NOINDEX" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="I{gwiki.settings.NOINDEX.label}" />
 					<!--
 						<property name="description"
@@ -160,6 +196,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="AUTH_VIEW" />
+					<property name="group" value="AUTH"/>
 					<property name="label" value="I{gwiki.settings.AUTH_VIEW.label}" />
 					<!--
 						<property name="description"
@@ -207,6 +244,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="AUTH_EDIT" />
+					<property name="group" value="AUTH"/>
 					<property name="label" value="I{gwiki.settings.AUTH_EDIT.label}" />
 					<!--
 						<property name="description"
@@ -248,6 +286,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CONTENTYPE" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="I{gwiki.settings.CONTENTYPE.label}" />
 					<!--
 						<property name="description"
@@ -259,6 +298,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="LANG" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="I{gwiki.settings.LANG.label}" />
 					<!--
 						<property name="description"
@@ -270,6 +310,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="HELP_PAGE" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="I{gwiki.settings.HELP_PAGE.label}" />
 					<!--
 						<property name="description"
@@ -281,6 +322,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="ORDER" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="I{gwiki.settings.ORDER.label}" />
 					<!--
 						<property name="description"
@@ -293,6 +335,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="CHILDORDER" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="I{gwiki.settings.CHILDORDER.label}" />
 					<!--
 						<property name="description"
@@ -305,6 +348,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKIMETATEMPLATE" />
+					<property name="group" value="ELTYPE"/>
 					<property name="label" value="I{gwiki.settings.WIKIMETATEMPLATE.label}" />
 					<!--
 						<property name="description"
@@ -318,6 +362,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKICONTROLERCLASS" />
+					<property name="group" value="ELTYPE"/>
 					<property name="label"
 						value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
 					<!--
@@ -333,6 +378,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKISPACE" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="I{gwiki.settings.WIKISPACE.label}" />
 					<!--
 						<property name="description"
@@ -344,6 +390,7 @@ def onRender(pct)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="KEYWORDS" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="I{gwiki.settings.KEYWORDS.label}" />
 					<!--
 						<property name="description"
@@ -365,6 +412,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="I18NMODULES" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="I{gwiki.settings.I18NMODULES.label}" />
 					<!--
 						<property name="description"
@@ -379,6 +427,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="PARTOF" />
+					<property name="group" value="LINKS"/>
 					<property name="label" value="PartOf" />
 					<!--
 						<property name="description"
@@ -393,6 +442,7 @@ def onValidate(pec)
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="SKIN" />
+					<property name="group" value="CONTENT"/>
 					<property name="label" value="Skin" />
 					<!--
 						<property name="description"
