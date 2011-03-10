@@ -76,7 +76,7 @@ public class PlcDashboardAction extends PlcActionBeanBase
 
   private String selectedTenant;
 
-  private List<String> actionLinks = Arrays.asList("edit/pagetemplates/PageWizard", "edit/pagelifecycle/PlcCreateBranch");
+  private List<String> actionLinks = Arrays.asList("edit/pagetemplates/PageWizard", "edit/pagelifecycle/dashboard/PlcCreateBranchPopup");
 
   /**
    * Filters
@@ -94,6 +94,11 @@ public class PlcDashboardAction extends PlcActionBeanBase
   private String releaseFilter;
 
   private String assigneeFilter;
+  
+  /**
+   * Filter of file types
+   */
+  private String viewFilter = "gwiki";
 
   private int offset;
 
@@ -148,7 +153,12 @@ public class PlcDashboardAction extends PlcActionBeanBase
               if (ei.getMetaTemplate() != null) {
                 et = ei.getMetaTemplate().getElementType();
               }
-              return StringUtils.equals(tenant, tid) && StringUtils.equals("gwiki", et);
+              if (StringUtils.isNotBlank(getViewFilter()) == true) {
+                return StringUtils.equals(tenant, tid) && StringUtils.equals(getViewFilter(), et);
+              } else {
+                return StringUtils.equals(tenant, tid);
+              }
+              
             }
           });
 
@@ -232,8 +242,8 @@ public class PlcDashboardAction extends PlcActionBeanBase
    */
   private void renderFancyBox(final GWikiContext ctx, String id) throws UnsupportedEncodingException
   {
-    int width = 1100;
-    int height = 650;
+    int width = 1000;
+    int height = 700;
 
     ctx.append("\n<script type=\"text/javascript\">\njQuery(document).ready(function() {\n"
         + "$(\"#"
@@ -479,6 +489,22 @@ public class PlcDashboardAction extends PlcActionBeanBase
       map.put(GWikiContext.getNamePartFromPageId(user.getId()), GWikiContext.getNamePartFromPageId(user.getId()));
     }
     return map;
+  }
+
+  /**
+   * @param viewFilter the viewFilter to set
+   */
+  public void setViewFilter(String viewFilter)
+  {
+    this.viewFilter = viewFilter;
+  }
+
+  /**
+   * @return the viewFilter
+   */
+  public String getViewFilter()
+  {
+    return viewFilter;
   }
 
   /**

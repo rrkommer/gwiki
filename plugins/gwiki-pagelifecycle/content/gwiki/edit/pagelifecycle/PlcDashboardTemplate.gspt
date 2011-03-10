@@ -9,25 +9,40 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 
 <gwiki:errors />
 
-<!-- filter and search options -->
-<fieldset>
-	<legend><fmt:message key="gwiki.plc.dashboard.actionlinks"/></legend>
-	<% form.renderActionLinks(); %>
-</fieldset>
 
 <!-- table -->
 <form class="gwikiForm col" method="post" name="dashboardForm">
-<fieldset>
+	<!-- actions -->
+	<fieldset style="float:left">
+		<legend><fmt:message key="gwiki.plc.dashboard.actionlinks"/></legend>
+		<% form.renderActionLinks(); %>
+	</fieldset>
+	
+	<fieldset style="float:left">
+		<legend><fmt:message key="gwiki.plc.dashboard.filter.predef"/></legend>
+		<!-- predefined filters -->
+		<gwiki:checkbox id="authorCheck" property="authorFilter" onclick="ok2('onInit', 'dashboardForm');" 
+			value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
+		<label for="authorCheck"><fmt:message key="gwiki.plc.dashboard.filter.myArticles"/></label>
+		
+		<gwiki:checkbox id="assigneeCheck" property="assigneeFilter" onclick="ok2('onInit', 'dashboardForm');" 
+			value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
+		<label for="assigneeCheck"><fmt:message key="gwiki.plc.dashboard.filter.myAssignedArticles"/></label>
+	</fieldset>
+	
+	<fieldset>
+		<legend><fmt:message key="gwiki.plc.dashboard.view"/></legend>
+		<!-- view filter -->
+		<gwiki:radio id="viewFilter1" property="viewFilter" onclick="ok2('onInit', 'dashboardForm');" 
+			value="gwiki"/>
+		<label for="viewFilter1"><fmt:message key="gwiki.plc.dashboard.filter.onlyArticles"/></label>
+		<gwiki:radio id="viewFilter2" property="viewFilter" onclick="ok2('onInit', 'dashboardForm');" 
+			value=""/>
+		<label for="viewFilter2"><fmt:message key="gwiki.plc.dashboard.filter.articlesAndAttachments"/></label>
+	</fieldset>
+	
+	<fieldset style="clear:left;">
 	<legend><fmt:message key="gwiki.plc.dashboard.management"/></legend>
-	<br/>
-	
-	<!-- predefined filters -->
-	<gwiki:checkbox property="authorFilter" value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
-	<fmt:message key="gwiki.plc.dashboard.filter.myArticles"/>
-	<gwiki:checkbox property="assigneeFilter" value="<%=wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext)%>"/>
-	<fmt:message key="gwiki.plc.dashboard.filter.myAssignedArticles"/>
-	
-	<br/>
 	<table width="100%">
 		<tr>
 			<th><fmt:message key="gwiki.plc.dashboard.name"/></th>
@@ -44,7 +59,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			<th><gwiki:text property="titleFilter"/></th>
 			<th><gwiki:text property="catFilter"/></th>
 			<th>
-				<gwiki:select property="authorFilter">
+				<gwiki:select id="authorSelect" property="authorFilter">
 					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
 					<gwiki:optionsCollection property="users" label="key" value="value" />
 				</gwiki:select>
@@ -63,7 +78,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 				</gwiki:select>
 			</th>
 			<th>
-				<gwiki:select property="assigneeFilter">
+				<gwiki:select id="assigneeSelect" property="assigneeFilter">
 					<option value=""><fmt:message key="gwiki.plc.dashboard.filter.all"/></option>
 					<gwiki:optionsCollection property="users" label="key" value="value" />
 				</gwiki:select>
@@ -147,8 +162,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 						</table>
 					</td>
 				</tr>
-				
-			
 			<script type="text/javascript">
 			jQuery(document).ready(function() {
 				jQuery("#approve0" + ${l.count}).fancybox({
@@ -175,10 +188,20 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 			</script>
 		</c:forEach>
 	</table>
+	</fieldset>
 	
 	<!-- Filter Button -->
 	<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key='gwiki.plc.dashboard.filter'/>">
-</fieldset>
 </form>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		if (jQuery("#authorCheck").is(':checked')) {
+			jQuery("#authorSelect").attr('disabled', 'disabled');
+		}
+		if (jQuery("#assigneeCheck").is(':checked')) {
+			jQuery("#assigneeSelect").attr('disabled', 'disabled');
+		}
+	});
+</script>
 
 <% wikiContext.skinInclude("standardfoot"); %>

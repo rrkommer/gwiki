@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
+import static de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants.*;
+
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiProps;
@@ -40,7 +42,7 @@ public class PlcUtils
    */
   public static void ensureDraftBranchMetaFiles(final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
   {
-    ensureBranchMetaFiles(PlcConstants.DRAFT_ID, wikiSelector, wikiContext);
+    ensureBranchMetaFiles(DRAFT_ID, wikiSelector, wikiContext);
   }
 
   /**
@@ -53,7 +55,7 @@ public class PlcUtils
       public Void call() throws RuntimeException
       {
         // ensure filestats present
-        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+        final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(FILE_STATS_LOCATION);
         if (fileStats == null) {
           final GWikiElement el = createFileStats(wikiContext);
           // because branchfilestats is located in /admin folder you need to be su to store/update that file
@@ -67,9 +69,9 @@ public class PlcUtils
         }
 
         // ensure branchinfo present
-        final GWikiElement infoElement = wikiContext.getWikiWeb().findElement(PlcConstants.BRANCH_INFO_LOCATION);
+        final GWikiElement infoElement = wikiContext.getWikiWeb().findElement(BRANCH_INFO_LOCATION);
         if (infoElement == null) {
-          final GWikiElement el = createInfoElement(wikiContext, PlcConstants.DRAFT_ID, "Draft branch", "20991291000000000", "");
+          final GWikiElement el = createInfoElement(wikiContext, DRAFT_ID, "Draft branch", "20991291000000000", "");
           // because branchinfo is located in /admin folder you need to be su to store/update that file
           wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
             public Void call() throws RuntimeException
@@ -97,17 +99,16 @@ public class PlcUtils
   public static GWikiElement createInfoElement(final GWikiContext wikiContext, final String branchId, final String desc,
       final String releaseDate, final String releaseEndDate)
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.BRANCH_INFO_LOCATION,
-        PlcConstants.BRANCH_INFO_TEMPLATE_ID, "BranchInfo");
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, BRANCH_INFO_LOCATION, BRANCH_INFO_TEMPLATE_ID, "BranchInfo");
     final GWikiArtefakt< ? > artefakt = el.getMainPart();
 
     final GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
     final GWikiProps props = art.getCompiledObject();
-    props.setStringValue("BRANCH_ID", branchId);
-    props.setStringValue("DESCRIPTION", desc);
-    props.setStringValue("BRANCH_STATE", BranchState.OFFLINE.name()); // each branch is initailly offline
-    props.setStringValue("RELEASE_DATE", releaseDate);
-    props.setStringValue("RELEASE_END_DATE", releaseEndDate);
+    props.setStringValue(BRANCH_INFO_BRANCH_ID, branchId);
+    props.setStringValue(BRANCH_INFO_DESCRIPTION, desc);
+    props.setStringValue(BRANCH_INFO_BRANCH_STATE, BranchState.OFFLINE.name()); // each branch is initailly offline
+    props.setStringValue(BRANCH_INFO_RELEASE_DATE, releaseDate);
+    props.setStringValue(BRANCH_INFO_RELEASE_END_DATE, releaseEndDate);
     return el;
   }
 
@@ -119,8 +120,7 @@ public class PlcUtils
    */
   public static GWikiElement createFileStats(final GWikiContext wikiContext)
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, PlcConstants.FILE_STATS_LOCATION,
-        PlcConstants.FILESTATS_TEMPLATE_ID, "Branch File Stats");
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID, "Branch File Stats");
     return el;
   }
 
@@ -132,7 +132,7 @@ public class PlcUtils
    */
   public static BranchFileStats getBranchFileStats(final GWikiContext ctx)
   {
-    GWikiElement fileStats = ctx.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
+    GWikiElement fileStats = ctx.getWikiWeb().findElement(FILE_STATS_LOCATION);
     if (fileStats == null || fileStats.getMainPart() == null) {
       return null;
     }
@@ -142,6 +142,26 @@ public class PlcUtils
     }
     GWikiBranchFileStatsArtefakt branchFilestatsArtefakt = (GWikiBranchFileStatsArtefakt) artefakt;
     return branchFilestatsArtefakt.getCompiledObject();
+  }
+
+  /**
+   * Gets the branchinfo compiled artefakt of current tenant. Caller have to run this code in tenant context of wanted tenant
+   * 
+   * @param wikiContext the context
+   * @return The current GwikiProps instance containing branchInfo meta data, <code>null</code> if not found
+   */
+  public static GWikiProps getBranchInfo(final GWikiContext ctx)
+  {
+    GWikiElement branchInfoElement = ctx.getWikiWeb().findElement(BRANCH_INFO_LOCATION);
+    if (branchInfoElement == null) {
+      return null;
+    }
+    GWikiArtefakt< ? > artefakt = branchInfoElement.getMainPart();
+    if (artefakt instanceof GWikiPropsArtefakt == false) {
+      return null;
+    }
+    GWikiPropsArtefakt propsArtefakt = (GWikiPropsArtefakt) artefakt;
+    return propsArtefakt.getCompiledObject();
   }
 
 }

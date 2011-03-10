@@ -80,6 +80,17 @@ public class GWikiElementFinder
     return ret;
   }
 
+  public List<GWikiElement> getPages(Matcher<GWikiElementInfo> matcher)
+  {
+    List<GWikiElement> ret = new ArrayList<GWikiElement>();
+    for (GWikiElementInfo ei : wikiContext.getWikiWeb().getElementInfos()) {
+      if (matcher.match(ei) == true) {
+        ret.add(wikiContext.getWikiWeb().getElement(ei));
+      }
+    }
+    return ret;
+  }
+
   public List<GWikiElementInfo> getPageAttachments(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//

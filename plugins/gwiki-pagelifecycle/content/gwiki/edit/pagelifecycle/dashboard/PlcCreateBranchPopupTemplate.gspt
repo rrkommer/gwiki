@@ -1,7 +1,9 @@
-<% wikiContext.skinInclude("standardhead"); %>
+<% wikiContext.skinInclude("simplepopuphead"); %>
 <@include file="inc/stdtags.gspt" @> 
 
 <gwiki:errors />
+
+<h2><%= wikiContext.getTranslatedProp(wikiPage.elementInfo.title) %></h2>
 
 <form class="gwikiForm col" method="post">
 	<table>
@@ -25,4 +27,3 @@
 	<br/>
 	<input class="gwikiButton main" type="submit" name="method_onCreateBranch" value="<fmt:message key="gwiki.page.CreateBranch.create"/>"/>
 </form>
-<% wikiContext.skinInclude("standardfoot"); %>

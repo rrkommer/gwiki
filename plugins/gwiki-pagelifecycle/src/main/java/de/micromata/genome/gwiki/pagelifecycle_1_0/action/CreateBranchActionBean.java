@@ -69,7 +69,7 @@ public class CreateBranchActionBean extends PlcActionBeanBase
       }
     });
 
-    return goBack();
+    return closeFancyBox(true);
   }
 
   private void createBranchFileStats()

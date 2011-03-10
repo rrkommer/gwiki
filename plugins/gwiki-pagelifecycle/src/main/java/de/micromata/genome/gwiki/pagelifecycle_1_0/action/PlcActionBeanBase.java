@@ -55,6 +55,25 @@ public class PlcActionBeanBase extends ActionBeanBase
     }
     return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }
+  
+  /**
+   * Closes the fancy box
+   * 
+   * @param reloadParent if <code>true</code> the page where the fancybox were opened will be reloaded after closing (e.g. for loading
+   *          changes made in the fancybox)
+   */
+  protected Object closeFancyBox(final boolean reloadParent)
+  {
+    StringBuffer sb = new StringBuffer("<script type='text/javascript'>");
+    sb.append("parent.$.fancybox.close();");
+    if (reloadParent == true) {
+      sb.append("window.parent.location.reload();");
+    }
+    sb.append("</script>");
+    wikiContext.append(sb.toString());
+    wikiContext.flush();
+    return noForward();
+  }
 
   /**
    * @param backUrl the backUrl to set

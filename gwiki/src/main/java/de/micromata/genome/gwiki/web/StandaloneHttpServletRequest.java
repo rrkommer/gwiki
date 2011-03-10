@@ -292,13 +292,19 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   /** Gets the session object attached to this request. */
   public HttpSession getSession(boolean b)
   {
-    return this.session;
+    if (this.session != null) {
+      return this.session;
+    }
+    if (b == true) {
+      session = new StandaloneHttpSession();
+    }
+    return session;
   }
 
   /** Gets the session object attached to this request. */
   public HttpSession getSession()
   {
-    return this.session;
+    return getSession(true);
   }
 
   /** Allows a session to be associated with the request. */

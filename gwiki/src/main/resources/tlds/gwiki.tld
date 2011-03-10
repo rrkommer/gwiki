@@ -13,7 +13,7 @@
 	<tag>
 		<name>link</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.WikiLinkTag</tag-class>
-		<!--  <body-content>JSP</body-content>-->
+		<!-- <body-content>JSP</body-content> -->
 		<description>
 		</description>
 		<attribute>
@@ -191,6 +191,11 @@
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlHiddenTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>accesskey</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -205,19 +210,15 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<!--
-			<attribute> <name>bundle</name> <required>false</required>
-			<rtexprvalue>true</rtexprvalue> </attribute>
-		-->
+		<!-- <attribute> <name>bundle</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
+			</attribute> -->
 		<attribute>
 			<name>disabled</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<!--
-			<attribute> <name>indexed</name> <required>false</required>
-			<rtexprvalue>true</rtexprvalue> </attribute>
-		-->
+		<!-- <attribute> <name>indexed</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
+			</attribute> -->
 		<attribute>
 			<name>name</name>
 			<required>false</required>
@@ -333,12 +334,9 @@
 		<name>optionsCollection</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlOptionsCollectionTag</tag-class>
 		<body-content>empty</body-content>
-		<!--
-			<attribute> <name>filter</name> <required>false</required>
-			<rtexprvalue>true</rtexprvalue> </attribute> <attribute>
-			<name>label</name> <required>false</required>
-			<rtexprvalue>true</rtexprvalue> </attribute>
-		-->
+		<!-- <attribute> <name>filter</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
+			</attribute> <attribute> <name>label</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
+			</attribute> -->
 		<attribute>
 			<name>name</name>
 			<required>false</required>
@@ -369,6 +367,11 @@
 		<name>select</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlSelectTag</tag-class>
 		<body-content>JSP</body-content>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>alt</name>
 			<required>false</required>
@@ -538,6 +541,11 @@
 	<tag>
 		<name>text</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlTextTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>accesskey</name>
 			<required>false</required>
@@ -717,6 +725,11 @@
 	<tag>
 		<name>password</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlPasswordTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>accesskey</name>
 			<required>false</required>
@@ -902,6 +915,11 @@
 		<name>checkbox</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlCheckboxTag</tag-class>
 		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
 			<name>accesskey</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -1065,6 +1083,11 @@
 	<tag>
 		<name>radio</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlRadioboxTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>accesskey</name>
 			<required>false</required>
@@ -1234,6 +1257,11 @@
 	<tag>
 		<name>textarea</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlTextareaTag</tag-class>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 		<attribute>
 			<name>accesskey</name>
 			<required>false</required>

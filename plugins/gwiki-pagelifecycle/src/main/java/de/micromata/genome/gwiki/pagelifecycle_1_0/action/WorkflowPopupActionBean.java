@@ -540,25 +540,6 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   }
 
   /**
-   * Closes the fancy box
-   * 
-   * @param reloadParent if <code>true</code> the page where the fancybox were opened will be reloaded after closing (e.g. for loading
-   *          changes made in the fancybox)
-   */
-  private Object closeFancyBox(final boolean reloadParent)
-  {
-    StringBuffer sb = new StringBuffer("<script type='text/javascript'>");
-    sb.append("parent.$.fancybox.close();");
-    if (reloadParent == true) {
-      sb.append("window.parent.location.reload();");
-    }
-    sb.append("</script>");
-    wikiContext.append(sb.toString());
-    wikiContext.flush();
-    return noForward();
-  }
-
-  /**
    * applies change comment to page
    */
   private void applyComment()
@@ -616,16 +597,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
           new CallableX<GWikiProps, RuntimeException>() {
             public GWikiProps call() throws RuntimeException
             {
-              GWikiElement branchInfoElement = wikiContext.getWikiWeb().findElement(PlcConstants.BRANCH_INFO_LOCATION);
-              if (branchInfoElement == null) {
-                return null;
-              }
-              GWikiArtefakt< ? > artefakt = branchInfoElement.getMainPart();
-              if (artefakt instanceof GWikiPropsArtefakt == false) {
-                return null;
-              }
-              GWikiPropsArtefakt propsArtefakt = (GWikiPropsArtefakt) artefakt;
-              return propsArtefakt.getCompiledObject();
+              return PlcUtils.getBranchInfo(wikiContext);
             }
           });
 
@@ -634,17 +606,17 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
       }
 
       // only add offline branches
-      if (BranchState.OFFLINE.name().equals(branchInfoProp.getStringValue("BRANCH_STATE")) == true) {
+      if (BranchState.OFFLINE.name().equals(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_BRANCH_STATE)) == true) {
         Map<String, Object> m = new HashMap<String, Object>();
         m.putAll(branchInfoProp.getMap());
-        m.put("RELEASE_DATE_DATE", GWikiProps.parseTimeStamp(branchInfoProp.getStringValue("RELEASE_DATE")));
+        m.put("RELEASE_DATE_DATE", GWikiProps.parseTimeStamp(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_RELEASE_DATE)));
         branchProps.add(m);
         
         // if branch release date matches article release date -> preselect branch
-        String release = branchInfoProp.getStringValue("RELEASE_DATE");
+        String release = branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_RELEASE_DATE);
         Date branchReleaseDate = GWikiProps.parseTimeStamp(release);
         if (branchReleaseDate != null && branchReleaseDate.equals(getStartDateOfArticle())) {
-          selectedBranch = branchInfoProp.getStringValue("BRANCH_ID");
+          selectedBranch = branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_BRANCH_ID);
         }
       }
     }
