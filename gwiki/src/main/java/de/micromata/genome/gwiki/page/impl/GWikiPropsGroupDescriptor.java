@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-//
+// 
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,48 +13,69 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// 
 ////////////////////////////////////////////////////////////////////////////
-
 package de.micromata.genome.gwiki.page.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A descriptor bean for properties.
+ * Descriptor for a group of properties. Used for grouping properties in editor.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiPropsDescriptor implements Serializable
+public class GWikiPropsGroupDescriptor
 {
+  /**
+   * internal key
+   */
+  private String key;
 
-  private static final long serialVersionUID = -3438528857386553181L;
+  /**
+   * title. Use I{I18N} for translation
+   */
+  private String title;
 
-  private List<GWikiPropsGroupDescriptor> groups = new ArrayList<GWikiPropsGroupDescriptor>();
+  private boolean closed = false;
 
-  public List<GWikiPropsDescriptorValue> descriptors = new ArrayList<GWikiPropsDescriptorValue>();
+  private boolean collabsable = true;
 
-  public List<GWikiPropsDescriptorValue> getDescriptors()
+  public String getKey()
   {
-    return descriptors;
+    return key;
   }
 
-  public void setDescriptors(List<GWikiPropsDescriptorValue> descriptors)
+  public void setKey(String key)
   {
-    this.descriptors = descriptors;
+    this.key = key;
   }
 
-  public List<GWikiPropsGroupDescriptor> getGroups()
+  public String getTitle()
   {
-    return groups;
+    return title;
   }
 
-  public void setGroups(List<GWikiPropsGroupDescriptor> groups)
+  public void setTitle(String title)
   {
-    this.groups = groups;
+    this.title = title;
   }
 
+  public boolean isClosed()
+  {
+    return closed;
+  }
+
+  public void setClosed(boolean closed)
+  {
+    this.closed = closed;
+  }
+
+  public boolean isCollabsable()
+  {
+    return collabsable;
+  }
+
+  public void setCollabsable(boolean collabsable)
+  {
+    this.collabsable = collabsable;
+  }
 }

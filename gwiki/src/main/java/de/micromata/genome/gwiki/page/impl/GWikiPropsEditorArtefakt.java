@@ -34,6 +34,7 @@ import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.util.types.Converter;
+import de.micromata.genome.util.types.Pair;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.XmlNode;
@@ -62,6 +63,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     this.props = props;
     this.propDescriptor = propDescriptor;
     mergeSettingsProps();
+  }
+
+  @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    wikiContext.getRequiredJs().add("/static/js/jquery.fieldset-collapsible.js");
+    super.prepareHeader(wikiContext);
   }
 
   private void lookupPropDescriptor(GWikiContext ctx)
@@ -201,9 +209,6 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
   {
 
     String value = pct.getPropsValue();
-    // if (StringUtils.isEmpty(value) && StringUtils.isNotEmpty(pct.getPropDescriptor().getDefaultValue()) == true) {
-    // value = evalDefaultValue(ctx, d, name);
-    // }
 
     XmlNode[] controlNodes = new XmlNode[0];
     String type = pct.getControlType();
@@ -274,6 +279,83 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
 
   }
 
+  protected GWikiPropsGroupDescriptor getGroupDescriptorByName(String key)
+  {
+    if (propDescriptor.getGroups() == null || propDescriptor.getGroups().isEmpty() == true) {
+      return null;
+    }
+    for (GWikiPropsGroupDescriptor g : propDescriptor.getGroups()) {
+      if (StringUtils.equals(key, g.getKey()) == true) {
+        return g;
+      }
+    }
+    return null;
+  }
+
+  protected Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> getDescPairByName(
+      List<Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>> ret, String key)
+  {
+    for (Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> p : ret) {
+      if (StringUtils.equals(p.getFirst().getKey(), key) == true) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  protected List<Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>> getGroupedProps(String metaTemplateId)
+  {
+    String STANDARDKEY = "STANDARD";
+    GWikiPropsGroupDescriptor sg = new GWikiPropsGroupDescriptor();
+    sg.setCollabsable(true);
+    sg.setClosed(false);
+    sg.setTitle("Standard");
+    sg.setKey(STANDARDKEY);
+    List<Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>> ret = new ArrayList<Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>>();
+    Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> standardPair = new Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>();
+    standardPair.setFirst(sg);
+    standardPair.setSecond(new ArrayList<GWikiPropsDescriptorValue>());
+    if (propDescriptor.getGroups() == null || propDescriptor.getGroups().isEmpty() == true) {
+      standardPair.setValue(propDescriptor.getDescriptors());
+      ret.add(standardPair);
+      return ret;
+    }
+    for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {
+      if (isForThisElement(d, metaTemplateId) == false) {
+        continue;
+      }
+      GWikiPropsGroupDescriptor group;
+      if (StringUtils.isEmpty(d.getGroup()) == true) {
+        group = sg;
+      } else {
+        group = getGroupDescriptorByName(d.getGroup());
+        if (group == null) {
+          group = sg;
+          if (getDescPairByName(ret, STANDARDKEY) == null) {
+            ret.add(standardPair);
+          }
+        }
+      }
+      Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> pair = getDescPairByName(ret, group.getKey());
+
+      if (pair == null) {
+        if (group == sg) {
+          pair = standardPair;
+          ret.add(pair);
+        } else {
+          Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> np = new Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>();
+          np.setKey(group);
+          np.setValue(new ArrayList<GWikiPropsDescriptorValue>());
+          pair = np;
+          ret.add(pair);
+
+        }
+      }
+      pair.getSecond().add(d);
+    }
+    return ret;
+  }
+
   public void renderViaDescriptor(GWikiContext ctx)
   {
     boolean hasAnyDescription = false;
@@ -283,13 +365,14 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         break;
       }
     }
-    XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
-        Html.tr( //
-            Html.th(Xml.attrs("width", "70", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
-            Html.th(Xml.attrs("width", "300", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
-            Html.th(Xml.attrs("width", "16", "align", "left"), Xml.code("&nbsp;")), //
-            Html.th(Xml.attrs("align", "left"), Xml.code(hasAnyDescription == false ? "" : ctx
-                .getTranslated("gwiki.propeditor.title.description")))));
+    // TODO Title rendering
+    // XmlElement table = Html.table(Xml.attrs("width", "100%", "class", "gwikiProperties"), //
+    // Html.tr( //
+    // Html.th(Xml.attrs("width", "70", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.key"))), //
+    // Html.th(Xml.attrs("width", "300", "align", "left"), Xml.code(ctx.getTranslated("gwiki.propeditor.title.value"))), //
+    // Html.th(Xml.attrs("width", "16", "align", "left"), Xml.code("&nbsp;")), //
+    // Html.th(Xml.attrs("align", "left"), Xml.code(hasAnyDescription == false ? "" : ctx
+    // .getTranslated("gwiki.propeditor.title.description")))));
     Object o = ctx.getRequest().getAttribute("form");
     String metaTemplateId = null;
     if (o instanceof GWikiEditPageActionBean) {
@@ -298,26 +381,74 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     }
     // String metaTemplateId = el.getMetaTemplate().getPageId();
 
-    for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {
-      if (isForThisElement(d, metaTemplateId) == false)
-        continue;
-      PropsEditContext pctx = createPropContext(ctx, d);
-      if (pctx.isDisplayable() == false) {
-        continue;
+    List<Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>>> pl = getGroupedProps(metaTemplateId);
+    for (Pair<GWikiPropsGroupDescriptor, List<GWikiPropsDescriptorValue>> p : pl) {
+      ctx.append("<fieldset");
+      if (p.getFirst().isCollabsable() == true) {
+        if (p.getFirst().isClosed() == true) {
+          ctx.append("  class=\"startClosed\"");
+        } else {
+          ctx.append("  class=\"collapsible\"");
+        }
       }
-      String nested = onRender(pctx);
-      String label = d.getKey();
-      if (d.getLabel() != null) {
-        label = ctx.getTranslatedProp(d.getLabel());
+      ctx.append("><legend class=\"ui-state-default ui-corner-top ui-tabs-selected ui-state-active\">")//
+          .append(ctx.getTranslatedProp(p.getFirst().getTitle())).append("</legend><p>");
+      for (GWikiPropsDescriptorValue d : p.getSecond()) {
+        PropsEditContext pctx = createPropContext(ctx, d);
+        if (pctx.isDisplayable() == false) {
+          continue;
+        }
+        String nested = onRender(pctx);
+        String label = d.getKey();
+        if (d.getLabel() != null) {
+          label = ctx.getTranslatedProp(d.getLabel());
+        }
+        ctx.append("<label style=\"float: left; clear: left; width: 10em;\">").appendEscText(label).append("</label>");
+        ctx.append("<span style=\"float:left; width: 55em;\">").append(nested).append("</span>")//
+            .append("<span style=\"float:left;width: 2em;\">").append(renderHelpLink(d, ctx)).append("</span>");
+        ctx.append("<span style=\"float: left;\">").append(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))).append(
+            "</span>\n");
+        //        
+        // table.add( //
+        // Html.tr( //
+        // Html.td(Xml.code(label)), //
+        // Html.td(Xml.code(nested)), //
+        // Html.td(Xml.code(renderHelpLink(d, ctx))), //
+        // Html.td(Xml.code(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))))));
+        //     
+
       }
-      table.add( //
-          Html.tr( //
-              Html.td(Xml.code(label)), //
-              Html.td(Xml.code(nested)), //
-              Html.td(Xml.code(renderHelpLink(d, ctx))), //
-              Html.td(Xml.code(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))))));
+      ctx.append("</p></fieldset>\n");
     }
-    ctx.append(table.toString());
+    if (ctx.getRequestAttribute("propseditartefakt_collrendered") != Boolean.TRUE) {
+      ctx.append("<script type=\"text/javascript\">") //
+          .append("$(document).ready(function() {\n") //
+          .append("$(\"fieldset.collapsible\").collapse();\n") //
+          .append("$(\"fieldset.startClosed\").collapse( { closed: true } );\n") //
+          .append("});\n") //
+          .append("</script>\n");
+      ctx.setRequestAttribute("propseditartefakt_collrendered", Boolean.TRUE);
+    }
+    // for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {
+    // if (isForThisElement(d, metaTemplateId) == false)
+    // continue;
+    // PropsEditContext pctx = createPropContext(ctx, d);
+    // if (pctx.isDisplayable() == false) {
+    // continue;
+    // }
+    // String nested = onRender(pctx);
+    // String label = d.getKey();
+    // if (d.getLabel() != null) {
+    // label = ctx.getTranslatedProp(d.getLabel());
+    // }
+    // table.add( //
+    // Html.tr( //
+    // Html.td(Xml.code(label)), //
+    // Html.td(Xml.code(nested)), //
+    // Html.td(Xml.code(renderHelpLink(d, ctx))), //
+    // Html.td(Xml.code(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))))));
+    // }
+    // ctx.append(table.toString());
 
   }
 
@@ -330,4 +461,5 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
     return true;
 
   }
+
 }
