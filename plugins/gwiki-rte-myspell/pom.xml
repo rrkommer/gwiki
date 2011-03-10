@@ -1,5 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>gwiki-parent</artifactId>
+		<groupId>de.micromata.genome.gwiki</groupId>
+		<version>0.4.2-SNAPSHOT</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.micromata.genome.gwiki</groupId>
@@ -18,7 +23,8 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<property name="ziptarget" value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+								<property name="ziptarget"
+									value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
 								<mkdir dir="target" />
 								<delete file="target/${pom.artifactId}-${project.version}.zip" />
 								<zip zipfile="target/${pom.artifactId}-${project.version}.zip">
@@ -27,7 +33,8 @@
 									<fileset dir="" includes="lib/**" />
 									<fileset dir="" includes="gwikiplugin.xml" />
 								</zip>
-								<copy file="target/${pom.artifactId}-${project.version}.zip" overwrite="true" todir="${ziptarget}"/>
+								<copy file="target/${pom.artifactId}-${project.version}.zip"
+									overwrite="true" todir="${ziptarget}" />
 							</tasks>
 						</configuration>
 						<goals>
@@ -43,6 +50,29 @@
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki</artifactId>
 			<version>0.4.2-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.json-lib</groupId>
+					<artifactId>json-lib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.dts</groupId>
+			<artifactId>jmyspell-core</artifactId>
+			<version>1.0.0-beta-2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -60,6 +90,11 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>maven.nuxeo.org</id>
+			<name>maven.nuxeo.org</name>
+			<url>https://maven.nuxeo.org/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
 </project>
