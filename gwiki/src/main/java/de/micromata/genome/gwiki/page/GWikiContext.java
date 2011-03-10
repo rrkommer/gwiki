@@ -784,7 +784,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public void removeSessionAttribute(String key)
   {
-    request.getSession().removeAttribute(key);
+    wikiWeb.getSessionProvider().removeSessionAttribute(this, key);
   }
 
   public void setCharacterEncoding(String enc) throws UnsupportedEncodingException

@@ -25,6 +25,10 @@ public abstract class GWikiBaseHtmlTag extends GWikiBaseTag
 {
 
   private static final long serialVersionUID = -5795082670921841554L;
+  
+  @ElementProperty
+  @TagProperty
+  protected String id = null;
 
   @ElementProperty
   @TagProperty
@@ -374,6 +378,22 @@ public abstract class GWikiBaseHtmlTag extends GWikiBaseTag
   public void setAltKey(String altKey)
   {
     this.altKey = altKey;
+  }
+  
+  /**
+   * @return the id
+   */
+  public String getId()
+  {
+    return id;
+  }
+
+  /**
+   * @param id the id to set
+   */
+  public void setId(String id)
+  {
+    this.id = id;
   }
 
 }

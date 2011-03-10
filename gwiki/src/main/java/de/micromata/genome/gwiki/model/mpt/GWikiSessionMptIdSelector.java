@@ -57,9 +57,9 @@ public class GWikiSessionMptIdSelector implements GWikiMptIdSelector
   public void setTenant(GWikiContext wikiContext, String tenantId)
   {
     if (StringUtils.isBlank(tenantId) == true) {
-      wikiContext.getRequest().getSession().removeAttribute(MPT_KEY);
+      wikiContext.removeSessionAttribute(MPT_KEY);
     } else {
-      wikiContext.getRequest().getSession().setAttribute(MPT_KEY, tenantId);
+      wikiContext.setSessionAttribute(MPT_KEY, tenantId);
     }
   }
 
