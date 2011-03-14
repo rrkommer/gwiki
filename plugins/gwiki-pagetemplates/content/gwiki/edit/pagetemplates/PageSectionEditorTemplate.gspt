@@ -1,6 +1,8 @@
 <% wikiContext.skinInclude('simplepopuphead'); %>
 <@include file="inc/stdtags.gspt" @> 
 
+<div id='editDialogBox'></div>
+
 <gwiki:errors />
 
 <%-- is multipart free of conflicts with textareas etc.? --%>
@@ -27,6 +29,7 @@
 %>
 
 <script type="text/javascript">
+var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiEditorContentChanged = false;
 
 function gwikiEditorOnUnload() {
