@@ -58,15 +58,16 @@ function gwikiCreateTiny(partName, content) {
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,filemanager",
 				// plugins :
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-				plugins : "-gwiki,advhr,pagebreak,style,layer,table,searchreplace,print,contextmenu,noneditable,paste,iespell,inlinepopups,xhtmlxtras",
+				plugins : "-gwiki,advhr,pagebreak,style,layer,table,searchreplace,print,contextmenu,noneditable,paste,iespell,inlinepopups,xhtmlxtras,emotions,spellchecker",
 				// Theme options
 				theme_advanced_buttons1 : "undo,redo,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,wikilink,unlink,wikiimage,anchor,|,bullist,numlist,outdent,indent,|,hr,visualchars,charmap,|,removeformat,iespell,cleanup,code,help,", // image,
-				theme_advanced_buttons2 : "bold,italic,underline,del,sub,sup,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,	blockquote,justifyleft,justifycenter,justifyright,justifyfull", // strikethrough
-				theme_advanced_buttons3 : "tablecontrols,|,insertlayer,moveforward,movebackward,absolute,|,styleprops", // ,|,cite,ins,,abbr,acronym
+				theme_advanced_buttons2 : "bold,italic,underline,del,sub,sup,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,	blockquote,justifyleft,justifycenter,justifyright,justifyfull,nonbreaking", // strikethrough
+				theme_advanced_buttons3 : "tablecontrols,|,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,spellchecker,", // ,|,cite,ins,,abbr,acronym
+				spellchecker_rpc_url    : "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
 				// theme_advanced_buttons4 : "",
 				// //spellchecker,cite,abbr,acronym,del,ins,attribs,
 				// ,nonbreaking,template,blockquote,pagebreak,,insertfile,insertimage
-				theme_advanced_blockformats : "p,div,h1,h2,h3,h4,h5,h6,blockquote",
+				theme_advanced_blockformats : "p,div,h1,h2,h3,h4,h5,h6,pre,code,blockquote",
 				theme_advanced_toolbar_location : "top",
 				theme_advanced_toolbar_align : "left",
 				theme_advanced_resizing : true,
@@ -80,6 +81,7 @@ function gwikiCreateTiny(partName, content) {
 				// convert_newlines_to_brs : true,
 				convert_urls : false,
 				// XHMTL erlaubt:
+				
 				valid_elements: ""
 					+"a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name"
 				  +"|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup"
