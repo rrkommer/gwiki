@@ -91,8 +91,14 @@ public abstract class PtWikiUploadEditor extends PtWikiTextEditorBase
     }
 
     String pageId = parentPageId + "/" + pageIdFromTitle;
-    // String pageId = parentPageId + "/" + dataFile.getName();
+    
+    if (ctx.getWikiWeb().findElement(pageId) != null) {
+      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.editor.upload.fileExists"));
+      return null;
+    }
+    
     String title = ctx.getRequest().getParameter("title");
+    
     try {
       ByteArrayOutputStream bout = new ByteArrayOutputStream();
       IOUtils.copy(dataFile.getInputStream(), bout);
