@@ -151,3 +151,72 @@ function gwikiEditInsertImageDialog(options, parentWindow, callback) {
 				}
 			});
 }
+
+function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
+	var modc = $("#editDialogBox");
+	var dlghtml = "Title: <input size=\"50\" type=\"text\" id=\"linkprtitle\"";
+	if (currentLink.title) {
+		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
+	}
+	dlghtml += "><br/>\n"
+			+ "Link: <input size=\"50\" type=\"text\" id=\"linkpropt\"";
+	if (currentLink.url) {
+		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
+	}
+	dlghtml += ">";
+	dlghtml += "<div id='filechooser' style='width:350px; height:200px; margin-top: 20px; font-family: verdana; font-size: 10px;'></div>";
+
+	dlghtml += "<script type='text/javascript'>";
+	dlghtml += "$(function () {";
+	dlghtml += "  $(\"#filechooser\").jstree({";
+	dlghtml += "    \"themes\" : { \"theme\" : \"classic\", \"dots\" : true, \"icons\" : true },";
+	dlghtml += "    \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],";
+	dlghtml += "    \"html_data\" : {\n";
+	dlghtml += "      \"ajax\" : {";
+	dlghtml += "        \"url\" : \"/edit/TreeChildren\",\n";
+	dlghtml += "        \"data\" : function(n) {   return { \"method_onLoadAsync\" : \"true\", "
+			+ "\"id\" : n.attr ? n.attr(\"id\") : \"\","
+			+ "\"urlField\" : \"linkpropt\","
+			+ "\"titleField\" : \"linkprtitle\" };      }\n";
+	dlghtml += "      }";
+	dlghtml += "    }\n";
+	dlghtml += "  });\n";
+	dlghtml += "});\n";
+	dlghtml += "</script>";
+
+	modc.html(dlghtml);
+	var dialog = $("#editDialogBox").dialog({
+		width : 500,
+		modal : true,
+		open : function(event, ui) {
+			$("#linkpropt").focus();
+		},
+		close : function(event, ui) {
+			$(dialog).dialog('destroy');
+		},
+		overlay : {
+			backgroundColor : '#000',
+			opacity : 0.5
+		},
+		buttons : {
+			'Cancel' : function() {
+				$(dialog).dialog('close');
+				parentWindow.focus();
+			},
+			'OK' : function() {
+				var lt = $("#linkpropt").attr('value');
+				$(dialog).dialog('close');
+				parentWindow.focus();
+				var ret = {
+					url : $("#linkpropt").val(),
+					title : $("#linkprtitle").val()
+				};
+				callback(ret);
+			}
+		},
+		Abbrechen : function() {
+			$(this).dialog('close');
+			parentWindow.focus();
+		}
+	});
+}

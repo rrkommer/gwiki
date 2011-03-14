@@ -17,10 +17,16 @@
 							ed.addCommand('mceGWikiInsertLink', t._insertLink, t);
 							ed.addCommand('mceGWikiInsertImage', t._insertImage, t);
 							ed.addCommand('mceGWikiInsertScreenshot', t._insertScreenshot, t);
+							ed.addCommand('mceGWikiInsertChoosenLink', t._insertChoosenLink, t);
 							// Register buttons
 							ed.addButton('wikilink', {
 								title : 'Insert Wiki Link',
 								cmd : 'mceGWikiInsertLink',
+								'class' : 'mceIcon mce_link'
+							});
+							ed.addButton('wikichoosenlink', {
+								title : 'Insert Wiki Link',
+								cmd : 'mceGWikiInsertChoosenLink',
 								'class' : 'mceIcon mce_link'
 							});
 
@@ -166,6 +172,49 @@
 										html);
 							});
 							// alert('insert screen');
+						},
+						_insertChoosenLink : function(ui, v) {
+							var inst = this.editor;
+							var elm = inst.selection.getNode();
+
+							elm = inst.dom.getParent(elm, "A");
+							var action = "insert";
+							var href = '';
+							var title = '';
+							if (elm != null && elm.nodeName == "A") {
+								action = "update";
+								href = inst.dom.getAttrib(elm, 'href');
+								title = inst.dom.getAttrib(elm, 'title');
+							} else {
+							}
+							if (href.match("^" + gwikiContextPath) == gwikiContextPath) {
+								href = href.substring(gwikiContextPath.length + 1);
+							}
+							
+							gwikiEditShowLink(inst, 'gwiki', {
+								url : href,
+								title : title
+							}, function(result) {
+								var newUrl = gwikiContextPath + "/" + result.url;
+
+								i = inst.selection.getBookmark();
+								if (elm == null) {
+									var html = "<a href=\"" + gwikiEscapeInput(newUrl)
+											+ "\" title=\"" + gwikiEscapeInput(result.title) + "\">"
+											+ gwikiEscapeInput(result.title) + "</a>";
+									tinyMCE.activeEditor.execCommand('mceInsertContent', false,
+											html);
+								} else {
+
+									// elm.setAttrib('href', newUrl);
+									tinyMCE.activeEditor.dom.setAttrib(elm, 'href', newUrl);
+									tinyMCE.activeEditor.dom
+											.setAttrib(elm, 'title', result.title);
+									// elm.setHTML(escape(itemTitle));
+									tinyMCE.activeEditor.dom.setHTML(elm,
+											tinyMCE.activeEditor.dom.encode(result.title));
+								}
+							});
 						}
 					});
 
