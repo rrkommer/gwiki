@@ -51,6 +51,11 @@ public class GWikiElementByChildOrderComparator extends GWikiElementComparatorBa
     }
     GWikiElementInfo inf1 = o1.getParent(ctx);
     GWikiElementInfo inf2 = o2.getParent(ctx);
+
+    if (inf1 == null && inf2 == null) {
+      return 0;
+    }
+
     if (inf1 != inf2) {
       return compareParent(o1, o2);
     }
