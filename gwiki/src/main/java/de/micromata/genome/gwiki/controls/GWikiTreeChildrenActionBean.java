@@ -45,6 +45,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
     final String superCategory = wikiContext.getRequest().getParameter("id");
     final String urlField = wikiContext.getRequest().getParameter("urlField");
     final String titleField = wikiContext.getRequest().getParameter("titleField");
+    final String openTarget = wikiContext.getRequest().getParameter("target");
 
     if (StringUtils.isBlank(superCategory)) {
       el = wikiContext.getWikiWeb().findElement(getRootPage());
@@ -75,16 +76,20 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
       sb.append("id='").append(wikiContext.localUrl(ei.getId())).append("'>");
       sb.append("<a onclick=\"");
 
-      if (StringUtils.isNotEmpty(urlField)) {
-        sb.append("$('#" + urlField + "').val('" + ei.getId() + "');");
-      }
+      if (StringUtils.isEmpty(openTarget)) {
+        if (StringUtils.isNotEmpty(urlField)) {
+          sb.append("$('#" + urlField + "').val('" + ei.getId() + "');");
+        }
 
-      if (StringUtils.isNotEmpty(titleField)) {
-        sb.append("$('#" + titleField + "').val('" + ei.getTitle() + "');");
+        if (StringUtils.isNotEmpty(titleField)) {
+          sb.append("$('#" + titleField + "').val('" + ei.getTitle() + "');");
+        }
+      } else if (StringUtils.equals(openTarget, "true")) {
+        String targetLink = wikiContext.getRequest().getContextPath() + "/" + ei.getId();
+        sb.append("javascript:window.location.href='").append(targetLink).append("'");
       }
 
       sb.append("\" style=\"cursor:pointer\">");
-      ;
       sb.append(ei.getTitle());
       sb.append("</a>");
       sb.append("</li>");
