@@ -1,0 +1,5 @@
+{pageintro}
+Online documentation of GWiki Plugins
+{pageintro}
+
+{children:depth=1|sort=title|withPageIntro=true}
