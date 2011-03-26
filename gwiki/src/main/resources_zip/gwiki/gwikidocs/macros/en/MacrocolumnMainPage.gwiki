@@ -5,6 +5,8 @@ The Macro {{column}} can be used in connection with Macro {{section}} to define 
 This Macro must be nested inside a  [section|gwikidocs/macros/en/Macrosection]  macro.
 
 Options:
+All html attributes, which are allowed in the {{td}} element.
+
 - width: Optional String, width (px, % or em) of the column.
 - styleClass: or class. Optional. CSS class attribute of the Column <td>.
 - style: Optional. CSS style attribute
