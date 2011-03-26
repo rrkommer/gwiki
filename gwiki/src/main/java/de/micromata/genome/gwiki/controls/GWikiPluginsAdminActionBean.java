@@ -47,14 +47,16 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
   {
     pluginRepo = wikiContext.getWikiWeb().getDaoContext().getPluginRepository();
 
-    for (GWikiPlugin plugin : pluginRepo.getPlugins().values()){
+    for (GWikiPlugin plugin : pluginRepo.getPlugins().values()) {
       String category = StringUtils.isNotBlank(plugin.getDescriptor().getCategory()) ? plugin.getDescriptor().getCategory() : "General";
 
       if (this.pluginMap.get(category) == null) {
         this.pluginMap.put(category, new ArrayList<GWikiPlugin>());
       }
-
-       this.pluginMap.get(category).add(plugin);
+      this.pluginMap.get(category).add(plugin);
+      if (plugin.getDescriptor().getDescriptionPath() == null) {
+        plugin.getDescriptor().setDescriptionPath(GWikiPluginDownloadActionBean.getDetailPage(wikiContext, plugin.getDescriptor()));
+      }
     }
   }
 

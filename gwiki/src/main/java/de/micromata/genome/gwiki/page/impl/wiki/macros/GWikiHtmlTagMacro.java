@@ -65,6 +65,11 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
 
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
+    ensureHtmlAttrRight(attrs, ctx);
+  }
+
+  public static void ensureHtmlAttrRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  {
     if (ctx.isAllowTo(GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == true) {
       return;
     }
@@ -91,20 +96,19 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
     return StringEscapeUtils.escapeHtml(t);
   }
 
+  protected void renderAttributes(GWikiContext ctx, Map<String, String> attrs)
+  {
+    for (Map.Entry<String, String> me : attrs.entrySet()) {
+      ctx.append(" ").append(esc(me.getKey())).append("=\"").append(esc(me.getValue())).append("\"");
+    }
+  }
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
 
     ctx.append("<", attrs.getCmd());
-    boolean isFirst = true;
-    for (Map.Entry<String, String> me : attrs.getArgs().getMap().entrySet()) {
-      if (isFirst == false) {
-        isFirst = true;
-      } else {
-        ctx.append(" ");
-      }
-      ctx.append(esc(me.getKey())).append("=\"").append(esc(me.getValue())).append("\"");
-    }
+    renderAttributes(ctx, attrs.getArgs().getMap());
     ctx.append(">");
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);

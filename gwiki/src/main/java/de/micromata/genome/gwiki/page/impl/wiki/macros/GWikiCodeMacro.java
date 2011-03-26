@@ -72,6 +72,10 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
       return true;
     }
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append("<code>").appendEscText(attrs.getBody()).append("</code>");
+      return true;
+    }
     boolean preview = RenderModes.ForText.isSet(ctx.getRenderMode());
     ctx.append("<div class=\"preformatted panel\" style=\"border-width: 1px;\">", //
         "<div class=\"preformattedContent panelContent\">\n", //

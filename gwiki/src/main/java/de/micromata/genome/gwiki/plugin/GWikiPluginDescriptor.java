@@ -65,8 +65,19 @@ public class GWikiPluginDescriptor implements InitializingBean
 
   private String category;
 
+  /**
+   * Path to the logo to be displayed.
+   */
   private String logoPath;
 
+  /**
+   * wiki internal page describing the plugin
+   */
+  private String descriptionPath;
+
+  /**
+   * Licence conditiono
+   */
   private String license;
 
   /**
@@ -315,6 +326,16 @@ public class GWikiPluginDescriptor implements InitializingBean
   public void setLicense(String licence)
   {
     this.license = licence;
+  }
+
+  public String getDescriptionPath()
+  {
+    return descriptionPath;
+  }
+
+  public void setDescriptionPath(String descriptionPath)
+  {
+    this.descriptionPath = descriptionPath;
   }
 
 }

@@ -151,6 +151,10 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
   @Override
   public FileSystem getFsForWrite(String name)
   {
+    FileSystem fsOrg = getFs(name);
+    if (fsOrg.isReadOnly() == false) {
+      return fsOrg;
+    }
     return getPrimary();
   }
 
