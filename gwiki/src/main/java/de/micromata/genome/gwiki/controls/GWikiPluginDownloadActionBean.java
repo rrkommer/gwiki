@@ -25,9 +25,12 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.ZipRamFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor;
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
@@ -74,10 +77,32 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
 
   private Map<String, List<PDesc>> plugins = new TreeMap<String, List<PDesc>>();
 
+  public static String getDetailPage(GWikiContext wikiContext, GWikiPluginDescriptor pdesc)
+  {
+    String name = pdesc.getName();
+    String parenPageId = "gwikidocs/plugins/en/GWiki_Plugins";
+    GWikiElementInfo pei = wikiContext.getWikiWeb().findElementInfo(parenPageId);
+    if (pei == null) {
+      return null;
+    }
+    for (GWikiElementInfo ei : wikiContext.getElementFinder().getAllDirectChilds(pei)) {
+      String id = ei.getId();
+      String n = FileNameUtils.getNamePart(id);
+      if (StringUtils.equals(n, name) == true) {
+        return id;
+      }
+    }
+    return null;
+  }
+
   protected void initPluginAttachment(GWikiElementInfo atel)
   {
     GWikiElement el = wikiContext.getWikiWeb().getElement(atel);
     byte[] data = (byte[]) el.getMainPart().getCompiledObject();
+    if (data == null) {
+      GWikiLog.warn("Plugin zip has no attachment bytes: " + el.getElementInfo().getId());
+      return;
+    }
     ZipRamFileSystem fs = new ZipRamFileSystem("", new ByteArrayInputStream(data));
     if (fs.exists("gwikiplugin.xml") == false) {
       return;
@@ -87,6 +112,10 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
       return;
     }
     PDesc pdesc = new PDesc(atel, desc);
+    if (desc.getDescriptionPath() == null) {
+      desc.setDescriptionPath(getDetailPage(wikiContext, pdesc.getDescriptor()));
+    }
+
     String cat = StringUtils.defaultIfEmpty(desc.getCategory(), "Standard");
     List<PDesc> ld = plugins.get(cat);
     if (ld == null) {

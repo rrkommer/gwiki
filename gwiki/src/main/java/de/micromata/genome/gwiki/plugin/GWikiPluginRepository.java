@@ -130,7 +130,9 @@ public class GWikiPluginRepository
         GWikiLog.note("Plugin already loaded: " + pdesc.getName());
         return;
       }
-      GWikiPlugin plugin = new GWikiPlugin(new SubFileSystem(dir.getFileSystem(), dir.getName()), pdesc);
+      SubFileSystem sfs = new SubFileSystem(dir.getFileSystem(), dir.getName());
+
+      GWikiPlugin plugin = new GWikiPlugin(sfs, pdesc);
       plugins.put(pdesc.getName(), plugin);
 
     } catch (Exception ex) {
@@ -144,6 +146,7 @@ public class GWikiPluginRepository
     for (FsObject fo : fsObjects) {
       byte[] data = fo.getFileSystem().readBinaryFile(fo.getName());
       ZipRamFileSystem fr = new ZipRamFileSystem(fo.getName(), new ByteArrayInputStream(data));
+      fr.setReadOnly(true);
       loadPlugin(wikiWeb, fr.getFileObject(""));
     }
     fsObjects = fs.listFiles("", new BooleanListRulesFactory<String>().createMatcher("+*,-.*"), 'D', false);
@@ -361,7 +364,9 @@ public class GWikiPluginRepository
   {
     clear();
     if (storePluginLocation == null) {
+      // TODO may not related to path, but to parent id.
       storePluginLocation = new SubFileSystem(wikiWeb.getDaoContext().getStorage().getFileSystem(), "admin/plugins");
+      storePluginLocation.setReadOnly(true);
     }
     if (pluginLocations == null) {
       pluginLocations = new ArrayList<FileSystem>();

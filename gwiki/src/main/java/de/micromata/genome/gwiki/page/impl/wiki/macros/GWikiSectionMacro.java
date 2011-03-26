@@ -17,11 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -31,16 +31,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiSectionMacro extends GWikiMacroBean implements GWikiBodyEvalMacro
+public class GWikiSectionMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = 6117613653608893766L;
-
-  private boolean border = false;
-
-  private String styleClass;
-
-  private String style;
 
   public GWikiSectionMacro()
   {
@@ -56,19 +50,13 @@ public class GWikiSectionMacro extends GWikiMacroBean implements GWikiBodyEvalMa
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    if (StringUtils.isEmpty(styleClass) == true && StringUtils.isNotEmpty(attrs.getArgs().getStringValue("class")) == true) {
-      styleClass = attrs.getArgs().getStringValue("class");
+    ctx.append("<table");
+    Map<String, String> params = new HashMap<String, String>();
+    params.putAll(attrs.getArgs().getMap());
+    if (params.containsKey("width") == false) {
+      params.put("width", "100%");
     }
-    ctx.append("<table width=\"100%\"");
-    if (border == true) {
-      ctx.append(" border=\"1\"");
-    }
-    if (StringUtils.isNotEmpty(styleClass) == true) {
-      ctx.append(" class=\"").append(styleClass).append("\"");
-    }
-    if (StringUtils.isNotEmpty(style) == true) {
-      ctx.append(" style=\"").append(style).append("\"");
-    }
+    renderAttributes(ctx, params);
     ctx.append("><tr>");
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
@@ -77,23 +65,4 @@ public class GWikiSectionMacro extends GWikiMacroBean implements GWikiBodyEvalMa
     return false;
   }
 
-  public boolean isBorder()
-  {
-    return border;
-  }
-
-  public void setBorder(boolean border)
-  {
-    this.border = border;
-  }
-
-  public String getStyleClass()
-  {
-    return styleClass;
-  }
-
-  public void setStyleClass(String styleClass)
-  {
-    this.styleClass = styleClass;
-  }
 }

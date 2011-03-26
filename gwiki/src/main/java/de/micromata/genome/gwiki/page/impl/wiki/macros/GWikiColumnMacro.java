@@ -17,11 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -31,16 +30,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiColumnMacro extends GWikiMacroBean implements GWikiBodyEvalMacro
+public class GWikiColumnMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = 8874624229089176168L;
-
-  private String width;
-
-  private String styleClass;
-
-  private String style;
 
   public GWikiColumnMacro()
   {
@@ -56,55 +49,17 @@ public class GWikiColumnMacro extends GWikiMacroBean implements GWikiBodyEvalMac
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    if (StringUtils.isEmpty(styleClass) == true && StringUtils.isNotEmpty(attrs.getArgs().getStringValue("class")) == true) {
-      styleClass = attrs.getArgs().getStringValue("class");
-    }
     ctx.append("<td");
-    if (StringUtils.isNotEmpty(width) == true) {
-      ctx.append(" width=\"").append(width).append("\"");
+    for (String k : attrs.getArgs().getMap().keySet()) {
+      ctx.append(" ").append(k).append("=\"").append(StringEscapeUtils.escapeXml(attrs.getArgs().getStringValue(k))).append("\"");
     }
-    if (StringUtils.isNotEmpty(styleClass) == true) {
-      ctx.append(" class=\"").append(styleClass).append("\"");
-    }
-    if (StringUtils.isNotEmpty(style) == true) {
-      ctx.append(" style=\"").append(style).append("\"");
-    }
+
     ctx.append(">\n");
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
     }
     ctx.append("\n</td>");
     return true;
-  }
-
-  public String getWidth()
-  {
-    return width;
-  }
-
-  public void setWidth(String width)
-  {
-    this.width = width;
-  }
-
-  public String getStyleClass()
-  {
-    return styleClass;
-  }
-
-  public void setStyleClass(String styleClass)
-  {
-    this.styleClass = styleClass;
-  }
-
-  public String getStyle()
-  {
-    return style;
-  }
-
-  public void setStyle(String style)
-  {
-    this.style = style;
   }
 
 }
