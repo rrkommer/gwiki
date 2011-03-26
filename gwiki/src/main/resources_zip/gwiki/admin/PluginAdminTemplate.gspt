@@ -6,7 +6,7 @@
 <% def form = pageContext.request.getAttribute("form"); %>
 <c:forEach var="map" items="${form.pluginMap}">
     <h2><c:out value="${map.key}"/></h2>
-    <table width="100%" border="0px" <style>.plug:hover{background-color:#CCD9D9} .plug{text-align:center}</style>
+    <table width="100%" border="0px" style=".plug:hover{background-color:#CCD9D9} .plug{text-align:center}"/>
     <tr>
     <th></th>
     <th><fmt:message key="gwiki.page.admin.PluginAdmin.table.name"/></th>
@@ -40,7 +40,12 @@
         </c:otherwise>
       </c:choose>   
   </td>
-  <td width="50%" style="text-align:left"><c:out value="${plugin.descriptor.description}"/></td>
+  <td width="50%" style="text-align:left">
+  	<c:out value="${plugin.descriptor.description}"/>
+  	<c:if test="${plugin.descriptor.descriptionPath != null}">
+			<gwiki:macro name="fancybox" args="href=${plugin.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
+		</c:if>
+  </td>
   <td width="10%"><c:out value="${plugin.descriptor.author}"/></td>
   <td width="10%">
   <form method="post">
@@ -59,6 +64,7 @@
    </tr>
    </c:forEach>
    </table>
+   
    <hr/>
    </c:forEach>
 <% wikiContext.skinInclude('standardfoot'); %>
