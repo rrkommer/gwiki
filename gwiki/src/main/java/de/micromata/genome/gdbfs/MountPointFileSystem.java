@@ -48,6 +48,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
   {
     this.parentFileSystem = parentFileSystem;
     this.path = path;
+    setReadOnly(parentFileSystem.isReadOnly());
   }
 
   protected abstract String getFqName(String name);
