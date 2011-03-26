@@ -7,6 +7,7 @@
 		<property name="version" value="1.0.0" />
 		<property name="description" value="Plugin to create a slide show in GWiki" />
 		<property name="author" value="Roger Kommer"/>
+		<property name="license" value="Apache License, Version 2.0"/>
 		<property name="category" value="Wiki Extension"/>
 		<property name="macros">
 			<map>
