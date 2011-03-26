@@ -36,6 +36,24 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>macro</name>
+		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiMacroTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>Invokes a GWiki macro</description>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Name of the macro</description>
+		</attribute>
+		<attribute>
+			<name>args</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>Arguments to the macro in pipe value list</description>
+		</attribute>
+	</tag>
+	<tag>
 		<name>url</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiUrlTag</tag-class>
 		<body-content>JSP</body-content>
@@ -210,15 +228,19 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<!-- <attribute> <name>bundle</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
-			</attribute> -->
+		<!--
+			<attribute> <name>bundle</name> <required>false</required>
+			<rtexprvalue>true</rtexprvalue> </attribute>
+		-->
 		<attribute>
 			<name>disabled</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
-		<!-- <attribute> <name>indexed</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
-			</attribute> -->
+		<!--
+			<attribute> <name>indexed</name> <required>false</required>
+			<rtexprvalue>true</rtexprvalue> </attribute>
+		-->
 		<attribute>
 			<name>name</name>
 			<required>false</required>
@@ -334,9 +356,12 @@
 		<name>optionsCollection</name>
 		<tag-class>de.micromata.genome.gwiki.web.tags.GWikiHtmlOptionsCollectionTag</tag-class>
 		<body-content>empty</body-content>
-		<!-- <attribute> <name>filter</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
-			</attribute> <attribute> <name>label</name> <required>false</required> <rtexprvalue>true</rtexprvalue> 
-			</attribute> -->
+		<!--
+			<attribute> <name>filter</name> <required>false</required>
+			<rtexprvalue>true</rtexprvalue> </attribute> <attribute>
+			<name>label</name> <required>false</required>
+			<rtexprvalue>true</rtexprvalue> </attribute>
+		-->
 		<attribute>
 			<name>name</name>
 			<required>false</required>
