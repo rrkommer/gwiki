@@ -65,7 +65,9 @@ public class GWikiUserProfileActionBean extends GWikiEditPageActionBean
     if (initUser() == false) {
       return null;
     }
-
+    
+    wikiContext.getRequiredJs().add("/static/js/jquery.fieldset-collapsible.js");
+    
     Object ret = super.onInit();
     if (wikiContext.isAllowTo(GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
       super.getEditors().remove("Settings");
