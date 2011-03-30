@@ -203,3 +203,26 @@ code,.preformatted {
 .gwikiNavMenu li {
     display: inline;
 }
+
+#gwikiTopNav {
+	position:absolute; 
+	top:0px; 
+	height:40px; 
+	width:100%; 
+	background-color:#F0F5F7; 
+	margin-left:-5px; 
+	border-top: 1px solid #555;
+	border-bottom: 1px solid #555;
+}
+
+#gwikiSearchBar {
+	position: absolute;
+	top: 9px;
+	right: 10px;	
+}
+
+.gwikiSearchBox {
+	border: 1px solid #D9DFE1;
+}	
+
+
