@@ -48,6 +48,8 @@ body,p,td,table,tr,.bodytext,.stepfield {
 }
 
 body {
+    margin: 0;
+    padding: 5px;
 }
 
 body,td,th {
@@ -191,4 +193,13 @@ code,.preformatted {
 
 .gwikiIcon_save {
 	background-position: -480px -20px;
+}
+
+.gwikiNavMenu {
+    list-style-type: none;
+    padding-left: 5px;
+}
+
+.gwikiNavMenu li {
+    display: inline;
 }

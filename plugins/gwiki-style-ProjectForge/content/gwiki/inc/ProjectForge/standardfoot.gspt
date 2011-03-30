@@ -13,4 +13,4 @@ ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFi
 	</tr>
 </table> 
 
-<@include file="inc/naked/footer.gspt"@>
+<@include file="inc/ProjectForge/footer.gspt"@>
