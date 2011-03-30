@@ -1,45 +1,75 @@
-<@include file="inc/naked/head.gspt"@>
-<% boolean wikiWithMainTopicNavNavigation = true; %>
+<@include file="inc/ProjectForge/head.gspt"@>
+<% boolean wikiWithMainTopicNavNavigation = false; %>
 <% boolean wikiWithNavNavigation = true; %>
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr><td width="200px" rowspan="2" valign="top">
-<@include file="inc/navMenu" @>
-</td><td valign="top">
-<div id="header">
-<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td width="100%" valign="top">
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-<tr><td>
-<@include file="inc/headMenu.gspt" @>
-</td>
-</tr>
-<tr><td>
-<hr/>
-<small><%
-	 de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiBreadcrumbsMacroBean.doRender(wikiContext);
-%></small>
-</td>
-</tr>
-</table>
-</td><td align="right" valign="top">
-<table border="0" cellpadding="0" cellspacing="0"><tr><td nowrap="nowrap">
-<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
-	<fieldset>
-	<legend>Schnellsuche</legend>
-	<input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
-	</fieldset>
-</form>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
+
+<script type="text/javascript">
+  \$(document).ready(function(){
+  	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+   
+ });
+</script>
+
+<div style="position:absolute; top:0px; height:40px; width:100%">
+	<div style="position:absolute; left:0px">
+
+
+<%
+	String welcome = wikiContext.getRequestAttribute('welcomePageId');
+	el = wikiContext.getWikiWeb().findElementInfo(welcome);
+	indexEl = el;
+	url = wikiContext.localUrl("/" + (el != null ? el.getId() : ""));
+	%>
+<ul class="gwikiNavMenu">
+<%if (indexEl != null && indexEl.getId().equals(wikiPage.getElementInfo().getId()) == false) { %>
+<li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
+<%}
+	el = wikiPage.getElementInfo();
+
+	List idList = new ArrayList();
+	while (el != null) {
+		String parentId = el.getParentId();
+		if (parentId == null) { 
+			break;
+		}
+		if (parentId.equals(welcome) == true)
+			break;
+		el = wikiContext.getWikiWeb().findElementInfo(parentId);
+		if (el == null)
+			break;
+		if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, el) == false)
+			continue;
+		if (el.isNoToc() == true) {
+			continue;
+		}
+		idList.add(el);
+		
+	}
+	idList = idList.reverse();
+	for (pi in idList) {
+			url = wikiContext.localUrl("/" + pi.getId());
+			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
+<% 
+	}
+%>
+	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
+	</ul>
+
+
+
+
+
+
+	</div>
+
+	<div style="position:absolute; right:0px">
+		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
+			Suche: <input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
+		</form>
+	</div>
 </div>
 
-<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
-
-</td></tr>
-<tr><td valign="top">
-<div class="wiki-content" style="margin-right: 10px;">
+<div style="margin-top: 40px">
+	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+	<div class="wiki-content" style="margin-right: 10px;">
 
 
