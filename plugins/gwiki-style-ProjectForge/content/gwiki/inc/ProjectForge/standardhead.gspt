@@ -9,8 +9,17 @@
  });
 </script>
 
-<div style="position:absolute; top:0px; height:40px; width:100%; background-color:#F0F5F7; margin-left:-5px; border: 1px solid #555">
-	<div style="float:left">
+<style type="text/css">
+#gwikiBreadcrumb ul li{
+	float:left;
+	background-image: url('<%=wikiContext.getRequest().getContextPath()%>/images/embats-arrow-right.png');
+	background-repeat: no-repeat;
+	padding-left: 15px;	
+}
+</style>
+
+<div id="gwikiTopNav">
+	<div id="gwikiBreadcrumb">
 
 
 <%
@@ -61,7 +70,7 @@
 
 	</div>
 
-	<div style="float:right; padding-top: 7px">
+	<div id="gwikiSearchBar">
 		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
 			Suche: <input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
 		</form>
