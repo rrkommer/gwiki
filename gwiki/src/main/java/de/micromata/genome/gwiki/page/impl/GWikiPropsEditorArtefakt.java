@@ -392,7 +392,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         }
       }
       ctx.append("><legend class=\"ui-state-default ui-corner-top ui-tabs-selected ui-state-active\">")//
-          .append(ctx.getTranslatedProp(p.getFirst().getTitle())).append("</legend><p>");
+          .append(ctx.getTranslatedProp(p.getFirst().getTitle())).append("</legend><div>");
       for (GWikiPropsDescriptorValue d : p.getSecond()) {
         PropsEditContext pctx = createPropContext(ctx, d);
         if (pctx.isDisplayable() == false) {
@@ -418,7 +418,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         //     
 
       }
-      ctx.append("</p></fieldset>\n");
+      ctx.append("</div></fieldset>\n");
     }
     if (ctx.getRequestAttribute("propseditartefakt_collrendered") != Boolean.TRUE) {
       ctx.append("<script type=\"text/javascript\">") //
