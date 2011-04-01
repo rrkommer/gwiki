@@ -9,65 +9,9 @@
  });
 </script>
 
-<style type="text/css">
-#gwikiBreadcrumb ul li{
-	float:left;
-	background-image: url('<%=wikiContext.getRequest().getContextPath()%>/images/embats-arrow-right.png');
-	background-repeat: no-repeat;
-	padding-left: 15px;	
-}
-</style>
-
 <div id="gwikiTopNav">
 	<div id="gwikiBreadcrumb">
-
-
-<%
-	String welcome = wikiContext.getRequestAttribute('welcomePageId');
-	el = wikiContext.getWikiWeb().findElementInfo(welcome);
-	indexEl = el;
-	url = wikiContext.localUrl("/" + (el != null ? el.getId() : ""));
-	%>
-<ul class="gwikiNavMenu">
-<%if (indexEl != null && indexEl.getId().equals(wikiPage.getElementInfo().getId()) == false) { %>
-<li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
-<%}
-	el = wikiPage.getElementInfo();
-
-	List idList = new ArrayList();
-	while (el != null) {
-		String parentId = el.getParentId();
-		if (parentId == null) { 
-			break;
-		}
-		if (parentId.equals(welcome) == true)
-			break;
-		el = wikiContext.getWikiWeb().findElementInfo(parentId);
-		if (el == null)
-			break;
-		if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, el) == false)
-			continue;
-		if (el.isNoToc() == true) {
-			continue;
-		}
-		idList.add(el);
-		
-	}
-	idList = idList.reverse();
-	for (pi in idList) {
-			url = wikiContext.localUrl("/" + pi.getId());
-			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
-<% 
-	}
-%>
-	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
-	</ul>
-
-
-
-
-
-
+		<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
 	</div>
 
 	<div id="gwikiSearchBar">
