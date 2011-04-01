@@ -1,5 +1,4 @@
 <!-- headMenu.gspt START -->
-<%-- wird bei gwiki skin nicht gezogen --%> 
 <ul id="menuone" class="menu" style="text-align: right">
 	<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">  
 		<% if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>

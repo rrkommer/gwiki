@@ -27,6 +27,20 @@
 	padding-left: 7px;
 }
 
+body {
+	font-size: 62.5%; /* reset body basesize to 10px */
+}
+
+body * {
+	font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode",
+		"Lucida", Verdana, "Bitstream Vera Sans", sans-serif;
+}
+
+body pre {
+	font-family: Monaco, 'Lucida Console', 'Andale Mono', 'Courier New',
+		Courier, monospace;
+}
+
 body h1,body .wiki-content h1 {
 	color: #333333;
 	font-size: 22px;
@@ -48,13 +62,8 @@ body,p,td,table,tr,.bodytext,.stepfield {
 }
 
 body {
-    margin: 0;
-    padding: 5px;
-}
-
-body,td,th {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	margin: 0;
+	padding: 5px;
 }
 
 body,p,td,table,tr,.bodytext,.stepfield {
@@ -70,12 +79,6 @@ body,p,td,table,tr,.bodytext,.stepfield {
 
 cinput.blank-search,.quick-search .placeholded {
 	color: #666666;
-}
-
-input {
-	color: #000000;
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 10pt;
 }
 
 element.style {
@@ -116,21 +119,22 @@ element.style {
 	border-top-width: 1px;
 }
 
-.codeHeader, .panelHeader, .panelContent {
--moz-background-clip:border;
--moz-background-inline-policy:continuous;
--moz-background-origin:padding;
-background:#F0F0F0 none repeat scroll 0 0;
+.codeHeader,.panelHeader,.panelContent {
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: #F0F0F0 none repeat scroll 0 0;
 }
 
 .panel {
-	border-style:solid;
-	color:black;
+	border-style: solid;
+	color: black;
 }
+
 .panelContent {
-	background-color:#F0F0F0;
-	padding:5px;
-		font-size: 0.95em;
+	background-color: #F0F0F0;
+	padding: 5px;
+	font-size: 0.95em;
 	margin: 0;
 	padding: 0 12px;
 	text-align: left;
@@ -157,16 +161,18 @@ code,.preformatted {
 	background-color: #FFFFFF;
 }
 
-
 .java_type {
-		color:blue;
+	color: blue;
 }
+
 .java_keyword {
-		color:red;
+	color: red;
 }
+
 .java_plain {
-		color:black;
+	color: black;
 }
+
 .gwikiToolbarIcon {
 	display: block;
 	height: 20px;
@@ -175,8 +181,8 @@ code,.preformatted {
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
 	background: transparent
-		url(../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat scroll
-		20px 20px;
+		url(../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
+		scroll 20px 20px;
 }
 
 .gwikiIcon_help {
@@ -196,21 +202,21 @@ code,.preformatted {
 }
 
 .gwikiNavMenu {
-    list-style-type: none;
-    padding-left: 5px;
+	list-style-type: none;
+	padding-left: 5px;
 }
 
 .gwikiNavMenu li {
-    display: inline;
+	display: inline;
 }
 
 #gwikiTopNav {
-	position:absolute; 
-	top:0px; 
-	height:40px; 
-	width:100%; 
-	background-color:#F0F5F7; 
-	margin-left:-5px; 
+	position: absolute;
+	top: 0px;
+	height: 40px;
+	width: 100%;
+	background-color: #F0F5F7;
+	margin-left: -5px;
 	border-top: 1px solid #555;
 	border-bottom: 1px solid #555;
 }
@@ -218,11 +224,29 @@ code,.preformatted {
 #gwikiSearchBar {
 	position: absolute;
 	top: 9px;
-	right: 10px;	
+	right: 10px;
 }
 
 .gwikiSearchBox {
 	border: 1px solid #D9DFE1;
-}	
+}
 
+#gwikiBreadcrumb ul {
+	list-style-type: none;
+}
 
+#gwikiBreadcrumb ul li {
+	float: left;
+	/* TODO fix static root */
+	background-image: url('/ProjectForge/images/embats-arrow-right.png');
+	background-repeat: no-repeat;
+	padding-left: 15px;
+}
+
+#gwikiBreadcrumb ul li:first-child {
+	background-image: none !important;
+}
+
+.menu {
+	cursor: pointer;
+}
