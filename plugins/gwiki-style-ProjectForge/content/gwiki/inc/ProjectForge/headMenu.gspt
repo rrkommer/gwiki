@@ -43,16 +43,7 @@
 		<li class="menumain"><fmt:message key="gwiki.page.headmenu.Admin"/>
 			<ul>
 				<li><gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
-				<li><gwiki:link pageId="edit/ListUsers" /></li>
-				<li><gwiki:link pageId="edit/PageImporter" /></li>
-				<li><gwiki:link pageId="edit/ViewAllPages" urlParams="?withExport=true" title="Seiten Exportieren"/></li>
-				<li><gwiki:link pageId="edit/DeletedPages"/></li>
-				<li><gwiki:link pageId="edit/GenDoc" urlParams="?rootPageId=${wikiPage.elementInfo.id}"/></li>
 				<li><gwiki:link pageId="admin/EditWikiConfig" title="Wiki Configuration"/></li>
-			
-				<gwiki:authorize ifHasAny="GWIKI_FSWEBDAV">
-					<li><a target="_blank" href="<gwiki:url value="/dav/"/>">WEB-DAV-Zugang</a></li>
-				</gwiki:authorize>
 			</ul>  
 		</li>
 	</gwiki:authorize>
