@@ -52,7 +52,7 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
   private void setParentForElement(final GWikiContext ctx, final GWikiElementInfo ei, final ArrayList<String> breadcrumbs) {
     final String parentId = ei.getParentId();
     
-    if (parentId != null) {
+    if (parentId != null && ctx.getWikiWeb().findElement(parentId) != null) {
       final GWikiElementInfo elementInfo = ctx.getWikiWeb().findElement(parentId).getElementInfo();
       if (elementInfo != null && elementInfo.isViewable() && elementInfo.isIndexed()) {
         breadcrumbs.add(elementInfo.getId());
