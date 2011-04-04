@@ -250,3 +250,7 @@ code,.preformatted {
 .menu {
 	cursor: pointer;
 }
+
+.gwikiMenuIcon {
+	float: left;
+}
