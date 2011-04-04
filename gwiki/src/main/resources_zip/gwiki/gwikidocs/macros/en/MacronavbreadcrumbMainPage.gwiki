@@ -1,0 +1,15 @@
+{pageintro}
+The Macro {{navbreadcrumb}} renders a unordered list of all parent elements of the current element.
+{pageintro}
+
+List contains all parent elements (top -> down). As example for the current page:
+
+{navbreadcrumb}
+
+To achieve a different css view of the first element, use the css selector: 
+{code}
+ul li:first-child
+{code}
+
+
+*Note:* Unlike the navigation on the left side, just parents are rendered to the list.
