@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.micromata.genome.gwiki</groupId>
+	<artifactId>gwiki-style-ProjectForge-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildPlugin</id>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<property name="ziptarget" value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+								<mkdir dir="target" />
+								<delete file="target/${project.artifactId}-${project.version}.zip" />
+								<zip zipfile="target/${project.artifactId}-${project.version}.zip">
+									<fileset dir="target" includes="classes/**" />
+									<fileset dir="" includes="content/**" />
+									<fileset dir="" includes="gwikiplugin.xml" />
+								</zip>
+								<copy file="target/${project.artifactId}-${project.version}.zip" overwrite="true" todir="${ziptarget}"/>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>de.micromata.genome.gwiki</groupId>
+			<artifactId>gwiki</artifactId>
+			<version>0.4.2-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>labs.micromata.de-releases</id>
+			<url>https://labs.micromata.de/nexus/content/repositories/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>labs.micromata.de-snapshots</id>
+			<url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+</project>

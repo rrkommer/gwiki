@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="gwiki.style.ProjectForge.example">
+    <property name="plugintarget" value="target" />
+    <property name="gwikistyleProjectForgeexampleversion" value="gwiki-style-ProjectForge-example-1.0.0" />
+
+
+    <target name="gwiki.style.ProjectForge.example">
+        <mkdir dir="${plugintarget}" />
+        <delete file="${plugintarget}/${gwikistyleProjectForgeexampleversion}.zip" />
+        <zip zipfile="${plugintarget}/${gwikistyleProjectForgeexampleversion}.zip">
+            <fileset dir="target" includes="classes/**" />
+            <fileset dir="" includes="content/**" />
+            <fileset dir="" includes="gwikiplugin.xml" />
+        </zip>
+    </target>
+    
+</project>
