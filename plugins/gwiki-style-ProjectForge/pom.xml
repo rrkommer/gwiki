@@ -18,13 +18,13 @@
 							<tasks>
 								<property name="ziptarget" value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
 								<mkdir dir="target" />
-								<delete file="target/${pom.artifactId}-${project.version}.zip" />
-								<zip zipfile="target/${pom.artifactId}-${project.version}.zip">
+								<delete file="target/${project.artifactId}-${project.version}.zip" />
+								<zip zipfile="target/${project.artifactId}-${project.version}.zip">
 									<fileset dir="target" includes="classes/**" />
 									<fileset dir="" includes="content/**" />
 									<fileset dir="" includes="gwikiplugin.xml" />
 								</zip>
-								<copy file="target/${pom.artifactId}-${project.version}.zip" overwrite="true" todir="${ziptarget}"/>
+								<copy file="target/${project.artifactId}-${project.version}.zip" overwrite="true" todir="${ziptarget}"/>
 							</tasks>
 						</configuration>
 						<goals>
