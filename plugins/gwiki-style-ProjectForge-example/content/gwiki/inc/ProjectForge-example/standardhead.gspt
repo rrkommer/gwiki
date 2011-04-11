@@ -26,7 +26,11 @@
 		<@include file="inc/ProjectForge/headMenu.gspt" @>
 	</div>
 	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
-	<div class="wiki-content">
+	<div id="content-nav" style="float: left; width: 20%; text-align:center">
 		<img src="<gwiki:url value='/inc/ProjectForge-example/img/defaultlogo.png'/>"/>
+	</div>
+	<div class="wiki-content" style="float: left; width:75%; min-height:200px">
+		
+
 
 
