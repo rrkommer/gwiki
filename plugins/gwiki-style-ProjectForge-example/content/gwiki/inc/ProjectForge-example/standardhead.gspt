@@ -1,0 +1,32 @@
+<@include file="inc/ProjectForge/head.gspt"@>
+<% boolean wikiWithMainTopicNavNavigation = false; %>
+<% boolean wikiWithNavNavigation = true; %>
+
+<script type="text/javascript">
+  \$(document).ready(function(){
+  	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+   
+ });
+</script>
+
+<div id="gwikiTopNav">
+	<div id="gwikiBreadcrumb">
+		<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
+	</div>
+
+	<div id="gwikiSearchBar">
+		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST">
+			Suche: <input id="quick-search-query" class="gwikiSearchBox" type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="quick-search-submit" type="submit" value="Suchen" name="method_onSearch"/>
+		</form>
+	</div>
+</div>
+
+<div style="margin-top: 40px">
+	<div style="position:absolute; right:5px">
+		<@include file="inc/ProjectForge/headMenu.gspt" @>
+	</div>
+	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
+	<div class="wiki-content">
+		<img src="<gwiki:url value='/inc/ProjectForge-example/img/defaultlogo.png'/>"/>
+
+
