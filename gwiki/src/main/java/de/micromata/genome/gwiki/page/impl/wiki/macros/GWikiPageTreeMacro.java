@@ -59,17 +59,22 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
     if (StringUtils.isNotBlank(height)) {
       ctx.append("height: " + height + "; ");
     }
+    
+    final String path = ctx.getServlet().getServletContext().getContextPath() + ctx.getRequest().getServletPath();
 
     ctx.append("'></div>");
 
     ctx.append("<script type='text/javascript'>");
+    ctx.append("$.jstree._themes = '" + path + "/static/js/jstree/themes/';");
     ctx.append("$(function () {");
     ctx.append("  $(\"#filechooser\").jstree({");
     ctx.append("    \"themes\" : { \"theme\" : \"classic\", \"dots\" : true, \"icons\" : true },");
     ctx.append("    \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],");
     ctx.append("    \"html_data\" : {\n");
     ctx.append("      \"ajax\" : {");
-    ctx.append("        \"url\" : \"/edit/TreeChildren\",\n");
+    ctx.append("        \"url\" : ");
+    ctx.append("\"").append(path);
+    ctx.append("/edit/TreeChildren\",\n");
     ctx.append("        \"data\" : function(n) {   return { \"method_onLoadAsync\" : \"true\", "
         + "\"id\" : n.attr ? n.attr(\"id\") : \""
         + getRootPage(ctx)
