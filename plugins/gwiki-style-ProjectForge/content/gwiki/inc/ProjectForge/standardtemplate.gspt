@@ -1,6 +1,6 @@
 
-<@include file="inc/ProjectForge/standardhead.gspt"@>
+<% wikiContext.skinInclude('standardhead'); %>
 <%
 	MainPage.render(wikiContext);
 %>
-<@include file="inc/ProjectForge/standardfoot.gspt"@>
+<% wikiContext.skinInclude('standardfoot'); %>
