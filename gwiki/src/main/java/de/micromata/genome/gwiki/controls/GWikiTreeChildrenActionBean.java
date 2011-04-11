@@ -73,7 +73,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
         sb.append("<li ");
       }
 
-      sb.append("id='").append(wikiContext.localUrl(ei.getId())).append("'>");
+      sb.append("id='").append(ei.getId()).append("'>");
       sb.append("<a onclick=\"");
 
       if (StringUtils.isEmpty(openTarget)) {
@@ -85,7 +85,10 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
           sb.append("$('#" + titleField + "').val('" + ei.getTitle() + "');");
         }
       } else if (StringUtils.equals(openTarget, "true")) {
-        String targetLink = wikiContext.getRequest().getContextPath() + "/" + ei.getId();
+        String targetLink = wikiContext.getRequest().getContextPath()
+            + wikiContext.getRequest().getServletPath()
+            + "/" 
+            + ei.getId();
         sb.append("javascript:window.location.href='").append(targetLink).append("'");
       }
 
