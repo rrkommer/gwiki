@@ -75,8 +75,13 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
     }
     
     final ArrayList<String> breadcrumbs = new ArrayList<String>();
-    breadcrumbs.add(elementInfo.getId());
-    setParentForElement(ctx, elementInfo, breadcrumbs);
+    
+    if (elementInfo.isIndexed()) {
+      breadcrumbs.add(elementInfo.getId());
+      setParentForElement(ctx, elementInfo, breadcrumbs);
+    } else {
+      breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+    }
     
     ctx.append("<ul>");
     
