@@ -45,6 +45,7 @@
 				<li><gwiki:link pageId="admin/WikiControl" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
 				<li><gwiki:link pageId="admin/EditWikiConfig" title="Wiki Configuration"/></li>
 				<li><gwiki:link pageId="admin/PluginAdmin" title="Plugin Admin"/></li>
+				<li><gwiki:link pageId="admin/plugins/Index" title="Installed Plugin Index"/></li>
 			</ul>  
 		</li>
 	</gwiki:authorize>

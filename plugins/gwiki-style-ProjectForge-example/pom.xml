@@ -16,7 +16,9 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<property name="ziptarget" value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+								<!-- uncomment this to copy the resource to gwiki path 
+                                <property name="ziptarget" value="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+                                -->
 								<mkdir dir="target" />
 								<delete file="target/${project.artifactId}-${project.version}.zip" />
 								<zip zipfile="target/${project.artifactId}-${project.version}.zip">
@@ -24,7 +26,9 @@
 									<fileset dir="" includes="content/**" />
 									<fileset dir="" includes="gwikiplugin.xml" />
 								</zip>
+                                <!-- uncomment this to copy the resource to gwiki path
 								<copy file="target/${project.artifactId}-${project.version}.zip" overwrite="true" todir="${ziptarget}"/>
+                                -->
 							</tasks>
 						</configuration>
 						<goals>
