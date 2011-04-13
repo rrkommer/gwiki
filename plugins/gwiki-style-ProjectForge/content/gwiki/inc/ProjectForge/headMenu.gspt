@@ -25,18 +25,9 @@
 		</li>  
 	</gwiki:authorize>
 
-	<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">
-		<li class="menumain"><%= esc(wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext)) %>
-			<ul>
-				<gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
-					<li>
-						<a href="<gwiki:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
-					</li>
-				</gwiki:authorize>
-				<% if (de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization.isOwnUser(wikiContext) == true) { %>
-					<li><gwiki:link pageId="edit/UserProfile" urlParams="?backUrl=${wikiPage.elementInfo.id}" title="Profil" /></li>
-				<% } %>
-			</ul>  
+	<gwiki:authorize ifHasAny="GWIKI_CREATEPAGES">
+		<li class="menumain">
+			<a href="<gwiki:url value="/home"/>/<%= wikiContext.wikiWeb.authorization.getCurrentUserName(wikiContext) %>/index"><fmt:message key="gwiki.page.headmenu.privatespace.label"/></a>
 		</li>  
 	</gwiki:authorize>
 	<gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN">
@@ -50,7 +41,8 @@
 		</li>
 	</gwiki:authorize>
 	
-	<% String helpPageId = new de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro().getLink(wikiContext);
+	<% //String helpPageId = new de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro().getLink(wikiContext);
+		String helpPageId = "help/WikiSyntax";
        	  if (helpPageId != null) {
        		  //pageContext.setAttribute("helpPageId", helpPageId);
     %>
