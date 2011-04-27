@@ -14,3 +14,5 @@ renders a JavaScript tree of all children pages sorted by title.
 - height: Optional. Set the height of the container. Useful if it's embedded in a dialog.
 {td}{tr}
 {table}
+
+{pagetree}
