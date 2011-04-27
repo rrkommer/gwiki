@@ -58,11 +58,14 @@ function gwikiCreateTiny(partName, content) {
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,filemanager",
 				// plugins :
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-				plugins : "-gwiki,advhr,pagebreak,style,layer,table,searchreplace,print,contextmenu,noneditable,paste,iespell,inlinepopups,xhtmlxtras,emotions,spellchecker",
+				plugins : "-gwiki,-gwikiEditorLevel,advhr,pagebreak,style,layer,table,searchreplace,print,contextmenu,noneditable,paste,iespell,inlinepopups,xhtmlxtras,emotions,spellchecker",
 				// Theme options
-				theme_advanced_buttons1 : "undo,redo,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,wikilink,unlink,wikiimage,anchor,|,bullist,numlist,outdent,indent,|,hr,visualchars,charmap,|,removeformat,iespell,cleanup,code,help,", // image,
-				theme_advanced_buttons2 : "bold,italic,underline,del,sub,sup,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,	blockquote,justifyleft,justifycenter,justifyright,justifyfull,nonbreaking", // strikethrough
-				theme_advanced_buttons3 : "tablecontrols,|,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,spellchecker,", // ,|,cite,ins,,abbr,acronym
+//				theme_advanced_buttons1 : "undo,redo,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,wikilink,unlink,wikiimage,anchor,|,bullist,numlist,outdent,indent,|,hr,visualchars,charmap,|,removeformat,iespell,cleanup,code,help,", // image,
+//				theme_advanced_buttons2 : "bold,italic,underline,del,sub,sup,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,	blockquote,justifyleft,justifycenter,justifyright,justifyfull,nonbreaking", // strikethrough
+//				theme_advanced_buttons3 : "tablecontrols,|,insertlayer,moveforward,movebackward,absolute,|,styleprops,|,spellchecker,", // ,|,cite,ins,,abbr,acronym
+				theme_advanced_buttons1 : "advancedButton,bold,italic,underline,|,bullist,numlist,|,wikichoosenlink,link,unlink,|,undo,redo,|,cut,copy,paste,|,iespell,spellchecker,help",
+		        theme_advanced_buttons2 : "expertButton,pastetext,pasteword,|,search,replace,|,wikilink,wikiimage,anchor,|,outdent,indent,|,hr,visualchars,|,sub,sup,",
+		        theme_advanced_buttons3 : "cleanup,code,del,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,blockquote,justifyleft,justifycenter,justifyright,justifyfull,nonbreaking,|,removeformat,charmap",
 				spellchecker_rpc_url    : "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
 				// theme_advanced_buttons4 : "",
 				// //spellchecker,cite,abbr,acronym,del,ins,attribs,
@@ -347,7 +350,8 @@ function gwikiCreateTiny(partName, content) {
 							htmlIsNotDirty = false;
 							gwikiSetContentChanged();
 						});
-				}
+				},
+				setupcontent_callback : "hideToolbars"
 			});
 	ed = tinyMCE.get('gwikihtmledit' + partName);
 	if (!ed) {
@@ -364,6 +368,27 @@ function gwikiCreateTiny(partName, content) {
 	window.setTimeout("gwikiFitTiny('" + partName + "')", 50);
 	
 }
+
+// hides advanced and / or expert toolbar if necessary
+function hideToolbars(editorId, body, doc) {
+	var inst = tinyMCE.getInstanceById(editorId);
+	var data = document.cookie.split(';');
+	
+	for (i in data) {
+		if (data[i].trim().startsWith("EDITOR_LEVEL")) {
+			if (data[i].trim().split('=')[1].trim() == '1') {
+				if ($('#' + editorId + '_toolbar3')) {
+					$('#' + editorId + '_toolbar3').hide();
+				}
+			} else if (data[i].trim().split('=')[1].trim() == '0') {
+				if ($('#' + editorId + '_toolbar2') && $('#' + editorId + '_toolbar3')) {
+					$('#' + editorId + '_toolbar2').hide();
+					$('#' + editorId + '_toolbar3').hide();
+				}
+			}
+		}
+	}
+};
 
 function gwikiRestoreFromRte(partName) {
 	var edit = tinyMCE.get('gwikihtmledit' + partName);
