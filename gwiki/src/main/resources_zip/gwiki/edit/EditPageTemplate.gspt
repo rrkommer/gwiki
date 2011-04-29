@@ -18,6 +18,7 @@ gwikiParts.push('<%= me.key %>');
 gwikiCurrentPart = gwikiParts[0];
 
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
+var gwikiServletPath = '<%= wikiContext.request.servletPath %>';
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 var gwikiRteDefault = <c:out value="${form.rteDefaultEditor}"/>;
 <%
