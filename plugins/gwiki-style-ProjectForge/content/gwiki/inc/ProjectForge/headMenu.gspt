@@ -1,19 +1,14 @@
 <!-- headMenu.gspt START -->
 <ul id="menuone" class="menu" style="text-align: right">
-	<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES">  
-		<% if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
-			<li class="menumain"><fmt:message key="gwiki.page.headmenu.page.NewPage"/>
-				<ul>
-					<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
-					<li><gwiki:link pageId="edit/EditPage" title="Wiki Page" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=admin/templates/StandardWikiPageMetaTemplate"/></li>
-					<% } %>
-					<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
-					<li><gwiki:link pageId="edit/EditPage" title="Attachment" urlParams="?newPage=true&parentPageId=${wikiPage.elementInfo.id}&metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"/></li>
-					<% } %>
-				</ul>
-			</li>
-		<% } %>
-		
+	<gwiki:authorize ifHasAny="GWIKI_VIEWPAGES"> 
+		<li class="menumain"><fmt:message key="gwiki.page.headmenu.page.NewPage"/>
+			<ul>
+				<% for (pair in de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.getAvailableTemplates(wikiContext))  {%>
+					<% wikiContext.setRequestAttribute("wktp", pair); %>
+					<li><gwiki:link pageId="edit/EditPage" title="${wktp.first}" urlParams="?newPage=true&amp;parentPageId=${wikiPage.elementInfo.id}&amp;metaTemplatePageId=${wktp.second}"/></li>
+				<% } %>
+			</ul>
+		</li>
         <li class="menumain"><fmt:message key="gwiki.page.headmenu.Page"/>
             <ul>           
 				<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
