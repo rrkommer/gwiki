@@ -379,14 +379,16 @@ function hideToolbars(editorId, body, doc) {
 			if (data[i].trim().split('=')[1].trim() == '1') {
 				if ($('#' + editorId + '_toolbar3')) {
 					$('#' + editorId + '_toolbar3').hide();
+					return;
 				}
-			} else if (data[i].trim().split('=')[1].trim() == '0') {
-				if ($('#' + editorId + '_toolbar2') && $('#' + editorId + '_toolbar3')) {
-					$('#' + editorId + '_toolbar2').hide();
-					$('#' + editorId + '_toolbar3').hide();
-				}
+			} else if (data[i].trim().split('=')[1].trim() == '2') {
+				return;
 			}
 		}
+	}
+	if ($('#' + editorId + '_toolbar2') && $('#' + editorId + '_toolbar3')) {
+		$('#' + editorId + '_toolbar2').hide();
+		$('#' + editorId + '_toolbar3').hide();
 	}
 };
 

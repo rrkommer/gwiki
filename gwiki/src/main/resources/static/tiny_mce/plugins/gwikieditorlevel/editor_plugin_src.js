@@ -5,7 +5,7 @@
                         case 'advancedButton':
                                 var c = cm.createButton('advancedButton', {
                                         title : 'Show advanced button bar',
-                                        image : gwikiContextPath + '/static/tiny_mce/plugins/gwikieditorlevel/img/plus.png',
+                                        image : gwikiContextPath + gwikiServletPath + '/static/tiny_mce/plugins/gwikieditorlevel/img/plus.png',
                                         icons : false,
                                         onclick : function() {
                                         	if ($('#' + tinyMCE.activeEditor.id + '_toolbar2').is(':visible')) {
@@ -24,7 +24,7 @@
                         case 'expertButton':
                             var c = cm.createButton('expertButton', {
                                     title : 'Show expert button bar',
-                                    image : gwikiContextPath + '/static/tiny_mce/plugins/gwikieditorlevel/img/plusplus.png',
+                                    image : gwikiContextPath + gwikiServletPath + '/static/tiny_mce/plugins/gwikieditorlevel/img/plusplus.png',
                                     icons : false,
                                     onclick : function() {
                                     	if ($('#' + tinyMCE.activeEditor.id + '_toolbar3').is(':visible')) {

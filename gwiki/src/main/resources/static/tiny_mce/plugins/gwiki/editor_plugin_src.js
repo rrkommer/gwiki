@@ -40,7 +40,7 @@
 												'wikiimage',
 												{
 													title : 'Image',
-													image : gwikiContextPath + '/static/tiny_mce/plugins/gwiki/img/image.png',
+													image : gwikiContextPath + gwikiServletPath + '/static/tiny_mce/plugins/gwiki/img/image.png',
 													'class' : 'mceIcon mce_image',
 													onclick : function() {
 														tinyMCE.activeEditor.windowManager
