@@ -243,9 +243,19 @@ ul.gwikiNavMenu {
 	font-size: 12pt;
 }
 
-a.gwikiButton:hover {
+a.gwikiButton {
 	color: #000000;
 	background-color: #F1F1F1;
+	padding: 2px 6px 3px;
+	margin: 2px;
+}
+
+a.gwikiButton:hover {
+	color: #8994A0;
+	background-color: #CFD7D9;
+	border-color: #8994A0;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 .gwikiWikiEditorFrame {
