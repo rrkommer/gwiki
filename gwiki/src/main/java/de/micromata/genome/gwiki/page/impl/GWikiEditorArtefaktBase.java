@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefaktBase;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
  * Base implementation for GWikiEditorArtefakt.
@@ -49,6 +50,13 @@ public abstract class GWikiEditorArtefaktBase<T extends Serializable> extends GW
     this.partName = partName;
     this.elementToEdit = elementToEdit;
     this.editBean = editBean;
+  }
+  
+  @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    super.prepareHeader(wikiContext);
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-common-0.1.js");
   }
 
   public String getTabTitle()
