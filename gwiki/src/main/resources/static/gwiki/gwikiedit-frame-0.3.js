@@ -788,7 +788,7 @@ function gwikiEditCancel() {
 }
 
 function gwikiHelp() {
-	var myWindow = open('../gwikidocs/GWikiWikinotation', "wikihelp",
+	var myWindow = open('../gwikidocs/help/de/WikiSyntax', "wikihelp",
 			"dependend=yes,resizable=yes,scrollbars=yes");
 	if (myWindow && myWindow.outerWidth && myWindow.outerHeight) {
 		/*
