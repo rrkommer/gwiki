@@ -364,7 +364,7 @@ function gwikiEditInsertTemplate(templateText)
 
 function gwikiEditPagePath() {
 	
-	var path = window.parent.document.getElementById('editPagePath').value;
+	var path = document.getElementById('editPagePath').value;
 	var modc = $("#editDialogBox");
 	var dlghtml = "<b>NOTE:</b> Use this function to manipulate the path at your own risk.<br /><br />" +
 			"<label for=\"pathtextfield\" style=\"margin-right:10px\">Path:</label><input size=\"44\" type=\"text\" id=\"pathtextfield\""
@@ -392,7 +392,7 @@ function gwikiEditPagePath() {
 			'OK' : function() {
 				var value = $("#pathtextfield").attr('value');
 				$(dialog).dialog('close');
-				window.parent.document.getElementById('editPagePath').value = value;
+				document.getElementById('editPagePath').value = value;
 			}
 		},
 		Abbrechen : function() {
