@@ -149,7 +149,11 @@ function viewBackupDiff()
 	</a>
 	<gwiki:hidden styleId="editPagePath" property="storePath" />
 </c:if>
-<gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" /><label for="noNotificationEmails"><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" /></label> 
+<gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" />
+<label for="noNotificationEmails">
+	<fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" />
+	<small><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails.desc" /></small>
+</label> 
 <gwiki:hidden	property="newPage" />
 </div><!-- end .control -->
 <%-- </div>  --%>
