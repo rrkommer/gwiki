@@ -320,10 +320,25 @@ public class GWikiCompareActionBean extends ActionBeanBase
       case NoLeft:
       case NoRight:
       case Compare:
-        sb.append("<h3>").append(esc(name)).append("</h3>\n");
-        renderCompareDiffSet(sb, diffset);
+        if (isDifferent(diffset)) {
+          sb.append("<h3>").append(esc(name)).append("</h3>\n");
+          renderCompareDiffSet(sb, diffset);
+        } else {
+          sb.append("<h3>").append(translate("gwiki.page.edit.ComparePages.noChange"));
+          sb.append(" ").append(esc(name)).append("</h3>\n");
+        }
         break;
     }
+  }
+
+  private boolean isDifferent(DiffSet diffset)
+  {
+    for (DiffLine line : diffset.getLines()) {
+      if (line.getDiffType() != DiffType.Equal) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public void doRenderDiffSets()
