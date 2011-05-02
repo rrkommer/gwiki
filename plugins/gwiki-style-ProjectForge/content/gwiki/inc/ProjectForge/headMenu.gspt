@@ -11,7 +11,17 @@
 		</li>
         <li class="menumain"><fmt:message key="gwiki.page.headmenu.Page"/>
             <ul>           
-				<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+            	<c:if test="${wikiPage.elementInfo.id ne 'edit/PageInfo'}">
+			 		<gwiki:authorize ifHasAny="GWIKI_DEVELOPER,GWIKI_ADMIN" pageId="edit/PageInfo">
+			 			<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+			 		</gwiki:authorize>
+		 		</c:if>
+		 		<c:if>
+		 			<gwiki:authorize pageId="edit/PageInfo">
+			 			<li><gwiki:link pageId="edit/PageInfo" title="Info" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
+			 		</gwiki:authorize>
+		 		</c:if>
+				
             	<li><gwiki:link pageId="edit/ChangeNotification" title="I{gwiki.page.headmenu.page.abo}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
             	<% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true) { %>
 		             <li><gwiki:link pageId="edit/EditPage" title="I{gwiki.page.headmenu.page.edit}" urlParams="?pageId=${wikiPage.elementInfo.id}"/></li>
