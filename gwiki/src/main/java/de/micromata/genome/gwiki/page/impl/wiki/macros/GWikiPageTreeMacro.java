@@ -66,7 +66,7 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
 
     ctx.append("<script type='text/javascript'>");
     ctx.append("$.jstree._themes = '" + path + "/static/js/jstree/themes/';");
-    ctx.append("$(function () {");
+    ctx.append("$(document).ready(function () {");
     ctx.append("  $(\"#filechooser\").jstree({");
     ctx.append("    \"themes\" : { \"theme\" : \"classic\", \"dots\" : true, \"icons\" : true },");
     ctx.append("    \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],");
