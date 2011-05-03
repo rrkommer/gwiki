@@ -52,11 +52,7 @@ import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 {
   private static final long serialVersionUID = -6191445352617140361L;
-
-  private static XmlElement editImage = img("src", "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
-
-  private static XmlElement minusImage = img("src", "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
-
+  
   /**
    * content of whole page
    */
@@ -311,6 +307,10 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 
         title = link.getTitle();
 
+        final String path = ctx.getWikiWeb().getContextPath() + ctx.getWikiWeb().getServletPath();
+        XmlElement editImage = img("src", path + "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
+        XmlElement minusImage = img("src", path + "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
+        
         XmlElement editUrl = a(attrs("id", URLEncoder.encode(sectionName + i, "UTF-8"), "title", edit, "href", (url + "&edit=true")),
             editImage);
         XmlElement deleteUrl = a(

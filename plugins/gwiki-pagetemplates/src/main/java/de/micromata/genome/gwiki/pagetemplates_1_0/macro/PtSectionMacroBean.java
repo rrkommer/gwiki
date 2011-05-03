@@ -97,7 +97,9 @@ public class PtSectionMacroBean extends GWikiMacroBean implements GWikiBodyEvalM
         ctx.getWikiWeb().getI18nProvider().addTranslationElement(ctx, "edit/pagetemplates/i18n/PtI18N");
 
         final String edit = ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.pt.common.edit");
-        String image = "<img src='/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
+        final String path = ctx.getWikiWeb().getContextPath() + ctx.getWikiWeb().getServletPath();
+        
+        final String image = "<img src='" + path + "/inc/gwiki/img/icons/linedpaperpencil32.png' style='position:absolute; right: 0; margin-right:-20px' border=0/>";
 
         GWikiAuthorization authorization = ctx.getWikiWeb().getAuthorization();
         GWikiElementInfo currElementInfo = ctx.getCurrentElement().getElementInfo();
