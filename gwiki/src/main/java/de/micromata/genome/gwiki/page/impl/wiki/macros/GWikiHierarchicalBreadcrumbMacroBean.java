@@ -20,6 +20,9 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
+import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -48,10 +51,11 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
   {
     new GWikiHierarchicalBreadcrumbMacroBean().render(new MacroAttributes(), ctx);
   }
-  
-  private void setParentForElement(final GWikiContext ctx, final GWikiElementInfo ei, final ArrayList<String> breadcrumbs) {
+
+  private void setParentForElement(final GWikiContext ctx, final GWikiElementInfo ei, final ArrayList<String> breadcrumbs)
+  {
     final String parentId = ei.getParentId();
-    
+
     if (parentId != null && ctx.getWikiWeb().findElement(parentId) != null) {
       final GWikiElementInfo elementInfo = ctx.getWikiWeb().findElement(parentId).getElementInfo();
       if (elementInfo != null && elementInfo.isViewable() && elementInfo.isIndexed()) {
@@ -67,31 +71,52 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
     if (RenderModes.NoToc.isSet(ctx.getRenderMode()) == true) {
       return true;
     }
-    
+
     final GWikiElementInfo elementInfo = ctx.getCurrentElement().getElementInfo();
-    
+
     if (elementInfo.getId() == null) {
       return false;
     }
-    
+
     final ArrayList<String> breadcrumbs = new ArrayList<String>();
-    
+
     if (elementInfo.isIndexed()) {
       breadcrumbs.add(elementInfo.getId());
       setParentForElement(ctx, elementInfo, breadcrumbs);
     } else {
-      breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+      final String pageId = ctx.getRequestParameter("pageId");
+      final String parentPageId = ctx.getRequestParameter("parentPageId");
+
+      if (StringUtils.isNotBlank(pageId)) {
+        computeParameter(ctx, breadcrumbs, pageId);
+      } else if (StringUtils.isNotBlank(parentPageId)) {
+        computeParameter(ctx, breadcrumbs, parentPageId);
+      } else {
+        breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+      }
     }
-    
+
     ctx.append("<ul>");
-    
+
     for (int i = breadcrumbs.size() - 1; i >= 0; i--) {
       ctx.append("<li>").append(ctx.renderLocalUrl(breadcrumbs.get(i))).append("</li>");
     }
-    
+
     ctx.append("</ul>");
     ctx.flush();
-    
+
     return true;
+  }
+
+  private void computeParameter(final GWikiContext ctx, final ArrayList<String> breadcrumbs, final String pageId)
+  {
+    final GWikiElement elem = ctx.getWikiWeb().findElement(pageId);
+
+    if (elem != null) {
+      breadcrumbs.add(pageId);
+      setParentForElement(ctx, elem.getElementInfo(), breadcrumbs);
+    } else {
+      breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+    }
   }
 }
