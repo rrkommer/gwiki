@@ -44,56 +44,65 @@ function gwikiEditInsertTemplate(templateText)
 					accessKey : "1",
 					closeTag : "",
 					openTag : "h1. ",
-					keyCode : 49
+					keyCode : 49,
+					clazz : "gwikiedit_head1"
 				}, {
 					label : "B",
 					tooltip : "Bold (Ctrl+b)",
 					accessKey : "b",
 					openTag : "*",
 					closeTag : "*",
-					keyCode : 66
+					keyCode : 66,
+					clazz : "gwikiedit_bold"
 				}, {
 					label : "I",
 					tooltip : "Italic (Ctrl+i)",
 					accessKey : "i",
 					openTag : "_",
 					closeTag : "_",
-					keyCode : 73
+					keyCode : 73,
+					clazz : "gwikiedit_italic"
 				}, {
 					label : "{{}}",
 					tooltip : "Codeblock (Alt+c)",
 					// accessKey : "b",
 					openTag : "{{",
 					closeTag : "}}",
-					altKeyCode : 67
+					altKeyCode : 67,
+					clazz : "gwikiedit_codeblock"
 				}, {
 					label : "Link",
 					tooltip : "Link (Alt+l)",
 					accessKey : "l",
 					callBack : "showLinkProposal",
-					altKeyCode : 76
+					altKeyCode : 76,
+					clazz : "gwikiedit_link"
 				}, {
 					label : "Image",
 					tooltip : "Image (Alt+i)",
 					accessKey : "i",
 					callBack : "showImageProposal",
-					altKeyCode : 73
+					altKeyCode : 73,
+					clazz : "gwikiedit_image"
 				}, {
 					label : "Screenshot",
 					tooltip : "Insert new Screenshot (Alt+s)",
 					accessKey : "",
-					callBack : "insertImage"// ,
+					callBack : "insertImage",
+					clazz : "gwikiedit_screenshot"// ,
 				// altKeyCode : 73
 						}, {
 							label : "Attachment",
 							tooltip : "Insert existing Attachment",
 							accessKey : "",
-							callBack : "insertAttachment"// ,
+							callBack : "insertAttachment",
+							clazz : "gwikiedit_attachment"// ,
 						}, {
 							label : "Blueprint",
 							tooltip : "Insert a template",
 							accessKey : "",
-							callBack : "insertTemplate"// ,
+							callBack : "insertTemplate",
+							clazz : "gwikiedit_template"// ,
 						} ]
 			}
 		};
@@ -130,35 +139,50 @@ function gwikiEditInsertTemplate(templateText)
 								+ "\" width=\"100%\" height=\"100%\"></div>");
 
 				// add the toolbar et statusbar
-				var toolbar = $(
-						"<div class=\"" + options.toolBarClassName + "\"></div>")
+				var toolbar = $("<table class='gwikiedit_table'></table>");
+				var toolbarWrapper = $("<div class=\"" + options.toolBarClassName + "\"></div>")
 						.insertBefore("#gwikiwed" + pn);
+				toolbar.appendTo(toolbarWrapper);
+				
 				// gwikiEditFrame(editdiv);
 				// copy attributes
 				$(field).attr("class", options.editorClassName);
 
 				$(options.toolbars['wikitb']).each(
-						function(i) {
-							var button = this;
-							if (button.keyCode != undefined) {
-								keyMap[button.keyCode] = button;
-							}
-							if (button.altKeyCode != undefined) {
-								altKeyMap[button.altKeyCode] = button;
-							}
-							var title = button.label;
-							if (button.tooltip != undefined) {
-								title = button.tooltip;
-							}
-							$(
-									"<span><a href=\"\" accesskey=\"" + button.accesskey
-											+ "\" title=\"" + title + "\">" + button.label
-											+ "</a>&nbsp;|&nbsp;</span>").click(function() {
-								tag(button);
-								return false;
-							}).appendTo(toolbar);
-						});
-
+					function(i) {
+						var button = this;
+						if (button.keyCode != undefined) {
+							keyMap[button.keyCode] = button;
+						}
+						if (button.altKeyCode != undefined) {
+							altKeyMap[button.altKeyCode] = button;
+						}
+						var title = button.label;
+						if (button.tooltip != undefined) {
+							title = button.tooltip;
+						}
+						var hasBody = button.closeTag != null && button.closeTag != "" ? true : false;
+						$(
+							"<td><a href=\"\" accesskey=\"" + button.accesskey + "\" "
+									+ " bodytag=\"" + hasBody 
+									+ "\" title=\"" + title + "\" class='gwikiedit_icon " + button.clazz 
+									+ "'></a></td>")
+									.click(function() {
+										
+								var anchor = $(this).children(":first");
+								if (anchor.attr('bodytag') != null && anchor.attr('bodytag') == 'true') {
+									if (anchor.hasClass('gwikiedit_iconActive')) {
+										anchor.removeClass('gwikiedit_iconActive');
+									} else {
+										anchor.addClass('gwikiedit_iconActive');
+									}
+								}
+											
+							tag(button);
+							return false;
+						}).appendTo(toolbar);
+					});
+				
 				if (!$.browser.opera)
 					$(field).keydown(keyEvent);
 				else
