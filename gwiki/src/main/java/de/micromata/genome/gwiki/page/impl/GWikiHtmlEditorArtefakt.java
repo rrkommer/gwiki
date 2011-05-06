@@ -68,6 +68,7 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwikieditorlevel/editor_plugin_src.js");
+    wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
 
   }
 

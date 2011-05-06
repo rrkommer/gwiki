@@ -1,0 +1,68 @@
+.gwiki-toolBar {
+	background-color: #F0F0EE;
+	height: 27px;
+	border: 1px solid #ccc;
+}
+
+.gwikiedit_table td {
+	margin-right: 1px;
+	margin-top: 2px;
+	background-repeat: no-repeat;	
+}
+
+.gwikiedit_icon {
+	border:1px solid #F0F0EE;
+	display: block;
+	width: 16px;
+	height: 16px;
+	padding: 1px;
+	background-position:center; 
+	background-repeat: no-repeat;
+	cursor: default;
+}
+
+.gwikiedit_icon:hover {
+	border:1px solid #0A246A; 
+	background-color:#B2BBD0;
+}
+
+.gwikiedit_iconActive {
+	border:1px solid #0A246A; 
+	background-color:#C2CBE0;
+}
+
+.gwikiedit_head1 {
+	background-image: url(img/text_heading_1.png);
+}
+
+.gwikiedit_bold {
+	background-image: url(img/text_bold.png);
+}
+
+.gwikiedit_italic {
+	background-image: url(img/text_italic.png);
+}
+
+.gwikiedit_codeblock {
+	background-image: url(img/page_code.png);
+}
+
+.gwikiedit_link {
+	background-image: url(img/link.png);
+}
+
+.gwikiedit_image {
+	background-image: url(img/image.png);
+}
+
+.gwikiedit_screenshot {
+	background-image: url(img/images.png);
+}
+
+.gwikiedit_attachment {
+	background-image: url(img/attach.png);
+}
+
+.gwikiedit_template {
+	background-image: url(img/layout.png);
+}
