@@ -87,9 +87,13 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
       final String pageId = ctx.getRequestParameter("pageId");
       final String parentPageId = ctx.getRequestParameter("parentPageId");
 
-      if (StringUtils.isNotBlank(pageId)) {
+      if (StringUtils.isNotBlank(pageId)
+          && ctx.getWikiWeb().findElement(pageId) != null
+          && ctx.getWikiWeb().findElement(pageId).getElementInfo().isIndexed()) {
         computeParameter(ctx, breadcrumbs, pageId);
-      } else if (StringUtils.isNotBlank(parentPageId)) {
+      } else if (StringUtils.isNotBlank(parentPageId)
+          && ctx.getWikiWeb().findElement(parentPageId) != null
+          && ctx.getWikiWeb().findElement(parentPageId).getElementInfo().isIndexed()) {
         computeParameter(ctx, breadcrumbs, parentPageId);
       } else {
         breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
