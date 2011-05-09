@@ -62,7 +62,7 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
 
   public void prepareHeader(GWikiContext wikiContext)
   {
-    if (prepareHeaderFragments == null) {
+    if (compileFragements(wikiContext) == false || prepareHeaderFragments == null) {
       return;
     }
     for (GWikiFragment frag : prepareHeaderFragments) {
