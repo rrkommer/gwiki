@@ -129,7 +129,7 @@ public class GWikiNewElementMacro extends GWikiMacroBean
 
     ctx.append("\">");
     if (StringUtils.isEmpty(text) == true) {
-      text = "New Element";
+      text = ctx.getTranslated("gwiki.macro.newelement.title");
     }
     ctx.append(StringEscapeUtils.escapeHtml(text));
     ctx.append("</a>");

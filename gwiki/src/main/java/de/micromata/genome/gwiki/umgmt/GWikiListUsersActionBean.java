@@ -63,7 +63,9 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
           + wikiContext.localUrl("edit/UserProfile")
           + "?pageId="
           + elementInfo.getId()
-          + "&backUrl=edit/ListUsers'>Edit</a>";
+          + "&backUrl=edit/ListUsers'>"
+          + wikiContext.getTranslated("gwiki.umgmt.listusers.edit")
+          + "</a>";
     }
     return super.renderField(fieldName, elementInfo);
   }

@@ -74,13 +74,13 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       if (StringUtils.isNotBlank(wikiContext.getRequestParameter("refPageId")) == true) {
         rootPageId = wikiContext.getRequestParameter("refPageId");
       } else {
-        wikiContext.addSimpleValidationError("Eine Root-PageID auswählen");
+        wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.gen.doc.rootpage.select"));
         return null;
       }
     }
     GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(rootPageId);
     if (ei == null || wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
-      wikiContext.addSimpleValidationError("Die Root-PageID is nicht gültig");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.gen.doc.rootpage.notvalid"));
       return null;
     }
 
@@ -277,7 +277,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       } else if (StringUtils.equals(format, "HTML") == true) {
         serveHtml(data, simContext);
       } else {
-        wikiContext.addSimpleValidationError("Unbekanntes Format: " + format);
+        wikiContext.addSimpleValidationError(translate("gwiki.gen.doc.unknownformat", format));
         return null;
       }
       return noForward();

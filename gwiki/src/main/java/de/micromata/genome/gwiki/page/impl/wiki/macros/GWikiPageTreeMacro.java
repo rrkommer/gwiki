@@ -121,8 +121,10 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
   {
     if (StringUtils.isBlank(rootPageId)) {
       GWikiElement home = ctx.getWikiWeb().getHomeElement(ctx);
-      if (home != null) {
+      if (home != null && ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, home.getElementInfo())) {
         rootPageId = home.getElementInfo().getId();
+      } else {
+        rootPageId = ctx.getWikiWeb().getWikiConfig().getWelcomePageId();
       }
     }
     return rootPageId;

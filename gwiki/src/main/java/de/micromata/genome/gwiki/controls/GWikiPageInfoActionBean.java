@@ -181,7 +181,8 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       addNode = a(attrs("href", wikiContext.localUrl("/edit/EditPage")
           + "?newPage=true&parentPageId="
           + elementInfo.getId()
-          + "&metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"), text("New Attachment"));
+          + "&metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"), 
+          text(wikiContext.getTranslated("gwiki.page.edit.PageInfo.attachment.link.title")));
     }
     String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(wikiContext.localUrl("edit/pageInfo") + "?pageId=" + elementInfo.getId());
     XmlElement ta = getStandardTable();

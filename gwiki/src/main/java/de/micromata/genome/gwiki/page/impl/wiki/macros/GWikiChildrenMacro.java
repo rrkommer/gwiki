@@ -118,11 +118,13 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == true) {
         ctx.append("&nbsp;<a href=\"")//
             .append(ctx.localUrl("edit/EditPage?pageId=")).append(ci.getId())//
-            .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">Edit</a>");
+            .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId())
+            .append("\">").append(ctx.getTranslated("gwiki.macro.children.edit")).append("</a>");
       }
       ctx.append("&nbsp;<a href=\"")//
           .append(ctx.localUrl("edit/PageInfo?pageId=")).append(ci.getId())//
-          .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">Info</a>&nbsp;");
+          .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId())
+          .append("\">").append(ctx.getTranslated("gwiki.macro.children.info")).append("</a>&nbsp;");
     }
     if (withPageIntro == true || withPageTocs == true) {
 

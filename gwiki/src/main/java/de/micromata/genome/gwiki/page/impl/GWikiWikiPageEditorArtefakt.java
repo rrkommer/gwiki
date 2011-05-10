@@ -87,13 +87,19 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "<tr>"
         + "<td style=\"position: relative;\" >\n"
         + "<table class=\"gwikiToolBar\" cellspacing=\"0\" cellpadding=\"0\" ><tr>\n"
-        + "<td style=\"position: relative;\"><a title=\"Save\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<td style=\"position: relative;\"><a title=\"" 
+        + ctx.getTranslated("gwiki.edit.EditPage.button.save")
+        + "\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
         + "<span class=\"gwikiToolbarIcon gwikiIcon_save\" onclick=\"gwikiEditSave()\"></span>"
         + "</a></td>\n"
-        + "<td style=\"position: relative;\"><a title=\"Cancel\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<td style=\"position: relative;\"><a title=\"" 
+        + ctx.getTranslated("gwiki.edit.EditPage.button.cancel")
+        + "\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
         + "<span class=\"gwikiToolbarIcon gwikiIcon_cancel\" onclick=\"gwikiEditCancel()\"></span>"
         + "</a></td>\n"
-        + "<td style=\"position: relative;\"><a class=\"mceButton mceButtonEnabled\" title=\"Fullscreen\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
+        + "<td style=\"position: relative;\"><a class=\"mceButton mceButtonEnabled\" title=\"" 
+        + ctx.getTranslated("gwiki.edit.EditPage.button.fullscreen")
+        + "\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
         + "<span class=\"gwikiToolbarIcon gwikiIcon_fullscreen\" onclick=\"gwikiFullscreen('gwikiWikiEditorFrame')\"></span>"
         + "</a></td>"
         + "<td style=\"position: relative;\">"
@@ -170,9 +176,10 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       wikiPage.getCompiledObject().iterate(findCompileErrorVisitor);
       if (errors.isEmpty() == false) {
         StringBuilder sb = new StringBuilder();
-        sb.append("Wiki page has syntax errors: \n");
+        sb.append(ctx.getTranslated("gwiki.edit.EditPage.validate.syntax.error")).append(" \n");
         for (GWikiFragmentParseError e : errors) {
-          sb.append(e.getText()).append(" at line: ").append(e.getLineNo()).append("\n");
+          sb.append(e.getText()).append(ctx.getTranslated("gwiki.edit.EditPage.validate.syntax.atline"));
+          sb.append(" ").append(e.getLineNo()).append("\n");
         }
         ctx.addSimpleValidationError(sb.toString());
 
@@ -181,7 +188,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       ctx.addSimpleValidationError(ex.getMessage());
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
-      ctx.addSimpleValidationError("Cannot compile Wiki page: " + ex.getMessage() + "\n" + st);
+      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.edit.EditPage.validate.compile.error") + " " + ex.getMessage() + "\n" + st);
     }
 
   }

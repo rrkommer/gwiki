@@ -71,7 +71,7 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
     initPlugins();
 
     if (StringUtils.isBlank(pluginName) == true) {
-      wikiContext.addSimpleValidationError("No plugin name is given");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.admin.PluginAdmin.error"));
       return null;
     }
     wikiContext.getWikiWeb().getDaoContext().getPluginRepository().activePlugin(wikiContext, pluginName);
@@ -83,7 +83,7 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
     initPlugins();
 
     if (StringUtils.isBlank(pluginName) == true) {
-      wikiContext.addSimpleValidationError("No plugin name is given");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.admin.PluginAdmin.error"));
       return null;
     }
     wikiContext.getWikiWeb().getDaoContext().getPluginRepository().deactivatePlugin(wikiContext, pluginName);

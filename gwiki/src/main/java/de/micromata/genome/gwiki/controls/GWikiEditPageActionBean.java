@@ -656,7 +656,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       return sendAsyncValidationError();
     }
     if (StringUtils.isBlank(pageId) == true) {
-      wikiContext.append("Automatische Sicherungen nur nach Titelvergabe m&ouml;glich.<br/>");
+      wikiContext.append(wikiContext.getTranslated("gwiki.edit.EditPage.onlinebackup.naming") + "<br/>");
       wikiContext.flush();
       return noForward();
     }

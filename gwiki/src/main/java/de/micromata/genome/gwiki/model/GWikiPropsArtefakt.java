@@ -52,7 +52,7 @@ public class GWikiPropsArtefakt extends GWikiPersistArtefaktBase<GWikiProps> imp
   @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
-    ctx.append("Properties cannot be viewed");
+    ctx.append(ctx.getTranslated("gwiki.model.props.view.error"));
     return true;
   }
 
