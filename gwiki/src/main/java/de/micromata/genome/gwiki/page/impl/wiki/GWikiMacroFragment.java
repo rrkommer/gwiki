@@ -155,7 +155,9 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       return ((GWikiRuntimeMacro) macro).render(attrs, ctx);
     } catch (Exception ex) {
       GWikiLog.warn("Failed to render macro: " + attrs.toString() + ": " + ex.getMessage(), ex);
-      ctx.append("<span color=\"red\">Failed to render Macro: ", attrs.toString(), "</span>");
+      ctx.append("<span color=\"red\">");
+      ctx.append(ctx.getTranslated("gwiki.macro.fragment.error"));
+      ctx.append(" ", attrs.toString(), "</span>");
       return true;
     }
   }

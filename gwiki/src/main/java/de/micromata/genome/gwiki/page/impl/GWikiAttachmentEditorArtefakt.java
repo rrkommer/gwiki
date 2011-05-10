@@ -67,7 +67,7 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     if (StringUtils.isEmpty(appletTmpFileName) == true) {
       if (dataFile == null || StringUtils.isEmpty(dataFile.getName()) == true) {
         if (editBean.isNewPage() == true) {
-          ctx.addSimpleValidationError("Keine Datei angegeben");
+          ctx.addSimpleValidationError(ctx.getTranslated("gwiki.edit.EditPage.attach.message.nofile"));
           return;
         }
       } else {
@@ -171,7 +171,9 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
                 + " #uploadappletbody\")\n") //
         .append("}\n") //
         .append("function refreshFromApplet(fileName, tmpFileName) {\n")//
-        .append("alert('Datei hochgeladen');\n")//
+        .append("alert('")
+        .append(ctx.getTranslated("gwiki.edit.EditPage.attach.message.uploaded"))
+        .append("');\n")//
         .append("jQuery('#appletTmpFileName').val(tmpFileName);") //
         .append("jQuery('#editPageTitle').val(fileName);") //
         // .append("jQuery('gwikiattfilsize').html('

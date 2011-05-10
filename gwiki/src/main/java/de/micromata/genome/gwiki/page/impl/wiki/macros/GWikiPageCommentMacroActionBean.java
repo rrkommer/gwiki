@@ -211,12 +211,12 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   {
     init();
     if (allowPost == false) {
-      wikiContext.addSimpleValidationError("Not allowed to edit"); // TODO gwiki i18n
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.noedit"));
       return onInitImpl();
     }
 
     if (StringUtils.isEmpty(commentText) == true) {
-      wikiContext.addSimpleValidationError("No comment text"); // TODO gwiki i18n
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.nocomment"));
       return onInitImpl();
     }
     if (needCatcha() == true) {
@@ -225,13 +225,13 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
         return onInitImpl();
       }
       if (StringUtils.isEmpty(userName) == true) {
-        wikiContext.addSimpleValidationError("Provide a user name");
+        wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.provideuser"));
         return onInitImpl();
       }
       wikiContext.setCookie(GWIKI_ANON_USERNAME_KEY, userName);
     }
     if (StringUtils.isEmpty(pageId) == true) {
-      wikiContext.addSimpleValidationError("pageId missing");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.nopageid"));
       return onInitImpl();
     }
 
@@ -252,7 +252,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
       wka.compileFragements(wikiContext);
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
-      wikiContext.addSimpleValidationError("Kann Wiki Seite nicht kompilieren: " + ex.getMessage() + "\n" + st);
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.compileerror") + " " + ex.getMessage() + "\n" + st);
       return onInitImpl();
     }
     if (StringUtils.isEmpty(userName) == false) {

@@ -57,8 +57,9 @@ public class GWikiPageAttachmentsMacro extends GWikiMacroBean
     String id = ctx.genHtmlId("pageattachment");
 
     StringBuilder sb = new StringBuilder();
-    sb.append("<a href=\"").append(ctx.localUrl("edit/PageInfo")).append("?pageId=").append(el.getElementInfo().getId()).append(
-        "&amp;showBoxElements=Attachments\"").append(">").append(attachments.size()).append(" attachments").append("</a>");
+    sb.append("<a href=\"").append(ctx.localUrl("edit/PageInfo")).append("?pageId=").append(el.getElementInfo().getId())
+        .append("&amp;showBoxElements=Attachments\"").append(">").append(attachments.size()).append(" ")
+        .append(ctx.getTranslated("gwiki.page.attachments.name")).append("</a>");
     ctx.append("<span id=\"").append(id).append("\" class=\"pageattachment\">").append(sb.toString()).append("</span>");
 
     return true;

@@ -60,7 +60,7 @@ public class GWikiControlActionBean extends ActionBeanBase
     try {
       singleUser.setRightsMatcherRule(authRightsRule);
     } catch (Exception ex) {
-      wikiContext.addSimpleValidationError("Fehler in der RightRule: " + ex.getMessage());
+      wikiContext.addSimpleValidationError(translate("gwiki.controls.wikicontrol.rightrule.error", ex.getMessage()));
       return null;
     }
     auth.setSingleUser(wikiContext, singleUser);

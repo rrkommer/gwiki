@@ -72,12 +72,12 @@ public class GWikiMacroTag extends BodyTagSupport
     Map<String, GWikiMacroFactory> mfm = wikiContext.getWikiWeb().getWikiConfig().getWikiMacros(wikiContext);
     GWikiMacroFactory fac = mfm.get(name);
     if (fac == null) {
-      GWikiTagRenderUtils.write(pageContext, "Unknown macro: " + name);
+      GWikiTagRenderUtils.write(pageContext, wikiContext.getTranslated("gwiki.web.tags.macrotag.unknown") + " " + name);
       return Tag.EVAL_PAGE;
     }
     GWikiMacro macro = fac.createInstance();
     if ((macro instanceof GWikiRuntimeMacro) == false) {
-      GWikiTagRenderUtils.write(pageContext, "Only runtime macros are supported as jsp tag: " + name);
+      GWikiTagRenderUtils.write(pageContext, wikiContext.getTranslated("gwiki.web.tags.macrotag.runtime") + " " + name);
       return Tag.EVAL_PAGE;
     }
     String t = name;

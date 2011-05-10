@@ -200,11 +200,11 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
   {
     userName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
     if (StringUtils.isBlank(pageId) == true) {
-      wikiContext.addSimpleValidationError("Keine gültige Seite definiert.");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.nopage"));
       return false;
     }
     if (StringUtils.isBlank(userName) == true) {
-      wikiContext.addSimpleValidationError("Sie haben im Profil keine Email definiert.");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.noemail"));
       return false;
     }
     Properties props = getNotificationEmails(wikiContext);

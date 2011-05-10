@@ -65,7 +65,7 @@ public class GWikiMacroUnknown implements GWikiRuntimeMacro
   {
     String msg = message;
     if (msg == null) {
-      msg = "Unkown macro: " + StringEscapeUtils.escapeHtml(attrs.getCmd());
+      msg = ctx.getTranslated("gwiki.macro.unknown.error") + StringEscapeUtils.escapeHtml(attrs.getCmd());
     }
     ctx.append("<font color=\"red\">").append(StringEscapeUtils.escapeHtml(msg)).append("</font>");
     return true;

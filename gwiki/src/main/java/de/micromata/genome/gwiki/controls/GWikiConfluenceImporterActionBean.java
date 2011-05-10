@@ -98,7 +98,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
     String name = "dataFile_attachment";
     FileItem dataFile = wikiContext.getFileItem(name);
     if (dataFile == null) {
-      wikiContext.addSimpleValidationError("Keine Datei hochgeladen");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.importer.confluence.nofile"));
       return null;
     }
     GWikiMountedWeb mountedWeb = new GWikiMountedWeb();
@@ -132,19 +132,21 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
       }
     }
     if (ids.size() == 0) {
-      wikiContext.append("Keine Elemente ausgew&auml;hlt").flush();
+      wikiContext.append(wikiContext.getTranslated("gwiki.importer.confluence.noelements")).flush();
       return noForward();
     }
     // TODO gwiki parentIds patchen!
 
     // List<GWikiElementInfo> elements = new ArrayList<GWikiElementInfo>(ids.size());
     StringBuilder sb = new StringBuilder();
-    sb.append("Imported:\n<br>");
+    sb.append(wikiContext.getTranslated("gwiki.importer.confluence.imported"));
+    sb.append(":\n<br>");
     for (String id : ids) {
       String tid = FileNameUtils.join(tmpDirName, id);
       GWikiElementInfo ei = wikiContext.getWikiWeb().getStorage().loadElementInfo(tid);
       if (ei == null) {
-        sb.append("\n<br/>WARN: " + tid + " not found");
+        sb.append("\n<br />");
+        sb.append(translate("gwiki.importer.confluence.notfound", tid));
         continue;
       }
       String oei = getPageIdNoTemp(ei);
@@ -176,7 +178,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
   protected QueryResult query()
   {
     if (StringUtils.isBlank(tmpDirName) == true) {
-      writeXmlErrorResponse("Keine Dateien gefunden");
+      writeXmlErrorResponse(wikiContext.getTranslated("gwiki.importer.confluence.nofilesfound"));
       return null;
     }
     String searchExpr = "";

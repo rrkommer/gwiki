@@ -139,29 +139,29 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
     try {
       if (wikiContext.getWikiWeb().getAuthorization().needAuthorization(wikiContext) == true) {
         if (StringUtils.isBlank(userName) == true || StringUtils.isBlank(passWord)) {
-          sendResponse(2, "need login");
+          sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
           return noForward();
         }
         boolean loggedIn = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, userName, passWord);
         if (loggedIn == false) {
-          sendResponse(1, "invalid user or password");
+          sendResponse(1, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.invaliduser"));
           return noForward();
         }
       }
       try {
         if (wikiContext.getWikiWeb().getAuthorization().initThread(wikiContext) == false) {
-          sendResponse(2, "need login");
+          sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
           return noForward();
         }
         if (StringUtils.isEmpty(pageId) == true) {
           pageId = fileName;
         }
         if (StringUtils.isEmpty(pageId) == true) {
-          sendResponse(3, "need file name");
+          sendResponse(3, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nofilename"));
           return noForward();
         }
         if (StringUtils.isEmpty(encData) == true) {
-          sendResponse(4, "data is empty");
+          sendResponse(4, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.empty"));
           return noForward();
         }
 
@@ -180,7 +180,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
           sendResponse(toMap("rc", "0", "tmpFileName", nf));
         } else {
           if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
-            sendResponse(5, "File already exists");
+            sendResponse(5, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.fileexists"));
             return noForward();
           }
           String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
@@ -201,7 +201,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
       }
     } catch (Exception ex) {
       GWikiLog.warn("Failure to upload attachment: " + ex.getMessage(), ex);
-      sendResponse(10, "General Gwiki error: " + ex.getMessage());
+      sendResponse(10, translate("gwiki.edit.EditPage.attach.message.error", ex.getMessage()));
     }
     return noForward();
   }

@@ -103,7 +103,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
       String name = "dataFile_attachment";
       FileItem dataFile = wikiContext.getFileItem(name);
       if (dataFile == null) {
-        wikiContext.addSimpleValidationError("Keine Datei hochgeladen");
+        wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.PageImporter.noupload"));
         return null;
       }
       GWikiMountedWeb mountedWeb = new GWikiMountedWeb();
@@ -158,7 +158,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         }
       }
       if (ids.size() == 0) {
-        wikiContext.append("No elements selected").flush();
+        wikiContext.append(wikiContext.getTranslated("gwiki.page.PageImporter.noselected")).flush();
         return noForward();
       }
       // TODO gwiki parentIds patchen!
@@ -168,12 +168,14 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         {
           // List<GWikiElementInfo> elements = new ArrayList<GWikiElementInfo>(ids.size());
           StringBuilder sb = new StringBuilder();
-          sb.append("Imported:\n<br>");
+          sb.append(wikiContext.getTranslated("gwiki.page.PageImporter.imported"));
+          sb.append(":\n<br>");
           for (String id : ids) {
             String tid = tmpDirName + "/" + id;
             GWikiElementInfo ei = wikiContext.getWikiWeb().getStorage().loadElementInfo(tid);
             if (ei == null) {
-              sb.append("\n<br/>WARN: " + tid + " not found");
+              sb.append("\n<br/>");
+              sb.append(translate("gwiki.page.PageImporter.notfound", tid));
               continue;
             }
             String oei = getPageIdNoTemp(ei);

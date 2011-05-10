@@ -46,13 +46,13 @@ public class GWikiUserProfileActionBean extends GWikiEditPageActionBean
     }
     userName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
     if (StringUtils.isEmpty(userName) == true) {
-      wikiContext.addSimpleValidationError("Kein User gefunden");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.profile.user.nouser"));
       return false;
     }
     pageId = "admin/user/" + userName;
     elementToEdit = wikiContext.getWikiWeb().findElement("admin/user/" + userName);
     if (elementToEdit == null) {
-      wikiContext.addSimpleValidationError("Kein User gefunden");
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.profile.user.nouser"));
       return false;
     }
     metaTemplate = elementToEdit.getMetaTemplate();

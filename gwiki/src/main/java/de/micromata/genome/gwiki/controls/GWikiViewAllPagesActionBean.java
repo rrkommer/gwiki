@@ -209,12 +209,20 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
           + wikiContext.localUrl("edit/PageInfo")
           + "?pageId="
           + ei.getId()
-          + "'>Infos</a> "
+          + "' title='"
+          + wikiContext.getTranslated("gwiki.page.AllPages.link.info")
+          + "'>"
+          + wikiContext.getTranslated("gwiki.page.AllPages.link.info")
+          + "</a> "
           + "<a href='"
           + wikiContext.localUrl("edit/EditPage")
           + "?pageId="
           + ei.getId()
-          + "'>Edit</a>";
+          + "' title='"
+          + wikiContext.getTranslated("gwiki.page.AllPages.link.edit")
+          + "'>"
+          + wikiContext.getTranslated("gwiki.page.AllPages.link.edit")
+          +"</a>";
     }
     if (fieldName.equals("PAGEID") == true) {
 
