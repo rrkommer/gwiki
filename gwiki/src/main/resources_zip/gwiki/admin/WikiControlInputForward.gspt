@@ -35,7 +35,7 @@
   <input class="gwikiButton" type="submit" name="method_onReloadWiki" value="<gwiki:include part="MainPage" chunk="reload.reloadwebbutton"/>" />
   <div class="clearAll">&nbsp;</div>
   <br/>
-    <input class="gwikiButton reset" type="submit" name="method_onCalcCacheSizes" value="Calculate page cache sizes"/>
+    <input class="gwikiButton reset" type="submit" name="method_onCalcCacheSizes" value="<fmt:message key='gwiki.page.admin.WikiControl.button.calculatecache' />"/>
     <c:if test="${form.cacheSizes != null}">
      <br/>
      <c:out value="${form.cacheSizes}"/> 
@@ -58,8 +58,8 @@
 </fieldset>
 <fieldset>
 <legend>Cookies</legend>
-<label for="clearCookies">Clear Cookies</label>
-    <input class="gwikiButton" id="clearCookies" type="submit" name="method_onClearCookies" value="Clear Cookies"/>
+<label for="clearCookies"><fmt key='gwiki.page.admin.WikiControl.button.clearcookie' /></label>
+    <input class="gwikiButton" id="clearCookies" type="submit" name="method_onClearCookies" value="<fmt:message key='gwiki.page.admin.WikiControl.button.clearcookie'/>"/>
 </fieldset>
 </form>
 

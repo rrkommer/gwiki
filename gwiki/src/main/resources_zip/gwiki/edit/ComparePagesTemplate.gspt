@@ -3,7 +3,7 @@
 
 <link type="text/css" href="<gwiki:url value='/static/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
 <script src='<gwiki:url value="/static/js/jquery-ui-1.7.2.custom.min.js" />' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 

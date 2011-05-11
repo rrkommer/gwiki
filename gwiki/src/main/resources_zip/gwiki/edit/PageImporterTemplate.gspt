@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @>
 
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
@@ -18,19 +18,20 @@
 <c:if test="${form.tmpDirName == null}">
 <br />
 
+<fmt:message key='gwiki.page.edit.PageImporter.label.targetdir' /> 
+<gwiki:text styleId="targetDir" property="targetDir" /><br />  
 
-Target directory: <gwiki:text styleId="targetDir" property="targetDir" /><br />  
+<fmt:message key='gwiki.page.edit.PageImporter.label.zip' /> 
+<input class="gwikiButton" type="file" name="dataFile_attachment"></input> <br/>
 
-Zip with elements: <input class="gwikiButton" type="file" name="dataFile_attachment"></input> <br/>
-
-<input  class="gwikiButton main" type="submit" name="method_onUpload" value="Upload"></input> <br />
+<input  class="gwikiButton main" type="submit" name="method_onUpload" value="<fmt:message key='gwiki.page.edit.PageImporter.button.upload' />"></input> <br />
 </c:if>
   
 <c:if test="${form.tmpDirName != null}">
   <input type="submit" name="method_onNewArchive" value="Neues Archiv hochladen"></input><br/>
-  <gwiki:radio styleId="overWriteModeONLYNEW" property="overWriteMode"  value="ONLYNEW" /> Nur neue anlegen.<br />
-  <gwiki:radio styleId="overWriteModeONLYNEWER" property="overWriteMode" value="ONLYNEWER" /> Nur neuere &uuml;berschreiben.<br />
-  <gwiki:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> Alle &uuml;berschreiben.<br />
+  <gwiki:radio styleId="overWriteModeONLYNEW" property="overWriteMode"  value="ONLYNEW" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.onlynew' /><br />
+  <gwiki:radio styleId="overWriteModeONLYNEWER" property="overWriteMode" value="ONLYNEWER" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.onlynewer' /><br />
+  <gwiki:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.overwriteall' /><br />
 <br />
 TempDir: <c:out value="${form.tmpDirName}" /><br />
 <gwiki:hidden styleId="targetDir" property="targetDir" />
@@ -38,12 +39,12 @@ Target Dir: <c:out value="${form.targetDir}" /><br />
 
 
 <p><gwiki:text styleId="filterExpression" size="80" property="filterExpression" /> 
-  <input  type="submit" name="method_onInit" value="Filtern" />
+  <input  type="submit" name="method_onInit" value="<fmt:message key='gwiki.page.edit.PageImporter.button.filter' />" />
 </form>
 </p>
 
-<input type='checkbox' id='importOnlyChecked'"/> Nur Ausge&auml;hlte<br/>
-<input type="button" id="doImport" name="" value="Importieren"></input>
+<input type='checkbox' id='importOnlyChecked'"/> <fmt:message key='gwiki.page.edit.PageImporter.input.importonlychecked' /><br/>
+<input type="button" id="doImport" name="" value="<fmt:message key='gwiki.page.edit.PageImporter.button.import' />"></input>
 
 
 <div id="pager2" class="scroll" style="text-align: center;"></div>
@@ -128,7 +129,15 @@ jQuery(document).ready(function() {
     .jqGrid(
       { url: myurl, 
         datatype: "xml",
-        colNames:['id', 'pageId', 'Titel', "Typ", "Erstellt von", "Erstellt am","Ge&auml;ndert von", "Ge&auml;ndert am", "Status"], 
+        colNames:["<fmt:message key='gwiki.page.edit.PageImporter.table.id' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.pageId' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.title' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.type' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.createdby' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.createdat' />",
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.modifiedby' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.modifiedat' />", 
+                  "<fmt:message key='gwiki.page.edit.PageImporter.table.status' />"], 
         colModel:[
                 {name:'id',index:'id', width:12},  
                 {name:'pageId',index:'PAGEID', width:200},
@@ -155,7 +164,7 @@ jQuery(document).ready(function() {
         //sortname: 'pageId', 
         viewrecords: true, 
         //sortorder: "desc", 
-        caption:"Alle Seiten",
+        caption:"<fmt:message key='gwiki.page.edit.PageImporter.table.caption' />",
         loadError : function(xhr,st,err) { 
            jQuery("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText + xhr.responseText);
         }

@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
@@ -28,7 +28,10 @@ jQuery(document).ready(function() {
       { url:'<gwiki:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
           + '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
         datatype: "xml",
-        colNames:['id', 'User', 'Email', "Operations"], 
+        colNames:['<fmt:message key="gwiki.page.edit.ListUsers.col.id" />', 
+                  '<fmt:message key="gwiki.page.edit.ListUsers.col.user" />', 
+                  '<fmt:message key="gwiki.page.edit.ListUsers.col.email" />', 
+                  '<fmt:message key="gwiki.page.edit.ListUsers.col.operations" />'], 
         colModel:[
                 {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.id"/>',index:'id', width:12},  
                 {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.user"/>',index:'USER', width:40},
