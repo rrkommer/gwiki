@@ -2,7 +2,7 @@
 <@include file="inc/stdtags.gspt" @> 
 
 
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 <script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
@@ -17,10 +17,10 @@
   
 <c:choose>
   <c:when test="${form.newPage == true}">
-    <h2 id="adminPanel">User: <gwiki:text property="title"/></h2>
+    <h2 id="adminPanel"><fmt:message key="gwiki.page.edit.UserProfile.label.user" /> <gwiki:text property="title"/></h2>
   </c:when>
   <c:otherwise>
-    <h2 id="adminPanel">User: <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
+    <h2 id="adminPanel"><fmt:message key="gwiki.page.edit.UserProfile.label.user" /> <%= wikiContext.getNamePartFromPageId(form.pageId) %></h2>
   </c:otherwise>
 </c:choose>
 <div class="control">

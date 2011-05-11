@@ -9,6 +9,7 @@
   if (showComments == false) {
     hidden = " style='display: none;'";
   }
+  pageContext.setAttribute('showComments', showComments);
 %>
 <script type="text/javascript">
 function gwikiCommentShow()
@@ -35,11 +36,11 @@ function createNewCommentHide()
 function gwikiToggleShowComments(){
   if (jQuery('#GWikiComentsContent').is(':hidden') == true) {
     jQuery('#GWikiComentsContent').show();
-    jQuery('#GWikiShowHideLink').html("Hide Comments");
+    jQuery('#GWikiShowHideLink').html("<fmt:message key='gwiki.page.pagecomment.comments.hide' />");
     gwikiSaveUserPrev('WITH_COMMENTS', true, true);
   } else {
     jQuery('#GWikiComentsContent').hide();
-    jQuery('#GWikiShowHideLink').html("Show Comments");
+    jQuery('#GWikiShowHideLink').html("<fmt:message key='gwiki.page.pagecomment.comments.show' />");
     gwikiSaveUserPrev('WITH_COMMENTS', false, true);
   }
 }
@@ -58,13 +59,21 @@ function onSaveComment()
 <hr></hr>
 <gwiki:errors />
 
+<%%>
+
 <form name='PageComment_form' id='PageComment_form' method="post">
-<b>Comments</b> (<a id="GWikiShowHideLink" href="javascript:gwikiToggleShowComments()">
-  <%= showComments ? "Hide Comments" : "Show Comments" %></a>)<br/>
+<b><fmt:message key='gwiki.page.pagecomment.title' /></b> (<a id="GWikiShowHideLink" href="javascript:gwikiToggleShowComments()">
+<c:if test="${showComments == 'true'}">
+	<fmt:message key='gwiki.page.pagecomment.comments.hide' />
+</c:if>
+<c:if test="${showComments == 'false'}">
+	<fmt:message key='gwiki.page.pagecomment.comments.show' />
+</c:if>
+</a>)<br/>
 <div id="GWikiComentsContent"<%= hidden %>>
 <c:if test="${form.allowPost}">
-  <a href="javascript:createNewCommentShow()" title="Create new Comment">
-    Create Comment
+  <a href="javascript:createNewCommentShow()" title="<fmt:message key='gwiki.page.pagecomment.comments.create.title' />">
+    <fmt:message key='gwiki.page.pagecomment.comments.create' />
   </a>
  </c:if> 
   <gwiki:hidden styleId="gwiki_pagecomment_replyTo" property="replyTo" />
@@ -72,8 +81,10 @@ function onSaveComment()
   <input type="hidden" id="PageComment_method" name="method_onInit"/> 
   <div id='PageComment_NewComment' class='PageComment_NewComment' style='display:none;'>
   		<c:if test="${form.anonUser}">
-  			User Name: <gwiki:text property="userName" size="40" maxLength="50" />
-  			| Please answer question: <label for="catchaInput"><c:out value="${form.catchaText}"/></label> <gwiki:text property="catchaInput" /><br/>
+  			<fmt:message key='gwiki.page.pagecomment.comments.username' />: <gwiki:text property="userName" size="40" maxLength="50" />
+  			| 
+  			<fmt:message key='gwiki.page.pagecomment.comments.captcha.question' />: <label for="catchaInput"><c:out value="${form.catchaText}"/></label> 
+  			<gwiki:text property="catchaInput" /><br/>
   		</c:if>
       <gwiki:textarea styleClass="gwikiTextarea" errorStyleClass="error gwikiTextarea" rows="10" cols="100" property="commentText"/><br/>
       <input class="gwikiButton main" onclick="onSaveComment()" type="button" value="Save">
@@ -87,14 +98,18 @@ function onSaveComment()
         <%= esc(el.modifiedBy) %> am <%= esc(wikiContext.getUserDateString(el.modifiedAt)) %>
       <c:if test="${form.allowPost}">
 	      <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
-        <a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
+        <a title="<fmt:message key='gwiki.page.PageComment.label.edit' />" 
+        	href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
           <img src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
         </a>
-        <a href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
+        <a title="<fmt:message key='gwiki.page.PageComment.label.delete' />"
+        	href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
           <img src="<gwiki:url value='/inc/gwiki/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
         </a>
       <% } %>
-      <a href="javascript:gwikiReplyComment('<%= el.id %>')" title="Reply">Reply</a>
+      <a href="javascript:gwikiReplyComment('<%= el.id %>')" title="<fmt:message key='gwiki.page.PageComment.label.reply' />">
+      	<fmt:message key='gwiki.page.PageComment.label.reply' />
+      </a>
       </c:if>
       </div><!-- gwikiNewshead END -->
       

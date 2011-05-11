@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @>
 
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />

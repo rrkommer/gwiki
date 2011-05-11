@@ -2,7 +2,7 @@
 <@include file="inc/stdtags.gspt" @> 
 
 <link type="text/css" href="<gwiki:url value='/static/css/ui-lightness/jquery-ui-1.7.2.custom.css'/>" rel="stylesheet" />
-<script src='<gwiki:url value="/static/jqgrid/js/i18n/grid.locale-de.js" />' type="text/JavaScript"></script>
+<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
@@ -23,13 +23,12 @@ function viewDelPage(pageId)
 </script>
 
 <c:when test="${form.list}">
-   <p>
-On this page you can search elements, which are previosly deleted and restore it.<br/>
-For large virtual file systems searching for deleted elements may take a while.
+	<p>
+		<fmt:message key='gwiki.page.edit.DeletedPages.text.line1' />
+		<br />
+		<fmt:message key='gwiki.page.edit.DeletedPages.text.line2' />
 </p>
-<p>
-Optionally you can search for a pageId, if you only like to restore a known page or other element.
-</p>
+<p><fmt:message key='gwiki.page.edit.DeletedPages.text.searchpageid' /></p>
     <fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/> <gwiki:text property="listFilter"/>
     <input type="submit" name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
     <input id="formactionname" type="hidden" name="action"/>

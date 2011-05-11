@@ -16,7 +16,7 @@
         <input class="wikiButton reset"  type="submit" name="method_onUnregister" value="<fmt:message key="gwiki.page.edit.ChangeNotification.button.unregister"/>" />
       </c:when>
       <c:otherwise>
-        <gwiki:checkbox property="recursive" /> Recursive<br />
+        <gwiki:checkbox property="recursive" /> <fmt:message key='gwiki.page.edit.ChangeNotification.label.recursive' /><br />
         <input class="wikiButton main" type="submit" name="method_onRegister" value="<fmt:message key="gwiki.page.edit.ChangeNotification.button.register"/>" />
       </c:otherwise>
     </c:choose></form>
