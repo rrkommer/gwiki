@@ -66,6 +66,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
+    wikiContext.getRequiredJs().add("/static/js/jstree/jquery.jstree.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwikieditorlevel/editor_plugin_src.js");
     wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
