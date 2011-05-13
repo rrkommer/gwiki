@@ -49,11 +49,11 @@ String.prototype.i18n = function() {
 	return (s) ? s : "???" + this + "???";
 }
 var i18n = { <%
-    wikiContext.append("\n");
+    final String lang = wikiContext.getUserStringProp("lang", "en");
     for (GWikiI18nElement elem : wikiContext.getI18nMaps()) {
-      for (String s : elem.getKeys("de")) {
+      for (String s : elem.getKeys(lang)) {
         if (s.startsWith("javascript.")) {
-          wikiContext.append("\"").append(s).append("\" : \"").append(elem.getMessage("de", s)).append("\",\n");
+          wikiContext.append("\"").append(s).append("\" : \"").append(elem.getMessage(lang, s)).append("\",");
         }
       }
     }
