@@ -15,17 +15,34 @@ function gwikiEscapeInput(str) {
 
 function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
-	var dlghtml = "Title: <input size=\"30\" type=\"text\" id=\"linkprtitle\"";
+	var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input size=\"30\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
 	}
 	dlghtml += "><br/>\n"
-			+ "Link: <input size=\"30\" type=\"text\" id=\"linkpropt\"";
+			+ "gwiki.editor.wikilink.dialog.link".i18n() + ": <input size=\"30\" type=\"text\" id=\"linkpropt\"";
 	if (currentLink.url) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
 	}
 	dlghtml += ">";
 	modc.html(dlghtml);
+	
+	var buttons = {};
+	buttons["gwiki.common.cancel".i18n()] = function() {
+		$(dialog).dialog('close');
+		parentWindow.focus();
+	}
+	buttons["gwiki.common.ok".i18n()] = function() {
+		var lt = $("#linkpropt").attr('value');
+		$(dialog).dialog('close');
+		parentWindow.focus();
+		var ret = {
+			url : $("#linkpropt").val(),
+			title : $("#linkprtitle").val()
+		};
+		callback(ret);
+	}
+	
 	var dialog = $("#editDialogBox").dialog( {
 		modal : true,
 		open : function(event, ui) {
@@ -50,22 +67,7 @@ function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback)
 			backgroundColor : '#000',
 			opacity : 0.5
 		},
-		buttons : {
-			'Cancel' : function() {
-				$(dialog).dialog('close');
-				parentWindow.focus();
-			},
-			'OK' : function() {
-				var lt = $("#linkpropt").attr('value');
-				$(dialog).dialog('close');
-				parentWindow.focus();
-				var ret = {
-					url : $("#linkpropt").val(),
-					title : $("#linkprtitle").val()
-				};
-				callback(ret);
-			}
-		},
+		buttons : buttons,
 		Abbrechen : function() {
 			$(this).dialog('close');
 			parentWindow.focus();
@@ -99,6 +101,20 @@ function gwikiEditInsertImageDialog(options, parentWindow, callback) {
 
 	var modc = $("#editDialogBox");
 	modc.html("<div id='editDlgInserImage'></div>");
+	
+	var buttons = {};
+	buttons["gwiki.common.cancel".i18n()] = function() {
+		$(dialog).dialog('close');
+		parentWindow.focus();
+	}
+	buttons["gwiki.common.ok".i18n()] = function() {
+		var lt = $("#linkpropt").attr('value');
+		// $(field).wrap('[' + lt + ']', '')
+		$(this).dialog('close');
+		parentWindow.focus();
+		// callback(parentWindow, lt);
+	}
+	
 	var dialog = $("#editDialogBox").dialog(
 			{
 				modal : true,
@@ -132,20 +148,7 @@ function gwikiEditInsertImageDialog(options, parentWindow, callback) {
 					backgroundColor : '#000',
 					opacity : 0.5
 				},
-				buttons : {
-					'Cancel' : function() {
-						$(dialog).dialog('close');
-						parentWindow.focus();
-					},
-					'OK' : function() {
-						var lt = $("#linkpropt").attr('value');
-
-						// $(field).wrap('[' + lt + ']', '')
-					$(this).dialog('close');
-					parentWindow.focus();
-					// callback(parentWindow, lt);
-				}
-				},
+				buttons : buttons,
 				'Abbrechen' : function() {
 					$(this).dialog('close');
 				}
@@ -154,12 +157,12 @@ function gwikiEditInsertImageDialog(options, parentWindow, callback) {
 
 function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
-	var dlghtml = "Title: <input size=\"50\" type=\"text\" id=\"linkprtitle\"";
+	var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input size=\"50\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
 	}
 	dlghtml += "><br/>\n"
-			+ "Link: <input size=\"50\" type=\"text\" id=\"linkpropt\"";
+			+ "gwiki.editor.wikilink.dialog.link".i18n() + ": <input size=\"50\" type=\"text\" id=\"linkpropt\"";
 	if (currentLink.url) {
 		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
 	}
@@ -185,6 +188,23 @@ function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 	dlghtml += "</script>";
 
 	modc.html(dlghtml);
+	
+	var buttons = {};
+	buttons["gwiki.common.cancel".i18n()] = function() {
+		$(dialog).dialog('close');
+		parentWindow.focus();
+	}
+	buttons["gwiki.common.ok".i18n()] = function() {
+		var lt = $("#linkpropt").attr('value');
+		$(dialog).dialog('close');
+		parentWindow.focus();
+		var ret = {
+			url : $("#linkpropt").val(),
+			title : $("#linkprtitle").val()
+		};
+		callback(ret);
+	}
+	
 	var dialog = $("#editDialogBox").dialog({
 		width : 500,
 		modal : true,
@@ -198,22 +218,7 @@ function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 			backgroundColor : '#000',
 			opacity : 0.5
 		},
-		buttons : {
-			'Cancel' : function() {
-				$(dialog).dialog('close');
-				parentWindow.focus();
-			},
-			'OK' : function() {
-				var lt = $("#linkpropt").attr('value');
-				$(dialog).dialog('close');
-				parentWindow.focus();
-				var ret = {
-					url : $("#linkpropt").val(),
-					title : $("#linkprtitle").val()
-				};
-				callback(ret);
-			}
-		},
+		buttons : buttons,
 		Abbrechen : function() {
 			$(this).dialog('close');
 			parentWindow.focus();
