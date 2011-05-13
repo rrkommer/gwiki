@@ -30,6 +30,7 @@ function gwikiCreateHtmlPageEditor(fieldId) {
 				mode : "none",
 				// elements: fieldId,
 				theme : "advanced",
+				language : "locale".i18n(),
 				// plugins :
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,filemanager",
 				// plugins :

@@ -54,6 +54,7 @@ function gwikiCreateTiny(partName, content) {
 				mode : "none",
 				theme : "advanced",
 				auto_resize : true,
+				language : "locale".i18n(),
 				// plugins :
 				// "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,filemanager",
 				// plugins :
