@@ -1,5 +1,8 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
+
+<%@page import="de.micromata.genome.gwiki.page.impl.GWikiI18nElement"%>
+
 <!-- htmlHead.gspt START -->
 <%@ page contentType="text/html; charset=UTF-8" %>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -34,6 +37,28 @@ var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
 <link href="<gwiki:url value="/static/js/jquery.menu.v009/demo/style.css"/>" rel="stylesheet" type="text/css" />
 <link type="text/css" href="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />
 
+<script type="text/javascript">
+<%--
+ you can localize any string of a registered i18n map starting with 'javascript.' 
+ for example: javascript.this.is.a.test.string
+ by calling the i18n function on it - removing the 'javascript.' prefix. In this case:
+ "this.is.a.test.string".i18n();
+--%>
+String.prototype.i18n = function() {
+	var s = i18n["javascript." + this];
+	return (s) ? s : "???" + this + "???";
+}
+var i18n = { <%
+    wikiContext.append("\n");
+    for (GWikiI18nElement elem : wikiContext.getI18nMaps()) {
+      for (String s : elem.getKeys("de")) {
+        if (s.startsWith("javascript.")) {
+          wikiContext.append("\"").append(s).append("\" : \"").append(elem.getMessage("de", s)).append("\",\n");
+        }
+      }
+    }
+%>}
+</script>
 
 <script type="text/javascript">
         function displayHilfeLayer(content, backwardscompparam){

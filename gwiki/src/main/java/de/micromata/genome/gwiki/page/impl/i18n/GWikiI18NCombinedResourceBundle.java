@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.i18n;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -58,8 +59,20 @@ public class GWikiI18NCombinedResourceBundle extends ResourceBundle
   @Override
   public Enumeration<String> getKeys()
   {
-    // TODO gwiki?
-    // wikiContext.getI18nMaps();
+    for (String module : modules) {
+      GWikiElement el = GWikiWeb.get().findElement(module);
+      if (el == null) {
+        GWikiLog.warn("I18N Module not found: " + module);
+        continue;
+      } 
+      if ((el instanceof GWikiI18nElement) == false) {
+        GWikiLog.warn("Element is not a I18N Module: " + module);
+        continue;
+      }
+      GWikiI18nElement i18nel = (GWikiI18nElement) el;
+      return Collections.enumeration(i18nel.getKeys(locale.getLanguage()));
+    }
+    
     return null;
   }
 
