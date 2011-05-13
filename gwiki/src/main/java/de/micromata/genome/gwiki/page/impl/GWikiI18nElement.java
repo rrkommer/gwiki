@@ -19,6 +19,7 @@
 package de.micromata.genome.gwiki.page.impl;
 
 import java.util.Map;
+import java.util.Set;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -49,6 +50,16 @@ public class GWikiI18nElement extends GWikiWikiPage
     }
     GWikiI18NArtefakt ia = (GWikiI18NArtefakt) f;
     return ia.getCompiledObject().containsKey(key);
+  }
+  
+  public Set<String> getKeys(String lang) {
+    GWikiArtefakt<?> f = parts.get(lang);
+    if (f == null || (f instanceof GWikiI18NArtefakt) == false) {
+      return null;
+    }
+    
+    GWikiI18NArtefakt ia = (GWikiI18NArtefakt) f;
+    return ia.getCompiledObject().keySet();
   }
 
   /**
