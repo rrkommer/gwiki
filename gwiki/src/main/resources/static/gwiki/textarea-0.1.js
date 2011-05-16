@@ -17,7 +17,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		var insText = range.text;
 
 		if (!insText && eTag)
-			return alert('Nichts markiert!');
+			return alert("gwiki.editor.textarea.message.notselected".i18n());
 
 		range.text = aTag + insText + eTag;
 
@@ -40,7 +40,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		var insText = input.value.substring(start, end);
 
 		if (!insText && eTag)
-			return alert('Nichts markiert!');
+			return alert("gwiki.editor.textarea.message.notselected".i18n());
 
 		input.value = input.value.substr(0, start) + aTag + insText + eTag
 				+ input.value.substr(end);
@@ -58,7 +58,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		input.selectionEnd = pos;
 
 	} else {
-		alert('nLeider unterstützt dein Browser nicht die notwendige Funktion!');
+		alert("gwiki.editor.textarea.message.browser".i18n());
 
 	}
 }
@@ -104,13 +104,13 @@ function insertIntoTextAreaOld(input, aTag, eTag) {
 		var pos;
 		var re = new RegExp('^[0-9]{0,3}$');
 		while (!re.test(pos)) {
-			pos = prompt("Einfügen an Position (0.." + input.value.length + "):", "0");
+			pos = prompt("gwiki.editor.textarea.label.insertat".i18n() + " (0.." + input.value.length + "):", "0");
 		}
 		if (pos > input.value.length) {
 			pos = input.value.length;
 		}
 		/* Einfügen des Formatierungscodes */
-		var insText = prompt("Bitte geben Sie den zu formatierenden Text ein:");
+		var insText = prompt("gwiki.editor.textarea.label.insertformat".i18n());
 		input.value = input.value.substr(0, pos) + aTag + insText + eTag
 				+ input.value.substr(pos);
 	}

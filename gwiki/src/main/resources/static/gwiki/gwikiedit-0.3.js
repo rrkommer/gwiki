@@ -40,7 +40,7 @@ function gwikiEditInsertTemplate(templateText)
 				} ],
 				wikitb : [ {
 					label : "H1",
-					tooltip : "Head 1 (Ctrl+1)",
+					tooltip : "gwiki.editor.button.tooltip.h1".i18n(),
 					accessKey : "1",
 					closeTag : "",
 					openTag : "h1. ",
@@ -48,7 +48,7 @@ function gwikiEditInsertTemplate(templateText)
 					clazz : "gwikiedit_head1"
 				}, {
 					label : "B",
-					tooltip : "Bold (Ctrl+b)",
+					tooltip : "gwiki.editor.button.tooltip.bold".i18n(),
 					accessKey : "b",
 					openTag : "*",
 					closeTag : "*",
@@ -56,7 +56,7 @@ function gwikiEditInsertTemplate(templateText)
 					clazz : "gwikiedit_bold"
 				}, {
 					label : "I",
-					tooltip : "Italic (Ctrl+i)",
+					tooltip : "gwiki.editor.button.tooltip.italic".i18n(),
 					accessKey : "i",
 					openTag : "_",
 					closeTag : "_",
@@ -64,7 +64,7 @@ function gwikiEditInsertTemplate(templateText)
 					clazz : "gwikiedit_italic"
 				}, {
 					label : "{{}}",
-					tooltip : "Codeblock (Alt+c)",
+					tooltip : "gwiki.editor.button.tooltip.codeblock".i18n(),
 					// accessKey : "b",
 					openTag : "{{",
 					closeTag : "}}",
@@ -72,38 +72,38 @@ function gwikiEditInsertTemplate(templateText)
 					clazz : "gwikiedit_codeblock"
 				}, {
 					label : "Link",
-					tooltip : "Link (Alt+l)",
+					tooltip : "gwiki.editor.button.tooltip.link".i18n(),
 					accessKey : "l",
 					callBack : "showLinkProposal",
 					altKeyCode : 76,
 					clazz : "gwikiedit_link"
 				}, {
 					label : "Image",
-					tooltip : "Image (Alt+i)",
+					tooltip : "gwiki.editor.button.tooltip.image".i18n(),
 					accessKey : "i",
 					callBack : "showImageProposal",
 					altKeyCode : 73,
 					clazz : "gwikiedit_image"
 				}, {
 					label : "Screenshot",
-					tooltip : "Insert new Screenshot (Alt+s)",
+					tooltip : "gwiki.editor.button.tooltip.screenshot".i18n(),
 					accessKey : "",
 					callBack : "insertImage",
 					clazz : "gwikiedit_screenshot"// ,
 				// altKeyCode : 73
-						}, {
-							label : "Attachment",
-							tooltip : "Insert existing Attachment",
-							accessKey : "",
-							callBack : "insertAttachment",
-							clazz : "gwikiedit_attachment"// ,
-						}, {
-							label : "Blueprint",
-							tooltip : "Insert a template",
-							accessKey : "",
-							callBack : "insertTemplate",
-							clazz : "gwikiedit_template"// ,
-						} ]
+				}, {
+					label : "Attachment",
+					tooltip : "gwiki.editor.button.tooltip.attachment".i18n(),
+					accessKey : "",
+					callBack : "insertAttachment",
+					clazz : "gwikiedit_attachment"// ,
+				}, {
+					label : "Blueprint",
+					tooltip : "gwiki.editor.button.tooltip.blueprint".i18n(),
+					accessKey : "",
+					callBack : "insertTemplate",
+					clazz : "gwikiedit_template"// ,
+				} ]
 			}
 		};
 		var options = $.extend(options, settings);

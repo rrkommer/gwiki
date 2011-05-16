@@ -1,7 +1,7 @@
 
 function wikiEditInsertImage(options, field) {
 	if (options.parentPageId == undefined || options.parentPageId == '') {
-		alert('Page to insert has saved initially.');
+		alert("gwiki.editor.wikiops.message.saved".i18n());
 		return;
 	}
 	gwikiEditField = field;
@@ -48,7 +48,7 @@ function wikiEditInsertImage(options, field) {
 function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 
 	var modc = $("#editDialogBox");
-	modc.html("Link: <input size=\"30\" type=\"text\" id=\"linkpropt\">");
+	modc.html("gwiki.common.link".i18n() + ": <input size=\"30\" type=\"text\" id=\"linkpropt\">");
 	var dialog = $("#editDialogBox").dialog(
 			{
 				modal : true,
@@ -82,13 +82,13 @@ function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 						var lt = $("#linkpropt").attr('value');
 
 						// $(field).wrap('[' + lt + ']', '')
-				$(this).dialog('close');
-				field.focus();
-				insertIntoTextArea(field, linkstart + lt + linkend, '');
-			}
-		},
-		Abbrechen : function() {
-			$(this).dialog('close');
-		}
+						$(this).dialog('close');
+						field.focus();
+						insertIntoTextArea(field, linkstart + lt + linkend, '');
+					}
+				},
+				Abbrechen : function() {
+					$(this).dialog('close');
+				}
 			});
 }

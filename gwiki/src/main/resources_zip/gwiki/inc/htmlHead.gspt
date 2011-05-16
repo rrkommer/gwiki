@@ -43,17 +43,19 @@ var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
  for example: javascript.this.is.a.test.string
  by calling the i18n function on it - removing the 'javascript.' prefix. In this case:
  "this.is.a.test.string".i18n();
+ 
+ output is a little bit obfuscated to minimize traffic overhead
 --%>
 String.prototype.i18n = function() {
 	var s = i18n["javascript." + this];
 	return (s) ? s : "???" + this + "???";
 }
-var i18n = { <%
+var i18n={<%
     final String lang = wikiContext.getUserStringProp("lang", "en");
     for (GWikiI18nElement elem : wikiContext.getI18nMaps()) {
       for (String s : elem.getKeys(lang)) {
         if (s.startsWith("javascript.")) {
-          wikiContext.append("\"").append(s).append("\" : \"").append(elem.getMessage(lang, s)).append("\",");
+          wikiContext.append("\"").append(s).append("\":\"").append(elem.getMessage(lang, s)).append("\",");
         }
       }
     }
