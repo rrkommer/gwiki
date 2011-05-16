@@ -2,11 +2,26 @@ function gwikiEditPagePath() {
 	
 	var path = document.getElementById('editPagePath').value;
 	var modc = $("#editDialogBox");
-	var dlghtml = "<b>NOTE:</b> Use this function to manipulate the path at your own risk.<br /><br />" +
-			"<label for=\"pathtextfield\" style=\"margin-right:10px\">Path:</label><input size=\"44\" type=\"text\" id=\"pathtextfield\""
+	var dlghtml = "<b>" + "gwiki.common.note".i18n() + ":</b> "
+			+ "gwiki.editor.editpath.dialog.hint".i18n() + "<br /><br />"
+			+ "<label for=\"pathtextfield\" style=\"margin-right:10px\">"
+			+ "gwiki.common.path".i18n() + ":</label>"
+			+ "<input size=\"44\" type=\"text\" id=\"pathtextfield\""
 				+ " value='" + path + "'/><br/>\n";
 
 	modc.html(dlghtml);
+	
+	var buttons = {};
+	
+	buttons["gwiki.common.cancel".i18n()] = function() {
+		$(dialog).dialog('close');
+	}
+	
+	buttons["gwiki.common.ok".i18n()] = function() {
+		var value = $("#pathtextfield").attr('value');
+		$(dialog).dialog('close');
+		document.getElementById('editPagePath').value = value;		
+	}
 	
 	var dialog = $("#editDialogBox").dialog({
 		width : 500,
@@ -21,16 +36,7 @@ function gwikiEditPagePath() {
 			backgroundColor : '#000',
 			opacity : 0.5
 		},
-		buttons : {
-			'Cancel' : function() {
-				$(dialog).dialog('close');
-			},
-			'OK' : function() {
-				var value = $("#pathtextfield").attr('value');
-				$(dialog).dialog('close');
-				document.getElementById('editPagePath').value = value;
-			}
-		},
+		buttons : buttons,
 		Abbrechen : function() {
 			$(this).dialog('close');
 		}

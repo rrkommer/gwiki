@@ -15,7 +15,7 @@ function gwikiUnsetContentChanged() {
 function gwikiOnUnload() {
 	if (gwikiContentChanged == false)
 		return;
-	return "Wollen Sie wirklich den Editor verlassen?";
+	return "gwiki.editor.message.leave".i18n();
 }
 
 window.onbeforeunload = gwikiOnUnload;

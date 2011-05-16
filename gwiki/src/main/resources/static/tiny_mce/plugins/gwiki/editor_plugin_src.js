@@ -20,12 +20,12 @@
 							ed.addCommand('mceGWikiInsertChoosenLink', t._insertChoosenLink, t);
 							// Register buttons
 							ed.addButton('wikilink', {
-								title : 'Insert Wiki Link',
+								title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
 								cmd : 'mceGWikiInsertLink',
 								'class' : 'mceIcon mce_link'
 							});
 							ed.addButton('wikichoosenlink', {
-								title : 'Insert Wiki Link',
+								title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
 								cmd : 'mceGWikiInsertChoosenLink',
 								'class' : 'mceIcon mce_link'
 							});
@@ -39,27 +39,23 @@
 										.createSplitButton(
 												'wikiimage',
 												{
-													title : 'Image',
+													title : "gwiki.editor.tinymce.gwiki.wikiimage.title".i18n(),
 													image : gwikiContextPath + gwikiServletPath + '/static/tiny_mce/plugins/gwiki/img/image.png',
-													'class' : 'mceIcon mce_image',
-													onclick : function() {
-														tinyMCE.activeEditor.windowManager
-																.alert('Button was clicked.');
-													}
+													'class' : 'mceIcon mce_image'
 												});
 								c.onRenderMenu.add(function(c, m) {
 									m.add( {
-										title : 'Image',
+										title : "gwiki.editor.tinymce.gwiki.wikiimage.title".i18n(),
 										'class' : 'mceIcon mce_image'
 									}).setDisabled(1);
 									m.add( {
-										title : 'New Image',
+										title : "gwiki.editor.tinymce.gwiki.wikiimage.new".i18n(),
 										onclick : function() {
 											t._insertScreenshot();
 										}
 									});
 									m.add( {
-										title : 'Existant Image',
+										title : "gwiki.editor.tinymce.gwiki.wikiimage.existing".i18n(),
 										onclick : function() {
 											t._insertImage();
 										}
