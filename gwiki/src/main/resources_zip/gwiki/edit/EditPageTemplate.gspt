@@ -144,9 +144,7 @@ function viewBackupDiff()
 		value="<fmt:message key="gwiki.edit.button.delete"/>" />
 </c:if> 
 <c:if test="${form.newPage == true}"> 
-	<a class="gwikiButton" onclick="gwikiEditPagePath()">
-		<fmt:message key="gwiki.edit.EditPage.button.path" />
-	</a>
+	<input type="button" class="gwikiButton" onclick="gwikiEditPagePath()" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
 	<gwiki:hidden styleId="editPagePath" property="storePath" />
 </c:if>
 <gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" />
