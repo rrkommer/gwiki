@@ -85,10 +85,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
           sb.append("$('#" + titleField + "').val('" + ei.getTitle() + "');");
         }
       } else if (StringUtils.equals(openTarget, "true")) {
-        String targetLink = wikiContext.getRequest().getContextPath()
-            + wikiContext.getRequest().getServletPath()
-            + "/" 
-            + ei.getId();
+        String targetLink = wikiContext.localUrl(ei.getId());
         sb.append("javascript:window.location.href='").append(targetLink).append("'");
       }
 
