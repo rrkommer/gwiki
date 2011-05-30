@@ -139,7 +139,7 @@ function gwikiEditInsertTemplate(templateText)
 								+ "\" width=\"100%\" height=\"100%\"></div>");
 
 				// add the toolbar et statusbar
-				var toolbar = $("<table class='gwikiedit_table'></table>");
+				var toolbar = $("<table class='gwikiedit_table'><tbody><tr></tr></tbody></table>");
 				var toolbarWrapper = $("<div class=\"" + options.toolBarClassName + "\"></div>")
 						.insertBefore("#gwikiwed" + pn);
 				toolbar.appendTo(toolbarWrapper);
@@ -162,7 +162,7 @@ function gwikiEditInsertTemplate(templateText)
 							title = button.tooltip;
 						}
 						var hasBody = button.closeTag != null && button.closeTag != "" ? true : false;
-						$(
+						var output = $(
 							"<td><a href=\"\" accesskey=\"" + button.accesskey + "\" "
 									+ " bodytag=\"" + hasBody 
 									+ "\" title=\"" + title + "\" class='gwikiedit_icon " + button.clazz 
@@ -180,7 +180,8 @@ function gwikiEditInsertTemplate(templateText)
 											
 							tag(button);
 							return false;
-						}).appendTo(toolbar);
+						});
+						output.appendTo(toolbar.find("tr"));
 					});
 				
 				if (!$.browser.opera)
