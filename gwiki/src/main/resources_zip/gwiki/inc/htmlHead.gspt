@@ -52,13 +52,19 @@ String.prototype.i18n = function() {
 }
 var i18n={<%
     final String lang = wikiContext.getUserStringProp("lang", "en");
+
+    StringBuffer buf = new StringBuffer();
+    
     for (GWikiI18nElement elem : wikiContext.getI18nMaps()) {
       for (String s : elem.getKeys(lang)) {
         if (s.startsWith("javascript.")) {
-          wikiContext.append("\"").append(s).append("\":\"").append(elem.getMessage(lang, s)).append("\",");
+          buf.append("\"").append(s).append("\":\"").append(elem.getMessage(lang, s)).append("\",");
         }
       }
     }
+    
+    buf.deleteCharAt(buf.length() - 1);
+    wikiContext.append(buf.toString());
 %>}
 </script>
 
