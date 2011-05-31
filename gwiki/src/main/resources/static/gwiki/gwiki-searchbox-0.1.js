@@ -1,5 +1,10 @@
 function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) 
 {
+	var _currVal = "";
+	$(field).keyup(function() {
+		_currVal = $(this).val();
+	});
+	
 	$(field).autocomplete(linkAutoCompleteUrl, {
 		matchContains : true,
 		cacheLength: 1,
@@ -13,6 +18,11 @@ function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl)
 			return row[1];
 		}
 	}).result(function(event, item) {
-		location.href = item[0];
+		if (item[0].trim().startsWith("/edit/Search")) {
+			location.href = item[0].replace(/se=.*$/,"se=" + _currVal);;
+		} else {
+			location.href = item[0];
+		}
+		return false;
 	});
 }
