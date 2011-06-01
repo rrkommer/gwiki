@@ -2,6 +2,23 @@
 Change/Edit User settings.
 {pageintro}
 
-{note}
-Document me.
-{note}
+h3. Email
+The users Email address. This address will be used to send change notifications
+
+h3. Skin 
+Skin of the User Interface
+
+h3. Language 
+Language of the User Interface
+
+h3. timestampformat 
+Personal timestamp format
+
+h3. Timezone 
+Your local time zone
+
+h3. Password
+If you want to change your password, you can do this with entering the new password twice.
+
+h3. Homepage
+Page inside the Wiki. After login this page will be opened. Use a valid pageId (e.g. {{gwikidocs/help/en/Profile}})
