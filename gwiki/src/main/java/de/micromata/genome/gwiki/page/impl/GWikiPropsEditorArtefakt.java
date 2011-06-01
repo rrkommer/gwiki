@@ -403,12 +403,13 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         if (d.getLabel() != null) {
           label = ctx.getTranslatedProp(d.getLabel());
         }
-        ctx.append("<label style=\"float: left; clear: left; width: 10em;\">").appendEscText(label).append("</label>");
-        ctx.append("<span style=\"float:left; width: 55em;\">").append(nested).append("</span>")//
-            .append("<span style=\"float:left;width: 2em;\">").append(renderHelpLink(d, ctx)).append("</span>");
-        ctx.append("<span style=\"float: left;\">").append(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))).append(
-            "</span>\n");
-        //        
+        ctx.append("<div style=\"clear:left; margin-top:0.5em\">");
+        ctx.append("<label style=\"float:left; width:10em;\">").appendEscText(label).append("</label>");
+        ctx.append("<div style=\"float:left; width:23em\">").append(nested).append("</div>");
+        ctx.append("<span style=\"float:left; margin-left:1em; width:2em; height:28px\">").append(renderHelpLink(d, ctx)).append("</span>");
+        ctx.append("<span>").append(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))).append("</span>\n");
+        ctx.append("</div>");
+        //
         // table.add( //
         // Html.tr( //
         // Html.td(Xml.code(label)), //
