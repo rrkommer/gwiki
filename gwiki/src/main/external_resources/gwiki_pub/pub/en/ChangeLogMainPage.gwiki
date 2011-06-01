@@ -2,6 +2,115 @@
 Detailed Changelog for GWiki.
 {pageintro}
 
+h2. 0.6.1-SNAPSHOT
+h3. 2011-06-01
+- Fixed broken property editor style
+- Fixed IE7/8 behaviors
+
+h3. 2011-05-13
+- Added missing i18n in java and gspt files
+- Added javascript i18n
+
+h3. 2011-05-03
+- Made fancybox css paths relative
+
+h3. 2011-04-29
+- Moved path input field from Edit page to a modal dialog
+- Enhanced RTE controls by dividing it's complexity in three parts (simple, advanced, expert)
+- Fixed broken help link
+
+h3. 2011-04-13
+- Removed control elements of hierarchical breadcrumb
+
+h3. 2011-04-01
+- Added new hierarchical breadcrumb macro
+
+h3. 2011-03-26
+- Added new pagetree macro for tree navigation
+- Enhanced plugin information (GWIKI-60)
+- Added a new {{<gwiki:macro />}} tag for jsp / gspt pages (GWIKI-136)
+- Added html attributes to macros column and section (GWIKI-137)
+
+h3. 2011-03-14
+- Grouped settings into several groups and hiding unimportant (GWIKI-130)
+- Fixed paragraph handling and added a spellchecker to RTE
+- Added RTE command to allow insertion of hyperlinks via tree navigation
+
+h3. 2011-03-08
+- Added possibility to create a plugin specific authorization
+- Enhanced encoding to create a pageId from a title (GWIKI-17)
+- If title is not set use not complete id as title, but only last filename part (GWIKI-128)
+- Fixed problem registering multiple MPC in plugin (GWIKI-126)
+- Added filter to recognize and delete corresponding files, if a file is deleted (GWIKI-119)
+
+h3. 2011-03-03
+- Added special format for monospace text in RTE
+- Fixed diverse RTE related bugs (GWIKI-106, GWIKI-107, GWIKI-108)
+- Fixed bug: Validation error causes pageId duplication (GWIKI-105)
+
+h3. 2011-02-27
+- Rights from different plugins are merged now
+- Added possibility to run a special operation with a given right
+
+h3. 2011-02-19
+- Added a fancybox macro to display modal content (GWIKI-90)
+- Fixed bug: Links to images are not resolved correctly (GWIKI-95)
+- Created a sitemap
+- Added change comment Artefakt to Wiki pages
+- Changed date persistance from local time to UTC
+- Enabled plugin to add rights to roles config (GWIKI-93)
+
+h3. 2011-02-09
+- Enabled incremental index creating regarding {{modifiedat}} field. (GWIKI-84)
+- Added user login / logout filter (GWIKI-83)
+- Removed index informations from settings of binary files
+
+h3. 2011-02-04
+- Provide a mechanism for email templates.
+-- Templates managed via GWiki
+-- Supports dynamics
+-- Supports I18N
+-- Scheduler
+
+
+h3. 2011-02-02
+- Added a region to allow plugins to render additional menus (GWIKI-59)
+- Pipe of back-translation-macros will now be escaped (GWIKI-64)
+- Added style classes to GWiki Links (GWIKI-63)
+
+h3. 2011-01-24
+- Updated GUI to assign user permissions (GWIKI-49)
+- Moved plugins to own projects
+- Logviewer styled up
+- Added RSS reader plugin
+- Solved problem with character formatting (GWIKI-45)
+- Added configuration possibility for file archiving (GWIKI-51)
+
+h3. 2011-01-16
+- Optimized content of Settings files (GWIKI-47)
+- Fixed indenting issue in RTE (GWIKI-46)
+- Nested list elements will now preserve their list-type while switching Editors (GWIKI-43)
+- RTE alignment is now supported with translating div elements. (GWIKI-48)
+
+h3. 2011-01-14
+- Fixed bug: Writing / reading plugin templates from different locations after a template was edited (GWIKI-39)
+- Added minimal logging threshold
+- Blockquote is now working also in RTE (GWIKI-42)
+- Administration pages has now a reference to the last visited page (GWIKI-44)
+- Fixed bug: Save does not work in RTE (GWIKI-41)
+
+h3. 2011-01-11
+- Enhanced plugin dependency management (GWIKI-38)
+- Added plugin to view logfiles. (GWIKI-22)
+
+h3. 2011-01-09
+- Added plugin activate / deactivate Listener. (GWIKI-34)
+- Fixed bug: After image always a <br/> is appended. (GWIKI-31)
+- Support Wiki Syntax inside the title of a link. (GWIKI-32)
+- Fixed bug: Sometimes - with only a few character in editor - switching between wiki and preview or rte text disapear. (GWIKI-33)
+
+h3. 2011-01-06
+- Lockfile name correction
 
 h2. 0.4.2-SNAPSHOT
 h3. 2010-12-12
