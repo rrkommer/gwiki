@@ -18,6 +18,9 @@
 							ed.addCommand('mceGWikiInsertImage', t._insertImage, t);
 							ed.addCommand('mceGWikiInsertScreenshot', t._insertScreenshot, t);
 							ed.addCommand('mceGWikiInsertChoosenLink', t._insertChoosenLink, t);
+							ed.addCommand('mceGWikiSaveAction', t._saveAction, t);
+							ed.addCommand('mceGWikiCancelAction', t._cancelAction, t);
+							
 							// Register buttons
 							ed.addButton('wikilink', {
 								title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
@@ -28,6 +31,16 @@
 								title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
 								cmd : 'mceGWikiInsertChoosenLink',
 								'class' : 'mceIcon mce_link'
+							});
+							ed.addButton('wikisaveaction', {
+								title : "gwiki.editor.button.tooltip.save".i18n(),
+								cmd : 'mceGWikiSaveAction',
+								'class' : 'mceIcon mce_save'
+							});
+							ed.addButton('wikicancelaction', {
+								title : "gwiki.editor.button.tooltip.cancel".i18n(),
+								cmd : 'mceGWikiCancelAction',
+								'class' : 'mceIcon mce_cancel'
 							});
 
 						},
@@ -211,6 +224,12 @@
 											tinyMCE.activeEditor.dom.encode(result.title));
 								}
 							});
+						},
+						_saveAction : function(ui, v) {
+							$("#gwikieditsavebutton").click();
+						}, 
+						_cancelAction : function(ui, v) {
+							$("#gwikieditcancelbutton").click();
 						}
 					});
 

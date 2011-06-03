@@ -39,6 +39,26 @@ function gwikiEditInsertTemplate(templateText)
 					callBack : "onPreview"
 				} ],
 				wikitb : [ {
+					label : "Save",
+					tooltip : "gwiki.editor.button.tooltip.save".i18n(),
+					accessKey : "",
+					callBack : "gwikiEditSave",
+					clazz : "gwikiedit_icon_tinymce gwikiedit_save"
+				}, {
+					label : "Cancel",
+					tooltip : "gwiki.editor.button.tooltip.cancel".i18n(),
+					accessKey : "",
+					callBack : "gwikiEditCancel",
+					clazz : "gwikiedit_icon_tinymce gwikiedit_cancel"
+				}, {
+					label : "Fullscreen",
+					tooltip : "gwiki.editor.button.tooltip.fullscreen".i18n(),
+					accessKey : "",
+					callBack : "gwikiFullscreen('gwikiwktabs')",
+					clazz : "gwikiedit_icon_tinymce gwikiedit_fullscreen"
+				}, {
+					type : "seperator"
+				}, {
 					label : "H1",
 					tooltip : "gwiki.editor.button.tooltip.h1".i18n(),
 					accessKey : "1",
@@ -53,7 +73,7 @@ function gwikiEditInsertTemplate(templateText)
 					openTag : "*",
 					closeTag : "*",
 					keyCode : 66,
-					clazz : "gwikiedit_bold"
+					clazz : "gwikiedit_icon_tinymce gwikiedit_bold"
 				}, {
 					label : "I",
 					tooltip : "gwiki.editor.button.tooltip.italic".i18n(),
@@ -61,7 +81,14 @@ function gwikiEditInsertTemplate(templateText)
 					openTag : "_",
 					closeTag : "_",
 					keyCode : 73,
-					clazz : "gwikiedit_italic"
+					clazz : "gwikiedit_icon_tinymce gwikiedit_italic"
+				}, {
+					label : "U",
+					tooltip : "gwiki.editor.button.tooltip.underline".i18n(),
+					accessKey : "u",
+					openTag : "+",
+					closeTag : "+",
+					clazz : "gwikiedit_icon_tinymce gwikiedit_underline"
 				}, {
 					label : "{{}}",
 					tooltip : "gwiki.editor.button.tooltip.codeblock".i18n(),
@@ -76,7 +103,7 @@ function gwikiEditInsertTemplate(templateText)
 					accessKey : "l",
 					callBack : "showLinkProposal",
 					altKeyCode : 76,
-					clazz : "gwikiedit_link"
+					clazz : "gwikiToolbarIcon gwikiedit_link"
 				}, {
 					label : "Image",
 					tooltip : "gwiki.editor.button.tooltip.image".i18n(),
@@ -103,6 +130,14 @@ function gwikiEditInsertTemplate(templateText)
 					accessKey : "",
 					callBack : "insertTemplate",
 					clazz : "gwikiedit_template"// ,
+				}, {
+					type : "seperator"
+				}, {
+					label : "Help",
+					tooltip : "gwiki.editor.button.tooltip.help".i18n(),
+					accessKey : "",
+					callBack : "gwikiHelp",
+					clazz : "gwikiedit_icon_tinymce gwikiedit_help"
 				} ]
 			}
 		};
@@ -162,25 +197,18 @@ function gwikiEditInsertTemplate(templateText)
 							title = button.tooltip;
 						}
 						var hasBody = button.closeTag != null && button.closeTag != "" ? true : false;
+						var clazz = button.type != null && button.type == "seperator" 
+							? "gwikiedit_seperator"
+							: "gwikiedit_icon " + button.clazz;
 						var output = $(
 							"<td><a href=\"\" accesskey=\"" + button.accesskey + "\" "
 									+ " bodytag=\"" + hasBody 
-									+ "\" title=\"" + title + "\" class='gwikiedit_icon " + button.clazz 
+									+ "\" title=\"" + title + "\" class='" + clazz 
 									+ "'></a></td>")
 									.click(function() {
-										
-								var anchor = $(this).children(":first");
-								if (anchor.attr('bodytag') != null && anchor.attr('bodytag') == 'true') {
-									if (anchor.hasClass('gwikiedit_iconActive')) {
-										anchor.removeClass('gwikiedit_iconActive');
-									} else {
-										anchor.addClass('gwikiedit_iconActive');
-									}
-								}
-											
-							tag(button);
-							return false;
-						});
+										tag(button);
+										return false;
+									});
 						output.appendTo(toolbar.find("tr"));
 					});
 				

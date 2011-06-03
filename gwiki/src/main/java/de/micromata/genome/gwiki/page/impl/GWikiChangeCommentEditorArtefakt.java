@@ -82,10 +82,13 @@ public class GWikiChangeCommentEditorArtefakt extends GWikiTextPageEditorArtefak
   public boolean renderWithParts(GWikiContext ctx)
   {
     String html = //
-    Html.p(Xml.text(ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.edit.EditPage.ChangeComment.intro.text")), //
-        Html.br(), //
-        Html.textarea(Xml.attrs("id", ctx.genHtmlId("gwikitextpe"), "rows", "20", "cols", "100", "name", partName + ".wikiText"), // 
-            Xml.text(""))).toString();
+    Html.div(
+        Xml.attrs("style", "width:100%"),
+        Html.p(Xml.text(ctx.getWikiWeb().getI18nProvider().translate(ctx, "gwiki.edit.EditPage.ChangeComment.intro.text")), //
+            Html.br(), //
+            Html.textarea(Xml.attrs("id", ctx.genHtmlId("gwikitextpe"), "style", "width:100%; padding:0", "rows", "5", "cols", "100",
+                "name", partName + ".wikiText"), //
+                Xml.text("")))).toString();
     ctx.append(html);
     return true;
   }
