@@ -1,5 +1,14 @@
 <% wikiContext.skinInclude("noauthhead"); %>
 <@include file="inc/stdtags.gspt" @>
+
+<script type="text/javascript">
+<!--
+$(function() {
+	$("#user").focus();
+});
+//-->
+</script>
+
 <div id="gwikiForm">
 	<form class="gwikiForm col" method="post" id="login">
 		<gwiki:hidden property="pageId" />
