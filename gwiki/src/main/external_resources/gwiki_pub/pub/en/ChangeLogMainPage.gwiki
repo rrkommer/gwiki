@@ -3,9 +3,14 @@ Detailed Changelog for GWiki.
 {pageintro}
 
 h2. 0.6.1-SNAPSHOT
+h3. 2011-06-03
+- Moved settings tab of edit pages to a modal dialog (GWIKI-147)
+- Added configuration item to allow vertical sets of editors instead of tabbed editors (GWIKI-149)
+- Added some control buttons to the Wiki editor and moved meta controls to the toolbars of each editor (GWIKI-148)
+
 h3. 2011-06-01
 - Fixed broken property editor style
-- Fixed IE7/8 behaviors
+- Fixed several IE7/8 bugs
 
 h3. 2011-05-13
 - Added missing i18n in java and gspt files
