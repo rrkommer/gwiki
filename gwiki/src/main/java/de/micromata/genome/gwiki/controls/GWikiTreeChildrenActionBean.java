@@ -114,10 +114,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
   public String getRootPage()
   {
     if (StringUtils.isBlank(rootPage)) {
-      GWikiElement home = wikiContext.getWikiWeb().getHomeElement(wikiContext);
-      if (home != null) {
-        rootPage = home.getElementInfo().getId();
-      }
+      rootPage = wikiContext.getWikiWeb().getWikiConfig().getWelcomePageId();
     }
     return rootPage;
   }
