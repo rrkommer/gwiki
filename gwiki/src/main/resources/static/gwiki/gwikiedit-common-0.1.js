@@ -57,7 +57,7 @@ function gwikiEditSettings() {
 	}
 	
 	var dialog = $("#EditorSettings").dialog({
-		width : 1000,
+		width : 640,
 		modal : true,
 		open : function(event, ui) {
 			$("#pathtextfield").focus();
