@@ -81,39 +81,11 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     String pn = partName;
     String html = Html.textarea(
         Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText",
-            "style", "width:100%;height:100%"), // 
+            "style", "width:100%;height:100%"), //
         Xml.text(textPage.getStorageData())).toString();
-    String commands = // "<span class=\"mceEditor defaultSkin\">"
-    "<table class=\"gwikiToolPanel\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n"
-        + "<tr>"
-        + "<td style=\"position: relative;\" >\n"
-        + "<table class=\"gwikiToolBar\" cellspacing=\"0\" cellpadding=\"0\" ><tr>\n"
-        + "<td style=\"position: relative;\"><a title=\"" 
-        + ctx.getTranslated("gwiki.edit.EditPage.button.save")
-        + "\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-        + "<span class=\"gwikiToolbarIcon gwikiIcon_save\" onclick=\"gwikiEditSave()\"></span>"
-        + "</a></td>\n"
-        + "<td style=\"position: relative;\"><a title=\"" 
-        + ctx.getTranslated("gwiki.edit.EditPage.button.cancel")
-        + "\" class=\"mceButton mceButtonEnabled\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-        + "<span class=\"gwikiToolbarIcon gwikiIcon_cancel\" onclick=\"gwikiEditCancel()\"></span>"
-        + "</a></td>\n"
-        + "<td style=\"position: relative;\"><a class=\"mceButton mceButtonEnabled\" title=\"" 
-        + ctx.getTranslated("gwiki.edit.EditPage.button.fullscreen")
-        + "\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-        + "<span class=\"gwikiToolbarIcon gwikiIcon_fullscreen\" onclick=\"gwikiFullscreen('gwikiWikiEditorFrame')\"></span>"
-        + "</a></td>"
-        + "<td style=\"position: relative;\">"
-        + "<a class=\"mceButton mceButtonEnabled\" title=\"GWiki Help\" href=\"javascript:\" onmousedown=\"return false;\" onclick=\"return false;\">"
-        + "<span class=\"gwikiToolbarIcon gwikiIcon_help\" onclick=\"gwikiHelp()\"></span>"
-        + "</a></td>\n"
-        + "<td>&nbsp;</td>\n"
-        + "</tr></table>"
-        + "</td><td>&nbsp;</td></tr></table>";
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
         + "\" style=\"width: 100%; height: 100%\">"
-        + commands
         + "<div id='gwikiwktabs"
         + pn
         + "'>"

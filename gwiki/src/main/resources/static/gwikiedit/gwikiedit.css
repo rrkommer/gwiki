@@ -1,3 +1,7 @@
+.collapsible {
+	cursor: default;	
+}
+
 .gwiki-toolBar {
 	background-color: #F0F0EE;
 	height: 27px;
@@ -13,12 +17,39 @@
 .gwikiedit_icon {
 	border:1px solid #F0F0EE;
 	display: block;
-	width: 16px;
-	height: 16px;
+	width: 20px;
+	height: 20px;
 	padding: 1px;
 	background-position:center; 
 	background-repeat: no-repeat;
 	cursor: default;
+}
+
+.gwikiedit_seperator {
+	background-position: -180px 0 !important;
+	width: 2px !important;
+	height: 20px !important;
+	margin: 2px 2px 0 4px !important;
+	display: block;
+	cursor: default;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: transparent
+		url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
+		scroll 20px 20px;
+}
+
+.gwikiedit_icon_tinymce {
+	display: block;
+	height: 20px;
+	width: 20px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: transparent
+		url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat
+		scroll 20px 20px;
 }
 
 .gwikiedit_icon:hover {
@@ -31,16 +62,40 @@
 	background-color:#C2CBE0;
 }
 
+.gwikiedit_help {
+	background-position: -340px 0;
+}
+
+.gwikiedit_fullscreen {
+	background-position: -100px -20px;
+}
+
+.gwikiedit_cancel {
+	background-position: -460px -20px;
+}
+
+.gwikiedit_save {
+	background-position: -480px -20px;
+}
+
+.gwikiedit_preview {
+	
+}
+
 .gwikiedit_head1 {
 	background-image: url(img/text_heading_1.png);
 }
 
 .gwikiedit_bold {
-	background-image: url(img/text_bold.png);
+	background-position: 0 0 !important;
 }
 
 .gwikiedit_italic {
-	background-image: url(img/text_italic.png);
+	background-position: -60px 0 !important;
+}
+
+.gwikiedit_underline {
+	background-position: -140px 0 !important;
 }
 
 .gwikiedit_codeblock {
@@ -48,7 +103,7 @@
 }
 
 .gwikiedit_link {
-	background-image: url(img/link.png);
+	background-position: -500px 0 !important;
 }
 
 .gwikiedit_image {

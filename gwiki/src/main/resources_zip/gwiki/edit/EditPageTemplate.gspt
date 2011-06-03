@@ -147,6 +147,7 @@ function viewBackupDiff()
 	<input type="button" class="gwikiButton" onclick="gwikiEditPagePath()" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
 	<gwiki:hidden styleId="editPagePath" property="storePath" />
 </c:if>
+<input type="button" class="gwikiButton" onclick="gwikiEditSettings()" value="Settings" />
 <gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" />
 <label for="noNotificationEmails">
 	<fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" />
@@ -159,13 +160,20 @@ function viewBackupDiff()
 <div id='modalContent'></div>
 <div id='loading'></div>
 <div id='editDialogBox'></div>
+
+
+<c:if test="${form.metaTemplate.tabbedEditor == 'true'}">
 <div id="tabs" style="min-height: 600px">
 <ul>
   <%
-    for (me in form.editors) { %>
+    for (me in form.editors) { 
+      // avoid settings tab. settings will be rendered as hidden editor
+      if (me.key.equals("Settings")) continue;
+    %>
     <li><a href="#Editor<%= me.key %>"><span><%= me.value.tabTitle.length() == 0 ? "Default" : me.value.tabTitle %></span></a></li>
   <%}  %>
 </ul>
+</c:if>
 
 <%
     for (me in form.editors) { %>
@@ -173,8 +181,12 @@ function viewBackupDiff()
 <% me.value.render(wikiContext); %>
 </div>
 <%  }  %>
-</div>
 
+<c:if test="${form.metaTemplate.tabbedEditor == 'true'}">
+</div>
+</c:if>
+ 
+ 
 <script type="text/javascript">
 function restoreBackup()
 {
@@ -199,13 +211,17 @@ var saveAsync =   function () {
       }
   });
 }   
+
+\$(document).ready(function() {
+	$("#EditorSettings").hide();
+});
   
   \$(document).ready(function(){
     var tabs = \$("#tabs").tabs(
           { selected: 0,
             select: function(event, ui) {
             try {
-              eval("" + gwikiCurrentPart + "Deactivate('" + gwikiCurrentPart + "')");
+              eval("" + gwikiCurrrentPart + "Deactivate('" + gwikiCurrentPart + "')");
             } catch (ex) {
             }
             gwikiCurrentPart = gwikiParts[ui.index];

@@ -125,6 +125,11 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    * Additionally properties descriptor for settings.
    */
   private GWikiPropsDescriptor addPropsDescriptor = null;
+  
+  /**
+   * Flag to display contained editors tab wise or row wise
+   */
+  private boolean tabbedEditor = true;
 
   public GWikiMetaTemplate()
   {
@@ -350,6 +355,22 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   public String getAllowedNewParentMetaTemplatesRule()
   {
     return allowedNewParentMetaTemplatesRule;
+  }
+
+  /**
+   * @param tabbedEditor the tabbedEditor to set
+   */
+  public void setTabbedEditor(boolean tabbedEditor)
+  {
+    this.tabbedEditor = tabbedEditor;
+  }
+
+  /**
+   * @return the tabbedEditor
+   */
+  public boolean isTabbedEditor()
+  {
+    return tabbedEditor;
   }
 
 }

@@ -9,6 +9,7 @@
 		<property name="elementLifeTime" value="3600000" />
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
+        <property name="tabbedEditor" value="false" />
 		<property name="parts">
 			<map>
 				<entry key="Controler">

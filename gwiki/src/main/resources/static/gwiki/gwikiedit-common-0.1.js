@@ -42,3 +42,36 @@ function gwikiEditPagePath() {
 		}
 	});
 }
+
+function gwikiEditSettings() {
+	$('#EditorSettings').hide();
+	var modc = $("#EditorSettings");
+	var buttons = {};
+	
+	buttons["gwiki.common.cancel".i18n()] = function() {
+		$(dialog).dialog('close');
+	}
+	
+	buttons["gwiki.common.ok".i18n()] = function() {
+		$(dialog).dialog('close');
+	}
+	
+	var dialog = $("#EditorSettings").dialog({
+		width : 1000,
+		modal : true,
+		open : function(event, ui) {
+			$("#pathtextfield").focus();
+		},
+		close : function(event, ui) {
+			$(dialog).dialog('destroy');
+		},
+		overlay : {
+			backgroundColor : '#000',
+			opacity : 0.5
+		},
+		buttons : buttons,
+		Abbrechen : function() {
+			$(this).dialog('close');
+		}
+	});
+}
