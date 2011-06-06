@@ -52,6 +52,8 @@ public class PatchVersion
   {
     this.version = version;
     String parentPomPattern = "(.+<artifactId>gwiki-parent</artifactId>.+?<groupId>de.micromata.genome.gwiki</groupId>.+?<version>)(.*?)(</version>.+)";
+    String currPomPattern = "(.+<groupId>de.micromata.genome.gwiki</groupId>.+?<artifactId>gwiki</artifactId>.+?<version>)(.*?)(</version>.+)";
+    
     files.add(Pair.make("../gwiki-parent/pom.xml", "(.+?<name>gwiki</name>.+?<version>)(.+?)(</version>.+)"));
     files.add(Pair.make("pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-genome-dependencies/pom.xml", parentPomPattern));
@@ -59,6 +61,22 @@ public class PatchVersion
     files.add(Pair.make("../gwiki-webapp/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-wicket/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-wicket-examples/pom.xml", parentPomPattern));
+    
+    // plugins
+    files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-pagelifecycle/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-pagelifecycle/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-sampleplugin/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-scheduler/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-style-ProjectForge/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-style-ProjectForge-example/pom.xml", currPomPattern));
+    
+    // internals
     files.add(Pair.make("src/main/java/de/micromata/genome/gwiki/model/GWikiVersion.java", "(.*?VERSION = \")(.+?)(\".+)"));
     files.add(Pair.make("../gwiki-standalone/src/main/external_resources/gwikistandalone/gwikiweb.cmd",
         "(.+?java -jar gwiki-standalone-)(.+?)(\\.jar.+)"));
@@ -83,7 +101,7 @@ public class PatchVersion
   {
     try {
       FileOutputStream fout = new FileOutputStream(new File(fname));
-      IOUtils.write(content, fout, "UFT-8");
+      IOUtils.write(content, fout, "UTF-8");
       IOUtils.closeQuietly(fout);
     } catch (IOException ex) {
       throw new RuntimeIOException(ex);
