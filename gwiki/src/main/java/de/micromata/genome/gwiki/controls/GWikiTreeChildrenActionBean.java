@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.controls;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,10 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.util.matcher.EqualsMatcher;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
@@ -40,7 +44,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
   public Object onLoadAsync()
   {
     GWikiElement el = null;
-    List<GWikiElementInfo> childs = null;
+    List<GWikiElementInfo> rootElements = null;
 
     final String superCategory = wikiContext.getRequest().getParameter("id");
     final String urlField = wikiContext.getRequest().getParameter("urlField");
@@ -48,25 +52,28 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
     final String openTarget = wikiContext.getRequest().getParameter("target");
 
     if (StringUtils.isBlank(superCategory)) {
-      el = wikiContext.getWikiWeb().findElement(getRootPage());
-      childs = wikiContext.getElementFinder().getAllDirectChildsByType(el.getElementInfo(), "gwiki");
-
-      for (final GWikiElementInfo c : childs) {
-        getRootCategories().put(c.getId(), c.getTitle());
-      }
-
+      rootElements = getRootElements();
     } else {
       el = wikiContext.getWikiWeb().findElement(superCategory);
-      childs = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
+      rootElements = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
     }
 
     final StringBuffer sb = new StringBuffer("");
 
-    for (final GWikiElementInfo ei : childs) {
+    for (final GWikiElementInfo ei : rootElements) {
       if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
         continue;
       }
 
+      String title = ei.getTitle();
+      if (ei.getTitle().startsWith("I{") == true) {
+        title = wikiContext.getTranslatedProp(title);
+      }
+      
+      if (StringUtils.isBlank(title)) {
+        continue;
+      }
+      
       if (wikiContext.getElementFinder().getAllDirectChilds(ei).size() > 0) {
         sb.append("<li class='jstree-closed' ");
       } else {
@@ -90,7 +97,13 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
       }
 
       sb.append("\" style=\"cursor:pointer\">");
-      sb.append(ei.getTitle());
+      sb.append(title);
+      
+      if (StringUtils.isBlank(ei.getParentId())) {
+        sb.append("<i style=\"color:grey\">");
+        sb.append("(").append(ei.getId()).append(")</i>");
+      }
+      
       sb.append("</a>");
       sb.append("</li>");
     }
@@ -98,6 +111,24 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
     wikiContext.append(sb.toString());
     wikiContext.flush();
     return noForward();
+  }
+  
+  private List<GWikiElementInfo> getRootElements() {
+    GWikiElementPropMatcher rootPageMatcher = new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(null));
+    final List<GWikiElement> rootPages = wikiContext.getElementFinder().getPages(rootPageMatcher);
+    final List<GWikiElementInfo> validRootPages = new ArrayList<GWikiElementInfo>();
+    
+    for (GWikiElement elem : rootPages) {
+      if (elem.getElementInfo().isIndexed() 
+          && elem.getElementInfo().isViewable() 
+          && StringUtils.equals("gwiki", elem.getElementInfo().getType())
+          && elem.getElementInfo().isNoToc() == false) {
+        
+        validRootPages.add(elem.getElementInfo());
+      }
+    }
+    
+    return validRootPages;
   }
 
   /**

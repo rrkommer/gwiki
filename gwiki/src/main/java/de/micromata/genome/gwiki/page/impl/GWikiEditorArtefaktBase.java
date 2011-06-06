@@ -56,7 +56,6 @@ public abstract class GWikiEditorArtefaktBase<T extends Serializable> extends GW
   public void prepareHeader(GWikiContext wikiContext)
   {
     super.prepareHeader(wikiContext);
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-common-0.1.js");
   }
 
   public String getTabTitle()
