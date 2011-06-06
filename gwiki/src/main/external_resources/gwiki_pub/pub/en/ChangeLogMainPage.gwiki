@@ -2,7 +2,10 @@
 Detailed Changelog for GWiki.
 {pageintro}
 
-h2. 0.6.1-SNAPSHOT
+h2. 0.9.0
+h3. 2011-06-06
+- Added 'edit path' tree selector (GWIKI-150)
+
 h3. 2011-06-03
 - Moved settings tab of edit pages to a modal dialog (GWIKI-147)
 - Added configuration item to allow vertical sets of editors instead of tabbed editors (GWIKI-149)
