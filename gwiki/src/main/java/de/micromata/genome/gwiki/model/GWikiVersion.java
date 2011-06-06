@@ -28,6 +28,6 @@ public class GWikiVersion
   /**
    * Will be patched by PatchVersion tool.
    */
-  public static final String VERSION = "0.4.2-SNAPSHOT";
+  public static final String VERSION = "0.9.0";
 
 }
