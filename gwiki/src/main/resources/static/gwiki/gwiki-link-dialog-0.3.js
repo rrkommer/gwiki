@@ -210,6 +210,18 @@ function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 		modal : true,
 		open : function(event, ui) {
 			$("#linkpropt").focus();
+			$('#linkpropt').autocomplete("./PageSuggestions?pageType=" + pageType, {
+				matchContains : true,
+				minChars : 0,
+				width : 460,
+				cacheLength : 1,
+				max : 1000,
+				formatItem : function(row) {
+					return row[1] + "<br><i>(" + row[0] + ")</i>";
+				}
+			}).result(function(event, item) {
+				$("#linkprtitle").val(item[1]);
+			});
 		},
 		close : function(event, ui) {
 			$(dialog).dialog('destroy');

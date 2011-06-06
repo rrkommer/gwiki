@@ -144,7 +144,7 @@ function viewBackupDiff()
 		value="<fmt:message key="gwiki.edit.button.delete"/>" />
 </c:if> 
 <c:if test="${form.newPage == true}"> 
-	<input type="button" class="gwikiButton" onclick="gwikiEditPagePath()" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
+	<input type="button" class="gwikiButton" onclick="gwikiEditPagePath($('#editPagePath'))" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
 	<gwiki:hidden styleId="editPagePath" property="storePath" />
 </c:if>
 <input type="button" class="gwikiButton" onclick="gwikiEditSettings()" value="Settings" />
@@ -159,7 +159,7 @@ function viewBackupDiff()
 <div id='modalBg'></div>
 <div id='modalContent'></div>
 <div id='loading'></div>
-<div id='editDialogBox'></div>
+<div id='editPathDialogBox'></div>
 
 
 <c:if test="${form.metaTemplate.tabbedEditor == 'true'}">

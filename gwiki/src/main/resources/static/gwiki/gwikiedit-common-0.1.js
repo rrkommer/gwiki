@@ -1,33 +1,61 @@
-function gwikiEditPagePath() {
+function gwikiEditPagePath(inputField) {
+	var modc = $("#editPathDialogBox");
+	var dlghtml = ""
+	+ "gwiki.editor.editpath.dialog.hint".i18n() + "<br /><br />"
+	+ "<label for=\"pathtextfield\" style=\"margin-right:10px\">"
+	+ "gwiki.common.path".i18n() + ":</label>"
+	+ "<input size=\"44\" type=\"text\" id=\"pathtextfield\""
+		+ " value='" + inputField.val() + "'/><br/>\n";
 	
-	var path = document.getElementById('editPagePath').value;
-	var modc = $("#editDialogBox");
-	var dlghtml = "<b>" + "gwiki.common.note".i18n() + ":</b> "
-			+ "gwiki.editor.editpath.dialog.hint".i18n() + "<br /><br />"
-			+ "<label for=\"pathtextfield\" style=\"margin-right:10px\">"
-			+ "gwiki.common.path".i18n() + ":</label>"
-			+ "<input size=\"44\" type=\"text\" id=\"pathtextfield\""
-				+ " value='" + path + "'/><br/>\n";
+	dlghtml += "<div id='filechooser' style='width:350px; height:200px; margin-top: 20px; font-family: verdana; font-size: 10px;'></div>";
+
+	dlghtml += "<script type='text/javascript'>";
+	dlghtml += "$(function () {";
+	dlghtml += "  $(\"#filechooser\").jstree({";
+	dlghtml += "    \"themes\" : { \"theme\" : \"classic\", \"dots\" : true, \"icons\" : true },";
+	dlghtml += "    \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],";
+	dlghtml += "    \"html_data\" : {\n";
+	dlghtml += "      \"ajax\" : {";
+	dlghtml += "        \"url\" : \"/edit/TreeChildren\",\n";
+	dlghtml += "        \"data\" : function(n) {   return { \"method_onLoadAsync\" : \"true\", "
+			+ "\"id\" : n.attr ? n.attr(\"id\") : \"\","
+			+ "\"urlField\" : \"pathtextfield\" };      }\n";
+	dlghtml += "      }";
+	dlghtml += "    }\n";
+	dlghtml += "  });\n";
+	dlghtml += "});\n";
+	dlghtml += "</script>";
 
 	modc.html(dlghtml);
+	//alert(dlghtml)
+	
 	
 	var buttons = {};
-	
 	buttons["gwiki.common.cancel".i18n()] = function() {
 		$(dialog).dialog('close');
 	}
-	
 	buttons["gwiki.common.ok".i18n()] = function() {
 		var value = $("#pathtextfield").attr('value');
 		$(dialog).dialog('close');
-		document.getElementById('editPagePath').value = value;		
+		inputField.val(value);
 	}
 	
-	var dialog = $("#editDialogBox").dialog({
+	var dialog = $("#editPathDialogBox").dialog({
 		width : 500,
+		height: 500,
 		modal : true,
 		open : function(event, ui) {
 			$("#pathtextfield").focus();
+			$('#pathtextfield').autocomplete("./PageSuggestions?pageType=gwiki", {
+				matchContains : true,
+				minChars : 0,
+				width : 460,
+				cacheLength : 1,
+				max : 1000,
+				formatItem : function(row) {
+					return row[1] + "<br><i>(" + row[0] + ")</i>";
+				}
+			});
 		},
 		close : function(event, ui) {
 			$(dialog).dialog('destroy');

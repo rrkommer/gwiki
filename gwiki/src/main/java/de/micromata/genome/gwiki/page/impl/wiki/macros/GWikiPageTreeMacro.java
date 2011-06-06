@@ -19,17 +19,15 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
  * 
  */
-public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeaderPrepare
+public class GWikiPageTreeMacro extends GWikiMacroBean
 {
 
   private static final long serialVersionUID = 4865948210393357947L;
@@ -77,7 +75,7 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
     ctx.append("/edit/TreeChildren\",\n");
     ctx.append("        \"data\" : function(n) {   return { \"method_onLoadAsync\" : \"true\", "
         + "\"id\" : n.attr ? n.attr(\"id\") : \""
-        + getRootPage(ctx)
+        + (StringUtils.isNotBlank(rootPageId) ? rootPageId : "")
         + "\","
         + "\"target\" : \"true\""
         + " };      }\n");
@@ -90,12 +88,6 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
     ctx.flush();
 
     return true;
-  }
-
-  public void prepareHeader(final GWikiContext ctx, MacroAttributes attrs)
-  {
-    ctx.getRequiredJs().add("/static/js/jstree/jquery.jstree.js");
-
   }
 
   /**
@@ -117,16 +109,8 @@ public class GWikiPageTreeMacro extends GWikiMacroBean implements GWikiWithHeade
   /**
    * @return the rootPage
    */
-  private String getRootPage(final GWikiContext ctx)
+  public String getRootPage()
   {
-    if (StringUtils.isBlank(rootPageId)) {
-      GWikiElement home = ctx.getWikiWeb().getHomeElement(ctx);
-      if (home != null && ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, home.getElementInfo())) {
-        rootPageId = home.getElementInfo().getId();
-      } else {
-        rootPageId = ctx.getWikiWeb().getWikiConfig().getWelcomePageId();
-      }
-    }
     return rootPageId;
   }
 
