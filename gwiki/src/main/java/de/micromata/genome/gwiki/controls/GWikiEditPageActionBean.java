@@ -235,6 +235,18 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       pageId = FileNameUtils.join(GWikiContext.getParentDirPathFromPageId(parentPageId), pageId);
     }
   }
+  
+  private String getNiceTitleForPageId() 
+  {
+    String result = null;
+    
+    if (StringUtils.isNotBlank(pageId)) {
+      final String[] pageIdParts = pageId.split("/");
+      result = pageIdParts[pageIdParts.length - 1];
+    }
+    
+    return result;
+  }
 
   protected void initHelpPageLink()
   {
@@ -329,7 +341,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       }
     }
     if (StringUtils.isEmpty(title) == true) {
-      title = pageId;
+      title = getNiceTitleForPageId();
     }
     return true;
   }
