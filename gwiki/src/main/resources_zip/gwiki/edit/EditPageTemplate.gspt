@@ -128,6 +128,7 @@ function viewBackupDiff()
 
 <gwiki:hidden property="metaTemplatePageId" /> 
 <gwiki:hidden property="backUrl" /> 
+<gwiki:hidden property="storePath" /> 
 <input id="formCommand" type="hidden" name="formCommand" value="true" /> 
 <div class="control">
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
@@ -158,7 +159,7 @@ function viewBackupDiff()
 <div id='modalBg'></div>
 <div id='modalContent'></div>
 <div id='loading'></div>
-<div id='editPathDialogBox'></div>
+<div id='editDialogBox'></div>
 
 
 <c:if test="${form.metaTemplate.tabbedEditor == 'true'}">
