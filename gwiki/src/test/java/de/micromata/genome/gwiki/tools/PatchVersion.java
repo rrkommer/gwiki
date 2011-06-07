@@ -65,16 +65,31 @@ public class PatchVersion
     // plugins
     files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-blog/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-confluenceimporter/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-feed/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-feed/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-forum/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-fssvn/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/gwiki-keywordsmarttag/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-logviewer/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-msotextextractor/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-pagelifecycle/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-pagelifecycle/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-pdfextractor/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-s5slideshow/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-sampleplugin/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-scheduler/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-style-ProjectForge/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-style-ProjectForge-example/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/gwiki-vfolder/pom.xml", currPomPattern));
+    files.add(Pair.make("../plugins/org.apache.httpcomponents/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/org.apache.pdfbox/pom.xml", parentPomPattern));
+    files.add(Pair.make("../plugins/org.apache.poi/pom.xml", parentPomPattern));
     
     // internals
     files.add(Pair.make("src/main/java/de/micromata/genome/gwiki/model/GWikiVersion.java", "(.*?VERSION = \")(.+?)(\".+)"));
