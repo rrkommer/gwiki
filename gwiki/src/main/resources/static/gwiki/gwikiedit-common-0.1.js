@@ -1,5 +1,5 @@
 function gwikiEditPagePath(inputField) {
-	var modc = $("#editPathDialogBox");
+	var modc = $("#editDialogBox");
 	var dlghtml = "<p>"
 	+ "gwiki.editor.editpath.dialog.hint".i18n() + "</p>" 
 	+ "<p><b>" + "gwiki.common.note".i18n() + ":</b> "
@@ -42,7 +42,7 @@ function gwikiEditPagePath(inputField) {
 		inputField.val(value);
 	}
 	
-	var dialog = $("#editPathDialogBox").dialog({
+	var dialog = $("#editDialogBox").dialog({
 		width : 500,
 		height: 500,
 		modal : true,
