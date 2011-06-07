@@ -1,7 +1,9 @@
 function gwikiEditPagePath(inputField) {
 	var modc = $("#editPathDialogBox");
-	var dlghtml = ""
-	+ "gwiki.editor.editpath.dialog.hint".i18n() + "<br /><br />"
+	var dlghtml = "<p>"
+	+ "gwiki.editor.editpath.dialog.hint".i18n() + "</p>" 
+	+ "<p><b>" + "gwiki.common.note".i18n() + ":</b> "
+	+ "gwiki.editor.editpath.dialog.note".i18n() + "</p>"
 	+ "<label for=\"pathtextfield\" style=\"margin-right:10px\">"
 	+ "gwiki.common.path".i18n() + ":</label>"
 	+ "<input size=\"44\" type=\"text\" id=\"pathtextfield\""

@@ -128,7 +128,6 @@ function viewBackupDiff()
 
 <gwiki:hidden property="metaTemplatePageId" /> 
 <gwiki:hidden property="backUrl" /> 
-<gwiki:hidden property="storePath" /> 
 <input id="formCommand" type="hidden" name="formCommand" value="true" /> 
 <div class="control">
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
