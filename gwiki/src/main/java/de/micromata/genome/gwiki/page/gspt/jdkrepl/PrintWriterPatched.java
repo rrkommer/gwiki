@@ -425,6 +425,9 @@ public class PrintWriterPatched extends Writer implements BodyFlusher
    */
   public void write(String s)
   {
+    if (s == null) {
+      return;
+    }
     write(s, 0, s.length());
   }
 
