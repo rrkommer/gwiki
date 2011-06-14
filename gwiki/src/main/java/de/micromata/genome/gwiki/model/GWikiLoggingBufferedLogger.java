@@ -38,25 +38,25 @@ import de.micromata.genome.util.types.Pair;
  */
 public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWikiLogViewer
 {
-  
+
   private GWikiLogging targetLogger;
 
   private Queue<GWikiLogEntry> cachedLogEntries;
 
   private int cacheSize = DEFAULT_CACHE_SIZE;
-  
+
   private GWikiLogLevel logThreshold = DEFAULT_LOG_THRESHOLD;
-  
+
   long lastAccessTimestamp = 0L;
-  
+
   private static final int DEFAULT_CACHE_SIZE = 1000;
 
   private static final GWikiLogLevel DEFAULT_LOG_THRESHOLD = GWikiLogLevel.INFO;
 
   private static final long ACCESS_SLEEP_TIME = 1000;
-  
+
   boolean inLogging = false;
-  
+
   /**
    * 
    */
@@ -65,19 +65,24 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     this.targetLogger = targetLogger;
     cachedLogEntries = new LinkedList<GWikiLogEntry>();
   }
-  
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Throwable, java.lang.Object[])
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String,
+   * de.micromata.genome.gwiki.page.GWikiContext, java.lang.Throwable, java.lang.Object[])
    */
   public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Throwable ex, Object... keyValues)
   {
     cacheLogMessage(logLevel, message, ex, ctx, keyValues);
     targetLogger.doLog(logLevel, message, ctx, ex, keyValues);
   }
-  
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Object[])
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String,
+   * de.micromata.genome.gwiki.page.GWikiContext, java.lang.Object[])
    */
   public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues)
   {
@@ -95,14 +100,14 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
   {
     GWikiLogEntry logEntry = new GWikiLogEntry(logLevel, message, keyValues, ex);
     GWikiLogLevel threshold = getLogThreshold(ctx);
-    
+
     synchronized (cachedLogEntries) {
       if (logLevel.getPriority() < threshold.getPriority() == true) {
         return;
       }
-      
+
       cachedLogEntries.offer(logEntry);
-      
+
       // shrink cache to maximal size
       int currentCacheSize = getCacheSize(ctx);
       while (cachedLogEntries.size() > currentCacheSize) {
@@ -119,18 +124,19 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     if (ctx == null || inLogging == true) {
       return cacheSize;
     }
-    
+
     long currentTime = System.currentTimeMillis();
     if (lastAccessTimestamp + ACCESS_SLEEP_TIME > currentTime) {
       return cacheSize;
     }
-    
+
     lastAccessTimestamp = currentTime;
     inLogging = true;
-    try{
-      GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
-      cacheSize = props.getIntValue("LOGVIEWER_NUM_ENTRIES_TO_CACHE", cacheSize);
-
+    try {
+      if (GWikiWeb.get() != null) {
+        GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
+        cacheSize = props.getIntValue("LOGVIEWER_NUM_ENTRIES_TO_CACHE", cacheSize);
+      }
       return cacheSize;
     } finally {
       inLogging = false;
@@ -145,18 +151,18 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     if (ctx == null || inLogging == true) {
       return logThreshold;
     }
-    
+
     long currentTime = System.currentTimeMillis();
     if (lastAccessTimestamp + ACCESS_SLEEP_TIME > currentTime) {
       return logThreshold;
     }
-    
+
     lastAccessTimestamp = currentTime;
     inLogging = true;
-    try{
+    try {
       GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
       logThreshold = GWikiLogLevel.valueOf(props.getStringValue("LOGVIEWER_LEVEL_THRESHOLD", logThreshold.name()));
-      
+
       return logThreshold;
     } finally {
       inLogging = false;
@@ -174,18 +180,21 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     targetLogger.addPerformance(pointName, millis, wait);
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.GWikiLogViewer#grep(java.util.Date, java.util.Date, java.lang.Integer, java.lang.String, java.util.List, int, int, de.micromata.genome.gwiki.model.GWikiLogViewer.Callback)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiLogViewer#grep(java.util.Date, java.util.Date, java.lang.Integer, java.lang.String,
+   * java.util.List, int, int, de.micromata.genome.gwiki.model.GWikiLogViewer.Callback)
    */
-  public void grep(final Date start, final Date end, final GWikiLogLevel logLevel, final String message, final List<Pair<String, String>> params, int offset, int maxitems,
-      Callback cb)
+  public void grep(final Date start, final Date end, final GWikiLogLevel logLevel, final String message,
+      final List<Pair<String, String>> params, int offset, int maxitems, Callback cb)
   {
-   
+
     ArrayList<GWikiLogEntry> filteredEntries;
-    
+
     synchronized (cachedLogEntries) {
-       filteredEntries = (ArrayList<GWikiLogEntry>) CollectionUtils.select(cachedLogEntries, new Predicate<GWikiLogEntry>() {
-        
+      filteredEntries = (ArrayList<GWikiLogEntry>) CollectionUtils.select(cachedLogEntries, new Predicate<GWikiLogEntry>() {
+
         public boolean evaluate(GWikiLogEntry entry)
         {
           // Startdatum
@@ -194,25 +203,25 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
               return false;
             }
           }
-          
+
           // Enddatum
           if (end != null) {
             if (entry.getDate().after(end)) {
               return false;
             }
           }
-          
+
           // LogLevel
           if (logLevel != null && entry.getLogLevel().getPriority() < logLevel.getPriority()) {
             return false;
           }
-          
+
           if (message != null) {
             if (entry.getMessage().toLowerCase().contains(message.toLowerCase()) == false) {
               return false;
             }
           }
-          
+
           if (params != null && params.isEmpty() == false) {
             for (Pair<String, String> searchParam : params) {
               boolean found = false;
@@ -223,34 +232,35 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
                   }
                 }
               }
-              
+
               // param not found
               if (found == false) {
                 return false;
               }
             }
           }
-          
+
           return true;
-        }});
-    }
-    
-      // sort to date
-      Collections.sort(filteredEntries, new Comparator<GWikiLogEntry>() {
-        public int compare(GWikiLogEntry o1, GWikiLogEntry o2)
-        {
-          return o1.getDate().after(o2.getDate()) ? -1:1;
-        }});
-    
-      
-      if (filteredEntries.size() > offset) {
-        int i = offset;
-        int endIndex = offset + maxitems;
-        while (i < endIndex && filteredEntries.size() > i) {
-          cb.found(filteredEntries.get(i));
-          ++i;
         }
+      });
+    }
+
+    // sort to date
+    Collections.sort(filteredEntries, new Comparator<GWikiLogEntry>() {
+      public int compare(GWikiLogEntry o1, GWikiLogEntry o2)
+      {
+        return o1.getDate().after(o2.getDate()) ? -1 : 1;
+      }
+    });
+
+    if (filteredEntries.size() > offset) {
+      int i = offset;
+      int endIndex = offset + maxitems;
+      while (i < endIndex && filteredEntries.size() > i) {
+        cb.found(filteredEntries.get(i));
+        ++i;
       }
     }
-    
+  }
+
 }
