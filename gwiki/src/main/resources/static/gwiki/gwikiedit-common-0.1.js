@@ -66,10 +66,7 @@ function gwikiEditPagePath(inputField) {
 			backgroundColor : '#000',
 			opacity : 0.5
 		},
-		buttons : buttons,
-		Abbrechen : function() {
-			$(this).dialog('close');
-		}
+		buttons : buttons
 	});
 }
 
@@ -93,15 +90,14 @@ function gwikiEditSettings() {
 			$("#pathtextfield").focus();
 		},
 		close : function(event, ui) {
+			$('#EditorSettings').hide();
 			$(dialog).dialog('destroy');
+			$('#EditorSettings').appendTo('form#editForm');
 		},
 		overlay : {
 			backgroundColor : '#000',
 			opacity : 0.5
 		},
-		buttons : buttons,
-		Abbrechen : function() {
-			$(this).dialog('close');
-		}
+		buttons : buttons
 	});
 }
