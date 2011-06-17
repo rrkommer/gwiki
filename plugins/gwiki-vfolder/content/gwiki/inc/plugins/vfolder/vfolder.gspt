@@ -9,14 +9,30 @@ wikiContext.skinInclude('standardhead'); %>
 <@include file="admin/macros/pagetreesearch" @>
 
 <gwiki:authorize ifHasAll="GWIKI_ADMIN">
-<fieldset>
-	<legend>Admin operations</legend>
-<form method="post">
-<input class="gwikiButton" type="submit" name="method_onScanFiles" value="Scan folder"><br/>
-<input class="gwikiButton main" type="submit" name="method_onMountFs" value="Mount folder"><br/>
-<input class="gwikiButton reset" type="submit" name="method_onDismoutFs" value="Dismount folder"><br/>
-</form>
-</fieldset>
+
+	<fieldset>
+		<legend>Admin operations</legend>
+		<p>
+			<b>Note:</b> Folder scanning will build an internal index of the folder structure.
+			You have to do this before mounting the folder. You also have to
+			rescan the folder on any change of the filesystem structure. The
+			corresponding workflow is:
+		</p>
+		<ul>
+			<li>Dismount the folder it it's already mounted</li>
+			<li>Start folder scanning</li>
+			<li>Remount the folder</li>
+		</ul>
+		<form method="post">
+			<input class="gwikiButton" type="submit" name="method_onScanFiles"
+				value="Scan folder"><br> <input
+				class="gwikiButton main" type="submit" name="method_onMountFs"
+				value="Mount folder"><br> <input
+				class="gwikiButton reset" type="submit" name="method_onDismoutFs"
+				value="Dismount folder"><br>
+		</form>
+	</fieldset>
+
 </gwiki:authorize>
 
 <%
