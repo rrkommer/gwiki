@@ -12,7 +12,7 @@ package de.micromata.genome.util.text;
 import java.util.Map;
 
 /**
- * Utility to replace variables.
+ * Utility to replace variables. TODO maybe buggy. Check agains StringVarResolver from labelengine
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
