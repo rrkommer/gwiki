@@ -26,6 +26,8 @@ import de.micromata.genome.gwiki.chronos.Trigger;
 import de.micromata.genome.util.types.Converter;
 
 /**
+ * Run Job at given time.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
