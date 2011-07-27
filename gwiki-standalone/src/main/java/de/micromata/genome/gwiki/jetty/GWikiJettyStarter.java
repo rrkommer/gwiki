@@ -111,7 +111,11 @@ public class GWikiJettyStarter
 
       if (firstStart == true) {
         wikiServlet.setContextPath(jettyConfig.getContextPath());
-        wikiServlet.setServletPath(jettyConfig.getServletPath());
+        if (jettyConfig.getServletPath().equals("/") == true) {
+          wikiServlet.setServletPath("");
+        } else {
+          wikiServlet.setServletPath(jettyConfig.getServletPath());
+        }
         wikibootcfg.getWikiSelector().initWiki(wikiServlet, wikibootcfg);
         System.out.println("First time starting GWiki.\nBuild index. This can take a few minutes...");
         buildIndex(jettyConfig, wikiServlet);
