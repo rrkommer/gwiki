@@ -1,6 +1,6 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
-
+<@include file="inc/stdjsvars.gspt" @>
 <% 
   def form = wikiContext.pageContext.request.getAttribute('form');
   String pageCommentUrl = wikiContext.localUrl("/admin/macros/pages/PageComment");
@@ -34,14 +34,14 @@ function createNewCommentHide()
   document.getElementById('PageComment_method').name = '';
 }
 function gwikiToggleShowComments(){
-  if (jQuery('#GWikiComentsContent').is(':hidden') == true) {
+	if (jQuery('#GWikiComentsContent').is(':hidden') == true) {
+  	gwikiSaveUserPrev('WITH_COMMENTS', true, true);
     jQuery('#GWikiComentsContent').show();
     jQuery('#GWikiShowHideLink').html("<fmt:message key='gwiki.page.pagecomment.comments.hide' />");
-    gwikiSaveUserPrev('WITH_COMMENTS', true, true);
   } else {
+  	gwikiSaveUserPrev('WITH_COMMENTS', false, true);
     jQuery('#GWikiComentsContent').hide();
     jQuery('#GWikiShowHideLink').html("<fmt:message key='gwiki.page.pagecomment.comments.show' />");
-    gwikiSaveUserPrev('WITH_COMMENTS', false, true);
   }
 }
 
