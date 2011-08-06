@@ -12,7 +12,6 @@ gwikiParts.push('<%= me.key %>');
 <% } %>
 gwikiCurrentPart = gwikiParts[0];
 
-var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 
 <%
  StringBuilder localCsse = new StringBuilder();
