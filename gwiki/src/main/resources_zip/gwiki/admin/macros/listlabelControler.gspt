@@ -12,6 +12,9 @@ if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
 Map<String, List<GWikiElementInfo>> eimap = GWikiListLabelsMacroBean.collectKeywords(wikiContext);
 char lc = 0;
 for (me in eimap.entrySet()) {
+	if (me.key.length() == 0) {
+		continue;
+	}
 	char c = me.key.charAt(0);
 	%><li><%= me.key %></li>
 	<ul>
