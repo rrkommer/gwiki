@@ -51,7 +51,6 @@ public class GWikiUserPrefAsyncActionBean extends ActionBeanBase
 
   public Object onSave()
   {
-    // TODO check security.
     wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, key, value, persist);
     return noForward();
   }
