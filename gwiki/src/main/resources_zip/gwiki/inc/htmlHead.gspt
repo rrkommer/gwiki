@@ -11,17 +11,10 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <link rel="shortcut icon" href="<gwiki:url value='/inc/gwiki/img/icons/favicon.ico'/>" type="image/vnd.microsoft.icon" />
 
-<script type="text/javascript">
- //<!--
-var gwikiHomeUrl = '<gwiki:url value=""/>';
-var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
- //-->
-</script>
-
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value='/static/css/ui-lightness/jquery-ui-1.8.1.custom.css'/>" />
 <!-- <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value='/static/skins/naked/jquery-ui-1.7.1.custom.css'/>" /> -->
 <link type="text/css" href="<gwiki:url value='/static/js/fancybox/fancybox.css'/>" rel="stylesheet" media="screen" />
-
+<@include file="inc/stdjsvars.gspt" @>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-1.4.2.min.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-ui-1.8.1.custom.min.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/fancybox/fancybox-1.3.1.min.js" />'></script>

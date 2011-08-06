@@ -1,0 +1,9 @@
+<script type="text/javascript">
+ //<!--
+var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
+var gwikiServletPath = '<%= wikiContext.request.servletPath %>';
+var gwikiHomeUrl = '<gwiki:url value=""/>';
+var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
+
+ //-->
+</script>
