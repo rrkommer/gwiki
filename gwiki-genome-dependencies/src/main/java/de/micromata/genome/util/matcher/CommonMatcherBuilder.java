@@ -68,10 +68,11 @@ public class CommonMatcherBuilder
     return new GroupMatcher<T>(nested);
   }
 
-  public static <T> Matcher<T> equals(T other)
-  {
-    return new EqualsMatcher<T>(other);
-  }
+  // not all compiler can this.
+  // public static <T> Matcher<T> equals(T other)
+  // {
+  // return new EqualsMatcher<T>(other);
+  // }
 
   public static <T> Matcher<T> never()
   {
