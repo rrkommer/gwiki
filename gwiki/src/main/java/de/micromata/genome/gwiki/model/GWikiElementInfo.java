@@ -81,6 +81,12 @@ public class GWikiElementInfo implements Serializable, GWikiPropKeys
     return id.equals(other.getId());
   }
 
+  @Override
+  public int hashCode()
+  {
+    return id.hashCode();
+  }
+
   public String toString()
   {
     return id;

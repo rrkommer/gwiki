@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiPipeListParser;
@@ -71,7 +72,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     if (elems.size() == 0) {
       target = "";
     } else if (elems.size() == 1) {
-      if (isGlobalUrl(target) == false) {
+      if (isGlobalUrl(target) == false && GWikiWeb.getWiki().findElementInfo(target) == null) {
         this.target = normalizeToTarget(target);
       } else {
         this.target = target;

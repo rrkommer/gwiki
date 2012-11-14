@@ -125,7 +125,7 @@ public class NormalizeUtils
     @Override
     protected Pattern initialValue()
     {
-      return Pattern.compile("[^A-Za-z0-9#/\\.]");
+      return Pattern.compile("[^A-Za-z0-9#/\\.\\-_]");
     }
   };
 
