@@ -238,6 +238,8 @@ public class GWikiWeb
     }
     try {
       inBootStrapping = true;
+      // clear cache, otherwise some controler classes are loaded twice and cannot cast A to A
+      daoContext.getPageCache().clearCachedPages();
       loadWeb();
 
       daoContext.getPageCache().clearCachedPages();
@@ -472,8 +474,8 @@ public class GWikiWeb
   {
     GWikiContext wikiContext = GWikiContext.getCurrent();
     if (wikiContext != null) {
-      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider().getSessionAttribute(
-          GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
+      GWikiElement el = (GWikiElement) GWikiContext.getCurrent().getWikiWeb().getSessionProvider()
+          .getSessionAttribute(GWikiContext.getCurrent(), PREVIEW_SESSION_KEY);
       if (el != null && StringUtils.equals(el.getElementInfo().getId(), path) == true) {
         return el;
       }

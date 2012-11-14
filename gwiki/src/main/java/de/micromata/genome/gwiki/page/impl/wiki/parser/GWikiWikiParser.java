@@ -147,7 +147,7 @@ public class GWikiWikiParser
     //
     // * x -> * x
     // ** z -> * z
-    // 
+    //
     char tk = tks.curToken();
     String tag = tks.getStringUntilNotOneOf("-*#");
 
@@ -266,7 +266,7 @@ public class GWikiWikiParser
       }
       return;
     }
-    // 
+    //
     int ltkpos = tks.getTokenPos();
     tks.nextToken();
     char prevDecChar = tks.addStopToken(decChar);
@@ -569,6 +569,8 @@ public class GWikiWikiParser
     if (StringUtils.isEmpty(s) == true) {
       tks.setTokenPos(oldPos);
       tks.addStopToken(barStop);
+      ctx.addTextFragement(tks.curTokenString());
+      tks.nextToken();
       return;
     }
     GWikiFragmentLink link = new GWikiFragmentLink(s);
@@ -591,6 +593,8 @@ public class GWikiWikiParser
     if (link == null || tk != '!') {
       ctx.addTextFragement("!");
       tks.setTokenPos(oldPos);
+      ctx.addTextFragement(tks.curTokenString());
+      tks.nextToken();
       return;
     }
     tk = tks.nextToken();
