@@ -40,6 +40,8 @@ public class SearchExpressionPropSelektorCommand extends SearchExpressionCommand
   {
     if (GWikiPropKeys.PAGEID.equals(key) == true) {
       return sr.getElementInfo().getId();
+    } else if (GWikiPropKeys.TYPE.equals(key) == true) {
+      return sr.getElementInfo().getType();
     }
     return sr.getElementInfo().getProps().getStringValue(key);
   }
