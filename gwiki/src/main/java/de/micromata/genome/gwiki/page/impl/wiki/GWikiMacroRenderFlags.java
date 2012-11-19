@@ -48,6 +48,11 @@ public enum GWikiMacroRenderFlags
    * The evaled macro body is a text block, which may wrapped in a p.
    */
   ContainsTextBlock(0x0040), //
+  /**
+   * Trim WS after closing tag.
+   */
+  TrimWsAfter(0x0080) //
+
   ;
   private int flag;
 
