@@ -52,6 +52,11 @@ public class SearchResult
     this.relevance = relevance;
   }
 
+  public String toString()
+  {
+    return getPageId() + ";" + relevance;
+  }
+
   public String getPageId()
   {
     return elementInfo.getId();
