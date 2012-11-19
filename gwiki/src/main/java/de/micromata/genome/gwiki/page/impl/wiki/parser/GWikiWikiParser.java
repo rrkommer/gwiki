@@ -481,6 +481,9 @@ public class GWikiWikiParser
         }
         frag.addChilds(childs);
         ma.setChildFragment(new GWikiFragmentChildContainer(frag.getChilds()));
+        if (GWikiMacroRenderFlags.TrimWsAfter.isSet(frag.getMacro().getRenderModes()) == true) {
+          tks.skipWsNl();
+        }
       } else {
         int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
         if (endToken == -1) {

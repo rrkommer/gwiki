@@ -40,7 +40,17 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
   {
     return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, //
         GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-            GWikiMacroRenderFlags.TrimTextContent));
+            GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.TrimWsAfter));
+  }
+
+  public GWikiHtmlBodyTagMacro(int renderModes)
+  {
+    setRenderModes(renderModes);
+  }
+
+  public GWikiHtmlBodyTagMacro()
+  {
+    // this(GWikiMacroRenderFlags.TrimTextContent.getFlag());
   }
 
   public static GWikiMacroFactory table()
@@ -61,16 +71,6 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
   public static GWikiMacroFactory div()
   {
     return standardBody();
-  }
-
-  public GWikiHtmlBodyTagMacro()
-  {
-
-  }
-
-  public GWikiHtmlBodyTagMacro(int renderModes)
-  {
-    setRenderModes(renderModes);
   }
 
   public Html2WikiTransformInfo getTransformInfo()
