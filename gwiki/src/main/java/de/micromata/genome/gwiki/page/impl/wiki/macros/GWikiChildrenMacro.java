@@ -21,9 +21,11 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections15.comparators.ReverseComparator;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -116,15 +118,19 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     ctx.append("\n<li>").append(ctx.renderLocalUrl(ci.getId()));
     if (withEditLinks == true) {
       if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ci) == true) {
-        ctx.append("&nbsp;<a href=\"")//
-            .append(ctx.localUrl("edit/EditPage?pageId=")).append(ci.getId())//
-            .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId())
-            .append("\">").append(ctx.getTranslated("gwiki.macro.children.edit")).append("</a>");
+        ctx.append("&nbsp;<a href=\"")
+            //
+            .append(ctx.localUrl("edit/EditPage?pageId=")).append(ci.getId())
+            //
+            .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">")
+            .append(ctx.getTranslated("gwiki.macro.children.edit")).append("</a>");
       }
-      ctx.append("&nbsp;<a href=\"")//
-          .append(ctx.localUrl("edit/PageInfo?pageId=")).append(ci.getId())//
-          .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId())
-          .append("\">").append(ctx.getTranslated("gwiki.macro.children.info")).append("</a>&nbsp;");
+      ctx.append("&nbsp;<a href=\"")
+          //
+          .append(ctx.localUrl("edit/PageInfo?pageId=")).append(ci.getId())
+          //
+          .append("&amp;backUrl=").append(ctx.getWikiElement().getElementInfo().getId()).append("\">")
+          .append(ctx.getTranslated("gwiki.macro.children.info")).append("</a>&nbsp;");
     }
     if (withPageIntro == true || withPageTocs == true) {
 
@@ -210,14 +216,19 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       }
       cl = ncl;
     }
+    Comparator<GWikiElementInfo> comparator = null;
     if (StringUtils.equalsIgnoreCase(sort, "title") == true) {
-      Collections.sort(cl, new GWikiElementByOrderComparator(new GWikiElementByPropComparator("TITLE")));
+      comparator = new GWikiElementByOrderComparator(new GWikiElementByPropComparator("TITLE"));
     } else if (StringUtils.equalsIgnoreCase(sort, "modifiedat") == true) {
-      Collections.sort(cl, new GWikiElementByOrderComparator(new GWikiElementByPropComparator("MODIFIEDAT")));
+      comparator = new GWikiElementByOrderComparator(new GWikiElementByPropComparator("MODIFIEDAT"));
     } else {
-      Collections.sort(cl, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
-          "ORDER", 0))));
+      comparator = new GWikiElementByChildOrderComparator(
+          new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator("ORDER", 0)));
     }
+    if (reverse == true) {
+      comparator = new ReverseComparator<GWikiElementInfo>(comparator);
+    }
+    Collections.sort(cl, comparator);
 
     if (cl.isEmpty() == true) {
       return;
