@@ -393,7 +393,11 @@ public class GWikiPluginRepository
       if (classLoaders.isEmpty() == false) {
         activePluginClassLoader = new CombinedClassLoader(classLoaders);
         for (GWikiPlugin plugin : activePlugins) {
-          initLifecycleManager(wikiWeb, plugin);
+          try {
+            initLifecycleManager(wikiWeb, plugin);
+          } catch (Exception ex) {
+            GWikiLog.error("Cannot initialize plugin: " + plugin.getDescriptor().getName() + "; " + ex.getMessage(), ex);
+          }
         }
       }
     }
