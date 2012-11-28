@@ -22,20 +22,41 @@ import java.util.List;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiVDirActionBean extends ActionBeanBase
+public class GWikiVDirActionBean extends GWikiVDirOrFileActionBeanBase
 {
   private List<GWikiElementInfo> files = new ArrayList<GWikiElementInfo>();
 
   public Object onInit()
   {
+    init();
+    if (embedded == true) {
+      String[] indexFiles = new String[] { "index.html", "Index.html", "index.htm"};
+
+      for (String ifile : indexFiles) {
+        String nid = pageId + "/" + ifile;
+        GWikiElement chi = wikiContext.getWikiWeb().findElement(nid);
+        if (chi == null) {
+          continue;
+        }
+        return chi;
+        // return noForward();
+        // List<String> csse = folderNode.getAddCss();
+        // if (csse != null) {
+        // wikiContext.getRequiredCss().addAll(csse);
+        // }
+        // rawText = GWikiVFolderUtils.getHtmlBody(fvolderEl, folderNode, nid);
+        // return null;
+      }
+    }
+    embedded = false;
+
     GWikiElement cel = wikiContext.getCurrentElement();
-    GWikiElementInfo pid = cel.getElementInfo().getParent(wikiContext);
+    // GWikiElementInfo pid = cel.getElementInfo().getParent(wikiContext);
     List<GWikiElementInfo> alels = wikiContext.getElementFinder().getDirectChilds(cel.getElementInfo());
     for (GWikiElementInfo ei : alels) {
       if (GWikiVFolderUtils.VFILEMETATEMPLATE.equals(ei.getMetaTemplate().getPageId())) {

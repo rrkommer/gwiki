@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
@@ -25,11 +26,32 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
  */
 public class GWikiVDirOrFileActionBeanBase extends ActionBeanBase
 {
+  /** show content embedded (html) or not */
+  protected boolean embedded = false;
+
   protected String pageId;
+
+  protected GWikiElement fvolderEl;
+
+  protected GWikiVFolderNode folderNode;
+
+  protected String rawText;
 
   public void init()
   {
     pageId = wikiContext.getCurrentElement().getElementInfo().getId();
+
+    fvolderEl = wikiContext.getCurrentElement();
+    if (folderNode == null) {
+      String vfid = wikiContext.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER);
+      if (vfid != null)
+        fvolderEl = wikiContext.getWikiWeb().getElement(vfid);
+
+    }
+    if (fvolderEl != null) {
+      folderNode = GWikiVFolderNode.getVFolderFromElement(fvolderEl);
+      embedded = folderNode.isExtractBody();
+    }
   }
 
   public String getPageId()
@@ -40,5 +62,25 @@ public class GWikiVDirOrFileActionBeanBase extends ActionBeanBase
   public void setPageId(String pageId)
   {
     this.pageId = pageId;
+  }
+
+  public boolean isEmbedded()
+  {
+    return embedded;
+  }
+
+  public void setEmbedded(boolean embedded)
+  {
+    this.embedded = embedded;
+  }
+
+  public String getRawText()
+  {
+    return rawText;
+  }
+
+  public void setRawText(String rawText)
+  {
+    this.rawText = rawText;
   }
 }

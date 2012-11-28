@@ -19,10 +19,15 @@ package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
+import de.micromata.genome.util.matcher.BooleanListRulesFactory;
+import de.micromata.genome.util.matcher.Matcher;
 
 /**
  * Configuration Bean for a VFolder Node
@@ -32,6 +37,9 @@ import de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt;
  */
 public class GWikiVFolderNode implements Serializable
 {
+
+  private static final long serialVersionUID = 7385172862632187575L;
+
   /**
    * Matcher role to find on file system.
    */
@@ -51,8 +59,32 @@ public class GWikiVFolderNode implements Serializable
 
   /**
    * Only valid, if extractBody is false. Show pages in iframe
+   * 
+   * Currently not supported.
    */
   private boolean fullIframe = false;
+
+  /**
+   * A Matcher expression to identify HTML pages.
+   */
+  private String htmlFileNameMatcherPattern;
+
+  /**
+   * Catched compiled htmlFileNameMatcherPattern
+   */
+  private Matcher<String> htmlFileNameMatcher;
+
+  /**
+   * Regular expression to extract body. The group(1) will be used.
+   */
+  private String extractHtmlBodyRePattern;
+
+  /**
+   * Catched compiled extractHtmlBodyRePattern
+   */
+  private Pattern extractHtmlBodyRePatternCompiled;
+
+  private String htmlContentEncoding = "UTF-8";
 
   /**
    * A list of gwiki css file should be added inside the html.
@@ -66,6 +98,28 @@ public class GWikiVFolderNode implements Serializable
     GWikiXmlConfigArtefakt cfa = (GWikiXmlConfigArtefakt) el.getPart("VFolderConfig");
     GWikiVFolderNode fn = (GWikiVFolderNode) cfa.getCompiledObject();
     return fn;
+  }
+
+  public boolean isHtmlVFile(String pageId)
+  {
+    Matcher<String> m = getHtmlFileNameMatcher();
+    if (m == null) {
+      return false;
+    }
+    return m.match(pageId);
+  }
+
+  public String extractHtmlVFileBody(String content)
+  {
+    Pattern p = getExtractHtmlBodyRePatternCompiled();
+    if (p == null) {
+      return content;
+    }
+    java.util.regex.Matcher m = p.matcher(content);
+    if (m.matches() == false || m.groupCount() < 1) {
+      return content;
+    }
+    return m.group(1);
   }
 
   public String getMatcherRule()
@@ -126,6 +180,69 @@ public class GWikiVFolderNode implements Serializable
   public void setFileSystem(FileSystem fileSystem)
   {
     this.fileSystem = fileSystem;
+  }
+
+  public String getHtmlFileNameMatcherPattern()
+  {
+    return htmlFileNameMatcherPattern;
+  }
+
+  public void setHtmlFileNameMatcherPattern(String htmlFileNameMatcherPattern)
+  {
+    this.htmlFileNameMatcherPattern = htmlFileNameMatcherPattern;
+  }
+
+  public Matcher<String> getHtmlFileNameMatcher()
+  {
+    if (htmlFileNameMatcher != null) {
+      return htmlFileNameMatcher;
+    }
+    if (StringUtils.isBlank(htmlFileNameMatcherPattern) == true) {
+      return htmlFileNameMatcher;
+    }
+    htmlFileNameMatcher = new BooleanListRulesFactory<String>().createMatcher(htmlFileNameMatcherPattern);
+    return htmlFileNameMatcher;
+  }
+
+  public void setHtmlFileNameMatcher(Matcher<String> htmlFileNameMatcher)
+  {
+    this.htmlFileNameMatcher = htmlFileNameMatcher;
+  }
+
+  public String getExtractHtmlBodyRePattern()
+  {
+    return extractHtmlBodyRePattern;
+  }
+
+  public void setExtractHtmlBodyRePattern(String extractHtmlBodyRePattern)
+  {
+    this.extractHtmlBodyRePattern = extractHtmlBodyRePattern;
+  }
+
+  public Pattern getExtractHtmlBodyRePatternCompiled()
+  {
+    if (extractHtmlBodyRePatternCompiled != null) {
+      return extractHtmlBodyRePatternCompiled;
+    }
+    if (StringUtils.isNotBlank(extractHtmlBodyRePattern) == true) {
+      extractHtmlBodyRePatternCompiled = Pattern.compile(extractHtmlBodyRePattern, Pattern.DOTALL);
+    }
+    return extractHtmlBodyRePatternCompiled;
+  }
+
+  public void setExtractHtmlBodyRePatternCompiled(Pattern extractHtmlBodyRePatternCompiled)
+  {
+    this.extractHtmlBodyRePatternCompiled = extractHtmlBodyRePatternCompiled;
+  }
+
+  public String getHtmlContentEncoding()
+  {
+    return htmlContentEncoding;
+  }
+
+  public void setHtmlContentEncoding(String htmlContentEncoding)
+  {
+    this.htmlContentEncoding = htmlContentEncoding;
   }
 
 }
