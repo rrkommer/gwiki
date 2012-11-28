@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ettrema</groupId>
+        <artifactId>milton</artifactId>
+        <version>1.4.2</version>
+    </parent>
+    <groupId>com.ettrema</groupId>
+    <artifactId>milton-api</artifactId>
+    <packaging>jar</packaging>
+    <name>Milton WebDav API</name>
+    <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>medsea</groupId>
+            <artifactId>mime-util</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
