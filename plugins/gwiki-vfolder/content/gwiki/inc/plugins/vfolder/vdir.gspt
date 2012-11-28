@@ -4,6 +4,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.*;
 wikiContext.skinInclude('standardhead'); %>
 
 <@include file="admin/macros/pagetreesearch" @>
+<c:if test="${form.embedded}">
+<c:out value="${form.rawText}" escapeXml="false"/>
+</c:if>
+<c:if test="${form.embedded == false}">
 
 <%
 	GWikiChildrenMacro cm = new GWikiChildrenMacro();
@@ -27,4 +31,5 @@ wikiContext.skinInclude('standardhead'); %>
 	atm.render(new MacroAttributes(), wikiContext);
 %>
 </table>
+</c:if>
 <% wikiContext.skinInclude('standardfoot'); %>
