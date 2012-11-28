@@ -1,5 +1,9 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
+<c:if test="${form.embedded}">
+<c:out value="${form.rawText}" escapeXml="false"/>
+</c:if>
+<c:if test="${form.embedded == false}">
 
 <form method="post">
 
@@ -26,5 +30,6 @@ function openPreviewDialog()
         );
   });
   </script>
+</c:if>
 </c:if>
 <% wikiContext.skinInclude('standardfoot'); %>
