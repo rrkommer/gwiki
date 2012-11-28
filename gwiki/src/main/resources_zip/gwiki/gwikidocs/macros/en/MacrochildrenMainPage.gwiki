@@ -11,6 +11,7 @@ Create a table of content with the children pages.
 - page: Optional. pageId of the parent element. If not set use the current page.
 - depth: Optional. Integer. Maximal depth. If not set, use all nested pages
 - sort: Optional. String. One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER.
+- reverse: if {{true}} use the reverse order.
 - withPageIntro: Boolean true or false. Default false. If true, include the \{pageintro\} sections of the children page.  See also: [gwikidocs/macros/en/Macropageintro].
 - withPageTocs: true or false. Default false. If true, all internal headings of the children pages will be included in the table of content. (See also [gwikidocs/macros/en/Macrotoc]).
 - type: Optional, default {{gwiki}}. Type of Element. {{all}} return all types.
