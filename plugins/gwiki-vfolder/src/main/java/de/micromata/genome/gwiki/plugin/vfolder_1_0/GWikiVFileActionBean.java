@@ -18,10 +18,10 @@
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiLog;
 
 /**
@@ -30,7 +30,6 @@ import de.micromata.genome.gwiki.model.GWikiLog;
  */
 public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
 {
-  private String rawText;
 
   public void init()
   {
@@ -43,30 +42,40 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
       return onDownload();
     }
     init();
-    rawText = wikiContext.getWikiWeb().getContentSearcher().getHtmlPreview(wikiContext, pageId);
+
+    if (embedded == true) {
+
+      if (folderNode.isHtmlVFile(pageId) == false) {
+        try {
+          GWikiVFolderUtils.writeContent(fvolderEl, pageId, wikiContext.getResponse());
+        } catch (IOException ex) {
+          GWikiLog.note("Error writing attachment: " + pageId);
+        }
+        return noForward();
+      }
+      List<String> csse = folderNode.getAddCss();
+      if (csse != null) {
+        wikiContext.getRequiredCss().addAll(csse);
+      }
+      rawText = GWikiVFolderUtils.getHtmlBody(fvolderEl, folderNode, pageId);
+
+    } else {
+      rawText = wikiContext.getWikiWeb().getContentSearcher().getHtmlPreview(wikiContext, pageId);
+    }
+
     return null;
   }
 
   public Object onDownload()
   {
     init();
-    GWikiElement vfe = wikiContext.getWikiWeb().getElement(
-        wikiContext.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER));
+
     try {
-      GWikiVFolderUtils.writeContent(vfe, pageId, wikiContext.getResponse());
+      GWikiVFolderUtils.writeContent(fvolderEl, pageId, wikiContext.getResponse());
     } catch (IOException ex) {
       GWikiLog.note("Error writing attachment: " + pageId);
     }
     return noForward();
   }
 
-  public String getRawText()
-  {
-    return rawText;
-  }
-
-  public void setRawText(String rawText)
-  {
-    this.rawText = rawText;
-  }
 }

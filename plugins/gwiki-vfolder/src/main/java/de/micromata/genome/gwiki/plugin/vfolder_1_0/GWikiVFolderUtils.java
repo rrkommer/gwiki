@@ -18,14 +18,18 @@
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -66,6 +70,8 @@ public class GWikiVFolderUtils
   public static final String VDIRMETATEMPLATE = "admin/templates/intern/VDirMetaTemplate";
 
   public static final String VFILEMETATEMPLATE = "admin/templates/intern/VFileMetaTemplate";
+
+  public static Pattern titlePattern = Pattern.compile(".*<title>(.*)</title>.*", Pattern.DOTALL);
 
   public static List<GWikiElementInfo> loadFsElements(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
   {
@@ -125,9 +131,10 @@ public class GWikiVFolderUtils
     return ret;
   }
 
-  static GWikiElementInfo createElementInfo(GWikiContext wikiContext, String localName, GWikiElement pe, FsObject fs)
+  static GWikiElementInfo createElementInfo(GWikiContext wikiContext, String localName, GWikiElement vfolderElement, GWikiVFolderNode node,
+      FsObject fs)
   {
-    String pid = pe.getElementInfo().getId();
+    String pid = vfolderElement.getElementInfo().getId();
     String id = pid + '/' + localName;
     String fileMetaTemplate = VFILEMETATEMPLATE;
     if (fs.isDirectory() == true) {
@@ -139,13 +146,28 @@ public class GWikiVFolderUtils
     if (mby == null) {
       mby = "SYSTEM";
     }
+    String title = ei.getTitle();
+    int ext = title.lastIndexOf('.');
+    if (ext != -1) {
+      String sext = title.substring(ext);
+      if (sext.equalsIgnoreCase(".htm") || sext.equalsIgnoreCase(".html")) {
+        title = title.substring(0, ext);
+        String source = getHtmlSource(vfolderElement, node, id);
+        if (StringUtils.isNotEmpty(source) == true) {
+          Matcher m = titlePattern.matcher(source);
+          if (m.matches() == true) {
+            title = m.group(1);
+          }
+        }
+        ei.getProps().setStringValue(GWikiPropKeys.TITLE, title);
+      }
+    }
     ei.getProps().setDateValue(GWikiPropKeys.MODIFIEDAT, fs.getModifiedAt());
     ei.getProps().setStringValue(GWikiPropKeys.MODIFIEDBY, mby);
     ei.getProps().setStringValue(GWikiPropKeys.CREATEDBY, mby);
     ei.getProps().setDateValue(GWikiPropKeys.CREATEDAT, fs.getCreatedAt());
     ei.getProps().setIntValue(GWikiPropKeys.SIZE, fs.getLength());
     return nel.getElementInfo();
-
   }
 
   public static boolean anyChangesInFs(GWikiVFolderNode node, GWikiVFolderCachedFileInfos cache)
@@ -165,6 +187,13 @@ public class GWikiVFolderUtils
     return true;
   }
 
+  /**
+   * 
+   * @param wikiContext
+   * @param el VFolder el
+   * @param node
+   * @param incrementel
+   */
   public static void checkFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, boolean incrementel)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
@@ -176,8 +205,17 @@ public class GWikiVFolderUtils
     }
   }
 
-  public static boolean updateFolders(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node, GWikiVFolderCachedFileInfos cache,
-      boolean increment)
+  /**
+   * 
+   * @param wikiContext
+   * @param vfolderElement vfolder element
+   * @param node
+   * @param cache
+   * @param increment
+   * @return
+   */
+  public static boolean updateFolders(GWikiContext wikiContext, GWikiElement vfolderElement, GWikiVFolderNode node,
+      GWikiVFolderCachedFileInfos cache, boolean increment)
   {
     Map<String, FsObject> newFiles = new TreeMap<String, FsObject>();
     Map<String, FsObject> allFiles = new HashMap<String, FsObject>();
@@ -200,19 +238,22 @@ public class GWikiVFolderUtils
       }
     }
     boolean deletedSome = false;
-    for (String ts : cache.getLocalNames()) {
+    Iterator<String> it = cache.getLocalNames().iterator();
+    for (; it.hasNext();) {
+      // for (String ts : cache.getLocalNames()) {
+      String ts = it.next();
       if (allFiles.containsKey(ts) == false) {
         deletedSome = true;
-        cache.removeElement(ts);
+        it.remove();
         // TODO next
         // wikiContext.getWikiWeb().getDaoContext().getPageCache().removePageInfo(pageId)
       }
     }
     for (Map.Entry<String, FsObject> me : newFiles.entrySet()) {
-      GWikiElementInfo ei = createElementInfo(wikiContext, me.getKey(), el, me.getValue());
+      GWikiElementInfo ei = createElementInfo(wikiContext, me.getKey(), vfolderElement, node, me.getValue());
       cache.addElement(me.getKey(), ei);
     }
-    return newFiles.isEmpty() == false && deletedSome == false;
+    return newFiles.isEmpty() == false || deletedSome == true;
   }
 
   public static GWikiVFolderCachedFileInfos readCache(GWikiVFolderNode node)
@@ -284,6 +325,35 @@ public class GWikiVFolderUtils
     resp.setContentLength((int) file.getLength());
     OutputStream os = resp.getOutputStream();
     fvn.getFileSystem().readBinaryFile(localName, os);
+  }
+
+  public static String getHtmlSource(GWikiElement vfolderEl, GWikiVFolderNode fvn, String filePageId)
+  {
+    String localName = getLocalFromFilePageId(vfolderEl, filePageId);
+    try {
+
+      FsObject file = fvn.getFileSystem().getFileObject(localName);
+      if (file.exists() == false) {
+        return "NOT FOUND";
+      }
+      ByteArrayOutputStream bout = new ByteArrayOutputStream();
+      fvn.getFileSystem().readBinaryFile(localName, bout);
+
+      String s = bout.toString(fvn.getHtmlContentEncoding());
+      return s;
+    } catch (Exception ex) {
+      GWikiLog.error("Error reading vfile: " + localName + "; " + ex.getMessage(), ex);
+      return "Page cannot be read";
+    }
+
+  }
+
+  public static String getHtmlBody(GWikiElement vfolderEl, GWikiVFolderNode fvn, String filePageId)
+  {
+
+    String source = getHtmlSource(vfolderEl, fvn, filePageId);
+    String ret = fvn.extractHtmlVFileBody(source);
+    return ret;
   }
 
   public static void getPreview(GWikiContext wikiContext, GWikiElement vfileEl, AppendableI sb)
