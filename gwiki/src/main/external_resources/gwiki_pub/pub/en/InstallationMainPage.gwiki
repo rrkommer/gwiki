@@ -27,16 +27,16 @@ If java cannot be found or the java in the java in the path has wrong java versi
 h2. First time start
 The first time you start GWiki Standalone version, you will be asked to give some information about your installation.
 
-- HTTP Port
-- Context Path
-- Public Url
-- Public Sender Email
-- Where to store gwiki files. For standard Desktop GWiki installation, doen't change this value, because some standard GWiki files are already provided on given path.
+- HTTP Port: The port the HTTP Server listen. 
+- Context Path: Base path GWiki should served. This is the first part of the URL behind the domain and port.
+- Public Url: The URL Gwiki is reached
+- Public Sender Email: The email used as sender, if GWiki itself send emails.
+- Where to store gwiki files. For standard Desktop GWiki installation, doesn't change this value, because some standard GWiki files are already provided on given path.
 - System user\\
 A system user give you initial access to gwiki, if no user are in the user database.\\
 Password will be stored as hash value.
 - Enable User for WebDAV Access
-- Email server
+- Email server: If GWiki should send emails to user configure email SMPT server and port.
 
 First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
 
@@ -45,9 +45,7 @@ h2. Starting
 After starting GWiki open a browser with following URL:
 
 http://localhost:8081/index
-{info:title=Port}
-If you want to modifiy the port of gwiki server, edit the {{GWikiContext.xml}} file, where you can change the listing port.
-{info}
+
 
 The standalone version provides following users:
 - gwikisu
