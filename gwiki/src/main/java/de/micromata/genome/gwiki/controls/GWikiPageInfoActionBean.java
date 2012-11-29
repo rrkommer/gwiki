@@ -173,6 +173,17 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
 
   public String buildAttachmentsBox()
   {
+    return buildAttachmentBox(wikiContext, elementInfo);
+  }
+
+  protected static String translate(GWikiContext wikiContext, String key, Object... args)
+  {
+    return wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, key, null, args);
+  }
+
+  public static String buildAttachmentBox(GWikiContext wikiContext, GWikiElementInfo elementInfo)
+  {
+
     // wikiContext.g
     // StringBuilder sb = new StringBuilder();
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageAttachments(elementInfo.getId());
@@ -189,10 +200,10 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     XmlElement ta = getStandardTable();
     ta.nest(//
     tr(//
-    th(text(translate("gwiki.page.edit.PageInfo.attachment.label.name"))), //
-        th(text(translate("gwiki.page.edit.PageInfo.attachment.label.size"))), //
-        th(text(translate("gwiki.page.edit.PageInfo.attachment.label.version"))), //
-        th(text(translate("gwiki.page.edit.PageInfo.attachment.label.action"))) //
+    th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.name"))), //
+        th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.size"))), //
+        th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.version"))), //
+        th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.action"))) //
     )//
     );
     for (GWikiElementInfo ce : childs) {
@@ -201,26 +212,30 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       tr(//
       td(code(wikiContext.renderLocalUrl(ce.getId()))), //
           td(text(ce.getProps().getStringValue(GWikiPropKeys.SIZE, "-1"))), //
-          td(text(translate("gwiki.page.edit.PageInfo.attachment.label.versioninfo", wikiContext.getUserDateString(ce.getModifiedAt()),
-              ce.getModifiedBy()))),
+          td(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.versioninfo",
+              wikiContext.getUserDateString(ce.getModifiedAt()), ce.getModifiedBy()))),
 
           td(//
           a(attrs("href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam),
-              text(translate("gwiki.page.edit.PageInfo.attachment.label.edit"))),//
+              text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.edit"))),//
               // br(), //
-              a(attrs("onclick", "return confirm('" + translate("gwiki.page.edit.PageInfo.attachment.message.deleteconfirm") + "');",
-                  "href", wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&method_onDelete=true&" + backUrlParam),
-                  text(translate("gwiki.page.edit.PageInfo.attachment.label.delete")), //
+              a(attrs("onclick", "return confirm('"
+                  + translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.message.deleteconfirm")
+                  + "');", "href", wikiContext.localUrl("/edit/EditPage")
+                  + "?pageId="
+                  + ce.getId()
+                  + "&method_onDelete=true&"
+                  + backUrlParam), text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.delete")), //
                   // br(), //
                   a(attrs("href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
-                      text(translate("gwiki.page.edit.PageInfo.attachment.label.info")))) //
+                      text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.info")))) //
           )//
       ) //
       );
 
     }
 
-    return getBoxFrame(translate("gwiki.page.edit.PageInfo.attachment.title"), addNode, ta).toString();
+    return getBoxFrame(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.title"), addNode, ta).toString();
   }
 
   protected String buildBaseInfo()

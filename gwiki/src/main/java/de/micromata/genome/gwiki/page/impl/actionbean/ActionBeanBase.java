@@ -20,8 +20,6 @@ package de.micromata.genome.gwiki.page.impl.actionbean;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.micromata.genome.gwiki.model.GWikiWikiSelector;
-import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class ActionBeanBase implements ActionBean
