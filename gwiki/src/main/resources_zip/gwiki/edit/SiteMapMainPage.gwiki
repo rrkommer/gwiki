@@ -1,1 +1,1 @@
-{html}<div class="sitemap">{html}{children:all=true|sort=title|page=pub/en/Index}{html}</div>{html}
+{html}<div class="sitemap">{html}{children:all=true|page=GWIKI_WELCOME_PAGE}{html}</div>{html}
