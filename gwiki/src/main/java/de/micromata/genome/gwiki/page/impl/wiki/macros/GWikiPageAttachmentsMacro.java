@@ -19,6 +19,9 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
+import de.micromata.genome.gwiki.controls.GWikiPageInfoActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -33,6 +36,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 public class GWikiPageAttachmentsMacro extends GWikiMacroBean
 {
   private static final long serialVersionUID = -5905511059700663321L;
+
+  private String page;
+
+  private boolean inline;
 
   /*
    * (non-Javadoc)
@@ -49,19 +56,47 @@ public class GWikiPageAttachmentsMacro extends GWikiMacroBean
     if (ctx.getCurrentElement() == null) {
       return true;
     }
-    GWikiElement el = ctx.getCurrentElement();
+    GWikiElement el;
+    if (StringUtils.isEmpty(page) == true) {
+      el = ctx.getCurrentElement();
+    } else {
+      el = ctx.getWikiWeb().getElement(page);
+    }
     List<GWikiElementInfo> attachments = ctx.getElementFinder().getPageAttachments(el.getElementInfo().getId());
     if (attachments.isEmpty() == true) {
       return true;
     }
-    String id = ctx.genHtmlId("pageattachment");
+    if (inline == false) {
+      String id = ctx.genHtmlId("pageattachment");
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("<a href=\"").append(ctx.localUrl("edit/PageInfo")).append("?pageId=").append(el.getElementInfo().getId())
-        .append("&amp;showBoxElements=Attachments\"").append(">").append(attachments.size()).append(" ")
-        .append(ctx.getTranslated("gwiki.page.attachments.name")).append("</a>");
-    ctx.append("<span id=\"").append(id).append("\" class=\"pageattachment\">").append(sb.toString()).append("</span>");
-
+      StringBuilder sb = new StringBuilder();
+      sb.append("<a href=\"").append(ctx.localUrl("edit/PageInfo")).append("?pageId=").append(el.getElementInfo().getId())
+          .append("&amp;showBoxElements=Attachments\"").append(">").append(attachments.size()).append(" ")
+          .append(ctx.getTranslated("gwiki.page.attachments.name")).append("</a>");
+      ctx.append("<span id=\"").append(id).append("\" class=\"pageattachment\">").append(sb.toString()).append("</span>");
+    } else {
+      ctx.append(GWikiPageInfoActionBean.buildAttachmentBox(ctx, el.getElementInfo()));
+    }
     return true;
+  }
+
+  public String getPage()
+  {
+    return page;
+  }
+
+  public void setPage(String page)
+  {
+    this.page = page;
+  }
+
+  public boolean isInline()
+  {
+    return inline;
+  }
+
+  public void setInline(boolean inline)
+  {
+    this.inline = inline;
   }
 }

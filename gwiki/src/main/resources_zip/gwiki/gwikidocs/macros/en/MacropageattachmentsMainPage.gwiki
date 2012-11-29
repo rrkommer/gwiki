@@ -2,12 +2,23 @@
 With the Macro {{pageattachments}} a shortcut to the attachments of current page will be created.
 {pageintro}
 
-Sample:
+h3. Options
+- page: PageId of the parent page of the listed attachments. If not given, the current page will be used.
+- inline: boolean. Default false. If true, the attachments will be listed inline in the page.
+
+h3. Sample
 {code}
 {pageattachments}
 {code}
 
 Result:
 {pageattachments}
+
+{code}
+{pageattachments:inline=true}
+{code}
+
+Result:
+{pageattachments:inline=true}
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageAttachmentsMacro}}.
