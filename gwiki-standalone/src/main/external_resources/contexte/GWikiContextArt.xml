@@ -84,12 +84,12 @@
 									key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
-											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+											<value>${gwiki.temp.path}</value>
 										</constructor-arg>
 									</bean>
 
 								</entry>
-								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*,-inc/artefaktur/*">
+								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*,-inc/artefaktur/*,-admin/config/GWikiConfig*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
