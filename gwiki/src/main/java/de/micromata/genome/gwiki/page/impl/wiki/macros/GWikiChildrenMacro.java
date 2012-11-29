@@ -104,8 +104,12 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       return true;
     }
     GWikiElementInfo ei = ctx.getWikiElement().getElementInfo();
-    if (StringUtils.isEmpty(page) == false) {
-      ei = ctx.getWikiWeb().findElementInfo(page);
+    String pageId = page;
+    if (StringUtils.equals(page, "GWIKI_WELCOME_PAGE") == true) {
+      pageId = ctx.getWikiWeb().getWikiConfig().getWelcomePageId();
+    }
+    if (StringUtils.isEmpty(pageId) == false) {
+      ei = ctx.getWikiWeb().findElementInfo(pageId);
     }
     renderChildToc(ei, 1, ctx);
     // ctx.append("</li>\n");
