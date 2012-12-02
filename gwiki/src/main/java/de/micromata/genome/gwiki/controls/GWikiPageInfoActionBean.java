@@ -32,6 +32,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.th;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.ul;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,6 +44,7 @@ import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
@@ -183,6 +185,17 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     return wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, key, null, args);
   }
 
+  public static String formatAttachmentSize(String size)
+  {
+    if (NumberUtils.isDigits(size) == false) {
+      return size;
+    }
+    long numb = NumberUtils.toLong(size);
+    DecimalFormat nf = new DecimalFormat();
+    String ret = nf.format(numb);
+    return ret;
+  }
+
   public static String buildAttachmentBox(GWikiContext wikiContext, GWikiElementInfo elementInfo)
   {
 
@@ -211,11 +224,12 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     );
 
     for (GWikiElementInfo ce : childs) {
+      String size = formatAttachmentSize(ce.getProps().getStringValue(GWikiPropKeys.SIZE, "0"));
 
       ta.nest(//
       tr(//
       td(code(wikiContext.renderLocalUrl(ce.getId()))), //
-          td(text(ce.getProps().getStringValue(GWikiPropKeys.SIZE, "-1"))), //
+          td(attrs("align", "right"), text(size)), //
           td(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.versioninfo",
               wikiContext.getUserDateString(ce.getModifiedAt()), ce.getModifiedBy()))),
 
