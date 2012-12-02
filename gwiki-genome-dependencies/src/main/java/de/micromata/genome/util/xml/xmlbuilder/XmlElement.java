@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.Validate;
 
 /**
- * Ein XML-Element (tag) 
+ * Ein XML-Element (tag)
  * 
  * @author roger@micromata.de
  * 
@@ -118,8 +118,11 @@ public class XmlElement extends XmlWithChilds
     if (this.childs == null) {
       this.childs = new ArrayList<XmlNode>();
     }
-    for (XmlNode c : childs)
-      this.childs.add(c);
+    for (XmlNode c : childs) {
+      if (c != null) {
+        this.childs.add(c);
+      }
+    }
     return this;
   }
 
@@ -133,6 +136,7 @@ public class XmlElement extends XmlWithChilds
       }
     }
   }
+
   /**
    * Methode zum generieren der XML-Ausgabe.
    * 
