@@ -54,6 +54,11 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
   @Override
   public T getCompiledObject()
   {
+    T comp = super.getCompiledObject();
+    // No store of compiled object, because some needs NO singleton!
+    // if (comp != null) {
+    // return comp;
+    // }
     if (beanFactory == null) {
       String sdata = getStorageData();
       Resource resource = new ByteArrayResource(Converter.bytesFromString(sdata));
@@ -64,6 +69,7 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
       beanFactory = bf;
     }
     T bean = (T) beanFactory.getBean("config");
+    // NO see above: setCompiledObject(bean);
     return bean;
   }
 
