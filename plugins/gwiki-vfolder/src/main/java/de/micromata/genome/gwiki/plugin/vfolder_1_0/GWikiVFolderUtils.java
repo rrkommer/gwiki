@@ -73,6 +73,10 @@ public class GWikiVFolderUtils
 
   public static Pattern titlePattern = Pattern.compile(".*<title>(.*)</title>.*", Pattern.DOTALL);
 
+  public static String[] indexFileNames = new String[] { "index.html", "Index.html", "index.htm", "Index.htm"};
+
+  public static final String VFILE_INDEXHTML = "VFILE_INDEXHTML";
+
   public static List<GWikiElementInfo> loadFsElements(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
@@ -101,8 +105,50 @@ public class GWikiVFolderUtils
     }
   }
 
+  public static String getParentId(GWikiContext wikiContext, GWikiVFolderCachedFileInfos cache, String parentPath)
+  {
+    for (String idxf : indexFileNames) {
+      String fqp = parentPath + "/" + idxf;
+      GWikiElementInfo pei = cache.getElementInfoByLocalName(fqp);
+      if (pei != null) {
+        return pei.getId();
+      }
+    }
+    GWikiElementInfo pei = cache.getElementInfoByLocalName(parentPath);
+    if (pei != null) {
+      return parentPath;
+    }
+    return null;
+  }
+
+  protected static void resolveIndexHtmls(GWikiContext wikiContext, GWikiElement el, GWikiVFolderCachedFileInfos cache)
+  {
+    for (Map.Entry<String, GWikiElementInfo> me : cache.getVfolderFiles().entrySet()) {
+      String parentPath = me.getKey();
+
+      for (String idxf : indexFileNames) {
+        String fqp = parentPath + "/" + idxf;
+        GWikiElementInfo pei = cache.getElementInfoByLocalName(fqp);
+        if (pei != null) {
+          me.getValue().getProps().setStringValue(VFILE_INDEXHTML, el.getElementInfo().getId() + "/" + fqp);
+        }
+      }
+    }
+  }
+
+  protected static boolean isIndexHtmlFile(String id)
+  {
+    for (String idxf : indexFileNames) {
+      if (id.endsWith(idxf) == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static List<GWikiElementInfo> resolveParents(GWikiContext wikiContext, GWikiElement el, GWikiVFolderCachedFileInfos cache)
   {
+    resolveIndexHtmls(wikiContext, el, cache);
     List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
     for (Map.Entry<String, GWikiElementInfo> me : cache.getVfolderFiles().entrySet()) {
 
@@ -112,20 +158,44 @@ public class GWikiVFolderUtils
       GWikiElementInfo nei = nel.getElementInfo();
       nei.getProps().getMap().putAll(me.getValue().getProps().getMap());
       nei.getProps().setStringValue(FVOLDER, el.getElementInfo().getId());
-
-      // me.getValue().setMetaTemplate(wikiContext.getWikiWeb().findMetaTemplate(me.getValue().getProps().f))
-      String pid = FileNameUtils.getParentDir(me.getKey());
-      if (StringUtils.isNotEmpty(pid) == true) {
-        GWikiElementInfo pei = cache.getElementInfoByLocalName(pid);
-        if (pei != null) {
-          String prid = el.getElementInfo().getId() + "/" + pid;
-          nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, prid);
-        } else {
-          System.out.println("No parent found: " + me.getKey());
-        }
-      } else {
-        nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, el.getElementInfo().getId());
+      String indexHtml = me.getValue().getProps().getStringValue(VFILE_INDEXHTML);
+      if (StringUtils.isNotEmpty(indexHtml) == true) {
+        nei.getProps().setStringValue(VFILE_INDEXHTML, indexHtml);
       }
+      String pid;
+      if (StringUtils.isEmpty(nei.getParentId()) == true) {
+
+        pid = FileNameUtils.getParentDir(me.getKey());
+
+        if (StringUtils.isNotEmpty(pid) == true) {
+          GWikiElementInfo parentLocal = cache.getVfolderFiles().get(pid);
+          boolean isItselfIndexHtml = isIndexHtmlFile(me.getKey());
+          String pindexHtml = parentLocal.getProps().getStringValue(VFILE_INDEXHTML);
+          if (pindexHtml != null && isItselfIndexHtml == false) {
+            pid = pindexHtml;
+          } else {
+            pid = el.getElementInfo().getId() + "/" + pid;
+          }
+        } else {
+          pid = el.getElementInfo().getId();
+        }
+        nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, pid);
+      } else {
+        pid = nei.getParentId();
+        System.out.println("No parent set: " + me.getKey() + ": " + nei.getParentId());
+      }
+      nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, pid);
+      // if (StringUtils.isNotEmpty(pid) == true) {
+      // GWikiElementInfo pei = cache.getElementInfoByLocalName(pid);
+      // if (pei != null) {
+      // String prid = el.getElementInfo().getId() + "/" + pid;
+      // nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, prid);
+      // } else {
+      // System.out.println("No parent found: " + me.getKey());
+      // }
+      // } else {
+      // nei.getProps().setStringValue(GWikiPropKeys.PARENTPAGE, el.getElementInfo().getId());
+      // }
       ret.add(nei);
     }
     return ret;
@@ -225,6 +295,7 @@ public class GWikiVFolderUtils
       if (name.startsWith("/") == true) {
         name = name.substring(1);
       }
+
       allFiles.put(name, file);
       // System.out.println(name);
       GWikiElementInfo ei = cache.getElementInfoByLocalName(name);

@@ -7,7 +7,9 @@ wikiContext.skinInclude('standardhead'); %>
 <p/>
 
 <@include file="admin/macros/pagetreesearch" @>
-
+<%
+ Object form = wikiContext.getRequestAttribute("form");
+%>
 <gwiki:authorize ifHasAll="GWIKI_ADMIN">
 
 	<fieldset>
@@ -35,6 +37,14 @@ wikiContext.skinInclude('standardhead'); %>
 
 </gwiki:authorize>
 
+<% 
+if (form.includeStdIndex()  == true) {
+	 return;
+}
+form.renderTextContext();
+%>
+<hr>
+Directories:<br/>
 <%
 	GWikiChildrenMacro cm = new GWikiChildrenMacro();
 	cm.setDepth(1);
@@ -44,7 +54,7 @@ wikiContext.skinInclude('standardhead'); %>
 <table width="100%">
 <tr><th></th><th>Name</th><th>Size</th><th>Modified</th><th></th></tr>
 <%
-	for (el in wikiContext.getRequestAttribute("form").files) {
+	for (el in form.files) {
 		wikiContext.setRequestAttribute("el", el); %>
 		<tr>
 		<td></td>
