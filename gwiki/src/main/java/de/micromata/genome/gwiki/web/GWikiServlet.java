@@ -51,6 +51,7 @@ import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
 import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
+import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
 import de.micromata.genome.util.web.MimeUtils;
 
@@ -165,8 +166,14 @@ public class GWikiServlet extends HttpServlet
         return;
       }
       wiki.serveWiki(page, ctx);
+    } catch (RuntimeIOException ex) {
+      GWikiLog.note("IO Error serving: " + ex.getMessage(), ex);
     } catch (Exception ex) {
-      GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);
+      if (ex.getClass().getName().equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+        GWikiLog.note("IO Error serving: " + ex.getMessage());
+      } else {
+        GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);
+      }
     } finally {
       wiki.getLogging().addPerformance("GWikiServlet.doPost", System.currentTimeMillis() - start, 0);
       GWikiContext.setCurrent(null);
