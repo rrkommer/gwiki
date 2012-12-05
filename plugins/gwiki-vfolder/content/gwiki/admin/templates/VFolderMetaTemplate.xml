@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="config"
-		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
-		singleton="false">
-		<property name="elementType" value="gwiki" />
-		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+  <bean id="config" class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate" singleton="false">
+    <property name="elementType" value="gwiki" />
+    <property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<!--  1 Week -->
-		<property name="elementLifeTime" value="604800000" />
-		<property name="parts">
-			<map>
-				<entry key="Controler">
-					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
-						<property name="beanClassName"
-							value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderActionBean" />
-						<property name="forward">
-							<bean
-								class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
-								<constructor-arg value="inc/plugins/vfolder/vfolder" />
-							</bean>
-						</property>
-					</bean>
-				</entry>
+    <property name="elementLifeTime" value="604800000" />
+    <property name="parts">
+      <map>
+        <entry key="Controler">
+          <bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+            <property name="beanClassName" value="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderActionBean" />
+            <property name="forward">
+              <bean class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
+                <constructor-arg value="inc/plugins/vfolder/vfolder" />
+              </bean>
+            </property>
+            <property name="parts">
+              <map>
+                <entry key="MainPage">
+                  <bean class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+                </entry>
+              </map>
+            </property>
+          </bean>
+
+        </entry>
 				<!--
 					<entry key="Controler"> <bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
@@ -30,10 +34,10 @@
 					class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt"
 					/> </entry> </map> </property> </bean> </entry>
 				-->
-				<entry key="VFolderConfig">
-					<bean class="de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt" />
-				</entry>
-			</map>
-		</property>
-	</bean>
+        <entry key="VFolderConfig">
+          <bean class="de.micromata.genome.gwiki.model.GWikiXmlConfigArtefakt" />
+        </entry>
+      </map>
+    </property>
+  </bean>
 </beans>

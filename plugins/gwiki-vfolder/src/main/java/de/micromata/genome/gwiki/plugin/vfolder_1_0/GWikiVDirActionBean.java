@@ -34,8 +34,9 @@ public class GWikiVDirActionBean extends GWikiVDirOrFileActionBeanBase
   public Object onInit()
   {
     init();
+    String contextIndex = null;
     if (embedded == true) {
-      String[] indexFiles = new String[] { "index.html", "Index.html", "index.htm"};
+      String[] indexFiles = GWikiVFolderUtils.indexFileNames;
 
       for (String ifile : indexFiles) {
         String nid = pageId + "/" + ifile;
@@ -43,17 +44,11 @@ public class GWikiVDirActionBean extends GWikiVDirOrFileActionBeanBase
         if (chi == null) {
           continue;
         }
-        return chi;
-        // return noForward();
-        // List<String> csse = folderNode.getAddCss();
-        // if (csse != null) {
-        // wikiContext.getRequiredCss().addAll(csse);
-        // }
-        // rawText = GWikiVFolderUtils.getHtmlBody(fvolderEl, folderNode, nid);
-        // return null;
+        contextIndex = chi.getElementInfo().getId();
+        break;
       }
     }
-    embedded = false;
+    // embedded = false;
 
     GWikiElement cel = wikiContext.getCurrentElement();
     // GWikiElementInfo pid = cel.getElementInfo().getParent(wikiContext);
@@ -63,7 +58,7 @@ public class GWikiVDirActionBean extends GWikiVDirOrFileActionBeanBase
         files.add(ei);
       }
     }
-    return null;
+    return contextIndex;
   }
 
   public List<GWikiElementInfo> getFiles()

@@ -5,9 +5,11 @@ wikiContext.skinInclude('standardhead'); %>
 
 <@include file="admin/macros/pagetreesearch" @>
 <c:if test="${form.embedded}">
+<%-- NOT WORKING 
 <c:out value="${form.rawText}" escapeXml="false"/>
+--%> 
 </c:if>
-<c:if test="${form.embedded == false}">
+<%-- <c:if test="${form.embedded == false}">  --%>
 
 <%
 	GWikiChildrenMacro cm = new GWikiChildrenMacro();
@@ -31,5 +33,5 @@ wikiContext.skinInclude('standardhead'); %>
 	atm.render(new MacroAttributes(), wikiContext);
 %>
 </table>
-</c:if>
+<%-- </c:if>  --%>
 <% wikiContext.skinInclude('standardfoot'); %>

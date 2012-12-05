@@ -17,7 +17,11 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.vfolder_1_0;
 
+import java.util.List;
+
+import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -25,9 +29,25 @@ import de.micromata.genome.gwiki.model.GWikiElement;
  */
 public class GWikiVFolderActionBean extends GWikiVDirActionBean
 {
+  /**
+   * if current directory has an index.html file.
+   */
+  private String contentIndex = null;
+
   public Object onInit()
   {
-    super.onInit();
+    Object index = super.onInit();
+    if (embedded == true && index instanceof String) {
+
+      contentIndex = (String) index;
+
+      List<String> csse = folderNode.getAddCss();
+      if (csse != null) {
+        wikiContext.getRequiredCss().addAll(csse);
+      }
+      rawText = GWikiVFolderUtils.getHtmlBody(fvolderEl, folderNode, contentIndex);
+
+    }
     return null;
   }
 
@@ -52,7 +72,7 @@ public class GWikiVFolderActionBean extends GWikiVDirActionBean
     GWikiElement el = wikiContext.getCurrentElement();
     GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     GWikiVFolderUtils.mountFs(wikiContext, el, fn);
-    return null;
+    return onInit();
   }
 
   public Object onDismoutFs()
@@ -60,6 +80,52 @@ public class GWikiVFolderActionBean extends GWikiVDirActionBean
     GWikiElement el = wikiContext.getCurrentElement();
     GWikiVFolderNode fn = GWikiVFolderNode.getVFolderFromElement(el);
     GWikiVFolderUtils.dismountFs(wikiContext, el, fn);
-    return null;
+    return onInit();
   }
+
+  public boolean includeStdIndex()
+  {
+    GWikiElement el = wikiContext.getCurrentElement();
+
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, el.getElementInfo()) == true) {
+      return false;
+    }
+    String parentPath = el.getElementInfo().getId();
+    for (String idxf : GWikiVFolderUtils.indexFileNames) {
+      String fqp = parentPath + "/" + idxf;
+      if (wikiContext.getWikiWeb().findElementInfo(fqp) == null) {
+        continue;
+      }
+      fqp = wikiContext.localUrl(fqp);
+
+      wikiContext.append("<script language=\"JavaScript\">self.location=\"" + fqp + "\";</script>");
+      return true;
+    }
+    return false;
+  }
+
+  public void renderTextContext()
+  {
+    GWikiElement el = wikiContext.getCurrentElement();
+    GWikiArtefakt< ? > art = el.getPart("MainPage");
+    if (art == null) {
+      return;
+    }
+    if (art instanceof GWikiExecutableArtefakt< ? >) {
+      ((GWikiExecutableArtefakt< ? >) art).render(wikiContext);
+    } else {
+      wikiContext.getWikiWeb().serveWiki(wikiContext, el);
+    }
+  }
+
+  public String getContentIndex()
+  {
+    return contentIndex;
+  }
+
+  public void setContentIndex(String contentIndex)
+  {
+    this.contentIndex = contentIndex;
+  }
+
 }
