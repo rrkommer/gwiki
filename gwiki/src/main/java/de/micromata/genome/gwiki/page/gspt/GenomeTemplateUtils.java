@@ -268,12 +268,26 @@ public class GenomeTemplateUtils
       // parentScript.setBinding(script.getBinding());
     } catch (IOException ex) {
       // handled outside
-      throw new RuntimeException("IO failure execution Groovy", ex);
+      throw new RuntimeIOException("IO failure execution Groovy", ex);
+    } catch (RuntimeIOException ex) {
+      throw ex;
+
+    } catch (RuntimeException ex) {
+      String name = ex.getClass().getName();
+      if (name.equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+        throw ex;
+      }
+      throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
+          .getElementInfo().getId()
+          + "; "
+          + ex.getMessage(), ex);
+
     } catch (Exception e) {
       throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
           .getElementInfo().getId()
           + "; "
           + e.getMessage(), e);
+
     }
   }
 

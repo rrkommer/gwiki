@@ -336,7 +336,11 @@ public class GWikiWeb
         throw ex;
       serveWikiIntern(ctx, nel);
     } catch (RuntimeException ex) {
-      GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId(), ex);
+      if (ex.getClass().getName().equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+        GWikiLog.note("IO Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage());
+      } else {
+        GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage(), ex);
+      }
       ctx.getRequest().setAttribute("exception", ex);
       GWikiElement nel = findElement("admin/InternalError");
       if (nel == null)
