@@ -18,6 +18,10 @@
 
 package de.micromata.genome.gwiki.jetty;
 
+import java.util.List;
+
+import org.eclipse.jetty.server.Connector;
+
 public class JettyConfig
 {
   private int port = 8081;
@@ -41,6 +45,9 @@ public class JettyConfig
    * Session timeout in seconds.
    */
   private int sessionTimeout = 60 * 60;
+
+  // for later use init https.
+  private List<Connector> connectors;
 
   public int getPort()
   {
@@ -90,6 +97,16 @@ public class JettyConfig
   public void setSessionTimeout(int sessionTimeout)
   {
     this.sessionTimeout = sessionTimeout;
+  }
+
+  public List<Connector> getConnectors()
+  {
+    return connectors;
+  }
+
+  public void setConnectors(List<Connector> connectors)
+  {
+    this.connectors = connectors;
   }
 
 }
