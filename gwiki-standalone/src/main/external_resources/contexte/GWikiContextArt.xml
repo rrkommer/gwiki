@@ -15,6 +15,8 @@
 				<entry key="mail.smtp.port" value="${mail.smtp.port}" />
 				<entry key="mail.smtp.user" value="${mail.smtp.user}" />
 				<entry key="mail.smtp.password" value="${mail.smtp.password}" />
+        <entry key="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}" />
+        <entry key="mail.smtp.ssl.enable" value="${mail.smtp.ssl.enable}" />
 			</map>
 		</constructor-arg>
 	</bean>
