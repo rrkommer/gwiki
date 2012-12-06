@@ -22,6 +22,7 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -106,7 +107,11 @@ public class GWikiJettyStarter
       wikiServlet.setDAOContext(wikibootcfg);
       context.addServlet(wikiServletHolder, jettyConfig.getServletPath() + "*");
       server.setHandler(context);
-
+      if (jettyConfig.getConnectors() != null) {
+        for (Connector con : jettyConfig.getConnectors()) {
+          server.addConnector(con);
+        }
+      }
       server.start();
 
       if (firstStart == true) {
