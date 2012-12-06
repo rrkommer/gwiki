@@ -18,7 +18,7 @@ function gwikiEditPagePath(inputField) {
 	dlghtml += "    \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],";
 	dlghtml += "    \"html_data\" : {\n";
 	dlghtml += "      \"ajax\" : {";
-	dlghtml += "        \"url\" : \"/edit/TreeChildren\",\n";
+	dlghtml += "        \"url\" : \"" + gwikiContextPath + gwikiServletPath +"/edit/TreeChildren\",\n";
 	dlghtml += "        \"data\" : function(n) {   return { \"method_onLoadAsync\" : \"true\", "
 			+ "\"id\" : n.attr ? n.attr(\"id\") : \"\","
 			+ "\"urlField\" : \"pathtextfield\" };      }\n";
