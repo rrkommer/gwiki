@@ -5,8 +5,8 @@
 	<bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
 		<property name="port" value="${gwiki.jetty.port}" />
 
-		<property name="contextRoot" value="./gwikiweb" />
-		<property name="contextPath" value="/" />
+		<property name="contextRoot" value="${gwiki.wikifilepath}" />
+		<property name="contextPath" value="${gwiki.jetty.contextpath}" />
 	</bean>
 	<bean id="mailSession" class="de.micromata.genome.gwiki.utils.SessionBeanFactory">
 		<constructor-arg>
@@ -16,6 +16,8 @@
 				<entry key="mail.smtp.port" value="${mail.smtp.port}" />
 				<entry key="mail.smtp.user" value="${mail.smtp.user}" />
 				<entry key="mail.smtp.password" value="${mail.smtp.password}" />
+        <entry key="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}" />
+        <entry key="mail.smtp.ssl.enable" value="${mail.smtp.ssl.enable}" />
 			</map>
 		</constructor-arg>
 	</bean>
@@ -90,7 +92,7 @@
 									</bean>
 
 								</entry>
-								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*">
+								<entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*,-inc/artefaktur/*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
@@ -101,6 +103,14 @@
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
 											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+								
+								<entry key="+images/*,+inc/artefaktur/*,+webroot*,+acdk/*,+acdkx/*,+corporate/*,+products/*"><!--   -->
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>C:/Users/roger/d/local/artefaktur/artefaktur/web</value>
 										</constructor-arg>
 									</bean>
 								</entry>
@@ -117,6 +127,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
+		<!--  
 		<property name="wikiSelector">
 			<bean class="de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector">
 				<property name="mptIdSelector">
@@ -124,6 +135,7 @@
 				</property>
 			</bean>
 		</property>
+		 -->
 	</bean>
 	<bean id="MptFileSystem" class="de.micromata.genome.gdbfs.StdFileSystem">
 		<constructor-arg>
