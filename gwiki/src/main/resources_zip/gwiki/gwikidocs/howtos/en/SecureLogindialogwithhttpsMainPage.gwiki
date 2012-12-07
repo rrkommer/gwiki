@@ -4,6 +4,7 @@ GWiki provides an login dialog. Running GWiki on Internet the login dialog shoul
 
 h2. Disalow http for Login
 
+h3. Using the web.xml
 In the GWikis {{web.xml}} insert following XML at the end:
 {code}
 <security-constraint>
@@ -25,3 +26,19 @@ In the GWikis {{web.xml}} insert following XML at the end:
 		</user-data-constraint>
 	</security-constraint>
 {code}
+
+h3. In the Jetty standalone version
+Using the standalone version with Jetty, there is no web.xml. You can add {{gwiki.public.url.https}}  System property (f.e. in the {{gwiki.properties}} file) to declare the public https URL of the wiki.
+
+Samples:
+{pre}
+gwiki.public.url.https=https://localhost:8443
+{pre}
+or
+{pre}
+gwiki.public.url.https=https://myDomain.com/wiki
+{pre}
+
+
+See also: [gwikidocs/howtos/en/GWiki_Jetty_with_HTTPS]
+

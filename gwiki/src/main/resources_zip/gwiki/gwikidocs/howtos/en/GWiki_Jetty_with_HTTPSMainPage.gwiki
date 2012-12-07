@@ -1,7 +1,7 @@
 {pageintro}
 Run GWiki with Jetty and HTTPS
-
 {pageintro}
+
 h2.Introduction
 If you run {*}GWiki {*}as Server using Jetty and use GWiki user authentification (the Login page) over the internet, it is strongly recommended the GWiki is only used via HTTPS and not HTTP, otherwise the password will be passed in plain text.
 
@@ -74,4 +74,6 @@ gwiki.ssl.keystore=C:/Users/roger/d/gwiki/gwiki-standalone/keystore
 gwiki.ssl.keystore.pass=mykeystorepass
 {code}
 Of course replace the pass to keystore and {{mykeystorepass}} with your choosen password.
+
+See also in [gwikidocs/howtos/en/SecureLogindialogwithhttps] how to secure the Login dialog.
 
