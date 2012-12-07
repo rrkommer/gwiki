@@ -18,6 +18,7 @@
 
 package de.micromata.genome.gwiki.controls;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
 
 /**
@@ -83,9 +85,33 @@ public class GWikiLoginActionBean extends ActionBeanBase
     doubleOptInRegister = props.getBooleanValue(AUTH_REGISTER_USER_DOUBLE_OPT_IN, false);
   }
 
+  protected Object checkSecureLogin()
+  {
+    String httpsRed = System.getProperty("gwiki.public.url.https");
+    if (StringUtils.isBlank(httpsRed) == true) {
+      return null;
+    }
+    StringBuffer reqUri = wikiContext.getRequest().getRequestURL();
+    if (StringUtils.startsWith(reqUri.toString(), "https:") == true) {
+      return null;
+    }
+    String thisUrl = wikiContext.getRealPathInfo();
+    String retUrl = httpsRed + thisUrl;
+    try {
+      wikiContext.getResponse().sendRedirect(retUrl);
+    } catch (IOException ex) {
+      throw new RuntimeIOException(ex);
+    }
+    return noForward();
+  }
+
   public Object onInit()
   {
     password = "";
+    Object ret = checkSecureLogin();
+    if (ret != null) {
+      return ret;
+    }
     checkPublicRegister();
     return null;
   }
@@ -158,11 +184,14 @@ public class GWikiLoginActionBean extends ActionBeanBase
     mailContext.put("USER", user);
     mailContext.put("PUBURL", wikiContext.getWikiWeb().getWikiConfig().getPublicURL());
     mailContext.put("NEWPASS", newPass);
-    String subject = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailsubject",
-        "GWiki; Password changed");
+    String subject = wikiContext.getWikiWeb().getI18nProvider()
+        .translate(wikiContext, "gwiki.page.admin.Login.message.mailsubject", "GWiki; Password changed");
     subject = PlaceHolderReplacer.resolveReplaceDollarVars(subject, mailContext);
-    String message = wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.page.admin.Login.message.mailtext",
-        "The password for user ${USER} on\n${PUBURL}\nhas changed to: ${NEWPASS}");
+    String message = wikiContext
+        .getWikiWeb()
+        .getI18nProvider()
+        .translate(wikiContext, "gwiki.page.admin.Login.message.mailtext",
+            "The password for user ${USER} on\n${PUBURL}\nhas changed to: ${NEWPASS}");
     message = PlaceHolderReplacer.resolveReplaceDollarVars(message, mailContext);
     mailContext.put(GWikiEmailProvider.SUBJECT, subject);
 
