@@ -7,6 +7,7 @@
     <property name="contextRoot" value="${gwiki.wikifilepath}" />
     <property name="contextPath" value="${gwiki.jetty.contextpath}" />
     <!--  See http://docs.codehaus.org/display/JETTY/Ssl+Connector+Guide -->
+    <!-- SAMPLE  
     <property name="connectors">
       <list>
         <bean class="org.eclipse.jetty.server.ssl.SslSocketConnector">
@@ -20,7 +21,7 @@
         </bean>
       </list>
     </property>
-
+  -->
   </bean>
   <bean id="mailSession" class="de.micromata.genome.gwiki.utils.SessionBeanFactory">
     <constructor-arg>
