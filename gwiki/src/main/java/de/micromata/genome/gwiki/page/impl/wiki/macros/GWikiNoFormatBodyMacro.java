@@ -30,6 +30,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 /**
  * GWiki macro to implement the noformat macro.
  * 
+ * TODO also as GWikiMacroRte like GWikiCodeMacro
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */

@@ -20,14 +20,19 @@ package de.micromata.genome.gwiki.utils.html;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xerces.xni.XMLAttributes;
 
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributesUtils;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.util.matcher.Matcher;
 
 /**
@@ -146,13 +151,38 @@ public class Html2WikiTransformInfo implements Html2WikiTransformer
     return true;
   }
 
+  public static void renderMacroArgs(GWikiContext ctx, MacroAttributes attrs)
+  {
+    if (attrs.getArgs().isEmpty() == true) {
+      return;
+    }
+    String maargs = MacroAttributes.encode(attrs.getArgs().getMap());
+    ctx.append(" title=\"").append(maargs).append("\"");
+  }
+
   public GWikiMacroFragment handleMacroTransformer(String tagName, XMLAttributes attributes, boolean withBody)
   {
     MacroAttributes ma = new MacroAttributes();
     ma.setCmd(macroName);
     GWikiMacro macro = macroFactory.createInstance();
     GWikiMacroFragment frag = new GWikiMacroFragment(macro, ma);
+    String title = attributes.getValue("title");
+    if (StringUtils.isNotBlank(title) == true) {
+      Map<String, String> args = MacroAttributesUtils.decode(title);
+      frag.getAttrs().getArgs().getMap().putAll(args);
+    }
     return frag;
+  }
+
+  public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body)
+  {
+    // if ((lpfm instanceof GWikiBodyEvalMacro) == false) {
+    lpfm.getAttrs().setBody(body);
+    // } else {
+    if (children != null) {
+      lpfm.addChilds(children);
+    }
+    // }
   }
 
   public String getTagName()
