@@ -5,6 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
+		<property name="cachable" value="false"/>
 		<property name="viewable" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<!--  1 Week -->
