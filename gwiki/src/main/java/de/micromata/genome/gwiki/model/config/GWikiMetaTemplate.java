@@ -69,6 +69,9 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    */
   private boolean noToc = false;
 
+  /**
+   * if false, do not cache
+   */
   private boolean cachable = true;
 
   private boolean noSearchIndex = false;
@@ -125,7 +128,7 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    * Additionally properties descriptor for settings.
    */
   private GWikiPropsDescriptor addPropsDescriptor = null;
-  
+
   /**
    * Flag to display contained editors tab wise or row wise
    */
