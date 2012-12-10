@@ -185,7 +185,6 @@ public class Html2WikiFilterTest extends Html2WikiBase
     assertEquals("* Eins\n** Nested\n", wiki);
   }
 
-  // Test needs GWIKIInstance
   public void NotWorkingtestLinkWithTarget2()
   {
     String html = "<a wikiTarget=\"Bla|MyTarget\" href=\"MyTarget\">Bla</a>";
@@ -194,8 +193,7 @@ public class Html2WikiFilterTest extends Html2WikiBase
     assertEquals("[Bla|MyTarget]", wiki);
   }
 
-  // Test needs GWIKIInstance
-  public void NotWorkingtestLinkWithTarget1()
+  public void testLinkWithTarget1()
   {
     String html = "<a wikiTarget=\"MyTarget\" href=\"MyTarget\">Bla</a>";
     String wiki = transform(html);

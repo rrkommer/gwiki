@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiPipeListParser;
 import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.types.Pair;
 
 public class GWikiFragmentLink extends GWikiFragmentChildsBase
@@ -72,7 +73,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     if (elems.size() == 0) {
       target = "";
     } else if (elems.size() == 1) {
-      if (isGlobalUrl(target) == false && GWikiWeb.getWiki().findElementInfo(target) == null) {
+      if (isGlobalUrl(target) == false && (GWikiServlet.INSTANCE == null || GWikiWeb.getWiki().findElementInfo(target) == null)) {
         this.target = normalizeToTarget(target);
       } else {
         this.target = target;
