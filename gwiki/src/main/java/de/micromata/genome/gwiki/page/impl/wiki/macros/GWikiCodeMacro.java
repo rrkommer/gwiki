@@ -97,10 +97,12 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       ctx.append(">").append(body).append("</pre>");
       return true;
     }
+    String body = attrs.getBody();
+    body = StringUtils.trim(body);
     boolean preview = RenderModes.ForText.isSet(ctx.getRenderMode());
     ctx.append("<div class=\"preformatted panel\" style=\"border-width: 1px;\">", //
         "<div class=\"preformattedContent panelContent\">\n", //
-        preview ? attrs.getBody() : colorize(lang, attrs.getBody()), //
+        preview ? attrs.getBody() : colorize(lang, body), //
         "</div></div>");
     return true;
   }
