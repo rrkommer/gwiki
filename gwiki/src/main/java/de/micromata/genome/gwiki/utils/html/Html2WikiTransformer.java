@@ -17,9 +17,12 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.utils.html;
 
+import java.util.List;
+
 import org.apache.xerces.xni.XMLAttributes;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 
 /**
  * Responseble for transforming a chunk of html.
@@ -34,10 +37,28 @@ public interface Html2WikiTransformer
    * 
    * @param tagName name of element
    * @param attributes
-   * @param withBody has body
+   * @param withBody if true, html element has a body
    * @return
    */
   public boolean match(String tagName, XMLAttributes attributes, boolean withBody);
 
+  /**
+   * Parses a html begin to a macrofragment
+   * 
+   * @param tagName raw tagname
+   * @param attributes
+   * @param withBody if true, html element has a body
+   * @return
+   */
   public GWikiMacroFragment handleMacroTransformer(String tagName, XMLAttributes attributes, boolean withBody);
+
+  /**
+   * Will be called at the end of html element tag.
+   * 
+   * @param tagname raw html tag
+   * @param lpfm the macro fragment
+   * @param children child fragments
+   * @param body body as text.
+   */
+  public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body);
 }

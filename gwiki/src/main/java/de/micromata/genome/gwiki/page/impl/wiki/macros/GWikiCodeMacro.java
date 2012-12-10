@@ -35,8 +35,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
+import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.AttributeMatcher;
+import de.micromata.genome.util.matcher.EqualsMatcher;
 
 /**
  * GWiki macro code.
@@ -44,7 +48,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro
+public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro, GWikiMacroRte
 {
 
   private static final long serialVersionUID = -5140863862389680264L;
@@ -55,6 +59,15 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   private String lang = "java";
 
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("pre", "code", GWikiCodeMacro.class);
+  static {
+    AttributeMatcher am = new AttributeMatcher();
+    am.setName("class");
+    am.setValueMatcher(new EqualsMatcher<String>("wikiCode"));
+    transformInfo.getAttributeMatcher().add(am);
+
+  }
+
   public static GWikiMacroFactory getFactory()
   {
     return new GWikiMacroClassFactory(GWikiCodeMacro.class);
@@ -62,7 +75,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   public GWikiCodeMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP/* , GWikiMacroRenderFlags.TrimTextContent */));
   }
 
   @Override
@@ -72,8 +85,16 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
       return true;
     }
+    // following will not be rendered.
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-      ctx.append("<code>").appendEscText(attrs.getBody()).append("</code>");
+      // TODO attributes rendering
+      String body = attrs.getBody();
+
+      body = StringEscapeUtils.escapeHtml(body);
+
+      ctx.append("<pre class=\"wikiCode\"");
+      Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
+      ctx.append(">").append(body).append("</pre>");
       return true;
     }
     boolean preview = RenderModes.ForText.isSet(ctx.getRenderMode());
@@ -121,6 +142,11 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       // throw new RuntimeIOException(ex);
     }
     return "<pre>\n" + StringEscapeUtils.escapeHtml(code) + "</pre>\n";
+  }
+
+  public Html2WikiTransformInfo getTransformInfo()
+  {
+    return transformInfo;
   }
 
   public String getDefaultValue()

@@ -40,6 +40,13 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
   {
     return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, //
         GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+            GWikiMacroRenderFlags.TrimTextContent));
+  }
+
+  public static GWikiMacroFactory nestedHtmlBody()
+  {
+    return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, //
+        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
             GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.TrimWsAfter));
   }
 
@@ -60,12 +67,12 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
 
   public static GWikiMacroFactory tr()
   {
-    return standardBody();
+    return nestedHtmlBody();
   }
 
   public static GWikiMacroFactory td()
   {
-    return standardBody();
+    return nestedHtmlBody();
   }
 
   public static GWikiMacroFactory div()

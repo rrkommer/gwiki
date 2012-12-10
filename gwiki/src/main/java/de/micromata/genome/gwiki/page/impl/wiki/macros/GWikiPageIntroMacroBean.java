@@ -18,12 +18,18 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.AttributeMatcher;
 import de.micromata.genome.util.matcher.EqualsMatcher;
@@ -39,7 +45,19 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
 
   private static final long serialVersionUID = -3030397042733595461L;
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div", "pageintro", GWikiPageIntroMacroBean.class);
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div", "pageintro", GWikiPageIntroMacroBean.class) {
+
+    @Override
+    public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body)
+    {
+      List<GWikiFragment> nc = new ArrayList<GWikiFragment>(children);
+      if (nc.isEmpty() == false && nc.get(nc.size() - 1) instanceof GWikiFragmentP) {
+        nc.remove(nc.size() - 1);
+      }
+      super.handleMacroEnd(tagname, lpfm, nc, body);
+    }
+
+  };
   static {
     AttributeMatcher am = new AttributeMatcher();
     am.setName("class");

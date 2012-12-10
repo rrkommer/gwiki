@@ -42,10 +42,13 @@ import org.cyberneko.html.filters.DefaultFilter;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
@@ -467,7 +470,7 @@ public class Html2WikiFilter extends DefaultFilter
     return false;
   }
 
-  protected boolean handleMacroTransformer(String tagName, XMLAttributes attributes, boolean withBody)
+  protected boolean handleMacroTransformerBegin(String tagName, XMLAttributes attributes, boolean withBody)
   {
     for (Html2WikiTransformer ma : macroTransformer) {
       if (ma.match(tagName, attributes, withBody) == true) {
@@ -480,6 +483,30 @@ public class Html2WikiFilter extends DefaultFilter
           parseContext.pushFragList();
         }
         return true;
+      }
+    }
+    return false;
+  }
+
+  protected boolean handleMacroTransformerEnd(QName element, Augmentations augs)
+  {
+    String en = element.rawname.toLowerCase();
+    GWikiFragment lpf = parseContext.lastParentFrag();
+    if (lpf instanceof GWikiMacroFragment) {
+      GWikiMacroFragment lpfm = (GWikiMacroFragment) lpf;
+
+      if (lpfm.getMacro() instanceof GWikiMacroRte) {
+        GWikiMacroRte mr = (GWikiMacroRte) lpfm.getMacro();
+        if (mr.getTransformInfo() != null) {
+          String t = collectedText.toString();
+          if (mr.getTransformInfo() != null && StringUtils.equals(mr.getTransformInfo().getTagName(), en) == true) {
+            List<GWikiFragment> children = parseContext.popFragList();
+            mr.getTransformInfo().handleMacroEnd(en, lpfm, children, t);
+            collectedText.setLength(0);
+            return true;
+          }
+        }
+
       }
     }
     return false;
@@ -556,7 +583,7 @@ public class Html2WikiFilter extends DefaultFilter
     String en = element.rawname.toLowerCase();
 
     Html2WikiElement el = null;
-    if (handleMacroTransformer(en, attributes, true) == true) {
+    if (handleMacroTransformerBegin(en, attributes, true) == true) {
       ; // nothing more
     } else if (en.equals("p") == true) {
       // all p should always be a br, but tinyMCE encodes center images as p style=text-align: center;
@@ -634,8 +661,13 @@ public class Html2WikiFilter extends DefaultFilter
   public void endElement(QName element, Augmentations augs) throws XNIException
   {
     flushText();
-    List<GWikiFragment> frags;
     String en = element.rawname.toLowerCase();
+    if (handleMacroTransformerEnd(element, augs) == true) {
+      super.endElement(element, augs);
+      return;
+    }
+    List<GWikiFragment> frags;
+
     if (handleAutoCloseTag(en) == true) {
       ; // nothing
     } else if (en.length() == 2 && en.charAt(0) == 'h' && Character.isDigit(en.charAt(1)) == true) {
@@ -680,14 +712,18 @@ public class Html2WikiFilter extends DefaultFilter
       endTdTh();
     } else if (en.equals("span") == true && handleSpanEnd() == true) {
       // nothing
+
     } else if (supportedHtmlTags.contains(en) == true) {
       frags = parseContext.popFragList();
       GWikiMacroFragment maf = (GWikiMacroFragment) parseContext.lastFragment();
       if (maf != null) {
         maf.getAttrs().setChildFragment(new GWikiFragmentChildContainer(frags));
       } else {
-        throw new RuntimeException("No fragment set");
+        throw new RuntimeException("No fragment set on end tag: " + en);
       }
+    } else {
+
+      // GWikiLog.note("Unhandled end tag: " + en);
     }
     super.endElement(element, augs);
   }
@@ -799,10 +835,20 @@ public class Html2WikiFilter extends DefaultFilter
       return;
     }
     String t = collectedText.toString();
-    collectedText.setLength(0);
+    GWikiFragment lpf = parseContext.lastParentFrag();
+    GWikiFragment lf = parseContext.lastFrag();
 
+    if (lpf != null && lpf instanceof GWikiMacroFragment) {
+      GWikiMacroFragment gwmf = (GWikiMacroFragment) lpf;
+      if (gwmf.getMacro() instanceof GWikiBodyMacro && (gwmf.getMacro() instanceof GWikiBodyEvalMacro) == false) {
+        // GWikiBodyMacro bm = (GWikiBodyMacro)gwmf.getMacro();
+        // gwmf.getAttrs().setBody(t);
+        // just continue
+        return;
+      }
+    }
+    collectedText.setLength(0);
     if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
-      GWikiFragment lf = parseContext.lastFrag();
       if (lf instanceof GWikiFragmentTextDeco) {
         ((GWikiFragmentTextDeco) lf).setRequireMacroSyntax(true);
       }
@@ -844,7 +890,7 @@ public class Html2WikiFilter extends DefaultFilter
     // }
     // }
     // // int cp = Character.codePointAt(t.toCharArray(), 0);
-    //    
+    //
     // if (StringUtils.isNewLine(t) == false) {
     // parseContext.addTextFragement(escapeText(t));
     // }
