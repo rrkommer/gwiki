@@ -5,6 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
+		<property name="cachable" value="false"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
 		<property name="copyFromPageId" value="admin/templates/scaff/FullFeaturedScaff"/>
 		<property name="elementLifeTime" value="-1" /> 

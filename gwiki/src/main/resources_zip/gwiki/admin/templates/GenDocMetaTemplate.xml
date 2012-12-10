@@ -7,6 +7,7 @@
 		<property name="elementType" value="gwiki" />
 		<property name="viewable" value="false"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
+		<property name="cachable" value="false"/>
 		<property name="elementLifeTime" value="-1" /> 
 		<property name="parts">
 			<map>

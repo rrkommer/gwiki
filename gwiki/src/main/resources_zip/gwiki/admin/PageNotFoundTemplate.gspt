@@ -1,4 +1,5 @@
-<% wikiContext.skinInclude("standardhead"); %>
+<% wikiContext.skinInclude("standardhead"); 
+   wikiContext.getResponse().setStatus(404); %>
 <@include file="inc/stdtags.gspt" @> 
 
 <gwiki:errors />
