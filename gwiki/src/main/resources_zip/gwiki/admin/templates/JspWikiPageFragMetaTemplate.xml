@@ -9,7 +9,6 @@
 		<property name="noSearchIndex" value="true"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
 		<!--  1 Week -->
-		<property name="cachable" value="false"/>
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
 			<map>
