@@ -3,7 +3,7 @@
 <beans>
 	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
 		<property name="apiVersion" value="1.0.0" />
-		<property name="name" value="gwiki.pdftextextracteor" />
+		<property name="name" value="gwiki.pdftextextractor" />
 		<property name="requiredPlugins">
 			<list>
 				<value>org.apache.pdfbox:1.5.0</value>
