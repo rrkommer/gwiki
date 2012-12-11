@@ -49,7 +49,7 @@
   <td width="10%"><c:out value="${plugin.descriptor.author}"/></td>
   <td width="10%">
   <form method="post">
-    <input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.name}"/>"/>
+    <input type="hidden" name="pluginName" value="<c:out value="${plugin.descriptor.pluginId}"/>"/>
     <c:choose>
         <c:when test="${plugin.activated == true}"> 
             <input class="gwikiButton reset" type="submit" name="method_onDeactivate" value="<fmt:message key="gwiki.page.admin.PluginAdmin.button.deactivate"/>"/>
