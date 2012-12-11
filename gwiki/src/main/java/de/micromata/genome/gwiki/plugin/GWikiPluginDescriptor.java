@@ -140,6 +140,15 @@ public class GWikiPluginDescriptor implements InitializingBean
     }
   }
 
+  /**
+   * 
+   * @return name:version
+   */
+  public String getPluginId()
+  {
+    return name + ":" + version;
+  }
+
   public boolean isPrimaryFsRead(String fname)
   {
     if (primaryFsReadMatcher == null) {

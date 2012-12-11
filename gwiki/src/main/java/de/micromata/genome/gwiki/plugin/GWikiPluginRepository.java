@@ -133,7 +133,7 @@ public class GWikiPluginRepository
       SubFileSystem sfs = new SubFileSystem(dir.getFileSystem(), dir.getName());
 
       GWikiPlugin plugin = new GWikiPlugin(sfs, pdesc);
-      plugins.put(pdesc.getName(), plugin);
+      plugins.put(pdesc.getPluginId(), plugin);
 
     } catch (Exception ex) {
       GWikiLog.warn("Failed to load plugin from directory: " + dir.getName() + "; " + ex.getMessage(), ex);
@@ -173,6 +173,7 @@ public class GWikiPluginRepository
     for (GWikiPluginLifecycleListener lcl : plugin.getLifeCycleListener()) {
       lcl.deactivated(wikiContext.getWikiWeb(), plugin);
     }
+    GWikiLog.note("Deactivated plugin: " + plugin.getDescriptor().getPluginId());
   }
 
   protected void initLifecycleManager(GWikiWeb wikiWeb, GWikiPlugin plugin)
@@ -188,6 +189,7 @@ public class GWikiPluginRepository
     initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
+    GWikiLog.note("Activated plugin: " + plugin.getDescriptor().getPluginId());
   }
 
   public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
@@ -197,6 +199,7 @@ public class GWikiPluginRepository
     if (plugin != null && plugin.isActivated() == true) {
       deactivatePlugin(wikiContext, plugin);
       deactivated = true;
+
     }
     GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
     List<String> activePlugins = wikiConfig.getActivePlugins();
@@ -272,32 +275,31 @@ public class GWikiPluginRepository
     return Pair.make(pnn.substring(0, idx), pnn.substring(idx + 1));
   }
 
-  private ClassLoader getActiveClassLoader(Pair<String, String> pp)
+  private ClassLoader getActiveClassLoader(String pluginId)
   {
     for (GWikiPlugin p : activePlugins) {
-      if (p.getDescriptor().getName().equals(pp.getFirst()) == true) {
+      if (p.getDescriptor().getPluginId().equals(pluginId) == true) {
         return p.getPluginClassLoader();
       }
     }
     return null;
   }
 
-  private ClassLoader getDependingClassLoader(String pnn, GWikiPlugin plugin, GWikiWeb wikiWeb)
+  private ClassLoader getDependingClassLoader(String pluginId, GWikiPlugin plugin, GWikiWeb wikiWeb)
   {
-    Pair<String, String> pp = getPluginNameAndVersion(pnn);
-    ClassLoader ret = getActiveClassLoader(pp);
+    ClassLoader ret = getActiveClassLoader(pluginId);
     if (ret != null) {
       return ret;
     }
     for (Map.Entry<String, GWikiPlugin> me : plugins.entrySet()) {
-      if (me.getKey().equals(pp.getFirst()) == true) {
+      if (me.getKey().equals(pluginId) == true) {
         activatePlugin(wikiWeb, me.getValue());
-        ret = getActiveClassLoader(pp);
+        ret = getActiveClassLoader(pluginId);
         break;
       }
     }
     if (ret == null) {
-      throw new RuntimeException("Cannot find/load pending plugin " + pnn + " for plugin " + plugin.getDescriptor().getName());
+      throw new RuntimeException("Cannot find/load pending plugin " + pluginId + " for plugin " + plugin.getDescriptor().getPluginId());
     }
     return ret;
   }
@@ -345,7 +347,11 @@ public class GWikiPluginRepository
     if (shouldActivate(name, plugin, wikiWeb, wikiConfig) == false) {
       return;
     }
-    activatePlugin(wikiWeb, plugin);
+    try {
+      activatePlugin(wikiWeb, plugin);
+    } catch (RuntimeException ex) {
+      GWikiLog.error("Cannot activate plugin: " + plugin.getDescriptor().getPluginId() + "; " + ex.getMessage(), ex);
+    }
   }
 
   private void initPlugins(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
@@ -363,14 +369,20 @@ public class GWikiPluginRepository
   public void initPluginRepository(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
     clear();
+    boolean storeIsWikiPlugin = false;
     if (storePluginLocation == null) {
-      // TODO may not related to path, but to parent id.
+      // Has to be path, because parent id cannot be used, because Wiki elements are not loaded yet.
       storePluginLocation = new SubFileSystem(wikiWeb.getDaoContext().getStorage().getFileSystem(), "admin/plugins");
       storePluginLocation.setReadOnly(true);
+      storeIsWikiPlugin = true;
     }
     if (pluginLocations == null) {
       pluginLocations = new ArrayList<FileSystem>();
       pluginLocations.add(storePluginLocation);
+      if (storeIsWikiPlugin == false) {
+        pluginLocations.add(new SubFileSystem(wikiWeb.getDaoContext().getStorage().getFileSystem(), "admin/plugins"));
+      }
+
     }
     for (FileSystem fs : pluginLocations) {
       loadPlugins(wikiWeb, fs);
@@ -441,7 +453,17 @@ public class GWikiPluginRepository
     for (GWikiPlugin plugin : activePlugins) {
       Map<String, String> macros = plugin.getDescriptor().getMacros();
       for (Map.Entry<String, String> me : macros.entrySet()) {
-        facs.put(me.getKey(), new GWikiMacroClassFactory((Class< ? extends GWikiMacro>) ClassUtils.classForName(me.getValue())));
+        Class< ? extends GWikiMacro> cls;
+        try {
+          cls = (Class< ? extends GWikiMacro>) plugin.getPluginClassLoader().loadClass(me.getValue(), true);
+        } catch (ClassNotFoundException ex) {
+          GWikiLog.warn("Cannot load Macro class from plugin. class: "
+              + me.getValue()
+              + "; pluginId: "
+              + plugin.getDescriptor().getPluginId());
+          continue;
+        }
+        facs.put(me.getKey(), new GWikiMacroClassFactory(cls));
       }
     }
   }
