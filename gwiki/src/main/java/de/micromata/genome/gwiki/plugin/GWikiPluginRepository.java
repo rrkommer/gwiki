@@ -110,11 +110,6 @@ public class GWikiPluginRepository
 
   }
 
-  private enum PluginLayout
-  {
-    Pre10, JarSource
-  }
-
   private void loadPlugin(GWikiWeb wikiWeb, FsObject dir)
   {
     try {
