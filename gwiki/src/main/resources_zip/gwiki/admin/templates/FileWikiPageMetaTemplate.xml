@@ -5,6 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="attachment" />
+    <property name="cachable" value="true"/>
 		<!--  10 minutes -->
 		<property name="elementLifeTime" value="600000" />
         <property name="tabbedEditor" value="false" />
