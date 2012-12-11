@@ -5,6 +5,7 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
+    <property name="cachable" value="false"/>
 		<property name="noToc" value="true" />
 		<!--  no controlerId -->
 		<!--  no controlerClass -->

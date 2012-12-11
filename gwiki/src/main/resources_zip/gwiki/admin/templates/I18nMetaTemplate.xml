@@ -6,6 +6,7 @@
 		singleton="false">
 		<property name="elementType" value="i18n" />
 		<property name="noSearchIndex" value="true" />
+    <property name="cachable" value="false"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<property name="viewable" value="false" />
 		<property name="elementLifeTime" value="-1" />

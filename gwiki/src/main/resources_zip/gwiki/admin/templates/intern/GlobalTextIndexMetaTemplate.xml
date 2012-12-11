@@ -5,6 +5,7 @@
 	<bean id="config"
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
+    <property name="cachable" value="false"/>
 		<property name="noSearchIndex" value="true" />
 		<property name="noArchiv" value="true" />
 		<property name="noNewPage" value="true" />
