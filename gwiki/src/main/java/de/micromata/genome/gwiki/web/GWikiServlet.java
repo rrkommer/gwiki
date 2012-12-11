@@ -237,7 +237,14 @@ public class GWikiServlet extends HttpServlet
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-    long nt = new Date().getTime() + TimeInMillis.DAY;
+    String etag = wikiContext.getWikiWeb().geteTagWiki();
+    String ifnm = wikiContext.getRequest().getHeader("If-None-Match");
+    if (StringUtils.equals(etag, ifnm) == true) {
+      wikiContext.getResponse().sendError(304, "Not modified");
+      return;
+    }
+    wikiContext.getResponse().addHeader("ETag", etag);
+    long nt = new Date().getTime() + TimeInMillis.HOUR;
     String mime = MimeUtils.getMimeTypeFromFile(res);
     if (StringUtils.equals(mime, "application/x-shockwave-flash")) {
       resp.setHeader("Cache-Control", "cache, must-revalidate");

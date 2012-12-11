@@ -93,6 +93,8 @@ public class GWikiWeb
 
   private String servletPath;
 
+  private String eTagWiki;
+
   /**
    * checked elements for mofications.
    */
@@ -137,6 +139,8 @@ public class GWikiWeb
     // INSTANCE = this;
     // }
     initPageCache();
+
+    eTagWiki = Long.toString(System.currentTimeMillis());
     // filter.registerFilter(this, GWikiConfigChangedListener.class);
   }
 
@@ -151,6 +155,7 @@ public class GWikiWeb
     this.modCheckTimoutMs = wikiWeb.modCheckTimoutMs;
     this.servletPath = wikiWeb.servletPath;
     this.wikiGlobalConfig = wikiWeb.wikiGlobalConfig;
+    eTagWiki = Long.toString(System.currentTimeMillis());
     // no tenantId
   }
 
@@ -791,5 +796,15 @@ public class GWikiWeb
   public void setTenantId(String tenantId)
   {
     this.tenantId = tenantId;
+  }
+
+  public String geteTagWiki()
+  {
+    return eTagWiki;
+  }
+
+  public void seteTagWiki(String eTagWiki)
+  {
+    this.eTagWiki = eTagWiki;
   }
 }
