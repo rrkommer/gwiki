@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
@@ -74,7 +75,12 @@ public class GWikiPluginsAdminActionBean extends ActionBeanBase
       wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.admin.PluginAdmin.error"));
       return null;
     }
-    wikiContext.getWikiWeb().getDaoContext().getPluginRepository().activePlugin(wikiContext, pluginName);
+    try {
+      wikiContext.getWikiWeb().getDaoContext().getPluginRepository().activePlugin(wikiContext, pluginName);
+    } catch (Exception ex) {
+      GWikiLog.warn("Cannot load pluginId: " + pluginName + "; " + ex.getMessage(), ex);
+      wikiContext.addSimpleValidationError("Cannot load pluginId: " + pluginName + "; " + ex.getMessage());
+    }
     return null;
   }
 
