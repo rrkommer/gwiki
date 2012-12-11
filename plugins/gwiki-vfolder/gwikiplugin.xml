@@ -8,7 +8,7 @@
 		<property name="description" value="Mount virtual folders into gwiki structure" />
 		<property name="author" value="Roger Kommer" />
 		<property name="license" value="Apache License, Version 2.0"/>
-		<property name="category" value="Wiki" />
+		<property name="category" value="CMS" />
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
