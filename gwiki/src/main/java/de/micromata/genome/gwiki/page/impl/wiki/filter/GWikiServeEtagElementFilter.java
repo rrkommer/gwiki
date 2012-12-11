@@ -42,6 +42,9 @@ public class GWikiServeEtagElementFilter implements GWikiServeElementFilter
     }
     String ret = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.MODIFIEDAT);
     String version = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.VERSION);
+    if (ret == null && version == null) {
+      return wikiContext.getWikiWeb().geteTagWiki();
+    }
     if (ret == null) {
       return version;
     }
