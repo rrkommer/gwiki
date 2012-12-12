@@ -78,7 +78,10 @@ public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAt
 
   public void serve(GWikiContext ctx)
   {
-    ctx.getResponse().setContentType(getContentType());
+    String contt = ctx.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(ctx, this);
+    if (contt != null) {
+      ctx.getResponse().setContentType(contt);
+    }
     ctx.getResponse().setContentLength((int) getSize());
     try {
       byte[] bd = data.getStorageData();
