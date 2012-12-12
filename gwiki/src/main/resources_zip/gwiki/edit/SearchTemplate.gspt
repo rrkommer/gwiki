@@ -16,8 +16,8 @@
     }
     function submitNewSearch()
     {
-    	document.getElementById("searchOffset").value = "0";
-    	document.getElementById("formmethod").name = "method_onSearch";
+      document.getElementById("searchOffset").value = "0";
+      document.getElementById("formmethod").name = "method_onSearch";
       document.getElementById("SearchForm").submit();
     }
 </script>
