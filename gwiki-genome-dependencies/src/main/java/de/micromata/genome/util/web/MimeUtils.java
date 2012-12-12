@@ -36,7 +36,9 @@ public class MimeUtils
     mimeTypes.put("jar", "application/java-archive");
     mimeTypes.put("xls", "application/vnd.ms-excel");
     mimeTypes.put("swf", "application/x-shockwave-flash");
+    mimeTypes.put("ico", "image/x-icon");
   }
+
   public static String getMimeTypeFromFile(String fname)
   {
     if (fname == null)
