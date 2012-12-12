@@ -9,6 +9,7 @@
 		<property name="elementLifeTime" value="3600000" />
 		<property name="allowedNewChildMetaTemplatesRule" value="admin/templates/ForumPost1_0MetaTemplate,admin/templates/Forum1_0MetaTemplate,admin/templates/FileWikiPageMetaTemplate" />
 		<property name="noToc" value="false"/>
+    	<property name="contentType" value="html/text"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
