@@ -37,7 +37,7 @@ public interface GWikiI18nProvider
    * 
    * @param ctx
    * @param key
-   * @return
+   * @return null if no mapping found
    */
   public String translateProp(GWikiContext ctx, String key);
 
@@ -47,7 +47,7 @@ public interface GWikiI18nProvider
    * @param ctx
    * @param key
    * @param defaultValue
-   * @return
+   * @return null if no mapping found
    */
   public String translate(GWikiContext ctx, String key, String defaultValue);
 

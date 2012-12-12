@@ -6,25 +6,22 @@
 		singleton="false">
 		<property name="elementType" value="gwiki" />
     <property name="cachable" value="false"/>
-		<property name="requiredEditRight" value="GWIKI_EDITHTML"/>
-		<!--  1 hour -->
-		<property name="elementLifeTime" value="3600000" />
-    <property name="contentType" value="html/text"/>
+		<property name="noToc" value="true" />
+		<property name="noNewPage" value="true" />
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
 			<map>
 				<entry key="Controler">
-					<bean
-						class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
-						<property name="pageId" value="inc/${skin}/standardtemplate" />
-						<property name="parts">
-							<map>
-								<entry key="MainPage">
-									<bean
-										class="de.micromata.genome.gwiki.page.impl.GWikiHtmlArtefakt" />
-								</entry>
-							</map>
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="beanClassName"
+							value="de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageCommentEditActionBean" />
+						<property name="forward">
+							<bean
+								class="de.micromata.genome.gwiki.model.GWikiDelegateToOtherPartArtefakt">
+								<property name="pageId" value="edit/EditPage" />
+								<property name="partName" value="forward" />
+							</bean>
 						</property>
 					</bean>
 				</entry>

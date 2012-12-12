@@ -7,11 +7,11 @@
 <p><fmt:message key="gwiki.page.admin.PageNotFound.message.common"/></p>
 
 <c:if test="${form.allowCreatePage}">
-	<a href="<gwiki:url value="/edit/EditPage?newPage=true&pageId="/><c:out value="${form.pageId}"/>">
-		<fmt:message key="gwiki.page.admin.PageNotFound.link.createpage">
-		<fmt:param value="${form.pageId}"/>
-		</fmt:message>
-		</a>
+  <a href="<gwiki:url value="/edit/EditPage?newPage=true&pageId="/><c:out value="${form.pageId}"/>">
+    <fmt:message key="gwiki.page.admin.PageNotFound.link.createpage">
+    <fmt:param value="${form.pageId}"/>
+    </fmt:message>
+    </a>
 </c:if>
 
 <% wikiContext.skinInclude("standardfoot"); %>

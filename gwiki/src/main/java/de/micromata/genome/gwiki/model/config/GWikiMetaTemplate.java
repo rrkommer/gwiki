@@ -134,6 +134,11 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    */
   private boolean tabbedEditor = true;
 
+  /**
+   * The Mime Type of the element
+   */
+  private String contentType = null;
+
   public GWikiMetaTemplate()
   {
 
@@ -374,6 +379,16 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   public boolean isTabbedEditor()
   {
     return tabbedEditor;
+  }
+
+  public String getContentType()
+  {
+    return contentType;
+  }
+
+  public void setContentType(String contentType)
+  {
+    this.contentType = contentType;
   }
 
 }
