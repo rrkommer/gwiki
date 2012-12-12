@@ -5,6 +5,7 @@
 	<bean id="config"
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
+    <property name="cachable" value="false"/>
 		<property name="noNewPage" value="true" />
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />

@@ -8,6 +8,7 @@
     <property name="cachable" value="false"/>
 		<!--  1 Hour -->
 		<property name="elementLifeTime" value="3600000" />
+    <property name="contentType" value="html/text"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">

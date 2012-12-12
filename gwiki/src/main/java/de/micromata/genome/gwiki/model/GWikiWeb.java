@@ -312,6 +312,12 @@ public class GWikiWeb
         if (el == null)
           throw new RuntimeException("No Wiki page found: " + "admin/PageNotFound");
       }
+
+      String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el);
+      if (mimeType != null) {
+        ctx.getResponse().setContentType(mimeType);
+      }
+
       filter.serveElement(ctx, el, new GWikiServeElementFilter() {
 
         public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,

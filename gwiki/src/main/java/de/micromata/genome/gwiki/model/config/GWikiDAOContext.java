@@ -31,6 +31,8 @@ import de.micromata.genome.gwiki.model.GWikiLogging;
 import de.micromata.genome.gwiki.model.GWikiLoggingBufferedLogger;
 import de.micromata.genome.gwiki.model.GWikiLoggingLog4J;
 import de.micromata.genome.gwiki.model.GWikiMenuProvider;
+import de.micromata.genome.gwiki.model.GWikiMimeTypeProvider;
+import de.micromata.genome.gwiki.model.GWikiMimeTypeStandardProvider;
 import de.micromata.genome.gwiki.model.GWikiPageCache;
 import de.micromata.genome.gwiki.model.GWikiPageCacheTimedImpl;
 import de.micromata.genome.gwiki.model.GWikiSchedulerProvider;
@@ -75,6 +77,8 @@ public class GWikiDAOContext
   private GWikiSessionProvider sessionProvider = new GWikiStandardSessionProvider();
 
   private GWikiI18nProvider i18nProvider = new GWikiI18nStandardProvider();
+
+  private GWikiMimeTypeProvider mimeTypeProvider = new GWikiMimeTypeStandardProvider();
 
   private GWikiSchedulerProvider schedulerProvider = new GWikiStandardSchedulerProvider();
 
@@ -338,6 +342,16 @@ public class GWikiDAOContext
   public void setBeanFactory(BeanFactory beanFactory)
   {
     this.beanFactory = beanFactory;
+  }
+
+  public GWikiMimeTypeProvider getMimeTypeProvider()
+  {
+    return mimeTypeProvider;
+  }
+
+  public void setMimeTypeProvider(GWikiMimeTypeProvider mimeTypeProvider)
+  {
+    this.mimeTypeProvider = mimeTypeProvider;
   }
 
 }

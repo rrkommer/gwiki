@@ -53,7 +53,6 @@ import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
 import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
-import de.micromata.genome.util.web.MimeUtils;
 
 /**
  * Servlet for wiki, static and dav access.
@@ -243,12 +242,16 @@ public class GWikiServlet extends HttpServlet
       wikiContext.getResponse().sendError(304, "Not modified");
       return;
     }
+
     wikiContext.getResponse().addHeader("ETag", etag);
     long nt = new Date().getTime() + TimeInMillis.HOUR;
-    String mime = MimeUtils.getMimeTypeFromFile(res);
+    String mime = wikiContext.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(wikiContext, page);
     if (StringUtils.equals(mime, "application/x-shockwave-flash")) {
       resp.setHeader("Cache-Control", "cache, must-revalidate");
       resp.setHeader("Pragma", "public");
+    }
+    if (mime != null) {
+      resp.setContentType(mime);
     }
     resp.setDateHeader("Expires", nt);
     resp.setHeader("Cache-Control", "max-age=86400, public");
