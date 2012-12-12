@@ -5,8 +5,10 @@
 		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
 		singleton="false">
 		<property name="elementType" value="gwiki" />
+		<property name="cachable" value="false"/>
 		<!--  1 Hour -->
 		<property name="elementLifeTime" value="3600000" />
+    <property name="contentType" value="html/text"/>
 		<property name="allowedNewChildMetaTemplatesRule" value="admin/templates/BlogEntryMetaTemplate,admin/templates/FileWikiPageMetaTemplate" />
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
