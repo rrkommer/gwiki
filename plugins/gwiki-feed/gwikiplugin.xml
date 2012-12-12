@@ -8,7 +8,7 @@
 		<property name="description" value="RSS/Atom Feed for GWiki" />
 		<property name="author" value="Ingo Joseph" />
 		<property name="logoPath" value="/inc/img/rss-button.png" />
-		<property name="category" value="Import/Export" />
+		<property name="category" value="Social Network" />
 		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="filter">
 			<list>
