@@ -341,7 +341,7 @@ public class GWikiWeb
         throw ex;
       serveWikiIntern(ctx, nel);
     } catch (RuntimeException ex) {
-      if (ex.getClass().getName().equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+      if (ex.getClass().getName().contains("RuntimeIOException") == true) {
         GWikiLog.note("IO Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage());
       } else {
         GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage(), ex);
