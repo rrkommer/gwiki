@@ -1,11 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
+<% 
+  String userAgent = wikiContext.request.getHeader("User-Agent");  
+  if (userAgent != null && userAgent.contains(" Opera ") == true) {
+	  //out.println("<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">");
+	  // working, but with small differences on height
+	 out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Frameset//EN\" \"http://www.w3.org/TR/REC-html40/frameset.dtd\">");
+	  // geht kaput! out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"); 
+	  // geht kaput! out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+  } else {
+	  out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+  }
+  //de.micromata.genome.gwiki.model.GWikiLog.info("User-Agent: " + userAgent);
+%>
 <!-- head.gspt START -->
 <head>
-
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 <@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
 <link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
