@@ -100,13 +100,15 @@ public class GWikiLog
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).fatal(message, ctx, ex, keyValues);
   }
-  
-  public static void doLog(GWikiLogLevel logLevel,String message, Throwable ex, Object... keyValues) {
+
+  public static void doLog(GWikiLogLevel logLevel, String message, Throwable ex, Object... keyValues)
+  {
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).doLog(logLevel, message, ctx, ex, keyValues);
   }
 
-  public static void doLog(GWikiLogLevel logLevel,String message, Object... keyValues) {
+  public static void doLog(GWikiLogLevel logLevel, String message, Object... keyValues)
+  {
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).doLog(logLevel, message, ctx, keyValues);
   }
