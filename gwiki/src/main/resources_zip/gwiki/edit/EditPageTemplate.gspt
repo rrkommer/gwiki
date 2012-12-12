@@ -1,4 +1,3 @@
-
 <% def form = pageContext.getRequest().getAttribute('form'); 
    for (me in form.editors) {  me.value.prepareHeader(wikiContext); }
    wikiContext.requiredJs.add("/static/gwiki/heartbeat.js");
@@ -6,7 +5,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <%@ page contentType="text/html;charset=UTF-8" language="java"
-	pageEncoding="UTF-8"%>
+  pageEncoding="UTF-8"%>
 
 
 <script type="text/javascript">
@@ -41,7 +40,7 @@ function onSave(event)
     saveHandlers[i]();
   }
   if (event.ctrlKey == true) {
-  	\$("#formmn").attr("name", "method_onSaveEdit");
+    \$("#formmn").attr("name", "method_onSaveEdit");
   } else {
   \$("#formmn").attr("name", "method_onSave");
   }
@@ -52,7 +51,7 @@ function onSave(event)
 <gwiki:errors />
 
 <c:if test="${form.launchPreview}">
-	<script type="text/javascript">
+  <script type="text/javascript">
 
 function openPreviewWindow(url) {
     myWindow = open(url, "preview",
@@ -74,13 +73,13 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 <gwiki:hidden property="parentPageId" />
 <script type="text/javascript">gwikiContentChanged=false;</script> <% if (form.chooseMetaTemplate == true) { %>
 <p><gwiki:select property="metaTemplatePageId">
-	<gwiki:optionsCollection property="availableMetaTemplates" label="key"
-		value="value" />
+  <gwiki:optionsCollection property="availableMetaTemplates" label="key"
+    value="value" />
 </gwiki:select></p>
 <input class="gwikiButton main" type="submit" name="method_onInit"
-	value="<fmt:message key="gwiki.edit.EditPage.button.create"/>" /> <input
-	class="gwikiButton reset" type="submit" name="method_onCancel"
-	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> <% } else if (form.initalBackup == true) { %>
+  value="<fmt:message key="gwiki.edit.EditPage.button.create"/>" /> <input
+  class="gwikiButton reset" type="submit" name="method_onCancel"
+  value="<fmt:message key="gwiki.edit.button.cancel"/>" /> <% } else if (form.initalBackup == true) { %>
 <script type="text/javascript">
 function viewBackupDiff()
 {
@@ -96,31 +95,31 @@ function viewBackupDiff()
 }
 </script> <% pageContext.setAttribute('backupdt', wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt())); %>
 <fmt:message key="gwiki.edit.EditPage.backupnotice1">
-	<fmt:param value="${backupdt}" />
+  <fmt:param value="${backupdt}" />
 </fmt:message>
-<a href="javascript:viewBackupDiff()"><fmt:message	key="gwiki.edit.EditPage.compare" /></a>
-<a target="_blank" 	href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true"><fmt:message
-	key="gwiki.edit.EditPage.backup.viewpage" /></a>
+<a href="javascript:viewBackupDiff()"><fmt:message  key="gwiki.edit.EditPage.compare" /></a>
+<a target="_blank"  href="<gwiki:url value="/${form.backupElementInfo.id}"/>?wikiNoCache=true"><fmt:message
+  key="gwiki.edit.EditPage.backup.viewpage" /></a>
 <fmt:message key="gwiki.edit.EditPage.backupnotice2" />
 
 <input class="gwikiButton reset" type="submit"
-	name="method_onInitDeleteBackup"
-	value="<fmt:message key="gwiki.edit.EditPage.backup.discarge"/>" /> <input
-	class="gwikiButton main" type="submit" name="method_onInitLoadBackup"
-	value="<fmt:message key="gwiki.edit.EditPage.backup.load"/>" /> <% } else { %>
+  name="method_onInitDeleteBackup"
+  value="<fmt:message key="gwiki.edit.EditPage.backup.discarge"/>" /> <input
+  class="gwikiButton main" type="submit" name="method_onInitLoadBackup"
+  value="<fmt:message key="gwiki.edit.EditPage.backup.load"/>" /> <% } else { %>
 
 <div id="backupInfo"> 
 <% if (form.backupElementInfo != null) { %> <% pageContext.setAttribute('onlinebackupdt', wikiContext.getUserDateString(form.backupElementInfo.getModifiedAt())); %>
 <a href="javascript:restoreBackup()"> <fmt:message
-	key="gwiki.edit.EditPage.onlinebackup">
-	<fmt:param value="onlinebackupdt" />
+  key="gwiki.edit.EditPage.onlinebackup">
+  <fmt:param value="onlinebackupdt" />
 </fmt:message></a>
 <% } %>
 </div>
 <div id="EditPageHead">
 <div class="type-text">
-	<label class="PageTitle" for="editPageTitle"><fmt:message key="gwiki.edit.EditPage.label.title" /></label>
-	<gwiki:text	styleId="editPageTitle" property="title" />
+  <label class="PageTitle" for="editPageTitle"><fmt:message key="gwiki.edit.EditPage.label.title" /></label>
+  <gwiki:text styleId="editPageTitle" property="title" />
 </div>
 </div><!--  END #EditPageHead -->
 
@@ -131,27 +130,27 @@ function viewBackupDiff()
 <input id="formCommand" type="hidden" name="formCommand" value="true" /> 
 <div class="control">
 <c:if test="${form.elementToEdit.elementInfo.viewable}">
-	<input id="gwikieditpreviewbutton" type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onPreview"	value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>" />
+  <input id="gwikieditpreviewbutton" type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onPreview" value="<fmt:message key="gwiki.edit.EditPage.button.preview"/>" />
 </c:if>
-<input id="gwikieditsavebutton" class="gwikiButton main" type="button"	name="method_onSave" onclick="onSave(event);" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
-<input id="gwikieditcancelbutton" class="gwikiButton reset" onclick="gwikiContentChanged=false;" type="submit" name="method_onCancel"	value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
+<input id="gwikieditsavebutton" class="gwikiButton main" type="button"  name="method_onSave" onclick="onSave(event);" value="<fmt:message key="gwiki.edit.EditPage.button.save"/>" /> 
+<input id="gwikieditcancelbutton" class="gwikiButton reset" onclick="gwikiContentChanged=false;" type="submit" name="method_onCancel" value="<fmt:message key="gwiki.edit.button.cancel"/>" /> 
 <c:if test="${form.newPage == false}">
-	<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy"
-		value="<fmt:message key="gwiki.edit.button.copy"/>" />
-	<input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;return confirm('<fmt:message key="gwiki.edit.message.confirmdelete"/>')"
-		name="method_onDelete"
-		value="<fmt:message key="gwiki.edit.button.delete"/>" />
+  <input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;" name="method_onCopy"
+    value="<fmt:message key="gwiki.edit.button.copy"/>" />
+  <input type="submit" class="gwikiButton" onclick="gwikiContentChanged=false;return confirm('<fmt:message key="gwiki.edit.message.confirmdelete"/>')"
+    name="method_onDelete"
+    value="<fmt:message key="gwiki.edit.button.delete"/>" />
 </c:if> 
 <c:if test="${form.newPage == true}"> 
-	<input type="button" class="gwikiButton" onclick="gwikiEditPagePath($('#editPagePath'))" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
+  <input type="button" class="gwikiButton" onclick="gwikiEditPagePath($('#editPagePath'))" value='<fmt:message key="gwiki.edit.EditPage.button.path" />' />
 </c:if>
 <input type="button" class="gwikiButton" onclick="gwikiEditSettings()" value="Settings" />
 <gwiki:checkbox property="noNotificationEmails" styleId="noNotificationEmails" />
 <label for="noNotificationEmails">
-	<fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" />
-	<small><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails.desc" /></small>
+  <fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails" />
+  <small><fmt:message key="gwiki.edit.EditPage.label.noNotificationEmails.desc" /></small>
 </label> 
-<gwiki:hidden	property="newPage" />
+<gwiki:hidden property="newPage" />
 </div><!-- end .control -->
 <%-- </div>  --%>
 <div id='modalBg'></div>
@@ -211,7 +210,7 @@ var saveAsync =   function () {
 }   
 
 \$(document).ready(function() {
-	$("#EditorSettings").hide();
+  $("#EditorSettings").hide();
 });
   
   \$(document).ready(function(){
