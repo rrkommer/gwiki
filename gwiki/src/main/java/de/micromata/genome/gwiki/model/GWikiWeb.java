@@ -284,6 +284,17 @@ public class GWikiWeb
     return ctx.getBooleanRequestAttribute(WIKI_NOCACHE_REQ_ATTR);
   }
 
+  public static boolean doRedirectContentToPageNotFound(String mimeType)
+  {
+    if (mimeType == null) {
+      return true;
+    }
+    if (mimeType.startsWith("text/") == true && mimeType.endsWith("/css") == false) {
+      return true;
+    }
+    return false;
+  }
+
   public void serveWiki(final GWikiContext ctx, String pageId)
   {
     ClassLoader previousClassLoader = null;
@@ -304,8 +315,13 @@ public class GWikiWeb
       }
       GWikiElement el = findElement(pageId);
       if (el == null) {
+        String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, pageId);
         GWikiLog.note("PageNot Found: " + pageId);
-        el = findElement(pageId);
+        if (doRedirectContentToPageNotFound(mimeType) == false) {
+          ctx.sendErrorSilent(404);
+          return;
+        }
+        // el = findElement(pageId);
         ctx.setRequestAttribute("NotFoundPageId", pageId);
         pageId = "admin/PageNotFound";
         el = findElement(pageId);
@@ -347,7 +363,7 @@ public class GWikiWeb
         throw ex;
       serveWikiIntern(ctx, nel);
     } catch (RuntimeException ex) {
-      if (ex.getClass().getName().contains("RuntimeIOException") == true) {
+      if (GWikiServlet.isIgnorableAppServeIOException(ex) == true) {
         GWikiLog.note("IO Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage());
       } else {
         GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage(), ex);
