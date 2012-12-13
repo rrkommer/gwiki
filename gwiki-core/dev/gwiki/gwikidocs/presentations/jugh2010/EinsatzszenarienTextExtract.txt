@@ -1,7 +1,0 @@
-
-Vollwertiges Wiki-basiertes CMSWikipages, Attachments, HTML-Seiten, Online Editieren, Rechte, Versionen, Volltextsuche und all der übliche "Schnickschnack".
-Desktop Wiki für persönlichen Einsatz.
-Ein Klick zum Start, wenig Infrastruktur notwendig.
-CMS-Zusätz für tradionelle Java basierte WebanwendungenEinbinden von Inhalten/Fragmenten, die durch den Kunden selbst editiert werden kann.
-Dynamischer Content, Wiki/Rapid Entwicklung.
-Einsatzszenarien
