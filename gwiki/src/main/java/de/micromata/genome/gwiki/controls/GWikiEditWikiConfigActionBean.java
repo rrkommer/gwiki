@@ -20,8 +20,8 @@ package de.micromata.genome.gwiki.controls;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -103,8 +103,8 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   protected void checkAccess()
   {
     if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
-      throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannoteditpage", GWikiAuthorizationRights.GWIKI_ADMIN
-          .name()));
+      throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannoteditpage",
+          GWikiAuthorizationRights.GWIKI_ADMIN.name()));
     }
   }
 
@@ -150,6 +150,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
       wikiContext.getWikiWeb().saveElement(wikiContext, me.getValue().getFirst(), false);
 
     }
+    wikiContext.getWikiWeb().getDaoContext().reinitConfig();
     return goBack();
   }
 

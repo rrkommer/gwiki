@@ -108,6 +108,8 @@ public class GWikiPluginDescriptor implements InitializingBean
 
   /**
    * a class name with a lifecycle listener. Multiple classes may devided by ,.
+   * 
+   * Has to implement GWikiPluginLifecycleListener, normally derive from GWikiAbstractPluginLifecycleListener
    */
   private String pluginLifecycleListener = "";
 

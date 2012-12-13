@@ -129,6 +129,14 @@ public class GWikiDAOContext
     PrivateBeanUtils.copyInstanceProperties(other, this);
   }
 
+  /**
+   * Called after a global configuration was changed.
+   */
+  public void reinitConfig()
+  {
+    getLogging().reinitConfig();
+  }
+
   public String toString()
   {
     StringBuilder sb = new StringBuilder();

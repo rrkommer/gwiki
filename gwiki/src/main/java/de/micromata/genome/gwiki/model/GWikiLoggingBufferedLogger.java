@@ -51,7 +51,7 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
 
   private static final int DEFAULT_CACHE_SIZE = 1000;
 
-  private static final GWikiLogLevel DEFAULT_LOG_THRESHOLD = GWikiLogLevel.INFO;
+  private static final GWikiLogLevel DEFAULT_LOG_THRESHOLD = GWikiLogLevel.NOTE;
 
   private static final long ACCESS_SLEEP_TIME = 1000;
 
@@ -64,6 +64,12 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
   {
     this.targetLogger = targetLogger;
     cachedLogEntries = new LinkedList<GWikiLogEntry>();
+  }
+
+  public void reinitConfig()
+  {
+    long currentTime = System.currentTimeMillis();
+    lastAccessTimestamp = currentTime - ACCESS_SLEEP_TIME;
   }
 
   /*
@@ -86,8 +92,9 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
    */
   public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues)
   {
-    cacheLogMessage(logLevel, message, null, ctx, keyValues);
-    targetLogger.doLog(logLevel, message, ctx, keyValues);
+    if (cacheLogMessage(logLevel, message, null, ctx, keyValues) == true) {
+      targetLogger.doLog(logLevel, message, ctx, keyValues);
+    }
   }
 
   /**
@@ -96,14 +103,14 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
    * @param ex
    * @param keyValues
    */
-  private void cacheLogMessage(GWikiLogLevel logLevel, String message, Throwable ex, GWikiContext ctx, Object... keyValues)
+  private boolean cacheLogMessage(GWikiLogLevel logLevel, String message, Throwable ex, GWikiContext ctx, Object... keyValues)
   {
     GWikiLogEntry logEntry = new GWikiLogEntry(logLevel, message, keyValues, ex);
     GWikiLogLevel threshold = getLogThreshold(ctx);
 
     synchronized (cachedLogEntries) {
       if (logLevel.getPriority() < threshold.getPriority() == true) {
-        return;
+        return false;
       }
 
       cachedLogEntries.offer(logEntry);
@@ -114,6 +121,7 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
         cachedLogEntries.poll();
       }
     }
+    return true;
   }
 
   /**
@@ -133,7 +141,7 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     lastAccessTimestamp = currentTime;
     inLogging = true;
     try {
-      if (GWikiWeb.get() != null) {
+      if (GWikiWeb.get() != null && ctx.getWikiWeb().getDaoContext().getPluginRepository().isPluginActive("gwiki.admintools") == true) {
         GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
         cacheSize = props.getIntValue("LOGVIEWER_NUM_ENTRIES_TO_CACHE", cacheSize);
       }
@@ -160,8 +168,10 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     lastAccessTimestamp = currentTime;
     inLogging = true;
     try {
-      GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
-      logThreshold = GWikiLogLevel.valueOf(props.getStringValue("LOGVIEWER_LEVEL_THRESHOLD", logThreshold.name()));
+      if (ctx.getWikiWeb().getDaoContext().getPluginRepository().isPluginActive("gwiki.admintools") == true) {
+        GWikiProps props = ctx.getElementFinder().getConfigProps("admin/config/GWikiLogViewerConfig");
+        logThreshold = GWikiLogLevel.valueOf(props.getStringValue("LOGVIEWER_LEVEL_THRESHOLD", logThreshold.name()));
+      }
 
       return logThreshold;
     } finally {

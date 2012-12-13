@@ -57,8 +57,8 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
     }
     if (ctx != null) {
       if (ctx.getWikiElement() != null) {
-        sb.append(" ").append(GLogAttributeNames.PageId.name()).append(": ").append(ctx.getWikiElement().getElementInfo().getId()).append(
-            "\n");
+        sb.append(" ").append(GLogAttributeNames.PageId.name()).append(": ").append(ctx.getWikiElement().getElementInfo().getId())
+            .append("\n");
       }
     }
     if (ex != null) {
@@ -67,5 +67,10 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
       ex.printStackTrace(pout);
       sb.append(" ").append(GLogAttributeNames.TechReasonException.name()).append(": ").append(sout.getBuffer().toString());
     }
+  }
+
+  public void reinitConfig()
+  {
+    // nothing here
   }
 }
