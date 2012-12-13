@@ -11,5 +11,6 @@
 		<property name="category" value="Admin Tools" />
 		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
+    <property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.admintools_1_0.logviewer.AdminToolsPluginLifecycleListener"/>
 	</bean>
 </beans>
