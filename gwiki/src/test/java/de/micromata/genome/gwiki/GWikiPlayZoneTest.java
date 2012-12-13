@@ -18,10 +18,42 @@
 
 package de.micromata.genome.gwiki;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import junit.framework.TestCase;
 
 public class GWikiPlayZoneTest extends TestCase
 {
+
+  private void dumpIdEncoded(String title)
+  {
+    String enc;
+    try {
+      enc = URLEncoder.encode(title, "UTF-8");
+    } catch (UnsupportedEncodingException ex) {
+      throw new RuntimeException(ex);
+    }
+    System.out.println(title + " = " + enc);
+  }
+
+  public void testIdEncoding()
+  {
+
+    // GWikiScheduler.submitJob("asdf", "asdf", "+1", null);
+    dumpIdEncoded("Mein Title");
+    dumpIdEncoded("Mein+Title");
+    dumpIdEncoded("Mein/Title");
+    dumpIdEncoded("Mein_Title");
+    dumpIdEncoded("Mein\\Title");
+    dumpIdEncoded("Mein&Title");
+    dumpIdEncoded("Mein'Title'");
+    dumpIdEncoded("Mein\"Title\"");
+    dumpIdEncoded("äöüß");
+    dumpIdEncoded("Mein");
+    dumpIdEncoded("Test Seite+Test&Seite_X");
+  }
+
   // public String getTextExtract(String file)
   // {
   // try {
