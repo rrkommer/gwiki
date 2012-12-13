@@ -5,20 +5,20 @@
 
 <% def form = pageContext.request.getAttribute("form"); %>
 <c:forEach var="pde" items="${form.plugins}">
-	<h2><c:out value="${pde.key}"/></h2>
-	
-	<c:forEach var="pd" items="${pde.value}">
-		<h3><c:out value="${pd.descriptor.name}"/> (<c:out value="${pd.descriptor.version}"/>)</h3>
-		<p><c:out value="${pd.descriptor.description}"/>
-		<ul>
-		<li>Author: <c:out value="${pd.descriptor.author}"/></li>
-		<li>License: <c:out value="${pd.descriptor.license}"/></li>
-		</ul>
-		Download:	<gwiki:link pageId="${pd.elementInfo.id}"/>
-		<c:if test="${pd.descriptor.descriptionPath != null}">
-			<gwiki:macro name="fancybox" args="href=${pd.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
-		</c:if>
-		</p>
-	</c:forEach>
+  <h2><c:out value="${pde.key}"/></h2>
+  
+  <c:forEach var="pd" items="${pde.value}">
+    <h3><c:out value="${pd.descriptor.name}"/> (<c:out value="${pd.descriptor.version}"/>)</h3>
+    <p><c:out value="${pd.descriptor.description}"/>
+    <ul>
+    <li>Author: <c:out value="${pd.descriptor.author}"/></li>
+    <li>License: <c:out value="${pd.descriptor.license}"/></li>
+    </ul>
+    Download: <gwiki:link pageId="${pd.elementInfo.id}"/>
+    <c:if test="${pd.descriptor.descriptionPath != null}">
+      <gwiki:macro name="fancybox" args="href=${pd.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
+    </c:if>
+    </p>
+  </c:forEach>
 </c:forEach>
 <% wikiContext.skinInclude('standardfoot'); %>
