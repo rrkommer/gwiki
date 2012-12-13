@@ -29,8 +29,10 @@
 %>
 
 <script type="text/javascript">
+<%-- not?
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiServletPath = '<%= wikiContext.request.servletPath %>';
+--%>
 var gwikiEditorContentChanged = false;
 
 function gwikiEditorOnUnload() {
