@@ -53,9 +53,9 @@ public interface GWikiLogging
   void error(String message, GWikiContext ctx, Throwable ex, Object... keyValues);
 
   void fatal(String message, GWikiContext ctx, Throwable ex, Object... keyValues);
-  
+
   void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Throwable ex, Object... keyValues);
-  
+
   void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues);
 
   /**
@@ -66,4 +66,9 @@ public interface GWikiLogging
    * @param wait time spend in waiting.
    */
   public void addPerformance(String pointName, long millis, long wait);
+
+  /**
+   * Just load configuration again.
+   */
+  public void reinitConfig();
 }

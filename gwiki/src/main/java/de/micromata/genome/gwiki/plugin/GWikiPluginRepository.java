@@ -110,6 +110,19 @@ public class GWikiPluginRepository
 
   }
 
+  public boolean isPluginActive(String pluginNameOrId)
+  {
+    for (GWikiPlugin ap : activePlugins) {
+      if (ap.getDescriptor().getName().equals(pluginNameOrId) == true) {
+        return true;
+      }
+      if (ap.getDescriptor().getPluginId().equals(pluginNameOrId) == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void loadPlugin(GWikiWeb wikiWeb, FsObject dir)
   {
     try {
@@ -184,6 +197,9 @@ public class GWikiPluginRepository
     initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
+    // for (GWikiPluginLifecycleListener pll : plugin.getLifeCycleListener()) {
+    // pll.activated(wikiWeb, plugin);
+    // }
     GWikiLog.note("Activated plugin: " + plugin.getDescriptor().getPluginId());
   }
 
@@ -241,6 +257,7 @@ public class GWikiPluginRepository
       if (reloadAfterActivation == true) {
         wikiContext.getWikiWeb().reloadWeb();
       }
+      initLifecycleManager(wikiContext.getWikiWeb(), plugin);
     }
 
   }

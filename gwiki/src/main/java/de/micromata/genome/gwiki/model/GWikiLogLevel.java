@@ -17,17 +17,42 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.model;
 
-
 /**
- * @author Stefan Stützer
+ * LogLevel
+ * 
+ * @author Stefan Stützer/Roger Kommer
  */
 public enum GWikiLogLevel
 {
-  DEBUG(0), INFO(1), NOTE(2), WARN(3), ERROR(4), FATAL(5);
+  /**
+   * Debugging only
+   */
+  DEBUG(0),
+  /**
+   * Unimportant information
+   */
+  INFO(1),
+  /**
+   * Important information
+   */
+  NOTE(2),
+  /**
+   * Warning, wrong input
+   */
+  WARN(3),
+  /**
+   * Maybe programming error
+   */
+  ERROR(4),
+  /**
+   * Fatal resource situation.
+   */
+  FATAL(5);
 
   private int priority;
 
-  GWikiLogLevel(int priority) {
+  GWikiLogLevel(int priority)
+  {
     this.priority = priority;
   }
 
@@ -36,7 +61,7 @@ public enum GWikiLogLevel
    */
   public int getPriority()
   {
-    return priority; 
+    return priority;
   }
-  
+
 }
