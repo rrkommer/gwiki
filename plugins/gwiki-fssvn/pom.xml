@@ -66,10 +66,10 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/plugins/gwiki-fssvn
 		</connection>
 		<developerConnection>
-			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-wicket
+			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/plugins/gwiki-fssvn
 		</developerConnection>
 	</scm>
 
