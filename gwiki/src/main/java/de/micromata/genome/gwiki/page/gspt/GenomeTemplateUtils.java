@@ -45,6 +45,7 @@ import org.codehaus.groovy.control.messages.SyntaxErrorMessage;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
 /**
@@ -273,8 +274,7 @@ public class GenomeTemplateUtils
       throw ex;
 
     } catch (RuntimeException ex) {
-      String name = ex.getClass().getName();
-      if (name.equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+      if (GWikiServlet.isIgnorableAppServeIOException(ex) == true) {
         throw ex;
       }
       throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()

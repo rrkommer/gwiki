@@ -419,7 +419,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     } else {
       title = getTranslatedProp(title);
     }
-    
+
     StringBuilder sb = new StringBuilder();
     boolean allow = wikiWeb.getAuthorization().isAllowToView(this, ei);
     if (allow == false) {
@@ -430,8 +430,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
         url += addArgs;
       }
       sb.append("<a href='").append(url).append("'");
-      for (int i = 0; i < attr.length; i+=2) {
-        sb.append(" ").append(attr[i]).append("='").append(attr[i+1]).append("' ");
+      for (int i = 0; i < attr.length; i += 2) {
+        sb.append(" ").append(attr[i]).append("='").append(attr[i + 1]).append("' ");
       }
       sb.append(">").append(StringEscapeUtils.escapeHtml(title)).append("</a>");
     }
@@ -627,7 +627,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
       setCurrentPart(oa);
     }
   }
-  
+
   /**
    * runs the callback code inside specified tenant
    * 
@@ -636,7 +636,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * @param callBack
    * @return
    */
-  public <R, E extends RuntimeException> R runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector, CallableX<R, E> callBack)
+  public <R, E extends RuntimeException> R runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector,
+      CallableX<R, E> callBack)
   {
     String currentTenant = null;
     try {
@@ -790,6 +791,15 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void setCharacterEncoding(String enc) throws UnsupportedEncodingException
   {
     request.setCharacterEncoding(enc);
+  }
+
+  public void sendErrorSilent(int errorCode)
+  {
+    try {
+      sendError(errorCode);
+    } catch (IOException ex) {
+      // nothing
+    }
   }
 
   public void sendError(int errorCode) throws IOException

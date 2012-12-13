@@ -140,6 +140,11 @@ public class GWikiServlet extends HttpServlet
     return page;
   }
 
+  public static boolean isIgnorableAppServeIOException(Exception ex)
+  {
+    return ex.getClass().getName().contains("RuntimeIOException") == true || ex.getClass().getName().contains("EofException") == true;
+  }
+
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
@@ -168,7 +173,7 @@ public class GWikiServlet extends HttpServlet
     } catch (RuntimeIOException ex) {
       GWikiLog.note("IO Error serving: " + ex.getMessage(), ex);
     } catch (Exception ex) {
-      if (ex.getClass().getName().equals("org.eclipse.jetty.io.RuntimeIOException") == true) {
+      if (isIgnorableAppServeIOException(ex) == true) {
         GWikiLog.note("IO Error serving: " + ex.getMessage());
       } else {
         GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);
