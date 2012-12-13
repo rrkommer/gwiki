@@ -70,6 +70,29 @@ public class GWikiInitialSetup
     } while (true);
   }
 
+  protected boolean ask(String message, boolean defaultYes)
+  {
+    System.out.println(message);
+    do {
+      if (defaultYes == true) {
+        System.out.print("([Yes]/No): ");
+      } else {
+        System.out.print("(Yes/[No]): ");
+      }
+      String inp = StringUtils.trim(readLine());
+      inp = inp.toLowerCase();
+      if (StringUtils.isEmpty(inp) == true) {
+        return defaultYes;
+      }
+      if (inp.equalsIgnoreCase("y") == true || inp.equalsIgnoreCase("yes") == true) {
+        return true;
+      }
+      if (inp.equalsIgnoreCase("n") == true || inp.equalsIgnoreCase("no") == true) {
+        return false;
+      }
+    } while (true);
+  }
+
   protected String getInput(String prompt)
   {
     return getInput(prompt, null);
@@ -135,7 +158,7 @@ public class GWikiInitialSetup
   protected void checkEmailServer(Properties props)
   {
     if (ask("GWiki sends email to notify page changes and in case user resets the password.\n"
-        + "Do you want to configure an Email server?") == false) {
+        + "Do you want to configure an Email server?", false) == false) {
       return;
     }
     String server = getInput("Mail servers hostname");
@@ -219,7 +242,7 @@ public class GWikiInitialSetup
       break;
     } while (true);
 
-    if (ask("Generate System user?") == true) {
+    if (ask("Generate System user?", true) == true) {
       props.put("gwiki.sys.user", getInput("user name", "gwikisys"));
       String pass;
       do {
@@ -233,7 +256,7 @@ public class GWikiInitialSetup
       props.put("gwiki.sys.passwordhash", GWikiSimpleUserAuthorization.encrypt(pass));
     }
     String enableWebDAV = "false";
-    if (ask("Enable User for WebDAV Access?") == true) {
+    if (ask("Enable User for WebDAV Access?", false) == true) {
       enableWebDAV = "true";
     }
     props.put("gwiki.enable.webdav", enableWebDAV);
