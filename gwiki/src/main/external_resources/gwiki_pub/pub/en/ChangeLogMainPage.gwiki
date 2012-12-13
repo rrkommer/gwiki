@@ -2,6 +2,18 @@
 Detailed Changelog for GWiki.
 {pageintro}
 
+See Jira: [https://labs.micromata.de/jira/secure/IssueNavigator.jspa?mode=hide&requestId=10004]
+
+{html}
+<iframe src="https://labs.micromata.de/jira/sr/jira.issueviews:searchrequest-fullcontent/10004/SearchRequest-10004.html?tempMax=1000" width="100%" height="800" name="Jira">
+</iframe>
+{html}
+
+h2. 0.9.1
+- Overall redesign of vFolders, but still alfa
+- Mayour improvments of the Wiki WYSIWYG Editor.
+
+
 h2. 0.9.0
 h3. 2011-06-06
 - Added 'edit path' tree selector (GWIKI-150)
