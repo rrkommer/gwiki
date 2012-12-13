@@ -134,8 +134,8 @@ public class GWikiPluginRepository
         return;
       }
       GWikiPluginDescriptor pdesc = loadDescriptor(dir.getFileSystem(), pluginxmlname);
-      if (plugins.containsKey(pdesc.getName()) == true) {
-        GWikiLog.note("Plugin already loaded: " + pdesc.getName());
+      if (plugins.containsKey(pdesc.getPluginId()) == true) {
+        GWikiLog.note("Plugin already loaded: " + pdesc.getPluginId());
         return;
       }
       SubFileSystem sfs = new SubFileSystem(dir.getFileSystem(), dir.getName());
@@ -169,11 +169,11 @@ public class GWikiPluginRepository
       lcl.deactivate(wikiContext.getWikiWeb(), plugin);
     }
     if (activePlugins.remove(plugin) == false) {
-      GWikiLog.warn("Plugin cannot be removed from activePlugin list: " + plugin.getDescriptor().getName());
+      GWikiLog.warn("Plugin cannot be removed from activePlugin list: " + plugin.getDescriptor().getPluginId());
     }
     if (activePluginClassLoader != null) {
       if (activePluginClassLoader.getParents().remove(plugin.getPluginClassLoader()) == false) {
-        GWikiLog.warn("PluginClassLoader cannot be removed from activeClassLoader list: " + plugin.getDescriptor().getName());
+        GWikiLog.warn("PluginClassLoader cannot be removed from activeClassLoader list: " + plugin.getDescriptor().getPluginId());
       }
     }
     plugin.setPluginClassLoader(null);
@@ -194,7 +194,7 @@ public class GWikiPluginRepository
 
   protected void activatePlugin(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    initPluginClassPath(plugin.getDescriptor().getName(), plugin, wikiWeb);
+    initPluginClassPath(plugin.getDescriptor().getPluginId(), plugin, wikiWeb);
     activePlugins.add(plugin);
     plugin.setActivated(true);
     // for (GWikiPluginLifecycleListener pll : plugin.getLifeCycleListener()) {
@@ -203,9 +203,9 @@ public class GWikiPluginRepository
     GWikiLog.note("Activated plugin: " + plugin.getDescriptor().getPluginId());
   }
 
-  public void deactivatePlugin(GWikiContext wikiContext, String pluginName)
+  public void deactivatePlugin(GWikiContext wikiContext, String pluginId)
   {
-    GWikiPlugin plugin = plugins.get(pluginName);
+    GWikiPlugin plugin = plugins.get(pluginId);
     boolean deactivated = false;
     if (plugin != null && plugin.isActivated() == true) {
       deactivatePlugin(wikiContext, plugin);
@@ -214,10 +214,10 @@ public class GWikiPluginRepository
     }
     GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
     List<String> activePlugins = wikiConfig.getActivePlugins();
-    if (activePlugins.contains(pluginName) == true) {
+    if (activePlugins.contains(pluginId) == true) {
       List<String> nal = new ArrayList<String>(activePlugins.size() + 1);
       nal.addAll(activePlugins);
-      nal.remove(pluginName);
+      nal.remove(pluginId);
       wikiConfig.setStringList(GWikiGlobalConfig.GWIKI_ACTIVE_PLUGINS, nal);
       GWikiElement el = wikiContext.getWikiWeb().getElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH);
       ((GWikiPropsArtefakt) el.getMainPart()).setCompiledObject(wikiConfig);
@@ -232,21 +232,21 @@ public class GWikiPluginRepository
    * Manual activation of one plugin
    * 
    * @param wikiContext
-   * @param pluginName
+   * @param pluginId
    */
-  public void activePlugin(GWikiContext wikiContext, String pluginName)
+  public void activePlugin(GWikiContext wikiContext, String pluginId)
   {
-    GWikiPlugin plugin = plugins.get(pluginName);
+    GWikiPlugin plugin = plugins.get(pluginId);
     if (plugin == null) {
-      wikiContext.addSimpleValidationError("Plugin with name cannot be found: " + pluginName);
+      wikiContext.addSimpleValidationError("Plugin with id cannot be found: " + pluginId);
       return;
     }
     GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
     List<String> activePluginNames = wikiConfig.getActivePlugins();
-    if (activePluginNames.contains(pluginName) == false) {
+    if (activePluginNames.contains(pluginId) == false) {
       List<String> nal = new ArrayList<String>(activePluginNames.size() + 1);
       nal.addAll(activePluginNames);
-      nal.add(pluginName);
+      nal.add(pluginId);
       wikiConfig.setStringList(GWikiGlobalConfig.GWIKI_ACTIVE_PLUGINS, nal);
       GWikiElement el = wikiContext.getWikiWeb().getElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH);
       ((GWikiPropsArtefakt) el.getMainPart()).setCompiledObject(wikiConfig);
@@ -329,13 +329,13 @@ public class GWikiPluginRepository
     return cl;
   }
 
-  private void initPluginClassPath(String name, GWikiPlugin plugin, GWikiWeb wikiWeb)
+  private void initPluginClassPath(String pluginId, GWikiPlugin plugin, GWikiWeb wikiWeb)
   {
     // Next version: add combined with pending classs loaders
     ClassLoader parentClassLoader = getPluginClassLoader(plugin, wikiWeb);
     GWikiPluginJavaClassLoader classLoader = new GWikiPluginJavaClassLoader(parentClassLoader);
     plugin.setPluginClassLoader(classLoader);
-    classLoader.setPluginName(name);
+    classLoader.setPluginName(pluginId);
 
     // classLoader.setIsolated(true);
     try {
@@ -354,9 +354,9 @@ public class GWikiPluginRepository
     }
   }
 
-  private void initPlugin(String name, GWikiPlugin plugin, GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
+  private void initPlugin(String pluginId, GWikiPlugin plugin, GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
-    if (shouldActivate(name, plugin, wikiWeb, wikiConfig) == false) {
+    if (shouldActivate(pluginId, plugin, wikiWeb, wikiConfig) == false) {
       return;
     }
     try {
@@ -420,7 +420,7 @@ public class GWikiPluginRepository
           try {
             initLifecycleManager(wikiWeb, plugin);
           } catch (Exception ex) {
-            GWikiLog.error("Cannot initialize plugin: " + plugin.getDescriptor().getName() + "; " + ex.getMessage(), ex);
+            GWikiLog.error("Cannot initialize plugin: " + plugin.getDescriptor().getPluginId() + "; " + ex.getMessage(), ex);
           }
         }
       }
@@ -487,7 +487,7 @@ public class GWikiPluginRepository
       for (String s : plugin.getDescriptor().getTemplates()) {
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(s);
         if (ei == null) {
-          GWikiLog.warn("Cannot find template: " + s + " from plugin: " + plugin.getDescriptor().getName());
+          GWikiLog.warn("Cannot find template: " + s + " from plugin: " + plugin.getDescriptor().getPluginId());
         } else {
           ret.add(ei);
         }

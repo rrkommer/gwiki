@@ -84,6 +84,34 @@ public class GWikiUseCounterFilter implements GWikiServeElementFilter
     return res;
   }
 
+  /**
+   * create a copy
+   * 
+   * @return
+   */
+  public static Map<String, Integer> getUseCounters()
+  {
+    GWikiProps props = lastReadUseCounterMap;
+    Map<String, Integer> ret = new HashMap<String, Integer>();
+    synchronized (GWikiUseCounterFilter.class) {
+      if (useCounterMap != null) {
+        ret.putAll(useCounterMap);
+      }
+    }
+    if (props != null) {
+      for (String me : props.getMap().keySet()) {
+        int v = props.getIntValue(me, 0);
+        Integer p = ret.get(me);
+        if (p != null) {
+          ret.put(me, p + v);
+        } else {
+          ret.put(me, v);
+        }
+      }
+    }
+    return ret;
+  }
+
   public static void increment(GWikiContext wikiContext, String pageId)
   {
     Map<String, Integer> backup = null;

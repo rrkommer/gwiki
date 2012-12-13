@@ -35,6 +35,9 @@ import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
  */
 public class GWikiPluginsAdminActionBean extends ActionBeanBase
 {
+  /**
+   * pluginId
+   */
   protected String pluginName;
 
   /**
