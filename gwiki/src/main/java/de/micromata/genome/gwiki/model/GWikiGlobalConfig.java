@@ -93,6 +93,9 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_WIKI_ELEMENTS = "GWIKI_WIKI_ELEMENTS";
 
+  /**
+   * List of plugin ids
+   */
   public static final String GWIKI_ACTIVE_PLUGINS = "GWIKI_ACTIVE_PLUGINS";
 
   public static final String GWIKI_ARCHIVE_MAX_COUNT = "GWIKI_ARCHIVE_MAX_COUNT";
