@@ -110,7 +110,7 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
     checkIncremental(attrs, ctx);
     boolean asSlide = "true".equals(ctx.getRequestParameter("asSlide"));
     if (asSlide == false) {
-      if (attrs.getChildFragment() != null) {
+      if (attrs != null && attrs.getChildFragment() != null) {
         attrs.getChildFragment().render(ctx);
       }
       return true;
