@@ -1,0 +1,19 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+
+<gwiki:errors />
+
+<form class="gwikiForm col" method="post">
+<fieldset>
+<legend>View Usecounter</legend>
+	<input class="gwikiButton main" type="submit" name="method_onRefresh" value="Refresh"><br/>
+</fieldset>
+
+<%
+Object form = pageContext.getRequest().getAttribute("form");
+  form.render(); 
+%>
+</fieldset>
+</form>
+
+<% wikiContext.skinInclude("standardfoot"); %>
