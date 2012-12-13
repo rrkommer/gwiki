@@ -339,7 +339,7 @@
 }
 
 /* IE */
-
+/* seems to be broken&typos */
 #fancybox-loading.fancybox-ie div { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src/static/js/fancybox/img/fancy_loading.png', sizingMethod='scale'); }
 .fancybox-ie #fancybox-close    { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='src/static/js/fancybox/img/fancy_close.png', sizingMethod='scale'); }
 
