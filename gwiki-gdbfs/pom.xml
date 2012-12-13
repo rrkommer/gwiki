@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<!--  README
+   Before use the install_to_local_rep.sh to install the required libraries to your local repository
+ -->
+  <parent>
+    <artifactId>gwiki-parent</artifactId>
+    <groupId>de.micromata.genome.gwiki</groupId>
+    <version>0.9.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.micromata.genome.gwiki</groupId>
+  <artifactId>gwiki-gdbfs</artifactId>
+
+  <build>
+    <plugins>
+
+    </plugins>
+  </build>
+
+  <scm>
+    <connection>
+		scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-gdbfs
+		</connection>
+    <developerConnection>
+		scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-gdbfs
+		</developerConnection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.micromata.genome.gwiki</groupId>
+      <artifactId>gwiki-genome-dependencies</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.8.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-digester</groupId>
+      <artifactId>commons-digester</artifactId>
+      <version>1.8.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.15</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.jms</groupId>
+          <artifactId>jms</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.jmx</groupId>
+          <artifactId>jmxri</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.jdmk</groupId>
+          <artifactId>jmxtools</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.2.1</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xerces</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>micromata_labs</id>
+      <url>http://labs.micromata.de/nexus/content/groups/public/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>central</id>
+      <url>http://repo.maven.apache.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+
+  </pluginRepositories>
+
+</project>
