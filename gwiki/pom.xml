@@ -65,6 +65,11 @@
       <artifactId>gwiki-genome-dependencies</artifactId>
       <version>${project.version}</version>
     </dependency>
+     <dependency>
+      <groupId>de.micromata.genome.gwiki</groupId>
+      <artifactId>gwiki-gdbfs</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
@@ -203,22 +208,7 @@
       <version>2.7.6</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-      <version>1.2.1</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>xerces</groupId>
-          <artifactId>xerces</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>xml-apis</groupId>
-          <artifactId>xml-apis</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
+    
 		<!--
 			<dependency> <groupId>net.sourceforge.stripes</groupId>
 			<artifactId>stripes</artifactId> <version>1.4.3</version>
