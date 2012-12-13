@@ -1,3 +1,0 @@
-<@include file="inc/standardhead.gspt"@>
-<%MainPage.render(wikiContext);%>
-<@include file="inc/standardfoot.gspt"@>

@@ -1,6 +1,0 @@
-
-
-Einsatz im Java (EE)-Feld. ClusterfähigSkalierbarIntegrierbarAdaptierbarErweiterbar= "Die Gute Architektur"Passende OpenSource Lizenz
-
-
-GWiki Motivation
