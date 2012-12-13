@@ -79,7 +79,7 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
 
   public static String getDetailPage(GWikiContext wikiContext, GWikiPluginDescriptor pdesc)
   {
-    String name = pdesc.getName();
+    String pluginId = pdesc.getPluginId();
     String parenPageId = "gwikidocs/plugins/en/GWiki_Plugins";
     GWikiElementInfo pei = wikiContext.getWikiWeb().findElementInfo(parenPageId);
     if (pei == null) {
@@ -88,7 +88,7 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
     for (GWikiElementInfo ei : wikiContext.getElementFinder().getAllDirectChilds(pei)) {
       String id = ei.getId();
       String n = FileNameUtils.getNamePart(id);
-      if (StringUtils.equals(n, name) == true) {
+      if (StringUtils.equals(n, pluginId) == true) {
         return id;
       }
     }
