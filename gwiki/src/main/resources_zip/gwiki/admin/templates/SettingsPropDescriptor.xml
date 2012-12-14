@@ -160,12 +160,12 @@ def onValidate(pec)
 	}
 	pelInfo = pec.wikiContext.wikiWeb.findElementInfo(pid);
   if (pelInfo  == null) {
-  	pec.wikiContext.addSimpleValidationError("Es muss eine gültige PageId als PARENTPAGE angegeben werden");
+  	pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.validpageid");
 	} else {
 		boolean hasRec = false;
 		while (pelInfo != null) {
 			if (pelInfo.id.equals(pec.wikiContext.getWikiElement().elementInfo.id) == true) {
-				pec.wikiContext.addSimpleValidationError("Recursive Verlinkung über PARENTPAGE entdeckt");
+				pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.pageidrecursive");
 				hasRec = true;
 				break;
 			}
