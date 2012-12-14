@@ -75,7 +75,7 @@ public class ActionBeanUtils
       Map<String, Object> pm = pctx.getRequest().getParameterMap();
       pm = getPrivateMap(bean, pm);
       ClassUtils.populateBeanWithPuplicMembers(bean, pm);
-      //      
+      //
       // } else {
       // BeanUtilsBean.getInstance().populate(bean, pm);
       // }
@@ -186,8 +186,10 @@ public class ActionBeanUtils
   public static void redirect(GWikiContext ctx, String pageId)
   {
     try {
-      if (pageId.startsWith("//") == true) {
-        pageId = pageId.substring(1);
+      if (pageId.contains("?") == true || pageId.startsWith("//") == true) {
+        if (pageId.startsWith("//") == true) {
+          pageId = pageId.substring(1);
+        }
         ctx.getResponse().sendRedirect(pageId);
       } else {
         if (pageId.startsWith("/") == true) {
