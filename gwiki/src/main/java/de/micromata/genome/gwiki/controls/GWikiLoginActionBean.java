@@ -129,7 +129,8 @@ public class GWikiLoginActionBean extends ActionBeanBase
     boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(password));
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
-      GWikiLog.note("Invalid login: user: " + user + "; password: " + password + "; ");
+
+      GWikiLog.note("Invalid login: user: " + user + "; ");
       password = "";
       return null;
     }
