@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -128,6 +129,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
     boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(password));
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
+      GWikiLog.note("Invalid login: user: " + user + "; password: " + password + "; ");
       password = "";
       return null;
     }
