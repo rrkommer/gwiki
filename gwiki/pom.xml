@@ -6,7 +6,7 @@
   <parent>
     <artifactId>gwiki-parent</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version><!-- GWIKVERSION -->
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.micromata.genome.gwiki</groupId>
@@ -65,7 +65,7 @@
       <artifactId>gwiki-genome-dependencies</artifactId>
       <version>${project.version}</version>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>de.micromata.genome.gwiki</groupId>
       <artifactId>gwiki-gdbfs</artifactId>
       <version>${project.version}</version>
