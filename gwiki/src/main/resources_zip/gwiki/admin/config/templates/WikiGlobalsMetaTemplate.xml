@@ -108,6 +108,23 @@
 											<property name="readOnly" value="false" />
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="index" />
+                      <property name="controlerScript">
+            <value><![CDATA[
+def onValidate(pec) 
+{
+  
+  String pid = pec.getRequestValue();
+  if (pid == null || pid.length() == 0){
+    return;
+  }
+  pelInfo = pec.wikiContext.wikiWeb.findElementInfo(pid);
+  if (pelInfo  == null) {
+    pec.wikiContext.addValidationError("gwiki.settings.GWIKI_WELCOME_PAGE.msg.validpageid");
+  } 
+}
+                ]]>
+            </value>
+          </property>
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
