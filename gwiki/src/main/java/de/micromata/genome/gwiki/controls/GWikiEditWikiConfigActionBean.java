@@ -148,10 +148,12 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
         break;
       }
       wikiContext.getWikiWeb().saveElement(wikiContext, me.getValue().getFirst(), false);
-
     }
-    wikiContext.getWikiWeb().getDaoContext().reinitConfig();
-    return goBack();
+    if (wikiContext.hasValidationErrors() == false) {
+      wikiContext.getWikiWeb().getDaoContext().reinitConfig();
+      return goBack();
+    }
+    return null;
   }
 
   public Object onCancel()
