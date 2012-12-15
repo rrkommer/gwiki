@@ -1,32 +1,13 @@
 {pageintro}
-GWiki has plugins with additionally functions.
+Plugins extends the functionality of GWiki.
 {pageintro}
 
 For information see [gwikidocs/help/en/Plugins].
 
-
-h2. Slideshows
-Create an view Slide shows inside GWiki.
-
-[pub/en/plugins/gwiki.s5slideshow1.0.0.zip]
-
-h2. Smarttags
-Automatically create Smart tags for other pages keywords found in current pages.
-
-[pub/en/plugins/gwiki.keywordssmarttags1.0.0.zip]
-
-h2. Blog
-Create Blog pages.
-
-[pub/en/plugins/gwiki.blog1.0.0.zip]
-
-
-h2. Importer for Confluence Spaces
-If you export a Confluence Space as XML (ZIP with XML and attachments) you can import all pages and attachments to gwiki using this plugin.
-
-The Import page will be available via the Admin menu.
-
-[pub/en/plugins/gwiki.confluenceimporter1.0.0.zip]
-
-h2. All
- {children:viewAll=true|type=all|withEditLinks=true}
+{note}
+Not all Plugins are in stable state. Please see *State* in the Plugin descriptions.
+- Final: Plugin is final and should work as expected.
+- Beta: Plugin may have bugs or missing features.
+- Alpha: Plugin probably has bugs and may damage GWiki overall functionality.
+- Experimental: Work in progress. Plugin has bugs and may damage GWiki overall functionality. Plugin may be removed later.
+{note}
