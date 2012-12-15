@@ -37,12 +37,20 @@ public class MimeUtils
     mimeTypes.put("xls", "application/vnd.ms-excel");
     mimeTypes.put("swf", "application/x-shockwave-flash");
     mimeTypes.put("ico", "image/x-icon");
+    mimeTypes.put("zip", "application/zip");
+    mimeTypes.put("tgz", "application/x-gtar");
+    mimeTypes.put("doc", "application/msword");
+    mimeTypes.put("xls", "application/vnd.ms-excel");
+    mimeTypes.put("ppt", "application/vnd.ms-powerpoint");
+    mimeTypes.put("pps", "application/vnd.ms-powerpoint");
+
   }
 
   public static String getMimeTypeFromFile(String fname)
   {
     if (fname == null)
       return null;
-    return mimeTypes.get(StringUtils.substringAfterLast(fname, "."));
+    String lc = StringUtils.lowerCase(fname);
+    return mimeTypes.get(StringUtils.substringAfterLast(lc, "."));
   }
 }
