@@ -10,6 +10,7 @@
 			</list>
 		</property>
 		<property name="version" value="1.0.0" />
+    <property name="versionState" value="Beta" />
 		<property name="description"
 			value="Plugin for PDF full text search text extraction" />
 		<property name="author" value="Roger Kommer" />

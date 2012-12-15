@@ -5,6 +5,7 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.pagetemplates" />
 		<property name="version" value="1.0.0" />
+    <property name="versionState" value="Experimental" />
 		<property name="description" value="Page Template Editor" />
 		<property name="author" value="Roger Kommer, Christian Claus"/>
 		<property name="license" value="Apache License, Version 2.0"/>

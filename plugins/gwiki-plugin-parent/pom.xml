@@ -9,35 +9,41 @@
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-plugin-parent</artifactId>
 	<packaging>pom</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>BuildPlugin</id>
-						<phase>install</phase>
-						<configuration>
-							<tasks>
-								<mkdir dir="target" />
-								<delete file="target/${pom.artifactId}-${project.version}.zip" />
-								<zip zipfile="target/${pom.artifactId}-${project.version}.zip">
-									<fileset dir="target" includes="classes/**" />
-									<fileset dir="" includes="content/**" />
-									<fileset dir="" includes="gwikiplugin.xml" />
-								</zip>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>BuildPlugin</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <echo>Building GWIki Plugin ${pom.artifactId}-${project.version}</echo>
+                
+                <mkdir dir="target" />
+                <delete failonerror="false" file="target/${pom.artifactId}-${project.version}.zip" />
+                <zip zipfile="target/${pom.artifactId}-${project.version}.zip">
+                  <fileset dir="target" includes="classes/**" />
+                  <fileset dir="" includes="content/**" />
+                  <fileset dir="" includes="gwikiplugin.xml" />
+                </zip>
+                <copy  failonerror="false" preservelastmodified="true" file="target/${pom.artifactId}-${project.version}.zip"
+                  todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+                <copy failonerror="false" preservelastmodified="true" todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/">
+                  <fileset dir="content/gwiki/pub" excludes="*/.svn/*" />
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 	<dependencies>
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>

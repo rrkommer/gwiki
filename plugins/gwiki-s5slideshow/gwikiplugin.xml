@@ -5,7 +5,9 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.s5slideshow" />
 		<property name="version" value="1.0.0" />
+    <property name="versionState" value="Final" />
 		<property name="description" value="Plugin to create a slide show in GWiki" />
+	    <property name="descriptionPath" value="pub/plugins/gwiki-s5slideshow/GWiki_S5_Slideshows"/>
 		<property name="author" value="Roger Kommer"/>
 		<property name="license" value="Apache License, Version 2.0"/>
 		<property name="category" value="Wiki Extension"/>
