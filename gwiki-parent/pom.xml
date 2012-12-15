@@ -95,6 +95,38 @@
           </execution>
         </executions>
       </plugin>
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>BuildPlugin</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                
+                <fileset id="zipfiles" dir="./" casesensitive="yes">
+                  <include name="*.xml"/>
+                </fileset>  
+                <property name="prop.zipfiles" refid="zipfiles"/>
+                <echo>${prop.zipfiles}</echo>       
+                <!-- 
+                <mkdir dir="target" />
+                <delete file="target/${pom.artifactId}-${project.version}.zip" />
+                <zip zipfile="target/${pom.artifactId}-${project.version}.zip">
+                  <fileset dir="target" includes="classes/**" />
+                  <fileset dir="" includes="content/**" />
+                  <fileset dir="" includes="gwikiplugin.xml" />
+                </zip>
+                 -->
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 	<!-- -->

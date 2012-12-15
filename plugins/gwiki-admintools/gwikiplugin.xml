@@ -5,7 +5,9 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.admintools" />
 		<property name="version" value="1.0.0" />
+    <property name="versionState" value="Alpha" />
 		<property name="description" value="Plugin various admin tools" />
+    <property name="descriptionPath" value="pub/plugins/gwiki-admintools/Index"/>
 		<property name="author" value="Roger Kommer, Stefan Stützer" />
 		<property name="logoPath" value="/inc/img/Logviewer_Logo.png" />
 		<property name="category" value="Admin Tools" />
