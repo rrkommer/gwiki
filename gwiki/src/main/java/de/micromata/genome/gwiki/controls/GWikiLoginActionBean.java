@@ -217,11 +217,14 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
     GWikiElement el = wikiContext.getWikiWeb().findElement(userId);
     if (el == null) {
-      wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.unkownuser");
+      GWikiLog.note("Passwort reset requested for unknown user: " + passwordForgottenUser);
+      wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
+      // wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.unkownuser");
       return null;
     }
     GWikiArtefakt< ? > art = el.getPart("");
     if ((art instanceof GWikiPropsArtefakt) == false) {
+      GWikiLog.warn("No Valid user, cann not determine email. User: " + passwordForgottenUser);
       wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.noemail");
       return null;
     }
@@ -237,7 +240,6 @@ public class GWikiLoginActionBean extends ActionBeanBase
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
     sendPasswordToUser(wikiContext, passwordForgottenUser, email, newPass);
     wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
-
     return null;
   }
 
