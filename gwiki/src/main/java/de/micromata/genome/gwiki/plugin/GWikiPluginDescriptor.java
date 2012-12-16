@@ -54,6 +54,11 @@ public class GWikiPluginDescriptor implements InitializingBean
   private String version;
 
   /**
+   * Alpha, Beta or Final
+   */
+  private String versionState;
+
+  /**
    * Description
    */
   private String description;
@@ -347,6 +352,16 @@ public class GWikiPluginDescriptor implements InitializingBean
   public void setDescriptionPath(String descriptionPath)
   {
     this.descriptionPath = descriptionPath;
+  }
+
+  public String getVersionState()
+  {
+    return versionState;
+  }
+
+  public void setVersionState(String versionState)
+  {
+    this.versionState = versionState;
   }
 
 }
