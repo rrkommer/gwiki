@@ -273,4 +273,16 @@ public class GWikiLoggingBufferedLogger extends GWikiLoggingBase implements GWik
     }
   }
 
+  @Override
+  public boolean isDebugEnabled()
+  {
+    return logThreshold.getPriority() <= GWikiLogLevel.DEBUG.getPriority();
+  }
+
+  @Override
+  public boolean isInfoEnabled()
+  {
+    return logThreshold.getPriority() <= GWikiLogLevel.INFO.getPriority();
+  }
+
 }

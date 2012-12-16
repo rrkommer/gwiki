@@ -39,37 +39,62 @@ public class GWikiLoggingLog4J extends GWikiLoggingBase
 
   }
 
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Throwable, java.lang.Object[])
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String,
+   * de.micromata.genome.gwiki.page.GWikiContext, java.lang.Throwable, java.lang.Object[])
    */
   public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Throwable ex, Object... keyValues)
   {
     log.log(mapToLog4jPriority(logLevel), renderLog(message, ctx, ex, keyValues));
   }
-  
-  /* (non-Javadoc)
-   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, java.lang.Object[])
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.micromata.genome.gwiki.model.GWikiLogging#doLog(de.micromata.genome.gwiki.model.GWikiLogLevel, java.lang.String,
+   * de.micromata.genome.gwiki.page.GWikiContext, java.lang.Object[])
    */
   public void doLog(GWikiLogLevel logLevel, String message, GWikiContext ctx, Object... keyValues)
   {
     log.log(mapToLog4jPriority(logLevel), renderLog(message, ctx, null, keyValues));
   }
-  
+
   /**
-   * @param logLevel 
+   * @param logLevel
    * @return
    */
   private Priority mapToLog4jPriority(GWikiLogLevel logLevel)
   {
-    switch(logLevel) {
-      case DEBUG: return Level.DEBUG;
-      case NOTE: return Level.INFO;
-      case INFO: return Level.INFO;
-      case WARN: return Level.WARN;
-      case ERROR: return Level.ERROR;
-      case FATAL: return Level.FATAL;
-      default: return Level.INFO;
+    switch (logLevel) {
+      case DEBUG:
+        return Level.DEBUG;
+      case NOTE:
+        return Level.INFO;
+      case INFO:
+        return Level.INFO;
+      case WARN:
+        return Level.WARN;
+      case ERROR:
+        return Level.ERROR;
+      case FATAL:
+        return Level.FATAL;
+      default:
+        return Level.INFO;
     }
+  }
+
+  @Override
+  public boolean isDebugEnabled()
+  {
+    return log.isDebugEnabled();
+  }
+
+  @Override
+  public boolean isInfoEnabled()
+  {
+    return log.isInfoEnabled();
   }
 
 }
