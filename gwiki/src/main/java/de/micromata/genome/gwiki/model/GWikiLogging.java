@@ -28,6 +28,10 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public interface GWikiLogging
 {
+  boolean isDebugEnabled();
+
+  boolean isInfoEnabled();
+
   /**
    * 
    * @param message message of the log
