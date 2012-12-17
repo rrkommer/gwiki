@@ -81,6 +81,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public static final String GWIKI_DEFAULT_EDITOR = "gwikidefeditor";
 
+  /**
+   * first is title, second id.
+   */
   protected List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
 
   protected String metaTemplatePageId;
@@ -416,6 +419,19 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     if (backupElementInfo != null) {
       initalBackup = true;
     }
+    return null;
+  }
+
+  public Object onReloadTemplateList()
+  {
+    isInOnInit = true;
+    chooseMetaTemplate = true;
+    fillAvailableTemplates();
+    if (init() == false) {
+      return null;
+    }
+
+    checkAccess();
     return null;
   }
 
@@ -908,6 +924,28 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     } catch (Exception ex) {
       ctx.addValidationError("gwiki.edit.EditPage.message.invalidkeywordformat", ex.getMessage());
     }
+  }
+
+  public void renderSelectedMetatemplateHelp()
+  {
+    String mit = getMetaTemplatePageId();
+    if (mit == null) {
+      if (availableMetaTemplates == null || availableMetaTemplates.isEmpty() == true) {
+        return;
+      }
+      mit = availableMetaTemplates.get(0).getSecond();
+
+    }
+    GWikiMetaTemplate mt = wikiContext.getWikiWeb().findMetaTemplate(mit);
+    String phelpid = mt.getEditHelpPageId();
+    if (StringUtils.isEmpty(phelpid) == true) {
+      return;
+    }
+    GWikiElement helpEl = wikiContext.getWikiWeb().findElement(phelpid);
+    if (helpEl == null) {
+      return;
+    }
+    wikiContext.includeArtefakt(phelpid, "MainPage");
   }
 
   public String getMetaTemplatePageId()

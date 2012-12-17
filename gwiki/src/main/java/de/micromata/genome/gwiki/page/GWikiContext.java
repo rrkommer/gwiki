@@ -264,13 +264,25 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     el.serve(this);
   }
 
+  /**
+   * Include (render) an artefakt of given pageId
+   * 
+   * @param pageId
+   * @param partName if null uses main part
+   * @throws nothing if page is not found.
+   */
   public void includeArtefakt(String pageId, String partName)
   {
     GWikiElement el = wikiWeb.getElement(pageId);
     if (el == null) {
       return;
     }
-    GWikiArtefakt< ? > art = el.getPart(partName);
+    GWikiArtefakt< ? > art;
+    if (partName == null) {
+      art = el.getMainPart();
+    } else {
+      art = el.getPart(partName);
+    }
     if (art == null || (art instanceof GWikiExecutableArtefakt< ? >) == false) {
       return;
     }

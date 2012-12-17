@@ -43,6 +43,7 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
   public void call()
   {
     try {
+      GWikiLog.note("Start build full text index");
       String pageId = args.get("pageId");
       boolean full = false;
       if (StringUtils.equals(args.get("full"), "true") == true) {
@@ -58,6 +59,7 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
       } else {
         rebuildIndex(wikiContext, wikiContext.getWikiWeb().getElementInfos(), full);
       }
+      GWikiLog.note("Finished build full text index");
     } catch (Exception ex) {
       GWikiLog.warn("Job failed: " + SearchExpressionIndexerCallback.class.getName() + "; " + ex.getMessage(), ex);
 

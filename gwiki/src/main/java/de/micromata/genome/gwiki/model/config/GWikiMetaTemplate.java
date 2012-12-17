@@ -130,7 +130,9 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   private GWikiPropsDescriptor addPropsDescriptor = null;
 
   /**
-   * Flag to display contained editors tab wise or row wise
+   * Flag to display contained editors tab wise or row wise.
+   * 
+   * @todo not used yet.
    */
   private boolean tabbedEditor = true;
 
