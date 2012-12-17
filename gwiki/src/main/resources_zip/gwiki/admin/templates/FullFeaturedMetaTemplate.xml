@@ -8,7 +8,8 @@
 		<property name="cachable" value="false"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
 		<property name="copyFromPageId" value="admin/templates/scaff/FullFeaturedScaff"/>
-		<property name="elementLifeTime" value="-1" /> 
+		<property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/GroovyMVC"/>
+    <property name="elementLifeTime" value="-1" /> 
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">

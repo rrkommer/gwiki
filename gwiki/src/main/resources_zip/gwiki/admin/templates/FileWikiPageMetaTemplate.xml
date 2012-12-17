@@ -8,6 +8,8 @@
     <property name="cachable" value="true"/>
 		<!--  10 minutes -->
 		<property name="elementLifeTime" value="600000" />
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/Attachment"/>
+    
         <property name="tabbedEditor" value="false" />
 		<property name="parts">
 			<map>

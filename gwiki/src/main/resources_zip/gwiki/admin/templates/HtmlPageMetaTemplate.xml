@@ -9,7 +9,8 @@
 		<property name="requiredEditRight" value="GWIKI_EDITHTML"/>
 		<!--  1 hour -->
 		<property name="elementLifeTime" value="3600000" />
-    <property name="contentType" value="html/text"/>
+    <property name="contentType" value="text/html"/>
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/HtmlPage"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
