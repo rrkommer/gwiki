@@ -1,0 +1,38 @@
+{pageintro}
+To develop a Model-View-Controler with JSP/Groovy and Wiki
+{pageintro}
+h2. Description
+{warn}
+To create or edit a Groovy MVC you need programming skills.
+{warn}
+
+Creating a new Groovy MVC Page a sample implementation will be used as starting point. 
+h2. Artefacts
+h3. Controler
+!gwikidocs/help/en/elementtypes/GroovyMVCPageControler.png!
+
+The controler is a Groovy class, which implements the model bean of the page. 
+The Framework is similar to the Java Framework Stripes. 
+
+h3. InputForward
+
+!gwikidocs/help/en/elementtypes/GroovyMVCInputForward.png!
+
+This is the JSP part, which implements the View of page.
+
+{note}
+It is not really the original JSP, but a nearly 100% JSP compatible Engine, based on Groovy.
+{note}
+
+h3. MainPage
+
+!gwikidocs/help/en/elementtypes/GroovyMVCMainPage.png!
+
+The Main Page is optional part, which contains static Wiki Text, which can be included in the JSP InputForward.
+(See {{<%  MainPage.render(wikiContext); %>}} does this in the example above.)
+
+
+See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help].
+
+h3. Settings
+See [gwikidocs/help/en/ElementSettings].
