@@ -151,7 +151,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       currentTemplate = wikiContext.getCurrentElement().getMetaTemplate();
     }
     List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
-    Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("admin/templates/*MetaTemplate");
+    Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("+admin/templates/*MetaTemplate,-admin/templates/intern/*");
     List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
     ret.addAll(wikiContext.getWikiWeb().getDaoContext().getPluginRepository().getTemplates(wikiContext));
@@ -235,16 +235,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       pageId = FileNameUtils.join(GWikiContext.getParentDirPathFromPageId(parentPageId), pageId);
     }
   }
-  
-  private String getNiceTitleForPageId() 
+
+  private String getNiceTitleForPageId()
   {
     String result = null;
-    
+
     if (StringUtils.isNotBlank(pageId)) {
       final String[] pageIdParts = pageId.split("/");
       result = pageIdParts[pageIdParts.length - 1];
     }
-    
+
     return result;
   }
 
@@ -682,8 +682,11 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
     getWikiContext().getWikiWeb().saveElement(wikiContext, elementToEdit, false);
     wikiContext.append("<a href=\"javascript:restoreBackup();\">"
-        + wikiContext.getWikiWeb().getI18nProvider().translate(wikiContext, "gwiki.edit.EditPage.onlinebackup", "",
-            wikiContext.getUserDateString(elementToEdit.getElementInfo().getModifiedAt()))
+        + wikiContext
+            .getWikiWeb()
+            .getI18nProvider()
+            .translate(wikiContext, "gwiki.edit.EditPage.onlinebackup", "",
+                wikiContext.getUserDateString(elementToEdit.getElementInfo().getModifiedAt()))
         + "</a><br/>");
     wikiContext.flush();
     return noForward();
