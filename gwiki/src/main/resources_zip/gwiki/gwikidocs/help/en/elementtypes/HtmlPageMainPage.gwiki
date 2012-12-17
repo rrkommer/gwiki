@@ -1,0 +1,19 @@
+{pageintro}
+A HTML page is a simple HTML page embedded in the Wiki Space. The page can be edit with _Rich What you see is what you get_ editor.
+{pageintro}
+
+h2. Description
+The HTML page will be embedded into the Wiki frame. Different to [gwikidocs/help/en/elementtypes/WikiPage] you edit raw HTML and you have to take care of formatting and linking at your own.
+
+h2. Artefacts
+h3. HTML
+
+!gwikidocs/help/en/elementtypes/HtmlPageEditorScreenshot.png!
+
+
+h3. Settings
+See   [gwikidocs/help/en/ElementSettings].
+
+h2. Rights
+You need the {{GWIKI_EDITHTML}} to create/edit HTML pages.
+

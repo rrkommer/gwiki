@@ -1,0 +1,16 @@
+{pageintro}
+A HTML page is a simple HTML page NOT embedded in the Wiki Space. The page can be edit with _Rich What you see is what you get_ editor.
+{pageintro}
+
+h2. Description
+Different to [gwikidocs/help/en/elementtypes/HtmlPage] a Plain HTML Page will be rendered without the Wiki Skin Frame.
+
+h2. Artefacts
+h3. HTML Artefakt
+The editor is a simple Code Editor. 
+
+!gwikidocs/help/en/elementtypes/PlainHtmlEditorScreenshot.png!
+
+h3. Settings
+See [gwikidocs/help/en/ElementSettings].
+

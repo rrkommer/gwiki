@@ -1,0 +1,18 @@
+{pageintro}
+Bean Config is a XML file in the Spring Bean format.
+{pageintro}
+h2. Description
+{warn}
+Normally a a Bean Configuration Element is only used for programming/configuration purposes.
+{warn}
+h2. Artefacts
+h3. Bean XML file
+In the editor field you have write a valid XML file.
+
+General information about Spring Application Context XML files can be found here: [http://static.springsource.org/spring/docs/2.5.x/reference/beans.html].
+
+Screenshot:
+!gwikidocs/help/en/elementtypes/BeanConfigEditorScreenshot.png!
+
+h3. Settings
+See [gwikidocs/help/en/ElementSettings].

@@ -1,0 +1,31 @@
+{pageintro}
+An Attachment is a file, document, images or other type.
+{pageintro}
+
+h2. Description
+An Attachment is just a file stored in the Wiki. 
+
+If you want to embedd images or other media types in your wiki pages, they are also managed as Attachments.
+
+{note}
+Inside the Wiki Editor you can directly insert a Screenshot into the wiki page.
+{note}
+
+h2. Artefacts
+h3. File
+h4. Upload a file
+You can use the standard Browser Upload function to upload a new file to the wiki space:
+
+!gwikidocs/help/en/elementtypes/AttachmentStdFileUploadScreenshot.png!
+
+Alternativally you can use the file upload applet to use drag'n drop with you file manager to upload a file.
+
+!gwikidocs/help/en/elementtypes/AttachmentAppletUploadScreenshot.png!
+
+h4. Name File
+You can leaf the *Title* of the element empty. In this case the name of file will be choosen. 
+
+h3. Settings
+
+See  [gwikidocs/help/en/ElementSettings].
+
