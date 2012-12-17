@@ -77,6 +77,14 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
 
   private Map<String, List<PDesc>> plugins = new TreeMap<String, List<PDesc>>();
 
+  private boolean finalRelease;
+
+  private boolean betaRelease;
+
+  private boolean alphaRelease;
+
+  private boolean experimentalRelease;
+
   public static String getDetailPage(GWikiContext wikiContext, GWikiPluginDescriptor pdesc)
   {
     String pluginId = pdesc.getPluginId();
@@ -111,6 +119,19 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
     if (desc == null) {
       return;
     }
+    String versionState = desc.getVersionState();
+    if (StringUtils.equals(versionState, "Final") == true && finalRelease == false) {
+      return;
+    }
+    if (StringUtils.equals(versionState, "Beta") == true && betaRelease == false) {
+      return;
+    }
+    if (StringUtils.equals(versionState, "Alpha") == true && alphaRelease == false) {
+      return;
+    }
+    if (StringUtils.equals(versionState, "Experimental") == true && experimentalRelease == false) {
+      return;
+    }
     PDesc pdesc = new PDesc(atel, desc);
     if (desc.getDescriptionPath() == null) {
       desc.setDescriptionPath(getDetailPage(wikiContext, pdesc.getDescriptor()));
@@ -129,6 +150,7 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
   {
     List<GWikiElementInfo> el = wikiContext.getElementFinder().getAllDirectChildsByType(wikiContext.getCurrentElement().getElementInfo(),
         "attachment");
+
     for (GWikiElementInfo e : el) {
       initPluginAttachment(e);
     }
@@ -136,6 +158,9 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
 
   public Object onInit()
   {
+    if (finalRelease == false && betaRelease == false && alphaRelease == false && experimentalRelease == false) {
+      finalRelease = true;
+    }
     initPluginList();
     return null;
   }
@@ -148,6 +173,46 @@ public class GWikiPluginDownloadActionBean extends ActionBeanBase
   public void setPlugins(Map<String, List<PDesc>> plugins)
   {
     this.plugins = plugins;
+  }
+
+  public boolean isFinalRelease()
+  {
+    return finalRelease;
+  }
+
+  public void setFinalRelease(boolean finalRelease)
+  {
+    this.finalRelease = finalRelease;
+  }
+
+  public boolean isBetaRelease()
+  {
+    return betaRelease;
+  }
+
+  public void setBetaRelease(boolean betaRelease)
+  {
+    this.betaRelease = betaRelease;
+  }
+
+  public boolean isAlphaRelease()
+  {
+    return alphaRelease;
+  }
+
+  public void setAlphaRelease(boolean alphaRelease)
+  {
+    this.alphaRelease = alphaRelease;
+  }
+
+  public boolean isExperimentalRelease()
+  {
+    return experimentalRelease;
+  }
+
+  public void setExperimentalRelease(boolean experimentalRelease)
+  {
+    this.experimentalRelease = experimentalRelease;
   }
 
 }
