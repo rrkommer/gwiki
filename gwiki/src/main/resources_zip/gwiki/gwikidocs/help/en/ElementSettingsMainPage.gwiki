@@ -2,48 +2,57 @@
 Every GWiki Element has common settings.
 {pageintro}
 
-h2. CREATEDAT
+h2. Description
+In the element editor the Settings are editable via the *Settings* button, which opens a dialog window.
+
+!gwikidocs/help/en/ElementSettingsScreenshot.png!
+
+
+h2. Values
+
+h3. CREATEDAT
 Time when this element was created.
 
-h2. CREATEDBY
+h3. CREATEDBY
 User this elemented created.
 
-h2. MODIFIEDAT
+h3. MODIFIEDAT
 Last modification time.
 
-h2. MODIFIEDBY
+h3. MODIFIEDBY
 User this element last modified.
 
-h2. Type
+h3. Type
 {anchor:TYPE}
 Type of element. 
 
-h2. Parent Element
+h3. Parent Element
 {anchor:PARENTPAGE}
 PageId of the parent element.
 
-h2. NOINDEX
+h3. NOINDEX
 If true, this element should not be indexed.
 
-h2. AUTH_VIEW
+h3. AUTH_VIEW
 Authorization needed to view this element.
 
 See also [gwikidocs/help/en/GWikiRights].
 
-h2. AUTH_EDIT
+h3. AUTH_EDIT
 Authorization needed to edit this element.
 
 See also [gwikidocs/help/en/GWikiRights].
 
-h2. CONTENTYPE
-Typ of content of this element.
+h3. CONTENTYPE
+Typ of content type aka mime type of this element.
 In most cases this can be empty, because the element itself knows what content type it contains.
+If this is set, it will be used to send in the HTTP response as Content-Type.
 
-h2. LANG
+h3. LANG
 Language of this element. 
 If empty the element has same language as the parent element.
 
-h2. HELP_PAGE
+h3. HELP_PAGE
 Help page specific to this page.
 If no help page is given, the standard gwiki help page will be opened.
 The lookup for help pages is:
@@ -53,46 +62,46 @@ Lookup path if language is {{de}} (German):
 - {{my/path/MyPage}}
 - {{my/path/en/MyPage}}
 
-h2. ORDER
+h3. ORDER
 Number. Order position of this childs. 
  
-h2. CHILDORDER
+h3. CHILDORDER
 Deprecated.
 
-h2. WIKIMETATEMPLATE
+h3. WIKIMETATEMPLATE
 Meta template element this element is based on. 
 This property is read only.
 
-h2. WIKICONTROLERCLASS
+h3. WIKICONTROLERCLASS
 In case of an element with java controler class, the full qualified java class which implements the ActionBean interface.
 
-h2. WIKISPACE
+h3. WIKISPACE
 Space the element belows to. If value is given, the element derives the WIKISPACE from parent elements.
 
-h2. KEYWORDS
+h3. KEYWORDS
 Keywords for this element.
 Keywords are seperated with comma. 
 Optional parts of the keyword name are wrapped with round brackets. Sample: {{Sample(s)}} matches against Sample and Samples.
 
-h2. I18NMODULES
+h3. I18NMODULES
 If the element uses internationalization the comma seperated list of I18N-Elements.
 
-h2. NOVIEW
+h3. NOVIEW
 True, if this element should be be viewable. 
 
-h2. MACRO_WITH_BODY
+h3. MACRO_WITH_BODY
 Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
 True, if the macro has a body.
 
-h2. MACRO_EVAL_BODY
+h3. MACRO_EVAL_BODY
 Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
 True, if the macro has a body with wiki text.
 
-h2. MACRO_WITH_PREVIEW
+h3. MACRO_WITH_PREVIEW
 Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
 True, if the macro supports preview.
 
-h2. MACRO_RENDERMODES
+h3. MACRO_RENDERMODES
 Only used for element with WIKIMETATEMPLATE {{admin/templates/ScriptMacroMetaTemplate}}.
 A list of render flags. The string values has to be one of:
 {code}
@@ -119,17 +128,18 @@ A list of render flags. The string values has to be one of:
    */
   ContainsTextBlock(0x0040), //
 {code} 
-h2. MACRO_ARGUMENTS
+
+h3. MACRO_ARGUMENTS
 For future usage.
 
-h2. SIZE
+h3. SIZE
 Read only variable with the size of an attachment element.
 
-h2. PARTOF
+h3. PARTOF
 The Page or Element is part of another element.
 This is used, the the element can not displayed by self, but need another element to view.
 
 
-h2. SKIN
+h3. SKIN
 Select a skin for this page including all children pages.
 You need developer rights to view/edit this property.
