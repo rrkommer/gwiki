@@ -36,3 +36,7 @@ See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help].
 
 h3. Settings
 See [gwikidocs/help/en/ElementSettings].
+
+h2. Rights
+You need the {{GWIKI_DEVELOPER}} to create/edit HTML pages.
+

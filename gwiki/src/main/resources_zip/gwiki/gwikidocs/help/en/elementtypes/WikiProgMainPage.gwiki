@@ -1,0 +1,39 @@
+{pageintro}
+Java Controler Class with a JSP View and optional Wiki Page
+{pageintro}
+
+
+h2. Description
+{warn}
+To create or edit a Groovy MVC you need programming skills.
+{warn}
+
+h2. Artefacts
+h3. Java Class 
+The Java Class cannot be edited directly with GWiki, but must be depoloyed with the Application or as GWiki Plugin.
+
+The Java Class controler can be edited in the Settings in the Element Type section:
+!gwikidocs/help/en/elementtypes/WikiProgPageControlerClassDialog.png!
+
+
+
+h3. Template
+A JSP Template to render the Page
+
+!gwikidocs/help/en/elementtypes/WikiProgTemplateScreenshot.png!
+
+h3. Wiki Page
+Optional a static part of the Page can be included from a Wiki Page.
+
+Sample Template.gspt:
+{code}
+<%    MainPage.render(wikiContext); %>
+{code}
+
+
+See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help] for more information.
+
+
+h3. Settings
+
+See  [gwikidocs/help/en/ElementSettings]
