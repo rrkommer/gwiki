@@ -8,10 +8,11 @@
     <property name="cachable" value="false"/>
 		<!--  1 Hour -->
 		<property name="elementLifeTime" value="3600000" />
-    <property name="contentType" value="html/text"/>
+    <property name="contentType" value="text/html"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
     <property name="tabbedEditor" value="false" />
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/WikiPage"/>
 		<property name="parts">
 			<map>
 				<entry key="Controler">

@@ -8,7 +8,8 @@
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
-    <property name="contentType" value="html/text"/>
+    <property name="contentType" value="text/html"/>
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/PlainHtmlPage"/>
 		<property name="parts">
 			<map>
 				<entry key="">
