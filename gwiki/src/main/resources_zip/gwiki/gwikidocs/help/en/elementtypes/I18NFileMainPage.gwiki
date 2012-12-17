@@ -1,0 +1,24 @@
+{pageintro}
+I18N Files are properties files used for internationalization.
+{pageintro}
+
+h2. Description
+The I18N Files are standard Java properties files to provide translations to different languages.
+
+{note}
+You only need I18N Files for dynamic Pages, where labels and text should be automatically provided in the users language.
+{note}
+h2. Artefacts
+h3. Language Properties
+
+!gwikidocs/help/en/elementtypes/I18NFilePropertiesEditor.png!
+
+In the Language Properties Editor you have a tab for each language (en for Englisch, de for German).
+
+
+h3. Settings
+See   [gwikidocs/help/en/ElementSettings].
+
+h2. Rights
+You need the {{GWIKI_DEVELOPER}} to create/edit HTML pages.
+

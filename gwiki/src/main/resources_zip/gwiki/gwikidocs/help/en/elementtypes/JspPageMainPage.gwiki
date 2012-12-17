@@ -1,0 +1,20 @@
+{pageintro}
+A JSP Page is a dynamic web page.
+{pageintro}
+
+h2. Description
+{warn}
+To create or edit a Groovy MVC you need programming skills.
+{warn}
+
+h2. Artefacts
+h3. Default
+The editor is a simple Code Editor. 
+
+!gwikidocs/help/en/elementtypes/JspPageJspEditorScreenshot.png!
+
+h3. Settings
+See [gwikidocs/help/en/ElementSettings].
+
+h2. Rights
+You need the {{GWIKI_DEVELOPER}} to create/edit HTML pages.
