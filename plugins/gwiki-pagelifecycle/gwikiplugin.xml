@@ -12,7 +12,7 @@
 		<property name="category" value="CMS" />
 		<property name="requiredPlugins">
 			<list>
-				<value>gwiki.scheduler:1.0</value>
+				<value>gwiki.scheduler:1.0.0</value>
 			</list>
 		</property>
 		<property name="pluginLifecycleListener"
