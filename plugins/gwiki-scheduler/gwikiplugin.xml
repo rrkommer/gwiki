@@ -6,7 +6,8 @@
 		<property name="name" value="gwiki.scheduler" />
 		<property name="version" value="1.0.0" />
     <property name="versionState" value="Beta" />
-		<property name="description" value="Scheduler Plugin for GWiki" />
+		<property name="description" value="Persistant Scheduler implementation with adminstration masks" />
+    <property name="descriptionPath" value="pub/plugins/gwiki-scheduler/Index" />
 		<property name="category" value="Admin Tools" />
 		<property name="author" value="Roger Rene Kommer" />
 		<property name="license" value="Apache License, Version 2.0"/>
