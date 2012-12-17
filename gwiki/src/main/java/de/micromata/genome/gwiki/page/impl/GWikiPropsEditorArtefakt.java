@@ -69,12 +69,12 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
   public void prepareHeader(GWikiContext wikiContext)
   {
     wikiContext.getRequiredJs().add("/static/js/jquery.fieldset-collapsible.js");
-    
+
     if (wikiContext.getRequestAttribute("propseditartefakt_collrendered") != Boolean.TRUE) {
       wikiContext.getRequiredJs().add("/static/js/fieldset-collapsible-config.js");
       wikiContext.setRequestAttribute("propseditartefakt_collrendered", Boolean.TRUE);
     }
-    
+
     super.prepareHeader(wikiContext);
   }
 
@@ -109,6 +109,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         descriptors.addAll(mt.getAddPropsDescriptor().getDescriptors());
         GWikiPropsDescriptor np = new GWikiPropsDescriptor();
         np.setDescriptors(descriptors);
+        np.setGroups(propDescriptor.getGroups());
         this.propDescriptor = np;
       }
     }
@@ -422,7 +423,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
         // Html.td(Xml.code(nested)), //
         // Html.td(Xml.code(renderHelpLink(d, ctx))), //
         // Html.td(Xml.code(StringUtils.defaultString(ctx.getTranslatedProp(d.getDescription()))))));
-        //     
+        //
 
       }
       ctx.append("</div></fieldset>\n");
