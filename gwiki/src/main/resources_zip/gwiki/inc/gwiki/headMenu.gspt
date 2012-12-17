@@ -75,9 +75,9 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
             
 			<%if (wikiContext.wikiWeb.authorization.isAllowToCreate(wikiContext, wikiPage.elementInfo) == true) { %>
      			<li class="gwikiMenuIcon">
-     				<span>&nbsp;<a href="" title="<fmt:message key="gwiki.page.headmenu.page.NewPage"/>">
+     				<span>&nbsp;<a href="<gwiki:url value="/edit/EditPage?newPage=true&parentPageId=${wikiPage.elementInfo.id}"/>" title="<fmt:message key="gwiki.page.headmenu.page.NewPage"/>">
      					<img border="0" src="<gwiki:url value='/inc/gwiki/img/icons/paperplus32.png'/>"/>
-     						</a>&nbsp;
+              </a>&nbsp;
      				</span>
 				
 						<ul>
