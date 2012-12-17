@@ -3,7 +3,7 @@
    wikiContext.requiredJs.add("/static/gwiki/heartbeat.js");
 %>
 <% wikiContext.skinInclude('standardhead'); %>
-<@include file="inc/stdtags.gspt" @> 
+<@include file="inc/stdtags.gspt" @>
 <%@ page contentType="text/html;charset=UTF-8" language="java"
   pageEncoding="UTF-8"%>
 
@@ -15,7 +15,6 @@ var gwikiParts = new Array();
 gwikiParts.push('<%= me.key %>');
 <% } %>
 gwikiCurrentPart = gwikiParts[0];
-
 
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 var gwikiRteDefault = <c:out value="${form.rteDefaultEditor}"/>;
@@ -46,6 +45,13 @@ function onSave(event)
   }
   \$("#editForm").submit();
 }
+function onReloadTemplates(event)
+{
+	gwikiContentChanged=false;
+	\$("#formmn").attr("name", "method_onReloadTemplateList");
+  \$("#editForm").submit();
+}
+
 </script>
 
 <gwiki:errors />
@@ -67,19 +73,24 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 </script>
 </c:if>
 <% %>
-<form id="editForm" method="POST" enctype="multipart/form-data">
+<form id="editForm" name="editForm" method="POST" enctype="multipart/form-data">
 <gwiki:hidden property="pageId" /> 
 <input id="formmn" type="hidden" name="m" value="" /> 
 <gwiki:hidden property="parentPageId" />
 <script type="text/javascript">gwikiContentChanged=false;</script> <% if (form.chooseMetaTemplate == true) { %>
-<p><gwiki:select property="metaTemplatePageId">
+<p><gwiki:select property="metaTemplatePageId" onchange="onReloadTemplates(event);">
   <gwiki:optionsCollection property="availableMetaTemplates" label="key"
     value="value" />
 </gwiki:select></p>
+
 <input class="gwikiButton main" type="submit" name="method_onInit"
   value="<fmt:message key="gwiki.edit.EditPage.button.create"/>" /> <input
   class="gwikiButton reset" type="submit" name="method_onCancel"
-  value="<fmt:message key="gwiki.edit.button.cancel"/>" /> <% } else if (form.initalBackup == true) { %>
+  value="<fmt:message key="gwiki.edit.button.cancel"/>" />
+  <hr/>
+<%
+  form.renderSelectedMetatemplateHelp();
+} else if (form.initalBackup == true) { %>
 <script type="text/javascript">
 function viewBackupDiff()
 {
