@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
-		<property name="apiVersion" value="1.0.0" />
-		<property name="name" value="gwiki.keywordssmarttags" />
-		<property name="version" value="1.0.0" />
+  <bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+    <property name="apiVersion" value="1.0.0" />
+    <property name="name" value="gwiki.keywordssmarttags" />
+    <property name="version" value="1.0.0" />
     <property name="versionState" value="Final" />
-    <property name="author" value="Roger Kommer"/>
-    <property name="license" value="Apache License, Version 2.0"/> 
-		<property name="category" value="Wiki Extension"/>
-		<property name="description"
-			value="Create Smartlinks of Keywords between pages in same GWIKI Space." />
-		<property name="filter">
-			<list>
-				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-					<property name="className"
-						value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiKeywordLoadElementInfosFilter" />
-				</bean>
-				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-					<property name="className"
-						value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiWikiPageRenderKeywordLinkFilter" />
-				</bean>
-				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
-					<property name="className"
-						value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiKeywordPageChangedFilter" />
-				</bean>
-			</list>
-		</property>
-	</bean>
+    <property name="author" value="Roger Kommer" />
+    <property name="license" value="Apache License, Version 2.0" />
+    <property name="category" value="Wiki Extension" />
+    <property name="description" value="Create Smartlinks of Keywords between pages in same GWIKI Space." />
+    <property name="descriptionPath" value="pub/plugins/gwiki-keywordsmarttags/Index" />
+    <property name="filter">
+      <list>
+        <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+          <property name="className"
+            value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiKeywordLoadElementInfosFilter" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+          <property name="className"
+            value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiWikiPageRenderKeywordLinkFilter" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+          <property name="className" value="de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0.GWikiKeywordPageChangedFilter" />
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>
