@@ -1,0 +1,172 @@
+{pageintro}
+Nearly every aspect of GWiki can be extended by dynamic loaded Plugins.
+{pageintro}
+
+h1. Introduction
+A GWiki Plugin is a zip archive containing a Plugin descriptor {{gwikiplugin.xml}}, Java Classes, Libraries and GWiki Content mounted into the GWiki file hierarchie. 
+It can be uploaded to a GWiki instance and than activated (and deactivated) without restart the GWiki server.
+
+There are several types of GWiki Plugins:
+
+- GWiki Skins, Which is just a collection of GWiki Files (.gspt, .css, .js, bitmaps, etc.) mounted into GWiki file system.
+- Text extractors: Which supports extracting raw text for full text indexing and preview for documents.
+- Additionally/modified dynamic Pages, wich extends the functionality of GWiki. 
+- Serve Filter, which hooks into the the Request/Response cyclus.
+- Virtual File Systems, which provides additionally Storage implementations for Filesystems, like Databases, SVN, etc.
+- Wiki macros.
+- Wiki Syntax extentions.
+- jar Library, needed as dependency of another plugin 
+- etc.pp.
+
+h1. Layout of a GWikiPlugin
+h2. Directories of a GWiki Plugin zip file
+Inside a GWiki Plugin (f.e. {{myplugin.zip}}) there is following layout:
+- {{gwikiplugin.xml}} The plugin descriptor. This file must exists.
+- {{content/gwiki}}: The files located under this directory will be mounted to the GWiki file system.
+- {{classes}}: This contains the compiled Java classes, which will be added to the GWiki class path.
+- {{lib}}: This contains Java {{.jar}} Libraries, which will be added to the GWiki class path.
+
+h2. The Plugin Descriptor gwikiplugin.xml
+The GWikiPlugin.xml is a Spring Context XML file.
+
+h3. Common Entries:
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+		<property name="apiVersion" value="1.0.0" />
+		<property name="name" value="gwiki.s5slideshow" />
+		<property name="version" value="1.0.0" />
+                <property name="versionState" value="Final" />
+		<property name="description" value="Plugin to create a slide show in GWiki" />
+	        <property name="descriptionPath" value="pub/plugins/gwiki-s5slideshow/GWiki_S5_Slideshows"/>
+		<property name="author" value="Roger Kommer"/>
+		<property name="license" value="Apache License, Version 2.0"/>
+		<property name="category" value="Wiki Extension"/>
+	</bean>
+</beans>
+{code}
+- apiVersion: The API version of GWiki itself. Use 1.0.0 here.
+- name: Name of the plugin. 
+- version: Version of the plugin
+- versionState: Development state of this plugin. Use one of:
+-- Final: Well tested and production quality
+-- Beta: Tested, but maybe not production quality
+-- Alpha: Not very well tested, probably has bugs
+-- Experimental: Work in progress. Has bugs and is not completed
+- description: Short description about the plugin
+- descriptionPath: (optional) PageId of a description, which is deployed on the official GWiki web site.
+- author: The author of the plugin
+- license: The licence of this Plugin.
+- category: Following are already used:
+-- Library: Just a wrapped java library.
+-- CMS: Content Managment System extension
+-- Social Network: Web 2.0 extension
+-- Samples: Code samples, with no productive purpose
+-- Admin Tools: Extension for administration purposes
+-- System: Internal GWiki extensions
+-- Import/Export: Import or Export Featues
+-- Wiki Extension: Extension of the Wiki language
+-- Full Text Search Text Extractor: Text extractor for document attachments
+-- Styles and Layouts: GWiki Skins
+
+h3. Dependencies
+A gwiki plugin can provide own libraries in the lib path. But in case a common third party library is used, it should be installed as own plugin, so other plugins also can make use of it
+{code}
+               <property name="requiredPlugins">
+			<list>
+				<value>org.apache.poi:3.2.0</value>
+                                <!-- other lib <value>sample:1.0</value> -->
+			</list>
+		</property>
+{code}
+In the {{<list>}} multiple plugins can be referenced.
+The notation of a plugin reference is {{plugin_name:pluginversion}}.
+
+h3. Extensions
+h4. Macros
+
+With macros properties a map of Java classes inside the plugin can be registered as macro with the given name.
+
+{code}
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+              <!-- ... common properties -->
+            <property name="macros">
+			<map>
+				<entry key="slideshow"
+					value="de.micromata.genome.gwiki.plugin.s5slideshow_1_0.GWikiSlideShowMacro" />
+			</map>
+		</property>
+{code}
+
+The macro class must implement the {{de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro}} interface.
+
+h4. Filter
+With the filter property filters can be installed.
+{code}
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+              <!-- ... common properties -->
+            <property name="filter">
+			<list>
+				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
+					<property name="className"
+						value="de.micromata.genome.gwiki.plugin.rssfeed_1_0.filter.RssFeedFilter" />
+				</bean>
+			</list>
+		</property>
+{code}
+
+The filter class has to implement one - or more - of the derived interfaces of {{de.micromata.genome.gwiki.model.filter.GWikiFilter<R, E, F>}}.
+The type of the filter deceides which functionality will be filtered. F.e. if the class implements the {{GWikiServeElementFilter}}, all http requests
+to an GWiki element will be passed through this filter.
+See Javadoc for {{de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor}} for more information.
+
+h4. Text extractor
+
+Text extractors are registered to file endings:
+{code}
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+              <!-- ... common properties -->
+            <property name="textExtractors">
+			<map>
+				<entry key=".doc"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.WordTextExtractor" />
+				<entry key=".xls"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.ExcelTextExtractor" />
+					<entry key=".ppt"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.PowerPointTextExtractor" />
+			</map>
+		</property>
+{code}
+
+Text extractors has to implement the {{de.micromata.genome.gwiki.page.attachments.TextExtractor}} interface.
+
+h4. Plugin Lifecycle Listener
+A plugin lifecycle Lister will be called on various load/activate/deactivate events.
+
+{code}
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+              <!-- ... common properties -->
+            <property name="pluginLifecycleListener" value="de.micromata.genome.gwiki.admintools_1_0.logviewer.AdminToolsPluginLifecycleListener"/>
+{code}
+The class has to implement the {{de.micromata.genome.gwiki.plugin.GWikiAbstractPluginLifecycleListener}} class. Please refer to JavaDoc for more information.
+
+h4. primaryFsReadMatcherRule
+In case of shadowing existant files in the GWiki filesystem, a Matcher rule can be declared, for pageId pathes to direct to the plugin.
+
+{code}
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+              <!-- ... common properties -->
+            <property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
+{code}
