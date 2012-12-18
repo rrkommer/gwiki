@@ -8,7 +8,7 @@ This chapter will be revised, if GWiki is also available via public SNV.
 {todo}
 
 h2. Requirements
-- JDK 1.5 or higher
+- JDK 1.6 or higher
 - Ecplipse (recomended)
 - SVN
 - Maven 2
