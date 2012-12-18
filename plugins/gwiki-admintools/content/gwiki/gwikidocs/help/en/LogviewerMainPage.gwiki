@@ -1,8 +1,0 @@
-{pageintro}
-Plugin for search and view log messages
-{pageintro}
-
-The Logviewer is a plugin, wich show errors, infos, bugs, notes, warns.
- In the first cloumn you can press on the "i" or on the "\!". The "i" shows you the params. The "\!" shows you the stacktrace.
-You can define the search result with a date or a param key, value, message anf log level.
-
