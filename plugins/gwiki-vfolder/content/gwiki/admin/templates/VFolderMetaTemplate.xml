@@ -6,6 +6,8 @@
     <property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<!--  1 Week -->
     <property name="elementLifeTime" value="604800000" />
+    <property name="editHelpPageId" value="pub/plugins/gwiki-vfolder/Virtual_FS-Folder_Help" />
+    
     <property name="parts">
       <map>
         <entry key="Controler">
