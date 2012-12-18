@@ -13,6 +13,7 @@
 		</property>
 		<property name="description"
 			value="Plugin for MS Office documents full text search text extraction" />
+      <property name="descriptionPath" value="pub/plugins/gwiki-msotextextractor/Index"/>
 		<property name="author" value="Roger Kommer"/>
 		<property name="license" value="Apache License, Version 2.0"/>
 		<property name="category" value="Full Text Search Text Extractor"/>
