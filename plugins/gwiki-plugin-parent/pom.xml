@@ -26,6 +26,7 @@
                 <delete failonerror="false" file="target/${pom.artifactId}-${project.version}.zip" />
                 <zip zipfile="target/${pom.artifactId}-${project.version}.zip">
                   <fileset dir="target" includes="classes/**" />
+                  <fileset dir="" includes="lib/**" />
                   <fileset dir="" includes="content/**" />
                   <fileset dir="" includes="gwikiplugin.xml" />
                 </zip>
