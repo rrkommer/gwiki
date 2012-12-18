@@ -1,0 +1,8 @@
+{pageintro}
+A scheduler can run jobs on regular basis.
+{pageintro}
+
+h2. Description
+A scheduler can run Jobs - like sending Emails, checking state of GWiki, external sources, etc. - on regular basis. To make it easy to maintain these Jobs masks are provided for Admin users.
+
+h2. Screenshots
