@@ -11,3 +11,7 @@ Create a table of content of the current page, using the \h1. to\h5. headings.
 {td}{tr}{table}
 
 Java class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTocMacro}}.
+
+{info}
+If you want to have a listening of the children pages use the [gwikidocs/macros/en/Macrochildren] Macro.
+{info}

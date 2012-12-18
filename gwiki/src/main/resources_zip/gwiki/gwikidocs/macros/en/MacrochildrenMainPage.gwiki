@@ -19,3 +19,10 @@ Create a table of content with the children pages.
 {td}{tr}{table}
 
 Java Class: {{de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro}}.
+
+{info}
+If you want to have a dynamic tree of the children pages, use [gwikidocs/macros/en/Macro_pagetree].
+{info}
+{info}
+If you want to have a table of content of the heading chapters of this pages, use [gwikidocs/macros/en/Macrotoc].
+{info}
