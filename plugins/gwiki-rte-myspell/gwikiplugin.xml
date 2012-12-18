@@ -4,11 +4,8 @@
 	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.rte.myspell" />
-    <property name="versionState" value="Experimentel" />
-		<property name="requiredPlugins">
-			<list>
-			</list>
-		</property>
+    <property name="versionState" value="Final" />
+    <property name="descriptionPath" value="pub/plugins/gwiki-rte-myspell/Index"/>
 		<property name="version" value="1.0.0" />
 		<property name="description"	value="Spell Checker for Rich Text Editor" />
 		<property name="author" value="Roger Kommer" />
