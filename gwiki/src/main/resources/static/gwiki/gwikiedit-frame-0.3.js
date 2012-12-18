@@ -67,7 +67,7 @@ function gwikiCreateTiny(partName, content) {
 				theme_advanced_buttons1 : "advancedButton,|,wikisaveaction,wikicancelaction,fullscreen,|,bold,italic,underline,|,bullist,numlist,|,wikichoosenlink,link,unlink,|,undo,redo,|,cut,copy,paste,|,iespell,spellchecker,help",
 		        theme_advanced_buttons2 : "expertButton,|,pastetext,pasteword,|,search,replace,|,wikiimage,anchor,|,outdent,indent,|,hr,visualchars,|,sub,sup,",
 		        theme_advanced_buttons3 : "cleanup,code,del,|,attribs,styleprops,formatselect,fontselect,fontsizeselect,|,forecolor,backcolor,|,blockquote,justifyleft,justifycenter,justifyright,justifyfull,nonbreaking,|,removeformat,charmap",
-				spellchecker_rpc_url    : "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
+				spellchecker_rpc_url    : gwikiHomeUrl + "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
 				// theme_advanced_buttons4 : "",
 				// //spellchecker,cite,abbr,acronym,del,ins,attribs,
 				// ,nonbreaking,template,blockquote,pagebreak,,insertfile,insertimage

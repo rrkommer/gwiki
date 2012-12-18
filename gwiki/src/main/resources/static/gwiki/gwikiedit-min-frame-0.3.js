@@ -11,6 +11,7 @@ function gwikiSetEditorContentChanged() {
 }
 
 function gwikiCreateTiny(partName, content) {
+	alert('gwikiHomeUrl: ' + gwikiHomeUrl);
 	tinyMCE.init({
 		theme : "advanced",
         mode : "exact",
@@ -23,7 +24,7 @@ function gwikiCreateTiny(partName, content) {
 		theme_advanced_toolbar_align : "left",
 		theme_advanced_resizing : true,
 		theme_advanced_blockformats : "p,div,h1,h2,h3,h4,h5,h6,pre,code,blockquote",
-		spellchecker_rpc_url : "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
+		spellchecker_rpc_url :  gwikiHomeUrl + "/edit/spellchecker/ScRteCheckerAjax", //spellcheck url for jazzy use /spellchecker/jazzy-spellchecker
 		paste_auto_cleanup_on_paste : true,
 		paste_remove_styles: true,
         paste_remove_styles_if_webkit: true,
