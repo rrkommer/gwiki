@@ -9,6 +9,7 @@
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/WikiProg" />
 		<property name="parts">
 			<map>
 				<entry key="Controler">
@@ -21,5 +22,25 @@
 				</entry>
 			</map>
 		</property>
+     <property name="addPropsDescriptor">
+      <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
+        <property name="descriptors">
+          <list>
+            <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+              <property name="requiresValue" value="true"/>
+              <property name="key" value="WIKICONTROLERCLASS" />
+              <property name="group" value="ELTYPE" />
+              <property name="label" value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
+          <!--
+            <property name="description"
+            value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
+          -->
+              <property name="helpLink" value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
+              <property name="readOnly" value="false" />
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
 	</bean>
 </beans>

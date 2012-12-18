@@ -359,22 +359,20 @@ def onRender(pct)
 					<property name="readOnly" value="true" />
 					<property name="type" value="STRING" />
 				</bean>
+        <!--  
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKICONTROLERCLASS" />
 					<property name="group" value="ELTYPE"/>
 					<property name="label"
 						value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
-					-->
 					<property name="helpLink"
 						value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
 					<property name="readOnly" value="false" />
 					<property name="requiredMetaTemplateId"
 						value="admin/templates/FullFeaturedMetaTemplate,admin/templates/StdProgMetaTemplate,StdProgMetaTemplate" />
 				</bean>
+         -->
 				<bean
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="WIKISPACE" />
