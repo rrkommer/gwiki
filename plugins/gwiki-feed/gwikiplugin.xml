@@ -7,8 +7,9 @@
 		<property name="version" value="1.0.0" />
     <property name="versionState" value="Experimental" />
 		<property name="description" value="RSS/Atom Feed for GWiki" />
-		<property name="author" value="Ingo Joseph" />
-		<property name="logoPath" value="/inc/img/rss-button.png" />
+		<property name="author" value="Ingo Joseph, Roger Kommer" />
+		<property name="logoPath" value="/pub/plugins/gwiki-feed/rss-button.png" />
+    <property name="descriptionPath" value="pub/plugins/gwiki-feed/Index"/>
 		<property name="category" value="Social Network" />
 		<property name="license" value="Apache License, Version 2.0"/> 
 		<property name="filter">

@@ -79,7 +79,9 @@ public class RssFeedFilter implements GWikiServeElementFilter
     GWikiContext wikiContext = event.getWikiContext();
     // RequestParameter
     String feed = wikiContext.getRequestParameter("feed");
-
+    if (feed == null || ("rss".equals(feed) == false && "atom".equals(feed) == false)) {
+      return chain.nextFilter(event);
+    }
     // render holen
     boolean renderChilds = true;
     String renderChildsParam = wikiContext.getRequestParameter("renderChilds");
@@ -90,15 +92,6 @@ public class RssFeedFilter implements GWikiServeElementFilter
       renderChilds = false;
     }
     // gucken ob true -> renderChilds=true
-
-    // nullcheck wenn null nächster filter
-    if (feed == null) {
-      return chain.nextFilter(event);
-    }
-
-    if ("rss".equals(feed) == false && "atom".equals(feed) == false) {
-      return chain.nextFilter(event);
-    }
 
     GWikiArtefakt< ? > artefakt = event.getElement().getPart("MainPage");
     GWikiElementInfo elementInfo = event.getElement().getElementInfo();
@@ -239,12 +232,12 @@ public class RssFeedFilter implements GWikiServeElementFilter
     // String title="";
     // String author = "";
     // if (el != null) {
-    //      
+    //
     // }
     XmlElement rss = rss("2.0").nest(channel(( //
         title(Xml.text(title))),//
         (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL()))),//
-        (description(Xml.text("Hier siehst du Feeds von GWiki!"))),// TODO
+        (description(Xml.text("Feed delivered by GWiki!"))),// TODO
         (copyright(Xml.text(""))),// TODO
         (language(Xml.text("de-de"))),// TODO
         (pubData(Xml.text(modDate)))),//
@@ -278,7 +271,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
         String createDate = formatDate(child.getCreatedAt());
         XmlNode c = item(//
             title(Xml.text(child.getTitle())), //
-            (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + child.getId()))),//
+            (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + "/" + child.getId()))),//
             (pubData(Xml.text(createDate))),//
             (description(Xml.text(summary))), //
             (author(Xml.text(child.getCreatedBy()))));
