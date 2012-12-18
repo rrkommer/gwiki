@@ -1,0 +1,15 @@
+{pageintro}
+GWiki Scheduler for persitant regular jobs.
+{pageintro}
+
+
+h2. Introduction
+The GWiki Scheduler can start on regular basis Jobs for examle to send Emails, check state of GWiki, running cleanup Tasks etc. The Plugin provides web based interface to create, view and control Jobs.
+
+h2. Screenshots
+
+Creating a Job
+!pub/plugins/gwiki-scheduler/SchedulerCreateJobMask.png!
+
+List of peristant Jobs to view state, start, stop, copy or delete.
+!pub/plugins/gwiki-scheduler/SchedulerJobListMask.png!
