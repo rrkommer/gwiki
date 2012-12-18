@@ -211,7 +211,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
               + "&metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"),
           text(wikiContext.getTranslated("gwiki.page.edit.PageInfo.attachment.link.title")));
     }
-    String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(wikiContext.localUrl("edit/pageInfo") + "?pageId=" + elementInfo.getId());
+    String backUrlParam = "backUrl=" + WebUtils.encodeUrlParam(wikiContext.localUrl("edit/PageInfo") + "?pageId=" + elementInfo.getId());
     boolean isEditable = GWikiWeb.getWiki().getAuthorization().isAllowToEdit(wikiContext, elementInfo);
     XmlElement ta = getStandardTable();
     ta.nest(//
@@ -456,13 +456,13 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.selecttwoversionsforcompare");
       return null;
     }
-    String rd = "/edit/ComparePages"
+    String rd = wikiContext.localUrl("/edit/ComparePages")
         + "?leftPageId="
         + WebUtils.encodeUrlParam(compareVersions[0])
         + "&rightPageId="
         + WebUtils.encodeUrlParam(compareVersions[1])
         + "&backUrl="
-        + WebUtils.encodeUrlParam(wikiContext.localUrl("/edit/PageInfo&pageId=") + this.pageId);
+        + WebUtils.encodeUrlParam(wikiContext.localUrl("/edit/PageInfo?pageId=") + this.pageId);
     return rd;
   }
 

@@ -81,6 +81,9 @@ public class ActionBeanBase implements ActionBean
    */
   protected final String esc(String text)
   {
+    if (text == null) {
+      return "";
+    }
     return StringEscapeUtils.escapeHtml(text);
   }
 
