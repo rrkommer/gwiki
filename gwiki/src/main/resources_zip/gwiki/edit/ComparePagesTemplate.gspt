@@ -8,10 +8,15 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
 
 <gwiki:errors />
+<c:if test="${form.backUrl != null}">
+ <a href="<c:out value="${form.backUrl}" escapeXml="false"/>"> <fmt:message key="gwiki.page.edit.PageInfo.link.back"/></a>  
+</c:if>
+<p>
+</p>
 
 <form method="post">
 <gwiki:checkbox property="fullDiff"/> <fmt:message key="gwiki.page.edit.ComparePages.label.completeCompare"/><br/>
-<input type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ComparePages.button.compare"/>"/>
+<input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ComparePages.button.compare"/>"/>
 </form>
 <% wikiContext.getRequestAttribute("form").doRenderDiffSets(); %>
 
