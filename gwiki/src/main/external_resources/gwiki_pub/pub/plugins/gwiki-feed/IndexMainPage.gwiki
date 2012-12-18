@@ -1,0 +1,9 @@
+{pageintro}
+A Filter, which delivers a Wiki Page with its Children as RSS or Atom feed.
+{pageintro}
+
+You have only to add {{?feed=atom}} or  {{?feed=rss}} to the Wiki-URL to deliver the page and its direct children as Feed. 
+
+!pub/plugins/gwiki-feed/FeedIEScreenshot.png!
+
+

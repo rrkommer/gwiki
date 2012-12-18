@@ -1,0 +1,21 @@
+{pageintro}
+Various Tools for GWiki administration.
+{pageintro}
+
+This plugin extends the Admin menu.
+
+h1. Log Viewer
+The Logviewer is a plugin, wich show errors, infos, bugs, notes, warns.
+ In the first cloumn you can press on the "i" or on the "\!". The "i" shows you the params. The "\!" shows you the stacktrace.
+You can define the search result with a date or a param key, value, message anf log level.
+
+!pub/plugins/gwiki-admintools/LogViewerScreen.png!
+
+h2. AtStats
+
+A simple Table to view Hitcounter of the Wiki.
+
+!pub/plugins/gwiki-admintools/AtStatsMask.png!
+
+h2. PmProfiler
+Is a very raw online Profiling tool.
