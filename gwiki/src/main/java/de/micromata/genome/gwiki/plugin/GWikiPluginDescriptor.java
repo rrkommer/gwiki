@@ -101,11 +101,6 @@ public class GWikiPluginDescriptor implements InitializingBean
   private List<GWikiPluginFilterDescriptor> filter = new ArrayList<GWikiPluginFilterDescriptor>();
 
   /**
-   * registered element types.
-   */
-  private Map<String, String> elementTypes = new HashMap<String, String>();
-
-  /**
    * text extractor classes. Key -> extension. Value class name implementing the de.micromata.genome.gwiki.page.attachments.TextExtractor
    * interface
    */
@@ -212,16 +207,6 @@ public class GWikiPluginDescriptor implements InitializingBean
   public void setMacros(Map<String, String> macros)
   {
     this.macros = macros;
-  }
-
-  public Map<String, String> getElementTypes()
-  {
-    return elementTypes;
-  }
-
-  public void setElementTypes(Map<String, String> elementTypes)
-  {
-    this.elementTypes = elementTypes;
   }
 
   public List<String> getTemplates()
