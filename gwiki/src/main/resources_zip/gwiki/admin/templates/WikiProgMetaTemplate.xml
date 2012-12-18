@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="config"
-		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
-		singleton="false">
-		<property name="elementType" value="gwiki" />
-		<property name="cachable" value="false"/>
-		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+  <bean id="config" class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate" singleton="false">
+    <property name="elementType" value="gwiki" />
+    <property name="cachable" value="false" />
+    <property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<!--  1 Week -->
-		<property name="elementLifeTime" value="604800000" />
-		<property name="parts">
-			<map>
-				<entry key="Controler">
-					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
-						<property name="forward">
-							<bean
-								class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt">
-								<property name="parts">
-									<map>
-										<entry key="MainPage">
-											<bean
-												class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
-										</entry>
-									</map>
-								</property>
-							</bean>
-						</property>
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
+    <property name="elementLifeTime" value="604800000" />
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/WikiProg" />
+    <property name="parts">
+      <map>
+        <entry key="Controler">
+          <bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+            <property name="forward">
+              <bean class="de.micromata.genome.gwiki.page.impl.GWikiJspTemplateArtefakt">
+                <property name="parts">
+                  <map>
+                    <entry key="MainPage">
+                      <bean class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+                    </entry>
+                  </map>
+                </property>
+              </bean>
+            </property>
+          </bean>
+        </entry>
+      </map>
+    </property>
+    <property name="addPropsDescriptor">
+      <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
+        <property name="descriptors">
+          <list>
+            <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+              <property name="requiresValue" value="true"/>
+              <property name="key" value="WIKICONTROLERCLASS" />
+              <property name="group" value="ELTYPE" />
+              <property name="label" value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
+          <!--
+            <property name="description"
+            value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
+          -->
+              <property name="helpLink" value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
+              <property name="readOnly" value="false" />
+            </bean>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
 </beans>

@@ -8,6 +8,7 @@
 		<property name="cachable" value="false"/>
 		<property name="viewable" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+    <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/JspPage"/>
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
