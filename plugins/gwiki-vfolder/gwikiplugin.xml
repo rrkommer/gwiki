@@ -5,7 +5,7 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.vfolder" />
 		<property name="version" value="1.0.0" />
-    <property name="versionState" value="Alpha" />
+    <property name="versionState" value="Beta" />
 		<property name="description" value="Mount external folders into gwiki structure" />
     <property name="descriptionPath" value="pub/plugins/gwiki-vfolder/Index" />
 		<property name="author" value="Roger Kommer" />
