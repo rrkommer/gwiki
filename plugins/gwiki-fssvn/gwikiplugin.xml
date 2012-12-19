@@ -5,8 +5,10 @@
 		<property name="apiVersion" value="1.0.0" />
 		<property name="name" value="gwiki.fssvn" />
 		<property name="version" value="1.0.0" />
-    <property name="versionState" value="Alpha" />
+    <property name="versionState" value="Beta" />
 		<property name="description" value="WebDAV/SVN Virtual File System. This plugin uses the Sardine WebDAV-Client" />
+    <property name="descriptionPath" value="pub/plugins/gwiki-fssvn/Index"/>
+    
 		<property name="author" value="Roger Rene Kommer and http://code.google.com/p/sardine" />
 		<property name="license" value="Apache License 2.0"/>
 		<property name="category" value="System" />
