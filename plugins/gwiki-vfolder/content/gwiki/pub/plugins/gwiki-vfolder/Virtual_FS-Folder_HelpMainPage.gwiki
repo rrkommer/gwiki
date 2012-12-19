@@ -6,7 +6,8 @@ h2. Description
 Mount external file system into a GWiki as a children elements. This can be HTML files, or any other files.
 
 After mounting the file system GWiki full text indexing can be used to include the files and documents into
-the search engine.
+the search engine. 
+With the [pub/plugins/gwiki-fssvn/Index] Plugin it is also possible to mount directly a SVN via HTTP(S) without checking it out to a local directory.
 
 h2. Usage
 Because searching all directories and files of a mounted directory on file system may take quite long - because a lot of files has to be scanned or the file system is remote - the scanning process is seperated to the mounting process.

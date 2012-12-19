@@ -437,7 +437,7 @@ public class GWikiVFolderUtils
       String t = TextExtractorUtils.getTextExtract(wikiContext, vfileEl.getElementInfo().getId(), new ByteArrayInputStream(data));
       sb.append(t);
     } catch (Throwable ex) {
-      GWikiLog.note("Failure extracting text: " + ex.getMessage(), ex);
+      GWikiLog.note("Failure extracting text: " + ex.getMessage());
     }
   }
 }
