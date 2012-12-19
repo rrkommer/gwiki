@@ -8,6 +8,7 @@ Different to traditional web server - like Apache - GWiki normally only knowns f
 
 With this plugin also non GWiki directories can be mounted to GWiki and make them availabe for browsing and full text search.
 
+
 h2. Usage
 After activating the plugin, the You can create a "Virtual FS-Folder" Element on given Wiki Page.
 

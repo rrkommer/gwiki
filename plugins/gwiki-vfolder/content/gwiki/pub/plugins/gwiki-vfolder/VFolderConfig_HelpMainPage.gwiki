@@ -36,3 +36,5 @@ This is a real Example:
 	</bean>
 </beans>
 {code}
+
+To mount a remote SVN URL as virtual folder, see example at  [pub/plugins/gwiki-fssvn/Index].
