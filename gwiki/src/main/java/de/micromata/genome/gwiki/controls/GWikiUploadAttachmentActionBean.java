@@ -174,9 +174,11 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
           FileSystem fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
           FsDirectoryObject tmpDir = fs.createTempDir("appletupload", 1000 * 60 * 30);
           String nf = FileSystemUtils.mergeDirNames(tmpDir.getName(), pageId);
+
+          FileSystem fswrite = fs.getFsForWrite(nf);
           String pdirs = FileNameUtils.getParentDir(nf);
-          fs.mkdirs(pdirs);
-          fs.writeBinaryFile(nf, data, true);
+          fswrite.mkdirs(pdirs);
+          fswrite.writeBinaryFile(nf, data, true);
           sendResponse(toMap("rc", "0", "tmpFileName", nf));
         } else {
           if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
