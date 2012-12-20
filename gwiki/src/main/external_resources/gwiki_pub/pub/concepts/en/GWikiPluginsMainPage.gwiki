@@ -2,6 +2,10 @@
 For more modulare concept GWiki Plugin package format will be introduced.
 {pageintro}
 
+{note}
+GWiki Plugins are available since 0.9.0. See [gwikidocs/howtos/en/Develop_a_GWiki_Plugin].
+{note}
+
 h2. Current situation
 GWiki has already an open architecture. Nearly all aspects can be extended.
 
