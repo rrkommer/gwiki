@@ -10,6 +10,7 @@
 		<property name="copyFromPageId" value="admin/templates/scaff/FullFeaturedScaff"/>
 		<property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/GroovyMVC"/>
     <property name="elementLifeTime" value="-1" /> 
+    <property name="contentType" value="text/html"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
@@ -37,25 +38,5 @@
 				</entry>
 			</map>
 		</property>
-     <property name="addPropsDescriptor">
-      <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
-        <property name="descriptors">
-          <list>
-            <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-              <property name="requiresValue" value="true"/>
-              <property name="key" value="WIKICONTROLERCLASS" />
-              <property name="group" value="ELTYPE" />
-              <property name="label" value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
-          <!--
-            <property name="description"
-            value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
-          -->
-              <property name="helpLink" value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
-              <property name="readOnly" value="false" />
-            </bean>
-          </list>
-        </property>
-      </bean>
-    </property>
 	</bean>
 </beans>
