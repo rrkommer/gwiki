@@ -8,7 +8,7 @@ So a skin is not only a collections of CSS, images and a layout definition but a
 
 h2. Choose Skin
 A skin can be choosen at different locations:
-- [GWiki Global Configuration|gwikidocs/help/en/GWikiConfig]: Select available skins and default skin
+- [GWiki Global Configuration|gwikidocs/help/en/admin/GWikiConfig]: Select available skins and default skin
 - [User Profile Settings|gwikidocs/help/en/Profile]
 - Page: Set a Skin for the current page and al its children.
 

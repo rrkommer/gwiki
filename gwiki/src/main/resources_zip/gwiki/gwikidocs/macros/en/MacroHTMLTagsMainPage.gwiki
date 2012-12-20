@@ -18,7 +18,7 @@ The usage of this macro needs the {{GWIKI_EDITHTML}} right.
 
 h2. Register macros
 Either use the [gwikidocs/macros/en/Macrousemacro] to introduce the corresponding
-macro with an alias of the html macro or register the macro in [Wikis global config|gwikidocs/help/en/GWikiConfig].
+macro with an alias of the html macro or register the macro in [Wikis global config|gwikidocs/help/en/admin/GWikiConfig].
 
 Sample:
 {code}
