@@ -32,7 +32,7 @@ class WikiControlActionBean extends ActionBeanBase
   public Object onReloadPage()
   {  
      if (pageId == null)    {
-      wikiContext.addSimpleValidationError("keine PageID gesetzt");
+      wikiContext.addSimpleValidationError("no PageID set");
       return null;
      }
     wikiContext.getWikiWeb().reloadPage(pageId);
