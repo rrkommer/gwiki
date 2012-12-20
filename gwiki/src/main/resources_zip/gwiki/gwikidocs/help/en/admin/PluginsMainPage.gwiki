@@ -1,0 +1,34 @@
+{pageintro}
+With GWiki Plugins GWiki can be extended.
+
+{pageintro}
+
+h2.Concept
+
+Please refer to [pub/concepts/en/GWikiPlugins].
+
+h2.Introduction
+
+GWiki can be extended with Plugins. Plugins may contain
+
+* Templates
+* Macros
+* Skins
+* Edit functions
+* Export or import modules
+* ...
+
+
+h2.Administrators View
+Plugin can be installed inside GWiki simply by upload the Plugin ZIP file as Attachment to the [admin/plugins/Index] page.
+
+To activate or deactivate the Plugin use the [admin/PluginAdmin].
+
+{note}
+Every time a plugin will be activated or deactivated the complete GWiki will be reloaded. This may take a view seconds.
+{note}
+
+
+
+h2.Developers View
+{todo}Document Plugins. {todo}

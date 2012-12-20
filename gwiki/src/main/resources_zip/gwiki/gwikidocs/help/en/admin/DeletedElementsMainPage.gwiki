@@ -1,0 +1,8 @@
+{pageintro}
+Find and restore deleted elements.
+{pageintro}
+
+This page is only available for administration users.
+
+Find all deleted elements. 
+You can filter the result by pageId name. Only part of the name of pageId has to be provided.
