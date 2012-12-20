@@ -7,6 +7,7 @@
     <property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<!--  1 Week -->
     <property name="elementLifeTime" value="604800000" />
+    <property name="contentType" value="text/html"/>
     <property name="editHelpPageId" value="gwikidocs/help/en/elementtypes/WikiProg" />
     <property name="parts">
       <map>

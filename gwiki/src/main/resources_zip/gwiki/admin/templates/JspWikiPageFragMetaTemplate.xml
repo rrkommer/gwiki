@@ -8,6 +8,7 @@
 		<property name="viewable" value="false"/>
 		<property name="noSearchIndex" value="true"/>
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER"/>
+    <property name="contentType" value="text/html"/>
 		<!--  1 Week -->
 		<property name="elementLifeTime" value="604800000" />
 		<property name="parts">
