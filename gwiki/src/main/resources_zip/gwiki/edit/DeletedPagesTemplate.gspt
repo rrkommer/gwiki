@@ -23,10 +23,10 @@ function viewDelPage(pageId)
 </script>
 
 <c:when test="${form.list}">
-	<p>
-		<fmt:message key='gwiki.page.edit.DeletedPages.text.line1' />
-		<br />
-		<fmt:message key='gwiki.page.edit.DeletedPages.text.line2' />
+  <p>
+    <fmt:message key='gwiki.page.edit.DeletedPages.text.line1' />
+    <br />
+    <fmt:message key='gwiki.page.edit.DeletedPages.text.line2' />
 </p>
 <p><fmt:message key='gwiki.page.edit.DeletedPages.text.searchpageid' /></p>
     <fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/> <gwiki:text property="listFilter"/>
