@@ -1,0 +1,5 @@
+{pageintro}
+Help pages for GWiki administration.
+{pageintro}
+
+{children:depth=2|sort=title|withPageIntro=true}

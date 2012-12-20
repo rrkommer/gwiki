@@ -1,0 +1,41 @@
+{pageintro}
+The Wiki Control page provides varios functions to manage page caches and full text indice.
+{pageintro}
+
+h1. Reload GWiki
+Sometimes - especially if the Wiki files are changed outside the Wiki frontend - it is usefull to flush caches or even to reload the complete GWiki.
+
+h2. Clear Page Cache
+GWiki hold loaded elements in the cache. In case of dynamic pages with server side scripts or Wiki pages, the content of the page will be compiled, so execution of the dynamic pages will be much more faster.
+
+Clearing Page Cache will dismiss all cached files and precompiled elements, so the files will be reread from file system.
+
+{info}
+Clear Page Cache doesn't regognise new elements, which may created outside the GWiki Frontent. To detect new Elements on file systems you have to reload the complete GWiki.
+{info}
+
+The 'Reload this page' button will only be shown, if the {{refPageId}} parameter will be given als GET or POST parameter. In this case, only for the referenced page cached elements will be dismissed.
+
+h2. Reload GWiki
+Reloading GWiki is quite similar to restart the complete GWiki server. Not only all cached elements will be dismissed, but also the file system will be scanned for new elements. The plugins will be also reloaded.
+Reloading the GWiki takes a little time - quite exact the same time as starting the complete GWiki server. All incoming request will be blocked until GWiki has scanned the elements and all plugins are loaded.
+
+h2. Calculate page cache sizes.
+This operation prints out the size of the page cache.
+
+Sample output is:
+{{pageInfoCache: GWikiPageCacheInfo: GWikiPageCache.GWikiPageCacheInfo[elementInfosCount=549,elementInfosSize=435590,pageCount=196,pageSize=29590261]; wikiWeb: 30133921 }}.
+
+h1. Index Management
+h2. Reindex the Current page
+If the {{refPageId}} parameter will be given als GET or POST parameter, the page can be refreshed in the index.
+
+h2. Reindex
+The Reindex button triggers an thread, which looks for all elements if the timstamp in the full text index database is older than the element. This is usefull, if elements are edited outside GWiki.
+
+h2. Reindex full
+All elements of GWiki will be reindexed.
+
+h1. Cookies
+The Clear Cookie button clears all GWiki Cookies of the current used Browser except the Session Cookie.
+
