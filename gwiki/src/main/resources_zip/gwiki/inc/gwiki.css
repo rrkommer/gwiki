@@ -389,3 +389,19 @@ ul.gwikiLoginHelp li {
 	padding-left:1em;
 }
 ul.error {margin:0; margin-left:6.2em; list-style:none;}
+
+.gwikiExpandableFieldSet {
+  border-style: solid;
+  border-width: 3px;
+  border-color: #000000;
+}
+.gwikiExpandableFieldSet legend {
+  color: #000000;
+  background: #F0F0F0 none repeat scroll 0 0;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #000000;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16pt;
+  cursor: ns-resize;
+}
