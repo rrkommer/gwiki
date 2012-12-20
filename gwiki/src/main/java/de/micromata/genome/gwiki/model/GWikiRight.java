@@ -52,14 +52,23 @@ public class GWikiRight implements Serializable
   private String category;
 
   /**
-   * Optional. May contain rule set.
+   * The right will not be displayed in the users profile setting
+   */
+  private boolean privateRight = false;
+
+  /**
+   * Optional. May contain a matcher rule set.
    */
   private String definition;
 
-  private boolean privateRight = false;
-
+  /**
+   * Compiled version of definition
+   */
   private Matcher<String> definitionRule;
 
+  /**
+   * Description of Right or role, displayed in the user profile settings.
+   */
   private String description;
 
   public GWikiRight()

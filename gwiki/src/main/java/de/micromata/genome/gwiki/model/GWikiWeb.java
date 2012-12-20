@@ -135,13 +135,7 @@ public class GWikiWeb
     daoContext.getStorage().setWikiWeb(this);
 
     getLogging().note("Inited GWiki", null, GLogAttributeNames.Miscellaneous, daoContext.toString());
-    // if (INSTANCE == null) {
-    // INSTANCE = this;
-    // }
     initPageCache();
-
-    eTagWiki = Long.toString(System.currentTimeMillis());
-    // filter.registerFilter(this, GWikiConfigChangedListener.class);
   }
 
   public GWikiWeb(GWikiWeb wikiWeb)
@@ -155,7 +149,7 @@ public class GWikiWeb
     this.modCheckTimoutMs = wikiWeb.modCheckTimoutMs;
     this.servletPath = wikiWeb.servletPath;
     this.wikiGlobalConfig = wikiWeb.wikiGlobalConfig;
-    eTagWiki = Long.toString(System.currentTimeMillis());
+    initETag();
     // no tenantId
   }
 
@@ -175,6 +169,7 @@ public class GWikiWeb
   protected void initPageCache()
   {
     daoContext.getPageCache().initPageCache(this);
+    initETag();
   }
 
   public <T, EX extends Throwable> T runInPluginContext(CallableX<T, EX> callback) throws EX
@@ -252,6 +247,11 @@ public class GWikiWeb
       inBootStrapping = false;
     }
 
+  }
+
+  public void initETag()
+  {
+    eTagWiki = Long.toString(System.currentTimeMillis());
   }
 
   public void serveWiki(String page, final GWikiContext ctx)
