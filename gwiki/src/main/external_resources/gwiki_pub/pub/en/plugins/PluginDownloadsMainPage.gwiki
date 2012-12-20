@@ -2,7 +2,7 @@
 Plugins extends the functionality of GWiki.
 {pageintro}
 
-For information see [gwikidocs/help/en/Plugins].
+For information see [gwikidocs/help/en/admin/Plugins].
 
 {note}
 Not all Plugins are in stable state. Please see *State* in the Plugin descriptions.

@@ -9,7 +9,7 @@
 <script type="text/javascript">
 function onFilter(event)
 {
-	\$("#filterForm").submit();
+  \$("#filterForm").submit();
 }
 </script>
 <form name="filterForm" id="filterForm">
