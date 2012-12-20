@@ -40,18 +40,19 @@ public class GWikiServeEtagElementFilter implements GWikiServeElementFilter
     if (el == null || el.getElementInfo().getMetaTemplate().isCachable() == false) {
       return null;
     }
+    String wikiEtag = wikiContext.getWikiWeb().geteTagWiki();
     String ret = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.MODIFIEDAT);
     String version = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.VERSION);
     if (ret == null && version == null) {
-      return wikiContext.getWikiWeb().geteTagWiki();
+      return wikiEtag;
     }
     if (ret == null) {
-      return version;
+      return version + wikiEtag;
     }
     if (version == null) {
-      return ret;
+      return ret + wikiEtag;
     }
-    return ret + version;
+    return ret + version + wikiEtag;
   }
 
   /*
