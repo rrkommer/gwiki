@@ -1,0 +1,40 @@
+{pageintro}
+The VFolderConfig is a XML configuration element to configure the location and behaviour of the mounted file system.
+{pageintro}
+
+This is a real Example:
+{code}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config" class="de.micromata.genome.gwiki.plugin.vfolder_1_0.GWikiVFolderNode"
+		singleton="true">
+               <property name="extractBody" value="true"/>
+               <property name="htmlFileNameMatcherPattern" value="*.html"/>
+              <property name="extractHtmlBodyRePattern">
+ <value><![CDATA[.*<table cellspacing="4" cellpadding="4" >\s*<tr>\s*<td>(.*?)</td>\s*</tr>\s*</table>\s*</td>\s*</tr>\s*</table>\s*</body>\s*</html>.*]]></value>
+              </property>
+              <property name="htmlContentEncoding" value="UTF-8"/>
+              <property name="addCss"><list><value>home/rkommer/MyVFolder/images/artefaktur_moweb.css</value></list></property>
+               <property name="fullIframe" value="false"/>
+		<property name="matcherRule" value="+*,-*/.svn/*,-.svn/*,-*gwikivfoldercache.txt,-*gwikivfolderstatus.txt"/>
+		<property name="fileSystem">
+			<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+					<constructor-arg value="/home/roger/tmp/sfwebmnt"/>
+					</bean>
+				</constructor-arg>
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+						<constructor-arg value="/home/roger/src/artefaktur/sfwebmnt/acdk"/>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+</beans>
+{code}
+
+To mount a remote SVN URL as virtual folder, see example at  [pub/plugins/gwiki-fssvn/Index].

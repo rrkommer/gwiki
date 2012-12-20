@@ -1,0 +1,20 @@
+{pageintro}
+Mount Non GWiki directories with static elements.
+{pageintro}
+
+
+h2. Introduction
+Different to traditional web server - like Apache - GWiki normally only knowns files, which are inside the GWiki itself. GWiki elements must have a settings (*Settings.properties on normal file system, or corresponding database entries) to be located.
+
+With this plugin also non GWiki directories can be mounted to GWiki and make them availabe for browsing and full text search.
+
+
+h2. Usage
+After activating the plugin, the You can create a "Virtual FS-Folder" Element on given Wiki Page.
+
+See more at [pub/plugins/gwiki-vfolder/Virtual_FS-Folder_Help].
+
+h2. Screenshots
+This screenshot shows the mounted Webpage with static html files (including images, css and so on) if the current GWiki user has the edit rights:
+
+!pub/plugins/gwiki-vfolder/VFolderSampleACDKScreenshot.png!
