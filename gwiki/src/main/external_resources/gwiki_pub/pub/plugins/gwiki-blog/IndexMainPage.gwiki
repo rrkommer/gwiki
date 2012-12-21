@@ -1,0 +1,15 @@
+{pageintro}
+Plugin which enables to write a classic Blog.
+{pageintro}
+
+Use normal Wiki pages to create a Blog.
+
+- Organize with Blog entries by date or categories. 
+- View one Blogentr or multiple Blog entries on one page. 
+- Navigation (next/prevous) entry
+- Show calendar with filter blogs from one day or a month.
+
+!pub/plugins/gwiki-blog/BlogSampleScreenshot.png!
+
+h2. Installation/Usage
+After activating the GWiki Blog plugin, in the menu for creating new elements, _Blog_ will be available. This creates a new Blog, which will be used as a container for Blog articles.
