@@ -9,6 +9,8 @@
 		<property name="elementLifeTime" value="3600000" />
 		<property name="allowedNewParentMetaTemplatesRule" value="admin/templates/BlogMetaTemplate" />
 		<property name="allowedNewChildMetaTemplatesRule" value="admin/templates/FileWikiPageMetaTemplate" />
+    <property name="contentType" value="text/html"/>
+    <property name="editHelpPageId" value="pub/plugins/gwiki-blog/Blog_Help"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
