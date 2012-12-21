@@ -381,7 +381,9 @@ function gwikiEditInsertTemplate(templateText)
 				}
 				function insertTemplate() {
 					gwikiEditField = field;
-					WREF = window.open(gwikiHomeUrl + "/edit/EditBlueprint","Blueprint Template",'width=1200,height=900');
+					var url = gwikiHomeUrl;
+					if (url.length == 0 || url.indexOf("/", url.length - 1) == -1) { url += "/";}
+					WREF = window.open(url + "edit/EditBlueprint","Blueprint Template",'width=1200,height=900');
 					if(!WREF.opener){ WREF.opener = this.window; }
 				}
 				function keyEvent(evt) {
