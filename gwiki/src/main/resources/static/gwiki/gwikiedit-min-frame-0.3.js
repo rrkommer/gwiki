@@ -11,7 +11,6 @@ function gwikiSetEditorContentChanged() {
 }
 
 function gwikiCreateTiny(partName, content) {
-	alert('gwikiHomeUrl: ' + gwikiHomeUrl);
 	tinyMCE.init({
 		theme : "advanced",
         mode : "exact",
