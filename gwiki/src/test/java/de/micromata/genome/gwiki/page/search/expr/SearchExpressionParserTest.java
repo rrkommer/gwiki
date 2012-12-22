@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.search.expr;
 
@@ -64,7 +61,7 @@ public class SearchExpressionParserTest extends TestCase
   {
     Pattern pattern = Pattern.compile("(.*?)<\\^([0-9]+)>(.*?)(</\\^>)(.*)");
     // String text = "</^>x<^10>Asdf<^/>asdfasdf<^10>sddfdfdf<^/>asdfsdf";
-    String text = "</^><^20> 1         Genome/OSGi</^><^1> 1.1        Einsatzgebiete Genome ist für ein weites Spektrum, vom Einsatz bei kleinen und mittleren Projekten im Bereich Desktop oder Webserver bis hin zu Servern im Clusterbetrieb, e";
+    String text = "</^><^20> 1         Genome/OSGi</^><^1> 1.1        Einsatzgebiete Genome ist fuer ein weites Spektrum, vom Einsatz bei kleinen und mittleren Projekten im Bereich Desktop oder Webserver bis hin zu Servern im Clusterbetrieb, e";
     java.util.regex.Matcher rm = pattern.matcher(text);
     boolean matchFound = rm.find();
     MatchResult m = rm.toMatchResult();
@@ -114,8 +111,10 @@ public class SearchExpressionParserTest extends TestCase
 
   public void testCompareOps()
   {
-    testGrammar("prop:TYPE != gwiki and prop:PAGEID like \"admin/templates/*\"", "and(compare(command(prop:contains(TYPE)) to !gwiki = <Expr>), compare(command(prop:contains(PAGEID)) to <EXPR>.startsWith(admin/templates/)))");
-    
+    testGrammar(
+        "prop:TYPE != gwiki and prop:PAGEID like \"admin/templates/*\"",
+        "and(compare(command(prop:contains(TYPE)) to !gwiki = <Expr>), compare(command(prop:contains(PAGEID)) to <EXPR>.startsWith(admin/templates/)))");
+
     testGrammar("prop:TITLE ~ \"Genome\"", "compare(command(prop:contains(TITLE)) to <EXPR>.containsIgnoreCase(Genome))");
     testGrammar("prop:TITLE like \"*Genome*\"", "compare(command(prop:contains(TITLE)) to <EXPR>.contains(Genome))");
     testGrammar("prop:TITLE like \"Genome*\"", "compare(command(prop:contains(TITLE)) to <EXPR>.startsWith(Genome))");

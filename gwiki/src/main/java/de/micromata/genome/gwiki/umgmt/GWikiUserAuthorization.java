@@ -91,8 +91,8 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     } catch (Exception ex) {
       /**
        * @logging
-       * @reason Beim asymetrischen verschlüsseln ist ein Fehler aufgetreten.
-       * @action Überprüfen der Java-Installation
+       * @reason Beim asymetrischen verschluesseln ist ein Fehler aufgetreten.
+       * @action Ueberpruefen der Java-Installation
        */
       throw new RuntimeException(ex);
     }

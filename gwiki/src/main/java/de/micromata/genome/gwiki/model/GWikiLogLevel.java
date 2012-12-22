@@ -20,7 +20,7 @@ package de.micromata.genome.gwiki.model;
 /**
  * LogLevel
  * 
- * @author Stefan Stützer/Roger Kommer
+ * @author Stefan Stuetzer/Roger Kommer
  */
 public enum GWikiLogLevel
 {

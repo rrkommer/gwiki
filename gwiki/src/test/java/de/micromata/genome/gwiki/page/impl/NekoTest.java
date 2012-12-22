@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010 Micromata GmbH
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +47,6 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki.page.impl;
 
@@ -83,7 +80,7 @@ public class NekoTest extends TestCase
 
   public void testFirst()
   {
-    String data = "<h1>Dies ist eine Überschrift</h1>";
+    String data = "<h1>Dies ist eine &Uuml;berschrift</h1>";
     DefaultFilter filter = new DefaultFilter() {
 
       @Override

@@ -151,8 +151,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
     }
     if (xhtmldocType == true) {
-      sb
-          .append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
+      sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
     } else {
       sb.append("<!DOCTYPE HTML  [\n");
       InputStream entis = cl.getResourceAsStream("xhtml-lat1.ent");
@@ -246,7 +245,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
   {
     GWikiElement el = wikiContext.getWikiWeb().findElement(documentTemplate);
     if (el == null) {
-      wikiContext.addSimpleValidationError("Keine gültige Dokumentenvorlage ausgewählt.");
+      wikiContext.addSimpleValidationError("No valid document template selected.");
       return null;
     }
     GWikiStandaloneContext simContext = new GWikiStandaloneContext(wikiContext);
