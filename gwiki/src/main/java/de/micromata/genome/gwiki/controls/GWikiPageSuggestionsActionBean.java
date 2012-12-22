@@ -18,11 +18,10 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
 
 /**
  * ActionBean for Ajax page autocompletion.
@@ -48,13 +47,14 @@ public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean
   {
     String q = wikiContext.getRequestParameter("q");
     String pageType = wikiContext.getRequestParameter("pageType");
-    String queryexpr = "prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\"";
-    if (StringUtils.isNotEmpty(pageType) == true) {
-      if (pageType.equals("image") == true) {
-        pageType = "attachment";
-      }
-      queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
-    }
+    String queryexpr = SearchUtils.createLinkExpression(q, true, pageType);
+    // String queryexpr = "prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\"";
+    // if (StringUtils.isNotEmpty(pageType) == true) {
+    // if (pageType.equals("image") == true) {
+    // pageType = "attachment";
+    // }
+    // queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
+    // }
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
     query.setMaxCount(1000);
