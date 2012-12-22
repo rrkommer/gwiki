@@ -37,6 +37,7 @@ import de.micromata.genome.util.matcher.MoreThanOrEqualMatcher;
 import de.micromata.genome.util.matcher.NotMatcher;
 import de.micromata.genome.util.matcher.string.ContainsIgnoreCaseMatcher;
 import de.micromata.genome.util.matcher.string.EqualsWithBoolMatcher;
+import de.micromata.genome.util.text.CharToken;
 import de.micromata.genome.util.text.RegExpToken;
 import de.micromata.genome.util.text.TextSplitterUtils;
 import de.micromata.genome.util.text.Token;
@@ -100,7 +101,8 @@ public class SearchExpressionParser
 
   new RegExpToken(TK_BO, "(\\()(.*)"), //
       new RegExpToken(TK_BC, "(\\))(.*)"), //
-      new RegExpToken(TK_QUOTE, "^[ \\t]*\\\"(.*?)\\\"(.*)"), //
+      // new RegExpToken(TK_QUOTE, "^[ \\t]*\\\"(.*?)\\\"(.*)"), //
+      new CharToken(TK_QUOTE, '"'), //
       new RegExpToken(TK_CONTAINING, "(\\~)(.*)"), //
       new RegExpToken(TK_AND, "(\\&\\&)(.*)"), //
       new RegExpToken(TK_AND, "(and)(" + afterandOr + ".*)"), //
@@ -238,19 +240,73 @@ public class SearchExpressionParser
     return new SearchExpressionTextContains(text);
   }
 
+  protected SearchExpression consumeQuoted(TokenResultList tokens)
+  {
+    StringBuffer quoted = new StringBuffer();
+    TokenResult tk = tokens.curToken();
+    int oldpos = tokens.position;
+    tk = tokens.nextToken();
+    while (tokens.eof() == false) {
+
+      if (tk.getConsumedLength() == 1 && tk.getConsumed().equals("\\") == true) {
+        tk = tokens.nextToken();
+        if (tk.getTokenType() == TK_QUOTE) {
+          quoted.append("\"");
+        } else {
+          String nq = tk.getConsumed();
+          if (nq.length() > 0) {
+            char fc = nq.charAt(0);
+            switch (fc) {
+              case 'n':
+                quoted.append("\n");
+                break;
+              case 'r':
+                quoted.append("\r");
+                break;
+              case 't':
+                quoted.append("\t");
+                break;
+              default:
+                quoted.append(fc);
+                break;
+            }
+            if (nq.length() > 1) {
+              quoted.append(nq.substring(1));
+            }
+          }
+        }
+      } else if (tk.getTokenType() == TK_QUOTE) {
+        String ret = TextSplitterUtils.unescape(quoted.toString(), '\\', '"');
+        SearchExpression m = consumeElement(ret);
+        tokens.nextTokenSkipping(TK_SPACE);
+        return m;
+      } else {
+        quoted.append(tk.getConsumed());
+      }
+      tk = tokens.nextToken();
+    }
+    tokens.position = oldpos;
+    SearchExpression m = consumeElement("\"");
+    tokens.nextTokenSkipping(TK_SPACE);
+    return m;
+  }
+
   protected SearchExpression consumeListElement(TokenResultList tokens)
   {
     if (tokens.eof() == true)
       return null;
+
     TokenResult tk = tokens.curToken();
-    if (tk.getTokenType() != TK_UNMATCHED && tk.getTokenType() != TK_QUOTE) {
+    if (tk.getTokenType() == TK_QUOTE) {
+      return consumeQuoted(tokens);
+    }
+    if (tk.getTokenType() != TK_UNMATCHED) {
       return null;
       // throw new InvalidMatcherGrammar("Excepting element. Got: " + tk.getConsumed() + "; pattern: " + tokens.pattern);
     }
     String elText;
-
-    // TODO ggf. problematisch, wenn intern auch escaped wird
-    elText = TextSplitterUtils.unescape(tk.getConsumed(), escapeChar);
+    String cons = tk.getConsumed();
+    elText = TextSplitterUtils.unescape(cons, escapeChar);
 
     SearchExpression m = consumeElement(elText);
     tokens.nextTokenSkipping(TK_SPACE);

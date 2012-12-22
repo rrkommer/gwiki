@@ -34,10 +34,65 @@ import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
+import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
+/**
+ * Utils for searching.
+ * 
+ * @author roger
+ * 
+ */
 public class SearchUtils
 {
+  public static String createLinkExpression(String text, boolean includeNoIndex, String pageType)
+  {
+    List<String> tokens = Converter.parseStringTokens(text, " \t", false);
+    // String queryexpr = "prop:NOINDEX != true and (prop:PAGEID ~ \"" + q + "\" or prop:TITLE ~ \"" + q + "\")";
+    // if (tokens.size() > 1) {
+    StringBuilder sb = new StringBuilder();
+    // sb.append("prop:NOINDEX != true and (");
+    boolean first = true;
+    for (String tk : tokens) {
+      if (first == false) {
+        sb.append(" or ");
+      }
+      first = false;
+      sb.append("(").append("prop:PAGEID ~ " + escapeSearchLiteral(tk) + " or prop:TITLE ~ " + escapeSearchLiteral(tk) + ")");
+    }
+    String queryexpr = sb.toString();
+    if (includeNoIndex == false) {
+      queryexpr = "prop:NOINDEX != true and (" + queryexpr + ")";
+    }
+    if (StringUtils.isNotBlank(pageType) == true) {
+      queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
+    }
+    System.out.println(text + ": " + queryexpr);
+    return queryexpr;
+  }
+
+  public static String escapeSearchLiteral(String text)
+  {
+
+    if (StringUtils.contains(text, "\"") == false) {
+      return "\"" + text + "\"";
+    }
+    if (text.length() == 1) {
+      return text;
+    }
+    if (text.charAt(0) == '"' && text.charAt(text.length() - 1) == '"') {
+      return text;
+    }
+    return "\"" + text + "\"";
+  }
+
+  public static String unescapeSearchLiteral(String text)
+  {
+    String ret = StringUtils.replace(text, "\\\"", "\"");
+    ret = StringUtils.replace(ret, "\\\\", "\\");
+    return ret;
+  }
+
   public static String readFileContent(GWikiContext ctx, String indexFile)
   {
     GWikiFileStorage gstore = (GWikiFileStorage) ctx.getWikiWeb().getStorage();
@@ -184,7 +239,7 @@ public class SearchUtils
     String ap = Pattern.quote("<!--KW:XXX-->");
     String ep = Pattern.quote("<!--KW-->");
     // TODO gwiki geht nicht mit umlauten, da words normalisiert sind.
-    //StringBuilder sb = new StringBuilder();
+    // StringBuilder sb = new StringBuilder();
     for (String w : words) {
       String nw = NormalizeUtils.normalize(w);
       String app = StringUtils.replace(ap, "XXX", nw);
@@ -288,6 +343,9 @@ public class SearchUtils
       return findResult(ctx, query, sr.getPageId());
     }
     String normExpress = NormalizeUtils.normalize(query.getSearchExpression());
+    if (StringUtils.isEmpty(normExpress) == true) {
+      return null;
+    }
     int w = art.getFoundIndexWeight(ctx, sr, normExpress);
     if (sr.getElementInfo().getId().equals("gwikidocs/GWikiArchitektur") == true) {
       w = art.getFoundIndexWeight(ctx, sr, normExpress);
