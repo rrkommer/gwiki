@@ -19,26 +19,37 @@ package de.micromata.genome.gwiki.fssvn;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
 import de.micromata.genome.gdbfs.FsObject;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class DavTest extends TestCase
+public class DavTest
 {
   public static final String url = "https://svn.micromata.de/svn/testsvn/trunk";
 
-  public static final String user = "testsvn";
+  public static final String user = "";
 
-  public static final String pass = "testsvn";
+  public static final String pass = "";
 
   public static final DavFileSystem createFs()
   {
     return new DavFileSystem(url, user, pass);
   }
 
+  @Test
+  public void dummy()
+  {
+
+  }
+
+  /**
+   * Deactivated
+   */
+  // @Test
   public void testList()
   {
     DavFileSystem df = createFs();

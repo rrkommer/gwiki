@@ -17,14 +17,15 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.fssvn;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class DavWriteTest extends TestCase
+public class DavWriteTest
 {
+  @Test
   public void testMkDir()
   {
     DavFileSystem df = DavTest.createFs();
