@@ -327,7 +327,7 @@ public class Html2WikiFilter extends DefaultFilter
     GWikiContext wikiContext = GWikiContext.getCurrent();
     if (wikiContext != null) {
       String ctxpath = wikiContext.getRequest().getContextPath();
-      if (source.startsWith(ctxpath) == true) {
+      if (StringUtils.isNotEmpty(ctxpath) && source.startsWith(ctxpath) == true) {
         source = source.substring(ctxpath.length() + 1);
       }
     }
