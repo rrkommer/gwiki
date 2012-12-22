@@ -2,20 +2,27 @@ package de.micromata.genome.gwiki.fssvn;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import com.googlecode.sardine.DavResource;
 import com.googlecode.sardine.Sardine;
 import com.googlecode.sardine.SardineFactory;
 
-public class MyFirstTest extends TestCase
+public class MyFirstTest
 {
-  public void testIt()
+  @Test
+  public void dummy()
+  {
+
+  }
+
+  // @Test
+  public void myTest()
   {
     String url = "https://svn.micromata.de/svn/testsvn/trunk";
     try {
 
-      Sardine sardine = SardineFactory.begin("testsvn", "testsvn", SslUtils.createEasySSLSocketFactory());
+      Sardine sardine = SardineFactory.begin("", "", SslUtils.createEasySSLSocketFactory());
       List<DavResource> resources = sardine.getResources(url);
       for (DavResource res : resources) {
 
