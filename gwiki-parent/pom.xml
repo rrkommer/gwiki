@@ -17,6 +17,9 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <profiles>
     <profile>
@@ -60,6 +63,7 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>
@@ -95,7 +99,7 @@
           </execution>
         </executions>
       </plugin>
-       <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -104,11 +108,11 @@
             <phase>install</phase>
             <configuration>
               <tasks>
-                
+
                 <fileset id="zipfiles" dir="./" casesensitive="yes">
-                  <include name="*.xml"/>
-                </fileset>  
-                <property name="prop.zipfiles" refid="zipfiles"/>
+                  <include name="*.xml" />
+                </fileset>
+                <property name="prop.zipfiles" refid="zipfiles" />
                 <echo>${prop.zipfiles}</echo>       
                 <!-- 
                 <mkdir dir="target" />
