@@ -42,7 +42,6 @@ public class NormalizeUtils
     if (string == null) {
       return null;
     }
-    // String umlauts = "äöüÄÖÜß";
     final int len = string.length();
     final StringBuilder ret = new StringBuilder(len + 5);
     for (int idx = 0; idx < len; idx++) {

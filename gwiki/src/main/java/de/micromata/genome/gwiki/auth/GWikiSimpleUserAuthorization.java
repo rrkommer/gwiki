@@ -45,7 +45,6 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public static GWikiSimpleUserConfig defaultConfig;
 
-  // public static Map<String, GWikiSimpleUser> defaultUsers;
   static {
     defaultConfig = new GWikiSimpleUserConfig();
     // defaultUsers = new HashMap<String, GWikiSimpleUser>();
@@ -257,9 +256,9 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
   }
 
   /**
-   * Verschlüsselt ein Klartext mit einem SHA-Hash
+   * Encodes with a SHA-Hash
    * 
-   * @return der verschlüsselte Wert als BASE64
+   * @return encoded value as BASE64
    */
   public static String encrypt(String plaintext)
   {
@@ -272,8 +271,8 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     } catch (Exception ex) {
       /**
        * @logging
-       * @reason Beim asymetrischen verschlüsseln ist ein Fehler aufgetreten.
-       * @action Überprüfen der Java-Installation
+       * @reason Beim asymetrischen verschluesssseln ist ein Fehler aufgetreten.
+       * @action Check Java -Installation
        */
       throw new RuntimeException("Error while executing hashing encryption: " + ex.getMessage(), ex);
     }

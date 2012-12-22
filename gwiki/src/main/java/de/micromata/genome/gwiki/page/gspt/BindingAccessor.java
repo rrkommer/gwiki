@@ -29,7 +29,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
 /**
- * Über diese Klasse fasst der JSP-PageContext den Groovy-Context an.
+ * Ueber diese Klasse fasst der JSP-PageContext den Groovy-Context an.
  * 
  * @author jens@micromata.de
  */
