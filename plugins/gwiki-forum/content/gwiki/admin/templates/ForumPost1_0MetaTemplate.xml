@@ -10,6 +10,7 @@
 		<property name="allowedNewChildMetaTemplatesRule" value="admin/templates/ForumPost1_0MetaTemplate,admin/templates/FileWikiPageMetaTemplate" />
 		<property name="allowedNewParentMetaTemplatesRule" value="admin/templates/Forum1_0MetaTemplate"/>
 		<property name="noToc" value="true"/>
+    <property name="contentType" value="text/html"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
