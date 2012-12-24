@@ -45,6 +45,12 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
     return null;
   }
 
+  public Object onFilter()
+  {
+    Object ret = super.onFilter();
+    return ret;
+  }
+
   @Override
   public String renderField(String fieldName, GWikiElementInfo elementInfo)
   {
