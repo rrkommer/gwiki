@@ -3,7 +3,8 @@
 
 <script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
 <script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/ui.jqgrid.css"/>" />
+<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/skins/naked/jquery-ui-1.7.1.custom.css"/>" />
 
 
 <form method="post">
@@ -28,15 +29,15 @@ jQuery(document).ready(function() {
       { url:'<gwiki:url value="/edit/ListUsers?fields=USER|EMAIL|operations"/>' 
           + '&method_onFilter=true&filterExpression=' + escape('<c:out value="${form.filterExpression}" escapeXml="false"/>'), 
         datatype: "xml",
-        colNames:['<fmt:message key="gwiki.page.edit.ListUsers.col.id" />', 
-                  '<fmt:message key="gwiki.page.edit.ListUsers.col.user" />', 
-                  '<fmt:message key="gwiki.page.edit.ListUsers.col.email" />', 
+        colNames:['id', 
+                  'USER', 
+                  'EMAIL', 
                   '<fmt:message key="gwiki.page.edit.ListUsers.col.operations" />'], 
         colModel:[
-                {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.id"/>',index:'id', width:12},  
-                {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.user"/>',index:'USER', width:40},
-                {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.email"/>',index:'EMAIL', width:60},
-                {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.operations"/>',index:'operations', width:20, sortable:false}
+                {name:'id',index:'id', width:12},  
+                {name:'USER',index:'USER', width:40},
+                {name:'EMAIL',index:'EMAIL', width:60},
+                {name:'<fmt:message key="gwiki.page.edit.ListUsers.col.operations"/>', width:20, sortable:false}
                  ], 
         height: 400,
         //scroll: true,
@@ -51,6 +52,7 @@ jQuery(document).ready(function() {
         pager: jQuery('#pager2'), 
         //sortname: 'pageId', 
         viewrecords: true, 
+        loadonce:true,
         //sortorder: "desc", 
         caption:"<fmt:message key="gwiki.page.edit.ListUsers.title"/>",
         loadError : function(xhr,st,err) { 
@@ -70,6 +72,7 @@ jQuery(document).ready(function() {
           onClickButton:function(){ mygrid[0].clearToolbar() } 
       }); 
       mygrid.filterToolbar();
+      jQuery("#list2").jqGrid('navGrid','#pager2',{del:false,add:false,edit:false},{},{},{},{multipleSearch:true});
       ; 
 }); 
 </script>
