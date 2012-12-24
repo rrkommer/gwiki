@@ -41,7 +41,7 @@ class WikiControlActionBean extends ActionBeanBase
   public Object onClearPageCache()
   {  
    
-    wikiContext.getWikiWeb().getDaoContext().getPageCache().clearCachedPages();
+    wikiContext.getWikiWeb().getPageCache().clearCachedPages();
      return null;
   }
   public Object onRebuildIndex()
@@ -98,7 +98,7 @@ class WikiControlActionBean extends ActionBeanBase
   {
     StringBuilder sb =new StringBuilder();
     sb.append("pageInfoCache: ")
-       .append(wikiContext.getWikiWeb().getDaoContext().getPageCache().getPageCacheInfo())
+       .append(wikiContext.getWikiWeb().getPageCache().getPageCacheInfo())
     .append("; wikiWeb: " + Integer.toString(de.micromata.genome.util.bean.PrivateBeanUtils.getBeanSize(wikiContext.getWikiWeb())))
     ;
     cacheSizes = sb.toString();
