@@ -24,3 +24,10 @@ h3. Homepage
 Page inside the Wiki. After login this page will be opened. Use a valid pageId (e.g. {{gwikidocs/help/en/Profile}})
 
 See also [gwikidocs/help/en/admin/User_Management_Help].
+
+h3. Rights
+{note}
+This is only available if the logged in as GWiki Administrator.
+{note}
+Select User Rights. 
+See also [gwikidocs/help/en/GWikiRights].
