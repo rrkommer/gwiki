@@ -1,0 +1,13 @@
+{pageintro}
+Create, modify or delete GWiki users.
+{pageintro}
+
+{note}
+The Users in GWiki can only edited directly, if the internal user managment is used. 
+If the users are managed externally - f.e. LDAP or legacy application - the users has to managed directly with their frontends.
+{note}
+
+In the overview list a new user can be created, all user of Gwiki can be viewed and edited.
+
+
+See also: [gwikidocs/help/en/Profile]

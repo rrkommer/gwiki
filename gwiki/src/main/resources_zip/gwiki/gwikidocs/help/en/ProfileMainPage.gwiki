@@ -22,3 +22,5 @@ If you want to change your password, you can do this with entering the new passw
 
 h3. Homepage
 Page inside the Wiki. After login this page will be opened. Use a valid pageId (e.g. {{gwikidocs/help/en/Profile}})
+
+See also [gwikidocs/help/en/admin/User_Management_Help].
