@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FsFileObject;
 import de.micromata.genome.gdbfs.FsObject;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GlobalWordIndexTextArtefakt;
 import de.micromata.genome.gwiki.page.search.NormalizeUtils;
@@ -62,12 +63,20 @@ public class SearchUtils
     }
     String queryexpr = sb.toString();
     if (includeNoIndex == false) {
-      queryexpr = "prop:NOINDEX != true and (" + queryexpr + ")";
+      if (StringUtils.isEmpty(queryexpr) == false) {
+        queryexpr = "prop:NOINDEX != true and (" + queryexpr + ")";
+      } else {
+        queryexpr = "prop:NOINDEX != true";
+      }
     }
     if (StringUtils.isNotBlank(pageType) == true) {
-      queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
+      if (StringUtils.isEmpty(queryexpr) == false) {
+        queryexpr = "prop:TYPE = " + pageType + " and (" + queryexpr + ")";
+      } else {
+        queryexpr = "prop:TYPE = " + pageType;
+      }
     }
-    System.out.println(text + ": " + queryexpr);
+    // System.out.println(text + ": " + queryexpr);
     return queryexpr;
   }
 
@@ -336,6 +345,24 @@ public class SearchUtils
     return ret;
   }
 
+  public static SearchResult findResultFallback(GWikiContext ctx, SearchQuery query, SearchResult sr, String normExpress)
+  {
+    String pageId = sr.getPageId();
+    String nt = NormalizeUtils.normalize(pageId);
+    if (StringUtils.contains(nt, normExpress) == true) {
+      return new SearchResult(sr, 20);
+    }
+    GWikiElementInfo eli = ctx.getWikiWeb().findElementInfo(pageId);
+    if (eli == null) {
+      return null;
+    }
+    nt = NormalizeUtils.normalize(eli.getTitle());
+    if (StringUtils.contains(nt, normExpress) == true) {
+      return new SearchResult(sr, 30);
+    }
+    return null;
+  }
+
   public static SearchResult findResult(GWikiContext ctx, SearchQuery query, SearchResult sr)
   {
     GlobalWordIndexTextArtefakt art = query.getGlobalIndex(ctx);
@@ -347,8 +374,8 @@ public class SearchUtils
       return null;
     }
     int w = art.getFoundIndexWeight(ctx, sr, normExpress);
-    if (sr.getElementInfo().getId().equals("gwikidocs/GWikiArchitektur") == true) {
-      w = art.getFoundIndexWeight(ctx, sr, normExpress);
+    if (w == -1 && query.isFallBackIfNoIndex() == true) {
+      return findResultFallback(ctx, query, sr, normExpress);
     }
     if (w == 0) {
       return null;

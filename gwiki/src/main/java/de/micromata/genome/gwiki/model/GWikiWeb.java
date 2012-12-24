@@ -69,6 +69,8 @@ public class GWikiWeb
 
   private GWikiDAOContext daoContext;
 
+  private GWikiPageCache pageCache;
+
   private GWikiFilters filter = new GWikiFilters();
 
   private boolean inBootStrapping = false;
@@ -168,7 +170,8 @@ public class GWikiWeb
 
   protected void initPageCache()
   {
-    daoContext.getPageCache().initPageCache(this);
+    pageCache = daoContext.getNewPageCache();
+    pageCache.initPageCache(this);
     initETag();
   }
 
@@ -212,7 +215,7 @@ public class GWikiWeb
             {
               getStorage().loadPageInfos(event.getPageInfos());
               lastModCounter = getStorage().getModificationCounter();
-              daoContext.getPageCache().setPageInfoMap(event.getPageInfos());
+              getPageCache().setPageInfoMap(event.getPageInfos());
               return null;
             }
           });
@@ -239,10 +242,10 @@ public class GWikiWeb
     try {
       inBootStrapping = true;
       // clear cache, otherwise some controler classes are loaded twice and cannot cast A to A
-      daoContext.getPageCache().clearCachedPages();
+      getPageCache().clearCachedPages();
       loadWeb();
 
-      daoContext.getPageCache().clearCachedPages();
+      getPageCache().clearCachedPages();
     } finally {
       inBootStrapping = false;
     }
@@ -424,7 +427,7 @@ public class GWikiWeb
 
   public GWikiElementInfo findElementInfo(String path)
   {
-    return daoContext.getPageCache().getPageInfo(path);
+    return getPageCache().getPageInfo(path);
   }
 
   public GWikiElement getElement(String pageId)
@@ -442,7 +445,7 @@ public class GWikiWeb
     if (getStorage().isArchivePageId(path) == true)
       return;
     // on bootstrap this is null
-    if (daoContext.getPageCache().hasPageInfo(path) == false) {
+    if (getPageCache().hasPageInfo(path) == false) {
       GWikiElementInfo el = getStorage().loadElementInfo(path);
       if (el != null) {
         reloadWeb();
@@ -496,7 +499,7 @@ public class GWikiWeb
       return el;
     el = getStorage().loadElement(ei);
 
-    daoContext.getPageCache().putCachedPage(ei.getId(), el);
+    getPageCache().putCachedPage(ei.getId(), el);
 
     return el;
   }
@@ -519,14 +522,14 @@ public class GWikiWeb
 
   public GWikiElement getElementByCache(String path)
   {
-    if (daoContext.getPageCache().hasCachedPage(path) == true) {
-      GWikiElement element = daoContext.getPageCache().getPage(path);
+    if (getPageCache().hasCachedPage(path) == true) {
+      GWikiElement element = getPageCache().getPage(path);
       GWikiElement nel = checkElementForModification(element);
       if (nel == null) {
         return element;
       }
       onReplacePageInfo(nel.getElementInfo());
-      daoContext.getPageCache().putCachedPage(nel.getElementInfo().getId(), nel);
+      getPageCache().putCachedPage(nel.getElementInfo().getId(), nel);
       return nel;
     }
     return null;
@@ -553,7 +556,7 @@ public class GWikiWeb
     try {
       GWikiElementInfo ei = null;
       if (usePageCache == true) {
-        ei = daoContext.getPageCache().getPageInfo(path);
+        ei = getPageCache().getPageInfo(path);
       }
       if (ei == null) {
         ei = getStorage().loadElementInfo(path);
@@ -563,7 +566,7 @@ public class GWikiWeb
       }
       GWikiElement el = getStorage().loadElement(ei);
       if (usePageCache == true && getStorage().isArchivePageId(ei.getId()) == false) {
-        daoContext.getPageCache().putCachedPage(path, el);
+        getPageCache().putCachedPage(path, el);
       }
       return el;
     } catch (Throwable ex) {
@@ -600,7 +603,7 @@ public class GWikiWeb
   {
     getStorage().deleteElement(wikiContext, element);
 
-    GWikiPageCache pageCache = daoContext.getPageCache();
+    GWikiPageCache pageCache = getPageCache();
     // pacheCache.clearCachedPages();
     String pageId = element.getElementInfo().getId();
     pageCache.clearCachedPage(pageId);
@@ -610,7 +613,7 @@ public class GWikiWeb
 
   protected void onReplacePageInfo(GWikiElementInfo ei)
   {
-    GWikiPageCache pageCache = daoContext.getPageCache();
+    GWikiPageCache pageCache = getPageCache();
     pageCache.clearCachedPage(ei.getId());
     pageCache.putPageInfo(ei);
     pageCache.clearCompiledFragments(GWikiWikiPageArtefakt.class);
@@ -626,7 +629,7 @@ public class GWikiWeb
     if (pageId == null) {
       return;
     }
-    GWikiPageCache pageCache = daoContext.getPageCache();
+    GWikiPageCache pageCache = getPageCache();
     GWikiElementInfo ei = getStorage().loadElementInfo(pageId);
     if (ei == null) {
       pageCache.removePageInfo(pageId);
@@ -717,12 +720,12 @@ public class GWikiWeb
 
   public Iterable<GWikiElementInfo> getElementInfos()
   {
-    return daoContext.getPageCache().getPageInfos();
+    return getPageCache().getPageInfos();
   }
 
   public int getElementInfoCount()
   {
-    return daoContext.getPageCache().getElementInfoCount();
+    return getPageCache().getElementInfoCount();
   }
 
   public ContentSearcher getContentSearcher()
@@ -828,5 +831,15 @@ public class GWikiWeb
   public void seteTagWiki(String eTagWiki)
   {
     this.eTagWiki = eTagWiki;
+  }
+
+  public GWikiPageCache getPageCache()
+  {
+    return pageCache;
+  }
+
+  public void setPageCache(GWikiPageCache pageCache)
+  {
+    this.pageCache = pageCache;
   }
 }

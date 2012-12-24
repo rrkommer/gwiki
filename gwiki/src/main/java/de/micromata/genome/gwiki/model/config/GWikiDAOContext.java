@@ -86,8 +86,6 @@ public class GWikiDAOContext
 
   private GWikiMenuProvider menuProvider = new GWikiStandardMenuProvider();
 
-  private GWikiPageCache pageCache = new GWikiPageCacheTimedImpl();
-
   private Session mailSession;
 
   private boolean enableWebDav = false;
@@ -150,6 +148,16 @@ public class GWikiDAOContext
   public <T> T getBean(String name, Class<T> requiredType)
   {
     return (T) beanFactory.getBean(name, requiredType);
+  }
+
+  public GWikiPageCache getNewPageCache()
+  {
+    try {
+      // the bean has to be NOT singleton
+      return getBean("pageCache", GWikiPageCache.class);
+    } catch (Exception ex) {
+      return new GWikiPageCacheTimedImpl();
+    }
   }
 
   public GWikiStorage getStorage()
@@ -250,16 +258,6 @@ public class GWikiDAOContext
   public void setMailSession(Session mailSession)
   {
     this.mailSession = mailSession;
-  }
-
-  public GWikiPageCache getPageCache()
-  {
-    return pageCache;
-  }
-
-  public void setPageCache(GWikiPageCache pageCache)
-  {
-    this.pageCache = pageCache;
   }
 
   public String getWebDavUserName()

@@ -38,12 +38,19 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
 
   private Map<String, String> indexFileMap;
 
+  /**
+   * 
+   * @param ctx
+   * @param res
+   * @param normText
+   * @return -1 if not in index, 0 not found, > 0 found with weight.
+   */
   public int getFoundIndexWeight(GWikiContext ctx, SearchResult res, String normText)
   {
     String id = res.getPageId();
     String content = getCompileIndexFileMap().get(id);
     if (content == null) {
-      return 0;
+      return -1;
     }
     Pair<String, Integer> p = findInIdxText(content, normText);
     if (p == null) {
