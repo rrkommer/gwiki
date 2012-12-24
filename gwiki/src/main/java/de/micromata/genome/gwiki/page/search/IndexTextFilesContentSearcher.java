@@ -257,6 +257,13 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return p.getSecond();
   }
 
+  /**
+   * 
+   * @param ctx
+   * @param res
+   * @param matcher
+   * @return -1 not in index, 0 not found, > 0 found
+   */
   private int getFoundIndexWeight(GWikiContext ctx, SearchResult res, Matcher<String> matcher)
   {
     GWikiElement gf = ctx.getWikiWeb().findElement(GlobalIndexFile.GLOBAL_INDEX_PAGEID);
@@ -281,7 +288,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     List<SearchResult> ret = new ArrayList<SearchResult>();
     for (SearchResult sr : infos) {
       int w = getFoundIndexWeight(ctx, sr, matcher);
-      if (w == 0) {
+      if (w <= 0) {
         continue;
       }
       ret.add(new SearchResult(sr, sr.getRelevance() + w));

@@ -61,6 +61,8 @@ public class SearchQuery
    */
   private GlobalWordIndexTextArtefakt globalIndex;
 
+  private boolean fallBackIfNoIndex = true;
+
   public SearchQuery()
   {
 
@@ -211,6 +213,16 @@ public class SearchQuery
   public void setGlobalIndex(GlobalWordIndexTextArtefakt globalIndex)
   {
     this.globalIndex = globalIndex;
+  }
+
+  public boolean isFallBackIfNoIndex()
+  {
+    return fallBackIfNoIndex;
+  }
+
+  public void setFallBackIfNoIndex(boolean fallBackIfNoIndex)
+  {
+    this.fallBackIfNoIndex = fallBackIfNoIndex;
   }
 
 }

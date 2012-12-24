@@ -33,7 +33,6 @@ import de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
-import de.micromata.genome.gwiki.model.GWikiPageCacheTimedImpl;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiStandardWikiSelector;
 import de.micromata.genome.gwiki.model.GWikiStorage;
@@ -127,7 +126,7 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
           {
             wikiWeb.getStorage().loadPageInfos(event.getPageInfos());
             // lastModCounter = getStorage().getModificationCounter();
-            wikiWeb.getDaoContext().getPageCache().setPageInfoMap(event.getPageInfos());
+            wikiWeb.getPageCache().setPageInfoMap(event.getPageInfos());
             return null;
           }
         });
@@ -173,21 +172,22 @@ public class GWikiMultipleWikiSelector extends GWikiStandardWikiSelector
       }
     };
     mptDaoContext.setStorage(storage);
-    GWikiPageCacheTimedImpl pageCache = new GWikiPageCacheTimedImpl();
+    // TODO MPT test with cache. following will not work longer.
+    // GWikiPageCacheTimedImpl pageCache = new GWikiPageCacheTimedImpl();
 
-    GWikiCombinedPageCache combPageCache = new GWikiCombinedPageCache(pageCache, rootWiki.getDaoContext().getPageCache());
+    // GWikiCombinedPageCache combPageCache = new GWikiCombinedPageCache(pageCache, rootWiki.getPageCache());
     // challenge:
     // Cache should be combined, where cached objects should
     // detect if owned by root gwiki or derived.
 
     // both for pageinfo and for page content
 
-    mptDaoContext.setPageCache(combPageCache);
+    // mptDaoContext.setPageCache(combPageCache);
     GWikiWeb mptWiki = new GWikiWeb(rootWiki);
     mptWiki.setTenantId(cid);
     storage.setWikiWeb(mptWiki);
     mptWiki.setDaoContext(mptDaoContext);
-    pageCache.initPageCache(mptWiki);
+    // pageCache.initPageCache(mptWiki);
 
     GWikiStandaloneContext wikiContext = new GWikiStandaloneContext(mptWiki, servlet, servlet.getContextPath(), servlet.getServletPath());
     try {
