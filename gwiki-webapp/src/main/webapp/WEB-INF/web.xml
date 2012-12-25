@@ -1,39 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd" version="2.4">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+	version="2.4">
 	<display-name>Genome Wiki Web</display-name>
-	<!--
-		<context-param> <param-name>GWar.WebConfiguration.StdGspt</param-name>
-		<param-value>de.micromata.genome.web.gwar.StdGsptWebConfiguration
-		</param-value> </context-param> <context-param>
-		<param-name>GWar.WebConfiguration.Stripes</param-name>
-		<param-value>de.micromata.genome.web.gwar.stripes.application.StripesWebConfiguration
-		</param-value> </context-param>
-	-->
-	<!-- 
-	<servlet>
-		<servlet-name>DavService</servlet-name>
-		<servlet-class>de.micromata.genome.gwiki.web.WebDavServlet
-		</servlet-class>
+
+	<filter>
+		<filter-name>gwiki18n</filter-name>
+		<filter-class>de.micromata.genome.gwiki.page.impl.i18n.GWikiI18NServletFilter
+		</filter-class>
 		<init-param>
-			<param-name>internalUserName</param-name>
-			<param-value>gwikidavadmin</param-value>
+			<param-name>I18NModules</param-name>
+			<param-value>edit/StandardI18n</param-value>
 		</init-param>
-		<init-param>
-			<param-name>internalPass</param-name>
-			<param-value>yfrNAF5Bp7m/lm+ywXpD92uRNKc=</param-value>
-		</init-param>
-	</servlet>
-	<servlet>
-		<servlet-name>WordDavService</servlet-name>
-		<servlet-class>de.micromata.genome.gwiki.web.WebDavServlet
-		</servlet-class>
-		<init-param>
-			<param-name>wordHtmlEdit</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
-	 -->
+	</filter>
+	<filter-mapping>
+		<filter-name>gwiki18n</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
 	<servlet>
 		<servlet-name>WikiService</servlet-name>
 
@@ -43,49 +27,45 @@
 			<!--  Register class, loading the GWikiDAOContext -->
 			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className
 			</param-name>
-			<param-value>de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiServletContextBootstrapConfigLoader
 			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName
+			</param-name>
+			<param-value>WEB-INF/GWikiContext.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>servletPath</param-name>
+			<param-value>/gwiki</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!--  
-	<servlet>
-		<servlet-name>StaticFilesService</servlet-name>
-		<servlet-class>de.micromata.genome.gwiki.web.StaticFileServlet</servlet-class>
-	</servlet>
-	 -->
-	<servlet>
-		<servlet-name>errorServlet</servlet-name>
-		<servlet-class>de.micromata.genome.web.gwar.ExceptionHandlerServlet
-		</servlet-class>
-		<!--
-			Das ist hier auch optional, wenn man nichts angibt, wird auf
-			/WEB-INF/error.gspt geforwarded
-		-->
-	</servlet>
-	<!--  
-	<servlet-mapping>
-		<servlet-name>DavService</servlet-name>
-		<url-pattern>/dav/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>WordDavService</servlet-name>
-		<url-pattern>/worddav/*</url-pattern>
-		<init-param>
-			<param-name>wordHtmlEdit</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet-mapping>
-	 -->
+
 	<servlet-mapping>
 		<servlet-name>WikiService</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/gwiki/*</url-pattern>
 	</servlet-mapping>
-	
-	<!--  
-	<servlet-mapping>
-		<servlet-name>StaticFilesService</servlet-name>
-		<url-pattern>/static/*</url-pattern>
-	</servlet-mapping>
- -->
+	<welcome-file-list>
+		<welcome-file>gwiki</welcome-file>
+	</welcome-file-list>
+	<!--
+		If you want to run GWiki with a public login accessed via internet,
+		you should protect using Login dialog via a secure https channel and
+		disalow http
+	-->
+	<!--
+		<security-constraint> <web-resource-collection>
+		<web-resource-name>Gwiki-admin</web-resource-name>
+		<url-pattern>/admin/*</url-pattern> </web-resource-collection>
+		<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint> </security-constraint> <security-constraint>
+		<web-resource-collection>
+		<web-resource-name>Gwiki-edit</web-resource-name>
+		<url-pattern>/edit/*</url-pattern> </web-resource-collection>
+		<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint> </security-constraint>
+	-->
 </web-app>

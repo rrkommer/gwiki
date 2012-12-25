@@ -1,3 +1,6 @@
-<Context reloadable="false" debug="0" cookies="true" >
-	<Parameter name="gwiki.dev.path" value="C:/Users/roger/d/dhl/gwiki/gwiki" />
+<Context reloadable="false" debug="0" cookies="true"  >
+	<Parameter name="gwiki.file.path" value="C:/Users/roger/d/dhl/gwiki/gwiki-webapp/gwikifiles" />
+	<Parameter name="gwiki.davadmin.user" value="gwikidavadmin"/>
+	<!--  gWiki2010Admin -->
+	<Parameter name="gwiki.davadmin.pass" value="fyasCKUvAqBMb0JuqQjFpiptvcE\="/>
 </Context>
