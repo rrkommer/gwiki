@@ -7,6 +7,9 @@
 		<property name="elementType" value="gwiki" />
 		<!--  1 Hour -->
 		<property name="elementLifeTime" value="3600000" />
+    <property name="contentType" value="text/html"/>
+    <property name="helpPageId" value="gwikidocs/macros/en/Macroslideshow"/>
+    <property name="editHelpPageId" value="pub/plugins/gwik-s5slideshow/GWiki_S5_Slideshows" />
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
