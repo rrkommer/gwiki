@@ -61,6 +61,9 @@ Before using GWiki with these default users on a server reachable via internet, 
 {warn}
 
 
+See also:
+- [gwikidocs/howtos/en/GWiki_Jetty_with_HTTPS]
+
 h2. Install GWiki as WAR archive in Java Servlet container
 
 Please refer to [gwikidocs/howtos/en/UseGwikiWARarchive].

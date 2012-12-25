@@ -125,14 +125,15 @@ Architecture
 -- smart keywords. Add automatic cross references for keywords.
 -- confluence importer
 -- blog. Writing blogs
--- forum. Forum functions
+-- forum. Forum functions (Alpha)
 -- scheduler: start and manage jobs with chron tab features
 -- slideshows: Create slide shows in Wiki
 -- pmprofiler: Poor Mans profiler
 -- logviewer: Show/Filter logfiles
--- rssfeed: Provide pages as rss feed.
+-- feed: Provide pages as rss or atom feed.
 -- pdftextextractor: Full text search for pdf documents
 -- msotextextractor: Full text search for Microsoft Office documents.
--- pagelifecyle: CMS workflow process with author, chief editor, release manager
--- pagetemplates: Edit page sections based templates and specific editors
+-- pagelifecyle: CMS workflow process with author, chief editor, release manager (Alpha)
+-- pagetemplates: Edit page sections based templates and specific editors  (Alpha)
 -- vfolder: Mount external virtual filesystems as folder with containing documents with full text search
+- fssvn: Mount remote SVN as virtual file system.
