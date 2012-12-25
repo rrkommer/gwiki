@@ -417,3 +417,4 @@ function gwikiEditInsertTemplate(templateText)
 	};
 })(jQuery);
 
+
