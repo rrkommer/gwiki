@@ -67,3 +67,7 @@ Example configuration:
 	</bean>
 </beans>
 {code}
+
+See also 
+- [pub/plugins/gwiki-vfolder/VFolderConfig_Help]
+- [pub/plugins/gwiki-vfolder/Virtual_FS-Folder_Help]
