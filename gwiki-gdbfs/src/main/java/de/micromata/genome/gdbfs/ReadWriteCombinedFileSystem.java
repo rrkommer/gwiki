@@ -37,6 +37,12 @@ public class ReadWriteCombinedFileSystem extends CombinedFileSystem
     super(primary, secondary);
   }
 
+  @Override
+  public String getFileSystemName()
+  {
+    return "readwrite(" + super.getFileSystemName() + ")";
+  }
+
   public FileSystem getFsForRead(String name)
   {
     if (primary.exists(name) == true) {

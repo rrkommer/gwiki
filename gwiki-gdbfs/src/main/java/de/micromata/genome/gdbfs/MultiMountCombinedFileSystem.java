@@ -149,9 +149,11 @@ public class MultiMountCombinedFileSystem extends AbstractFileSystem implements 
   {
     if (fileSystemName == null) {
       StringBuilder sb = new StringBuilder();
+      sb.append("mmcfs(");
       for (Pair<Matcher<String>, FileSystem> p : fileSystemMatchers) {
         sb.append(p.getFirst().toString()).append("=").append(p.getSecond().getFileSystemName()).append("|");
       }
+      sb.append(")");
       fileSystemName = sb.toString();
 
     }

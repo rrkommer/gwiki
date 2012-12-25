@@ -33,7 +33,7 @@ public class CpZipRamFileSystem extends ZipRamFileSystem
 
   public CpZipRamFileSystem(String zipFile)
   {
-    this(zipFile, "embedded");
+    this(zipFile, "embeddedcp(" + zipFile + ")s");
   }
 
   public CpZipRamFileSystem(String zipFile, String fsName)

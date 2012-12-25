@@ -80,6 +80,12 @@ public class MountCombinedFileSystem extends CombinedFileSystem implements Initi
 
   }
 
+  @Override
+  public String getFileSystemName()
+  {
+    return super.getFileSystemName() + "(mountcombined, primary: " + primaryMountsRule + ")";
+  }
+
   protected FileSystem getMount(String name)
   {
     if (name.startsWith("/") == true) {

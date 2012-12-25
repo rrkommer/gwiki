@@ -54,11 +54,12 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
   public RamFileSystem()
   {
-    this("generic");
+    this("ramfs");
   }
 
   public RamFileSystem(String fsName)
   {
+    this.fsName = fsName;
     erase();
   }
 
@@ -114,6 +115,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
   public String getFileSystemName()
   {
+    if (fsName == null) {
+      fsName = "ramfs";
+    }
     return fsName;
   }
 
