@@ -4,7 +4,7 @@
   <parent>
     <artifactId>gwiki-plugin-parent</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>0.9.0-SNAPSHOT</version><!-- GWIKVERSION -->
+    <version>1.0.0-SNAPSHOT</version><!-- GWIKVERSION -->
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-scheduler</artifactId>
