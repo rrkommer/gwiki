@@ -29,7 +29,7 @@ h2. Overview
 |prop:TITLE = "My Titel" \\
 title: = "My Title"|Finds pages with exact "My Title".|
 |prop:TITLE ~ My|The title must containing My.|
-|prop:TITLE like "\*GWiki\*"|The title must contain GWiki enthalten. Search Exression is a Matcher (TODO Doku Matcher)|
+|prop:TITLE like "\*GWiki\*"|The title must contain GWiki enthalten. Search Exression is a [Matcher|gwikidocs/help/en/Matcher_Help]|
 |prop:CREATEDAT < 20091011000|Comparing. The compare operations are <, >, <=, >=|
 
 ||*Sorting result*|| ||
