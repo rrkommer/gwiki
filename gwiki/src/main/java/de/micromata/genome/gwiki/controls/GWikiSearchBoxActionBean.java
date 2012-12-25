@@ -68,7 +68,7 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     String pageType = wikiContext.getRequestParameter("pageType");
     String queryexpr = SearchUtils.createLinkExpression(q, false, pageType);
 
-    renderSearchOps(queryexpr);
+    renderSearchOps(q);
 
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
