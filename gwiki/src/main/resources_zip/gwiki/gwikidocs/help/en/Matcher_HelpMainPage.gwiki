@@ -1,0 +1,37 @@
+{pageintro}
+A matcher is a powerfull - flexible, easy to write and fast - expression language to match strings.
+{pageintro}
+
+The matcher expression are not only often used in configuration files, but is also part of the search engine.
+
+h2. Simple wildcard expression
+string: (without ? or *): match complete expression
+{{*}}: Matches anything
+{{*string}}: EndsWithMatcher
+{{string*}}: StartsWithMatcher
+{{*string*}}: ContainsMatcher
+with * and ?: * matches any character with any length. ? matches exactly on character.
+
+h2. More expressions
+{{~ <regexp>}}: Expects a regular expression
+{{${groovycode}}}: Matches to a groovy code expression
+
+h2. Logical Expressions
+{{! <MatcherExpression>}}: Negates matches
+
+{{a || b}} or {{a or b}}. Matches if a or b matches.
+{{a && b}} or {{a and b}}: Matches if a and b matches.
+{{(a* && *b) || (x* && *z)}}: round brackets group match expressions.
+
+h2. List of expressions
+Multiple exressions can be seperated by comma. Each expression can have a + or - as prefix. If no prefix given, + is default.
+An expression is read from left to right. 
+Example:
+{{\+\*,\-/abc/*,\+\*.gspt}}
+
+Match all (*), but not starting with /abc/ (-/abc/*), but all with ending .gspt (+*.gspt).
+
+h2. Escaping
+You can use the backslash {{\}} to quote special characters ({{*, ?, |, &, $, !, (, ), ~, +, -}}), if these characters are part of the searched string.
+
+See also: [gwikidocs/howtos/en/TheGWikiGenomeMatcherframework]

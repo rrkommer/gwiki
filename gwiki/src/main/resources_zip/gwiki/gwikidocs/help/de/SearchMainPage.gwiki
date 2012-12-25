@@ -25,7 +25,7 @@ h2. Überblick:
 |prop:TITLE = "Mein Titel" \\
 title: = "Mein Titel"| Suche nach Seite mit genau "Mein Titel" enthält. Enthält der Suchausdruck nur ein Wort (keine Leerzeichen oder Sonderzeichen) können die Anführungsstriche auch entfallen.|
 |prop:TITLE ~ Meine|Der Titel der Seite muss Meine enthalten.|
-|prop:TITLE like "\*GWiki\*"|Der Titel muss GWiki enthalten. Suchausdruck ist ein Matcher (TODO Doku Matcher)|
+|prop:TITLE like "\*GWiki\*"|Der Titel muss GWiki enthalten. Suchausdruck ist ein [Matcher|gwikidocs/help/en/Matcher_Help]|
 |prop:CREATEDAT < 20091011000|Vergleich. Die Vergleichsoperatoren sind <, >, <=, >=|
 
 ||*Sortieren*|| ||
