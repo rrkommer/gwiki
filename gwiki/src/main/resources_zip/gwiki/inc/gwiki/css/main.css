@@ -238,7 +238,7 @@ a.startSlide {
 	-webkit-border-radius: 3px;
 }
 a.startSlide span {
-	background: url("../img/icons/slide32.png") no-repeat 0 1px;
+	background: url("../../img/icons/slide32.png") no-repeat 0 1px;
 	color:#919CA9;
 	padding:0 10px 0 20px;
 }
