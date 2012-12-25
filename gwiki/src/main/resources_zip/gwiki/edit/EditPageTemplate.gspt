@@ -18,6 +18,7 @@ gwikiCurrentPart = gwikiParts[0];
 
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 var gwikiRteDefault = <c:out value="${form.rteDefaultEditor}"/>;
+var gwikiEditDefaultFullscreen = <c:out value="${form.gwikiEditDefaultFullscreen}"/>;
 <%
  StringBuilder localCsse = new StringBuilder();
  for (String lp : wikiContext.getContentCsse()) {
