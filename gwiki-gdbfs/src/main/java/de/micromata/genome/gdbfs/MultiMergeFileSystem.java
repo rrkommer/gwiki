@@ -113,7 +113,19 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    */
   public String getFileSystemName()
   {
-    return "TODO";
+    StringBuilder ret = new StringBuilder();
+    ret.append("mergedfs(");
+    boolean first = true;
+    for (FileSystem fs : fileSystems) {
+      ret.append(fs.getFileSystemName());
+      if (first == true) {
+        first = false;
+      } else {
+        ret.append(",");
+      }
+    }
+    ret.append(")");
+    return ret.toString();
   }
 
   /*

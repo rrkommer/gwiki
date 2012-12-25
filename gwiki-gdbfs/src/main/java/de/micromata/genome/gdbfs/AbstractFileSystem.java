@@ -70,6 +70,11 @@ public abstract class AbstractFileSystem implements FileSystem
    */
   protected boolean autoCreateDirectories = false;
 
+  public String toString()
+  {
+    return getFileSystemName();
+  }
+
   public FileSystem getFsForRead(String name)
   {
     return this;
