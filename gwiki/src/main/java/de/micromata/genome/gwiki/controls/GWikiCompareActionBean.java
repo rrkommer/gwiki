@@ -35,11 +35,11 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.AbstractAppendable;
 import de.micromata.genome.gwiki.utils.DiffBuilder;
 import de.micromata.genome.gwiki.utils.DiffLine;
+import de.micromata.genome.gwiki.utils.DiffLine.DiffType;
 import de.micromata.genome.gwiki.utils.DiffSet;
+import de.micromata.genome.gwiki.utils.DiffSet.DiffSetStatus;
 import de.micromata.genome.gwiki.utils.PropDiffLine;
 import de.micromata.genome.gwiki.utils.WordDiffBuilder;
-import de.micromata.genome.gwiki.utils.DiffLine.DiffType;
-import de.micromata.genome.gwiki.utils.DiffSet.DiffSetStatus;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -63,6 +63,39 @@ public class GWikiCompareActionBean extends ActionBeanBase
   private String backUrl;
 
   private boolean fullDiff;
+
+  public Object onInit()
+  {
+    if (StringUtils.isEmpty(leftPageId) == true || StringUtils.isEmpty(rightPageId) == true) {
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftorrightpageidnotset");
+      return null;
+    }
+    leftEl = wikiContext.getWikiWeb().findElement(leftPageId);
+    rightEl = wikiContext.getWikiWeb().findElement(rightPageId);
+    if (leftEl == null) {
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftpageidnotfound", leftPageId);
+    }
+    if (rightEl == null) {
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.rightpageidnotfound", rightPageId);
+    }
+    if (wikiContext.hasValidationErrors() == true) {
+      return null;
+    }
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, leftEl.getElementInfo()) == false
+        || wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, leftEl.getElementInfo()) == false) {
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftpageidnotfound", leftPageId);
+      return null;
+    }
+    if (StringUtils.equals(rightEl.getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE), leftEl.getElementInfo()
+        .getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)) == false) {
+      wikiContext.addValidationError("gwiki.page.edit.Compare.message.canonlycompareequalmetas", leftEl.getElementInfo().getMetaTemplate()
+          .getPageId(), leftEl.getElementInfo().getMetaTemplate().getPageId());
+      return null;
+    }
+    diffSets = buildElDiffset();
+    return null;
+
+  }
 
   protected DiffSet buildPartDiffset(String partName, GWikiArtefakt< ? > la, GWikiArtefakt< ? > ra)
   {
@@ -230,10 +263,11 @@ public class GWikiCompareActionBean extends ActionBeanBase
     if (isPropertyDiff == true) {
       sb.append("&nbsp;</th><th>");
     }
-    sb.append(wikiContext.getUserDateString(leftEl.getElementInfo().getModifiedAt())).append(" by ").append(
-        leftEl.getElementInfo().getModifiedBy()).append("</th><th>&nbsp;</th><th>") //
-        .append(wikiContext.getUserDateString(rightEl.getElementInfo().getModifiedAt())).append(" by ").append(
-            rightEl.getElementInfo().getModifiedBy()) //
+    sb.append(wikiContext.getUserDateString(leftEl.getElementInfo().getModifiedAt())).append(" by ")
+        .append(leftEl.getElementInfo().getModifiedBy()).append("</th><th>&nbsp;</th><th>")
+        //
+        .append(wikiContext.getUserDateString(rightEl.getElementInfo().getModifiedAt())).append(" by ")
+        .append(rightEl.getElementInfo().getModifiedBy()) //
         .append("</th></tr>\n");
     ;
 
@@ -346,34 +380,6 @@ public class GWikiCompareActionBean extends ActionBeanBase
     for (Map.Entry<String, DiffSet> me : diffSets.entrySet()) {
       renderDiffSet(me.getKey(), me.getValue());
     }
-  }
-
-  public Object onInit()
-  {
-    if (StringUtils.isEmpty(leftPageId) == true || StringUtils.isEmpty(rightPageId) == true) {
-      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftorrightpageidnotset");
-      return null;
-    }
-    leftEl = wikiContext.getWikiWeb().findElement(leftPageId);
-    rightEl = wikiContext.getWikiWeb().findElement(rightPageId);
-    if (leftEl == null) {
-      wikiContext.addValidationError("gwiki.page.edit.Compare.message.leftpageidnotfound", leftPageId);
-    }
-    if (rightEl == null) {
-      wikiContext.addValidationError("gwiki.page.edit.Compare.message.rightpageidnotfound", rightPageId);
-    }
-    if (wikiContext.hasValidationErrors() == true) {
-      return null;
-    }
-    if (StringUtils.equals(rightEl.getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE), leftEl.getElementInfo()
-        .getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE)) == false) {
-      wikiContext.addValidationError("gwiki.page.edit.Compare.message.canonlycompareequalmetas", leftEl.getElementInfo().getMetaTemplate()
-          .getPageId(), leftEl.getElementInfo().getMetaTemplate().getPageId());
-      return null;
-    }
-    diffSets = buildElDiffset();
-    return null;
-
   }
 
   public String getLeftPageId()

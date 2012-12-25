@@ -331,6 +331,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
         th(text(translate("gwiki.page.edit.PageInfo.version.label.action"))) //
     )//
     );
+    boolean editAble = wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementInfo);
     for (GWikiElementInfo ei : versionInfos) {
 
       ta.nest(//
@@ -341,15 +342,16 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
           td(text(getDisplayDate(ei.getProps().getDateValue(MODIFIEDAT)))), //
           td(//
           a(attrs("href", wikiContext.localUrl(ei.getId())), text(translate("gwiki.page.edit.PageInfo.version.button.view"))), //
-              ei == elementInfo ? nbsp() : a(
-                  attrs("href", wikiContext.localUrl("edit/PageInfo")
+              ei == elementInfo ? nbsp() : Logic.If(
+                  editAble,
+                  a(attrs("href", wikiContext.localUrl("edit/PageInfo")
                       + "?restoreId="
                       + ei.getId()
                       + "&pageId="
                       + pageId
                       + "&method_onRestore=true"), //
-                  text(translate("gwiki.page.edit.PageInfo.version.button.restore"))//
-                  )) //
+                      text(translate("gwiki.page.edit.PageInfo.version.button.restore"))//
+                  ))) //
       ));
     }
     XmlElement np = Html.p(cmd, Html.br(), ta);
@@ -395,6 +397,10 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.cannotFindPageId", pageId);
       return;
     }
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, elementInfo) == false) {
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.cannotFindPageId", pageId);
+      return;
+    }
     if (showInfo("BaseInfo") == true) {
       infoBoxen.put("BaseInfo", buildBaseInfo());
     }
@@ -430,6 +436,13 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   public Object onRestore()
   {
     initialize();
+    if (wikiContext.hasValidationErrors() == true) {
+      return null;
+    }
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementInfo) == false) {
+      wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.norighttochangechild", pageId);
+      return null;
+    }
     if (StringUtils.isEmpty(restoreId) == true) {
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.noPageIdToRestore");
       return null;
@@ -439,6 +452,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.cannotFindRestorePageId", restoreId);
       return null;
     }
+
     wikiContext.getWikiWeb().restoreWikiPage(wikiContext, rei);
 
     return getWikiContext().getWikiWeb().findElement(pageId);
@@ -446,13 +460,15 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
 
   public Object onCompare()
   {
+    initialize();
+    if (wikiContext.hasValidationErrors() == true) {
+      return null;
+    }
     if (compareVersions == null) {
-      initialize();
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.noversionforcompare");
       return null;
     }
     if (compareVersions.length != 2) {
-      initialize();
       wikiContext.addValidationError("gwiki.page.edit.PageInfo.message.selecttwoversionsforcompare");
       return null;
     }
@@ -469,6 +485,9 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
   public Object onRename()
   {
     initialize();
+    if (wikiContext.hasValidationErrors() == true) {
+      return null;
+    }
     wikiContext.ensureAllowTo(GWikiAuthorizationRights.GWIKI_DELETEPAGES.name());
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(elementInfo);
     if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementInfo) == false) {
