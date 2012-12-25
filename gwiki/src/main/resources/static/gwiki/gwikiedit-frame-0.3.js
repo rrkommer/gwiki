@@ -531,6 +531,9 @@ function gwikicreateEditTab(partName) {
 								});
 						if (gwikiRteDefault) {
 							$tabs.tabs( "select" , 1);	
+						} 
+						if (gwikiEditDefaultFullscreen) {
+							gwikiFullscreen('gwikiwktabs');
 						}
 					});
 	
@@ -680,7 +683,15 @@ function gwikimaximizeWindow(framId, partName) {
 //		'height' : '100%'
 //	});
 	gwikiFitTiny(pn);
-	
+	jQuery.ajax( {
+		cache : false,
+		url : './EditPage?method_onAsyncFullscreen=true&showFullScreen=true',
+		type : 'POST',
+		dataType : "html",
+		//data : frmqs,
+		complete : function(res, status) {
+		}
+	});
 }
 
 function gwikiStdNestedCss(selector)
@@ -771,6 +782,15 @@ function gwikirestoreWindow(framId, partName) {
 	gwikiStdNestedCss("#gwikiwktabs" + partName);
 	//gwikiStdNestedCss("#gwikihtmledit" + partName + "_ifr");
 	gwikiFitTiny(partName);
+	jQuery.ajax( {
+		cache : false,
+		url : './EditPage?method_onAsyncFullscreen=true&showFullScreen=false',
+		type : 'POST',
+		dataType : "html",
+		//data : ,
+		complete : function(res, status) {
+		}
+	});
 }
 
 function gwikiShowFullPreview() {

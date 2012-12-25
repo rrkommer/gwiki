@@ -81,6 +81,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public static final String GWIKI_DEFAULT_EDITOR = "gwikidefeditor";
 
+  public static final String GWIKI_EDITOR_FULLSCREEN = "gwikideffullscreeneditor";
+
   /**
    * first is title, second id.
    */
@@ -139,6 +141,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   protected boolean disableBackup = false;
 
   protected String wikiDefaultEditor = "wiki";
+
+  protected boolean gwikiEditDefaultFullscreen;
 
   /**
    * comma seperated list of parts with no editor.
@@ -390,6 +394,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     initPartEditors();
     wikiDefaultEditor = wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext, GWIKI_DEFAULT_EDITOR);
+    gwikiEditDefaultFullscreen = StringUtils.equals(
+        wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN), "true");
     return true;
   }
 
@@ -793,6 +799,17 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
   }
 
+  public Object onAsyncFullscreen()
+  {
+    String value = "false";
+    if (StringUtils.equals(wikiContext.getRequestParameter("showFullScreen"), "true") == true) {
+      value = "true";
+    }
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN, value, true);
+    // GWikiLog.note("Stored editmaximize: " + value);
+    return noForward();
+  }
+
   protected Set<String> getHtmlTagMacros()
   {
     Set<String> s = new HashSet<String>();
@@ -905,6 +922,16 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   public boolean isRteDefaultEditor()
   {
     return StringUtils.equals(wikiDefaultEditor, "rte");
+  }
+
+  public boolean isGwikiEditDefaultFullscreen()
+  {
+    return gwikiEditDefaultFullscreen;
+  }
+
+  public void setGwikiEditDefaultFullscreen(boolean gwikiEditDefaultFullscreen)
+  {
+    this.gwikiEditDefaultFullscreen = gwikiEditDefaultFullscreen;
   }
 
   /**

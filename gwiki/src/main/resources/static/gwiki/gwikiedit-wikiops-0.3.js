@@ -61,7 +61,7 @@ function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 								formatItem : function(row) {
 									return row[1] + "<br><i>(" + row[0] + ")</i>";
 								}
-							}).result(function(event, item) {
+							}).focus().result(function(event, item) {
 						$(dialog).dialog('close');
 						field.focus();
 						insertIntoTextArea(field, linkstart + item[0] + linkend, '');
