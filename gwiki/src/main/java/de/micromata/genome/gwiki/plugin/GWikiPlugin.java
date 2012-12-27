@@ -73,6 +73,11 @@ public class GWikiPlugin
     this.descriptor = descriptor;
   }
 
+  public String toString()
+  {
+    return "" + descriptor + "; activated: " + activated;
+  }
+
   public GWikiPluginDescriptor getDescriptor()
   {
     return descriptor;

@@ -135,7 +135,8 @@ public class GWikiPluginRepository
       }
       GWikiPluginDescriptor pdesc = loadDescriptor(dir.getFileSystem(), pluginxmlname);
       if (plugins.containsKey(pdesc.getPluginId()) == true) {
-        GWikiLog.note("Plugin already loaded: " + pdesc.getPluginId());
+        GWikiPlugin tplugin = plugins.get(pdesc.getPluginId());
+        GWikiLog.note("Plugin already loaded: " + pdesc.getPluginId() + " from fs: " + tplugin.getFileSystem());
         return;
       }
       SubFileSystem sfs = new SubFileSystem(dir.getFileSystem(), dir.getName());

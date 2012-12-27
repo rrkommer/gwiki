@@ -142,6 +142,11 @@ public class GWikiPluginDescriptor implements InitializingBean
     }
   }
 
+  public String toString()
+  {
+    return getPluginId();
+  }
+
   /**
    * 
    * @return name:version
