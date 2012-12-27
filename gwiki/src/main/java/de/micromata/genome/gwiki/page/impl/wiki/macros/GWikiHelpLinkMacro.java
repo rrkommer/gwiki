@@ -92,7 +92,7 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
       return null;
     }
     localHelpPageId = ei.getProps().getStringValue(GWikiPropKeys.HELP_PAGE);
-    if (localHelpPageId != null) {
+    if (StringUtils.isBlank(localHelpPageId) == false) {
       return localHelpPageId;
     }
     if (ei.getMetaTemplate() == null) {
