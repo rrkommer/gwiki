@@ -389,10 +389,11 @@ public class GWikiWeb
     try {
       if (getAuthorization().initThread(ctx) == false) {
         if (getAuthorization().isAllowToView(ctx, el.getElementInfo()) == false) {
+          GWikiLog.note("Unauthorized page view: " + el.getElementInfo().getId());
           if (isIncluded(ctx) == true) {
             return;
           } else {
-            String url = "admin/Login";
+            String url = ctx.localUrl("admin/Login");
             if (el != null) {
               url += "?pageId=" + el.getElementInfo().getId();
             }
