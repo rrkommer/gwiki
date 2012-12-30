@@ -10,7 +10,7 @@
   <artifactId>gwiki-msotextextractor</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-msotextextractor</name>
-  <version>1.0.0</version>
+  <version>1.0.0</version><!-- PLUGINVERSION -->
   <dependencies>
     <dependency>
       <groupId>org.apache.poi</groupId>

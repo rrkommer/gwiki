@@ -10,5 +10,5 @@
   <artifactId>gwiki-forum</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-forum</name>
-  <version>1.0.0</version>
+  <version>1.0.0</version><!-- PLUGINVERSION -->
 </project>

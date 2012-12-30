@@ -8,6 +8,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-feed</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version><!-- PLUGINVERSION -->
 	<packaging>jar</packaging>
 </project>
