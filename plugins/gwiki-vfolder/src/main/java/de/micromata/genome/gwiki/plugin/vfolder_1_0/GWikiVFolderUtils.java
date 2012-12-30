@@ -88,7 +88,7 @@ public class GWikiVFolderUtils
   public static void mountFs(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
   {
     List<GWikiElementInfo> ell = loadFsElements(wikiContext, el, node);
-    GWikiPageCache pageCache = wikiContext.getWikiWeb().getDaoContext().getPageCache();
+    GWikiPageCache pageCache = wikiContext.getWikiWeb().getPageCache();
     for (GWikiElementInfo ei : ell) {
       pageCache.putPageInfo(ei);
     }
@@ -97,7 +97,7 @@ public class GWikiVFolderUtils
   public static void dismountFs(GWikiContext wikiContext, GWikiElement el, GWikiVFolderNode node)
   {
     GWikiVFolderCachedFileInfos cache = readCache(node);
-    GWikiPageCache pageCache = wikiContext.getWikiWeb().getDaoContext().getPageCache();
+    GWikiPageCache pageCache = wikiContext.getWikiWeb().getPageCache();
 
     for (Map.Entry<String, GWikiElementInfo> me : cache.getVfolderFiles().entrySet()) {
       String id = el.getElementInfo().getId() + "/" + me.getKey();
