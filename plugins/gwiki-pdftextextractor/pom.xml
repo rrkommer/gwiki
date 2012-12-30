@@ -7,9 +7,9 @@
     <version>1.0.0-SNAPSHOT</version><!-- GWIKVERSION -->
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
-  <artifactId>gwiki-pdfextractor</artifactId>
+  <artifactId>gwiki-pdftextextractor</artifactId>
   <packaging>jar</packaging>
-  <name>gwiki-pdfextractor</name>
+  <name>gwiki-pdftextextractor</name>
   <version>1.0.0</version><!-- PLUGINVERSION -->
   
   <dependencies>
