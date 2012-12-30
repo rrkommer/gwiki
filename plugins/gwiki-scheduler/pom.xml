@@ -8,6 +8,6 @@
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-scheduler</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0</version><!-- PLUGINVERSION -->
   <packaging>jar</packaging>
 </project>
