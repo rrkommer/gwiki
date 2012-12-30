@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.micromata.genome.gwiki</groupId>
-	<artifactId>gwiki-org.apache.httpcomponents</artifactId>
+	<artifactId>org.apache.httpcomponents</artifactId>
 	<packaging>jar</packaging>
 	<version>4.0.1</version>
 </project>
