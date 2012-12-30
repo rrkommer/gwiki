@@ -124,7 +124,8 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     }
     adminMenu.setIconMedium(wikiContext.localUrl("/inc/gwiki/img/icons/heart16.png"));
 
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_FSWEBDAV.name()) == true) {
+    if (wikiContext.getWikiWeb().getDaoContext().isEnableWebDav() == true
+        && wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_FSWEBDAV.name()) == true) {
       GWikiMenu menu = new GWikiMenu();
       menu.setLabel(wikiContext.getTranslated("gwiki.page.AllPages.menu.webdav"));
       menu.setUrl(wikiContext.localUrl("/dav/"));
