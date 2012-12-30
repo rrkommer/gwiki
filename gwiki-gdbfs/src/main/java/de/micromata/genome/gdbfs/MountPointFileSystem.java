@@ -140,7 +140,10 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
     if (fn.startsWith("/") == true) {
       fn = fn.substring(1);
     }
-    String fnp = fn.substring(path.length());
+    String fnp = fn;
+    if (fnp.startsWith(path) == true) {
+      fnp = fn.substring(path.length());
+    }
     if (fnp.startsWith("/") == true) {
       fnp = fnp.substring(1);
     }
