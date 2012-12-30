@@ -153,7 +153,7 @@ public class GWikiJettyStarter
         buildIndex(jettyConfig, wikiServlet);
         System.out.println("Finished intial indexing.");
       }
-
+      System.out.println("You can now use gwiki with your web browser: " + System.getProperty("gwiki.public.url"));
       server.join();
     } catch (RuntimeException ex) {
       throw ex;
