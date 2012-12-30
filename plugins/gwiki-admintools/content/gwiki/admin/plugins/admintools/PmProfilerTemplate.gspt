@@ -6,18 +6,18 @@
 <form class="gwikiForm col" method="post">
 <fieldset>
 <legend>Dump all Threads</legend>
-	<input class="gwikiButton main" type="submit" name="method_onDumpStacktraces" value="Dump Threads"><br/>
+  <input class="gwikiButton main" type="submit" name="method_onDumpStacktraces" value="Dump Threads"><br/>
 </fieldset>
 <fieldset>
 <legend>Profiler </legend>
 <c:if test="${form.canStart}">
 
-	Thread Sleep Time: <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="20" property="millisecondsToSleep" /><br/>
+  Thread Sleep Time: <gwiki:text errorStyleClass="text error" styleClass="text" styleId="email" size="20" property="millisecondsToSleep" /><br/>
 
-	<input class="gwikiButton main" type="submit" name="method_onStart" value="Start"> 
+  <input class="gwikiButton main" type="submit" name="method_onStart" value="Start"> 
 </c:if>
 <c:if test="${form.active && !form.running}">
-	<input class="gwikiButton main" type="submit" name="method_onClear" value="Clear"> 
+  <input class="gwikiButton main" type="submit" name="method_onClear" value="Clear"> 
 </c:if>
 <c:if test="${form.canPause}">
 <input class="gwikiButton reset" type="submit" name="method_onPause" value="Pause"> 
@@ -30,9 +30,9 @@
 <input class="gwikiButton main" type="submit" name="method_onResume" value="Resume"> 
 </c:if>
 <c:if test="${!form.running && form.active}">
-	<br/>Thread List: <gwiki:checkbox property="dumpThreadList" /><br/>
-	Standard List: <gwiki:checkbox property="dumpStdList" /><br/>
-	<input class="gwikiButton " type="submit" name="method_onDump" value="Dump">
+  <br/>Thread List: <gwiki:checkbox property="dumpThreadList" /><br/>
+  Standard List: <gwiki:checkbox property="dumpStdList" /><br/>
+  <input class="gwikiButton " type="submit" name="method_onDump" value="Dump">
 </c:if>
 </fieldset>
 <c:if test="${form.dumped}">

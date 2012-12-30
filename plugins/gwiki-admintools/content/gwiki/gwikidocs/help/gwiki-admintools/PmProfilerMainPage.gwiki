@@ -1,0 +1,132 @@
+{pageintro}
+Poor Mans Profiler.
+{pageintro}
+
+This is a little helper tool to analyse GWiki Performance.
+{note}
+This tool may slow down your GWiki and costs a lot of CPU performance.
+{note}
+
+h2. Dump all Threads
+This dumps all stacktraces of all GWiki Threads. This is usefull, if GWiki hangs or blocks somewhere.
+If GWiki is running embedded as servlet inside a J2E application also all threads of the Application Server and deployed web applications are dumped.
+
+h2. Profile
+This is a poor mans profiler.
+
+If you run GWiki in a servlet container embedded with other applications, not only GWiki will be profiled, but all applications running.
+
+{note}
+This function may consumes notable memory and slow down GWiki.
+{note}
+
+Starting the profiler it will take every x millisecond (_Thread Sleep Time_) a stack trace snapshot from each thread. 
+After stopping the profiler, you can view the the collected threads.
+
+h3. As Tree
+The tree view gives you following view (sample):
+{pre}
+Thread Tree
+ java.util.TimerThread.run(Unknown Source) => 6468
+  java.util.TimerThread.run(Unknown Source) => 6467
+   java.util.TimerThread.mainLoop(Unknown Source) => 6467
+  java.util.TimerThread.mainLoop(Unknown Source) => 1
+
+Thread Tree
+ java.lang.ref.Reference$ReferenceHandler.run(Unknown Source) => 6468
+  java.lang.ref.Reference$ReferenceHandler.run(Unknown Source) => 6467
+   java.lang.Object.wait(Object.java:485) => 6467
+  java.lang.Object.wait(Object.java:485) => 1
+
+Thread Tree
+ de.micromata.genome.gwiki.model.GWikiStandardSchedulerProvider$SchedulerThread.run(GWikiStandardSchedulerProvider.java:62) => 5215
+  de.micromata.genome.gwiki.model.GWikiStandardSchedulerProvider$SchedulerThread.run(GWikiStandardSchedulerProvider.java:62) => 5214
+   de.micromata.genome.gwiki.model.GWikiSchedulerJobBase.call(GWikiSchedulerJobBase.java:53) => 5214
+    de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback.call(SearchExpressionIndexerCallback.java:60) => 5214
+     de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback.rebuildIndex(SearchExpressionIndexerCallback.java:91) => 5214
+      de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization.runAsSu(GWikiSimpleUserAuthorization.java:63) => 5214
+       de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback$1.call(SearchExpressionIndexerCallback.java:1) => 5214
+        de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback$1.call(SearchExpressionIndexerCallback.java:95) => 5214
+         de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.rebuildIndex(GWikiFileStorage.java:904) => 4391
+          de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.storeImplNoTrans(GWikiFileStorage.java:810) => 3270
+           de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.writeTextFile(GWikiFileStorage.java:777) => 2200
+            de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.getFsForWrite(GWikiFileStorage.java:761) => 2165
+             de.micromata.genome.gwiki.plugin.GWikiPluginCombinedFileSystem.getFsForWrite(GWikiPluginCombinedFileSystem.java:154) => 2165
+              de.micromata.genome.gwiki.plugin.GWikiPluginCombinedFileSystem.getFs(GWikiPluginCombinedFileSystem.java:113) => 2165
+               de.micromata.genome.gdbfs.MountPointFileSystem.exists(MountPointFileSystem.java:89) => 2165
+                de.micromata.genome.gdbfs.MountPointFileSystem.exists(MountPointFileSystem.java:89) => 2164
+                 de.micromata.genome.gdbfs.StdFileSystem.exists(StdFileSystem.java:121) => 2046
+                  de.micromata.genome.gdbfs.StdFileSystem.ensureFileInFs(StdFileSystem.java:164) => 2046
+                   java.io.File.getCanonicalPath(Unknown Source) => 2046
+                    java.io.Win32FileSystem.canonicalize(Unknown Source) => 2045
+                     java.io.File.exists(Unknown Source) => 185
+                     java.io.ExpiringCache.get(Unknown Source) => 1
+                     java.io.ExpiringCache.put(Unknown Source) => 1
+                 de.micromata.genome.gdbfs.StdFileSystem.exists(StdFileSystem.java:122) => 117
+                  java.io.File.exists(Unknown Source) => 117
+                 de.micromata.genome.gdbfs.StdFileSystem.exists(StdFileSystem.java:120) => 1
+                  java.io.File.(Unknown Source) => 1
+                   java.io.Win32FileSystem.normalize(Unknown Source) => 1
+                de.micromata.genome.gdbfs.SubFileSystem.getFqName(SubFileSystem.java:37) => 1
+                 de.micromata.genome.gdbfs.FileNameUtils.join(FileNameUtils.java:87) => 1
+            de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.getFsForWrite(GWikiFileStorage.java:763) => 35
+             de.micromata.genome.gdbfs.MultiMountCombinedFileSystem.existsForWrite(MultiMountCombinedFileSystem.java:140) => 35
+              de.micromata.genome.gdbfs.AbstractFileSystem.existsForWrite(AbstractFileSystem.java:115) => 34
+               de.micromata.genome.gdbfs.StdFileSystem.exists(StdFileSystem.java:122) => 23
+                java.io.File.exists(Unknown Source) => 23
+               de.micromata.genome.gdbfs.StdFileSystem.exists(StdFileSystem.java:121) => 9
+{pre}
+
+The numbers on the right side are the count of visitis, i.e. how often the stacktrace snapshots was inside exactly this call stack.
+
+The tree is sorted by the leafs, with the top mosts visits.
+
+h3. As standard list
+Dumping as standard list gives you following view (sample):
+{pre}
+All Method:
+51744 java.lang.Thread.run(Unknown Source)
+45209 java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(Unknown Source)
+45209 org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:451)
+45209 org.eclipse.jetty.util.BlockingArrayQueue.poll(BlockingArrayQueue.java:320)
+45208 java.util.concurrent.locks.LockSupport.parkNanos(Unknown Source)
+45208 sun.misc.Unsafe.park(Native Method)
+25872 java.lang.Object.wait(Native Method)
+12936 java.lang.Object.wait(Object.java:485)
+12936 java.lang.ref.ReferenceQueue.remove(Unknown Source)
+6619 de.micromata.genome.gdbfs.MountPointFileSystem.exists(MountPointFileSystem.java:89)
+6535 org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:436)
+6468 org.eclipse.jetty.server.nio.SelectChannelConnector.accept(SelectChannelConnector.java:135)
+6468 org.eclipse.jetty.server.Server.join(Server.java:385)
+6468 java.util.TimerThread.mainLoop(Unknown Source)
+6468 org.eclipse.jetty.server.AbstractConnector$Acceptor.run(AbstractConnector.java:776)
+6468 org.eclipse.jetty.util.thread.QueuedThreadPool.join(QueuedThreadPool.java:348)
+6468 de.micromata.genome.gwiki.jetty.GWikiJettyStarter.main(GWikiJettyStarter.java:167)
+6468 org.eclipse.jetty.io.nio.SelectorManager.doSelect(SelectorManager.java:180)
+6468 java.util.TimerThread.run(Unknown Source)
+6468 java.lang.ref.Reference$ReferenceHandler.run(Unknown Source)
+6468 de.micromata.genome.gwiki.jetty.GWikiJettyStarter.start(GWikiJettyStarter.java:157)
+6468 java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
+6465 org.eclipse.jetty.io.nio.SelectorManager$SelectSet.doSelect(SelectorManager.java:497)
+6464 sun.nio.ch.SelectorImpl.select(Unknown Source)
+6464 sun.nio.ch.SelectorImpl.lockAndDoSelect(Unknown Source)
+6464 sun.nio.ch.WindowsSelectorImpl.doSelect(Unknown Source)
+6461 sun.nio.ch.WindowsSelectorImpl$SubSelector.access$400(Unknown Source)
+6461 sun.nio.ch.WindowsSelectorImpl$SubSelector.poll0(Native Method)
+6461 sun.nio.ch.WindowsSelectorImpl$SubSelector.poll(Unknown Source)
+5637 de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization.runAsSu(GWikiSimpleUserAuthorization.java:63)
+5215 de.micromata.genome.gwiki.model.GWikiSchedulerJobBase.call(GWikiSchedulerJobBase.java:53)
+5215 de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback.rebuildIndex(SearchExpressionIndexerCallback.java:91)
+5215 de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback$1.call(SearchExpressionIndexerCallback.java:1)
+5215 de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback$1.call(SearchExpressionIndexerCallback.java:95)
+5215 de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback.call(SearchExpressionIndexerCallback.java:60)
+5215 de.micromata.genome.gwiki.model.GWikiStandardSchedulerProvider$SchedulerThread.run(GWikiStandardSchedulerProvider.java:62)
+4391 de.micromata.genome.gwiki.spi.storage.GWikiFileStorage.rebuildIndex(GWikiFileStorage.java:904)
+3536 java.io.File.getCanonicalPath(Unknown Source)
+3536 java.io.Win32FileSystem.canonicalize(Unknown Source)
+{pre}
+
+On the left side are the visits counts on the given Method and line number.
+
+h3. Source Code
+The Poor Mans Profiler is just one Java Class (Beside GWiki Page and rendering): {{de.micromata.genome.gwiki.admintools_1_0.pmprofiler.StacktracePerf}}.
