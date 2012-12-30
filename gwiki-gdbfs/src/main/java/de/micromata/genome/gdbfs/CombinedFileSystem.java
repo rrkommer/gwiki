@@ -103,7 +103,11 @@ public abstract class CombinedFileSystem extends AbstractFileSystem
 
   public String getFileSystemName()
   {
-    return "combinedfs(" + primary.getFileSystemName() + "|" + secondary.getFileSystemName() + ")";
+    return "combinedfs("
+        + (primary == null ? "null" : primary.getFileSystemName())
+        + "|"
+        + (secondary == null ? "null" : secondary.getFileSystemName())
+        + ")";
   }
 
   public long getLastModified(String name)
