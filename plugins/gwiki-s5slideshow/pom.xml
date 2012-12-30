@@ -10,5 +10,5 @@
   <artifactId>gwiki-s5slideshow</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-s5slideshow</name>
-  <version>1.0.0</version>
+  <version>1.0.0</version><!-- PLUGINVERSION -->
 </project>
