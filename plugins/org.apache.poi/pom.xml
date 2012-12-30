@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>gwiki-plugin-parent</artifactId>
 		<groupId>de.micromata.genome.gwiki</groupId>
-		<version>0.9.0-SNAPSHOT</version><!-- GWIKVERSION -->
+		<version>1.0.0-SNAPSHOT</version><!-- GWIKVERSION -->
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-org.apache.poi</artifactId>
-	<version>3.2.0</version>
+	<version>3.2.0</version><!-- PLUGINVERSION -->
 	<packaging>jar</packaging>
 </project>
