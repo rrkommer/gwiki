@@ -41,10 +41,10 @@
       </c:choose>   
   </td>
   <td width="50%" style="text-align:left">
-  	<c:out value="${plugin.descriptor.description}"/>
-  	<c:if test="${plugin.descriptor.descriptionPath != null}">
-			<gwiki:macro name="fancybox" args="href=${plugin.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
-		</c:if>
+    <c:out value="${plugin.descriptor.description}"/>
+    <c:if test="${plugin.descriptor.descriptionPath != null}">
+      <gwiki:macro name="fancybox" args="href=${plugin.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
+    </c:if>
   </td>
   <td width="10%"><c:out value="${plugin.descriptor.author}"/></td>
   <td width="10%">
