@@ -1,0 +1,9 @@
+{pageintro}
+Simple Page to send an email via GWiki.
+{pageintro}
+
+This page is just to test sending emails by/via the GWiki server.
+
+You have configured the GWiki email server before.
+
+Look into GWiki Logging to check if email sending was successfull.

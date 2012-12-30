@@ -18,12 +18,12 @@ Receiver: <gwiki:text size="50" property="receiver"/><br/>
 Subject: <gwiki:text size="50" property="subject"/><br/>
 <gwiki:textarea cols="80" rows="30" property="input"/><br/>
 
-<input type="submit" name="method_onSendNormal" value="Send"><p/>
+<input type="submit" class="gwikiButton main" name="method_onSendNormal" value="Send"><p/>
 </div>
 
 <div id="TemplateTab" style="width: 100%; height: 100%">
 <gwiki:select property="selectedTemplate">
-	<gwiki:optionsCollection property="availableTemplates" label="key" value="value" />
+  <gwiki:optionsCollection property="availableTemplates" label="key" value="value" />
 </gwiki:select>
 <p/>
 <% int i = 0; %>
@@ -40,7 +40,7 @@ Subject: <gwiki:text size="50" property="subject"/><br/>
 <input type="text" name="KEY<%= i %>" value="TEXT"/> : <input type="text" name="VALUE<%= i %>"/><br/>
 <% ++i; %>
 <% for (; i < 10; ++i) { 
-%>	<input type="text" name="KEY<%= i %>"/> : <input type="text" name="VALUE<%= i %>"/><br/> 
+%>  <input type="text" name="KEY<%= i %>"/> : <input type="text" name="VALUE<%= i %>"/><br/> 
 <%}
 %>
 <p/>
