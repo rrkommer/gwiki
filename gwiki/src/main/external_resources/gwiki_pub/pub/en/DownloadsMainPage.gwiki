@@ -12,41 +12,35 @@ the GWiki server.
 
 h3. Releases
 
-Standalone Desktop binary: [gwiki-standalone-0.4.1.zip|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1/gwiki-standalone-0.4.1.zip]
+Standalone Desktop binary: [gwiki-standalone-1.0.0.zip|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0/gwiki-standalone-1.0.0.zip]
 
-{panel:title=Bug in 0.4.1}
-In the gwiki.cmd and gwiki.sh the old 0.3.1-SNAPSHOT jars are refered. Please replace this with the correct 0.4.1.jar argument:
-{code}
-java -jar gwiki-standalone-0.4.1.jar de.micromata.genome.gwiki.jetty.GWikiJettyStarter
-{code}
-{panel}
 
 For GWiki Plugins please refer to [pub/en/plugins/PluginDownloads].
 
 {html}
 <div style="font-size: 0.5em;">
-<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1" scrolling="yes"> 
-   <a href="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/0.4.1">Snapshots</a>
+<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0" scrolling="yes"> 
+   <a href="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0">Snapshots</a>
 
 </iframe> 
 </div> 
 {html}
 
 h3. Snapshots
-Snapshot of the Standalone Desktop binary: [gwiki-standalone-0.9.0-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.9.0-SNAPSHOT/gwiki-standalone-0.9.0-SNAPSHOT.zip]
+Snapshot of the Standalone Desktop binary: [gwiki-standalone-1.0.0-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT/gwiki-standalone-1.0.0-SNAPSHOT.zip]
 
 All files:
 {html}
 <div style="font-size: 0.5em;">
-<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.9.0-SNAPSHOT" scrolling="yes"> 
-   <a href="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/0.9.0-SNAPSHOT">Snapshots</a>
+<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT" scrolling="yes"> 
+   <a href="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT">Snapshots</a>
 
 </iframe> 
 </div> 
 {html}
 
 h2. Support 
-Bugs, Support requests and feature requests can be found and submittet at: 
+Bugs, Support requests and feature requests can be found and submitted at: 
 *[https://labs.micromata.de/jira/browse/GWIKI]*
 
 h2. Developer of GWiki
