@@ -94,29 +94,29 @@ public class GWikiDeletedPagesActionBean extends ActionBeanBase
 
     XmlElement ta = GWikiPageInfoActionBean.getStandardTable();
     ta.nest(//
-        tr(//
-            th(text(translate("gwiki.page.edit.DeletedPages.col.author"))), //
-            th(text(translate("gwiki.page.edit.DeletedPages.col.time"))), //
-            th(text(translate("gwiki.page.edit.DeletedPages.col.action"))) //
-        )//
-        );
+    tr(//
+    th(text(translate("gwiki.page.edit.DeletedPages.col.author"))), //
+        th(text(translate("gwiki.page.edit.DeletedPages.col.time"))), //
+        th(text(translate("gwiki.page.edit.DeletedPages.col.action"))) //
+    )//
+    );
     for (GWikiElementInfo ei : versionsInfos) {
 
       ta.nest(//
-          tr(//
-              td(text(StringUtils.defaultString(ei.getProps().getStringValue(GWikiPropKeys.MODIFIEDBY), "Unknown"))), //
-              td(text(getDisplayDate(ei.getProps().getDateValue(GWikiPropKeys.MODIFIEDAT)))), //
-              td(//
-                  a(attrs("href", wikiContext.localUrl(ei.getId())), text(translate("gwiki.page.edit.DeletedPages.link.view"))), //
-                  a(attrs("href", wikiContext.localUrl("edit/PageInfo")
-                      + "?restoreId="
-                      + ei.getId()
-                      + "&pageId="
-                      + pageId
-                      + "&method_onRestore=true"), //
-                      text(translate("gwiki.page.edit.DeletedPages.link.restore"))//
-                  )) //
-          ));
+      tr(//
+      td(text(StringUtils.defaultString(ei.getProps().getStringValue(GWikiPropKeys.MODIFIEDBY), "Unknown"))), //
+          td(text(getDisplayDate(ei.getProps().getDateValue(GWikiPropKeys.MODIFIEDAT)))), //
+          td(//
+          a(attrs("href", wikiContext.localUrl(ei.getId())), text(translate("gwiki.page.edit.DeletedPages.link.view"))), //
+              a(attrs("href", wikiContext.localUrl("edit/PageInfo")
+                  + "?restoreId="
+                  + ei.getId()
+                  + "&pageId="
+                  + pageId
+                  + "&method_onRestore=true"), //
+                  text(translate("gwiki.page.edit.DeletedPages.link.restore"))//
+              )) //
+      ));
     }
     versionBox = GWikiPageInfoActionBean.getBoxFrame("Versionen", ta).toString();
     return null;
@@ -136,6 +136,9 @@ public class GWikiDeletedPagesActionBean extends ActionBeanBase
       matcher = new ContainsIgnoreCaseMatcher<String>(listFilter);
     }
     deletedPages = wikiContext.getWikiWeb().getStorage().findDeletedPages(matcher);
+    if (deletedPages == null || deletedPages.isEmpty() == true) {
+      wikiContext.addSimpleValidationError("No deleted elements found");
+    }
   }
 
   public boolean isList()

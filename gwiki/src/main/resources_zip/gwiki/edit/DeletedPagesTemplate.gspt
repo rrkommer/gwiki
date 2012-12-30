@@ -30,7 +30,7 @@ function viewDelPage(pageId)
 </p>
 <p><fmt:message key='gwiki.page.edit.DeletedPages.text.searchpageid' /></p>
     <fmt:message key="gwiki.page.edit.DeletedPages.label.filter"/> <gwiki:text property="listFilter"/>
-    <input type="submit" name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
+    <input type="submit" class="gwikiButton main"  name="method_onFilter" value="<fmt:message key="gwiki.page.edit.DeletedPages.button.search"/>"/>
     <input id="formactionname" type="hidden" name="action"/>
     
   <ul>
