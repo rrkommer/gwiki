@@ -142,6 +142,7 @@ public class GWikiInitialSetup
     }
     setSysProp("gwiki.jetty.port", props, "8081");
     setSysProp("gwiki.jetty.contextpath", props, "/");
+    setSysProp("gwiki.jetty.logs", props, "");
     setSysProp("gwiki.wikifilepath", props, "./gwiki");
     setSysProp("gwiki.sys.user", props, "");
     setSysProp("gwiki.sys.passwordhash", props, "");
