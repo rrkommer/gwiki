@@ -10,5 +10,5 @@
   <artifactId>gwiki-blog</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-blog</name>
-  <version>1.0.0</version>
+  <version>1.0.0</version><!-- PLUGINVERSION -->
 </project>

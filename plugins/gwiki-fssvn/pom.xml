@@ -9,7 +9,7 @@
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-fssvn</artifactId>
   <packaging>jar</packaging>
-
+  <version>1.0.0</version><!-- PLUGINVERSION -->
 
   <dependencies>
 

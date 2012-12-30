@@ -11,7 +11,7 @@
 	<artifactId>gwiki-rte-myspell</artifactId>
 	<packaging>jar</packaging>
 	<name>gwiki-rte-myspell</name>
-	<version>1.0.0</version>
+	<version>1.0.0</version><!-- PLUGINVERSION -->
 	
 	<dependencies>
 			<dependency>
