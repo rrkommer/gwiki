@@ -20,13 +20,17 @@ GWiki can be extended with Plugins. Plugins may contain
 
 
 h2.Administrators View
-Plugin can be installed inside GWiki simply by upload the Plugin ZIP file as Attachment to the [admin/plugins/Index] page.
-
-To activate or deactivate the Plugin use the [admin/PluginAdmin].
+h3. Plugin Admin
+In the [admin/PluginAdmin]. page already installed plugins can be activated and deactivated.
 
 {note}
 Every time a plugin will be activated or deactivated the complete GWiki will be reloaded. This may take a view seconds.
 {note}
+
+h3. Installed Plugins
+New Plugins can be installed inside GWiki simply by upload the Plugin ZIP file as Attachment to the [admin/plugins/Index] page.
+
+Please see at the GWiki Website [http://labs.micromata.de/gwiki/pub/en/plugins/PluginDownloads] for available plugins.
 
 
 
