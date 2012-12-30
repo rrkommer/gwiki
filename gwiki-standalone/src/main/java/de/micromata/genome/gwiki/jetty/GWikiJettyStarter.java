@@ -23,7 +23,12 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.NCSARequestLog;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -72,6 +77,26 @@ public class GWikiJettyStarter
 
   }
 
+  void configureLogging(Server server, ServletContextHandler context)
+  {
+    String reqPath = System.getProperty("gwiki.jetty.logs");
+    if (StringUtils.isBlank(reqPath) == true) {
+      return;
+    }
+    HandlerCollection handlers = new HandlerCollection();
+    RequestLogHandler requestLogHandler = new RequestLogHandler();
+    handlers.setHandlers(new Handler[] { context, new DefaultHandler(), requestLogHandler});
+    server.setHandler(handlers);
+
+    NCSARequestLog requestLog = new NCSARequestLog(reqPath + "/jetty-yyyy_mm_dd.request.log");
+    requestLog.setExtended(true);
+    requestLog.setRetainDays(90);
+    requestLog.setAppend(true);
+    requestLog.setExtended(true);
+    requestLog.setLogTimeZone("GMT");
+    requestLogHandler.setRequestLog(requestLog);
+  }
+
   public void start()
   {
     try {
@@ -112,6 +137,8 @@ public class GWikiJettyStarter
           server.addConnector(con);
         }
       }
+      configureLogging(server, context);
+      // Handler[] handlers = server.getHandlers();
       server.start();
 
       if (firstStart == true) {
