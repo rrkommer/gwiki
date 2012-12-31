@@ -56,7 +56,7 @@ public class GWikiKeywordPageChangedFilter implements GWikiPageChangedFilter
       }
     }
     chf.clearKeywords();
-    event.getWikiWeb().getDaoContext().getPageCache().clearCompiledFragments(GWikiWikiPageArtefakt.class);
+    event.getWikiWeb().getPageCache().clearCompiledFragments(GWikiWikiPageArtefakt.class);
     return chain.nextFilter(event);
   }
 }

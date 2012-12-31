@@ -61,7 +61,7 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
     StringBuilder ts = new StringBuilder();
     ts.append("<ul>");
     for (GWikiElementInfo ei : els) {
-      if (StringUtils.equals(ei.getId(), ctx.getWikiElement().getElementInfo().getId()) == true) {
+      if (StringUtils.equals(ei.getId(), ctx.getCurrentElement().getElementInfo().getId()) == true) {
         continue;
       }
       if (ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei) == false) {
@@ -81,9 +81,10 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
       sb.append(matched);
       return;
     }
-    sb.append("<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('")//
-        .append(StringEscapeUtils.escapeJavaScript(ts.toString())).append("', '").append(ctx.genHtmlId("")).append(
-            "')\" onmouseout=\"doNotOpenHilfeLayer();\">") //
+    sb.append("<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('")
+        //
+        .append(StringEscapeUtils.escapeJavaScript(ts.toString())).append("', '").append(ctx.genHtmlId(""))
+        .append("')\" onmouseout=\"doNotOpenHilfeLayer();\">") //
         .append(StringEscapeUtils.escapeHtml(matched)).append("</a>");
     sb.append("");
   }
@@ -162,7 +163,7 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
     if (RenderModes.NoPageDecoration.isSet(ctx.getRenderMode()) == true) {
       return nested.render(ctx);
     }
-    String space = ctx.getWikiElement().getElementInfo().getWikiSpace(ctx);
+    String space = ctx.getCurrentElement().getElementInfo().getWikiSpace(ctx);
     Map<String, Pair<Pattern, List<GWikiElementInfo>>> spaceKeyWords = fe.getKeywords(ctx).get(space);
     if (spaceKeyWords == null) {
       return nested.render(ctx);
