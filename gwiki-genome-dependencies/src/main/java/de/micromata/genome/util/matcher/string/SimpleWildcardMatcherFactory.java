@@ -53,6 +53,7 @@ public class SimpleWildcardMatcherFactory<T> implements MatcherFactory<T>
     return ret;
   }
 
+  @SuppressWarnings("unchecked")
   protected Matcher<T> createWildcartMatcher(String pattern)
   {
     if (TextSplitterUtils.getUnescapedIndexOf(pattern, '?', escapeChar) != -1)

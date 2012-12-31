@@ -7,6 +7,9 @@ package de.micromata.genome.util.matcher;
  */
 public abstract class LeftRightMatcherBase<T> extends MatcherBase<T>
 {
+
+  private static final long serialVersionUID = 2493922881288900868L;
+
   protected Matcher<T> leftMatcher;
 
   protected Matcher<T> rightMatcher;

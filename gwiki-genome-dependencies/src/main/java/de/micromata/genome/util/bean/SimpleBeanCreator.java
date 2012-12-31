@@ -49,8 +49,8 @@ public class SimpleBeanCreator
         content
         + //
         "</beans>\n";
-    Class< ? > cls = XmlBeanFactory.class;
-    ClassLoader cll = cls.getClassLoader();
+    // Class< ? > cls = XmlBeanFactory.class;
+    // ClassLoader cll = cls.getClassLoader();
     XmlBeanFactory factory = new XmlBeanFactory(new ByteArrayResource(rt.getBytes("UTF-8")));
     Object o = factory.getBean(beanName);
     return o;

@@ -48,6 +48,7 @@ public class ThreadUtils
    * @param matcher a valid matcher. if null returns an empty list
    * @return always not null. In case of nothing empty list.
    */
+  @SuppressWarnings("unchecked")
   public static List<Thread> findThreadsByNameMatcher(Matcher<String> matcher)
   {
     if (matcher == null)

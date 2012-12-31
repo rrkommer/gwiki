@@ -18,7 +18,7 @@ public abstract class AbtractCallableX<V, EX extends Throwable> implements Calla
     return cls;
   }
 
-  public <V, EX extends Throwable> boolean isDeclaredException(CallableX<V, EX> callable, Throwable ex)
+  public boolean isDeclaredException(CallableX<V, EX> callable, Throwable ex)
   {
     Class< ? > decl = getDeclaredException();
     return decl.isAssignableFrom(ex.getClass()) == true;
