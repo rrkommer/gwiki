@@ -104,6 +104,29 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
         }
       }
     }
+    for (GWikiPlugin plugin : pluginRepository.getPassivePlugins()) {
+      FileSystem fs = plugin.getFileSystem();
+      boolean existspub = fs.exists("content/gwiki/pub");
+      if (existspub == false) {
+        continue;
+      }
+      if (plugin.getGwikiFileSystem() == null) {
+        if (plugin.getFileSystem().exists("content/gwiki") == true) {
+          plugin.setGwikiFileSystem(new SubFileSystem(plugin.getFileSystem(), "content/gwiki"));
+        }
+      }
+      if (plugin.getGwikiFileSystem() != null) {
+        List<FsObject> fsl = plugin.getGwikiFileSystem().listFiles(name, matcher, searchType, recursive);
+        for (FsObject l : fsl) {
+          if (l.getPathPart().startsWith("pub/") == false) {
+            continue;
+          }
+          FsObject lc = (FsObject) l.clone();
+          parentToThis(lc);
+          ret.add(lc);
+        }
+      }
+    }
     return ret;
   }
 
@@ -118,6 +141,20 @@ public class GWikiPluginCombinedFileSystem extends CombinedFileSystem
         }
         return plugin.getGwikiFileSystem();
       }
+    }
+    if (name.startsWith("pub/") == false) {
+      return getPrimary();
+    }
+    for (GWikiPlugin plugin : pluginRepository.getPassivePlugins()) {
+      if (plugin.getGwikiFileSystem() != null && plugin.getGwikiFileSystem().exists(name) == true) {
+        if (plugin.getDescriptor().isPrimaryFsRead(name) == true) {
+          if (primary.exists(name) == true) {
+            return primary;
+          }
+        }
+        return plugin.getGwikiFileSystem();
+      }
+
     }
     return getPrimary();
   }
