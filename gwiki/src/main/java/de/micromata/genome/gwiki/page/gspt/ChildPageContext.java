@@ -46,6 +46,7 @@ import de.micromata.genome.util.types.Pair;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@SuppressWarnings("deprecation")
 public abstract class ChildPageContext extends PageContext
 {
   protected PageContext parentPageContext;
@@ -190,7 +191,7 @@ public abstract class ChildPageContext extends PageContext
     return parentPageContext.getVariableResolver();
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   @Override
   public Enumeration getAttributeNamesInScope(int arg0)
   {

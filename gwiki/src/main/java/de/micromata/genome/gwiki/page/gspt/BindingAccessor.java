@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
  * 
  * @author jens@micromata.de
  */
+@SuppressWarnings("deprecation")
 public class BindingAccessor implements VariableResolver
 {
   // TODO pop logging verwenden

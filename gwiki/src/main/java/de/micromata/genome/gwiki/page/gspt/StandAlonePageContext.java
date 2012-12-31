@@ -53,6 +53,7 @@ import org.apache.log4j.Logger;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@SuppressWarnings("deprecation")
 public class StandAlonePageContext extends PageContext
 {
   private static final Logger log = Logger.getLogger(StandAlonePageContext.class);
@@ -242,7 +243,7 @@ public class StandAlonePageContext extends PageContext
     return scopes.get(0).get(key);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   @Override
   public Enumeration getAttributeNamesInScope(int scope)
   {

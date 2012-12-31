@@ -101,7 +101,7 @@ public class GenomeTemplateUtils
     GspPageContext pageContext = new GspPageContext(rpageContext);
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);
     // pageContext.setAttribute(PageContext.CONFIG, servletConfig);
-    pageContext.setAttribute(PageContext.PAGE, ctx.getWikiElement());
+    pageContext.setAttribute(PageContext.PAGE, ctx.getCurrentElement());
     pageContext.setAttribute("pageContext", pageContext);
     pageContext.setAttribute("gspPageContext", pageContext);
     if (pageContext instanceof GspPageContext) {
@@ -134,7 +134,7 @@ public class GenomeTemplateUtils
 
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);
     pageContext.setAttribute(PageContext.CONFIG, servletConfig);
-    pageContext.setAttribute(PageContext.PAGE, ctx.getWikiElement());
+    pageContext.setAttribute(PageContext.PAGE, ctx.getCurrentElement());
     pageContext.setAttribute("pageContext", pageContext);
     pageContext.setAttribute("gspPageContext", pageContext);
     if (pageContext instanceof GspPageContext) {
@@ -157,7 +157,7 @@ public class GenomeTemplateUtils
     }
     context.put("pageContext", ctx.getCreatePageContext());
     context.put("wikiContext", ctx);
-    context.put("wikiPage", ctx.getWikiElement());
+    context.put("wikiPage", ctx.getCurrentElement());
     return context;
   }
 
@@ -167,7 +167,7 @@ public class GenomeTemplateUtils
     GsptTemplateEngine engine = new GsptTemplateEngine();
     Map<String, Object> context = createBinding(ctx);
 
-    String page = ctx.getWikiElement().getElementInfo().getId() + "Template.gspt";
+    String page = ctx.getCurrentElement().getElementInfo().getId() + "Template.gspt";
     GsptPreprocessor processor = new GsptPreprocessor(page, context, servletApi24);
     processor.addReplacer(new GWikiIncludeReplacer(ctx));
     processor.useStdReplacer(context);
@@ -243,9 +243,9 @@ public class GenomeTemplateUtils
 
     m.put("pageContext", pageContext);
     m.put("application", pageContext.getRequest().getAttribute("application"));
-    m.put("wikiPage", ctx.getWikiElement());
+    m.put("wikiPage", ctx.getCurrentElement());
     m.put("wikiContext", ctx);
-    pageContext.setAttribute("wikiPage", ctx.getWikiElement());
+    pageContext.setAttribute("wikiPage", ctx.getCurrentElement());
     pageContext.setAttribute("wikiContext", ctx);
     if (ctx.getNativeArgs() != null) {
       m.putAll(ctx.getNativeArgs());
