@@ -32,9 +32,10 @@
                 </zip>
                 <copy  failonerror="false" preservelastmodified="true" file="target/${pom.artifactId}-${project.version}.zip"
                   todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
-                <copy failonerror="false" preservelastmodified="true" todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/">
+                <!-- <copy failonerror="false" preservelastmodified="true" todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/">
                   <fileset dir="content/gwiki/pub" excludes="*/.svn/*" />
                 </copy>
+                 -->
               </tasks>
             </configuration>
             <goals>
