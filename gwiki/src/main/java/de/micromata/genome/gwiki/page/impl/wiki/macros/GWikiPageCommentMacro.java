@@ -54,7 +54,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
     if (RenderModes.NoToc.isSet(ctx.getRenderMode()) == true) {
       return true;
     }
-    String pageId = ctx.getWikiElement().getElementInfo().getId();
+    String pageId = ctx.getCurrentElement().getElementInfo().getId();
     String pageCommentUrl = ctx.localUrl("/admin/macros/pages/PageComment");
     pageCommentUrl += "?pageId=" + pageId;// + "&wcembedded=true";
 

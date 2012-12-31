@@ -71,7 +71,7 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
       return beanClass;
     }
     if (StringUtils.isBlank(beanClassName) == true) {
-      beanClassName = ctx.getWikiElement().getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
+      beanClassName = ctx.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
 
     }
     if (StringUtils.isBlank(beanClassName) == true) {
@@ -142,5 +142,5 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
   {
     this.forward = forward;
   }
-  
+
 }

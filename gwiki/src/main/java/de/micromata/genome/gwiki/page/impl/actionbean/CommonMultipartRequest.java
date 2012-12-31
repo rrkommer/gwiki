@@ -75,6 +75,7 @@ public class CommonMultipartRequest extends HttpServletRequestWrapper
     }
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked"})
   public Enumeration getParameterNames()
   {
     Set paramNames = new HashSet();
@@ -104,6 +105,7 @@ public class CommonMultipartRequest extends HttpServletRequestWrapper
     return getRequest().getParameterValues(name);
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked"})
   public Map getParameterMap()
   {
     Map paramMap = new HashMap();

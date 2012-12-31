@@ -310,7 +310,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     if (wikiWeb.findElement(lurl) == null) {
       if (lurl.startsWith("/") == false) {
-        GWikiElement wikiElement = getWikiElement();
+        GWikiElement wikiElement = getCurrentElement();
         if (wikiElement != null) {
           String pa = getParentDirPathFromPageId(wikiElement.getElementInfo().getId());
           pa = pa + lurl;
@@ -333,7 +333,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
     String res = url;
     if (lurl.indexOf("/") == -1 && wikiWeb.findElementInfo(res) == null) {
-      GWikiElement wikiElement = getWikiElement();
+      GWikiElement wikiElement = getCurrentElement();
       if (wikiElement != null) {
         String pa = getParentDirPathFromPageId(wikiElement.getElementInfo().getId());
         pa = pa + lurl;
@@ -369,7 +369,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     StringBuilder sb = new StringBuilder();
     title = getTranslatedProp(title);
-    boolean allow = wikiWeb.getAuthorization().isAllowToCreate(this, getWikiElement().getElementInfo());
+    boolean allow = wikiWeb.getAuthorization().isAllowToCreate(this, getCurrentElement().getElementInfo());
     if (allow == false) {
 
       sb.append("<i>").append(StringEscapeUtils.escapeHtml(title)).append("</i>");

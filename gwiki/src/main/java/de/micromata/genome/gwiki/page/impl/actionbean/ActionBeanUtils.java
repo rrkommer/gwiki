@@ -51,6 +51,7 @@ public class ActionBeanUtils
     return callMethod(bean, bean.getWikiContext());
   }
 
+  @SuppressWarnings("rawtypes")
   public static Map getPrivateMap(ActionBean bean, Map<String, Object> reqMap)
   {
     String prefix = bean.getRequestPrefix();

@@ -67,7 +67,7 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
 
   public static GWikiElementInfo getSilbling(boolean prevPage, GWikiContext wikiContext, GWikiElementByOrderComparator comparator)
   {
-    GWikiElement el = wikiContext.getWikiElement();
+    GWikiElement el = wikiContext.getCurrentElement();
     if (el == null) {
       return null;
     }

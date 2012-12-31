@@ -38,6 +38,7 @@ public class GWikiConfigElement extends GWikiAbstractElement
 
   private static final long serialVersionUID = -3877389856566990574L;
 
+  @SuppressWarnings("rawtypes")
   private GWikiXmlConfigArtefakt< ? > config = new GWikiXmlConfigArtefakt();
 
   public GWikiConfigElement(GWikiElementInfo elementInfo)

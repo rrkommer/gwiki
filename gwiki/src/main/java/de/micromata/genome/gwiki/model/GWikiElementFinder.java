@@ -111,7 +111,7 @@ public class GWikiElementFinder
   {
     List<GWikiElementInfo> childs = getPageInfos(//
     new AndMatcher<GWikiElementInfo>(//
-        new GWikiViewableMatcher(wikiContext), // 
+        new GWikiViewableMatcher(wikiContext), //
         new AndMatcher<GWikiElementInfo>(//
             new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
                 new EqualsMatcher<String>(pageId)),//
@@ -157,12 +157,13 @@ public class GWikiElementFinder
     return childs;
   }
 
-  public List<GWikiElementInfo> getAllDirectChildsByType(GWikiElementInfo ei, final String type) {
+  public List<GWikiElementInfo> getAllDirectChildsByType(GWikiElementInfo ei, final String type)
+  {
     return getPageInfos(new AndMatcher<GWikiElementInfo>(//
-        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(ei.getId())), // 
+        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(ei.getId())), //
         new GWikiElementTypeMatcher(wikiContext, type)));
   }
-  
+
   public static interface FragmentCallback<T extends GWikiFragment>
   {
     void callback(GWikiElement element, String partName, GWikiArtefakt< ? > artefakt, T fragment);
@@ -212,6 +213,7 @@ public class GWikiElementFinder
           }
           w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
 
+            @SuppressWarnings("unchecked")
             public void begin(GWikiFragment fragment)
             {
               if (fragmentClass == null || fragmentClass.isAssignableFrom(fragment.getClass()) == true) {

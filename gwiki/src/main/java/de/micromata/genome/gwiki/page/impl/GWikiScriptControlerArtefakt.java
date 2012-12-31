@@ -85,7 +85,7 @@ public class GWikiScriptControlerArtefakt extends GWikiTextArtefaktBase<Class< ?
       return beanClass;
     }
 
-    String beanClassName = ctx.getWikiElement().getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
+    String beanClassName = ctx.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
     if (StringUtils.isBlank(beanClassName) == true) {
       return null;
     }

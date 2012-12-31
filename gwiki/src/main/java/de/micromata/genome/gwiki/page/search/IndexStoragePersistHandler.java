@@ -19,13 +19,8 @@
 package de.micromata.genome.gwiki.page.search;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.xerces.xni.parser.XMLDocumentFilter;
@@ -82,8 +77,8 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
       return;
     }
     final WordIndexTextArtefakt tix = (WordIndexTextArtefakt) parts.get(TEXTINDEX_PARTNAME);
-    wikiContext.getWikiWeb().getFilter().runWithoutFilters(new Class< ? >[] { IndexStoragePersistHandler.class},
-        new CallableX<Void, RuntimeException>() {
+    wikiContext.getWikiWeb().getFilter()
+        .runWithoutFilters(new Class< ? >[] { IndexStoragePersistHandler.class}, new CallableX<Void, RuntimeException>() {
 
           public Void call() throws RuntimeException
           {
@@ -186,68 +181,68 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     if (true)
       return;
     // wird nicht mehr verwendet.
-    List<String> allwords = new ArrayList<String>();
-    allwords.addAll(words);
-    Collections.sort(allwords, new Comparator<String>() {
-
-      public int compare(String o1, String o2)
-      {
-        return o1.length() - o2.length();
-      }
-    });
-    for (int i = 0; i < allwords.size(); ++i) {
-      String w = allwords.get(i);
-      for (int j = i + 1; j < allwords.size(); ++j) {
-        String ow = allwords.get(j);
-        if (ow.indexOf(w) != -1) {
-          words.remove(w);
-        }
-      }
-    }
+    // List<String> allwords = new ArrayList<String>();
+    // allwords.addAll(words);
+    // Collections.sort(allwords, new Comparator<String>() {
+    //
+    // public int compare(String o1, String o2)
+    // {
+    // return o1.length() - o2.length();
+    // }
+    // });
+    // for (int i = 0; i < allwords.size(); ++i) {
+    // String w = allwords.get(i);
+    // for (int j = i + 1; j < allwords.size(); ++j) {
+    // String ow = allwords.get(j);
+    // if (ow.indexOf(w) != -1) {
+    // words.remove(w);
+    // }
+    // }
+    // }
   }
 
-  private int parseNextLevel(String text, int i, Stack<Integer> curLevel)
-  {
-    char c = text.charAt(i);
-    if (c == '/') {
-      c = text.charAt(i + 1);
-      if (c == '>') {
-        if (curLevel.size() > 1)
-          curLevel.pop();
-        return i + 2;
-      } else {
-        return i;
-      }
-    } else {
-      StringBuilder sb = new StringBuilder();
+  // private int parseNextLevel(String text, int i, Stack<Integer> curLevel)
+  // {
+  // char c = text.charAt(i);
+  // if (c == '/') {
+  // c = text.charAt(i + 1);
+  // if (c == '>') {
+  // if (curLevel.size() > 1)
+  // curLevel.pop();
+  // return i + 2;
+  // } else {
+  // return i;
+  // }
+  // } else {
+  // StringBuilder sb = new StringBuilder();
+  //
+  // for (; i < text.length(); ++i) {
+  // c = text.charAt(i);
+  // if (Character.isDigit(c) == false)
+  // break;
+  // sb.append(c);
+  // }
+  // curLevel.push(Integer.parseInt(sb.toString()));
+  // return i;
+  // }
+  // }
 
-      for (; i < text.length(); ++i) {
-        c = text.charAt(i);
-        if (Character.isDigit(c) == false)
-          break;
-        sb.append(c);
-      }
-      curLevel.push(Integer.parseInt(sb.toString()));
-      return i;
-    }
-  }
-
-  private void addWord(GWikiStorage storage, Map<String, Integer> ts, Stack<Integer> curLevel, String word)
-  {
-    if (word.length() < 2)
-      return;
-    word = NormalizeUtils.normalize(word);
-    int fac = getStopWordWeight(storage, word);
-    if (fac == 0)
-      return;
-    int cl = curLevel.peek().intValue() * fac;
-    Integer li = ts.get(word);
-    if (li == null) {
-      ts.put(word, cl);
-    } else {
-      ts.put(word, li.intValue() + cl);
-    }
-  }
+  // private void addWord(GWikiStorage storage, Map<String, Integer> ts, Stack<Integer> curLevel, String word)
+  // {
+  // if (word.length() < 2)
+  // return;
+  // word = NormalizeUtils.normalize(word);
+  // int fac = getStopWordWeight(storage, word);
+  // if (fac == 0)
+  // return;
+  // int cl = curLevel.peek().intValue() * fac;
+  // Integer li = ts.get(word);
+  // if (li == null) {
+  // ts.put(word, cl);
+  // } else {
+  // ts.put(word, li.intValue() + cl);
+  // }
+  // }
 
   public CreateIndexHtmlFilter parse(String body, final GWikiStorage storage)
   {

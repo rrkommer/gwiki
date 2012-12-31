@@ -60,7 +60,7 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    GWikiElementInfo ci = ctx.getWikiElement().getElementInfo();
+    GWikiElementInfo ci = ctx.getCurrentElement().getElementInfo();
     if (StringUtils.isNotEmpty(parentPage) == true) {
       ci = ctx.getWikiWeb().findElementInfo(parentPage);
       if (ci == null) {
@@ -101,9 +101,10 @@ public class GWikiPageGalleryMacro extends GWikiMacroBean
       ctx.append("<td valign=\"top\">");
       GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
       ctx.append("<table border=\"0\" cellspacing=\"0\" ><tr>");
-      ctx.append("<th valign=\"top\" width=\"" + columnWidth + "\">")//
-          .append("<div id=\"chid_" + el.getElementInfo().getId() + "\" class=\"gwikioresdraggable\">").append(
-              ctx.getTranslatedProp(el.getElementInfo().getTitle())).append("</div></th></tr>");
+      ctx.append("<th valign=\"top\" width=\"" + columnWidth + "\">")
+          //
+          .append("<div id=\"chid_" + el.getElementInfo().getId() + "\" class=\"gwikioresdraggable\">")
+          .append(ctx.getTranslatedProp(el.getElementInfo().getTitle())).append("</div></th></tr>");
       ctx.append("<tr height=\"" + rowHeight + "\"><td valign=\"top\">");
       /* oncontextmenu=\"alert('clicked');\" */
       ctx.append("<div style=\"font-size:0.6em;size:0.6em;\"  ondblclick=\"document.location.href='"

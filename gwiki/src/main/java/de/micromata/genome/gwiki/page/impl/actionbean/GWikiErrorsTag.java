@@ -105,7 +105,6 @@ public class GWikiErrorsTag extends TagSupport
    * 
    * @exception JspException if a JSP exception has occurred
    */
-  @SuppressWarnings("unchecked")
   @Override
   public int doStartTag() throws JspException
   {
@@ -119,7 +118,7 @@ public class GWikiErrorsTag extends TagSupport
     Locale loc = Locale.getDefault();
     Matcher<String> m = new EveryMatcher<String>();
     if (StringUtils.isNotBlank(pattern) == true) {
-      m = new BooleanListRulesFactory().createMatcher(pattern);
+      m = new BooleanListRulesFactory<String>().createMatcher(pattern);
     }
     for (Map.Entry<String, List<ActionMessage>> me : am.entrySet()) {
       if (m.match(me.getKey()) == false) {

@@ -68,7 +68,7 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
     }
     GWikiStandaloneContext stc = new GWikiStandaloneContext(ctx);
     stc.setRenderMode(RenderModes.combine(RenderModes.ForText, RenderModes.NoImages, RenderModes.NoLinks));
-    stc.setWikiElement(ctx.getWikiElement());
+    stc.setWikiElement(ctx.getCurrentElement());
     renderChilds(stc);
     // stc.flush();
     linkText = stc.getOutString();

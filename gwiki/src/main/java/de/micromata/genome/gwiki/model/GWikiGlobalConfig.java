@@ -323,6 +323,7 @@ public class GWikiGlobalConfig extends GWikiProps
     return wikiFactories = facs;
   }
 
+  @SuppressWarnings("unchecked")
   public Map<String, GWikiElementFactory> getElementFactories()
   {
     if (elementFactories != null) {

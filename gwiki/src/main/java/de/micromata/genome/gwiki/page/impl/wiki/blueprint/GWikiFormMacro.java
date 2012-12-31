@@ -33,6 +33,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  */
 public class GWikiFormMacro extends GWikiMacroBean implements GWikiMacroSourceable
 {
+  private static final long serialVersionUID = 780109784992311792L;
+
   public GWikiFormMacro()
   {
     setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));

@@ -56,8 +56,8 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
       ++i;
     }
     if (ctx != null) {
-      if (ctx.getWikiElement() != null) {
-        sb.append(" ").append(GLogAttributeNames.PageId.name()).append(": ").append(ctx.getWikiElement().getElementInfo().getId())
+      if (ctx.getCurrentElement() != null) {
+        sb.append(" ").append(GLogAttributeNames.PageId.name()).append(": ").append(ctx.getCurrentElement().getElementInfo().getId())
             .append("\n");
       }
     }

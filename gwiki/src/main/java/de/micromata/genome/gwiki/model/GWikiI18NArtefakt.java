@@ -55,7 +55,7 @@ public class GWikiI18NArtefakt extends GWikiTextArtefaktBase<GWikiI18nMap> imple
     return new GWikiTextPageEditorArtefakt(elementToEdit, bean, partKey, this);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   @Override
   public GWikiI18nMap getCompiledObject()
   {

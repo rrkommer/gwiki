@@ -179,36 +179,36 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     }
   }
 
-  private String getFullWordFromLine(String content, int idx)
-  {
-    int i = idx;
-    while (i >= 0) {
-      if (content.charAt(i) == '|') {
-        ++i;
-        break;
-      }
-      --i;
-    }
-    int sidx = i;
-    i = idx;
-    while (i < content.length()) {
-      if (content.charAt(i) == '\n') {
-        break;
-      }
-      ++i;
-    }
-    int eidx = i;
-    if (sidx < eidx) {
-      return content.substring(sidx, eidx);
-    }
-    return "";
-  }
+  // private String getFullWordFromLine(String content, int idx)
+  // {
+  // int i = idx;
+  // while (i >= 0) {
+  // if (content.charAt(i) == '|') {
+  // ++i;
+  // break;
+  // }
+  // --i;
+  // }
+  // int sidx = i;
+  // i = idx;
+  // while (i < content.length()) {
+  // if (content.charAt(i) == '\n') {
+  // break;
+  // }
+  // ++i;
+  // }
+  // int eidx = i;
+  // if (sidx < eidx) {
+  // return content.substring(sidx, eidx);
+  // }
+  // return "";
+  // }
 
   private Pair<String, Integer> findInIdxText(String content, Matcher<String> matcher)
   {
     String pt;
     if (matcher instanceof StringPatternMatcherBase) {
-      pt = ((StringPatternMatcherBase) matcher).getPattern();
+      pt = ((StringPatternMatcherBase<String>) matcher).getPattern();
     } else if (matcher instanceof EqualsMatcher) {
       pt = ((EqualsMatcher<String>) matcher).getOther();
     } else {
@@ -236,13 +236,13 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return Pair.make(normpt, hit * weight);
   }
 
-  private Pair<String, Integer> findInIdxText(String content, StringMatcherBase<String> matcher)
-  {
-    if (matcher instanceof StringPatternMatcherBase) {
-      return findInIdxText(content, (StringPatternMatcherBase) matcher);
-    }
-    throw new RuntimeException("not supported Matcher Type: " + matcher.getClass().getName());
-  }
+  // private Pair<String, Integer> findInIdxText(String content, StringMatcherBase<String> matcher)
+  // {
+  // if (matcher instanceof StringPatternMatcherBase) {
+  // return findInIdxText(content, (StringPatternMatcherBase<String>) matcher);
+  // }
+  // throw new RuntimeException("not supported Matcher Type: " + matcher.getClass().getName());
+  // }
 
   private int getFoundIndexWeightOld(GWikiContext ctx, SearchResult res, Matcher<String> matcher)
   {
@@ -273,7 +273,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     GlobalWordIndexTextArtefakt gfa = (GlobalWordIndexTextArtefakt) gf.getMainPart();
     String pt;
     if (matcher instanceof StringPatternMatcherBase) {
-      pt = ((StringPatternMatcherBase) matcher).getPattern();
+      pt = ((StringPatternMatcherBase<String>) matcher).getPattern();
     } else if (matcher instanceof EqualsMatcher) {
       pt = ((EqualsMatcher<String>) matcher).getOther();
     } else {
@@ -326,7 +326,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   private String getSampleByMatcher(Matcher<String> matcher)
   {
     if (matcher instanceof StringPatternMatcherBase) {
-      return ((StringPatternMatcherBase) matcher).getPattern();
+      return ((StringPatternMatcherBase<String>) matcher).getPattern();
     }
     if (matcher instanceof LeftRightMatcherBase) {
       LeftRightMatcherBase<String> mm = (LeftRightMatcherBase<String>) matcher;

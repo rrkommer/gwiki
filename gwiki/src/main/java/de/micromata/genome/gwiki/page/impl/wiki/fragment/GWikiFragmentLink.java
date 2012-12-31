@@ -41,7 +41,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
 
   private static final long serialVersionUID = 7539226429764305415L;
 
-  private String originTarget;
+  // private String originTarget;
 
   private String target;
 
@@ -66,7 +66,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
 
   public GWikiFragmentLink(String target)
   {
-    this.originTarget = target;
+    // this.originTarget = target;
     Pair<Map<String, String>, List<String>> pm = GWikiPipeListParser.splitListMapArguments(target, knownAttributes);
     List<String> elems = pm.getSecond();
 
@@ -201,8 +201,8 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     boolean allowToCreate = false;
     String parentUrl = null;
     String localAnchor = null;
-    if (ctx.getWikiElement() != null) {
-      parentUrl = ctx.getWikiElement().getElementInfo().getId();
+    if (ctx.getCurrentElement() != null) {
+      parentUrl = ctx.getCurrentElement().getElementInfo().getId();
     }
     boolean globalUrl = isGlobalUrl(url);
     if (globalUrl == false) {
@@ -214,8 +214,8 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
       GWikiElementInfo ei = null;
       if (StringUtils.isNotEmpty(url) == true) {
         ei = ctx.getWikiWeb().findElementInfo(url);
-        if (url.indexOf('/') == -1 && ei == null && ctx.getWikiElement() != null) {
-          String pp = GWikiContext.getParentDirPathFromPageId(ctx.getWikiElement().getElementInfo().getId());
+        if (url.indexOf('/') == -1 && ei == null && ctx.getCurrentElement() != null) {
+          String pp = GWikiContext.getParentDirPathFromPageId(ctx.getCurrentElement().getElementInfo().getId());
           String np = pp + url;
           ei = ctx.getWikiWeb().findElementInfo(np);
           if (ei != null) {
@@ -232,7 +232,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
           allowToView = ctx.getWikiWeb().getAuthorization().isAllowToView(ctx, ei);
           url = ctx.localUrl(url);
         } else {
-          allowToCreate = ctx.getWikiWeb().getAuthorization().isAllowToCreate(ctx, ctx.getWikiElement().getElementInfo());
+          allowToCreate = ctx.getWikiWeb().getAuthorization().isAllowToCreate(ctx, ctx.getCurrentElement().getElementInfo());
         }
       } else {
         targetExists = true;

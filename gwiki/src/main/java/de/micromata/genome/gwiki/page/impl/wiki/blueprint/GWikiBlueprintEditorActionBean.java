@@ -82,7 +82,7 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
       return;
     }
     GWikiArtefakt< ? > art = el.getPart("MainPage");
-    if (el == null) {
+    if (art == null) {
       wikiContext.addSimpleValidationError("Cannot find part 'MainPage' in template: " + templateId);
       return;
     }
