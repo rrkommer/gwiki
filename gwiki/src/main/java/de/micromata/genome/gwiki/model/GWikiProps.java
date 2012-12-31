@@ -107,7 +107,6 @@ public class GWikiProps implements Serializable
     this.map = new InternalizedHashMap<String, String>(keyInternalizator, valueInternalizator);
   }
 
-  @SuppressWarnings("unchecked")
   public GWikiProps(GWikiProps other)
   {
     if (other.getMap() instanceof InternalizedHashMap) {
@@ -124,7 +123,7 @@ public class GWikiProps implements Serializable
     this.map = map;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public GWikiProps(Properties map)
   {
     this.map = (Map<String, String>) (Map) map;

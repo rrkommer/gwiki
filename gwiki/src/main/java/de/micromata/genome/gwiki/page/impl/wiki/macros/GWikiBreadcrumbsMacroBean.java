@@ -55,7 +55,7 @@ public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
   @SuppressWarnings("unchecked")
   public void registerPage(GWikiContext wikiContext)
   {
-    GWikiElement el = wikiContext.getWikiElement();
+    GWikiElement el = wikiContext.getCurrentElement();
     if (el == null) {
       return;
     }

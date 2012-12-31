@@ -69,7 +69,7 @@ public class GWikiPageListActionBean extends ActionBeanBase
     if (StringUtils.equals(getReqParam("_search"), "true") == false) {
       return null;
     }
-    //    
+    //
     // String skey = getReqParam("sidx");
     // if (StringUtils.isBlank(skey) == true) {
     // return null;
@@ -163,6 +163,7 @@ public class GWikiPageListActionBean extends ActionBeanBase
     }
   }
 
+  @SuppressWarnings("rawtypes")
   protected String getReqDump()
   {
     Map params = wikiContext.getRequest().getParameterMap();

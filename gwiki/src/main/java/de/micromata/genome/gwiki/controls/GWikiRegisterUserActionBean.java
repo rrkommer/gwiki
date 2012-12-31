@@ -237,7 +237,7 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
         if (tcs.contains(tzs) == true) {
           props.setStringValue(GWikiAuthorizationExt.USER_TZ, tzs);
         } else {
-          String[] offsets = TimeZone.getAvailableIDs(offsetMs);
+          // String[] offsets = TimeZone.getAvailableIDs(offsetMs);
 
           for (String tzss : tcs) {
             TimeZone tz = TimeZone.getTimeZone(tzss);

@@ -148,7 +148,7 @@ public class GWikiPropsEditorArtefakt<T extends Serializable> extends GWikiEdito
   {
     initPropDescriptor(ctx);
 
-    GWikiElement el = ctx.getWikiElement();
+    GWikiElement el = ctx.getCurrentElement();
     String metaTemplateId = el.getMetaTemplate().getPageId();
     for (GWikiPropsDescriptorValue d : propDescriptor.getDescriptors()) {
       if (isForThisElement(d, metaTemplateId) == false) {

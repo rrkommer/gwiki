@@ -87,7 +87,7 @@ public class GWikiPluginSpringBeanFactory extends AbstractFactoryBean
    * @see org.springframework.beans.factory.config.AbstractFactoryBean#getObjectType()
    */
   @Override
-  public Class getObjectType()
+  public Class< ? > getObjectType()
   {
     try {
       resolveClass();

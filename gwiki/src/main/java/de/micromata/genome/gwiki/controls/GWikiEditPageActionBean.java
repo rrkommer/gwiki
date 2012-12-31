@@ -149,7 +149,6 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
    */
   protected String hideParts = "";
 
-  @Deprecated
   public static List<Pair<String, String>> getAvailableTemplates(GWikiContext wikiContext)
   {
     GWikiMetaTemplate currentTemplate = null;

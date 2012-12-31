@@ -107,6 +107,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     fsw.writeBinaryFile(imageUrl, data, true);
   }
 
+  @SuppressWarnings("unchecked")
   void serveDoc(String htmlData, GWikiStandaloneContext simContext)
   {
     RamFileSystem fs = new RamFileSystem();

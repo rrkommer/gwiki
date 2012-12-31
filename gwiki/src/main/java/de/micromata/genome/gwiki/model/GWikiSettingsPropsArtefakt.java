@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableI;
 
+@SuppressWarnings("unchecked")
 public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GWikiIndexedArtefakt
 {
   private static final long serialVersionUID = -7444414246579867245L;

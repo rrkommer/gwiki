@@ -61,7 +61,7 @@ public class GWikiPropsArtefakt extends GWikiPersistArtefaktBase<GWikiProps> imp
     return ".properties";
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiPropsEditorArtefakt(elementToEdit, bean, partKey, this, propDescriptor);

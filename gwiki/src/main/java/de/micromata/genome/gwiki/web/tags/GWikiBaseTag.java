@@ -25,5 +25,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  */
 public abstract class GWikiBaseTag extends BodyTagSupport
 {
+
+  private static final long serialVersionUID = -2065807535731078872L;
+
   public abstract void prepare();
 }

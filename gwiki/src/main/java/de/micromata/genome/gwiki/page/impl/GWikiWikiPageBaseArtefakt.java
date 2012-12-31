@@ -77,7 +77,7 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
     String contextPath = ctx.getRequest().getContextPath();
     String servletPath = ctx.getRequest().getServletPath();
     GWikiStandaloneContext swc = new GWikiStandaloneContext(ctx.getWikiWeb(), ctx.getServlet(), contextPath, servletPath);
-    swc.setWikiElement(ctx.getWikiElement());
+    swc.setWikiElement(ctx.getCurrentElement());
     GWikiContent wkk = getCompiledObject();
     if (wkk == null) {
       return;
@@ -111,8 +111,8 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
     }
     final GWikiContext wctx = wikiContext;
     long start = System.currentTimeMillis();
-    wikiContext.getWikiWeb().getFilter().compileWikiWikiPage(wikiContext, wikiContext.getWikiElement(), this,
-        new GWikiWikiPageCompileFilter() {
+    wikiContext.getWikiWeb().getFilter()
+        .compileWikiWikiPage(wikiContext, wikiContext.getCurrentElement(), this, new GWikiWikiPageCompileFilter() {
 
           public Void filter(GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter> chain,
               GWikiWikiPageCompileFilterEvent event)

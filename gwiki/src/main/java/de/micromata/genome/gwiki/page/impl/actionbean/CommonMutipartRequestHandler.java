@@ -28,10 +28,10 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class CommonMutipartRequestHandler
 {
-  @SuppressWarnings({ "deprecation", "unchecked"})
+  @SuppressWarnings({ "unchecked"})
   public static void handleMultiPartRequest(GWikiContext ctx)
   {
-    
+
     if (ServletFileUpload.isMultipartContent(ctx.getRequest()) == false) {
       return;
     }

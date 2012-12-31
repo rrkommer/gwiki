@@ -48,10 +48,10 @@ public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[
 
   public void getPreview(GWikiContext ctx, AppendableI sb)
   {
-    if (ctx.getWikiElement() == null) {
+    if (ctx.getCurrentElement() == null) {
       return;
     }
-    String pid = ctx.getWikiElement().getElementInfo().getId();
+    String pid = ctx.getCurrentElement().getElementInfo().getId();
     if (pid.contains(".") == false) {
       return;
     }
