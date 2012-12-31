@@ -53,6 +53,7 @@ import de.micromata.genome.gwiki.page.gspt.jdkrepl.PrintWriterPatched;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@SuppressWarnings("deprecation")
 public class ServletStandalonePageContext extends PageContext
 {
   private HttpServletRequest request;
@@ -191,6 +192,7 @@ public class ServletStandalonePageContext extends PageContext
     }
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked"})
   @Override
   public Enumeration getAttributeNamesInScope(int scope)
   {
@@ -210,6 +212,7 @@ public class ServletStandalonePageContext extends PageContext
 
   }
 
+  @SuppressWarnings("rawtypes")
   boolean contains(Enumeration en, String key)
   {
     for (; en.hasMoreElements();) {

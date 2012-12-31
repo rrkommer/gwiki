@@ -64,8 +64,8 @@ public class JspTagEvaluator
       sEvaluator.parseExpressionString(pAttributeValue);
       return null;
     } catch (ELException exc) {
-      return MessageFormat.format(Constants.ATTRIBUTE_PARSE_EXCEPTION, new Object[] { "" + pAttributeName, "" + pAttributeValue,
-          exc.getMessage()});
+      return MessageFormat.format(Constants.ATTRIBUTE_PARSE_EXCEPTION,
+          new Object[] { "" + pAttributeName, "" + pAttributeValue, exc.getMessage()});
     }
   }
 
@@ -75,7 +75,7 @@ public class JspTagEvaluator
    * Evaluates the expression at request time
    **/
   public Object evaluate(String pAttributeName, String pAttributeValue, Class< ? > pExpectedType, JspTag pTag, PageContext pPageContext,
-      Map functions, String defaultPrefix) throws JspException
+      Map< ? , ? > functions, String defaultPrefix) throws JspException
   {
     try {
       return sEvaluator.evaluate(pAttributeValue, pPageContext, pExpectedType, functions, defaultPrefix);
@@ -86,7 +86,7 @@ public class JspTagEvaluator
   }
 
   /** Conduit to old-style call for convenience. */
-  public Object evaluate(String pAttributeName, String pAttributeValue, Class pExpectedType, JspTag pTag, PageContext pPageContext)
+  public Object evaluate(String pAttributeName, String pAttributeValue, Class< ? > pExpectedType, JspTag pTag, PageContext pPageContext)
       throws JspException
   {
     return evaluate(pAttributeName, pAttributeValue, pExpectedType, pTag, pPageContext, null, null);
@@ -104,8 +104,8 @@ public class JspTagEvaluator
     try {
       return sEvaluator.parseAndRender(pAttributeValue);
     } catch (ELException exc) {
-      throw new JspException(MessageFormat.format(Constants.ATTRIBUTE_PARSE_EXCEPTION, new Object[] { "test", "" + pAttributeValue,
-          exc.getMessage()}));
+      throw new JspException(MessageFormat.format(Constants.ATTRIBUTE_PARSE_EXCEPTION,
+          new Object[] { "test", "" + pAttributeValue, exc.getMessage()}));
     }
   }
 

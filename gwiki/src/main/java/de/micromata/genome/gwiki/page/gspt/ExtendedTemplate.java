@@ -126,11 +126,13 @@ public class ExtendedTemplate implements Template
     return script;
   }
 
+  @SuppressWarnings("rawtypes")
   public Writable make()
   {
     return make((Map) null);
   }
 
+  @SuppressWarnings("rawtypes")
   public Writable make(final Map map)
   {
     return make(map == null ? new Binding() : new Binding(map));
@@ -356,7 +358,7 @@ public class ExtendedTemplate implements Template
     }
     if (genClass == true) {
       sw.append("}\n}\n") //
-          .append("TClass tcls = new TClass();\n") // 
+          .append("TClass tcls = new TClass();\n") //
           .append("tcls.setServletConfig(servletConfig);\n") //
           .append("tcls.service(pageContext);\n"); //
     }

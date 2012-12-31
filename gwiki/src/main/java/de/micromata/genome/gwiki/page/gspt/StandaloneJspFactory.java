@@ -70,8 +70,8 @@ public class StandaloneJspFactory extends JspFactory
       throw new RuntimeException("Failure to initialize ServletStandalonePageContext: " + ex.getMessage(), ex);
     }
     if (req.getAttribute(PAGECONTEXT_KEY) != null) {
-      PageContext ppc = (PageContext) req.getAttribute(PAGECONTEXT_KEY);
-      //pg.setWriter(ppc.getOut()); wenn nicht gesetzt, falsche reihenfolge, wenn gesetzt, verschwindet output
+      // PageContext ppc = (PageContext) req.getAttribute(PAGECONTEXT_KEY);
+      // pg.setWriter(ppc.getOut()); wenn nicht gesetzt, falsche reihenfolge, wenn gesetzt, verschwindet output
     }
     req.setAttribute(PAGECONTEXT_KEY, pg);
     return pg;
@@ -84,7 +84,6 @@ public class StandaloneJspFactory extends JspFactory
 
   }
 
-  
   public JspApplicationContext getJspApplicationContext(ServletContext arg0)
   {
     // TODO Auto-generated method stub

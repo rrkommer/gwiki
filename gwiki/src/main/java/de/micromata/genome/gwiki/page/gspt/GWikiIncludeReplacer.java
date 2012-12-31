@@ -81,9 +81,9 @@ public class GWikiIncludeReplacer extends RegExpReplacer
     if (id.startsWith("/") == true)
       id = id.substring(1);
     GWikiElement el = wctx.getWikiWeb().getElement(id);
-    GWikiArtefakt fact = el.getMainPart();
+    GWikiArtefakt< ? > fact = el.getMainPart();
     if (fact instanceof GWikiTextArtefakt) {
-      GWikiTextArtefakt text = (GWikiTextArtefakt) fact;
+      GWikiTextArtefakt< ? > text = (GWikiTextArtefakt< ? >) fact;
       return text.getStorageData();
     } else {
       return "<% wikiContext.includeText('" + id + "'); %>";
