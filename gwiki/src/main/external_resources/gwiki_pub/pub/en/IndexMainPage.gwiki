@@ -9,12 +9,14 @@ h3. GWiki as CMS/Wiki
 - Desktop Wiki / Knowledge Base
 - Scalable to Enterprise Cluster environment.
 - From simple Wiki to CMS with release management
+- Extensible with plugins.
 {column}
 {column:valign=top|width=30%}
 h3. GWiki as Rapid Development Framework
 - Online Editing of dynamic pages, including MVC
 - Supports Stripes/Struts Actions Groovy 
 - Supports JSP with tag libraries
+- Write Macros and Plugins
 {column}
 {column:valign=top|width=30%}
 h3. GWiki as Content centric Java Development Framework
