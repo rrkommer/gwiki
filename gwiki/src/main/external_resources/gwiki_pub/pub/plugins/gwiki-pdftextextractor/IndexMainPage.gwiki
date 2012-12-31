@@ -1,8 +1,0 @@
-{pageintro}
-To extract text from PDF documents .pdf to enable  full text search on these documents.
-{pageintro}
-
-h2. Installation
-You need to install/activate first the depending plugins.
-
-After activate this plugin, restart full reindexing your Wiki (using Admin/WikiControl), in case you already have PDF documents as Attachments.
