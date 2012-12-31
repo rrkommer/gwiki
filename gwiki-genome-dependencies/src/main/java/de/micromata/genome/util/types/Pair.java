@@ -90,12 +90,11 @@ public class Pair<K, V> implements Map.Entry<K, V>, Serializable
     return key + ": " + value;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(Object obj)
   {
     if (obj instanceof Pair) {
-      Pair other = (Pair) obj;
+      Pair< ? , ? > other = (Pair< ? , ? >) obj;
       return ObjectUtils.equals(key, other.key) && ObjectUtils.equals(value, other.value);
 
     }

@@ -11,8 +11,6 @@ package de.micromata.genome.util.xml.xmlbuilder;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 /**
  * A XML text element.
  * 

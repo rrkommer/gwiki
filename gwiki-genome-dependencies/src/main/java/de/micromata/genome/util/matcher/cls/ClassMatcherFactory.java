@@ -66,6 +66,7 @@ public class ClassMatcherFactory implements MatcherFactory<Class< ? >>
     return new ClassNameMatcher(stringMatcherFactory.createMatcher(pattern));
   }
 
+  @SuppressWarnings("unchecked")
   public Matcher<Class< ? >> createAnnotPropMatcher(String expr)
   {
     int idx = expr.indexOf('@');

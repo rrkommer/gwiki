@@ -34,6 +34,7 @@ public class GroovyMatcher<T> extends MatcherBase<T>
     this.scriptClass = scriptClass;
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public boolean match(T object)
   {
 
