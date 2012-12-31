@@ -172,6 +172,7 @@ public class GWikiPluginRepository
     if (activePlugins.remove(plugin) == false) {
       GWikiLog.warn("Plugin cannot be removed from activePlugin list: " + plugin.getDescriptor().getPluginId());
     }
+
     if (activePluginClassLoader != null) {
       if (activePluginClassLoader.getParents().remove(plugin.getPluginClassLoader()) == false) {
         GWikiLog.warn("PluginClassLoader cannot be removed from activeClassLoader list: " + plugin.getDescriptor().getPluginId());
@@ -374,6 +375,20 @@ public class GWikiPluginRepository
     }
   }
 
+  private void createPluginCombinedFs(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
+  {
+    if (pluginCombinedFileSystem != null) {
+      return;
+    }
+    FileSystem pfs = wikiWeb.getDaoContext().getStorage().getFileSystem();
+    if (pfs instanceof GWikiPluginCombinedFileSystem) {
+      GWikiPluginCombinedFileSystem ppcf = (GWikiPluginCombinedFileSystem) pfs;
+      pfs = ppcf.getPrimary();
+    }
+    pluginCombinedFileSystem = new GWikiPluginCombinedFileSystem(this, pfs);
+    wikiWeb.getDaoContext().getStorage().setFileSystem(pluginCombinedFileSystem);
+  }
+
   /**
    * conflict: use gwikiconfig to determine if plugin is loaded. but plugin should be initialized before reading file system.
    * 
@@ -401,14 +416,8 @@ public class GWikiPluginRepository
       loadPlugins(wikiWeb, fs);
     }
     initPlugins(wikiWeb, wikiConfig);
+    createPluginCombinedFs(wikiWeb, wikiConfig);
     if (activePlugins.isEmpty() == false) {
-      FileSystem pfs = wikiWeb.getDaoContext().getStorage().getFileSystem();
-      if (pfs instanceof GWikiPluginCombinedFileSystem) {
-        GWikiPluginCombinedFileSystem ppcf = (GWikiPluginCombinedFileSystem) pfs;
-        pfs = ppcf.getPrimary();
-      }
-      pluginCombinedFileSystem = new GWikiPluginCombinedFileSystem(this, pfs);
-      wikiWeb.getDaoContext().getStorage().setFileSystem(pluginCombinedFileSystem);
       List<ClassLoader> classLoaders = new ArrayList<ClassLoader>();
       for (GWikiPlugin plugin : activePlugins) {
         if (plugin.getPluginClassLoader() != null) {
@@ -525,6 +534,17 @@ public class GWikiPluginRepository
       Map<String, String> p = plugin.getDescriptor().getTextExtractors();
       if (p != null) {
         ret.putAll(p);
+      }
+    }
+    return ret;
+  }
+
+  public List<GWikiPlugin> getPassivePlugins()
+  {
+    List<GWikiPlugin> ret = new ArrayList<GWikiPlugin>();
+    for (GWikiPlugin plugin : plugins.values()) {
+      if (activePlugins.contains(plugin) == false) {
+        ret.add(plugin);
       }
     }
     return ret;
