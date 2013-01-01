@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
@@ -89,7 +88,10 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
       Map<String, String> map = PipeValueList.decode(line);
 
       fileStatsDO.setPageId(map.get(FileStatsDO.PAGE_ID));
-      fileStatsDO.setFileState(FileState.valueOf(map.get(FileStatsDO.FILE_STATE)));
+      String s = map.get(FileStatsDO.FILE_STATE);
+      if (StringUtils.isNotBlank(s) == true) {
+        fileStatsDO.setFileState(FileState.valueOf(s));
+      }
       fileStatsDO.setCreatedAt(map.get(FileStatsDO.CREATED_AT));
       fileStatsDO.setCreatedBy(map.get(FileStatsDO.CREATED_BY));
       fileStatsDO.setLastModifiedAt(map.get(FileStatsDO.MODIFIED_AT));
@@ -103,7 +105,7 @@ public class GWikiBranchFileStatsArtefakt extends GWikiTextArtefaktBase<BranchFi
       if (operatorArray != null) {
         Set<String> operators = new HashSet<String>();
         for (String operator : operatorArray) {
-          operators.add(operator); 
+          operators.add(operator);
         }
         fileStatsDO.setOperators(operators);
       }

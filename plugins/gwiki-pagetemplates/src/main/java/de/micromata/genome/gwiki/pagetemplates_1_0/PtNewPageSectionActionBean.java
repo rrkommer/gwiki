@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.pagetemplates_1_0.macro.PtSectionMacroBean;
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * @see PtSectionMacroBean
+ * @deprecated probably to be removed.
  */
 public class PtNewPageSectionActionBean extends ActionBeanBase
 {

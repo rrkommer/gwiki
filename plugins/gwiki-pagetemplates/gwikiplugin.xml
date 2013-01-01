@@ -16,6 +16,7 @@
 					value="de.micromata.genome.gwiki.pagetemplates_1_0.macro.PtSectionMacroBean" />
 			</map>
 		</property>
+    <!--  functionality not used
 		<property name="filter">
 			<list>
 				<bean class="de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor">
@@ -23,5 +24,6 @@
 				</bean>
 			</list>
 		</property>
+     -->
 	</bean>
 </beans>

@@ -70,29 +70,29 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   private PtWikiSectionEditorArtefakt< ? > createEditor()
   {
 
-    if (pageId != null) {
-      element = wikiContext.getWikiWeb().getElement(pageId);
+    if (pageId == null) {
+      return null;
+    }
+    element = wikiContext.getWikiWeb().getElement(pageId);
 
-      String fieldNumber = wikiContext.getRequestParameter("field");
+    String fieldNumber = wikiContext.getRequestParameter("field");
 
-      if (StringUtils.equals(editor, EDITOR_RTE)) {
-        return new PtWikiRichTextEditor(element, sectionName, editor, hint);
-      } else if (StringUtils.equals(editor, EDITOR_RAW)) {
-        return new PtWikiRawTextEditor(element, sectionName, editor, hint, allowWikiSyntax);
-      } else if (StringUtils.equals(editor, EDITOR_HL)) {
-        return new PtWikiHeadlineEditor(element, sectionName, editor, hint);
-      } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
-        return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth, maxFileSize);
-      } else if (StringUtils.equals(editor, EDITOR_LINK)) {
-        return new PtWikiLinkEditor(element, sectionName, editor, hint, fieldNumber);
-      } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
-        if (StringUtils.isNotEmpty(fieldNumber)) {
-          return new PtWikiEditAttachmentEditor(element, sectionName, editor, hint, fieldNumber);
-        } else {
-          return new PtWikiAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
-        }
+    if (StringUtils.equals(editor, EDITOR_RTE)) {
+      return new PtWikiRichTextEditor(element, sectionName, editor, hint);
+    } else if (StringUtils.equals(editor, EDITOR_RAW)) {
+      return new PtWikiRawTextEditor(element, sectionName, editor, hint, allowWikiSyntax);
+    } else if (StringUtils.equals(editor, EDITOR_HL)) {
+      return new PtWikiHeadlineEditor(element, sectionName, editor, hint);
+    } else if (StringUtils.equals(editor, EDITOR_IMAGE)) {
+      return new PtWikiImageEditor(element, sectionName, editor, hint, maxWidth, maxFileSize);
+    } else if (StringUtils.equals(editor, EDITOR_LINK)) {
+      return new PtWikiLinkEditor(element, sectionName, editor, hint, fieldNumber);
+    } else if (StringUtils.equals(editor, EDITOR_ATTACHMENT)) {
+      if (StringUtils.isNotEmpty(fieldNumber)) {
+        return new PtWikiEditAttachmentEditor(element, sectionName, editor, hint, fieldNumber);
+      } else {
+        return new PtWikiAttachmentEditor(element, sectionName, editor, hint, maxFileSize, fieldNumber);
       }
-
     }
     return null;
   }
@@ -100,7 +100,9 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
   private void init()
   {
     secEditor = createEditor();
-    secEditor.prepareHeader(wikiContext);
+    if (secEditor != null) {
+      secEditor.prepareHeader(wikiContext);
+    }
   }
 
   public Object onInit()

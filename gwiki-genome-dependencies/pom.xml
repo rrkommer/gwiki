@@ -3,7 +3,7 @@
   <parent>
 		<artifactId>gwiki-parent</artifactId>
 		<groupId>de.micromata.genome.gwiki</groupId>
-		<version>1.0.0</version><!-- GWIKVERSION -->
+		<version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
 	</parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-genome-dependencies</artifactId>
