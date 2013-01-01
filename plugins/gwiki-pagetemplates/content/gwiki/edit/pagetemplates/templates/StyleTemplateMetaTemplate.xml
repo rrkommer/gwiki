@@ -7,6 +7,7 @@
 		<property name="elementType" value="gwiki" />
 		<!--  1 Hour -->
 		<property name="elementLifeTime" value="3600000" />
+    <property name="cachable" value="false"/>
 		<!--  no controlerId -->
 		<!--  no controlerClass -->
 		<property name="parts">
