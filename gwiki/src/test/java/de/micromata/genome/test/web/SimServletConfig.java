@@ -53,7 +53,7 @@ public class SimServletConfig implements ServletConfig
    * 
    * @see javax.servlet.ServletConfig#getInitParameterNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getInitParameterNames()
   {
     return new IteratorEnumeration(initParameter.keySet().iterator());

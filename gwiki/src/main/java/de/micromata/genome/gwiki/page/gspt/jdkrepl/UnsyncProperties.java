@@ -60,7 +60,7 @@ public class UnsyncProperties extends HashMap<String, Object>
   @SuppressWarnings("unchecked")
   public UnsyncProperties(Properties props)
   {
-    this((Map) props);
+    this((Map< ? extends String, ? extends Object>) (Map< ? , ? >) props);
   }
 
   public String getProperty(String key)

@@ -54,6 +54,7 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
   @Override
   public T getCompiledObject()
   {
+    @SuppressWarnings("unused")
     T comp = super.getCompiledObject();
     // No store of compiled object, because some needs NO singleton!
     // if (comp != null) {
@@ -73,8 +74,7 @@ public class GWikiXmlConfigArtefakt<T extends Serializable> extends GWikiTextArt
     return bean;
   }
 
-  @SuppressWarnings("unchecked")
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiTextPageEditorArtefakt(elementToEdit, bean, partKey, this);
   }

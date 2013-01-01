@@ -109,7 +109,6 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
   }
 
-  @SuppressWarnings("unchecked")
   private Matcher<String> replaceMatcherRules(GWikiRoleConfig rc, Matcher<String> m)
   {
     if (m instanceof EqualsMatcher) {
@@ -129,7 +128,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return m;
     }
     if (m instanceof TreeStateMatcher) {
-      TreeStateMatcher tm = (TreeStateMatcher) m;
+      TreeStateMatcher<String> tm = (TreeStateMatcher<String>) m;
       tm.setNested(replaceMatcherRules(rc, tm.getNested()));
     }
     return m;
@@ -358,7 +357,6 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return new GWikiRight(rs, GWikiRight.RIGHT_CAT_OTHER_RIGHT, "");
   }
 
-  @SuppressWarnings("unchecked")
   public boolean collectRights(Matcher<String> m, Map<String, GWikiRight> systemRights, SortedMap<String, GWikiRight> ret)
   {
     if (m instanceof EqualsMatcher) {
@@ -377,7 +375,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return true;
     }
     if (m instanceof TreeStateMatcher) {
-      TreeStateMatcher tm = (TreeStateMatcher) m;
+      TreeStateMatcher<String> tm = (TreeStateMatcher<String>) m;
       if (tm.isValue() == false) {
         return false;
       }

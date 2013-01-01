@@ -152,7 +152,7 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   }
 
   /** Returns an enumeration with single value of the named header, or an empty enum if no value. */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Enumeration getHeaders(String name)
   {
     String header = getHeader(name);
@@ -164,7 +164,7 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   }
 
   /** Returns an enumeration containing all the names of headers supplied. */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Enumeration getHeaderNames()
   {
     return Collections.enumeration(headers.keySet());
@@ -279,8 +279,8 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   /** Returns (an attempt at) a reconstructed URL based on it's constituent parts. */
   public StringBuffer getRequestURL()
   {
-    return new StringBuffer().append(this.protocol).append("://").append(this.serverName).append(":").append(this.serverPort).append(
-        this.contextPath).append(this.servletPath).append(this.pathInfo);
+    return new StringBuffer().append(this.protocol).append("://").append(this.serverName).append(":").append(this.serverPort)
+        .append(this.contextPath).append(this.servletPath).append(this.pathInfo);
   }
 
   /** Gets the part of the path which matched the servlet. */
@@ -344,7 +344,7 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   }
 
   /** Gets an enumeration of all request attribute names. */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Enumeration getAttributeNames()
   {
     return Collections.enumeration(this.attributes.keySet());
@@ -392,7 +392,7 @@ public class StandaloneHttpServletRequest implements HttpServletRequest
   }
 
   /** Gets an enumeration containing all the parameter names present. */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Enumeration getParameterNames()
   {
     return Collections.enumeration(this.parameters.keySet());

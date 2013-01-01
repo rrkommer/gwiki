@@ -46,13 +46,14 @@ public abstract class GWikiMacroBase implements GWikiMacro
   }
 
   /**
-   * use GWikiFragmentError
+   * For normal wiki errors, use GWikiFragmentError
    * 
    * @param ctx
    * @param message
    * @param attrs
+   * @Deprecated
    */
-  @Deprecated
+
   static public void renderErrorMessage(GWikiContext ctx, String message, MacroAttributes attrs)
   {
     ctx.append("<span style=\"color=red\">").append(StringEscapeUtils.escapeHtml(message)).append("</span>");

@@ -79,10 +79,9 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
     if (StringUtils.isEmpty(chunk) == false) {
       ctx.setRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK, chunk);
     }
-    ((GWikiExecutableArtefakt) art).render(ctx);
+    ((GWikiExecutableArtefakt< ? >) art).render(ctx);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {

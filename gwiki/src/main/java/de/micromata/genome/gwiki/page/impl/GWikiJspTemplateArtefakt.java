@@ -59,7 +59,7 @@ public class GWikiJspTemplateArtefakt extends GWikiTextArtefaktBase<Serializable
     return true;
   }
 
-  public GWikiEditorArtefakt getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiJspPageEditorArtefakt(elementToEdit, bean, partKey, this);
   }

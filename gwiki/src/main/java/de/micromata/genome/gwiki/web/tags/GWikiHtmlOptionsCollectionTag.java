@@ -63,8 +63,8 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
   @TagProperty
   private String styleId = null;
 
-  @SuppressWarnings("unchecked")
-  protected Iterator getIterator(Object collection) throws JspException
+  @SuppressWarnings({ "unchecked", "rawtypes"})
+  protected Iterator< ? > getIterator(Object collection) throws JspException
   {
     Class< ? > clcls = collection.getClass();
     if (clcls.isArray()) {
@@ -72,16 +72,16 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
     }
 
     if (collection instanceof Collection) {
-      return (((Collection) collection).iterator());
+      return (((Collection< ? >) collection).iterator());
 
     } else if (collection instanceof Iterator) {
-      return ((Iterator) collection);
+      return ((Iterator< ? >) collection);
 
     } else if (collection instanceof Map) {
-      return (((Map) collection).entrySet().iterator());
+      return (((Map< ? , ? >) collection).entrySet().iterator());
 
     } else if (collection instanceof Enumeration) {
-      return new EnumerationIterator((Enumeration) collection);
+      return new EnumerationIterator((Enumeration< ? >) collection);
 
     } else {
       throw new JspException("form." + property + " does not return a valid collection");

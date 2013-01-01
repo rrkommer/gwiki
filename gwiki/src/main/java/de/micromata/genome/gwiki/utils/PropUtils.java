@@ -83,7 +83,6 @@ public class PropUtils
     }
   }
 
-  @SuppressWarnings("unchecked")
   public static String fromProperties(Map<String, String> map)
   {
     Object om = map;
@@ -91,7 +90,7 @@ public class PropUtils
       return fromProperties((Properties) om);
     }
     Properties props = new Properties();
-    props.putAll((Map) map);
+    props.putAll((Map< ? , ? >) map);
     return fromProperties(props);
   }
 }

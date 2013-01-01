@@ -296,7 +296,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getHeaderNames()
   {
     return new IteratorEnumeration(headers.keySet().iterator());
@@ -307,7 +307,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getHeaders(String name)
   {
     List<String> hl = headers.get(name);
@@ -500,7 +500,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.ServletRequest#getAttributeNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getAttributeNames()
   {
     return new IteratorEnumeration(attributes.keySet().iterator());
@@ -581,7 +581,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.ServletRequest#getLocales()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getLocales()
   {
     return new IteratorEnumeration(locales.iterator());
@@ -606,6 +606,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.ServletRequest#getParameterMap()
    */
+  @SuppressWarnings("rawtypes")
   public Map getParameterMap()
   {
     return parameters;
@@ -616,7 +617,7 @@ public class SimHttpServletRequest implements HttpServletRequest// extends MockH
    * 
    * @see javax.servlet.ServletRequest#getParameterNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getParameterNames()
   {
     return new IteratorEnumeration(parameters.keySet().iterator());

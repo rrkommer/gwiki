@@ -605,13 +605,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
-  @SuppressWarnings("unchecked")
   public boolean runWithParts(Map<String, GWikiArtefakt< ? >> newParts, CallableX<Boolean, RuntimeException> cb)
   {
     Map<String, GWikiArtefakt< ? >> pushParts = null;
     if (newParts.size() > 0) {
       for (Map.Entry<String, GWikiArtefakt< ? >> npe : newParts.entrySet()) {
-        GWikiArtefakt backup = parts.put(npe.getKey(), npe.getValue());
+        GWikiArtefakt< ? > backup = parts.put(npe.getKey(), npe.getValue());
         if (backup != null) {
           if (pushParts == null) {
             pushParts = new HashMap<String, GWikiArtefakt< ? >>();
@@ -774,7 +773,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     Object obj = request.getAttribute(key);
     if ((obj instanceof List) == true) {
-      return (List) obj;
+      return (List<String>) obj;
     }
     List<String> list = new ArrayList<String>();
     request.setAttribute(key, list);
