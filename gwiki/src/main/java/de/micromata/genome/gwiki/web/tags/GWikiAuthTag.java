@@ -72,7 +72,8 @@ public class GWikiAuthTag extends TagSupport
       }
       return Tag.EVAL_BODY_INCLUDE;
     }
-    GWikiElementInfo ei = ctx.getWikiElement() != null ? ctx.getWikiElement().getElementInfo() : null;
+    @SuppressWarnings("unused")
+    GWikiElementInfo ei = ctx.getCurrentElement() != null ? ctx.getCurrentElement().getElementInfo() : null;
     /* The User must not have any if rights */
     if (StringUtils.isNotBlank(ifHasNot) == true) {
       for (String right : splitRights(ifHasNot)) {

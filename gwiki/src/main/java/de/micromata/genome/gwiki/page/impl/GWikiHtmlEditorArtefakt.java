@@ -31,8 +31,7 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-@SuppressWarnings("unchecked")
-public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements GWikiEditorArtefakt
+public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> implements GWikiEditorArtefakt<String>
 {
 
   private static final long serialVersionUID = -2557631751225594754L;
@@ -74,7 +73,7 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
 
   public boolean renderWithParts(GWikiContext ctx)
   {
-    //GWikiEditPageActionBean editBean = (GWikiEditPageActionBean) ctx.getRequestAttribute("form");
+    // GWikiEditPageActionBean editBean = (GWikiEditPageActionBean) ctx.getRequestAttribute("form");
     // String wordEdit = "";
     //
     // if (editBean != null && editBean.getElementToEdit() != null) {
@@ -97,7 +96,7 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase implements 
     String textareaid = partName + ".htmlText";
 
     String html = //
-    Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), // 
+    Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), //
         Xml.text(wikiPage.getStorageData())).toString();
     String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n" + "setTimeout(function() {\n"
     // + "alert('now timeout');\n"

@@ -156,7 +156,7 @@ public class GWikiFileStorage implements GWikiStorage
       throw new RuntimeException("Failed to load properties: " + name + "; " + ex.getMessage(), ex);
     }
 
-    map.putAll((Map<String, String>) (Map) props);
+    map.putAll((Map<String, String>) (Map< ? , ? >) props);
   }
 
   public void storeProps(String name, Map<String, String> map)
@@ -344,6 +344,7 @@ public class GWikiFileStorage implements GWikiStorage
     ei.setMetaTemplate(template);
   }
 
+  @SuppressWarnings("unchecked")
   protected GWikiElement createHardWiredElement(String type, GWikiElementInfo ei)
   {
     try {
@@ -362,7 +363,6 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
-  @SuppressWarnings("unchecked")
   public GWikiElement createElement(GWikiElementInfo ei)
   {
     initMetaTemplate(ei);
@@ -400,7 +400,6 @@ public class GWikiFileStorage implements GWikiStorage
     return storage.readTextFile(fname);
   }
 
-  @SuppressWarnings("unchecked")
   public GWikiElement hasModifiedArtefakts(GWikiElementInfo ei)
   {
     GWikiElement element = createElement(ei);
@@ -409,7 +408,7 @@ public class GWikiFileStorage implements GWikiStorage
     for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
       if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
         continue;
-      GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
+      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
       String fname = art.buildFileName(ei.getId(), me.getKey());
       FsObject fsobj = storage.getFileObject(fname);
       if (fsobj == null) {
@@ -535,7 +534,6 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
-  @SuppressWarnings("unchecked")
   protected void archivePage(final GWikiContext wikiContext, final GWikiElement el)
   {
     storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
@@ -582,7 +580,7 @@ public class GWikiFileStorage implements GWikiStorage
         for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
           if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
             continue;
-          GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
+          GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
           String oldName = art.buildFileName(el.getElementInfo().getId(), me.getKey());
           String newName = art.buildFileName(clelinfo.getId(), me.getKey());
           if (storage.exists(oldName) == true) {
@@ -632,14 +630,13 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  @SuppressWarnings("unchecked")
   protected void destroyElement(final GWikiContext wikiContext, final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
   {
     String id = element.getElementInfo().getId();
     for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
       if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
         continue;
-      GWikiPersistArtefakt art = (GWikiPersistArtefakt) me.getValue();
+      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
       String fname = art.buildFileName(id, me.getKey());
       boolean deleted = storage.delete(fname);
       if (deleted == false) {
@@ -739,7 +736,7 @@ public class GWikiFileStorage implements GWikiStorage
     // return;
     // }
     // }
-    //    
+    //
 
   }
 

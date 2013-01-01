@@ -138,7 +138,7 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
   public static Map<String, Pair<String, Boolean>> getNotificationPagesForEmail(GWikiContext wikiContext, Properties props, String email)
   {
     Map<String, Pair<String, Boolean>> ret = new TreeMap<String, Pair<String, Boolean>>();
-    Map<String, String> m = (Map<String, String>) (Map) props;
+    Map<String, String> m = (Map<String, String>) (Map< ? , ? >) props;
     for (Map.Entry<String, String> me : m.entrySet()) {
       SortedMap<String, Boolean> pm = parseNotLine(me.getValue());
       if (pm.containsKey(email) == false) {

@@ -66,6 +66,7 @@ import org.apache.commons.collections15.iterators.IteratorEnumeration;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@SuppressWarnings("deprecation")
 public class StandaloneHttpSession implements HttpSession
 {
   private Map<String, Object> sessionAttributes = new HashMap<String, Object>();
@@ -89,7 +90,7 @@ public class StandaloneHttpSession implements HttpSession
     return sessionAttributes.get(key);
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getAttributeNames()
   {
     return new IteratorEnumeration(sessionAttributes.keySet().iterator());

@@ -56,15 +56,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.Filter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
@@ -92,7 +89,7 @@ public class SimServletContext implements ServletContext
 
   private Map<String, Object> attributes = new HashMap<String, Object>();
 
-  private List<Filter> filters = new ArrayList<Filter>();
+  // private List<Filter> filters = new ArrayList<Filter>();
 
   private HttpServlet servlet;
 
@@ -160,7 +157,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getAttributeNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getAttributeNames()
   {
     return new IteratorEnumeration(attributes.keySet().iterator());
@@ -205,7 +202,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getInitParameterNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes"})
   public Enumeration getInitParameterNames()
   {
     return new IteratorEnumeration(initParameters.keySet().iterator());
@@ -286,7 +283,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Set getResourcePaths(String path)
   {
     return null;
@@ -327,7 +324,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServletNames()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "rawtypes"})
   public Enumeration getServletNames()
   {
     return Collections.enumeration(Collections.emptySet());
@@ -338,7 +335,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServlets()
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("rawtypes")
   public Enumeration getServlets()
   {
     return Collections.enumeration(Collections.emptySet());

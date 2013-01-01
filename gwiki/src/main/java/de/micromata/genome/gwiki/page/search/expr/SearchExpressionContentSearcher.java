@@ -32,10 +32,10 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher;
+import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher.SearchResultByRelevanceComparator;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
-import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher.SearchResultByRelevanceComparator;
 
 public class SearchExpressionContentSearcher implements ContentSearcher
 {
@@ -75,7 +75,6 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     sr.setTextExerpt(rt);
   }
 
-  @SuppressWarnings("unchecked")
   public QueryResult search(GWikiContext ctx, SearchQuery query)
   {
     long startSearchTime = System.currentTimeMillis();
@@ -103,7 +102,7 @@ public class SearchExpressionContentSearcher implements ContentSearcher
 
     Collection<SearchResult> res = se.filter(ctx, query);
     if (res instanceof List) {
-      ret = (List) res;
+      ret = (List<SearchResult>) res;
     } else {
       ret = new ArrayList<SearchResult>();
       ret.addAll(res);

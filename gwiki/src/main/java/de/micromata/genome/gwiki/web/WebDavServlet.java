@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.web;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,17 +94,17 @@ public class WebDavServlet extends HttpServlet
   {
     if (true)
       return;
-    StringBuilder sb = new StringBuilder();
-    sb.append(req.getMethod()).append(" ").append(req.getRequestURI()).append("\n");
-    for (Enumeration en = req.getHeaderNames(); en.hasMoreElements();) {
-      String name = (String) en.nextElement();
-      String val = req.getHeader(name);
-      sb.append(name).append(": ").append(val).append("\n");
-    }
-    sb.append("\n");
-    GWikiContext ctx = GWikiContext.getCurrent();
-    // ctx.getWikiWeb().getLogging().note("WebDav; " + req.getMethod() + " " + req.getRequestURI(), ctx);
-    System.out.print(sb.toString());
+    // StringBuilder sb = new StringBuilder();
+    // sb.append(req.getMethod()).append(" ").append(req.getRequestURI()).append("\n");
+    // for (Enumeration en = req.getHeaderNames(); en.hasMoreElements();) {
+    // String name = (String) en.nextElement();
+    // String val = req.getHeader(name);
+    // sb.append(name).append(": ").append(val).append("\n");
+    // }
+    // sb.append("\n");
+    // GWikiContext ctx = GWikiContext.getCurrent();
+    // // ctx.getWikiWeb().getLogging().note("WebDav; " + req.getMethod() + " " + req.getRequestURI(), ctx);
+    // System.out.print(sb.toString());
   }
 
   @Override

@@ -28,7 +28,7 @@ import de.micromata.genome.gwiki.model.GWikiTextArtefaktBase;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiPlainHtmlArtefakt extends GWikiTextArtefaktBase implements GWikiExecutableArtefakt, GWikiEditableArtefakt
+public class GWikiPlainHtmlArtefakt extends GWikiTextArtefaktBase<String> implements GWikiExecutableArtefakt<String>, GWikiEditableArtefakt
 {
 
   private static final long serialVersionUID = -1849469123663275168L;

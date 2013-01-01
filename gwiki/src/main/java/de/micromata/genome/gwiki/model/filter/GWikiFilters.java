@@ -298,16 +298,16 @@ public class GWikiFilters
     }
   }
 
-  private Set<String> getCreateSet(Map<String, Set<String>> m, String k)
-  {
-    Set<String> ret = m.get(k);
-    if (ret != null) {
-      return ret;
-    }
-    ret = new HashSet<String>();
-    m.put(k, ret);
-    return ret;
-  }
+  // private Set<String> getCreateSet(Map<String, Set<String>> m, String k)
+  // {
+  // Set<String> ret = m.get(k);
+  // if (ret != null) {
+  // return ret;
+  // }
+  // ret = new HashSet<String>();
+  // m.put(k, ret);
+  // return ret;
+  // }
 
   /**
    * put after behind before.
@@ -412,7 +412,6 @@ public class GWikiFilters
     initTextExtractors(wikiWeb, wikiConfig);
   }
 
-  @SuppressWarnings("unchecked")
   protected void initTextExtractors(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
     final Map<String, String> extm = wikiWeb.getDaoContext().getPluginRepository().getPluginTextExtractors();
