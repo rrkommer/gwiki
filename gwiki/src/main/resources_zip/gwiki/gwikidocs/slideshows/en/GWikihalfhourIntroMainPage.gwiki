@@ -91,6 +91,7 @@ Multipurpose Wiki.
 - 
 {incremental}
 {slide}
+
 {slide:title=Architecture goals}
 {incremental}
 - Minimize amount of different design pattern
@@ -275,12 +276,13 @@ GWiki can be used as rapid development plattform
 {incremental}
 {slide}
 
-{slide:title= }
+{slide:title=Summary}
 \\
 \\
 
 h1. Summary 
 {slide}
+
 {slide:title=All is Wiki}
 
 Implementation of GWiki is itself GWiki:
@@ -315,12 +317,13 @@ Comming soon:
 - SVN, Jira, Forum
 {slide}
 {slide:title=End}
-\\
 
+\\
 \\
 
 {center}Thank you for your interest!{center}
 {slide}
+
 {slide:title=Wiki Verlinkung}
 - Klassisches Wiki mit CamelCase. 
 - Hierarchisch aufgebaute Seiten.
@@ -341,5 +344,6 @@ Kern relativ klein, Rest sind Macros.
 {slide:title=Wiki DOM 1}
 {center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png|width=70%!{center}
 {slide}
+
 
 {slideshow}
