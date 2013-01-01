@@ -60,7 +60,7 @@
                   </bean>
 
                 </entry>
-                <entry key="+admin/plugins/*">
+                <entry key="+admin/plugins/*,-admin/plugins/Index*">
                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
                     <constructor-arg>
                       <value>${gwiki.dev.path}/../gwiki-standalone/src/main/external_resources/distr/gwiki</value>
