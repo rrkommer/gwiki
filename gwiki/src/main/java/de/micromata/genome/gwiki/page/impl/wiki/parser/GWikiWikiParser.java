@@ -588,15 +588,15 @@ public class GWikiWikiParser
 
   protected void parseImage(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
-    char tk = tks.nextToken();
     int oldPos = tks.getTokenPos();
+    char tk = tks.nextToken();
     // tks.addStopToken('!');
     String link = tks.getStringUntilOneOf("!\n", true);
     tk = tks.curToken();
     if (link == null || tk != '!') {
       ctx.addTextFragement("!");
       tks.setTokenPos(oldPos);
-      ctx.addTextFragement(tks.curTokenString());
+      // ctx.addTextFragement(tks.curTokenString());
       tks.nextToken();
       return;
     }
@@ -684,7 +684,7 @@ public class GWikiWikiParser
 
   protected boolean isSentenceTerminator(GWikiWikiParserContext ctx, char c)
   {
-    if (".;!?:".indexOf(c) == -1) {
+    if (".;!?:!".indexOf(c) == -1) {
       return false;
     }
     if (ctx.getFragStack().size() == 0) {
