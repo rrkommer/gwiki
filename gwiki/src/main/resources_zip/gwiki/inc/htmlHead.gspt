@@ -57,8 +57,9 @@ var i18n={<%
         }
       }
     }
-    
-    buf.deleteCharAt(buf.length() - 1);
+    if (buf.length() > 0) {
+        buf.deleteCharAt(buf.length() - 1);
+    }
     wikiContext.append(buf.toString());
 %>}
 </script>
