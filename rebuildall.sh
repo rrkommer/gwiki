@@ -1,18 +1,21 @@
-GV=1.0.0-SNAPSHOT
+GV=1.0.0
 MVN=/cygdrive/c/programr/apache-maven-2.2.1/bin/mvn
-PRC="gwiki-parent gwiki-genome-dependencies gwiki-gdbfs"
-PLUGINS="gwiki-admintools gwiki-s5slideshow"
-ADDPLUGINS="gwiki-feed gwiki-blog gwiki-forum gwiki-fssvn gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi org.apache.httpcomponents gwiki-msotextextractor gwiki-vfolder gwiki-pdftextextractor gwiki-rte-myspell gwiki-sampleplugin gwiki-scheduler gwiki-confluenceimporter"
+PRC="gwiki-parent gwiki-genome-dependencies gwiki-gdbfs gwiki"
+PLUGINS="gwiki-plugin-parent gwiki-admintools gwiki-s5slideshow gwiki-feed gwiki-blog gwiki-forum gwiki-fssvn gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi org.apache.httpcomponents gwiki-msotextextractor gwiki-vfolder gwiki-pdftextextractor gwiki-rte-myspell gwiki-sampleplugin gwiki-scheduler gwiki-confluenceimporter"
 BETAPLUGINS="gwiki-pagelifecycle gwiki-pagetemplates gwiki-style-GracefulUndressed gwiki-style-mmLabs"
 
 DESKTOP_PLUGINS="gwiki-admintools gwiki-s5slideshow gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi gwiki-msotextextractor gwiki-pdftextextractor gwiki-rte-myspell gwiki-feed gwiki-blog"
 GWIKIPUB_PLUGINS=$DESKTOP_PLUGINS
 
 # gwiki-style-ProjectForge 
-DEPLOYCMD="install"
-INSTALLCMD="install -o"
+DEPLOYCMD="clean install"
+INSTALLCMD="clean install -o"
 COPYPLUGINS=true
-STARTSTANDALONE=false
+COMPILE=true
+STARTSTANDALONE=true
+
+if [ $COMPILE == 'true' ]
+then
 
 for pm in $PRC
 do 
@@ -22,11 +25,6 @@ do
 	cd ..;
 done;
 
-cd gwiki
-echo "Build gwiki"
-$MVN install
-cd ..
-
 cd plugins
 for pm in $PLUGINS
 do
@@ -35,16 +33,8 @@ do
 	$MVN $INSTALLCMD;
 	cd ..;
 done;
-
-for pm in $ADDPLUGINS
-do
-	cd $pm;
-	echo "Build $pm"
-	$MVN $INSTALLCMD;
-	cd ..;
-done;
-
 cd ..;
+fi;
 
 function copyPlugins()
 {
@@ -65,7 +55,7 @@ done;
 if [ $COPYPLUGINS == 'true' ]
 then
 	copyPlugins "$DESKTOP_PLUGINS" "./gwiki-standalone/src/main/external_resources/distr/gwiki/admin/plugins/"
-	copyPlugins "$GWIKIPUB_PLUGINS" "./gwiki-standalone/src/main/external_resources/distr/gwiki/admin/plugins/"
+	copyPlugins "$GWIKIPUB_PLUGINS" "./gwiki/src/main/external_resources/gwiki_pub/admin/plugins/"
 fi;
 
 cd ./gwiki
