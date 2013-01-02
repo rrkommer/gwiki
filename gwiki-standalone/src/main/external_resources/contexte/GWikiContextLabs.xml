@@ -44,47 +44,24 @@
         </property>
       </bean>
     </property>
-
+    <!--  before running, do cp -r /home/gwiki/build/trunk/gwiki/src/main/external_resources/gwiki_pub/* ~/run/gwiki-standalone-1.0.0/gwiki/ -->
     <property name="storage">
       <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
         <constructor-arg>
-          <bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
+          <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
             <constructor-arg>
-              <map>
-                <entry
-                  key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
-                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
-                    <constructor-arg>
-                      <value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
-                    </constructor-arg>
-                  </bean>
-
-                </entry>
-                <entry key="+admin/plugins/*,-admin/plugins/Index*">
-                 <bean class="de.micromata.genome.gdbfs.StdFileSystem">
-                    <constructor-arg>
-                      <value>${gwiki.dev.path}/../gwiki-standalone/src/main/external_resources/distr/gwiki</value>
-                    </constructor-arg>
-                  </bean>
-                </entry>
-                <entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*">
-                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
-                    <constructor-arg>
-                      <value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
-                    </constructor-arg>
-                  </bean>
-                </entry>
-                
-                            
-                <entry key="*">
-                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
-                    <constructor-arg>
-                      <value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
-                    </constructor-arg>
-                  </bean>
-                </entry>
-
-              </map>
+              <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                <constructor-arg>
+                  <value>${gwiki.wikifilepath}</value>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                <constructor-arg>
+                  <value>GWikiContent.zip</value>
+                </constructor-arg>
+              </bean>
             </constructor-arg>
           </bean>
         </constructor-arg>
