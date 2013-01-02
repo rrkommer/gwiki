@@ -29,13 +29,14 @@
     <property name="webDavUserName" value="${gwiki.sys.user}" />
     <property name="webDavPasswordHash" value="${gwiki.sys.passwordhash}" />
     <property name="staticContentFromClassPath" value="true" />
+    <!--
     <property name="staticContentFileSystem">
       <bean class="de.micromata.genome.gdbfs.StdFileSystem">
         <constructor-arg value="${gwiki.dev.path}/src/main/resources" />
       </bean>
     </property>
 
-    <property name="pluginRepository">
+      <property name="pluginRepository">
       <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
         <property name="storePluginLocation">
           <bean class="de.micromata.genome.gdbfs.StdFileSystem">
@@ -44,6 +45,7 @@
         </property>
       </bean>
     </property>
+     -->
     <!--  before running, do cp -r /home/gwiki/build/trunk/gwiki/src/main/external_resources/gwiki_pub/* ~/run/gwiki-standalone-1.0.0/gwiki/ -->
     <property name="storage">
       <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
