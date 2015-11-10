@@ -1,0 +1,16 @@
+<@include file="inc/stdtags.gspt" @>
+<@include file="inc/stdgfuncs.gspt" @>
+<% import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
+	import de.micromata.genome.gwiki.page.impl.wiki.*;
+%>
+<% wikiContext.skinInclude('standardhead'); %>
+
+<gwiki:errors />
+
+<% MainPage.render(wikiContext); %>
+		<% def form = wikiContext.getRequestAttribute("form");
+	form.renderContent(); 
+%>
+	
+<% wikiContext.skinInclude('standardfoot'); %>
+
