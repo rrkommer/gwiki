@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+    <property name="cachable" value="false"/>
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+		<property name="elementType" value="gwiki" />
+	<!-- <property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />  -->	
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="WIKILINK_DISABLE" />
+											<property name="label" value="Disable Wiki Links"/>
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+                      <property name="helpLink"
+                        value="pub/plugins/gwiki-wikilinks/Index#WIKILINK_DISABLE" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="WIKILINK_PAGEIDMATCHER" />
+											<property name="label" value="Wiki Link pages matcher"/>
+											<property name="type" value="TEXTAREA" />
+											<property name="defaultValue" value="+*,-admin/*,-edit/*" />
+                       <property name="helpLink"
+                        value="pub/plugins/gwiki-wikilinks/Index#WIKILINK_PAGEIDMATCHER" />
+										</bean>
+                   
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>

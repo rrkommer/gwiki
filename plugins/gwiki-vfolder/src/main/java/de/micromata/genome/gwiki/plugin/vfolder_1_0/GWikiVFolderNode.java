@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,6 +85,11 @@ public class GWikiVFolderNode implements Serializable
   private Pattern extractHtmlBodyRePatternCompiled;
 
   private String htmlContentEncoding = "UTF-8";
+
+  /**
+   * Serve attachment directly, not with an attachment page.
+   */
+  private boolean directAttachments = false;
 
   /**
    * A list of gwiki css file should be added inside the html.
@@ -243,6 +248,16 @@ public class GWikiVFolderNode implements Serializable
   public void setHtmlContentEncoding(String htmlContentEncoding)
   {
     this.htmlContentEncoding = htmlContentEncoding;
+  }
+
+  public boolean isDirectAttachments()
+  {
+    return directAttachments;
+  }
+
+  public void setDirectAttachments(boolean directAttachments)
+  {
+    this.directAttachments = directAttachments;
   }
 
 }
