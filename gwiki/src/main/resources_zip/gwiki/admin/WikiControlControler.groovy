@@ -9,14 +9,14 @@ class WikiControlActionBean extends ActionBeanBase
   
   private String authRightsRule;
 
-  private GWikiSimpleUser singleUser = new GWikiSimpleUser();
+  //private GWikiSimpleUser singleUser = new GWikiSimpleUser();
   
   private String cacheSizes;
   
   private void initialize()
   {
-    singleUser = new GWikiSimpleUser(GWikiSimpleUserAuthorization.getSingleUser(wikiContext));
-    authRightsRule = singleUser.getRightsMatcherRule();
+    //singleUser = new GWikiSimpleUser(GWikiSimpleUserAuthorization.getSingleUser(wikiContext));
+    //authRightsRule = singleUser.getRightsMatcherRule();
   }
 
   public Object onInit()
@@ -64,6 +64,7 @@ class WikiControlActionBean extends ActionBeanBase
      wikiContext.wikiWeb.rebuildIndex(pageId, wikiContext);
      return null;
   }
+  /*
   public Object onSetRights()
   {
     GWikiSimpleUserAuthorization auth = new GWikiSimpleUserAuthorization();
@@ -77,7 +78,7 @@ class WikiControlActionBean extends ActionBeanBase
     auth.setSingleUser(wikiContext, singleUser);
     wikiContext.getWikiWeb().setAuthorization(auth);
     return null;
-  }
+  }*/
   public Object onClearCookies()
   {
      Cookie[] cookies = wikiContext.getRequest().getCookies();
@@ -113,7 +114,7 @@ class WikiControlActionBean extends ActionBeanBase
   {
     this.authRightsRule = authRightsRule;
   }
-
+  /*
   public GWikiSimpleUser getSingleUser()
   {
     return singleUser;
@@ -123,7 +124,7 @@ class WikiControlActionBean extends ActionBeanBase
   {
     this.singleUser = user;
   }
-
+*/
   public String getPageId() { return pageId; }
   public void setPageId(String pid) { pageId = pid; }
   public String getRefPageId() { return pageId; }

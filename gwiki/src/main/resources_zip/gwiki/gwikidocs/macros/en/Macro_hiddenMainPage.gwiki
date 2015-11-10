@@ -1,4 +1,8 @@
+{pageintro}
+This macro is like a source code comment. The enclosed body will not be visible in the output at all.
+{pageintro}
 
+Sample:
 {noformat}
 {hidden}
 will not shown in output.

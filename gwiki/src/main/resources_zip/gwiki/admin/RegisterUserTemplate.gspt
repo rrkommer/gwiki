@@ -1,9 +1,12 @@
 <% wikiContext.skinInclude("noauthhead"); %>
 <@include file="inc/stdtags.gspt" @> 
-<c:if test="${form.showForm}">
 <div id="gwikiForm">
-	<form class="gwikiForm col" method="post">
-	<gwiki:errors pattern="+*,-catchaInput"/>
+<form class="gwikiForm col" method="post">
+<gwiki:errors pattern="+*,-catchaInput"/>
+  
+<c:if test="${form.showForm}">
+
+	
 	<gwiki:errors pattern="catchaInput"/>
 	<fieldset>
 	<legend>User Registration</legend>
@@ -40,7 +43,7 @@
 	   	<input  class="submit main" type="submit" name="method_onRegister" value="<fmt:message key="gwiki.page.admin.RegisterUser.button.register"/>">
 	   </div>
 	</fieldset>
-	</form>
-</div>
 </c:if>
+</form>
+</div>
 <% wikiContext.skinInclude("noauthfoot"); %>

@@ -2,9 +2,13 @@
 The macro {{recently}} list the elements recently was modified.
 {pageintro}
 
-Sample:
+Options:
+{{maxitems}}: maximum listed number of items. Default value is 20.
 
-{recently}
+Sample:
+{noformat}{recently:maxitems=4}{noformat}:
+
+{recently:maxitems=4}
 
 
 

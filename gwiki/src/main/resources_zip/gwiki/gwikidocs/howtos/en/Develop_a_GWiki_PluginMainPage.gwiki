@@ -170,3 +170,7 @@ In case of shadowing existant files in the GWiki filesystem, a Matcher rule can 
               <!-- ... common properties -->
             <property name="primaryFsReadMatcherRule" value="*admin/config/GWikiLogViewer*" />
 {code}
+
+h2. Other references
+See also
+- [gwikidocs/howtos/en/AddConfigPaneltoWikiConfig].

@@ -42,7 +42,7 @@
 								value="I{gwiki.settings.SIZE.description}" />
 							-->
 							<property name="readOnly" value="true" />
-							<property name="helpLink" value="gwikidocs/help/ElementSettings#SIZE" />
+							<property name="helpLink" value="gwikidocs/help/en/ElementSettings#SIZE" />
 							<property name="type" value="INTEGER" />
 						</bean>
 					</list>

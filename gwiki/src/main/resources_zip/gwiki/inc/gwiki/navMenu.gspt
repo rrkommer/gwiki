@@ -46,7 +46,7 @@ def renderMenu(wikiPage, wikiContext)
 	%></ul>
 <br/>
 <%
-	List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
+  List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getName());
 	if (cel.isEmtpy() == false) {
 %>
 <ul class="gwikiNavMenu"> 

@@ -23,6 +23,14 @@
 								singleton="false">
 								<property name="descriptors">
 									<list>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="deactivated" />
+                      <property name="label" value="I{gwiki.profile.deactivated.label}" />
+                      <property name="description" value="I{gwiki.profile.deactivated.description}" />
+                      <property name="readOnly" value="false" />
+                      <property name="type" value="BOOLEAN" />
+                    </bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="email" />

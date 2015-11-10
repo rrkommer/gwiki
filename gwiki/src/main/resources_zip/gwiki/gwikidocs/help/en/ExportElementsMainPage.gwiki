@@ -2,6 +2,21 @@
 Export elements to a ZIP file to archiv or migrate.
 {pageintro}
 
-{todo}
-Describe options.
-{todo}
+h2. Usage
+To export GWiki elements from a running GWiki instance, you need the {{GWIKI_ADMIN}} right.
+
+To import the [edit/ViewAllPages] page. In the gwiki skin, this is accessible via Toolbar icon !gwikidocs/help/en/ExportElement_ViewAllPagesIcon.png! at top right.
+
+!gwikidocs/help/en/ExportElements_AllElementsScreenshot.png!
+
+You can filter the elements to select only a subgroup of elements.
+In the screenshot above, only pages with the page id {{home/rkommer/}}* are selected.
+
+If you select the checkbox including also archive elements, not only the current versions of the selected elements, but also all 
+older versions of the element will be downloaded in an {{arch}} subdirectory.
+
+The export format inside the zip is the same, as used as file system storage. 
+The exported elements can also imported into another GWik instance.
+
+h2. Import elements
+How to import elements into a running GWiki instance, please refer to [gwikidocs/help/en/admin/ImportElements].

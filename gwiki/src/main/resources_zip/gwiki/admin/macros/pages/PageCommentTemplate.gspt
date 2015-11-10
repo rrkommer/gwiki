@@ -4,7 +4,7 @@
 <% 
   def form = wikiContext.pageContext.request.getAttribute('form');
   String pageCommentUrl = wikiContext.localUrl("/admin/macros/pages/PageComment");
-  boolean showComments = wikiContext.getUserBooleanProp("WITH_COMMENTS");
+  boolean showComments = form.showComments;
   String hidden = "";
   if (showComments == false) {
     hidden = " style='display: none;'";

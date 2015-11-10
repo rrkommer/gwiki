@@ -23,6 +23,4 @@ new de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChildrenMacro().render(
 To pass argument to the macro
 
 h2. Use gspt Macros
-{todo}
-Document
-{todo}
+To implement Macros via a gspt file (JSP), please refer to [gwikidocs/howtos/en/CreateaMacro].

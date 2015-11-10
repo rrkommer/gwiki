@@ -9,7 +9,7 @@
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />
 		<!--
-			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+			<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		-->
 		<property name="parts">
 			<map>

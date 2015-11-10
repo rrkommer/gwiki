@@ -7,23 +7,30 @@
 	if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
 		continue;
 	}%>
-	<li><a href="<%= wikiContext.localUrl("/" + ei.getId()) %>" class="menuItem"><%= wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle())) %></a></li>
-<% } %>
+	<li><a href="<%=wikiContext.localUrl("/" + ei.getName())%>" class="menuItem"><%=wikiContext.escape(wikiContext.getTranslatedProp(ei.getTitle()))%></a></li>
+<%
+  }
+%>
 </ul>
 <hr/>
-<% } %>
 <%
-def renderMenu(wikiPage, wikiContext)
+  }
+%>
+<%
+  def renderMenu(wikiPage, wikiContext)
 {
 	String welcome = wikiContext.getRequestAttribute('welcomePageId');
 	el = wikiContext.getWikiWeb().findElementInfo(welcome);
 	indexEl = el;
 	url = wikiContext.localUrl("/" + (el != null ? el.getId() : ""));
-	%>
+%>
 <ul class="gwikiNavMenu">
-<%if (indexEl != null && indexEl.getId().equals(wikiPage.getElementInfo().getId()) == false) { %>
-<li><a class="menuItemB" href="<%= url %>"><%= wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle())) %></a></li>
-<%}
+<%
+  if (indexEl != null && indexEl.getId().equals(wikiPage.getElementInfo().getId()) == false) {
+%>
+<li><a class="menuItemB" href="<%=url%>"><%=wikiContext.escape(wikiContext.getTranslatedProp(el.getTitle()))%></a></li>
+<%
+  }
 	el = wikiPage.getElementInfo();
 
 	List idList = new ArrayList();
@@ -48,15 +55,16 @@ def renderMenu(wikiPage, wikiContext)
 	idList = idList.reverse();
 	for (pi in idList) {
 			url = wikiContext.localUrl("/" + pi.getId());
-			%><li><a href="<%= url %>" class="menuItemB"><%= wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle())) %></a></li>
-<% 
-	}
+%><li><a href="<%=url%>" class="menuItemB"><%=wikiContext.escape(wikiContext.getTranslatedProp(pi.getTitle()))%></a></li>
+<%
+  }
 %>
-	<li><%= wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle())) %></li>
+	<li><%=wikiContext.escape(wikiContext.getTranslatedProp(wikiPage.getElementInfo().getTitle()))%></li>
 	</ul>
-<% if (wikiContext.getRequestAttribute("GWIKI_DISABLE_CHILD_NAV") != Boolean.TRUE) {
+<%
+  if (wikiContext.getRequestAttribute("GWIKI_DISABLE_CHILD_NAV") != Boolean.TRUE) {
 	
-		List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getId());
+		List cel = wikiContext.getElementFinder().getPageDirectPages(wikiPage.getElementInfo().getName());
 	if (cel.isEmpty() == false) {
 %>
 <ul class="gwikiNavMenu">

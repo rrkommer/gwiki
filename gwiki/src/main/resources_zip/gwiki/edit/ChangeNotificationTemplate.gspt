@@ -53,7 +53,7 @@ function submitDelete(myId)
         <td><c:out value="${me.value.first}" /></td>
         <td><c:out value="${me.value.second}" /></td>
         <td><a
-          href="javascript:submitDelete('<c:out value="${me.key}"/>'); ">"<fmt:message key="gwiki.page.edit.ChangeNotification.button.unregister"/></a></td>
+          href="javascript:submitDelete('<c:out value="${me.key}"/>'); "><fmt:message key="gwiki.page.edit.ChangeNotification.button.unregister"/></a></td>
       </tr>
       <% } %>
     </table>

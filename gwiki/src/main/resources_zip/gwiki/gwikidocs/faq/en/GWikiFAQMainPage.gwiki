@@ -30,6 +30,11 @@ to paste the content text from the clipboard.
 
 Finally, select the 'Insert' button to insert the text into your Wiki page.
 
+h3. Image uploader applet will not work
+In the case the image/screenshot/file upload applet will not work correctly there are several reasons:
+1. You need Java 1.6 or younger.
+2. Your Public GWiki Url has to be correct, not only host and port, but also the subpath, if the GWiki Servlet is deployed not in the root context.. Check this in the Admin GWiki Config.
+
 h2. Macros
 h3. Why is there no Macro known?
 Although documented within a wiki page, GWiki reports the Macro as unknown? 

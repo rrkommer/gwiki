@@ -9,7 +9,7 @@
 		<property name="noNewPage" value="true" />
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />
-	<!-- <property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />  -->	
+	<!-- <property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />  -->	
 		<property name="parts">
 			<map>
 				<entry key="">
@@ -25,6 +25,8 @@
 											<property name="label" value="Allow anon comments"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
+                      <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiConfig#COMMENT_ALLOW_ANON" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
@@ -32,7 +34,19 @@
 											<property name="label" value="Allow registered comments"/>
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiConfig#COMMENT_HALF_ALLOW_ANON" />
 										</bean>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="COMMENT_DEFAULT_VISIBLE" />
+                      <property name="label" value="Show comments by default"/>
+                      <property name="type" value="BOOLEAN" />
+                      <property name="defaultValue" value="true" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiConfig#COMMENT_DEFAULT_VISIBLE" />
+                    </bean>
+                    
 									</list>
 								</property>
 							</bean>

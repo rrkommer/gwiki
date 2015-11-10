@@ -14,7 +14,7 @@
 <span id="impmessage"style="color: red"></span>
 
 <form name="form" method="post" enctype="multipart/form-data">
-    <gwiki:hidden property="tmpDirName" />	
+    <gwiki:hidden property="tmpDirName" />  
 <c:if test="${form.tmpDirName == null}">
 <br />
 
@@ -28,10 +28,10 @@
 </c:if>
   
 <c:if test="${form.tmpDirName != null}">
-  <input type="submit" name="method_onNewArchive" value="Neues Archiv hochladen"></input><br/>
+  <input type="submit" name="method_onNewArchive" value="<fmt:message key='gwiki.page.edit.PageImporter.button.uploadnew'/>"></input><br/>
   <gwiki:radio styleId="overWriteModeONLYNEW" property="overWriteMode"  value="ONLYNEW" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.onlynew' /><br />
   <gwiki:radio styleId="overWriteModeONLYNEWER" property="overWriteMode" value="ONLYNEWER" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.onlynewer' /><br />
-  <gwiki:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.overwriteall' /><br />
+  <gwiki:radio styleId="overWriteModeOVERWRITEALL" property="overWriteMode" value="OVERWRITEALL" /> <fmt:message key='gwiki.page.edit.PageImporter.radio.overwiteall' /><br />
 <br />
 TempDir: <c:out value="${form.tmpDirName}" /><br />
 <gwiki:hidden styleId="targetDir" property="targetDir" />

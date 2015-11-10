@@ -2,10 +2,6 @@
 How to develop gwiki itself.
 {pageintro}
 
-{todo}
-This description currently only work with access to internal micromata resources. 
-This chapter will be revised, if GWiki is also available via public SNV.
-{todo}
 
 h2. Requirements
 - JDK 1.6 or higher
@@ -15,17 +11,22 @@ h2. Requirements
 
 h2. Checkout projects
 To develop GWiki you have to checkout the gwiki projects:
+{note}
+Please refer to [pub/en/Downloads] to look after source repository.
+{note}
 
-- https://svn.micromata.de/svn/gwiki/trunk/gwiki-parent\\
+- gwiki-parent\\
   The parent pom
-- https://svn.micromata.de/svn/gwiki/trunk/gwiki-genome-dependencies\\
+- gwiki-genome-dependencies\\
    As alternative you can also use genome-core. In this case you have ajust the dependencies in following projects.
-- https://svn.micromata.de/svn/gwiki/trunk/gwiki\\
+- gwiki-gdbfs \\
+  Virtual File System for Wiki storage.
+- gwiki\\
   The GWiki code.
-- https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp\\
+- gwiki-webapp\\
   If you want run GWiki as WAR in a web container (tomcat)\\
   or
-- https://svn.micromata.de/svn/gwiki/trunk/gwiki-standalone\\
+- gwiki-standalone\\
   If you want to run GWiki as standandalone
 
 h2. Configuration
@@ -62,10 +63,10 @@ In your debug environment you have to define two variables:
 
 h2. Releases
 h3. Patch Versions
-Unfortunatelly in all project files, you have to modify version nummerns.
-In the gwiki project there is a Java class PatchVersion, which replaces the current gwiki version number.
-If you add a gwiki project (plugin, library or application) which should base on the gwiki head development
-version, you should add there the file to patch.
+Unfortunatelly in all project files, you have to modify version numbers.
+The gwiki version numbers are tagged inside the gwiki pom.xml via GWIKIVERSION like:
 
-Call the Java class with following command line 
--expected <oldversion> newversion.
+{code}
+<version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
+{code}
+
