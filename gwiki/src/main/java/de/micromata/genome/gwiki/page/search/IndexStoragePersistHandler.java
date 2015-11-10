@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -130,6 +130,9 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     }
 
     GWikiTextContentArtefakt rta = new GWikiTextContentArtefakt() {
+
+      private static final long serialVersionUID = 2425554921598255605L;
+
       @Override
       public boolean isNoArchiveData()
       {
@@ -160,16 +163,16 @@ public class IndexStoragePersistHandler implements GWikiStorageStoreElementFilte
     return swa.getStopWords();
   }
 
-  private int getStopWordWeight(GWikiStorage storage, String r)
-  {
-    Map<String, Integer> s = getStopWords(storage);
-    if (s == null)
-      return 1;
-    Integer ir = s.get(r);
-    if (ir == null)
-      return 1;
-    return s.get(r);
-  }
+  // private int getStopWordWeight(GWikiStorage storage, String r)
+  // {
+  // Map<String, Integer> s = getStopWords(storage);
+  // if (s == null)
+  // return 1;
+  // Integer ir = s.get(r);
+  // if (ir == null)
+  // return 1;
+  // return s.get(r);
+  // }
 
   /**
    * Problem dabei. Bei suche nach NOL findet er auch NOL im teilnamen.

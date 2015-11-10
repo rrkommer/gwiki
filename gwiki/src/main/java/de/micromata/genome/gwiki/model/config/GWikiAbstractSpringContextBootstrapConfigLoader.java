@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,6 +44,8 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
 
   protected BeanFactory beanFactory;
 
+  protected boolean supportsJndi = true;
+
   public String getApplicationContextName()
   {
     if (StringUtils.isEmpty(fileName) == true) {
@@ -57,12 +59,14 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
   {
     if (config != null) {
       fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
+      supportsJndi = StringUtils.equals(config.getInitParameter("de.micromata.genome.gwiki.supportsJndi"), "true");
     }
     ConfigurableApplicationContext actx = createApplicationContext(config, getApplicationContextName());
-    actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config));
+    actx.addBeanFactoryPostProcessor(new GWikiDAOContextPropertyPlaceholderConfigurer(config, supportsJndi));
     actx.refresh();
     beanFactory = actx;
     GWikiDAOContext daoContext = (GWikiDAOContext) actx.getBean("GWikiBootstrapConfig");
+
     daoContext.setBeanFactory(beanFactory);
     return daoContext;
   }

@@ -6,12 +6,11 @@
   <parent>
     <artifactId>gwiki-parent</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
+    <version>1.0.2</version><!-- GWIKVERSION -->
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-gdbfs</artifactId>
-
+  <version>${gwiki-gdbfs.version}</version>
   <build>
     <plugins>
 
@@ -97,24 +96,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>micromata_labs</id>
-      <url>http://labs.micromata.de/nexus/content/groups/public/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>central</id>
-      <url>http://repo.maven.apache.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-
-  </pluginRepositories>
+  
 
 </project>

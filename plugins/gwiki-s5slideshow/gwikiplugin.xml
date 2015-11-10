@@ -17,12 +17,6 @@
 					value="de.micromata.genome.gwiki.plugin.s5slideshow_1_0.GWikiSlideShowMacro" />
 			</map>
 		</property>
-		<!-- 
-		<property name="templates">
-			<list>
-				<value>admin/templates/SlideShowMetaTemplate</value>
-			</list>
-		</property>
-		 -->
+	
 	</bean>
 </beans>

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,11 +24,6 @@ import java.util.Map;
 public class GWikiMacroSourceFormattingRules
 {
   static Map<String, GWikiMacroSourceFormattingRule> rules = new HashMap<String, GWikiMacroSourceFormattingRule>();
-
-  private static GWikiMacroSourceFormattingRule mk(boolean trim, String beforeStart, String afterStart)
-  {
-    return new GWikiMacroSourceFormattingRule(trim, beforeStart, afterStart);
-  }
 
   private static GWikiMacroSourceFormattingRule mk(boolean trim, String beforeStart, String arterStart, String beforeEnd, String afterEnd)
   {

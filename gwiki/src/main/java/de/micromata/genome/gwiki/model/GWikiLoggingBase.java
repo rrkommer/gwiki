@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
@@ -44,15 +45,23 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
 
   protected void renderLogAttrs(StringBuilder sb, GWikiContext ctx, Throwable ex, Object... keyValues)
   {
-
+    if (keyValues.length > 0) {
+      sb.append("|");
+    }
     for (int i = 0; i + 1 < keyValues.length; ++i) {
       Object k = keyValues[i];
-      if ((k instanceof GLogAttributeName) == false) {
+      String key = "";
+      if ((k instanceof String) == true) {
+        key = (String) k;
+      } else if ((k instanceof GLogAttributeName) == true) {
+        GLogAttributeName kn = (GLogAttributeName) k;
+        key = kn.name();
+      } else {
         ++i;
         continue;
       }
-      GLogAttributeName kn = (GLogAttributeName) k;
-      sb.append(" ").append(kn.name()).append(": ").append(ObjectUtils.toString(keyValues[i + 1])).append("\n");
+
+      sb.append(" ").append(key).append(": ").append(ObjectUtils.toString(keyValues[i + 1])).append("\n");
       ++i;
     }
     if (ctx != null) {
@@ -60,6 +69,11 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
         sb.append(" ").append(GLogAttributeNames.PageId.name()).append(": ").append(ctx.getCurrentElement().getElementInfo().getId())
             .append("\n");
       }
+      String userName = ctx.getWikiWeb().getAuthorization().getCurrentUserName(ctx);
+      if (StringUtils.isNotBlank(userName) == true) {
+        sb.append(" userName: ").append(userName).append("\n");
+      }
+
     }
     if (ex != null) {
       StringWriter sout = new StringWriter();
@@ -69,6 +83,7 @@ public abstract class GWikiLoggingBase extends GWikiLoggingAdapter
     }
   }
 
+  @Override
   public void reinitConfig()
   {
     // nothing here

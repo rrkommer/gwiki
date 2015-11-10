@@ -11,7 +11,7 @@
 		<property name="noSearchIndex" value="true" />
 		<property name="noArchiv" value="true" />
 		<!--
-			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+			<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		-->
 		<property name="parts">
 			<map>

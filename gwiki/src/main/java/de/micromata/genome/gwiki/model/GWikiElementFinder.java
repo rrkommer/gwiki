@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -188,6 +188,7 @@ public class GWikiElementFinder
       SearchQuery query = new SearchQuery(seachExpression, true, sr);
       query.setSearchOffset(0);
       query.setMaxCount(10000);
+      query.setFindUnindexed(true);
       QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
       List<GWikiElementInfo> res = new ArrayList<GWikiElementInfo>(qr.getFoundItems());
       for (SearchResult sres : qr.getResults()) {
@@ -213,6 +214,7 @@ public class GWikiElementFinder
           }
           w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
 
+            @Override
             @SuppressWarnings("unchecked")
             public void begin(GWikiFragment fragment)
             {

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -88,8 +88,9 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
       }
     }
     int hit = 1;
-    if (exactMatch == true)
+    if (exactMatch == true) {
       hit = 3;
+    }
     int weight = getWeightFromLine(content, idx);
     if (exactMatch == true) {
       return Pair.make(normpt, hit * weight);
@@ -100,9 +101,13 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
   private int getWeightFromLine(String content, int idx)
   {
     while (idx >= 0) {
-      if (content.charAt(idx) == '|')
+      if (content.charAt(idx) == '|') {
         break;
+      }
       --idx;
+    }
+    if (idx == -1) {
+      return 0;
     }
     int eidx = idx;
     while (idx >= 0) {
@@ -153,6 +158,7 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
     }
   }
 
+  @Override
   public boolean isNoArchiveData()
   {
     return true;

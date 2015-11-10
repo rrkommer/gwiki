@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -101,6 +101,8 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
 
   private boolean allowPost = false;
 
+  private boolean showComments = false;
+
   protected boolean needCatcha()
   {
     return allowPost == true && anonUser == true;
@@ -142,12 +144,14 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     String commentConfigId = "admin/config/CommentConfig";
     GWikiProps props = wikiContext.getElementFinder().getConfigProps(commentConfigId);
     allowAnonComments = props.getBooleanValue("COMMENT_ALLOW_ANON");
+    boolean commentsVisibleDefault = props.getBooleanValue("COMMENT_DEFAULT_VISIBLE");
     String autConfig = "admin/config/GWikiAuthConfig";
     props = wikiContext.getElementFinder().getConfigProps(autConfig);
     registerUserEnabled = props.getBooleanValue(GWikiLoginActionBean.AUTH_ALLOW_REGISTER_USER);
     anonUser = wikiContext.getWikiWeb().getAuthorization().needAuthorization(wikiContext);
     allowPost = allowAnonComments == true || anonUser == false;
 
+    showComments = wikiContext.getUserBooleanProp("WITH_COMMENTS", commentsVisibleDefault);
   }
 
   public Object onInit()
@@ -252,7 +256,11 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
       wka.compileFragements(wikiContext);
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
-      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.compileerror") + " " + ex.getMessage() + "\n" + st);
+      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.macro.pagecomment.compileerror")
+          + " "
+          + ex.getMessage()
+          + "\n"
+          + st);
       return onInitImpl();
     }
     if (StringUtils.isEmpty(userName) == false) {
@@ -425,6 +433,16 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public void setCatchaInput(String catchaInput)
   {
     this.catchaInput = catchaInput;
+  }
+
+  public boolean isShowComments()
+  {
+    return showComments;
+  }
+
+  public void setShowComments(boolean showComments)
+  {
+    this.showComments = showComments;
   }
 
 }

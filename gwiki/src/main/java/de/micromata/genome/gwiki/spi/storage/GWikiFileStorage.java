@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -85,18 +85,18 @@ import de.micromata.genome.util.types.TimeInMillis;
  */
 public class GWikiFileStorage implements GWikiStorage
 {
-  private long standardLockTimeout = TimeInMillis.SECOND * 10;
+  protected long standardLockTimeout = TimeInMillis.SECOND * 10;
 
-  private FileSystem storage;
+  protected FileSystem storage;
 
-  private Map<String, String> pageTypes = new HashMap<String, String>();
+  protected Map<String, String> pageTypes = new HashMap<String, String>();
 
   /** TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist */
-  private Map<String, String> artefaktTypes = new HashMap<String, String>();
+  protected Map<String, String> artefaktTypes = new HashMap<String, String>();
 
   private final static String BeanConfigMetaTemplateSettingsFile = "admin/templates/BeanConfigMetaTemplateSettings.properties";
 
-  private GWikiWeb wikiWeb;
+  protected GWikiWeb wikiWeb;
 
   public GWikiFileStorage(FileSystem storage)
   {
@@ -201,6 +201,39 @@ public class GWikiFileStorage implements GWikiStorage
     return el;
   }
 
+  protected void loadPageInfosImpl(FileSystem fileSystem, final Map<String, GWikiElementInfo> ret)
+  {
+    Matcher<String> matcher = new BooleanListRulesFactory<String>().createMatcher("+*Settings.properties,-*arch/*,-tmp/*");
+    long stms = System.currentTimeMillis();
+    List<FsObject> elements = fileSystem.listFiles("/", matcher, 'F', true);
+
+    wikiWeb.getLogging().addPerformance("Fs.ListPageInfoFiles", System.currentTimeMillis() - stms, 0);
+    stms = System.currentTimeMillis();
+
+    for (FsObject fo : elements) {
+      String e = storage2WikiPath(fo.getName());
+      GWikiSettingsProps settings = new GWikiSettingsProps();
+      loadProperties(e, settings.getMap());
+      String mt = settings.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE);
+      GWikiMetaTemplate template = wikiWeb.findMetaTemplate(mt);
+      if (template == null) {
+        if (BeanConfigMetaTemplateSettingsFile.equals(e) == false) {
+          GWikiLog.warn("Cannot load Metatemplate: '" + mt + "' for pageId:" + e);
+          continue;
+        }
+      }
+      GWikiElementInfo el = new GWikiElementInfo(settings, template);
+      String id = e.substring(0, e.length() - GWikiStorage.SETTINGS_SUFFIX.length());
+      el.setId(id);
+      el = afterPageInfoLoad(fo, el, ret);
+      if (el != null) {
+        ret.put(id, el);
+      }
+    }
+    wikiWeb.getLogging().addPerformance("Fs.LoadPageInfos", System.currentTimeMillis() - stms, 0);
+    resolvePageInfos(ret);
+  }
+
   /**
    * note: must synchronized, because otherwise deadlock with storege
    * 
@@ -212,35 +245,7 @@ public class GWikiFileStorage implements GWikiStorage
 
       public Void call() throws RuntimeException
       {
-        Matcher<String> matcher = new BooleanListRulesFactory<String>().createMatcher("+*Settings.properties,-*arch/*,-tmp/*");
-        long stms = System.currentTimeMillis();
-        List<FsObject> elements = storage.listFiles("/", matcher, 'F', true);
-
-        wikiWeb.getLogging().addPerformance("Fs.ListPageInfoFiles", System.currentTimeMillis() - stms, 0);
-        stms = System.currentTimeMillis();
-
-        for (FsObject fo : elements) {
-          String e = storage2WikiPath(fo.getName());
-          GWikiSettingsProps settings = new GWikiSettingsProps();
-          loadProperties(e, settings.getMap());
-          String mt = settings.getStringValue(GWikiPropKeys.WIKIMETATEMPLATE);
-          GWikiMetaTemplate template = wikiWeb.findMetaTemplate(mt);
-          if (template == null) {
-            if (BeanConfigMetaTemplateSettingsFile.equals(e) == false) {
-              GWikiLog.warn("Cannot load Metatemplate: '" + mt + "' for pageId:" + e);
-              continue;
-            }
-          }
-          GWikiElementInfo el = new GWikiElementInfo(settings, template);
-          String id = e.substring(0, e.length() - GWikiStorage.SETTINGS_SUFFIX.length());
-          el.setId(id);
-          el = afterPageInfoLoad(fo, el, ret);
-          if (el != null) {
-            ret.put(id, el);
-          }
-        }
-        wikiWeb.getLogging().addPerformance("Fs.LoadPageInfos", System.currentTimeMillis() - stms, 0);
-        resolvePageInfos(ret);
+        loadPageInfosImpl(storage, ret);
         return null;
       }
     });

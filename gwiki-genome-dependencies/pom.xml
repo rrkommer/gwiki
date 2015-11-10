@@ -3,10 +3,10 @@
   <parent>
 		<artifactId>gwiki-parent</artifactId>
 		<groupId>de.micromata.genome.gwiki</groupId>
-		<version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
+		<version>1.0.2</version><!-- GWIKVERSION -->
 	</parent>
-  <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-genome-dependencies</artifactId>
+  <version>${gwiki-genome-dependencies.version}</version>
   <build>
 		<plugins>
 			<plugin>
@@ -87,22 +87,5 @@
 			<version></version>
 		</dependency>
 	-->
-	<repositories>
-		<repository>
-			<id>mavenrepo</id>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>labs.micromata.de-snapshots</id>
-			<url>https://labs.micromata.de/nexus/content/repositories/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-	</pluginRepositories>
+	
 </project>

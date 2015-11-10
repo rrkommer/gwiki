@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,6 +32,11 @@ public class QueryResult
   private List<SearchResult> results;
 
   private int foundItems;
+
+  /**
+   * All visible, indexed items.
+   */
+  private int totalItems;
 
   /**
    * All found items.
@@ -113,6 +118,16 @@ public class QueryResult
   public void setLookupWords(List<String> lookupWords)
   {
     this.lookupWords = lookupWords;
+  }
+
+  public int getTotalItems()
+  {
+    return totalItems;
+  }
+
+  public void setTotalItems(int totalItems)
+  {
+    this.totalItems = totalItems;
   }
 
 }

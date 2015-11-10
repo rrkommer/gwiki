@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -62,5 +62,11 @@ public interface GWikiEmailProvider
    */
   public static final String MAILTEMPLATE = "MAILTEMPLATE";
 
+  /**
+   * Will set if error in email.
+   */
+  public static final String SENDEMAILFAILED = "SENDEMAILFAILED";
+
   void sendEmail(Map<String, String> mailContext);
+
 }

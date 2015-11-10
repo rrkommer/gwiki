@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -257,8 +258,14 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
       return false;
     }
     if (doubleOptIn == true) {
-      GWikiLoginActionBean.sendPasswordToUser(wikiContext, user, email, pass);
-      wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
+      try {
+        GWikiLoginActionBean.sendPasswordToUser(wikiContext, user, email, pass);
+
+        wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
+      } catch (Exception ex) {
+        GWikiLog.error("Cannot send register email: " + ex.getMessage(), ex);
+        wikiContext.addValidationError("gwiki.page.admin.RegisterUser.message.unabletosend");
+      }
       showForm = false;
     } else {
       boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(pass));

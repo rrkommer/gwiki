@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -200,6 +200,10 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
     mailContext.put(GWikiEmailProvider.TEXT, message);
     wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(mailContext);
+    String failMessage = mailContext.get(GWikiEmailProvider.SENDEMAILFAILED);
+    if (StringUtils.isNotEmpty(failMessage) == true) {
+      throw new RuntimeException(failMessage);
+    }
   }
 
   public Object onResetPassword()
@@ -238,8 +242,13 @@ public class GWikiLoginActionBean extends ActionBeanBase
     String crypedPass = GWikiSimpleUserAuthorization.encrypt(newPass);
     userP.getStorageData().put("password", crypedPass);
     wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-    sendPasswordToUser(wikiContext, passwordForgottenUser, email, newPass);
-    wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
+    try {
+      sendPasswordToUser(wikiContext, passwordForgottenUser, email, newPass);
+      wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
+    } catch (Exception ex) {
+      GWikiLog.warn("Cannot send reset password: " + ex.getMessage(), ex);
+      wikiContext.addValidationError("gwiki.page.admin.RegisterUser.message.unabletosend");
+    }
     return null;
   }
 

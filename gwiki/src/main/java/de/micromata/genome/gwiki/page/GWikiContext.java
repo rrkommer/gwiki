@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,6 +42,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.collections15.ArrayStack;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -90,6 +91,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * Request attribute with List<String> of CSS for javascript.
    */
   public static final String CONTENT_JS = "de.micromata.genome.gwiki.page.GWikiContext.CONTENT_JS";
+
+  public static final String HEADER_STATEMENTS = "de.micromata.genome.gwiki.page.GWikiContext.HEADER_STATEMENTS";
 
   /**
    * Will be set after initialization.
@@ -540,6 +543,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   public GWikiContext append(String text)
   {
+    if (text == null) {
+      return this;
+    }
     try {
       if (pageContext != null) {
         pageContext.getOut().write(text);
@@ -939,14 +945,43 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return request.getHeader("user-agent");
   }
 
+  public void addHeaderContent(String content)
+  {
+    Object obj = request.getAttribute(HEADER_STATEMENTS);
+    if (obj == null) {
+      request.setAttribute(HEADER_STATEMENTS, content);
+    } else {
+      request.setAttribute(HEADER_STATEMENTS, content + obj);
+    }
+  }
+
+  public String getHeaderContent()
+  {
+    Object o = request.getAttribute(HEADER_STATEMENTS);
+    if (o == null) {
+      return "";
+    }
+    return ObjectUtils.toString(o);
+  }
+
   public void addContentCss(String localPath)
   {
     getStringListRequestAttribute(CONTENT_CSS).add(localPath);
   }
 
+  public void addContentJs(String localPath)
+  {
+    getStringListRequestAttribute(CONTENT_JS).add(localPath);
+  }
+
   public List<String> getContentCsse()
   {
     return getStringListRequestAttribute(CONTENT_CSS);
+  }
+
+  public List<String> getContentJs()
+  {
+    return getStringListRequestAttribute(CONTENT_JS);
   }
 
   public String getRealContextPath()

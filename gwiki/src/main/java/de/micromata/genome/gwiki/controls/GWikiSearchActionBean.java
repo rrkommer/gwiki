@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,9 +56,13 @@ public class GWikiSearchActionBean extends ActionBeanBase
 
   private int pageSize = 10;
 
+  private int totalItems = 0;
+
   private int totalFound = 0;
 
   private String pageUrlArgs = "";
+
+  private boolean showUnindexed = false;
 
   protected void initFromParams()
   {
@@ -100,6 +104,7 @@ public class GWikiSearchActionBean extends ActionBeanBase
     }
   }
 
+  @Override
   public Object onInit()
   {
     initFromParams();
@@ -123,6 +128,7 @@ public class GWikiSearchActionBean extends ActionBeanBase
     query.setSearchOffset(searchOffset);
     query.setMaxCount(pageSize);
     query.setWithSampleText(true);
+    query.setFindUnindexed(showUnindexed);
     try {
       QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
       if (qr.getLookupWords().isEmpty() == false) {
@@ -130,10 +136,9 @@ public class GWikiSearchActionBean extends ActionBeanBase
       }
       foundPages = qr.getResults();
       totalFound = qr.getTotalFoundItems();
-
-      searchMessage = translate("gwiki.page.edit.Search.message.pagefound", qr.getTotalFoundItems(), wikiContext.getWikiWeb()
-          .getElementInfoCount(), (qr.getSearchTime()), searchOffset, (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages
-          .size())));
+      totalItems = qr.getTotalItems();
+      searchMessage = translate("gwiki.page.edit.Search.message.pagefound", qr.getTotalFoundItems(), totalItems, (qr.getSearchTime()),
+          searchOffset, (searchOffset + (pageSize < foundPages.size() ? pageSize : foundPages.size())));
 
     } catch (InvalidMatcherGrammar ex) {
       wikiContext.addSimpleValidationError(ex.getMessage());
@@ -229,6 +234,16 @@ public class GWikiSearchActionBean extends ActionBeanBase
   public void setPageUrlArgs(String lookupWords)
   {
     this.pageUrlArgs = lookupWords;
+  }
+
+  public int getTotalItems()
+  {
+    return totalItems;
+  }
+
+  public void setTotalItems(int totalItems)
+  {
+    this.totalItems = totalItems;
   }
 
 }

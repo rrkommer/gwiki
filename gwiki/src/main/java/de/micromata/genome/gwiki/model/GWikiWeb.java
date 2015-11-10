@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -151,6 +151,7 @@ public class GWikiWeb
     this.modCheckTimoutMs = wikiWeb.modCheckTimoutMs;
     this.servletPath = wikiWeb.servletPath;
     this.wikiGlobalConfig = wikiWeb.wikiGlobalConfig;
+    this.pageCache = wikiWeb.getPageCache();
     initETag();
     // no tenantId
   }
@@ -199,6 +200,7 @@ public class GWikiWeb
       daoContext.getPluginRepository().initPluginRepository(this, config);
       runInPluginContext(new CallableX<Void, RuntimeException>() {
 
+        @Override
         public Void call() throws RuntimeException
         {
           // if (GWikiServlet.INSTANCE.getRootWikiWeb() == null) {
@@ -210,6 +212,7 @@ public class GWikiWeb
           modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
           Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
           npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
+            @Override
             public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
                 GWikiLoadElementInfosFilterEvent event)
             {
@@ -311,8 +314,12 @@ public class GWikiWeb
       }
       daoContext.getStorage().getFileSystem().checkEvents(false);
       initStandardReqParams(ctx);
-      String welcomePage = StringUtils.defaultIfEmpty(wikiGlobalConfig.getMap().get(GWikiGlobalConfig.GWIKI_WELCOME_PAGE), "index");
-      ctx.getRequest().setAttribute("welcomePageId", welcomePage);
+      GWikiElement standardI18n = findElement("edit/StandardI18n");
+      if (standardI18n != null) {
+        getI18nProvider().addTranslationElement(ctx, "edit/StandardI18n");
+      }
+      String welcomePage = getWelcomePageId(ctx);
+      // ctx.getRequest().setAttribute("welcomePageId", welcomePage);
       if (StringUtils.isEmpty(pageId) == true) {
         pageId = welcomePage;
       }
@@ -328,8 +335,9 @@ public class GWikiWeb
         ctx.setRequestAttribute("NotFoundPageId", pageId);
         pageId = "admin/PageNotFound";
         el = findElement(pageId);
-        if (el == null)
+        if (el == null) {
           throw new RuntimeException("No Wiki page found: " + "admin/PageNotFound");
+        }
       }
 
       String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el);
@@ -339,6 +347,7 @@ public class GWikiWeb
 
       filter.serveElement(ctx, el, new GWikiServeElementFilter() {
 
+        @Override
         public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
             GWikiServeElementFilterEvent event)
         {
@@ -357,13 +366,16 @@ public class GWikiWeb
   public void serveWiki(final GWikiContext ctx, final GWikiElement el)
   {
     try {
+      String welcomePage = getWelcomePageId(ctx);
+      ctx.getRequest().setAttribute("welcomePageId", welcomePage);
       serveWikiIntern(ctx, el);
     } catch (AuthorizationFailedException ex) {
       GWikiLog.warn("Invalid access to page: " + el.getElementInfo().getId(), ex);
       ctx.getRequest().setAttribute("exception", ex);
       GWikiElement nel = findElement("admin/AccessDenied");
-      if (nel == null)
+      if (nel == null) {
         throw ex;
+      }
       serveWikiIntern(ctx, nel);
     } catch (RuntimeException ex) {
       if (GWikiServlet.isIgnorableAppServeIOException(ex) == true) {
@@ -373,8 +385,9 @@ public class GWikiWeb
       }
       ctx.getRequest().setAttribute("exception", ex);
       GWikiElement nel = findElement("admin/InternalError");
-      if (nel == null)
+      if (nel == null) {
         throw ex;
+      }
       serveWikiIntern(ctx, nel);
     }
   }
@@ -423,7 +436,38 @@ public class GWikiWeb
         return el;
       }
     }
-    return findElement(getWikiConfig().getWelcomePageId());
+    return getWelcomeElement(ctx);
+  }
+
+  public String getWelcomePageId(GWikiContext ctx)
+  {
+    String pageId = getAuthorization().getUserProp(ctx, "welcomePageId");
+    if (pageId != null) {
+      return pageId;
+    }
+    pageId = getDaoContext().getI18nProvider().translate(ctx, "gwiki.welcomePageId", null);
+    if (pageId != null) {
+      return pageId;
+    }
+    String ret = getWikiConfig().getWelcomePageId();
+    if (StringUtils.isEmpty(ret) == false) {
+      return ret;
+    }
+    return "index";
+  }
+
+  public GWikiElementInfo getWelcomeElementInfo(GWikiContext ctx)
+  {
+    return findElementInfo(getWelcomePageId(ctx));
+  }
+
+  public GWikiElement getWelcomeElement(GWikiContext ctx)
+  {
+    GWikiElementInfo ei = getWelcomeElementInfo(ctx);
+    if (ei != null) {
+      return findElement(ei.getId());
+    }
+    return null;
   }
 
   public GWikiElementInfo findElementInfo(String path)
@@ -434,17 +478,20 @@ public class GWikiWeb
   public GWikiElement getElement(String pageId)
   {
     GWikiElement el = findElement(pageId);
-    if (el != null)
+    if (el != null) {
       return el;
+    }
     throw new RuntimeException("Cannot find page with id: " + pageId);
   }
 
   protected void checkNewElementInfo(String path)
   {
-    if (inBootStrapping == true)
+    if (inBootStrapping == true) {
       return;
-    if (getStorage().isArchivePageId(path) == true)
+    }
+    if (getStorage().isArchivePageId(path) == true) {
       return;
+    }
     // on bootstrap this is null
     if (getPageCache().hasPageInfo(path) == false) {
       GWikiElementInfo el = getStorage().loadElementInfo(path);
@@ -474,8 +521,9 @@ public class GWikiWeb
     if (wikiGlobalConfig == null || wikiGlobalConfig.checkFileSystemForExternalMod() == false) {
       return null;
     }
-    if (devModeChecked.get().contains(element.getElementInfo().getId()) == true)
+    if (devModeChecked.get().contains(element.getElementInfo().getId()) == true) {
       return null;
+    }
 
     GWikiElement newEle = getStorage().hasModifiedArtefakts(element.getElementInfo());
     devModeChecked.get().add(element.getElementInfo().getId());
@@ -496,8 +544,9 @@ public class GWikiWeb
   public GWikiElement getElement(GWikiElementInfo ei)
   {
     GWikiElement el = getElementByCache(ei.getId());
-    if (el != null)
+    if (el != null) {
       return el;
+    }
     el = getStorage().loadElement(ei);
 
     getPageCache().putCachedPage(ei.getId(), el);
@@ -523,7 +572,8 @@ public class GWikiWeb
 
   public GWikiElement getElementByCache(String path)
   {
-    if (getPageCache().hasCachedPage(path) == true) {
+    GWikiPageCache tmpCache = getPageCache();
+    if (tmpCache != null && tmpCache.hasCachedPage(path) == true) {
       GWikiElement element = getPageCache().getPage(path);
       GWikiElement nel = checkElementForModification(element);
       if (nel == null) {
@@ -556,7 +606,7 @@ public class GWikiWeb
     }
     try {
       GWikiElementInfo ei = null;
-      if (usePageCache == true) {
+      if (usePageCache == true && getPageCache() != null) {
         ei = getPageCache().getPageInfo(path);
       }
       if (ei == null) {
@@ -567,7 +617,10 @@ public class GWikiWeb
       }
       GWikiElement el = getStorage().loadElement(ei);
       if (usePageCache == true && getStorage().isArchivePageId(ei.getId()) == false) {
-        getPageCache().putCachedPage(path, el);
+        GWikiPageCache pg = getPageCache();
+        if (pg != null) {
+          pg.putCachedPage(path, el);
+        }
       }
       return el;
     } catch (Throwable ex) {
@@ -582,8 +635,9 @@ public class GWikiWeb
       return null;
     }
     GWikiElement el = findElement(pageId);
-    if (el == null)
+    if (el == null) {
       return null;
+    }
     try {
       GWikiConfigElement metaConfig = (GWikiConfigElement) el;
       GWikiMetaTemplate template = (GWikiMetaTemplate) metaConfig.getConfig().getCompiledObject();
@@ -696,7 +750,7 @@ public class GWikiWeb
   {
     GWikiElement el = findElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH, true);
     if (el == null) {
-      throw new RuntimeException(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH + "cannot be found. Please Check GWikiContext.xml");
+      throw new RuntimeException(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH + " cannot be found. Please Check GWikiContext.xml");
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiGlobalConfig nwikiGlobalConfig = new GWikiGlobalConfig((GWikiProps) ser);
@@ -836,6 +890,9 @@ public class GWikiWeb
 
   public GWikiPageCache getPageCache()
   {
+    if (pageCache == null) {
+      return pageCache;
+    }
     return pageCache;
   }
 

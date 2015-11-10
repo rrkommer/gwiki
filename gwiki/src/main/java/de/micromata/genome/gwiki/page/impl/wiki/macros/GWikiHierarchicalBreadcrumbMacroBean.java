@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -96,7 +96,7 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
           && ctx.getWikiWeb().findElement(parentPageId).getElementInfo().isIndexed()) {
         computeParameter(ctx, breadcrumbs, parentPageId);
       } else {
-        breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+        breadcrumbs.add(ctx.getWikiWeb().getWelcomePageId(ctx));
       }
     }
 
@@ -120,7 +120,7 @@ public class GWikiHierarchicalBreadcrumbMacroBean extends GWikiMacroBean
       breadcrumbs.add(pageId);
       setParentForElement(ctx, elem.getElementInfo(), breadcrumbs);
     } else {
-      breadcrumbs.add(ctx.getWikiWeb().getWikiConfig().getWelcomePageId());
+      breadcrumbs.add(ctx.getWikiWeb().getWelcomePageId(ctx));
     }
   }
 }

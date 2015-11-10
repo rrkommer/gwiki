@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.model.config;
 
 import javax.mail.Session;
 
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -109,6 +111,11 @@ public class GWikiDAOContext
   private GWikiPluginRepository pluginRepository = new GWikiPluginRepository();
 
   private GWikiWikiSelector wikiSelector = new GWikiStandardWikiSelector();
+
+  /**
+   * For Upload via org.apache.commons.fileupload
+   */
+  private FileItemFactory fileItemFactory = new DiskFileItemFactory();
 
   private BeanFactory beanFactory;
 
@@ -358,6 +365,16 @@ public class GWikiDAOContext
   public void setMimeTypeProvider(GWikiMimeTypeProvider mimeTypeProvider)
   {
     this.mimeTypeProvider = mimeTypeProvider;
+  }
+
+  public FileItemFactory getFileItemFactory()
+  {
+    return fileItemFactory;
+  }
+
+  public void setFileItemFactory(FileItemFactory fileItemFactory)
+  {
+    this.fileItemFactory = fileItemFactory;
   }
 
 }

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 package de.micromata.genome.gwiki.model;
 
 import java.util.Map;
+import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -81,7 +82,7 @@ public class GWikiStandardSchedulerProvider extends GWikiSchedulerProviderBase i
   {
   }
 
-  public synchronized ThreadPoolExecutor getExecutor()
+  public synchronized AbstractExecutorService getExecutor()
   {
     if (executor != null) {
       return executor;

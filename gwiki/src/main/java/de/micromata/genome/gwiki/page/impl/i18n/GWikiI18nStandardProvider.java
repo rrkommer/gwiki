@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,19 +18,20 @@
 
 package de.micromata.genome.gwiki.page.impl.i18n;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiI18nProvider;
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
-import de.micromata.genome.util.text.PlaceHolderReplacer;
-import de.micromata.genome.util.text.StringResolver;
 
-public class GWikiI18nStandardProvider implements GWikiI18nProvider
+/**
+ * Standard I18N provider uses I18N elements.
+ * 
+ * Roger Rene Kommer (r.kommer@artefaktur.com)
+ * 
+ */
+public class GWikiI18nStandardProvider extends GWikiAbstractI18nProvider
 {
   protected boolean containsContext(GWikiContext ctx, String pageId)
   {
@@ -45,6 +46,7 @@ public class GWikiI18nStandardProvider implements GWikiI18nProvider
     return false;
   }
 
+  @Override
   public void addTranslationElement(GWikiContext ctx, String pageId)
   {
     if (containsContext(ctx, pageId) == true) {
@@ -57,9 +59,9 @@ public class GWikiI18nStandardProvider implements GWikiI18nProvider
     ctx.getI18nMaps().add(el);
   }
 
-  protected String getI18nValue(GWikiContext ctx, String key, String defaultValue)
+  @Override
+  public String getI18nValue(GWikiContext ctx, String key, String defaultValue)
   {
-    // TODO check user web locale
     String lang = ctx.getWikiWeb().getAuthorization().getUserProp(ctx, "lang");
     if (StringUtils.isEmpty(lang) == true) {
       lang = "en";
@@ -76,41 +78,4 @@ public class GWikiI18nStandardProvider implements GWikiI18nProvider
     return defaultValue;
   }
 
-  public String translate(GWikiContext ctx, String key)
-  {
-    return translate(ctx, key, "");
-  }
-
-  public String translate(GWikiContext ctx, String key, String defaultValue)
-  {
-    return getI18nValue(ctx, key, defaultValue);
-  }
-
-  public String translate(GWikiContext ctx, String key, String defaultValue, Object... args)
-  {
-    String value = getI18nValue(ctx, key, defaultValue);
-    if (value == null) {
-      if (defaultValue == null) {
-        GWikiLog.warn("Message key has no translation: " + key);
-        return "???" + key + "???";
-      }
-      return defaultValue;
-    }
-    return MessageFormat.format(value, args);
-  }
-
-  public String translateProp(final GWikiContext ctx, String key)
-  {
-    if (key == null) {
-      return key;
-    }
-    String ret = PlaceHolderReplacer.resolveReplace(key, "I{", "}", new StringResolver() {
-
-      public String resolve(String placeholder)
-      {
-        return translate(ctx, placeholder);
-      }
-    });
-    return ret;
-  }
 }

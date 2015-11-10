@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
 /**
+ * Selector of gwiki web.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
@@ -62,6 +64,7 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
    * @see de.micromata.genome.gwiki.model.GWikiWikiSelector#getWikiWeb(de.micromata.genome.gwiki.web.GWikiServlet,
    * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
    */
+  @Override
   public void initWiki(GWikiServlet servlet, HttpServletRequest req, HttpServletResponse resp)
   {
 
@@ -85,6 +88,7 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
     }
   }
 
+  @Override
   public void initWiki(GWikiServlet servlet, GWikiDAOContext daoContext)
   {
     if (wiki != null && wiki.getWikiConfig() != null) {
@@ -109,47 +113,56 @@ public class GWikiStandardWikiSelector implements GWikiWikiSelector
     }
   }
 
+  @Override
   public void deinitWiki(GWikiServlet servlet, HttpServletRequest req, HttpServletResponse resp)
   {
     // nothing
   }
 
+  @Override
   public GWikiWeb getWikiWeb(GWikiServlet servlet)
   {
     return getRootWikiWeb(servlet);
   }
 
+  @Override
   public GWikiWeb getTenantWikiWeb(GWikiServlet servlet, String tenant)
   {
     return null;
   }
 
+  @Override
   public GWikiWeb getRootWikiWeb(GWikiServlet servlet)
   {
     initWiki(servlet, servlet.getDAOContext());
     return wiki;
   }
 
+  @Override
   public boolean hasWikiWeb(GWikiServlet servlet)
   {
     return wiki != null;
   }
 
+  @Override
   public void enterTenant(GWikiContext wikiContext, String tenantId)
   {
     throw new RuntimeException("Does not support tenants");
   }
 
+  @Override
   public void clearTenant(GWikiContext wikiContext, String tenantId)
   {
     throw new RuntimeException("Does not support tenants");
   }
 
+  @Override
   public void createTenant(GWikiContext wikiContext, String tenantId)
   {
     throw new RuntimeException("Does not support tenants");
   }
 
+  @Override
   public void leaveTenant(GWikiContext wikiContext)
   {
     throw new RuntimeException("Does not support tenants");

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ public interface GWikiAuthorizationExt extends GWikiAuthorization
   public static final String USER_PROP_PASSWORD = "password";
 
   public static final String USER_PROP_EMAIL = "email";
+
+  public static final String USER_PROP_DEACTIVATED = "deactivated";
 
   public static final String USER_PROP_RIGHTSRULE = "rightsrule";
 

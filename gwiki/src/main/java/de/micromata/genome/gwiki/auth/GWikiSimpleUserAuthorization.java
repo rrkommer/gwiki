@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
   public boolean initThread(GWikiContext wikiContext)
   {
     GWikiSimpleUser su = getSingleUser(wikiContext);
-    if (su == null || StringUtils.equals(su.getUser(), "anon") == true) {
+    if (su == null/* || StringUtils.equals(su.getUser(), "anon") == true */) {
       return false;
     }
     GWikiUserServeElementFilterEvent.setUser(su);
@@ -147,10 +147,22 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     if (su == null) {
       return null;
     }
-    if (StringUtils.equals(password, su.getPassword()) == true) {
+    if (isPasswordCorrect(su, password) == true) {
       return su;
     }
     return null;
+  }
+
+  private boolean isPasswordCorrect(GWikiSimpleUser user, String password)
+  {
+    String crp = encrypt(password);
+    if (StringUtils.equals(crp, user.getPassword()) == true) {
+      return true;
+    }
+    if (StringUtils.equals(password, user.getPassword()) == true) {
+      return true;
+    }
+    return false;
   }
 
   @Deprecated
@@ -167,7 +179,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       }
     } else {
       String crp = encrypt(password);
-      if (StringUtils.equals(crp, su.getPassword()) == false) {
+      if (isPasswordCorrect(su, password) == false) {
         return false;
       }
     }
@@ -187,17 +199,44 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     clearSession(ctx);
   }
 
-  public static GWikiSimpleUser getSingleUser(GWikiContext ctx)
+  public boolean isCurrentAnonUser(GWikiContext ctx)
+  {
+    return getSingleUser(ctx).isAnon();
+  }
+
+  public GWikiSimpleUser findUser(GWikiContext wikiContext, String userName)
+  {
+    return getConfig(wikiContext).getUser("anon");
+  }
+
+  public GWikiSimpleUser getSingleUser(GWikiContext wikiContext)
   {
     GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
     if (su != null) {
       return su;
     }
-    su = (GWikiSimpleUser) ctx.getSessionAttribute(SINGLEUSER_SESSION_KEY);
-    if (su == null && ctx.getWikiWeb() != null) {
-      su = getConfig(ctx).getUser("anon");
+    su = (GWikiSimpleUser) wikiContext.getSessionAttribute(SINGLEUSER_SESSION_KEY);
+    if (su == null && wikiContext.getWikiWeb() != null) {
+      // su = ctx.getWikiWeb().getAuthorization().(ctx, "anon");
+      su = findUser(wikiContext, GWikiSimpleUser.ANON_USER_NAME);
+      if (su == null) {
+        su = defaultConfig.getUser(GWikiSimpleUser.ANON_USER_NAME);
+      }
     }
     return su;
+  }
+
+  public void reloadUser(GWikiContext wikiContext)
+  {
+    String userName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
+    if (StringUtils.isEmpty(userName) == true) {
+      return;
+    }
+    GWikiSimpleUser su = findUser(wikiContext, userName);
+    if (su != null) {
+      setSingleUser(wikiContext, su);
+      GWikiUserServeElementFilterEvent.setUser(su);
+    }
   }
 
   public static void setSingleUser(GWikiContext ctx, GWikiSimpleUser su)

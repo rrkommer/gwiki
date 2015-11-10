@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import de.micromata.genome.util.runtime.CallableX;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
- *
+ * 
  */
 public class GWikiAuthorizationWrapper implements GWikiAuthorization
 {
@@ -57,7 +57,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param user
    * @param password
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#login(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String, java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#login(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String,
+   *      java.lang.String)
    */
   public boolean login(GWikiContext ctx, String user, String password)
   {
@@ -78,7 +79,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param ei
    * @param pageRight
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getEffectiveRight(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.gwiki.model.GWikiElementInfo, java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getEffectiveRight(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.gwiki.model.GWikiElementInfo, java.lang.String)
    */
   public String getEffectiveRight(GWikiContext ctx, GWikiElementInfo ei, String pageRight)
   {
@@ -89,7 +91,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param ctx
    * @param ei
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToView(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.gwiki.model.GWikiElementInfo)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToView(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.gwiki.model.GWikiElementInfo)
    */
   public boolean isAllowToView(GWikiContext ctx, GWikiElementInfo ei)
   {
@@ -100,7 +103,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param ctx
    * @param ei
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToEdit(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.gwiki.model.GWikiElementInfo)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToEdit(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.gwiki.model.GWikiElementInfo)
    */
   public boolean isAllowToEdit(GWikiContext ctx, GWikiElementInfo ei)
   {
@@ -111,7 +115,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param ctx
    * @param ei
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToCreate(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.gwiki.model.GWikiElementInfo)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowToCreate(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.gwiki.model.GWikiElementInfo)
    */
   public boolean isAllowToCreate(GWikiContext ctx, GWikiElementInfo ei)
   {
@@ -175,7 +180,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param key
    * @param value
    * @param persist
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#setUserProp(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String, java.lang.String, boolean)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#setUserProp(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String,
+   *      java.lang.String, boolean)
    */
   public void setUserProp(GWikiContext ctx, String key, String value, boolean persist)
   {
@@ -198,7 +204,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param addRight
    * @param callback
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRight(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRight(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String,
+   *      de.micromata.genome.util.runtime.CallableX)
    */
   public <T> T runWithRight(GWikiContext wikiContext, String addRight, CallableX<T, RuntimeException> callback)
   {
@@ -211,7 +218,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param addRights
    * @param callback
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRights(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String[], de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRights(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String[],
+   *      de.micromata.genome.util.runtime.CallableX)
    */
   public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback)
   {
@@ -223,7 +231,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param wikiContext
    * @param callback
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsSu(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsSu(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.util.runtime.CallableX)
    */
   public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
@@ -236,7 +245,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param wikiContext
    * @param callback
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsUser(java.lang.String, de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsUser(java.lang.String, de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.util.runtime.CallableX)
    */
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
@@ -247,7 +257,8 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    * @param wikiContext
    * @param callback
    * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runIfAuthentificated(de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runIfAuthentificated(de.micromata.genome.gwiki.page.GWikiContext,
+   *      de.micromata.genome.util.runtime.CallableX)
    */
   public boolean runIfAuthentificated(GWikiContext wikiContext, CallableX<Void, RuntimeException> callback)
   {
@@ -272,6 +283,17 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
   {
     parent.clearThread(wikiContext);
   }
-  
-  
+
+  @Override
+  public void reloadUser(GWikiContext wikiContext)
+  {
+    parent.reloadUser(wikiContext);
+  }
+
+  @Override
+  public boolean isCurrentAnonUser(GWikiContext ctx)
+  {
+    return parent.isCurrentAnonUser(ctx);
+  }
+
 }

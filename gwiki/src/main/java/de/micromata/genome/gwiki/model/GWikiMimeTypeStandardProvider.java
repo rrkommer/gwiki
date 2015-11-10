@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,6 +47,7 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
    * @see de.micromata.genome.gwiki.model.GWikiMimeTypeProvider#getMimeType(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.model.GWikiElementInfo)
    */
+  @Override
   public String getMimeType(GWikiContext wikiContext, GWikiElement el)
   {
     String contt = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.CONTENTYPE);
@@ -65,6 +66,7 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
    * 
    * @see de.micromata.genome.gwiki.model.GWikiMimeTypeProvider#getMimeType(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String)
    */
+  @Override
   public String getMimeType(GWikiContext wikiContext, String uri)
   {
     String configId = "admin/config/MimeTypeConfig";
@@ -73,11 +75,12 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
       return MimeUtils.getMimeTypeFromFile(uri);
     }
     GWikiI18NArtefakt p = (GWikiI18NArtefakt) configEl.getMainPart();
-    if (p != null) {
-      for (Map.Entry<String, String> me : p.getCompiledObject().entrySet())
+    if (p != null && p.getCompiledObject() != null) {
+      for (Map.Entry<String, String> me : p.getCompiledObject().entrySet()) {
         if (uri.endsWith(me.getKey()) == true) {
           return me.getValue();
         }
+      }
     }
     String contt = MimeUtils.getMimeTypeFromFile(uri);
     if (contt != null) {

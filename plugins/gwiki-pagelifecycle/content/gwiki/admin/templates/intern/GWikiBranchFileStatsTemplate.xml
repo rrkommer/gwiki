@@ -12,7 +12,7 @@
 		<property name="viewable" value="false" />
 		<property name="elementLifeTime" value="-1" />
 		<!--
-			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+			<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		-->
 		<property name="parts">
 			<map>

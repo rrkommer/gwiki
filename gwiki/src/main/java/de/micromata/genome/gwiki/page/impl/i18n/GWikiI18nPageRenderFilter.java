@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,11 +37,11 @@ public class GWikiI18nPageRenderFilter implements GWikiServeElementFilter
 
   public static final String CTAG_PAGE_FMT_LOCALIZATION_KEY = Config.FMT_LOCALIZATION_CONTEXT + ".page";
 
+  @Override
   public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain, GWikiServeElementFilterEvent event)
   {
     GWikiContext wikiContext = event.getWikiContext();
 
-    wikiContext.getWikiWeb().getI18nProvider().addTranslationElement(wikiContext, "edit/StandardI18n");
     for (String i18nm : event.getElement().getElementInfo().getProps().getStringList(GWikiPropKeys.I18NMODULES)) {
       wikiContext.getWikiWeb().getI18nProvider().addTranslationElement(wikiContext, i18nm);
     }

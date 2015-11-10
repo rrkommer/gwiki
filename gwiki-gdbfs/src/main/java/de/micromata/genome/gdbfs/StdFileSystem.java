@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,6 +87,7 @@ public class StdFileSystem extends AbstractFileSystem
     setRoot(root);
   }
 
+  @Override
   public String toString()
   {
     return canonRoot;
@@ -109,19 +111,27 @@ public class StdFileSystem extends AbstractFileSystem
     delete(name);
   }
 
+  @Override
   public void erase()
   {
     eraseRec("");
     setRoot(canonRoot);
   }
 
+  @Override
   public boolean exists(String name)
   {
     File f = new File(rootFile, name);
-    ensureFileInFs(f);
-    return f.exists();
+    try {
+      ensureFileInFs(f);
+      return f.exists();
+    } catch (AccessControlException ex) {
+      // on some fs access is not allowed.
+      return false;
+    }
   }
 
+  @Override
   public FsObject getFileObject(String name)
   {
     File f;
@@ -137,11 +147,13 @@ public class StdFileSystem extends AbstractFileSystem
     return fileToFsObject(f);
   }
 
+  @Override
   public String getFileSystemName()
   {
     return root;
   }
 
+  @Override
   public boolean mkdir(String name)
   {
     checkReadOnly();
@@ -177,6 +189,7 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public boolean mkdirs(String name)
   {
     checkReadOnly();
@@ -190,6 +203,7 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  @Override
   public boolean rename(String oldName, String newName)
   {
     checkReadOnly();
@@ -206,6 +220,7 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  @Override
   public String readTextFile(String name)
   {
 
@@ -217,6 +232,7 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public void readBinaryFile(String name, OutputStream os)
   {
     File f = new File(rootFile, name);
@@ -250,6 +266,7 @@ public class StdFileSystem extends AbstractFileSystem
     pdir.mkdirs();
   }
 
+  @Override
   public void writeBinaryFile(String name, InputStream is, boolean overWrite)
   {
     checkReadOnly();
@@ -280,6 +297,7 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public void writeTextFile(String name, String content, boolean overWrite)
   {
     checkReadOnly();
@@ -319,6 +337,9 @@ public class StdFileSystem extends AbstractFileSystem
     ensureFileInFs(f);
     FsObject ret;
     String rn = getRelName(f);
+    if (rn.startsWith("/") == true) {
+      rn = rn.substring(1);
+    }
     if (f.isDirectory() == true) {
       ret = new FsDirectoryObject(this, rn, f.lastModified());
     } else if (f.isFile() == true) {
@@ -332,11 +353,16 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  @Override
   public List<FsObject> listFiles(final String name, final Matcher<String> matcher, final Character searchType, boolean recursive)
   {
     final List<FsObject> ret = new ArrayList<FsObject>();
     File f = new File(rootFile, name);
-    if (f.exists() == false || f.isDirectory() == false) {
+    try {
+      if (f.exists() == false || f.isDirectory() == false) {
+        return ret;
+      }
+    } catch (AccessControlException ex) {
       return ret;
     }
     listFiles(canonPath(f), f, matcher, searchType, ret, recursive);
@@ -354,8 +380,9 @@ public class StdFileSystem extends AbstractFileSystem
   {
 
     File[] files = f.listFiles();
-    if (files == null)
+    if (files == null) {
       return;
+    }
     for (File el : files) {
       if (isSystemFile(el) == true) {
         continue;
@@ -368,8 +395,9 @@ public class StdFileSystem extends AbstractFileSystem
         if (relp.startsWith("/") == true) {
           relp = relp.substring(1);
         }
-        if (matcher.match(relp) == false)
+        if (matcher.match(relp) == false) {
           matches = false;
+        }
       }
       if (el.isDirectory() == true) {
         if (matches == true && (searchType == null || searchType == 'D')) {
@@ -386,6 +414,7 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public boolean delete(String name)
   {
     checkReadOnly();
@@ -399,6 +428,7 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  @Override
   public long getLastModified(final String name)
   {
     File f = new File(rootFile, name);
@@ -409,6 +439,7 @@ public class StdFileSystem extends AbstractFileSystem
     return f.lastModified();
   }
 
+  @Override
   protected void finalize() throws Throwable
   {
     if (globalLock == null) {
@@ -506,9 +537,11 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public long getModificationCounter()
   {
     Long ret = runInTransaction(null, 10000L, false, new CallableX<Long, RuntimeException>() {
+      @Override
       public Long call() throws RuntimeException
       {
         try {
@@ -544,6 +577,7 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  @Override
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noFsMod, CallableX<R, RuntimeException> callback)
   {
     if (localSync == true) {

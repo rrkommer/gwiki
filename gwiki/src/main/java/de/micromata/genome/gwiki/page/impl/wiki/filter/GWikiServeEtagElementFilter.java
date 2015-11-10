@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 package de.micromata.genome.gwiki.page.impl.wiki.filter;
 
 import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -41,18 +43,11 @@ public class GWikiServeEtagElementFilter implements GWikiServeElementFilter
       return null;
     }
     String wikiEtag = wikiContext.getWikiWeb().geteTagWiki();
-    String ret = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.MODIFIEDAT);
-    String version = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.VERSION);
-    if (ret == null && version == null) {
-      return wikiEtag;
-    }
-    if (ret == null) {
-      return version + wikiEtag;
-    }
-    if (version == null) {
-      return ret + wikiEtag;
-    }
-    return ret + version + wikiEtag;
+    String ret = StringUtils.defaultString(el.getElementInfo().getProps().getStringValue(GWikiPropKeys.MODIFIEDAT));
+    String version = StringUtils.defaultString(el.getElementInfo().getProps().getStringValue(GWikiPropKeys.VERSION));
+    String uid = StringUtils.defaultString(wikiContext.getWikiWeb().getDaoContext().getAuthorization().getCurrentUserName(wikiContext), "");
+
+    return ret + version + wikiEtag + uid;
   }
 
   /*
