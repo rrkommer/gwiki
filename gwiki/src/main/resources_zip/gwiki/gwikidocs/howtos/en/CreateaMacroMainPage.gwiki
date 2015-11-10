@@ -121,6 +121,48 @@ If you don't want to register macro globally, you first can use the {{usemacro}}
 
 
 h2. Macros written with GSPT/jsp
-{todo}
-Document how to write Macro with gspt.
-{todo}
+
+To create a macro with a JSP, create a new Element of type Script Macro (admin/templates/ScriptMacroMetaTemplate) and store the element in the directory {{admin/macros}}.
+
+You can find there already some macros, you can use as samples.
+Here the sample for the {{panel}} Macro:
+{code}
+<@include file="inc/stdgfuncs.gspt" @>
+<% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') == null) { %>
+  <div class="panel" style="border-width: 1px;">
+<% } else { %>
+  <div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') %>">
+<% } %>
+<% if (wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') == null) { %>
+<div class="panelContent">
+<% } else { %>
+  <div class="panel" style="<%= wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') %>">
+<% } %>
+
+<% if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) { %>
+<div align="center"><b><%= esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title')) %></b></div><br />
+<% } %>
+<% GWIKI_MACRO_CHILD.render(wikiContext) %>
+</div>
+</div>
+{code}
+
+Look also for the Settings of this element, how to control type of macro.
+Please refer to 
+- [MACRO_WITH_BODY|gwikidocs/help/en/ElementSettings#MACRO_WITH_BODY] 
+- [MACRO_EVAL_BODY|gwikidocs/help/en/ElementSettings#MACRO_EVAL_BODY]
+- [MACRO_WITH_PREVIEW|gwikidocs/help/en/ElementSettings#MACRO_WITH_PREVIEW]
+- [MACRO_ARGUMENTS|gwikidocs/help/en/ElementSettings#MACRO_ARGUMENTS]
+- [MACRO_RENDERMODES|gwikidocs/help/en/ElementSettings#MACRO_RENDERMODES]
+for more information.
+
+Inside the JSP you have direct access to following variables:
+
+- GWIKI_MACRO_NAME: String, Name of macro
+- GWIKI_MACRO_ATTRIBUTES: MacroAttributes, attributes (aka arguments) of the macro.
+- GWIKI_MACRO_BODY: String, If the macro has a raw body, this is the content body of the macro.
+- GWIKI_MACRO_CHILD: GWikiFragmentChildContainer, If the macro has a parsed body, this is the root node of the parsed children DOM.
+- GWIKI_MACRO_PREVIEW: boolean, is true, if page is rendered for preview.
+- GWIKI_MACRO_APPENDABLE: GWikiContext, the context.
+
+

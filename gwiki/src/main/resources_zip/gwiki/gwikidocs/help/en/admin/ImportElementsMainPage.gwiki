@@ -2,10 +2,40 @@
 You can import ZIP files of GWiki elements or import Confluence export files.
 {pageintro}
 
-{note}
-This function is currently alpha and may not work properly for all purposes.
-{note}
+h2. Introduction
 
-{todo}
-Describe.
-{todo}
+GWiki imports and exports its data as Zip file, containing the elements. 
+The format is the same, as used in standard file system storage.
+
+So you can normally edit GWiki files with a local instance and then zip the files you want to update on an online instance of GWiki and upload it.
+Important: The directory structure inside the zip file has to be equal to the target structure.
+
+h2. Usage
+You need the {{GWIKI_ADMIN}} right to import GWiki elements.
+
+h2. Upload a Zip file. 
+Before uploading a ZIP file, you can declare under which directory the files should be imported.
+If you set the directory to {{test/data/}} and the Zip contains a file with the path {{pub/MyPage}}
+the resulting page id after import will be {{test/data/pub/MyPage}}.
+If you leave the directory empty, the files will be imported with the same directory structure as stored in the zip file.
+
+h2. Select files to import.
+After upload a ZIP files with the GWiki element files, you see following:
+
+!gwikidocs/help/en/admin/ImportElement_AfterUploadZip.png!
+
+You see a list of elements, which are inside the ZIP file, with detailed information.
+In the last column you can see the status:
+- NEW: This element does not exist in this GWiki
+- NEWER: The element to import is newer, than the existant element in the server
+- OLDER: The element to import is older, than the existant element in the server.
+
+Now you can choose just to import the new elements, which are not already on server, only the elements with newer time stamp or overwrite all.
+
+Alternativelly you can choose with checkboxes the elements to import using Just Selected checkbox and the button below.
+
+If you overwrite an element, the old version will be backed up and you can see/compare it with the [PageInfo button|gwikidocs/help/en/PageInfo].
+
+h2. Export Wiki elements
+To export Wiki elements see [gwikidocs/help/en/ExportElements].
+

@@ -44,7 +44,7 @@
 						<property name="description"
 						value="I{gwiki.settings.CREATEDAT.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#CREATEDAT" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDAT" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="type" value="DATE" />
 					<property name="controlerScript">
@@ -70,7 +70,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.CREATEDBY.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#CREATEDBY" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDBY" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -93,7 +93,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.MODIFIEDAT.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#MODIFIEDAT" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDAT" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="type" value="DATE" />
 					<property name="controlerScript">
@@ -116,7 +116,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.MODIFIEDBY.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#MODIFIEDBY" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDBY" />
 					<property name="requiredEditRight" value="GWIKI_ADMIN" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -134,7 +134,7 @@ def onValidate(pec)
 					<property name="key" value="VERSION" />
 					<property name="group" value="VERSION"/>
 					<property name="label" value="I{gwiki.settings.VERSION.label}" />
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#VERSION" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#VERSION" />
 					<property name="readOnly" value="true" />
 				</bean>
 				<bean
@@ -146,7 +146,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.PARENTPAGE.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#PARENTPAGE" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#PARENTPAGE" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="PAGEID" />
 					<property name="controlerScript">
@@ -189,7 +189,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.NOINDEX.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#NOINDEX" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#NOINDEX" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="BOOLEAN" />
 				</bean>
@@ -202,7 +202,7 @@ def onValidate(pec)
 						<property name="description"
 						value="I{gwiki.settings.AUTH_VIEW.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#AUTH_VIEW" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_VIEW" />
 					<property name="readOnly" value="false" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -250,7 +250,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.AUTH_EDIT.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#AUTH_EDIT" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_EDIT" />
 					<property name="readOnly" value="false" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -292,7 +292,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.CONTENTYPE.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#CONTENTYPE" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CONTENTYPE" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
@@ -304,7 +304,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.LANG.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#LANG" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#LANG" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
@@ -316,7 +316,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.HELP_PAGE.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#HELP_PAGE" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#HELP_PAGE" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
@@ -328,7 +328,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.ORDER.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#ORDER" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#ORDER" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="INTEGER" />
 				</bean>
@@ -341,7 +341,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.CHILDORDER.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#CHILDORDER" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CHILDORDER" />
 					<property name="readOnly" value="false" />
 					<property name="type" value="STRINGLIST" />
 				</bean>
@@ -355,7 +355,7 @@ def onRender(pct)
 						value="I{gwiki.settings.WIKIMETATEMPLATE.description}" />
 					-->
 					<property name="helpLink"
-						value="gwikidocs/help/ElementSettings#WIKIMETATEMPLATE" />
+						value="gwikidocs/help/en/ElementSettings#WIKIMETATEMPLATE" />
 					<property name="readOnly" value="true" />
 					<property name="type" value="STRING" />
 				</bean>
@@ -367,7 +367,7 @@ def onRender(pct)
 					<property name="label"
 						value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
 					<property name="helpLink"
-						value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
+						value="gwikidocs/help/en/ElementSettings#WIKICONTROLERCLASS" />
 					<property name="readOnly" value="false" />
 					<property name="requiredMetaTemplateId"
 						value="admin/templates/FullFeaturedMetaTemplate,admin/templates/StdProgMetaTemplate,StdProgMetaTemplate" />
@@ -382,7 +382,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.WIKISPACE.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#WIKISPACE" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKISPACE" />
 					<property name="readOnly" value="false" />
 				</bean>
 				<bean
@@ -394,7 +394,7 @@ def onRender(pct)
 						<property name="description"
 						value="I{gwiki.settings.KEYWORDS.description}" />
 					-->
-					<property name="helpLink" value="gwikidocs/help/ElementSettings#KEYWORDS" />
+					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#KEYWORDS" />
 					<property name="type" value="STRINGLIST" />
 					<property name="controlerScript">
 						<value><![CDATA[
@@ -417,7 +417,7 @@ def onValidate(pec)
 						value="I{gwiki.settings.I18NMODULES.description}" />
 					-->
 					<property name="helpLink"
-						value="gwikidocs/help/ElementSettings#I18NMODULES" />
+						value="gwikidocs/help/en/ElementSettings#I18NMODULES" />
 					<property name="type" value="PAGEIDLIST" />
 					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
 					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
@@ -432,7 +432,7 @@ def onValidate(pec)
 						value="I{gwiki.settings.I18NMODULES.description}" />
 					-->
 					<property name="helpLink"
-						value="gwikidocs/help/ElementSettings#PARTOF" />
+						value="gwikidocs/help/en/ElementSettings#PARTOF" />
 					<property name="type" value="PAGEID" />
 					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
 					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
@@ -448,7 +448,7 @@ def onValidate(pec)
 					-->
 					<property name="type" value="STRING" />
 					<property name="helpLink"
-						value="gwikidocs/help/ElementSettings#SKIN" />
+						value="gwikidocs/help/en/ElementSettings#SKIN" />
 					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
 					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 				</bean>

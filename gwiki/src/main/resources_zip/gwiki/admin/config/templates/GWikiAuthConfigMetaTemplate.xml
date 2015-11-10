@@ -9,7 +9,7 @@
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />
 		<!--
-			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+			<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		-->
 		<property name="parts">
 			<map>
@@ -27,7 +27,7 @@
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiAuthConfig#AUTH_ALLOW_PASSWORD_FORGOTTEN" />
+												value="gwikidocs/help/en/admin/GWikiConfig#AUTH_ALLOW_PASSWORD_FORGOTTEN" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
@@ -36,8 +36,18 @@
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiAuthConfig#AUTH_ALLOW_REGISTER_USER" />
+												value="gwikidocs/help/en/admin/GWikiConfig#AUTH_ALLOW_REGISTER_USER" />
 										</bean>
+                    <!-- use registereduser as template  <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="AUTH_DEFAULT_USER_RIGHTS" />
+                      <property name="label" value="Default user rights for selfregistered users"/>
+                      <property name="type" value="RIGHT" />
+                      <property name="defaultValue" value="GWIKI_VIEWPAGES," />
+                      <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiConfig#AUTH_DEFAULT_USER_RIGHTS" />
+                    </bean>
+                     -->
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
@@ -45,7 +55,7 @@
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="true" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiAuthConfig#AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
+												value="gwikidocs/help/en/admin/GWikiConfig#AUTH_REGISTER_USER_DOUBLE_OPT_IN" />
 										</bean>
 
 									</list>

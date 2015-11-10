@@ -2,6 +2,100 @@
 How to add a panel to the administrators GWiki Configuration page.
 {pageintro}
 
-{todo}
-Describe Mechanism  to add a panel to the administrators GWiki Configuration page.
-{todo}
+{note}
+This is only for GWiki and plugin developer.
+{note}
+
+The GWiki configuration - accessible as administrator via the Admin menu - has multiple tabs with different configuration options.
+If you write a plugin and want to provide configuration options to the GWiki administrator, you can simply add your own tab to
+this dialog.
+
+As template look at the {{gwiki-wikilink}} plugin.
+
+See following directory structure:
+
+!gwikidocs/howtos/en/gwiki-wikilink_dirstructure.png!
+
+Under the {{content/gwiki}} directory wiki page elements are stored and will be mounted inside the GWiki.
+The {{WikiLinkConfigMetaTemplate.xml}} contains the description of the configuration options. 
+{code}
+?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+    <property name="cachable" value="false"/>
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+		<property name="elementType" value="gwiki" />
+	<!-- <property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />  -->	
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="WIKILINK_DISABLE" />
+											<property name="label" value="Disable Wiki Links"/>
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+                      <property name="helpLink"
+                        value="pub/plugins/gwiki-wikilinks/Index#WIKILINK_DISABLE" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="WIKILINK_PAGEIDMATCHER" />
+											<property name="label" value="Wiki Link pages matcher"/>
+											<property name="type" value="TEXTAREA" />
+											<property name="defaultValue" value="+*,-admin/*,-edit/*" />
+                       <property name="helpLink"
+                        value="pub/plugins/gwiki-wikilinks/Index#WIKILINK_PAGEIDMATCHER" />
+										</bean>
+                   
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
+{code}
+
+The {{WikiLinkConfig.properties}} contains the default configuration settings. 
+{code}
+#
+#Sun Jan 13 18:52:38 CET 2013
+COMMENT_HALF_ALLOW_ANON=true
+WIKILINK_PAGEIDMATCHER=+*,-admin/*,-edit/*
+{code}
+In the {{WikiLinkConfigSettings.properties}} you refer to {{WikiLinkConfigMetaTemplate}} as meta template:
+{code}
+#
+#Sun Jan 13 18:52:38 CET 2013
+MODIFIEDBY=rkommer
+CREATEDBY=rkommer
+WIKIMETATEMPLATE=admin/config/templates/WikiLinkConfigMetaTemplate
+TITLE=Wiki Links
+TYPE=gwiki
+AUTH_VIEW=GWIKI_ADMIN
+MODIFIEDAT=20130113175238923
+NOVIEW=true
+CREATEDAT=20091210220800000
+AUTH_EDIT=GWIKI_ADMIN
+NOINDEX=true
+VERSION=23
+{code}
+You should name the Config corresponding to you plugin, but use the same directory structure as shown in this sample.
+
+After creating this files and build the plugin, you can see the tab in the GWiki Configuration dialog:
+!gwikidocs/howtos/en/GwikiConfigDlgWithWikiLinkConfig.png!

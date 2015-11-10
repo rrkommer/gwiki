@@ -8,8 +8,8 @@
 		<property name="noNewPage" value="true" />
 		<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
 		<property name="elementType" value="gwiki" />
-		<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
-    <property name="helpPageId" value="gwikidocs/help/GWikiConfig" />
+		<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
+    <property name="helpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		<property name="parts">
 			<map>
 				<entry key="">
@@ -25,7 +25,7 @@
 											<property name="label" value="Public URL" />
 											
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_PUBLIC_URL" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_PUBLIC_URL" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="" />
@@ -35,7 +35,7 @@
 											<property name="key" value="GWIKI_SEND_EMAIL" />
 											<property name="label" value="Sender Email" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_SEND_EMAIL" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_SEND_EMAIL" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="EMAIL" />
 											<property name="defaultValue" value="" />
@@ -45,7 +45,7 @@
 											<property name="key" value="GWIKI_ERROR_SHOW_STACK_TRACE" />
 											<property name="label" value="Show Stacktrace" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_ERROR_SHOW_STACK_TRACE" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_ERROR_SHOW_STACK_TRACE" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
@@ -55,7 +55,7 @@
 											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
 											<property name="label" value="Check external FS mods" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
@@ -65,7 +65,7 @@
 											<property name="key" value="GWIKI_CHECK_STORAGE_MODTIMEOUT" />
 											<property name="label" value="Timeout FS check" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_CHECK_STORAGE_MODTIMEOUT" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_CHECK_STORAGE_MODTIMEOUT" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="LONG" />
 											<property name="defaultValue" value="60000" />
@@ -75,7 +75,7 @@
 											<property name="key" value="GWIKI_WIKI_USER_SKINS" />
 											<property name="label" value="Available Skins" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_USER_SKINS" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WIKI_USER_SKINS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRINGLIST" />
 											<property name="defaultValue" value="naked" />
@@ -85,7 +85,7 @@
 											<property name="key" value="GWIKI_WIKI_DEFAULT_SKIN" />
 											<property name="label" value="Default Skin" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_DEFAULT_SKIN" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WIKI_DEFAULT_SKIN" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="defaultValue" value="naked" />
@@ -95,7 +95,7 @@
 											<property name="key" value="GWIKI_WIKI_LANGUAGES" />
 											<property name="label" value="Languages" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_LANGUAGES" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WIKI_LANGUAGES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRINGLIST" />
 											<property name="defaultValue" value="en,de" />
@@ -105,7 +105,7 @@
 											<property name="key" value="GWIKI_WELCOME_PAGE" />
 											<property name="label" value="Welcome Page" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WELCOME_PAGE" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WELCOME_PAGE" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="index" />
@@ -132,7 +132,7 @@ def onValidate(pec)
 											<property name="key" value="GWIKI_COMMON_HELP" />
 											<property name="label" value="Default Help page" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_COMMON_HELP" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_COMMON_HELP" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="PAGEID" />
 											<property name="defaultValue" value="gwikidocs/help/WikiHelp" />
@@ -143,7 +143,7 @@ def onValidate(pec)
 											<property name="key" value="GWIKI_ARCHIVE_MAX_COUNT" />
 											<property name="label" value="Maximum archived versions" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_ARCHIVE_MAX_COUNT" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_ARCHIVE_MAX_COUNT" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="INTEGER" />
 											<property name="defaultValue" value="100" />
@@ -153,7 +153,7 @@ def onValidate(pec)
 											<property name="key" value="GWIKI_ARCHIVE_MAX_DAYS" />
 											<property name="label" value="Maximum archived days" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_ARCHIVE_MAX_DAYS" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_ARCHIVE_MAX_DAYS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="INTEGER" />
 											<property name="defaultValue" value="-1" />
@@ -164,7 +164,7 @@ def onValidate(pec)
 											<property name="key" value="GWIKI_FILTER_CLASSES" />
 											<property name="label" value="Filter" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_FILTER_CLASSES" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_FILTER_CLASSES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -182,7 +182,7 @@ def onRender(pct)
 											<property name="key" value="GWIKI_FS_WRITE_ACCESSRULES" />
 											<property name="label" value="Write AccessRules" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_FS_WRITE_ACCESSRULES" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_FS_WRITE_ACCESSRULES" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -200,7 +200,7 @@ def onRender(pct)
 											<property name="key" value="GWIKI_WIKI_MACROS" />
 											<property name="label" value="Wiki Macros" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_MACROS" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WIKI_MACROS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
@@ -218,7 +218,7 @@ def onRender(pct)
 											<property name="key" value="GWIKI_WIKI_ELEMENTS" />
 											<property name="label" value="Wiki Element types" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiConfig#GWIKI_WIKI_ELEMENTS" />
+												value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_WIKI_ELEMENTS" />
 											<property name="readOnly" value="false" />
 											<property name="type" value="STRING" />
 											<property name="controlerScript">

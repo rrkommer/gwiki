@@ -102,13 +102,20 @@ The value is the Java class implementing either {{GWikiElement}} or  {{GWikiElem
 {fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}CommentConfig{legend}{div}
 
 h2. Allow anon comments
+{anchor:COMMENT_ALLOW_ANON}
 Allow comments to pages without previous registration or login.
 
 h2. Allow registered comments
+{anchor:COMMENT_HALF_ALLOW_ANON}
+
 Allow comments, after user registered themselve with an valid email.
 
 If neither anon, nor registered comments are allowed, only GWiki loged in user can create/edit comments.
-
+h2. Show comments by default
+{anchor:COMMENT_DEFAULT_VISIBLE}
+Show the page comments by default unfolded. 
+The user can change this by clicking on show comments. This setting will be stored as cookie and overwrite this default.
+ 
 {div}
 {fieldset}
 

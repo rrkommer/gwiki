@@ -18,10 +18,12 @@ if (RenderModes.NoToc.isSet(wikiContext.getRenderMode()) == true) {
 </thead>
 <tbody>
 <%
+int maxitems = GWIKI_MACRO_ATTRIBUTES.getArgs().getIntValue("maxitems", 20);
+
 int c = 1;
 String queryexpr = "order by prop:MODIFIEDAT desc";
 SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
-query.setMaxCount(20);
+query.setMaxCount(maxitems);
 QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
 
 
@@ -31,10 +33,11 @@ for (SearchResult sr in qr.getResults()) {
 	if (c % 2 == 0){
 		zebra = "odd";
 	}
-	
+	/*
 	if (wikiContext.wikiWeb.getAuthorization().isAllowToView(wikiContext, sr.elementInfo) == false) {
 		continue; c += 1;
-	} %>
+	} */
+	%>
 	
 	<tr class="<%=zebra%>">
 		<td><%= wikiContext.renderLocalUrl(sr.elementInfo.id) %></td>

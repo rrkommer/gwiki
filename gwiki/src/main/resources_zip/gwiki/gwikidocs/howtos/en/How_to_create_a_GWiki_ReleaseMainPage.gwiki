@@ -23,6 +23,8 @@ Before build standalone with mvn, clean target directory, otherwise older versio
 h2. Tag the SVN
 svn copy https://svn.micromata.de/svn/gwiki/trunk/ https://svn.micromata.de/svn/gwiki/tags/2012_12_30_r_1_0_0-SNAPSHOT/
 
+h2. Publish Jira version
+Publish current version in Jira.
 
 
 h2. Update the gwiki public server

@@ -12,7 +12,7 @@ h2. Wiki Syntax Editor
 
 - !gwikidocs/help/en/elementtypes/WikiEditorSaveBtn.png! Saves page and closes the editor.
 - !gwikidocs/help/en/elementtypes/WikiEditorCloseBtn.png! Closes the Editor without saving the content.
-- !gwikidocs/help/en/elementtypes/WikiEditorFullscreenBtn.png! Switches the Editor to fullscreen. If it is fullscreen toggles back to embedded into the Wiki editor frame.
+- !gwikidocs/help/en/elementtypes/WikiEditorFullscreenBtn.png! Switches the Editor to fullscreen. If it is fullscreen toggles back to embedded into the Wiki editor frame. If you closed the editor in fullscreen, the next time starting the editor will opened already in fullscreen mode.
 - !gwikidocs/help/en/elementtypes/WikiEditorH1Btn.png! Insert a H1 Heading into the current position of the Editor.
 - !gwikidocs/help/en/elementtypes/WikiEditorBoldBtn.png! Make the selected text in the Editor *Bold*.
 - !gwikidocs/help/en/elementtypes/WikiEditorItalicBtn.png! Make the selected text in the Editor _Italic_.

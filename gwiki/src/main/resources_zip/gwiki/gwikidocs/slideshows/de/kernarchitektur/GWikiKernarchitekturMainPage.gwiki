@@ -2,19 +2,23 @@
 {slidehandout}
 {pageintro}
 Vorstellung der Kernarchitektur von GWiki.
+
 {pageintro}
 {slidehandout}
 {slideheader}
 {div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Features
 {slideheader}
 {slidefooter}
-{div}Micromata GmbH (c) 2010{div}
+{div}Roger Kommer (c) 2013{div}
 {slidefooter}
 
 {slide:title=GWiki Kernarchitektur}
 \\
 \\
 Vorstellung der Kernarchitektur von GWiki.
+\\
+\\
+*Alles ist Wiki*
 {slide}
 {slide:title=Was ist GWiki}
 Multipurpose Wiki.
@@ -25,6 +29,23 @@ Multipurpose Wiki.
 - Application
 - Application Framework
 
+{slide}
+{slide:title=Die Suche nach einem Wiki}
+Kundenprojekt will eingebettete Knowledge Base / Hilfesystem.
+- Java
+- Quellcode
+- Integrierbar in Java Webanwendungen
+- Einfaches Deployment / Geringe Infrastrukturanforderungen
+- Clusterfähig
+- *Verträgliche Lizenz*
+{slide}
+{slide:title=Sackgassen}
+- Wikimatrix listet 142 Wikis
+- 3 davon grob den Rahmen (Kein (L)GPL!)
+- JSP Wiki scheint am ausgereifesten
+- 1 Woche Evaluation/Coding
+- Aufgegeben
+- Das geht besser!
 {slide}
 {slide:title=GWiki Motivation}
 - Einsatz im Java (EE)-Feld.
@@ -38,8 +59,10 @@ Multipurpose Wiki.
 {slide}
 
 {slide:title=Einsatzszenarien}
-- Vollwertiges Wiki-basiertes CMS
+- Library HTML <=> Wiki
 - Desktop Wiki für persönlichen Einsatz.
+- Vollwertiges Wiki-basiertes CMS
+- Einbettbar in Javaanwendungen
 - CMS-Zusätz für tradionelle Java basierte Webanwendungen
 - Dynamischer Content, Wiki/Rapid Development.
 {slide}
@@ -56,24 +79,23 @@ Multipurpose Wiki.
 - User von Confluence/Jira bei Micromata
 - Abstimmung mit Kunde bzgl. Oberflächentexte nervt.
 - Kunde DHL bestellt integriertes Wiki in der DHL Online Frankierung.
-
 {slide}
 {slide:title=Architekturprinzipien}
 - Wenige Entwurfsmuster
-- Alles ist Wiki
+- *Alles ist Wiki*
 - Wiki ist nicht hart kodiert
 - gesteuert über Meta-Daten
 - Wiki-Element ist eine Datei im virtuellen Dateisystem
 - Abstraktion der Serviceschnittstellen
-- Interseptoren für die wichtigen Prozesse 
+- Interceptoren für die wichtigen Prozesse 
 - Das Wiki ist im Wiki selbst implementiert.
 {slide}
 
 {slide:title=Sonstige Prinzipien}
 - Bekannte Technologien
-- Relativ wenige Abhängigkeiten
+- Relativ wenige Abhängigkeiten (Libraries, Frameworks, Toolstack)
 - Soweit möglich, stateless zum Browser, auch bei Änderungen
-- Performant und Skalierbar.
+- Performant und skalierbar.
 - 98% Lesen, 2% Schreiben.
 {slide}
 
@@ -106,6 +128,9 @@ Wahl der Persistenz
 - Datenbank.
 
 - FileSystem Event für Clustering
+{slide}
+{slide:title=FileSystem Hierarchie}
+!gwikidocs/slideshows/de/kernarchitektur/FileSystemHierarchie.png!
 {slide}
 {slide:title=Mounted Filesystem}
 Virtuelle Dateisysteme können kombiniert werden.
@@ -166,7 +191,7 @@ Virtuelle Dateisysteme können kombiniert werden.
 - Clusterfähig
 - Datenbank oder Dateisystem
 {div}
-- => Standardlösung Lucene passt nicht.
+- => Standardlösung Lucene passt nicht (2009).
 {div:style=font-size:0.8em;}
 - Wiki, HTML (mit Gewichtung)
 - PDF, Word, Excel, PPT, Texte
@@ -183,6 +208,7 @@ Virtuelle Dateisysteme können kombiniert werden.
 - GWiki liefert eigene Implemtierung mit User-Management
 - Einfaches Interface
 - Rechte sind einfache Strings
+- Rechte werden in der Seitenhierarchie vererbt
 - Kann gegen eigene Implementierung ersetzt werden
 - Kann mit eigener Implementierung kombiniert werden
 {slide}
@@ -203,31 +229,51 @@ Um in die interne Prozesse eingreifen zu können, werden Interceptoren, bzw. Fil
 {slide:title=GWiki Elemente}
 *Alles ist Wiki*
 
-Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
+Alle Elemente in GWiki sind über ein Element des Wiki, sprich einer (virtuellen) Datei abgebildet:
 {div:style=font-size:0.8em}
 - Konfigurationen, Metatemplates
-- Seiten, Attachments, Kommentare
+- Seiten, Attachments, Kommentare, Archivierte Versionen
 - Interne Seiten, I18N-Dateien
-- Templates, Skins, Macros
+- Templates, Skins, Macros, *Code*
 - User
 - Suchindice, Temporäre Daten
 {div}
 - und haben dadurch einen kanonischen Namen.
 {slide}
-
-{slide:title=GWikiElement Hierarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png|width=70%!{center}
-{slide}
-
 {slide:title=Settings Artefakt}
 - Ein Element besteht aus mehren Artefakte
 - Jedes Element hat das Artefakt Settings.properties
+-- ElementTyp (über Metatemplate)
 -- Versionsinfos
 -- Parent verlinkung
 -- Rechte
 -- Elementtyp 
 -- *Metatemplate*
 -- und eigen definierte Schlüssel.
+{slide}
+{slide:title=Beispiel Settings}
+#
+#Wed Dec 12 18:23:02 CET 2012
+MODIFIEDBY=rkommer
+CREATEDBY=gwikisu
+CONTENTYPE=text/html
+WIKIMETATEMPLATE=edit/EditPageMetaTemplate
+TITLE=I{gwiki.edit.EditPage.title}
+TYPE=gwiki
+HELP_PAGE=gwikidocs/help/en/EditPage
+MODIFIEDAT=20121212172302390
+CREATEDAT=20091206140500000
+AUTH_EDIT=AUTH_EDIT
+NOINDEX=true
+VERSION=1
+{slide}
+{slide:title=GWikiElement Typen}
+- Element Typen sind wie Servlets. 
+- Ein Elementtyp z.B. analog zu FileServlet
+- wobei Files und ggf.Steuerinformationen (.access) Inhalt definieren.
+{slide}
+{slide:title=GWikiElement Hierarchie}
+{center}!gwikidocs/slideshows/de/kernarchitektur/GWikiElementHierarchie.png|width=70%!{center}
 {slide}
 
 {slide:title=Metatemplate}
@@ -277,7 +323,7 @@ Alle Elemente in GWiki sind über ein Element des Wiki abgebildet:
 {slide:title=GWikiArtefakt}
 - Eine Javaklasse
 - Kann sich rendern
-- Kann sich von und zu Text oder binären Daten transformieren.
+- Kann sich von und zu Text, HTML oder binären Daten transformieren.
 - Kooperiert mit anderen Artefakten im Element.
 - Ist eine Factory für einen GWikiEditorArtefakt, der eine GUI für das Editieren zur Verfügung stellt.
 {slide}
@@ -367,12 +413,13 @@ Macros mit
 - Runtime Macro
 {div}
 {slide}
-
-{slide:title=Macro Hierarchie}
+{slide:title=Macro Hierarchie (0.6)}
 
 {center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png|width=18%!{center}
 {slide}
-
+{slide:title=Elements to Fragments}
+{center}!gwikidocs/slideshows/de/kernarchitektur/ElementsToFragmentOverview.png|width=40%!{center}
+{slide}
 {slide:title=Entwicklung}
 - 2009 Q3 - 2010 Q1
 - Ca. 3 MM für Kern und 3 MM für Doku, Style, etc.

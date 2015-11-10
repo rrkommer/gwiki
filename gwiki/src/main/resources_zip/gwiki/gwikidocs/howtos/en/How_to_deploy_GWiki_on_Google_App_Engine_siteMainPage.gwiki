@@ -1,0 +1,50 @@
+{pageintro}
+The Google App Engine is a (limited) free Java application cloud and hosting site.
+{pageintro}
+
+h2. Introduction
+You can deploy Web application at the Google App Engine [https://appengine.google.com/].
+But there some technical limitations:
+- No file access
+- No threads (at least none, outlifes the request, started the thread)
+- No JNDI
+- etc.
+
+If you use a free account, you have also various limitation about storage usage (quota) and web usage.
+
+h2. GWiki in the Google App Engine cloud
+h3. Preparation
+First take a look at [https://developers.google.com/appengine/docs/java/gettingstarted/] for general information about the Google App Engine.
+
+You need an account on the Appengine site [https://appengine.google.com/].
+Then you can register an new application on the App Engine
+
+{note}
+I had problem using  an @googlemail.com account to create an new account, so I created an other account.
+{note}
+
+
+I'm using Eclipse for developing GWiki. So I used the Google plugin ([https://developers.google.com/appengine/docs/java/tools/eclipse]) to create a sample project and to deploy the application to Google.
+
+h3. The GWiki application
+To solve the incompatibility problems with Google App Engine, I created some alternative implementations - especially a FileSystem using the Google DataStore ([https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore]). This project *gwikigapp* is a Web application and can be found at top level in the GWiki source repository.
+If you want to use this project as starting point, rename the project, because the corresponding app name is already used.
+Also change the name inside the {{appengine-web.xml}} {{<application>gwikitapp</application>}} to another name.
+
+h3. Wiki Content
+The Wiki Content is managed in following parts:
+- GWikiContent.zip is part of the gwiki jar and contains the core GWiki pages
+- GWikiGappContent.zip contains the standard pages of the Google App GWiki instance. It will be build by a build script ({{build.xml}}) from the local gwikiapp directory named {{gwiki}}.
+
+After deployment on the Google App Engine, all modifications to existant pages and new elements will stored inside the Google Datastore. You can use the Google App managment console (or the local System servlet deployed under {{/_ah/spi/}} to view the content. To Download the modified content on Google App Engine, you can use the {{edit/ViewAllPages}} page inside GWiki.
+
+h3. After deployment
+The standard deploy provides the standard users gwikisu, gwikiuser, gwikiview, gwikieditor, all with password {{gwiki}. Don't forget to change passwords after deployment or deactivate the users. 
+
+h3. Some Notes
+My first impressions of the Google App Engine are, that the first loading of the application takes a little time. Sometimes you will reach the hard limit of 30 seconds per request in this case. In this case you have to reload the page again. After loading the application the pages will be served quite fast.
+After a short time (don't know how long exactly, 1 hour or so), the Google App Engine unloads the unused application, so next time a request will reach the application, it has to be started again.
+
+h2. Sample GWiki on Google App Engine
+On [http://gwikitapp.appspot.com/gwiki/pub/en/Index] I installed a sample instance of GWiki.
+

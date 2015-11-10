@@ -41,7 +41,7 @@
             <property name="description"
             value="I{gwiki.settings.WIKICONTROLERCLASS.description}" />
           -->
-              <property name="helpLink" value="gwikidocs/help/ElementSettings#WIKICONTROLERCLASS" />
+              <property name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKICONTROLERCLASS" />
               <property name="readOnly" value="false" />
             </bean>
           </list>

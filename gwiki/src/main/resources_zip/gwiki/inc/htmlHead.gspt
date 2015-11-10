@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value='/static/css/ui-lightness/jquery-ui-1.8.1.custom.css'/>" />
 <!-- <link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value='/static/skins/naked/jquery-ui-1.7.1.custom.css'/>" /> -->
-<link type="text/css" href="<gwiki:url value='/static/js/fancybox/fancybox.css'/>" rel="stylesheet" media="screen" />
+<link type="text/css" href="<gwiki:url value='/inc/fancybox.css'/>" rel="stylesheet" media="screen" />
 <@include file="inc/stdjsvars.gspt" @>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-1.4.2.min.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-ui-1.8.1.custom.min.js" />'></script>
@@ -76,7 +76,7 @@ var i18n={<%
                     FONTFACE, "Arial, Helvetica, sans-serif",
                     FONTCOLOR, '#000000',
                     CLOSEBTNPOP,true,
-                    CLOSEBTNIMG, "<gwiki:url value="/static/skins/dhl2009/img/closetooltips.gif"/>"
+                    CLOSEBTNIMG, "<gwiki:url value="/static/img/closetooltips.gif"/>"
                     );
         }
 </script>

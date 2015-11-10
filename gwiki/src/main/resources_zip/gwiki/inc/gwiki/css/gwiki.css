@@ -285,6 +285,10 @@ a.gwikiButton:hover {
 .gwikiToolbarButtonEnabled {
 	
 }
+.gwikiMissingLink {
+	color: #5C6970;
+  text-decoration: underline; 
+}
 
 .gwikiToolbarIcon {
 	display: block;

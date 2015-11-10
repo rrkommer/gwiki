@@ -4,6 +4,137 @@ How to deploy GWiki as WAR in an Servlet Container or Application Server.
 
 The GWiki WAR contains all necessary libraries, pages etc. to start a Wiki.
 
-{todo}
-Document deploy GWiki as WAR.
-{todo}
+h2. Starting point
+The easiest way to start GWiki in a standard servlet container - like tomcat, bea weblogic, etc. - is to use the gwiki-webapp project (download prebuild WAR or source repository project {{gwiki-webapp}} in [Downloads|http://labs.micromata.de/gwiki/pub/en/Downloads]), but you can use also an existant web application project to register GWiki as servlet.
+
+h2. The files
+h3. The libraries
+GWiki itself uses maven to build the project and fetch the depending libraries. You can also download a prebuild war archive (see [Downloads|http://labs.micromata.de/gwiki/pub/en/Downloads]), where all libraries - including gwiki libraries - can be found in the {{WEB-INF/lib}} directory.
+ 
+h3. WEB-INF/web.xml
+
+This is a sample web.xml
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+	version="2.4">
+	<display-name>Genome Wiki Web</display-name>
+
+	<filter>
+		<filter-name>gwiki18n</filter-name>
+		<filter-class>de.micromata.genome.gwiki.page.impl.i18n.GWikiI18NServletFilter
+		</filter-class>
+		<init-param>
+			<param-name>I18NModules</param-name>
+			<param-value>edit/StandardI18n</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>gwiki18n</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>WikiService</servlet-name>
+
+		<servlet-class>de.micromata.genome.gwiki.web.GWikiServlet
+		</servlet-class>
+		<init-param>
+			<!--  Register class, loading the GWikiDAOContext -->
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className
+			</param-name>
+			<param-value>de.micromata.genome.gwiki.model.config.GWikiServletContextBootstrapConfigLoader
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName
+			</param-name>
+			<param-value>WEB-INF/GWikiContext.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>servletPath</param-name>
+			<param-value>/gwiki</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>WikiService</servlet-name>
+		<url-pattern>/gwiki/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>gwiki</welcome-file>
+	</welcome-file-list>
+</web-app>
+{code}
+
+Registering the {{gwiki18n}} is optional. This uses GWiki as I18N-Backend for standard JSP/Java pages outside GWiki. See also: [gwikidocs/howtos/en/UseGWikiI18NoutsideGWiki].
+The servlet {{WikiService}} is to register the GWiki itelf. In the sample above, GWiki pages are accessable below the {{/gwiki}} path (defined via {{servletPath}} param.
+The servlet paramter {{...GWikiBootstrapConfigLoader.className}} and {{...GWikiBootstrapConfigLoader.fileName}} are used to locate the GWikiContext.xml. In this case it is found in the ServletContext with the path {{WEB-INF/GWikiContext.xml}}.
+The servlet mapping directs the servlet container to direct all requests {{/gwiki/*}} to the WikiService Servlet.
+The {{welcome-file}} is optional and just redirects requests to the webapplication without any path to the GWiki Servlet.
+
+h3. WEB-INF/GWikiContext.xml
+
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<property name="staticContentFromClassPath" value="true" />
+		<property name="storage">
+			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+				<constructor-arg>
+					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+								<constructor-arg>
+									<value>${gwiki.file.path}</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+						<constructor-arg>
+							<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+								<constructor-arg>
+									<value>GWikiContent.zip</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="enableWebDav" value="true" />
+		<property name="webDavUserName" value="${gwiki.davadmin.user}" />
+		<property name="webDavPasswordHash" value="${gwiki.davadmin.pass}" />
+	</bean>
+</beans>
+{code}
+This file defines the basic configuration of GWiki. 
+It uses the standard file system to store wiki pages. The location {noformat}${gwiki.file.path}{noformat} is a variable, which has to be defined outside.
+The properties {noformat}${...}{noformat} can be provided by the JNDI context of the web container or via Java system properties.
+
+The property {{enableWebDav}} is optional. If you don't want to enable direct WEBDAV access to the GWiki virtual file system, just set this to "false".
+
+h3. META-INF/context.xml
+This is a standard definition to deploy f.e. in Tomcat.
+Depending on the servlet container you use, this may be defined in anothe way.
+{code}
+<Context reloadable="false" debug="0" cookies="true"  >
+	<Parameter name="gwiki.file.path" value="C:/Users/roger/d/dhl/gwiki/gwiki-webapp/gwikifiles" />
+	<Parameter name="gwiki.davadmin.user" value="gwikidavadmin"/>
+	<!--  gWiki2010Admin -->
+	<Parameter name="gwiki.davadmin.pass" value="fyasCKUvAqBMb0JuqQjFpiptvcE\="/>
+</Context>
+{code}
+The context basically only defines some parameter, passed to the servlet.
+The {{gwiki.file.path}} value has to be an empty directory. There new and modified pages will be stored.
+
+{note}
+Before using this example, you should change the password. In this example the password is {{gWiki2010Admin}}. The hash code of password can be build a SHA hash, based
+on the UTF-8 encoding of the string (In source code see {{encrypt}} in the {{GWikiUserAuthorization}} class.
+{note}
+
+h3. META-INF/MANIFEST.MF
+This is just a dummy Manifest. You may change it to your needs.

@@ -5,6 +5,12 @@
 		singleton="false">
 		<property name="rights">
 			<list>
+                                                    <bean class="de.micromata.genome.gwiki.model.GWikiRight">
+					<property name="name" value="ROGMP3_LISTEN" />
+					<property name="category" value="ROGMP3" />
+					<property name="description" value="Listen MP3"/>
+				</bean>
+
 				<bean class="de.micromata.genome.gwiki.model.GWikiRight">
 					<property name="name" value="MYRIGHT" />
 					<property name="category" value="MyCategory" />

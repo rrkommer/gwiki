@@ -10,4 +10,20 @@ If the users are managed externally - f.e. LDAP or legacy application - the user
 In the overview list a new user can be created, all user of Gwiki can be viewed and edited.
 
 
+h2. Special Users
+GWiki knows two special users:
+
+*anon*
+This user will be used if no user is logged in. If you want to enable anonymous users to write/create/delete pages, you can 
+create a user name {{anon}} and give him corresponding rights.
+
+{note}
+Be carefully not give the user to much rights.
+{note}
+
+*registereduser*
+This user will be used as copy template, if you enable self registration of new users.
+
+
+
 See also: [gwikidocs/help/en/Profile]
