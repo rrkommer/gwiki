@@ -1,5 +1,0 @@
-{pageintro}
-For each element in GWiki a *Settings.properties has to be exists.
-There is no integrated posibility to mount a collection of files, which are normal content files like
-HTML pages (Java doc) or media files.
-{pageintro}

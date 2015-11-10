@@ -5,7 +5,9 @@
 
 <%    MainPage.render(wikiContext); %>
 
-<% def form = pageContext.request.getAttribute("form"); %>
+<%
+	def form = pageContext.request.getAttribute("form");
+%>
 <script type="text/javascript">
 function onFilter(event)
 {
@@ -45,7 +47,7 @@ function onFilter(event)
     </ul>
     Download: <gwiki:link pageId="${pd.elementInfo.id}"/>
     <c:if test="${pd.descriptor.descriptionPath != null}">
-      <gwiki:macro name="fancybox" args="type=iframe|width=800|height=800|href=${pd.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
+      <gwiki:macro name="fancybox" args="fitToView=false|autoSize=false|autoDimensions=false|width=1024|height=800|href=${pd.descriptor.descriptionPath}?gwikipart=MainPage">More details</gwiki:macro>
     </c:if>
     </p>
     <hr/>

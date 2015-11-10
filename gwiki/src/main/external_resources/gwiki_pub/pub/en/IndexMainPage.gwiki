@@ -1,7 +1,8 @@
 h1. About GWiki
 
 GWiki is a wiki style content managment plattform and rapid develop environment for content based java application.
-GWiki is released under the [Apache License|pub/en/GWikiLicense], you can use it also in commercial projects.
+
+Because GWiki is released under the [Apache License|pub/en/GWikiLicense], you can use it also in commercial projects and combine it with closed source Java J2E applications.
 
 {section:border=1|cellpadding=5|cellspacing=0}
 {column:valign=top|width=30%}

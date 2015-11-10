@@ -11,41 +11,37 @@ After downloading GWiki standalone distribution, please refer to [pub/en/Install
 the GWiki server.
 
 h3. Releases
+h4. Standalone
+Standalone Desktop binary: [gwiki-standalone-1.0.1.zip|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.1/gwiki-standalone-1.0.1.zip]
 
-Standalone Desktop binary: [gwiki-standalone-1.0.0.zip|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0/gwiki-standalone-1.0.0.zip]
+h4. Webapp
 
+Download a precompiled WAR [gwiki-webapp-1.0.1.war|http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-webapp/1.0.1/gwiki-webapp-1.0.1.war]
 
+h4. Plugins
 For GWiki Plugins please refer to [pub/en/plugins/PluginDownloads].
 
-{html}
-<div style="font-size: 0.5em;">
-<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0" scrolling="yes"> 
-   <a href="http://labs.micromata.de/nexus/content/repositories/releases/de/micromata/genome/gwiki/gwiki-standalone/1.0.0">Snapshots</a>
-
-</iframe> 
-</div> 
-{html}
-
 h3. Snapshots
-Snapshot of the Standalone Desktop binary: [gwiki-standalone-1.0.0-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT/gwiki-standalone-1.0.0-SNAPSHOT.zip]
+Snapshot of the Standalone Desktop binary: [gwiki-standalone-1.0.2-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.2-SNAPSHOT/gwiki-standalone-1.0.2-SNAPSHOT.zip]
 
-All files:
-{html}
-<div style="font-size: 0.5em;">
-<iframe height="400" width="100%" src="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT" scrolling="yes"> 
-   <a href="http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.0-SNAPSHOT">Snapshots</a>
 
-</iframe> 
-</div> 
-{html}
 
 h2. Support 
 Bugs, Support requests and feature requests can be found and submitted at: 
 *[https://labs.micromata.de/jira/browse/GWIKI]*
 
 h2. Developer of GWiki
-If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
+h3. Source code repository
+The source code for GWiki is availabe via SVN here:
+*[https://svn.code.sf.net/p/genomewiki/code/trunk/]*
+You can checkout the sources as anonymous user.
 
+h3. Maven repository
+If you use maven, please check our nexus repository at:
+[http://labs.micromata.de/nexus/content/repositories/releases/]
+
+
+If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
 
 Following artefakts are provided:
 * gwiki-parent: Parent pom only
@@ -53,12 +49,9 @@ Following artefakts are provided:
 * gwiki: gwiki library
 * gwiki-standalone: Desktop gwiki with jetty
 * gwiki-webapp: War archive to deploy in tomcat or other servlet container.
+* plugins: Plugin Projects.
 
-
-
-If you use maven, please check our nexus repository at:
-[http://labs.micromata.de/nexus]
-
+See also [gwikidocs/howtos/en/UseGwikiWARarchive].
 
 for gwiki related snapshots or browse/download file directly:
 [http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/]

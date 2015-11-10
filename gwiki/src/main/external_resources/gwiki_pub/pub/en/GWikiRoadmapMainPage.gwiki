@@ -8,12 +8,12 @@ See also [pub/en/ChangeLog].
 
 h3. Features
 - Database support for more data bases like PosteSQL, MS SQL, mySQL. Please leave a message.
-- Forum Plugin. Create Forums inside GWiki.
+- Forum Plugin. Create Forums inside GWiki. (First alpha version)
 - Support something like a draft version. Include a release mechanism for publish drafts. There is already an alpha implementation.
-- Register process for new users.
+- Register process for new users. (A first implementation is done)
 
 h2. Infrastructure
-- Public SVN
+- Public SVN (Currently https://artefaktur.com/svn/gwiki).
 - Public Bug Tracking (see [https://labs.micromata.de/jira/browse/GWIKI])
 - Public Forum
 

@@ -18,7 +18,7 @@ gwikiweb.cmd resp.
 gwikiweb.sh
 .
 
-The shell script asumes, that a Java JDK 1.5 or higher can be located in the path environment.
+The shell script asumes, that a Java JDK 1.6 or higher can be located in the path environment.
 
 Please use an up-to-date Java version. You can download Java from: [http://java.sun.com/javase/downloads/widget/jdk6.jsp].
 
@@ -37,6 +37,8 @@ A system user give you initial access to gwiki, if no user are in the user datab
 Password will be stored as hash value.
 - Enable User for WebDAV Access
 - Email server: If GWiki should send emails to user configure email SMPT server and port.
+
+These settings are stored in the file {{gwiki.properties}}, which can also modified later with a text editor.
 
 First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
 

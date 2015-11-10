@@ -2,6 +2,13 @@
 Overview of GWiki Features.
 
 {pageintro}
+
+General
+- Politics
+-- Free as in "free beer" and in "free speech"
+-- OpenSource
+-- Can be integrated into closed source/commercial applications, because of Apache 2.0 license.
+
 GUI Features
 
 - Skinning 
@@ -22,6 +29,11 @@ GUI Features
 -- Access to internal DOM
 -- Mix with HTML
 
+- Linking
+-- Explicite Linking of pages, images, external content.
+-- Implizite camel case wiki links via plugin
+-- automatic inline keyword cross reference via plugin.
+
 - Organisation
 -- Pages can be organised in tree structure
 -- Multiple paralell tree structures
@@ -38,7 +50,7 @@ GUI Features
 -- Many Macros provided 
 -- Easy to create with Java or JSP
 -- Secure macros, so unsecure macros can only be used by developer
--- 
+-- JSP taglibraries can be used as macros.
 
 - Wiki Editor
 -- Wiki Source Editor
@@ -108,6 +120,13 @@ Architecture
 -- Create ActionBeans in Java or online with Groovy
 -- Full Preview of dynamic content.
 
+- Integration in J2E applications
+-- Deploy GWiki Java Servlet with an existant Java web application
+-- Mix GWiki pages with other dynamic content
+-- Use GWiki as online editable I18N backend for Struts/Stripes/JSP/Wicket applications
+-- Manage and edit Wicket HTML templates with GWiki.
+-- Use GWiki as help system.
+
 - Plugin
 -- Write Plugins with, Java, JSP, Groovy, Wiki, etc.pp.
 -- Extend document types. 
@@ -123,6 +142,7 @@ Architecture
 
 - Available plugins:
 -- smart keywords. Add automatic cross references for keywords.
+-- wiki links: Use automatic wiki links with camel case expression.
 -- confluence importer
 -- blog. Writing blogs
 -- forum. Forum functions (Alpha)
@@ -136,4 +156,4 @@ Architecture
 -- pagelifecyle: CMS workflow process with author, chief editor, release manager (Alpha)
 -- pagetemplates: Edit page sections based templates and specific editors  (Alpha)
 -- vfolder: Mount external virtual filesystems as folder with containing documents with full text search
-- fssvn: Mount remote SVN as virtual file system.
+-- fssvn: Mount remote SVN as virtual file system.
