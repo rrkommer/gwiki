@@ -2,10 +2,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>gwiki-plugin-parent</artifactId>
-    <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.2</version><!-- GWIKVERSION -->
-  </parent>
+		<artifactId>gwiki-plugins-root</artifactId>
+		<groupId>de.micromata.genome.gwiki</groupId>
+		<version>1.0.3</version><!-- GWIKVERSION -->
+    <relativePath>../pom.xml</relativePath>
+	</parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-msotextextractor</artifactId>
   <packaging>jar</packaging>

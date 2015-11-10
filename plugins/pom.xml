@@ -1,12 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>gwiki-root</artifactId>
+    <groupId>de.micromata.genome.gwiki</groupId>
+    <version>1.0.3</version><!-- GWIKVERSION -->
+    <relativePath>../pom.xml</relativePath>
+  </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
-   <artifactId>gwiki-plugins</artifactId>
+   <artifactId>gwiki-plugins-root</artifactId>
    <packaging>pom</packaging>
-   <version>1.0.2</version><!-- GWIKVERSION -->
-    <modules>
-		<module>gwiki-plugin-parent</module>
+   <version>1.0.3</version><!-- GWIKVERSION -->
+  <modules>
+    <module>dom4j</module>
+    <module>org.apache.pdfbox</module>
+    <module>org.apache.poi</module>
+    <module>org.apache.httpcomponents</module>
+    
 		<module>gwiki-admintools</module>
 		<module>gwiki-blog</module>
 		<module>gwiki-confluenceimporter</module>
@@ -25,20 +35,62 @@
 		<module>gwiki-scheduler</module>
 		<module>gwiki-vfolder</module>
 		<module>gwiki-wikilinks</module>
+    <module>gwiki-style-ProjectForge</module>
+    <module>gwiki-style-ProjectForge-example</module>
+    <module>rogmp3</module>
   </modules>
-  <distributionManagement>
-    <repository>
-      <id>labs.micromata.de-releases</id>
-      <name>labs.micromata.de-releases</name>
-      <url>https://labs.micromata.de/nexus/content/repositories/releases</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <snapshotRepository>
-      <id>labs.micromata.de-snapshots</id>
-      <name>labs.micromata.de-snapshots</name>
-      <url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
+  
+   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>BuildPlugin</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <echo>Building GWIki Plugin ${project.artifactId}-${project.version}</echo>
+                
+                <mkdir dir="target" />
+                <delete failonerror="false" file="target/${project.artifactId}-${project.version}.zip" />
+                <zip zipfile="target/${project.artifactId}-${project.version}.zip">
+                  <fileset dir="target" includes="classes/**" />
+                  <fileset dir="" includes="lib/**" />
+                  <fileset dir="" includes="content/**" />
+                  <fileset dir="" includes="gwikiplugin.xml" />
+                </zip>
+                <copy  failonerror="false" preservelastmodified="true" file="target/${project.artifactId}-${project.version}.zip"
+                  todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/en/plugins" />
+                <!-- <copy failonerror="false" preservelastmodified="true" todir="../../gwiki/src/main/external_resources/gwiki_pub/pub/">
+                  <fileset dir="content/gwiki/pub" excludes="*/.svn/*" />
+                </copy>
+                 -->
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+	<dependencies>
+		<dependency>
+			<groupId>de.micromata.genome.gwiki</groupId>
+			<artifactId>gwiki</artifactId>
+			<version>1.0.3</version><!-- GWIKVERSION -->
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 </project>
