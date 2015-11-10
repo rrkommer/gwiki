@@ -1,0 +1,9 @@
+Kommers page
+
+This is a WikiLink and should automatically created.
+This is AnotherPage, but not existant.
+
+This is a protected {{WikiLink}}.
+{noformat}
+Should no WikiLink at all.
+{noformat}
