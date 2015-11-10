@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gwiki" default="Content.zip">
+	<target name="Content.zip">
+		<delete file="war/WEB-INF/classes/GWikiGappContent.zip" />
+		<zip destfile="war/WEB-INF/classes/GWikiGappContent.zip">
+			<fileset dir="./gwiki">
+				<exclude name="**/.svn" />
+				<exclude name="**/.fslock" />
+				<!-- exclude MacOS stuff -->
+				<exclude name="**/.DS_Store" />
+				<exclude name="**/.localized" />
+				<exclude name="**/*TextExtract.txt" />
+				<exclude name="**/*TextIndex.txt" />
+				<exclude name="**/tmp/**" />
+				<exclude name="**/arch/**" />
+			</fileset>
+		</zip>
+	</target>
+</project>
