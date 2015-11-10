@@ -1,0 +1,11 @@
+*.class
+target/
+classes/
+
+#eclipse files
+**/*.project
+**/*.classpath
+**/*.project
+**/.settings
+
+**/.fslock
