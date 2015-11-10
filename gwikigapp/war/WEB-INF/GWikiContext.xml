@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+
+  <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<!--  FILE -->
+    <property name="staticContentFromClassPath" value="true" />
+    <!--  <property name="authorization">
+      <bean class="de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization" />
+    </property>
+     -->
+    <property name="logging">
+      <bean class="de.micromata.genome.gwiki.model.GWikiLoggingJavaUtilLogging" />
+    </property>
+    <property name="schedulerProvider">
+      <bean class="de.micromata.genome.gapp.GWikiBlockingSchedulerProvider" />
+    </property>
+    <property name="fileItemFactory">
+      <bean class="de.micromata.genome.gwiki.page.impl.actionbean.GWikiFileSystemFileItemFactory" />
+    </property>
+    <property name="storage">
+      <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+            <constructor-arg>
+              <bean class="de.micromata.genome.gapp.GoogleDataStoreFileSystem">
+              </bean>
+            </constructor-arg>
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+                <constructor-arg>
+                  <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                    <constructor-arg>
+                      <value>GWikiGappContent.zip</value>
+                    </constructor-arg>
+                  </bean>
+                </constructor-arg>
+                <constructor-arg>
+                  <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                    <constructor-arg>
+                      <value>GWikiContent.zip</value>
+                    </constructor-arg>
+                  </bean>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+
+    <property name="enableWebDav" value="false" />
+		<!--  <property name="webDavUserName" value="${gwiki.davadmin.user}" />
+		<property name="webDavPasswordHash" value="${gwiki.davadmin.pass}" />
+     -->
+  </bean>
+</beans>

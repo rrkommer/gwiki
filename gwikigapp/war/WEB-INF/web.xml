@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<servlet>
+    <servlet-name>WikiService</servlet-name>
+
+    <servlet-class>de.micromata.genome.gwiki.web.GWikiServlet</servlet-class>
+    <init-param>
+
+      <param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className</param-name>
+      <param-value>de.micromata.genome.gwiki.model.config.GWikiServletContextBootstrapConfigLoader
+      </param-value>
+    </init-param>
+    <init-param>
+      <param-name>de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName</param-name>
+      <param-value>WEB-INF/GWikiContext.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>servletPath</param-name>
+      <param-value>/gwiki</param-value>
+    </init-param>
+    <init-param>
+      <param-name>de.micromata.genome.gwiki.supportsJndi</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>Gwikigapp</servlet-name>
+    <servlet-class>de.micromata.genome.gapp.GwikigappServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>WikiService</servlet-name>
+    <url-pattern>/gwiki/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Gwikigapp</servlet-name>
+    <url-pattern>/gwikigapp</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>gwiki/pub/en/Index</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>SystemServiceServlet</servlet-name>
+    <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+    <init-param>
+      <param-name>services</param-name>
+      <param-value/>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SystemServiceServlet</servlet-name>
+    <url-pattern>/_ah/spi/*</url-pattern>
+  </servlet-mapping>
+</web-app>

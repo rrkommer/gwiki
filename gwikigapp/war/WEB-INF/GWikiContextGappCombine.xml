@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <!-- 
+    NOTE
+    This configuration is currently NOT working.
+    -->
+  
+  
+  <bean id="settingsfs" class="de.micromata.genome.gapp.GoogleDataStoreFileSystem">
+    <constructor-arg value="settingsfs" />
+  </bean>
+  <bean id="tmpfs" class="de.micromata.genome.gapp.GoogleDataStoreFileSystem">
+    <constructor-arg value="tmpfs" />
+  </bean>
+  <bean id="datafs" class="de.micromata.genome.gapp.GoogleDataStoreFileSystem">
+    <constructor-arg value="datafs" />
+  </bean>
+  <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+		<!--  FILE -->
+    <property name="staticContentFromClassPath" value="true" />
+    <!--  <property name="authorization">
+      <bean class="de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization" />
+    </property>
+     -->
+    <property name="logging">
+      <bean class="de.micromata.genome.gwiki.model.GWikiLoggingJavaUtilLogging" />
+    </property>
+    <property name="schedulerProvider">
+      <bean class="de.micromata.genome.gapp.GWikiBlockingSchedulerProvider" />
+    </property>
+    <property name="fileItemFactory">
+      <bean class="de.micromata.genome.gwiki.page.impl.actionbean.GWikiFileSystemFileItemFactory" />
+    </property>
+
+    <property name="storage">
+      <bean class="de.micromata.genome.gapp.GWikiDataStoreStorage">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
+                <constructor-arg>
+                  <map>
+                    <entry
+                      key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+                      <ref bean="tmpfs" />
+                    </entry>
+                    <entry key="-*,+*Settings.properties">
+                      <ref bean="settingsfs" />
+                    </entry>
+                    <entry key="*">
+                      <ref bean="datafs" />
+                    </entry>
+                  </map>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+                <constructor-arg>
+                  <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                    <constructor-arg>
+                      <value>GWikiGappContent.zip</value>
+                    </constructor-arg>
+                  </bean>
+                </constructor-arg>
+                <constructor-arg>
+                  <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                    <constructor-arg>
+                      <value>GWikiContent.zip</value>
+                    </constructor-arg>
+                  </bean>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+        <property name="settingsFileSystem">
+          <ref bean="settingsfs" />
+        </property>
+      </bean>
+    </property>
+
+    <property name="enableWebDav" value="false" />
+		<!--  <property name="webDavUserName" value="${gwiki.davadmin.user}" />
+		<property name="webDavPasswordHash" value="${gwiki.davadmin.pass}" />
+     -->
+  </bean>
+</beans>
