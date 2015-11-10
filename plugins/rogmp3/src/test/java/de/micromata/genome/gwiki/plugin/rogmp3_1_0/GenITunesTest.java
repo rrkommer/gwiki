@@ -1,9 +1,11 @@
 package de.micromata.genome.gwiki.plugin.rogmp3_1_0;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GenITunesTest
 {
+  @Ignore
   @Test
   public void testGen()
   {
