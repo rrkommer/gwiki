@@ -1,0 +1,46 @@
+{pageintro}
+Wiki Filter which creates traditional Wiki links from CamelCase words.
+{pageintro}
+
+h2. Introduction
+GWiki normally only creates links, which are marked with brackets. 
+In classic Wikis Links are automatically created from all words, which
+are written in CamelCase. With this plugin these automatic link generation
+can be enabled.
+CamelCase words starts with uppper case and contains at least one additionally
+upper case letter. The between two upper case letter must at least one lower
+case letter.
+
+Because traditional wikis has no hierarchic organisation and all Pages are
+stored under one path, this Filter also only create Wiki Links between pages,
+which are located in the same folder.
+
+Sample:
+If a page {{home/user/MyPage}} contains the word {{MySecondPage}} and there
+is a page {{home/user/MySecondPage}} this word will be shown as link.
+
+If a page {{home/user/MyPage}} contains the word {{MyThirdPage}} and there
+is a page {{other/directory/MySecondPage}} this word will NOT be shown as link.
+
+
+If in the text is a CamelCase word, and there is no corresponding target page and the user has the right to create pages, automatically
+a {{+}} after the word will be shown to create this page.
+
+h2. Configuration
+This plugin provides a tab named WikiLinkConfig in the GWiki Config (via Admin Menu).
+
+{anchor:WIKILINK_DISABLE}
+h3. Disable Wiki Links
+If this is checked, all automatic link generation is disabled.
+
+{anchor:WIKILINK_PAGEIDMATCHER}
+h3. Wiki Link pages matcher
+A matcher expression, which page ids should be filtered.
+Default matcher is 
+{noformat}+*,-admin/*,-edit/*{noformat}
+so that all pages are filtered, but none under the path {{admin/}} and {{edit/}}.
+{note}
+The internal pages, like below {{admin} and {{edit}} should be always excluded, because
+they always uses explizit linking.
+
+

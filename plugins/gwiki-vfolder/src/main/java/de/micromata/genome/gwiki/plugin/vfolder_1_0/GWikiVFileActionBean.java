@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
 
   public Object onInit()
   {
-    if (StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
-      return onDownload();
-    }
     init();
+    if (folderNode.isDirectAttachments() == true || StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
+      return doDownload();
+    }
 
     if (embedded == true) {
 
@@ -69,7 +69,11 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
   public Object onDownload()
   {
     init();
+    return doDownload();
+  }
 
+  protected Object doDownload()
+  {
     try {
       GWikiVFolderUtils.writeContent(fvolderEl, pageId, wikiContext.getResponse());
     } catch (IOException ex) {

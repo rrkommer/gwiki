@@ -7,9 +7,8 @@
     <version>1.0.2</version><!-- GWIKVERSION -->
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
-  <artifactId>gwiki-vfolder</artifactId>
+  <artifactId>gwiki-wikilinks</artifactId>
   <packaging>jar</packaging>
-  <name>gwiki-vfolder</name>
+  <name>gwiki-wikilinks</name>
   <version>1.0.0</version><!-- PLUGINVERSION -->
- 
 </project>
