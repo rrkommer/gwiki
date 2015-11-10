@@ -1,18 +1,19 @@
-GV=1.0.0
-MVN=/cygdrive/c/programr/apache-maven-2.2.1/bin/mvn
+GV=1.0.1
+MVN=/cygdrive/c/programr/apache-maven-3.1.0/bin/mvn
+#MVN=mvn
 PRC="gwiki-parent gwiki-genome-dependencies gwiki-gdbfs gwiki"
-PLUGINS="gwiki-plugin-parent gwiki-admintools gwiki-s5slideshow gwiki-feed gwiki-blog gwiki-forum gwiki-fssvn gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi org.apache.httpcomponents gwiki-msotextextractor gwiki-vfolder gwiki-pdftextextractor gwiki-rte-myspell gwiki-sampleplugin gwiki-scheduler gwiki-confluenceimporter"
+PLUGINS="gwiki-plugin-parent gwiki-admintools gwiki-s5slideshow gwiki-wikilinks gwiki-feed gwiki-blog gwiki-forum gwiki-fssvn gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi org.apache.httpcomponents gwiki-msotextextractor gwiki-vfolder gwiki-pdftextextractor gwiki-rte-myspell gwiki-sampleplugin gwiki-scheduler gwiki-confluenceimporter"
 BETAPLUGINS="gwiki-pagelifecycle gwiki-pagetemplates gwiki-style-GracefulUndressed gwiki-style-mmLabs"
 
 DESKTOP_PLUGINS="gwiki-admintools gwiki-s5slideshow gwiki-keywordsmarttags org.apache.pdfbox org.apache.poi gwiki-msotextextractor gwiki-pdftextextractor gwiki-rte-myspell gwiki-feed gwiki-blog"
 GWIKIPUB_PLUGINS=$DESKTOP_PLUGINS
 
 # gwiki-style-ProjectForge 
-DEPLOYCMD="clean install"
-INSTALLCMD="clean install -o"
+DEPLOYCMD="install"
+INSTALLCMD="install"
 COPYPLUGINS=true
 COMPILE=true
-STARTSTANDALONE=true
+STARTSTANDALONE=false
 
 if [ $COMPILE == 'true' ]
 then
