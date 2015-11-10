@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+		<property name="elementType" value="gwiki" />
+		<property name="cachable" value="false"/>
+		<!--  1 Hour -->
+		<property name="elementLifeTime" value="3600000" />
+    <property name="contentType" value="html/text"/>
+		
+    
+		<!--  no controlerId -->
+		<!--  no controlerClass -->
+		<property name="parts">
+			<map>
+				<entry key="Controler">
+					<bean class="de.micromata.genome.gwiki.page.impl.GWikiActionBeanArtefakt">
+						<property name="beanClassName"
+							value="de.micromata.genome.gwiki.plugin.rogmp3_1_0.RogMp3ActionBean" />
+						<property name="forward">
+							<bean
+								class="de.micromata.genome.gwiki.page.impl.GWikiDelegateToPageExecutableArtefakt">
+								<property name="pageId" value="inc/rogmp3template" />
+								<property name="parts">
+									<map>
+										<entry key="MainPage">
+											<bean
+												class="de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt" />
+										</entry>
+									</map>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<property name="addPropsDescriptor">
+			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor">
+				<property name="descriptors">
+					<list>
+						<bean
+							class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+							<property name="key" value="DBPath" />
+              <property name="label" value="DB CSV directory path" />
+              <property name="type" value="STRING" />
+						</bean>
+              <bean
+              class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+              <property name="key" value="MP3Root" />
+              <property name="label" value="Root of the mp3 files" />
+              <property name="type" value="STRING" />
+            </bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
