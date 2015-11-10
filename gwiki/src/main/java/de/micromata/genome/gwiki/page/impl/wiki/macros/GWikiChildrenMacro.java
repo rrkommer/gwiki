@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     GWikiElementInfo ei = ctx.getCurrentElement().getElementInfo();
     String pageId = page;
     if (StringUtils.equals(page, "GWIKI_WELCOME_PAGE") == true) {
-      pageId = ctx.getWikiWeb().getWikiConfig().getWelcomePageId();
+      pageId = ctx.getWikiWeb().getWelcomePageId(ctx);
     }
     if (StringUtils.isEmpty(pageId) == false) {
       ei = ctx.getWikiWeb().findElementInfo(pageId);
@@ -305,7 +305,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
   public static void renderSitemap(GWikiContext wikiContext, String rootId, String defaultChageFreq)
   {
     if (StringUtils.isEmpty(rootId) == true) {
-      rootId = wikiContext.getWikiWeb().getWikiConfig().getWelcomePageId();
+      rootId = wikiContext.getWikiWeb().getWelcomePageId(wikiContext);
     }
     GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(rootId);
     if (ei != null) {

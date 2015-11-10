@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,24 +33,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.bradmcevoy.http.CompressingResponseHandler;
-import com.bradmcevoy.http.DefaultResponseHandler;
-import com.bradmcevoy.http.HttpManager;
-import com.bradmcevoy.http.Request;
-import com.bradmcevoy.http.ResponseHandler;
-import com.bradmcevoy.http.ServletRequest;
-
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiLog;
-import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
 import de.micromata.genome.gwiki.utils.ClassUtils;
-import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
-import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
 
@@ -70,10 +59,7 @@ public class GWikiServlet extends HttpServlet
    */
   private GWikiDAOContext daoContext;
 
-  /**
-   * WebDAV
-   */
-  private HttpManager httpManager;
+  private GWikiDavServer davServer;
 
   public static GWikiServlet INSTANCE;
 
@@ -266,38 +252,8 @@ public class GWikiServlet extends HttpServlet
 
     byte[] data = IOUtils.toByteArray(is);
     IOUtils.closeQuietly(is);
-    resp.setContentLength((int) data.length);
+    resp.setContentLength(data.length);
     IOUtils.write(data, resp.getOutputStream());
-  }
-
-  public synchronized HttpManager getHttpManager(HttpServletRequest req)
-  {
-    if (httpManager != null)
-      return httpManager;
-
-    GWikiStorage wkStorage = GWikiServlet.INSTANCE.getDAOContext().getStorage();
-    FileSystem storage = null;
-    if (wkStorage instanceof GWikiFileStorage) {
-      storage = ((GWikiFileStorage) wkStorage).getStorage();
-    } else {
-      throw new RuntimeException("GWiki not found or has no compatible storage");
-    }
-    String cpath = req.getContextPath();
-    String servPath = req.getServletPath();
-    // String pi = req.getPathInfo();
-    String prefix = cpath + servPath + "/dav/";
-    ResponseHandler responseHandler = new CompressingResponseHandler(new DefaultResponseHandler());
-    FsDavResourceFactory fsfac = new FsDavResourceFactory(storage, prefix);
-    fsfac.setInternalUserName(daoContext.getWebDavUserName());
-    fsfac.setInternalPass(daoContext.getWebDavPasswordHash());
-    boolean wordHtmlEdit = false;
-    fsfac.setWordHtmlEdit(wordHtmlEdit);
-    if (wordHtmlEdit == true) {
-      httpManager = new HttpManager(new FsDavOfficeResourceFactory(getWikiWeb(), fsfac), responseHandler);
-    } else {
-      httpManager = new HttpManager(fsfac, responseHandler);
-    }
-    return httpManager;
   }
 
   protected void serveWebDav(GWikiContext ctx) throws ServletException, IOException
@@ -306,9 +262,12 @@ public class GWikiServlet extends HttpServlet
       ctx.getResponse().sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "GWiki webdav not enabled");
       return;
     }
-    Request request = new ServletRequest(ctx.getRequest());
-    LogServletResponse response = new LogServletResponse(ctx.getResponse());
-    getHttpManager(ctx.getRequest()).process(request, response);
+    if (davServer == null) {
+      davServer = new GWikiDavServer();
+    }
+    if (davServer != null) {
+      davServer.serve(getWikiWeb(), daoContext, ctx);
+    }
   }
 
   public GWikiDAOContext getDAOContext()

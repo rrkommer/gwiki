@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -93,11 +93,10 @@ public class GlobalIndexFile implements GWikiPropKeys
       el = createElement(ctx);
     }
     StringBuilder sb = new StringBuilder();
-    IndexTextFilesContentSearcher searcher = new IndexTextFilesContentSearcher();
     for (GWikiElementInfo ei : elements) {
       String pageId = ei.getId();
       String indexFile = pageId + "TextIndex.txt";
-      String content = searcher.readFileContent(ctx, indexFile);
+      String content = IndexTextFilesContentSearcher.readFileContent(ctx, indexFile);
       if (StringUtils.isNotEmpty(content) == true) {
         sb.append("<").append(pageId).append("\n");
         sb.append(content);

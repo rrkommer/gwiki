@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -60,6 +60,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   {
     String queryS = "PROP:PAGEID like \"admin/config/*\" and NOT (PROP:PAGEID like \"admin/config*/*\") and PROP:PAGEID like \"*Config\" ";
     SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getElementInfos(), wikiContext.getWikiWeb().getElementInfoCount());
+    query.setFindUnindexed(true);
     QueryResult result = wikiContext.getWikiWeb().getDaoContext().getContentSearcher().search(wikiContext, query);
     for (SearchResult sr : result.getResults()) {
       String pid = sr.getPageId();
@@ -79,6 +80,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
     }
     Collections.sort(editors.getEntries(), new Comparator<Map.Entry<String, GWikiEditorArtefakt< ? >>>() {
 
+      @Override
       public int compare(Entry<String, GWikiEditorArtefakt< ? >> o1, Entry<String, GWikiEditorArtefakt< ? >> o2)
       {
         int cmp = o1.getKey().compareTo(o2.getKey());
@@ -108,6 +110,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
     }
   }
 
+  @Override
   public Object onInit()
   {
     if (init() == false) {
@@ -139,7 +142,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
         continue;
       }
       String partName = FileNameUtils.getNamePart(pid);
-      GWikiEditorArtefakt< ? > ped = (GWikiEditorArtefakt< ? >) editors.get(partName);
+      GWikiEditorArtefakt< ? > ped = editors.get(partName);
       if (ped == null) {
         continue;
       }

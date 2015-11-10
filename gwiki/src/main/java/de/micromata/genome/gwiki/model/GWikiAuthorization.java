@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -139,6 +139,14 @@ public interface GWikiAuthorization
   public void ensureAllowTo(GWikiContext ctx, String right);
 
   /**
+   * return true if current user is anon user.
+   * 
+   * @param ctx
+   * @return
+   */
+  public boolean isCurrentAnonUser(GWikiContext ctx);
+
+  /**
    * Return the user name of current logged in user.
    * 
    * Non-Logged In user may return "anon"
@@ -244,4 +252,11 @@ public interface GWikiAuthorization
    * @param wikiContext
    */
   void clearThread(GWikiContext wikiContext);
+
+  /**
+   * Something on user storage has changed and the current user has to be reloaded.
+   * 
+   * @param wikiContext
+   */
+  void reloadUser(GWikiContext wikiContext);
 }

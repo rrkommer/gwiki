@@ -1,3 +1,21 @@
+////////////////////////////////////////////////////////////////////////////
+// 
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // $RCSfile: SchedulerDO.java,v $
@@ -29,152 +47,152 @@ import de.micromata.genome.gwiki.chronos.State;
  */
 public class SchedulerDO extends StdRecordDO
 {
-	/**
+  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 5051649161102115041L;
+  private static final long serialVersionUID = 5051649161102115041L;
 
-	public static final long UNSAVED_SCHEDULER_ID = -1;
+  public static final long UNSAVED_SCHEDULER_ID = -1;
 
-	private String name;
+  private String name;
 
-	private String hostName;
+  private String hostName;
 
-	private int threadPoolSize = 1;
+  private int threadPoolSize = 1;
 
-	private int serviceRetryTime = 60000;
+  private int serviceRetryTime = 60000;
 
-	private int jobRetryTime  = 30000;
+  private int jobRetryTime = 30000;
 
-	private int jobMaxRetryCount = 2;
+  private int jobMaxRetryCount = 2;
 
-	private int nodeBindingTimeout = 0;
+  private int nodeBindingTimeout = 0;
 
-	private State state;
+  private State state;
 
-	public SchedulerDO()
-	{
-		pk = UNSAVED_SCHEDULER_ID;
-	}
+  public SchedulerDO()
+  {
+    pk = UNSAVED_SCHEDULER_ID;
+  }
 
-	public SchedulerDO(SchedulerDO o)
-	{
-		super(o);
-		this.pk = o.pk;
-		this.name = o.name;
-		this.hostName = o.hostName;
-		this.threadPoolSize = o.threadPoolSize;
-		this.serviceRetryTime = o.serviceRetryTime;
-		this.jobRetryTime = o.jobRetryTime;
-		this.jobMaxRetryCount = o.jobMaxRetryCount;
-		this.nodeBindingTimeout = o.nodeBindingTimeout;
-		this.state = o.state;
-	}
+  public SchedulerDO(SchedulerDO o)
+  {
+    super(o);
+    this.pk = o.pk;
+    this.name = o.name;
+    this.hostName = o.hostName;
+    this.threadPoolSize = o.threadPoolSize;
+    this.serviceRetryTime = o.serviceRetryTime;
+    this.jobRetryTime = o.jobRetryTime;
+    this.jobMaxRetryCount = o.jobMaxRetryCount;
+    this.nodeBindingTimeout = o.nodeBindingTimeout;
+    this.state = o.state;
+  }
 
-	// private
-	@Override
-	public boolean equals(final Object obj)
-	{
-		if (obj instanceof SchedulerDO) {
-			final SchedulerDO other = (SchedulerDO) obj;
-			return other.getPk() == getPk();
-		}
-		return false;
-	}
+  // private
+  @Override
+  public boolean equals(final Object obj)
+  {
+    if (obj instanceof SchedulerDO) {
+      final SchedulerDO other = (SchedulerDO) obj;
+      return other.getPk() == getPk();
+    }
+    return false;
+  }
 
-	public String getName()
-	{
-		return name;
-	}
+  public String getName()
+  {
+    return name;
+  }
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+  public void setName(String name)
+  {
+    this.name = name;
+  }
 
-	public State getState()
-	{
-		return state;
-	}
+  public State getState()
+  {
+    return state;
+  }
 
-	@Override
-	public int hashCode()
-	{
-		return getPk().intValue();
-	}
+  @Override
+  public int hashCode()
+  {
+    return getPk().intValue();
+  }
 
-	public String getHostName()
-	{
-		return hostName;
-	}
+  public String getHostName()
+  {
+    return hostName;
+  }
 
-	public void setHostName(final String hostName)
-	{
-		this.hostName = hostName;
-	}
+  public void setHostName(final String hostName)
+  {
+    this.hostName = hostName;
+  }
 
-	public int getThreadPoolSize()
-	{
-		return threadPoolSize;
-	}
+  public int getThreadPoolSize()
+  {
+    return threadPoolSize;
+  }
 
-	public void setThreadPoolSize(final int threadPoolSize)
-	{
-		this.threadPoolSize = threadPoolSize;
-		// if (threadPoolSize == 0) {
-			// int i = 0;
-		// }
-	}
+  public void setThreadPoolSize(final int threadPoolSize)
+  {
+    this.threadPoolSize = threadPoolSize;
+    // if (threadPoolSize == 0) {
+    // int i = 0;
+    // }
+  }
 
-	public int getServiceRetryTime()
-	{
-		return this.serviceRetryTime;
-	}
+  public int getServiceRetryTime()
+  {
+    return this.serviceRetryTime;
+  }
 
-	public void setServiceRetryTime(final int serviceRetryTime)
-	{
-		this.serviceRetryTime = serviceRetryTime;
-	}
+  public void setServiceRetryTime(final int serviceRetryTime)
+  {
+    this.serviceRetryTime = serviceRetryTime;
+  }
 
-	public int getJobRetryTime()
-	{
-		return this.jobRetryTime;
-	}
+  public int getJobRetryTime()
+  {
+    return this.jobRetryTime;
+  }
 
-	public void setJobRetryTime(final int jobRetryTime)
-	{
-		this.jobRetryTime = jobRetryTime;
-	}
+  public void setJobRetryTime(final int jobRetryTime)
+  {
+    this.jobRetryTime = jobRetryTime;
+  }
 
-	public void setState(State state)
-	{
-		this.state = state;
-	}
+  public void setState(State state)
+  {
+    this.state = state;
+  }
 
-	public int getJobMaxRetryCount()
-	{
-		return jobMaxRetryCount;
-	}
+  public int getJobMaxRetryCount()
+  {
+    return jobMaxRetryCount;
+  }
 
-	public void setJobMaxRetryCount(int jobMaxRetryCount)
-	{
-		this.jobMaxRetryCount = jobMaxRetryCount;
-	}
+  public void setJobMaxRetryCount(int jobMaxRetryCount)
+  {
+    this.jobMaxRetryCount = jobMaxRetryCount;
+  }
 
-	@Override
-	public String toString()
-	{
-		return ReflectionToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, false, SchedulerDO.class);
-	}
+  @Override
+  public String toString()
+  {
+    return ReflectionToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, false, SchedulerDO.class);
+  }
 
-	public int getNodeBindingTimeout()
-	{
-		return nodeBindingTimeout;
-	}
+  public int getNodeBindingTimeout()
+  {
+    return nodeBindingTimeout;
+  }
 
-	public void setNodeBindingTimeout(int nodeBindingTimeout)
-	{
-		this.nodeBindingTimeout = nodeBindingTimeout;
-	}
+  public void setNodeBindingTimeout(int nodeBindingTimeout)
+  {
+    this.nodeBindingTimeout = nodeBindingTimeout;
+  }
 
 }

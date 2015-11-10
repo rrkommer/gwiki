@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,7 @@ public class GWikiMessageTag extends MessageTag
    */
   private String deco = "true";
 
+  @SuppressWarnings("unchecked")
   public static void addI18NDomMap(PageContext pageContext, String messageKey, String domId)
   {
     Map<String, String> m = (Map<String, String>) pageContext.getRequest().getAttribute(GWIKI_MESSAGE_KEYM);
@@ -60,6 +61,7 @@ public class GWikiMessageTag extends MessageTag
     m.put(messageKey, domId);
   }
 
+  @SuppressWarnings("unchecked")
   public static String getDomId4I18N(HttpServletRequest req, String key)
   {
     Map<String, String> m = (Map<String, String>) req.getAttribute(GWIKI_MESSAGE_KEYM);
@@ -69,6 +71,7 @@ public class GWikiMessageTag extends MessageTag
     return m.get(key);
   }
 
+  @SuppressWarnings("unchecked")
   public static void renderPatchDom(PageContext pageContext) throws JspException
   {
     Object l = pageContext.getAttribute(GWIKI_MESSAGE_ATTR);
@@ -100,6 +103,7 @@ public class GWikiMessageTag extends MessageTag
 
   }
 
+  @SuppressWarnings("unchecked")
   protected void addToTagList()
   {
     Object l = pageContext.getAttribute(GWIKI_MESSAGE_ATTR);

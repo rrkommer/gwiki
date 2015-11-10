@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
+import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
@@ -37,7 +37,7 @@ public class GWikiControlActionBean extends ActionBeanBase
 
   private void initialize()
   {
-    singleUser = new GWikiSimpleUser(GWikiSimpleUserAuthorization.getSingleUser(wikiContext));
+    // singleUser = new GWikiSimpleUser(GWikiSimpleUserAuthorization.getSingleUser(wikiContext));
     authRightsRule = singleUser.getRightsMatcherRule();
   }
 

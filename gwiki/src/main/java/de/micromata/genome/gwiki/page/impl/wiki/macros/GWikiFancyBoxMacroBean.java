@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
   private static final String[] NON_FANCYBOX_OPTIONS = new String[] { "href", "title"};
 
   private static final String[] INT_FANCYBOX_OPTIONS = new String[] { "width", "height", "padding", "margin", "overlayOpacity", "speedIn",
-      "changeSpeed"};
+      "changeSpeed", "autoDimensions", "fitToView", "autoSize"};
 
   private String href;
 

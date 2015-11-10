@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,18 @@ package de.micromata.genome.gwiki.page.impl.actionbean;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class CommonMutipartRequestHandler
 {
+  boolean hasAnyFileItems(CommonMultipartRequest req)
+  {
+    return false;
+  }
+
   @SuppressWarnings({ "unchecked"})
   public static void handleMultiPartRequest(GWikiContext ctx)
   {
@@ -35,8 +40,9 @@ public class CommonMutipartRequestHandler
     if (ServletFileUpload.isMultipartContent(ctx.getRequest()) == false) {
       return;
     }
+
     try {
-      ServletFileUpload sfc = new ServletFileUpload(new DiskFileItemFactory());
+      ServletFileUpload sfc = new ServletFileUpload(ctx.getWikiWeb().getDaoContext().getFileItemFactory());
       List<FileItem> files = (List<FileItem>) sfc.parseRequest(ctx.getRequest());
       CommonMultipartRequest req = new CommonMultipartRequest(ctx.getRequest());
       for (FileItem fi : files) {
@@ -48,6 +54,7 @@ public class CommonMutipartRequestHandler
       }
       ctx.setRequest(req);
     } catch (Exception ex) {
+      GWikiLog.warn("Failed to upload file: " + ex.getMessage(), ex);
       ctx.addSimpleValidationError("Failed to upload: " + ex.getMessage());
     }
   }

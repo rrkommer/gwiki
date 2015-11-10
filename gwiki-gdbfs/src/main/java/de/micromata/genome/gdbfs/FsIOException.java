@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 
 package de.micromata.genome.gdbfs;
 
-import java.io.IOException;
 
 /**
  * Exception thrown by FileSystem.
@@ -36,12 +35,12 @@ public class FsIOException extends FsException
     super();
   }
 
-  public FsIOException(IOException cause)
+  public FsIOException(Exception cause)
   {
     super(cause);
   }
 
-  public FsIOException(String message, IOException cause)
+  public FsIOException(String message, Exception cause)
   {
     super(message, cause);
   }

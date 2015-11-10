@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,6 +86,7 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
    * 
    * @see de.micromata.genome.gwiki.model.GWikiMenuProvider#getAdminMenu()
    */
+  @SuppressWarnings("deprecation")
   public GWikiMenu getAdminMenu(GWikiContext wikiContext)
   {
     if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false
@@ -138,8 +139,11 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
   public GWikiMenu getUserMenu(GWikiContext wikiContext)
   {
     GWikiMenu menu = new GWikiMenu();
+
     menu.setIconMedium(wikiContext.localUrl("/inc/gwiki/img/icons/user16.png"));
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_VIEWPAGES.name()) == false) {
+
+    if (wikiContext.getWikiWeb().getAuthorization().isCurrentAnonUser(wikiContext) == true
+        || wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_VIEWPAGES.name()) == false) {
       menu.setLabel("Login");
       menu.setUrl(wikiContext.localUrl("/admin/Login"));
       return menu;

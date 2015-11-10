@@ -1,3 +1,21 @@
+////////////////////////////////////////////////////////////////////////////
+// 
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+////////////////////////////////////////////////////////////////////////////
+
 package de.micromata.genome.util.types;
 
 import java.io.IOException;
@@ -28,7 +46,7 @@ public class ClassLoaderUtils
    * @param resourceName The name of the resource to load
    * @param callingClass The Class object of the calling object
    */
-  public static URL getResource(String resourceName, Class<?> callingClass)
+  public static URL getResource(String resourceName, Class< ? > callingClass)
   {
     URL url = Thread.currentThread().getContextClassLoader().getResource(resourceName);
 
@@ -59,7 +77,7 @@ public class ClassLoaderUtils
    * @param resourceName The name of the resource to load
    * @param callingClass The Class object of the calling object
    */
-  public static InputStream getResourceAsStream(String resourceName, Class<?> callingClass)
+  public static InputStream getResourceAsStream(String resourceName, Class< ? > callingClass)
   {
     URL url = getResource(resourceName, callingClass);
 
@@ -85,7 +103,7 @@ public class ClassLoaderUtils
    * @param callingClass The Class object of the calling object
    * @throws ClassNotFoundException If the class cannot be found anywhere.
    */
-  public static Class<?> loadClass(String className, Class<?> callingClass) throws ClassNotFoundException
+  public static Class< ? > loadClass(String className, Class< ? > callingClass) throws ClassNotFoundException
   {
     try {
       return Thread.currentThread().getContextClassLoader().loadClass(className);

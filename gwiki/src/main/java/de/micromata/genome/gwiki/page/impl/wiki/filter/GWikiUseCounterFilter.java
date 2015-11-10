@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class GWikiUseCounterFilter implements GWikiServeElementFilter
 
   private static Map<String, Integer> useCounterMap = new HashMap<String, Integer>();
 
-  private static long fetchTimeout = TimeInMillis.SECOND * 10;
+  private static long fetchTimeout = TimeInMillis.SECOND * 60;
 
   private static long lastFetchTime = 0;
 

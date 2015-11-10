@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ import org.apache.taglibs.standard.tag.common.core.ParamSupport;
 import org.apache.taglibs.standard.tag.common.core.Util;
 
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiContextUtils;
 
 /**
@@ -115,6 +116,7 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
   // Collaboration with subtags
 
   // inherit Javadoc
+  @Override
   public void addParameter(String name, String value)
   {
     params.addParameter(name, value);
@@ -124,6 +126,7 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
   // Tag logic
 
   // resets any parameters that might be sent
+  @Override
   public int doStartTag() throws JspException
   {
     params = new ParamSupport.ParamManager();
@@ -131,6 +134,7 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
   }
 
   // gets the right value, encodes it, and prints or stores it
+  @Override
   public int doEndTag() throws JspException
   {
     String result; // the eventual result
@@ -146,9 +150,9 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
     }
 
     // store or print the output
-    if (var != null)
+    if (var != null) {
       pageContext.setAttribute(var, result, scope);
-    else {
+    } else {
       try {
         pageContext.getOut().print(result);
       } catch (java.io.IOException ex) {
@@ -160,6 +164,7 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
   }
 
   // Releases any resources we may have (or inherit)
+  @Override
   public void release()
   {
     init();
@@ -180,8 +185,14 @@ public class GWikiUrlTag extends BodyTagSupport implements ParamParent
       return "";
     }
     url = GWikiContextUtils.resolveSkinLink(url);
-    // GWikiContext wikiContext = GWikiContext.getCurrent();
-    final String servletPath = GWikiWeb.get().getServletPath();
+    GWikiContext wikiContext = GWikiContext.getCurrent();
+    final String servletPath;
+    if (wikiContext != null && wikiContext.getWikiWeb() != null) {
+      servletPath = GWikiContext.getCurrent().getWikiWeb().getServletPath();
+    } else {
+      servletPath = GWikiWeb.get().getServletPath();
+    }
+
     // normalize relative URLs against a context root
     HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
     if (context == null) {

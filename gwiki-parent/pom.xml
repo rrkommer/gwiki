@@ -4,7 +4,7 @@
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-parent</artifactId>
   <name>gwiki</name>
-  <version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
+  <version>1.0.2</version><!-- GWIKVERSION -->
   <description>GWiki is a Wiki plattform for CMS and creating CMS based web plattforms.
 							 The gwiki-parent is just the parent pom.</description>
   <packaging>pom</packaging>
@@ -19,6 +19,9 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <gwiki-gdbfs.version>1.0.2</gwiki-gdbfs.version>
+    <gwiki-genome-dependencies.version>1.0.2</gwiki-genome-dependencies.version>
+    <gwiki.version>1.0.2</gwiki.version><!-- GWIKVERSION -->
   </properties>
 
   <profiles>
@@ -136,17 +139,23 @@
 	<!-- -->
   <repositories>
     <repository>
-      <id>micromata_labs</id>
-      <url>http://labs.micromata.de/nexus/content/groups/public/</url>
+      <id>gwiki-deploy</id>
+      <name>gwiki-deploy</name>
+      <url>http://artefaktur.com/maven/</url>
+    </repository>
+    <repository>
+      <!--  vor maven plugins -->
+      <id>orig-apache</id>
+      <url>http://repo.maven.apache.org/maven2/</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>ettrema</id>
-      <url>http://www.ettrema.com/maven2/</url>
+      <id>central</id>
+      <url>http://repo.maven.apache.org/maven2</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -154,7 +163,7 @@
 
 
   </pluginRepositories>
-
+  <!--  repo is dead 
   <distributionManagement>
     <repository>
       <id>labs.micromata.de-releases</id>
@@ -169,7 +178,21 @@
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
-
+  -->
+  <distributionManagement>
+    <repository>
+      <id>gwiki-releases</id>
+      <name>gwiki-releases</name>
+      <url>http://artefaktur.com/maven/
+      </url>
+    </repository>
+    <snapshotRepository>
+      <id>gwiki-snapshots</id>
+      <name>gwiki-snapshots</name>
+      <url>http://artefaktur.com/maven/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
   <scm>
     <connection>
 			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-parent

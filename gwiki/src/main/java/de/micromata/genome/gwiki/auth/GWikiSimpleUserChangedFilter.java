@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,13 +18,10 @@
 
 package de.micromata.genome.gwiki.auth;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiPageChangedFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 
 /**
  * Filter to change current user lookalike.
@@ -38,26 +35,27 @@ public class GWikiSimpleUserChangedFilter implements GWikiPageChangedFilter
   public Void filter(GWikiFilterChain<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter> chain, GWikiPageChangedFilterEvent event)
   {
     final GWikiContext wikiContext = event.getWikiContext();
-    if (wikiContext == null
-        || event.getNewInfo() == null
-        || event.getNewInfo().getMetaTemplate() == null
-        || StringUtils.equals(event.getNewInfo().getMetaTemplate().getPageId(), "admin/templates/intern/WikiUserMetaTemplate") == false) {
-      return chain.nextFilter(event);
-    }
-    GWikiSimpleUser su = GWikiSimpleUserAuthorization.getSingleUser(wikiContext);
-    if (su == null) {
-      return chain.nextFilter(event);
-    }
-    String id = event.getNewInfo().getId();
-    String user = su.getUser();
-    if (id.endsWith("/" + user) == false) {
-      return chain.nextFilter(event);
-    }
-    GWikiSimpleUser nus = new GWikiUserAuthorization().findUser(wikiContext, user);
-    if (nus == null) {
-      return chain.nextFilter(event);
-    }
-    GWikiSimpleUserAuthorization.setSingleUser(wikiContext, nus);
+    wikiContext.getWikiWeb().getAuthorization().reloadUser(wikiContext);
+    // if (wikiContext == null
+    // || event.getNewInfo() == null
+    // || event.getNewInfo().getMetaTemplate() == null
+    // || StringUtils.equals(event.getNewInfo().getMetaTemplate().getPageId(), "admin/templates/intern/WikiUserMetaTemplate") == false) {
+    // return chain.nextFilter(event);
+    // }
+    // GWikiSimpleUser su = GWikiSimpleUserAuthorization.getSingleUser(wikiContext);
+    // if (su == null) {
+    // return chain.nextFilter(event);
+    // }
+    // String id = event.getNewInfo().getId();
+    // String user = su.getUser();
+    // if (id.endsWith("/" + user) == false) {
+    // return chain.nextFilter(event);
+    // }
+    // GWikiSimpleUser nus = new GWikiUserAuthorization().findUser(wikiContext, user);
+    // if (nus == null) {
+    // return chain.nextFilter(event);
+    // }
+    // GWikiSimpleUserAuthorization.setSingleUser(wikiContext, nus);
     return chain.nextFilter(event);
   }
 }

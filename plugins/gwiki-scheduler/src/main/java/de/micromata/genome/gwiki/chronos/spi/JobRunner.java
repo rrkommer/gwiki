@@ -1,10 +1,28 @@
+////////////////////////////////////////////////////////////////////////////
+// 
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // $RCSfile: JobRunner.java,v $
 //
 // Project   genome
 //
-// Author    Wolfgang Jung (w.jung@micromata.de)
+// Author    Roger Rene Kommer, Wolfgang Jung (w.jung@micromata.de)
 // Created   03.01.2007
 // Copyright Micromata 03.01.2007
 //
@@ -161,9 +179,9 @@ public class JobRunner implements Runnable
         state = "JobAbortException";
 
         /**
-         *@logging
-         *@reason
-         *@action
+         * @logging
+         * @reason
+         * @action
          */
         GLog.warn(GenomeLogCategory.Scheduler, "JobRunner abort: " + ex, ex);// , new LogJobEventAttribute(event));
         handleFailure(resultInfo, ex);
@@ -233,7 +251,7 @@ public class JobRunner implements Runnable
       /**
        * @logging
        * @reason
-       *@action
+       * @action
        */
       GLog.trace(GenomeLogCategory.Scheduler, "Failed job", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
           State.STOP, scheduler)));
@@ -348,8 +366,8 @@ public class JobRunner implements Runnable
       job.setState(State.FINISHED);
     jobStore.jobCompleted(job, resultInfo, result, scheduler, nextRun);
     if (traceEnabled == true) {
-      GLog.trace(GenomeLogCategory.Scheduler, "Job updated and finished", new LogJobEventAttribute(new JobEventImpl(job, job
-          .getJobDefinition(), null, State.FINISHED, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Job updated and finished",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null, State.FINISHED, scheduler)));
     }
   }
 

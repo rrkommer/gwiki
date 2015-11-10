@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,9 +38,17 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
 {
   protected ServletConfig servletConfig;
 
+  private boolean supportsJndi = true;
+
   public GWikiDAOContextPropertyPlaceholderConfigurer(ServletConfig servletConfig)
   {
     this.servletConfig = servletConfig;
+  }
+
+  public GWikiDAOContextPropertyPlaceholderConfigurer(ServletConfig servletConfig, boolean supportsJndi)
+  {
+    this.servletConfig = servletConfig;
+    this.supportsJndi = supportsJndi;
   }
 
   public GWikiDAOContextPropertyPlaceholderConfigurer()
@@ -50,6 +58,9 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
 
   protected String resolveByJndi(String key)
   {
+    if (supportsJndi == false) {
+      return null;
+    }
     try {
       InitialContext ctx = new InitialContext();
       Object val = ctx.lookup(key);
@@ -57,9 +68,16 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
         return (String) val;
       }
       return null;
+    } catch (NoClassDefFoundError ex) {
+      supportsJndi = false;
+      return null;
     } catch (NamingException e) {
       return null;
+    } catch (Throwable ex) {
+      supportsJndi = false;
+      return null;
     }
+
   }
 
   protected String resolveByServletConfig(String key)
@@ -128,5 +146,15 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
   public String resolve(String placeholder)
   {
     return resolvePlaceholder(placeholder, null);
+  }
+
+  public boolean isSupportsJndi()
+  {
+    return supportsJndi;
+  }
+
+  public void setSupportsJndi(boolean supportsJndi)
+  {
+    this.supportsJndi = supportsJndi;
   }
 }

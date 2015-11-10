@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,6 +50,7 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
       sendEmailImpl(ctx);
       GWikiLog.note("Send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
     } catch (MessagingException ex) {
+      ctx.put(SENDEMAILFAILED, ex.getMessage());
       GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage, ctx.toString());
     }
   }

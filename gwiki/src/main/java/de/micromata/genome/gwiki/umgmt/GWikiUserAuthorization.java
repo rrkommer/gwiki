@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Converter;
 
 /**
- * User authorization.
+ * User authorization. Elements are store inside admin/users/
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
@@ -105,7 +105,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     if (su == null) {
       return true;
     }
-    return su.getUser().equals("anon") == true;
+    return su.isAnon();
 
   }
 
@@ -140,6 +140,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     String rr = props.getStringValue(USER_PROP_RIGHTSRULE);
 
     GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD), props.getStringValue(USER_PROP_EMAIL), rr);
+    user.setDeactivated(props.getBooleanValue(USER_PROP_DEACTIVATED));
     user.setProps(props.getMap());
 
     GWikiRoleConfig rc = getRoleConfig(ctx);
@@ -204,12 +205,16 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     }
     GWikiElement el = findUserElement(ctx, user);
     if (el == null) {
-      return findFallbackUser(ctx, user);
+      return null;
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiProps props = (GWikiProps) ser;
     GWikiSimpleUser suser = createSimpleUser(el, ctx, props);
-    return suser;
+    if (suser != null) {
+      return suser;
+    }
+    return null;
+    // return findFallbackUser(ctx, user);
   }
 
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
@@ -219,9 +224,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     if (su == null) {
       throw new AuthorizationFailedException("User doesn't exits: " + user);
     }
-
     try {
-
       GWikiUserServeElementFilterEvent.setUser(su);
       return callback.call();
     } finally {
@@ -235,7 +238,10 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     if (su == null) {
       return false;
     }
-
+    if (su.isDeactivated() == true) {
+      GWikiLog.note("Deactivated user login attempt: " + user);
+      return false;
+    }
     String penc = encrypt(password);
     if (StringUtils.equals(su.getPassword(), penc) == false) {
       return false;

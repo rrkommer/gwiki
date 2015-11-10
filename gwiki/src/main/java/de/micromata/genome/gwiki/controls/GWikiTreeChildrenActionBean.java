@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -69,11 +69,11 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
       if (ei.getTitle().startsWith("I{") == true) {
         title = wikiContext.getTranslatedProp(title);
       }
-      
+
       if (StringUtils.isBlank(title)) {
         continue;
       }
-      
+
       if (wikiContext.getElementFinder().getAllDirectChilds(ei).size() > 0) {
         sb.append("<li class='jstree-closed' ");
       } else {
@@ -98,12 +98,12 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
 
       sb.append("\" style=\"cursor:pointer\">");
       sb.append(title);
-      
+
       if (StringUtils.isBlank(ei.getParentId())) {
         sb.append("<i style=\"color:grey\">");
         sb.append("(").append(ei.getId()).append(")</i>");
       }
-      
+
       sb.append("</a>");
       sb.append("</li>");
     }
@@ -112,22 +112,24 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
     wikiContext.flush();
     return noForward();
   }
-  
-  private List<GWikiElementInfo> getRootElements() {
-    GWikiElementPropMatcher rootPageMatcher = new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(null));
+
+  private List<GWikiElementInfo> getRootElements()
+  {
+    GWikiElementPropMatcher rootPageMatcher = new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(
+        null));
     final List<GWikiElement> rootPages = wikiContext.getElementFinder().getPages(rootPageMatcher);
     final List<GWikiElementInfo> validRootPages = new ArrayList<GWikiElementInfo>();
-    
+
     for (GWikiElement elem : rootPages) {
-      if (elem.getElementInfo().isIndexed() 
-          && elem.getElementInfo().isViewable() 
+      if (elem.getElementInfo().isIndexed()
+          && elem.getElementInfo().isViewable()
           && StringUtils.equals("gwiki", elem.getElementInfo().getType())
           && elem.getElementInfo().isNoToc() == false) {
-        
+
         validRootPages.add(elem.getElementInfo());
       }
     }
-    
+
     return validRootPages;
   }
 
@@ -145,7 +147,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
   public String getRootPage()
   {
     if (StringUtils.isBlank(rootPage)) {
-      rootPage = wikiContext.getWikiWeb().getWikiConfig().getWelcomePageId();
+      rootPage = wikiContext.getWikiWeb().getWelcomePageId(wikiContext);
     }
     return rootPage;
   }

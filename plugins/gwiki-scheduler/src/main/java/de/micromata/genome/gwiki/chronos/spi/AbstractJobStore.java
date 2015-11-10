@@ -1,3 +1,21 @@
+////////////////////////////////////////////////////////////////////////////
+// 
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Project   Micromata Genome Core
@@ -71,7 +89,6 @@ public abstract class AbstractJobStore implements JobStore
     return buildTriggerJob(scheduler, null, jobDefinition, info, trigger, hostName, state);
   }
 
-
   /**
    * Fügt den einen neuen Job für den Scheduler ein und persistiert ihn.
    * 
@@ -82,22 +99,19 @@ public abstract class AbstractJobStore implements JobStore
       final String hostName, State state)
   {
 
-    return submit(scheduler, null, jobDefinition, info, trigger, hostName,
-        state);
+    return submit(scheduler, null, jobDefinition, info, trigger, hostName, state);
   }
 
   /**
    * Fügt den einen neuen Job für den Scheduler ein und persistiert ihn.
    * 
-   * @see de.micromata.jchronos.JobStore#submit(de.micromata.jchronos.spi.
-   *      Scheduler de.micromata.jchronos.JobDefinition, java.lang.Object,
+   * @see de.micromata.jchronos.JobStore#submit(de.micromata.jchronos.spi. Scheduler de.micromata.jchronos.JobDefinition, java.lang.Object,
    *      de.micromata.jchronos.Trigger)
    */
-  public TriggerJobDO submit(final Scheduler scheduler, String jobName,
-      final JobDefinition jobDefinition, final Object info,
-      final Trigger trigger, final String hostName, State state) {
-    TriggerJobDO job = buildTriggerJob(scheduler, jobName, jobDefinition, info,
-        trigger, hostName, state);
+  public TriggerJobDO submit(final Scheduler scheduler, String jobName, final JobDefinition jobDefinition, final Object info,
+      final Trigger trigger, final String hostName, State state)
+  {
+    TriggerJobDO job = buildTriggerJob(scheduler, jobName, jobDefinition, info, trigger, hostName, state);
     insertJob(job);
     return job;
   }

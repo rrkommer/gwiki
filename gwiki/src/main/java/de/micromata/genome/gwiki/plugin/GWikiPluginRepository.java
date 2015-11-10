@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.TextSplitterUtils;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * Repository off all plugins.
@@ -151,6 +150,7 @@ public class GWikiPluginRepository
 
   private void loadPlugins(GWikiWeb wikiWeb, FileSystem fs)
   {
+    // TODO this loads also from temp file system.
     List<FsObject> fsObjects = fs.listFiles("", new BooleanListRulesFactory<String>().createMatcher("*.jar,*.zip"), 'F', false);
     for (FsObject fo : fsObjects) {
       byte[] data = fo.getFileSystem().readBinaryFile(fo.getName());
@@ -277,17 +277,17 @@ public class GWikiPluginRepository
     return wikiConfig.getActivePlugins().contains(name);
   }
 
-  /*
-   * @return first plugin name, second version condition.
-   */
-  private Pair<String, String> getPluginNameAndVersion(String pnn)
-  {
-    int idx = pnn.indexOf(':');
-    if (idx == -1) {
-      return Pair.make(pnn, "1.0");
-    }
-    return Pair.make(pnn.substring(0, idx), pnn.substring(idx + 1));
-  }
+  // /*
+  // * @return first plugin name, second version condition.
+  // */
+  // private Pair<String, String> getPluginNameAndVersion(String pnn)
+  // {
+  // int idx = pnn.indexOf(':');
+  // if (idx == -1) {
+  // return Pair.make(pnn, "1.0");
+  // }
+  // return Pair.make(pnn.substring(0, idx), pnn.substring(idx + 1));
+  // }
 
   private ClassLoader getActiveClassLoader(String pluginId)
   {
@@ -470,6 +470,7 @@ public class GWikiPluginRepository
     return parent;
   }
 
+  @SuppressWarnings("unchecked")
   public void getMacros(GWikiContext wikiContext, Map<String, GWikiMacroFactory> facs)
   {
     for (GWikiPlugin plugin : activePlugins) {

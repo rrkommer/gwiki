@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,6 +46,8 @@ public class GWikiSimpleUser implements Serializable
   public String password = "";
 
   public String email = "genome@micromata.de";
+
+  private boolean deactivated = false;
 
   private String rightsMatcherRule = "+*";
 
@@ -141,5 +143,15 @@ public class GWikiSimpleUser implements Serializable
   public void setProps(Map<String, String> props)
   {
     this.props = props;
+  }
+
+  public boolean isDeactivated()
+  {
+    return deactivated;
+  }
+
+  public void setDeactivated(boolean deactivated)
+  {
+    this.deactivated = deactivated;
   }
 }
