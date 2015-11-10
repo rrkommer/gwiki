@@ -99,11 +99,12 @@ public class SimServletContext implements ServletContext
     this.webDir = webDir;
     this.webDirFile = new File(webDir);
     if (webDirFile.exists() == false) {
-      throw new RuntimeException("SimServletContext; local web directory does not exists");
+      throw new RuntimeException(
+          "SimServletContext; local web directory does not exists: " + webDirFile.getAbsolutePath());
     }
   }
 
-  public void setServlet(Class< ? extends HttpServlet> servletClass, String servletName, Map<String, String> initParams)
+  public void setServlet(Class<? extends HttpServlet> servletClass, String servletName, Map<String, String> initParams)
   {
     try {
       SimServletConfig config = new SimServletConfig();
@@ -129,6 +130,7 @@ public class SimServletContext implements ServletContext
     this.webDir = webDir;
   }
 
+  @Override
   public InputStream getResourceAsStream(String name)
   {
     File f = new File(webDirFile, name);
@@ -147,6 +149,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
    */
+  @Override
   public Object getAttribute(String name)
   {
     return attributes.get(name);
@@ -157,7 +160,8 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getAttributeNames()
    */
-  @SuppressWarnings({ "unchecked", "rawtypes"})
+  @Override
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Enumeration getAttributeNames()
   {
     return new IteratorEnumeration(attributes.keySet().iterator());
@@ -168,6 +172,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getContext(java.lang.String)
    */
+  @Override
   public ServletContext getContext(String uripath)
   {
     if (uripath.startsWith("/" + this.contextName)) {
@@ -182,6 +187,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getContextPath()
    */
+  @Override
   public String getContextPath()
   {
     return contextName;
@@ -192,6 +198,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
    */
+  @Override
   public String getInitParameter(String name)
   {
     return initParameters.get(name);
@@ -202,7 +209,8 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getInitParameterNames()
    */
-  @SuppressWarnings({ "unchecked", "rawtypes"})
+  @Override
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Enumeration getInitParameterNames()
   {
     return new IteratorEnumeration(initParameters.keySet().iterator());
@@ -213,6 +221,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getMajorVersion()
    */
+  @Override
   public int getMajorVersion()
   {
     return 2;
@@ -223,6 +232,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
    */
+  @Override
   public String getMimeType(String file)
   {
     return null;
@@ -233,6 +243,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getMinorVersion()
    */
+  @Override
   public int getMinorVersion()
   {
     return 4;
@@ -243,6 +254,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getNamedDispatcher(java.lang.String)
    */
+  @Override
   public RequestDispatcher getNamedDispatcher(String name)
   {
     return new StandaloneRequestDispatcher(name);
@@ -253,6 +265,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getRealPath(java.lang.String)
    */
+  @Override
   public String getRealPath(String path)
   {
     return null;
@@ -263,6 +276,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getRequestDispatcher(java.lang.String)
    */
+  @Override
   public RequestDispatcher getRequestDispatcher(String path)
   {
     return new StandaloneRequestDispatcher(path);
@@ -273,6 +287,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getResource(java.lang.String)
    */
+  @Override
   public URL getResource(String path) throws MalformedURLException
   {
     return Thread.currentThread().getContextClassLoader().getResource(path);
@@ -283,6 +298,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
    */
+  @Override
   @SuppressWarnings("rawtypes")
   public Set getResourcePaths(String path)
   {
@@ -294,6 +310,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServerInfo()
    */
+  @Override
   public String getServerInfo()
   {
     return "Sim Servlet Environment, version 1.0.";
@@ -304,6 +321,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServlet(java.lang.String)
    */
+  @Override
   public Servlet getServlet(String name) throws ServletException
   {
     return null;
@@ -314,6 +332,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServletContextName()
    */
+  @Override
   public String getServletContextName()
   {
     return contextName;
@@ -324,7 +343,8 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServletNames()
    */
-  @SuppressWarnings({ "rawtypes"})
+  @Override
+  @SuppressWarnings({ "rawtypes" })
   public Enumeration getServletNames()
   {
     return Collections.enumeration(Collections.emptySet());
@@ -335,6 +355,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#getServlets()
    */
+  @Override
   @SuppressWarnings("rawtypes")
   public Enumeration getServlets()
   {
@@ -346,6 +367,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#log(java.lang.String)
    */
+  @Override
   public void log(String msg)
   {
     // System.out.println("MockServletContext: " + message);
@@ -358,6 +380,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
    */
+  @Override
   public void log(Exception exception, String msg)
   {
     // TODO Auto-generated method stub
@@ -369,6 +392,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
    */
+  @Override
   public void log(String message, Throwable throwable)
   {
     // TODO Auto-generated method stub
@@ -380,6 +404,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
    */
+  @Override
   public void removeAttribute(String name)
   {
     attributes.remove(name);
@@ -391,6 +416,7 @@ public class SimServletContext implements ServletContext
    * 
    * @see javax.servlet.ServletContext#setAttribute(java.lang.String, java.lang.Object)
    */
+  @Override
   public void setAttribute(String name, Object object)
   {
     attributes.put(name, object);
