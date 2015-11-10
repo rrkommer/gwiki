@@ -2,7 +2,7 @@ package de.micromata.genome.gwiki.plugin.rssfeed_1_0;
 
 ////////////////////////////////////////////////////////////////////////////
 // 
-// Copyright (C) 2010 Micromata GmbH
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

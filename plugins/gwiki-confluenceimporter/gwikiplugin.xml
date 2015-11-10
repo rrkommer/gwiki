@@ -10,5 +10,10 @@
 		<property name="author" value="Roger Rene Kommer"/>
 		<property name="license" value="Apache License, Version 2.0"/>
 		<property name="category" value="Import/Export"/>
+    <property name="requiredPlugins">
+      <list>
+        <value>dom4j:1.6.1</value>
+      </list>
+    </property>
 	</bean>
 </beans>

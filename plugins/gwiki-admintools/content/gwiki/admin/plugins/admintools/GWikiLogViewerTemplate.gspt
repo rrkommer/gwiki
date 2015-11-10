@@ -123,7 +123,7 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                     </c:if>
                     <c:if test="${row.ex != null}">
                     <a onclick="toggleVisibility('st${status.count}')">
-                    <img src="../inc/img/icon_error.gif" alt="Stacktrace"/></a>
+                    <img src="static/img/icon_error.gif" alt="Stacktrace"/></a>
                     </c:if>
                     </td>
 

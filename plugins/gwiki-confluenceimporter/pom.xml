@@ -4,11 +4,18 @@
   <parent>
     <artifactId>gwiki-plugin-parent</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
+    <version>1.0.2</version><!-- GWIKVERSION -->
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-confluenceimporter</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-confluenceimporter</name>
   <version>1.0.0</version><!-- PLUGINVERSION -->
+  <dependencies>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+  </dependencies>
 </project>
