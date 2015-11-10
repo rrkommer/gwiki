@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.micromata.genome.gwiki</groupId>
+   <artifactId>gwiki-plugins</artifactId>
+   <packaging>pom</packaging>
+   <version>1.0.2</version><!-- GWIKVERSION -->
+    <modules>
+		<module>gwiki-plugin-parent</module>
+		<module>gwiki-admintools</module>
+		<module>gwiki-blog</module>
+		<module>gwiki-confluenceimporter</module>
+		<module>gwiki-feed</module>
+		<module>gwiki-forum</module>
+		<module>gwiki-fssvn</module>
+		<module>gwiki-keywordsmarttags</module>
+		<module>gwiki-mp3extractor</module>
+		<module>gwiki-msotextextractor</module>
+		<module>gwiki-pagelifecycle</module>
+		<module>gwiki-pagetemplates</module>
+		<module>gwiki-pdftextextractor</module>
+		<module>gwiki-rte-myspell</module>
+		<module>gwiki-s5slideshow</module>
+		<module>gwiki-sampleplugin</module>
+		<module>gwiki-scheduler</module>
+		<module>gwiki-vfolder</module>
+		<module>gwiki-wikilinks</module>
+  </modules>
+  <distributionManagement>
+    <repository>
+      <id>labs.micromata.de-releases</id>
+      <name>labs.micromata.de-releases</name>
+      <url>https://labs.micromata.de/nexus/content/repositories/releases</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>labs.micromata.de-snapshots</id>
+      <name>labs.micromata.de-snapshots</name>
+      <url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
