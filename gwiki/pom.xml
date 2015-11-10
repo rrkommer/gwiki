@@ -3,14 +3,15 @@
 <!--  README
    Before use the install_to_local_rep.sh to install the required libraries to your local repository
  -->
-  <parent>
-    <artifactId>gwiki-parent</artifactId>
-    <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.2</version><!-- GWIKVERSION -->
-  </parent>
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>gwiki-root</artifactId>
+    <groupId>de.micromata.genome.gwiki</groupId>
+    <version>1.0.3</version><!-- GWIKVERSION -->
+    <relativePath>../pom.xml</relativePath>
+  </parent>
   <artifactId>gwiki</artifactId>
-  <version>${gwiki.version}</version>
+  <version>1.0.3</version><!-- GWIKVERSION -->
 
   <build>
     <plugins>
