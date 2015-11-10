@@ -9,7 +9,7 @@
 		<property name="requiredEditRight" value="GWIKI_ADMIN" />
 		<property name="elementType" value="gwiki" />
 		<!--
-			<property name="editHelpPageId" value="gwikidocs/help/GWikiConfig" />
+			<property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />
 		-->
 		<property name="parts">
 			<map>
@@ -27,7 +27,7 @@
 											<property name="defaultValue" value="60000" />
 											<property name="label" value="number of cached entries" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
+												value="gwikidocs/help/en/admin/GWikiConfig#LOGVIEWER_NUM_ENTRIES_TO_CACHE" />
 										</bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
@@ -36,7 +36,7 @@
 											<property name="defaultValue" value="INFO" />
 											<property name="label" value="minimum log level to cache" />
 											<property name="helpLink"
-												value="gwikidocs/help/GWikiAuthConfig#LOGVIEWER_LEVEL_THRESHOLD" />
+												value="gwikidocs/help/en/admin/GWikiConfig#LOGVIEWER_LEVEL_THRESHOLD" />
 										</bean>
 									</list>
 								</property>
