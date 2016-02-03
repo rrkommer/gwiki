@@ -21,8 +21,8 @@ package de.micromata.genome.gdbfs;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
 import de.micromata.genome.util.matcher.string.EndsWithMatcher;
+import junit.framework.TestCase;
 
 public abstract class FileSystemCase extends TestCase
 {
@@ -50,6 +50,7 @@ public abstract class FileSystemCase extends TestCase
 
   public void testMkDirs()
   {
+    fsys.erase();
     assertFalse(fsys.mkdir("mkdir/a/b"));
     assertTrue(fsys.mkdirs("mkdir/a/b"));
     assertTrue(fsys.mkdir("mkdir/a/b/c"));
@@ -69,6 +70,7 @@ public abstract class FileSystemCase extends TestCase
 
   public void testModTime()
   {
+    fsys.erase();
     assertTrue(fsys.mkdir("modTime"));
     String fname = "modTime/MyFile.txt";
     FsFileObject fo = new FsFileObject(fsys, fname, "text", 0);
@@ -91,7 +93,7 @@ public abstract class FileSystemCase extends TestCase
 
   public void testReadWrite()
   {
-
+    fsys.erase();
     fsys.mkdirs("unittests/testit");
     FsFileObject fo = new FsFileObject(fsys, "unittests/testit/MyFile.txt", "text", 0);
     String tstr = "Hallo das sind meine Daten";
@@ -142,10 +144,14 @@ public abstract class FileSystemCase extends TestCase
 
   public void testEvents()
   {
+    fsys.erase();
+    fsys.checkEvents(true);
     final List<FileSystemEvent> events = new ArrayList<FileSystemEvent>();
 
-    fsys.registerListener(null, new EndsWithMatcher<String>(".txt"), new FileSystemEventListener() {
+    fsys.registerListener(null, new EndsWithMatcher<String>(".txt"), new FileSystemEventListener()
+    {
 
+      @Override
       public void onFileSystemChanged(final FileSystemEvent event)
       {
         events.add(event);
@@ -201,13 +207,16 @@ public abstract class FileSystemCase extends TestCase
 
   public void testMatch()
   {
+    fsys.erase();
     createFiles(//
         "match/sub1/Test1.txt", //
         "match/sub1/Test2.txt", //
         "match/sub1/Test2.dat" //
     );
+
     assertEquals(0, fsys.listFilesByPattern("match", "*.dat", 'D', true).size());
     assertEquals(1, fsys.listFilesByPattern("match", "*.dat", 'F', true).size());
+    assertEquals(0, fsys.listFilesByPattern("match", "*.dat", 'F', false).size());
 
   }
 
