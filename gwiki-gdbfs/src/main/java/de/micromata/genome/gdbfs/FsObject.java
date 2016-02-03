@@ -20,7 +20,9 @@ package de.micromata.genome.gdbfs;
 
 import java.util.Date;
 
-import de.micromata.genome.dao.db.StdRecordDO;
+import javax.persistence.Transient;
+
+import de.micromata.genome.jpa.StdRecordDO;
 
 /**
  * Representing a file or a directory in the FileSystem.
@@ -28,7 +30,8 @@ import de.micromata.genome.dao.db.StdRecordDO;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class FsObject extends StdRecordDO implements Cloneable
+
+public class FsObject extends StdRecordDO<Long> implements Cloneable
 {
 
   private static final long serialVersionUID = -6003825859639182662L;
@@ -45,6 +48,11 @@ public class FsObject extends StdRecordDO implements Cloneable
 
   protected int length;
 
+  public FsObject()
+  {
+
+  }
+
   public FsObject(FileSystem fileSystem, String name, char type, String mimeType, long lastModified)
   {
     this.fileSystem = fileSystem;
@@ -56,13 +64,23 @@ public class FsObject extends StdRecordDO implements Cloneable
 
   public FsObject(FsObject other)
   {
-    super(other);
+    this.modifiedAt = other.modifiedAt;
+    this.createdAt = other.createdAt;
+    this.modifiedBy = other.modifiedBy;
+    this.updateCounter = other.updateCounter;
     this.fileSystem = other.fileSystem;
     this.name = other.name;
     this.type = other.type;
     this.mimeType = other.mimeType;
     this.length = other.length;
     this.attributes = other.attributes;
+  }
+
+  @Transient
+  @Override
+  public Long getPk()
+  {
+    return pk;
   }
 
   @Override
@@ -94,6 +112,7 @@ public class FsObject extends StdRecordDO implements Cloneable
     return name.substring(0, idx);
   }
 
+  @Override
   public String toString()
   {
     return name;

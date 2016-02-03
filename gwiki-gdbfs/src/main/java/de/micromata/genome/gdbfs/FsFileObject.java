@@ -20,8 +20,6 @@ package de.micromata.genome.gdbfs;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.util.web.MimeUtils;
-
 /**
  * Representing a File (not a directory) in the file system.
  * 
@@ -62,8 +60,9 @@ public class FsFileObject extends FsObject
         return false;
       }
     }
-    if (mime.startsWith("text/") == true)
+    if (mime.startsWith("text/") == true) {
       return true;
+    }
     return false;
   }
 
