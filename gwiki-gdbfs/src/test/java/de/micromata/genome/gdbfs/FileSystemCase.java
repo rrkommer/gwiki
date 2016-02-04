@@ -21,6 +21,8 @@ package de.micromata.genome.gdbfs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
+
 import de.micromata.genome.util.matcher.string.EndsWithMatcher;
 import junit.framework.TestCase;
 
@@ -218,6 +220,27 @@ public abstract class FileSystemCase extends TestCase
     assertEquals(1, fsys.listFilesByPattern("match", "*.dat", 'F', true).size());
     assertEquals(0, fsys.listFilesByPattern("match", "*.dat", 'F', false).size());
 
+  }
+
+  private byte[] createBlob(int length)
+  {
+    byte[] ret = new byte[length];
+    for (int i = 0; i < length; ++i) {
+      ret[i] = (byte) i;
+    }
+    return ret;
+  }
+
+  public void testStoreLargeFile()
+  {
+    FsFileObject fo = new FsFileObject(fsys, "LargeFile.bin", "binary", 0);
+    byte[] blob = createBlob(1024 * 1024 * 30);
+    fo.writeFile(blob);
+    FsFileObject fog = (FsFileObject) fsys.getFileObject("LargeFile.bin");
+    Assert.assertEquals(blob.length, fog.getLength());
+    byte[] blobReaded = fog.readData();
+    Assert.assertArrayEquals(blob, blobReaded);
+    fog.delete();
   }
 
   @Override
