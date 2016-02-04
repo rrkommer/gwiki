@@ -77,7 +77,7 @@ public class FileSystemTestSuite extends TestSuite
   {
     LocalSettingsEnv lse = LocalSettingsEnv.get();
     Log4JInitializer.initializeLog4J();
-    String rootDir = "./tmp/unittests/gdfstests";
+    String rootDir = "target/tmp/unittests/gdfstests";
     FileSystemTestSuite suite = new FileSystemTestSuite();
     createSuite(suite, "filesystem", new StdFileSystem(rootDir));
     createSuite(suite, "ramfilesystem", new RamFileSystem("unittest"));

@@ -327,6 +327,8 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     ret.setCreatedBy(fsdo.getCreatedBy());
     ret.setModifiedBy(fsdo.getModifiedBy());
     ret.setUpdateCounter(fsdo.getUpdateCounter());
+    ret.setLength(fsdo.getLength());
+    ret.setPk(fsdo.getPk());
     return ret;
   }
 
