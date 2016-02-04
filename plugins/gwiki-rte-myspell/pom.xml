@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>gwiki-plugins-root</artifactId>
 		<groupId>de.micromata.genome.gwiki</groupId>
-		<version>1.0.3</version><!-- GWIKVERSION -->
+		<version>1.0.4</version><!-- GWIKVERSION -->
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
