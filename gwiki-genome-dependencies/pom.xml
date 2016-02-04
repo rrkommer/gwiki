@@ -3,11 +3,11 @@
   <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.3</version><!-- GWIKVERSION -->
+    <version>1.0.4</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>gwiki-genome-dependencies</artifactId>
-  <version>1.0.3</version><!-- GWIKVERSION -->
+  <version>1.0.4</version><!-- GWIKVERSION -->
   <build>
 		<plugins>
 			<plugin>

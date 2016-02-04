@@ -4,13 +4,13 @@
   <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.3</version><!-- GWIKVERSION -->
+    <version>1.0.4</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
    <artifactId>gwiki-plugins-root</artifactId>
    <packaging>pom</packaging>
-   <version>1.0.3</version><!-- GWIKVERSION -->
+   <version>1.0.4</version><!-- GWIKVERSION -->
   <modules>
     <module>dom4j</module>
     <module>org.apache.pdfbox</module>
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki</artifactId>
-			<version>1.0.3</version><!-- GWIKVERSION -->
+			<version>1.0.4</version><!-- GWIKVERSION -->
 		</dependency>
 
 		<dependency>
