@@ -26,8 +26,10 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -42,6 +44,19 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
 
   private boolean generalPublicView = false;
 
+  @Override
+  public boolean afterLogin(GWikiContext ctx, GWikiSimpleUser su)
+  {
+    GWikiSimpleUserAuthorization.setSingleUser(ctx, su);
+    GWikiUserServeElementFilterEvent.setUser(su);
+    if (ctx.getWikiWeb().getFilter().onLogin(ctx, su) == false) {
+      GWikiUserServeElementFilterEvent.setUser(null);
+      return false;
+    }
+    GWikiLog.note("User logged in: " + su.getUser());
+    return true;
+  }
+
   public void ensureAllowTo(GWikiContext ctx, String right, GWikiElementInfo el)
   {
     if (isAllowTo(ctx, right) == true) {
@@ -50,20 +65,25 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     AuthorizationFailedException.failRight(ctx, right, el);
   }
 
+  @Override
   public void ensureAllowTo(GWikiContext ctx, String right)
   {
-    if (isAllowTo(ctx, right) == true)
+    if (isAllowTo(ctx, right) == true) {
       return;
+    }
     AuthorizationFailedException.failRight(ctx, right);
   }
 
   // TODO gwiki noch nicht richtig
+  @Override
   public boolean isAllowToCreate(GWikiContext ctx, GWikiElementInfo ei)
   {
-    if (generalPublicEdit == true)
+    if (generalPublicEdit == true) {
       return true;
-    if (isAllowToEdit(ctx, ei) == false)
+    }
+    if (isAllowToEdit(ctx, ei) == false) {
       return false;
+    }
 
     if (ei.getMetaTemplate() != null && ei.getMetaTemplate().getRequiredEditRight() != null) {
       if (isAllowTo(ctx, ei.getMetaTemplate().getRequiredEditRight()) == false) {
@@ -87,6 +107,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     return true;
   }
 
+  @Override
   public boolean isAllowToEdit(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (generalPublicEdit == true) {
@@ -94,7 +115,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
     Boolean cp = checkPageSpecificRight(ctx, AUTH_EDIT, ei);
     if (cp != null) {
-      return ((boolean) cp) && getEditRightFromTemplate(ctx, ei) == true;
+      return (cp) && getEditRightFromTemplate(ctx, ei) == true;
     }
 
     boolean hasEditRight = isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITPAGES.name());
@@ -119,6 +140,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
   }
 
+  @Override
   public String getEffectiveRight(GWikiContext ctx, GWikiElementInfo ei, String pageRight)
   {
     if (generalPublicView == true) {
@@ -146,6 +168,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
 
   }
 
+  @Override
   public boolean isAllowToView(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (generalPublicView == true) {
@@ -213,6 +236,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     return new Locale(lang);
   }
 
+  @Override
   public Locale getCurrentUserLocale(GWikiContext ctx)
   {
     String lang = getUserProp(ctx, USER_LANG);
@@ -230,6 +254,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     wikiContext.getWikiWeb().getSessionProvider().clearSessionAttributes(wikiContext);
   }
 
+  @Override
   public boolean runIfAuthentificated(GWikiContext wikiContext, CallableX<Void, RuntimeException> callback)
   {
     if (initThread(wikiContext) == true) {
@@ -243,6 +268,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     return true;
   }
 
+  @Override
   public <T> T runWithRight(GWikiContext wikiContext, String addRight, CallableX<T, RuntimeException> callback)
   {
     String[] rights = new String[1];

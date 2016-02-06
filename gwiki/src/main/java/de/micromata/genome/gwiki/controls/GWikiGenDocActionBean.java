@@ -68,6 +68,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
 
   private String documentTemplate = "admin/gendoc/DefaultWord";
 
+  @Override
   public Object onInit()
   {
     if (StringUtils.isEmpty(rootPageId) == true) {
@@ -121,7 +122,8 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     wikiContext.getResponse().setHeader("Content-disposition", "attachment; filename=\"WikiExport.zip\"");
     wikiContext.getResponse().setContentType("application/zip");
     try {
-      FileSystemUtils.copyToZip(fs.getFileObject(""), new EveryMatcher<String>(), wikiContext.getResponse().getOutputStream());
+      FileSystemUtils.copyToZip(fs.getFileObject(""), new EveryMatcher<String>(),
+          wikiContext.getResponse().getOutputStream());
       // wikiContext.flush();
     } catch (IOException ex) {
       throw new RuntimeIOException(ex);
@@ -152,7 +154,8 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
     }
     if (xhtmldocType == true) {
-      sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
+      sb.append(
+          "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
     } else {
       sb.append("<!DOCTYPE HTML  [\n");
       InputStream entis = cl.getResourceAsStream("xhtml-lat1.ent");
@@ -165,8 +168,11 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     }
     htmlData = htmlData.substring(idx);
     Pattern p = Pattern.compile("\\</{0,1}(\\w+)");
-    htmlData = StringUtils.replace(htmlData, p, 1, new CallableX1<String, String, RuntimeException>() {
 
+    htmlData = StringUtils.replace(htmlData, p, 1, new CallableX1<String, String, RuntimeException>()
+    {
+
+      @Override
       public String call(String arg1) throws RuntimeException
       {
         return arg1.toLowerCase();
@@ -263,7 +269,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
           RenderModes.LocalImageLinks, //
           // RenderModes.GlobalImageLinks, //
           RenderModes.NoPageDecoration//
-          ));
+      ));
       el.prepareHeader(simContext);
       el.serve(simContext);
       simContext.getJspWriter().flush();
@@ -316,8 +322,9 @@ public class GWikiGenDocActionBean extends ActionBeanBase
       wikiContext.popWikiElement();
     }
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(el.getElementInfo().getId());
-    Collections.sort(childs, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
-        "ORDER", 0))));
+    Collections.sort(childs,
+        new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+            "ORDER", 0))));
     wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);
     for (GWikiElementInfo ei : childs) {
       GWikiElement ce = wikiContext.getWikiWeb().getElement(ei);

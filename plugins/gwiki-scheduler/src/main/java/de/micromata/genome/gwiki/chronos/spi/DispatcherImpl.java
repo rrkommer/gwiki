@@ -54,7 +54,7 @@ import de.micromata.genome.gwiki.chronos.logging.GLog;
 import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
-import de.micromata.genome.util.web.HostUtils;
+import de.micromata.genome.util.runtime.HostUtils;
 
 /**
  * Zentrale Klasse (Singleton) für die Job-Verteilung.
@@ -145,10 +145,12 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
+  @Override
   public ThreadGroup getCreateDispatcherThreadGroup()
   {
-    if (dispatcherThreadGroup != null)
+    if (dispatcherThreadGroup != null) {
       return dispatcherThreadGroup;
+    }
     dispatcherThreadGroup = new ThreadGroup("JCDTG[" + "gwiki" + "]: " + getDispatcherName());
     return dispatcherThreadGroup;
   }
@@ -158,16 +160,19 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    */
   private Thread createThread(final JobStore jobStore)
   {
-    final Thread t = new Thread(getCreateDispatcherThreadGroup(), this, "JCDT[" + "gwiki" + "]: " + getDispatcherName());
+    final Thread t = new Thread(getCreateDispatcherThreadGroup(), this,
+        "JCDT[" + "gwiki" + "]: " + getDispatcherName());
     t.setDaemon(true);
     return t;
   }
 
+  @Override
   public String getDispatcherName()
   {
     return jobStore + " at " + HostUtils.getRunContext(dispatcherThread);
   }
 
+  @Override
   public JobStore getJobStore()
   {
     return jobStore;
@@ -176,6 +181,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   /**
    * Startet den Dispatcher und hält seinen Thread.
    */
+  @Override
   public synchronized void startup()
   {
     GLog.info(GenomeLogCategory.Scheduler, "Starting Dispatcher");
@@ -187,6 +193,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
+  @Override
   public void shutdown() throws InterruptedException
   {
     shutdown(-1L);
@@ -195,11 +202,13 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   /**
    * If dispatcher is waiting for starting a new job, wake dispatcher
    */
+  @Override
   public synchronized void wakeup()
   {
     this.notify();
   }
 
+  @Override
   public boolean isRunning()
   {
     return dispatcherThread != null;
@@ -211,6 +220,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @param waitForShutdown
    * @throws InterruptedException
    */
+  @Override
   public void shutdown(final long waitForShutdown) throws InterruptedException
   {
     /**
@@ -263,6 +273,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * 
    * @see java.lang.Runnable#run()
    */
+  @Override
   public void run()
   {
     ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
@@ -279,8 +290,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
       while (Thread.interrupted() == false) {
         ++loopCount;
         // DynDaoManager.initForDeamonJobs(false);
-        if (loopCount < 0)
+        if (loopCount < 0) {
           loopCount = 0;
+        }
         try {
           GLog.trace(GenomeLogCategory.Scheduler, "Checking schedulers: (" + curRefreshInMillis + ")");
           boolean checkForeignJobs = ((loopCount % 5) == 0);
@@ -302,13 +314,14 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
         }
         try {
           Thread.sleep(curRefreshInMillis);
-          if (curRefreshInMillis == 10) // es gab nicht gleich einen
+          if (curRefreshInMillis == 10) {
             // neuen Job, also gleich
             curRefreshInMillis = startRefreshInMillis;
-          else if (curRefreshInMillis < maxRefreshInMillis)
+          } else if (curRefreshInMillis < maxRefreshInMillis) {
             curRefreshInMillis *= 2;
-          // System.out.println("curRefreshInMillis: " +
-          // curRefreshInMillis);
+            // System.out.println("curRefreshInMillis: " +
+            // curRefreshInMillis);
+          }
         } catch (final InterruptedException ex) {
           /**
            * @logging
@@ -328,8 +341,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   protected void checkJobStoreSchedulers()
   {
     long now = System.currentTimeMillis();
-    if (now - lastSchedulerUpdate < schedulerLeaseTime)
+    if (now - lastSchedulerUpdate < schedulerLeaseTime) {
       return;
+    }
     forceCheckJobStoreSchedulers();
   }
 
@@ -370,8 +384,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
       final List<TriggerJobDO> nextJobs = scheduler.getNextJobs(jobStore, foreignJobs);
 
       for (final TriggerJobDO job : nextJobs) {
-        if (debugLogenabled == true)
+        if (debugLogenabled == true) {
           GLog.debug(GenomeLogCategory.Scheduler, "Checking job: " + job.getPk() + " for " + schedulerDO);
+        }
         if (checkAndExecuteJob(scheduler, job) == false) {
           allJobRunned = false;
           break;
@@ -383,6 +398,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     return jobRunned;
   }
 
+  @Override
   public void persist(SchedulerDO scheduler)
   {
 
@@ -391,10 +407,11 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
 
     final String name = scheduler.getName();
     Scheduler si = this.getScheduler(name);
-    if (si != null)
+    if (si != null) {
       scheduler.setPk(si.getId());
-    else
+    } else {
       scheduler.setPk(SchedulerDO.UNSAVED_SCHEDULER_ID);
+    }
     /**
      * @logging
      * @reason Chronos Scheduler wird in die DB geschrieben
@@ -445,6 +462,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * 
    * @param name
    */
+  @Override
   public void denyNewJobs(final String schedulerName)
   {
     final Scheduler scheduler = getScheduler(schedulerName);
@@ -465,6 +483,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @param size
    * @param name
    */
+  @Override
   public void setJobCount(final int size, final String schedulerName)
   {
     final Scheduler scheduler = getScheduler(schedulerName);
@@ -491,7 +510,8 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   // }
 
   /**
-   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese neu.
+   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese
+   * neu.
    * <p>
    * Ein neu angelegter Scheduler wird unmittelbar persisitiert und unter dem Namen inklusive Prefix abgespeichert.
    * </p>
@@ -500,6 +520,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @return
    * @see #schedulers
    */
+  @Override
   public Scheduler createOrGetScheduler(final SchedulerDO schedulerDO)
   {
     Validate.notNull(schedulerDO, "schedulerDB ist null.");
@@ -521,9 +542,10 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
       final SchedulerDO schedulerDB = jobStore.createOrGetScheduler(schedulerName);
       if (schedulerDB.getPk() != SchedulerDO.UNSAVED_SCHEDULER_ID) {
         schedulerDO.setPk(schedulerDB.getPk());
-        if (GLog.isTraceEnabled() == true)
+        if (GLog.isTraceEnabled() == true) {
           GLog.trace(GenomeLogCategory.Scheduler,
               "Reuse existing DB-Sheduler entrie. scheduler: " + schedulerName + "#" + schedulerDB.getPk());
+        }
       } else {
         // ggf. ist der Prefix korrigiert
         schedulerDO.setName(schedulerDB.getName());
@@ -543,7 +565,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
       schedulers.put(schedulerName, scheduler);
       // jobs.put(schedulerName, new ArrayList<TriggerJobDO>());
       return scheduler;
-    }// synchronized end
+    } // synchronized end
   }
 
   /**
@@ -555,7 +577,8 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @param arg
    * @param trigger
    */
-  public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     submit(schedulerName, (String) null, jobDefinition, arg, trigger);
   }
@@ -569,7 +592,8 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @param arg
    * @param trigger
    */
-  public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     submit(schedulerName, jobName, jobDefinition, arg, trigger, getVirtualHostName());
   }
@@ -584,20 +608,24 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * @throws SchedulerConfigurationException wenn ein nicht registrierter Scheduler angesprochen wird
    * @throws SchedulerException wenn der Job im JobStore nicht angelegt werden kann.
    */
+  @Override
   public long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger, String hostName)
   {
-    if (hostName == null)
+    if (hostName == null) {
       hostName = getVirtualHostName();
+    }
     final Scheduler Scheduler = getScheduler(schedulerName);
     if (Scheduler == null) {
       final String msg = "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName;
       /**
        * @logging
-       * @reason Chronos Dispatcher hat einen Job ueber einen Schedulder bekommen, wobei der Scheduler nicht eingerichtet ist.
+       * @reason Chronos Dispatcher hat einen Job ueber einen Schedulder bekommen, wobei der Scheduler nicht
+       *         eingerichtet ist.
        * @action TechAdmin kontaktieren
        */
-      GLog.error(GenomeLogCategory.Scheduler, "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName);
+      GLog.error(GenomeLogCategory.Scheduler,
+          "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName);
       throw new SchedulerConfigurationException(msg);
     }
 
@@ -605,14 +633,16 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     Long jobPk = job.getPk();
     if (jobPk == null) {
       // pk = null sollte nicht auftreten können ist aber abhängig von der JobStore implemenmtierung und theoretisch möglich.
-      final String msg = "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : " + job.toString();
+      final String msg = "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
+          + job.toString();
       /**
        * @logging
        * @reason Im Job Store wurde beim persistieren eines neuen Jobs keine Referenz (pk) vergeben.
        * @action TechAdmin kontaktieren
        */
-      GLog.error(GenomeLogCategory.Scheduler, "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
-          + job.toString());
+      GLog.error(GenomeLogCategory.Scheduler,
+          "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
+              + job.toString());
       throw new SchedulerException(msg);
     }
     return jobPk.longValue();
@@ -628,17 +658,20 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   /**
    * Gibt den Scheduler mit dem angegebenen Namen zurück oder <code>null</code>.
    * <p>
-   * Hier wird <u>nicht</u> auf die Datenbank zugegriffen. Dafür ist {@link #createOrGetScheduler(SchedulerDO)} zu benutzen.
+   * Hier wird <u>nicht</u> auf die Datenbank zugegriffen. Dafür ist {@link #createOrGetScheduler(SchedulerDO)} zu
+   * benutzen.
    * </p>
    * 
    * @param name
    * @return
    */
+  @Override
   public Scheduler getScheduler(final String name)
   {
     synchronized (this) {
-      if (GLog.isDebugEnabled() == true)
+      if (GLog.isDebugEnabled() == true) {
         GLog.debug(GenomeLogCategory.Scheduler, "Get scheduler for: " + name + " " + name);
+      }
       Scheduler scheduler = schedulers.get(name);
       if (scheduler != null) {
         return scheduler;
@@ -726,6 +759,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     this.dispatcherThreadGroup = dispatcherThreadGroup;
   }
 
+  @Override
   public String getVirtualHostName()
   {
     // if (virtualHost != null)
@@ -755,6 +789,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     return minNodeBindTime;
   }
 
+  @Override
   public void setMinNodeBindTime(long minNodeBindTime)
   {
     this.minNodeBindTime = minNodeBindTime;
@@ -770,6 +805,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     this.virtualHost = virtualHost;
   }
 
+  @Override
   public long submit(String schedulerName, JobDefinition jobDefinition, Object arg, Trigger trigger, String hostName)
   {
     return submit(schedulerName, null, jobDefinition, arg, trigger, hostName);

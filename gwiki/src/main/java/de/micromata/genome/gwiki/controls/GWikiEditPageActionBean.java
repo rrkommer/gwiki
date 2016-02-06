@@ -63,9 +63,9 @@ import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
+import de.micromata.genome.util.collections.ArrayMap;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
-import de.micromata.genome.util.types.ArrayMap;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
@@ -92,9 +92,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   protected boolean chooseMetaTemplate = false;
 
-  protected Map<String, GWikiArtefakt< ? >> parts = new ArrayMap<String, GWikiArtefakt< ? >>();
+  protected Map<String, GWikiArtefakt<?>> parts = new ArrayMap<String, GWikiArtefakt<?>>();
 
-  protected Map<String, GWikiEditorArtefakt< ? >> editors = new ArrayMap<String, GWikiEditorArtefakt< ? >>();
+  protected Map<String, GWikiEditorArtefakt<?>> editors = new ArrayMap<String, GWikiEditorArtefakt<?>>();
 
   protected GWikiElement elementToEdit;
 
@@ -157,7 +157,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       currentTemplate = wikiContext.getCurrentElement().getMetaTemplate();
     }
     List<Pair<String, String>> availableMetaTemplates = new ArrayList<Pair<String, String>>();
-    Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("+admin/templates/*MetaTemplate,-admin/templates/intern/*");
+    Matcher<String> m = new BooleanListRulesFactory<String>()
+        .createMatcher("+admin/templates/*MetaTemplate,-admin/templates/intern/*");
     List<GWikiElementInfo> ret = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
     ret.addAll(wikiContext.getWikiWeb().getDaoContext().getPluginRepository().getTemplates(wikiContext));
@@ -183,14 +184,17 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         }
       }
       if (template.getAllowedNewParentMetaTemplates() != null) {
-        if (currentTemplate == null || template.getAllowedNewParentMetaTemplates().match(currentTemplate.getPageId()) == false) {
+        if (currentTemplate == null
+            || template.getAllowedNewParentMetaTemplates().match(currentTemplate.getPageId()) == false) {
           continue;
         }
       }
       availableMetaTemplates.add(Pair.make(wikiContext.getTranslatedProp(ei.getTitle()), ei.getId()));
     }
-    Collections.sort(availableMetaTemplates, new Comparator<Pair<String, String>>() {
+    Collections.sort(availableMetaTemplates, new Comparator<Pair<String, String>>()
+    {
 
+      @Override
       public int compare(Pair<String, String> o1, Pair<String, String> o2)
       {
         return o1.getFirst().compareTo(o2.getFirst());
@@ -271,8 +275,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   protected GWikiElement createNewElement()
   {
-    if (initMetaTemplate() == null)
+    if (initMetaTemplate() == null) {
       return null;
+    }
 
     if (StringUtils.isEmpty(pageId) == true) {
       getPageIdFromTitle();
@@ -309,7 +314,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     elementToEdit.collectParts(parts);
     // parts.put("Settings", new GWikiPropsArtefakt(elementToEdit.getElementInfo().getProps()));
     List<String> hidePartList = Converter.parseStringTokens(hideParts, ", ", false);
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
       if (me.getValue() instanceof GWikiEditableArtefakt) {
         if (hidePartList.contains(me.getKey()) == true) {
           continue;
@@ -405,18 +410,23 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   protected void checkAccess()
   {
     if (newPage == true) {
-      if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementToEdit.getElementInfo()) == false) {
-        throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannotcreatepage", elementToEdit.getMetaTemplate()
-            .getElementType()));
+      if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext,
+          elementToEdit.getElementInfo()) == false) {
+        throw new AuthorizationFailedException(
+            translate("gwiki.authorization.message.cannotcreatepage", elementToEdit.getMetaTemplate()
+                .getElementType()));
       }
     } else {
-      if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, elementToEdit.getElementInfo()) == false) {
-        throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannoteditpage", elementToEdit.getMetaTemplate()
-            .getElementType()));
+      if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext,
+          elementToEdit.getElementInfo()) == false) {
+        throw new AuthorizationFailedException(
+            translate("gwiki.authorization.message.cannoteditpage", elementToEdit.getMetaTemplate()
+                .getElementType()));
       }
     }
   }
 
+  @Override
   public Object onInit()
   {
     isInOnInit = true;
@@ -465,7 +475,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         && (backElement = getWikiContext().getWikiWeb().findElement(pageId)) != null) {
       return backElement;
     } else if (StringUtils.isNotBlank(pageId) == true && wikiContext.getWikiWeb().findElement(pageId) != null //
-        && (elementToEdit != null && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false)
+        && (elementToEdit != null
+            && StringUtils.equals(elementToEdit.getElementInfo().getType(), "attachment") == false)
         && wikiContext.getWikiWeb().findElement(pageId).getElementInfo().isViewable() == true) {
       return pageId;
     } else if (StringUtils.isNotBlank(parentPageId) == true) {
@@ -564,8 +575,9 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public Object onDelete()
   {
-    if (init() == false)
+    if (init() == false) {
       return null;
+    }
     checkAccess();
     wikiContext.ensureAllowTo(GWikiAuthorizationRights.GWIKI_DELETEPAGES.name());
 
@@ -823,7 +835,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         continue;
       }
       GWikiMacroClassFactory cf = (GWikiMacroClassFactory) me.getValue();
-      Class< ? > cls = cf.getClazz();
+      Class<?> cls = cf.getClazz();
       if (cls == null) {
         continue;
       }
@@ -900,7 +912,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       GWikiLog.note("Cannot find page: " + page2 + " for reordering");
       return noForward();
     }
-    if (StringUtils.equals(c1.getParentId(), pageId) == false || StringUtils.equals(c1.getParentId(), pageId) == false) {
+    if (StringUtils.equals(c1.getParentId(), pageId) == false
+        || StringUtils.equals(c1.getParentId(), pageId) == false) {
       return noForward();
     }
     List<String> ochildList = elementToEdit.getElementInfo().getProps().getStringList(GWikiPropKeys.CHILDORDER);
@@ -988,22 +1001,22 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     this.metaTemplatePageId = metaTemplatePageId;
   }
 
-  public Map<String, GWikiArtefakt< ? >> getParts()
+  public Map<String, GWikiArtefakt<?>> getParts()
   {
     return parts;
   }
 
-  public void setParts(Map<String, GWikiArtefakt< ? >> parts)
+  public void setParts(Map<String, GWikiArtefakt<?>> parts)
   {
     this.parts = parts;
   }
 
-  public Map<String, GWikiEditorArtefakt< ? >> getEditors()
+  public Map<String, GWikiEditorArtefakt<?>> getEditors()
   {
     return editors;
   }
 
-  public void setEditors(Map<String, GWikiEditorArtefakt< ? >> editors)
+  public void setEditors(Map<String, GWikiEditorArtefakt<?>> editors)
   {
     this.editors = editors;
   }

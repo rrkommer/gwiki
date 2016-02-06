@@ -55,6 +55,7 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
     return fileName;
   }
 
+  @Override
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
     if (config != null) {
@@ -81,6 +82,7 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
     this.fileName = fileName;
   }
 
+  @Override
   public BeanFactory getBeanFactory()
   {
     return beanFactory;

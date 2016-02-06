@@ -20,6 +20,7 @@ package de.micromata.genome.gwiki.model;
 
 import java.util.Locale;
 
+import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -78,6 +79,8 @@ public interface GWikiAuthorization
    * @param ctx
    */
   public void logout(GWikiContext ctx);
+
+  boolean afterLogin(GWikiContext ctx, GWikiSimpleUser su);
 
   /**
    * 

@@ -36,7 +36,6 @@ package de.micromata.genome.gwiki.chronos.spi.jdbc;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import de.micromata.genome.dao.db.StdRecordDO;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.State;
 
@@ -45,11 +44,11 @@ import de.micromata.genome.gwiki.chronos.State;
  * 
  * @see Scheduler
  */
-public class SchedulerDO extends StdRecordDO
+public class SchedulerDO extends ChronosBaseDO
 {
   /**
-	 * 
-	 */
+   * 
+   */
   private static final long serialVersionUID = 5051649161102115041L;
 
   public static final long UNSAVED_SCHEDULER_ID = -1;

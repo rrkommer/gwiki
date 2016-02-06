@@ -26,6 +26,7 @@ import javax.servlet.ServletConfig;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
+import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.text.StringResolver;
 
 /**
@@ -34,7 +35,8 @@ import de.micromata.genome.util.text.StringResolver;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements StringResolver
+public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer
+    implements StringResolver
 {
   protected ServletConfig servletConfig;
 
@@ -98,7 +100,7 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
 
   public String resolveBySystemProperties(String key)
   {
-    return System.getProperty(key);
+    return LocalSettings.get().get(key);
   }
 
   @Override
@@ -143,6 +145,7 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
    * 
    * @see de.micromata.genome.util.text.StringResolver#resolve(java.lang.String)
    */
+  @Override
   public String resolve(String placeholder)
   {
     return resolvePlaceholder(placeholder, null);

@@ -69,9 +69,9 @@ import de.micromata.genome.gwiki.utils.AbstractAppendable;
 import de.micromata.genome.gwiki.utils.TimeUtils;
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.util.collections.ArraySet;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
-import de.micromata.genome.util.types.ArraySet;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
@@ -111,9 +111,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   private ActionMessages validationErrors;
 
-  private Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+  private Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
 
-  private GWikiArtefakt< ? > currentPart;
+  private GWikiArtefakt<?> currentPart;
 
   /**
    * Arguments for Macros.
@@ -191,23 +191,26 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public void addSimpleValidationError(String message)
   {
-    if (validationErrors == null)
+    if (validationErrors == null) {
       validationErrors = new ActionMessages();
+    }
     validationErrors.put("", new SimpleActionMessage(message));
   }
 
   public void addValidationError(String msgKey, Object... args)
   {
-    if (validationErrors == null)
+    if (validationErrors == null) {
       validationErrors = new ActionMessages();
+    }
     String message = wikiWeb.getI18nProvider().translate(this, msgKey, null, args);
     validationErrors.put("", new SimpleActionMessage(message));
   }
 
   public void addValidationFieldError(String msgKey, String field, Object... args)
   {
-    if (validationErrors == null)
+    if (validationErrors == null) {
       validationErrors = new ActionMessages();
+    }
     String message = wikiWeb.getI18nProvider().translate(this, msgKey, null, args);
     validationErrors.put(field, new SimpleActionMessage(message));
   }
@@ -238,21 +241,25 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   public static String getParentDirPathFromPageId(String pageId)
   {
-    if (StringUtils.isEmpty(pageId) == true)
+    if (StringUtils.isEmpty(pageId) == true) {
       return "";
+    }
     int pidx = pageId.lastIndexOf('/');
-    if (pidx == -1)
+    if (pidx == -1) {
       return "";
+    }
     return pageId.substring(0, pidx + 1);
   }
 
   public static String getNamePartFromPageId(String pageId)
   {
-    if (StringUtils.isEmpty(pageId) == true)
+    if (StringUtils.isEmpty(pageId) == true) {
       return "";
+    }
     int pidx = pageId.lastIndexOf('/');
-    if (pidx == -1)
+    if (pidx == -1) {
       return pageId;
+    }
     return pageId.substring(pidx + 1);
   }
 
@@ -280,16 +287,16 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     if (el == null) {
       return;
     }
-    GWikiArtefakt< ? > art;
+    GWikiArtefakt<?> art;
     if (partName == null) {
       art = el.getMainPart();
     } else {
       art = el.getPart(partName);
     }
-    if (art == null || (art instanceof GWikiExecutableArtefakt< ? >) == false) {
+    if (art == null || (art instanceof GWikiExecutableArtefakt<?>) == false) {
       return;
     }
-    GWikiExecutableArtefakt< ? > exart = (GWikiExecutableArtefakt< ? >) art;
+    GWikiExecutableArtefakt<?> exart = (GWikiExecutableArtefakt<?>) art;
     exart.render(this);
   }
 
@@ -297,9 +304,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   {
     flush();
     GWikiElement el = wikiWeb.getElement(id);
-    GWikiArtefakt< ? > fact = el.getMainPart();
-    if (fact instanceof GWikiTextArtefakt< ? >) {
-      GWikiTextArtefakt< ? > text = (GWikiTextArtefakt< ? >) fact;
+    GWikiArtefakt<?> fact = el.getMainPart();
+    if (fact instanceof GWikiTextArtefakt<?>) {
+      GWikiTextArtefakt<?> text = (GWikiTextArtefakt<?>) fact;
       append(text.getStorageData());
     } else if (fact instanceof GWikiBinaryAttachmentArtefakt) {
       String data = new String(((GWikiBinaryAttachmentArtefakt) fact).getCompiledObject());
@@ -331,8 +338,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public String localUrl(String lurl)
   {
     String url = lurl;
-    if (url.startsWith("/") == false)
+    if (url.startsWith("/") == false) {
       url = "/" + url;
+    }
 
     String res = url;
     if (lurl.indexOf("/") == -1 && wikiWeb.findElementInfo(res) == null) {
@@ -541,6 +549,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * @param text
    * @return
    */
+  @Override
   public GWikiContext append(String text)
   {
     if (text == null) {
@@ -578,6 +587,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return append(StringEscapeUtils.escapeHtml(text));
   }
 
+  @Override
   public GWikiContext append(Object... objects)
   {
     try {
@@ -611,15 +621,15 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
-  public boolean runWithParts(Map<String, GWikiArtefakt< ? >> newParts, CallableX<Boolean, RuntimeException> cb)
+  public boolean runWithParts(Map<String, GWikiArtefakt<?>> newParts, CallableX<Boolean, RuntimeException> cb)
   {
-    Map<String, GWikiArtefakt< ? >> pushParts = null;
+    Map<String, GWikiArtefakt<?>> pushParts = null;
     if (newParts.size() > 0) {
-      for (Map.Entry<String, GWikiArtefakt< ? >> npe : newParts.entrySet()) {
-        GWikiArtefakt< ? > backup = parts.put(npe.getKey(), npe.getValue());
+      for (Map.Entry<String, GWikiArtefakt<?>> npe : newParts.entrySet()) {
+        GWikiArtefakt<?> backup = parts.put(npe.getKey(), npe.getValue());
         if (backup != null) {
           if (pushParts == null) {
-            pushParts = new HashMap<String, GWikiArtefakt< ? >>();
+            pushParts = new HashMap<String, GWikiArtefakt<?>>();
           }
           pushParts.put(npe.getKey(), backup);
         }
@@ -634,9 +644,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
-  public boolean runWithArtefakt(GWikiArtefakt< ? > artefakt, CallableX<Boolean, RuntimeException> cb)
+  public boolean runWithArtefakt(GWikiArtefakt<?> artefakt, CallableX<Boolean, RuntimeException> cb)
   {
-    GWikiArtefakt< ? > oa = getCurrentPart();
+    GWikiArtefakt<?> oa = getCurrentPart();
     try {
       setCurrentPart(artefakt);
       return cb.call();
@@ -748,16 +758,18 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   public void setRequestAttribute(String key, Object value)
   {
-    if (value == null)
+    if (value == null) {
       request.removeAttribute(key);
-    else
+    } else {
       request.setAttribute(key, value);
+    }
   }
 
   public FileItem getFileItem(String key)
   {
-    if ((request instanceof CommonMultipartRequest) == false)
+    if ((request instanceof CommonMultipartRequest) == false) {
       return null;
+    }
 
     CommonMultipartRequest qr = (CommonMultipartRequest) request;
     return qr.getFileItems().get(key);
@@ -795,7 +807,8 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void setSessionAttribute(String key, Object value)
   {
     if (value != null && (value instanceof Serializable) == false) {
-      throw new RuntimeException("Session object with key is not serializable: " + key + "; " + value.getClass().getName());
+      throw new RuntimeException(
+          "Session object with key is not serializable: " + key + "; " + value.getClass().getName());
     }
     wikiWeb.getSessionProvider().setSessionAttribute(this, key, (Serializable) value);
   }
@@ -898,8 +911,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public String getCookie(String key, String defaultValue)
   {
     Cookie[] cookies = request.getCookies();
-    if (cookies == null)
+    if (cookies == null) {
       return defaultValue;
+    }
     for (Cookie co : cookies) {
       if (StringUtils.equals(key, co.getName()) == true) {
         String sv = co.getValue();
@@ -1082,12 +1096,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     this.pageContext = pageContext;
   }
 
-  public Map<String, GWikiArtefakt< ? >> getParts()
+  public Map<String, GWikiArtefakt<?>> getParts()
   {
     return parts;
   }
 
-  public void setParts(Map<String, GWikiArtefakt< ? >> parts)
+  public void setParts(Map<String, GWikiArtefakt<?>> parts)
   {
     this.parts = parts;
   }
@@ -1102,12 +1116,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     this.response = response;
   }
 
-  public GWikiArtefakt< ? > getCurrentPart()
+  public GWikiArtefakt<?> getCurrentPart()
   {
     return currentPart;
   }
 
-  public void setCurrentPart(GWikiArtefakt< ? > currentPart)
+  public void setCurrentPart(GWikiArtefakt<?> currentPart)
   {
     this.currentPart = currentPart;
   }
