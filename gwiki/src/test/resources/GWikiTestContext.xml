@@ -30,7 +30,14 @@
 	</bean>
 
 	<bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
-		<!--  FILE -->
+		 <property name="authorization">
+      <bean class="de.micromata.genome.gwiki.auth.GWikiSysUserAuthorization">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization" />
+        </constructor-arg>
+      </bean>
+    </property>
+    <!--  FILE -->
 		<property name="staticContentFromClassPath" value="true" />
 		<property name="staticContentFileSystem">
 			<bean class="de.micromata.genome.gdbfs.StdFileSystem">

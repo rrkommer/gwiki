@@ -36,6 +36,7 @@ import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
 
@@ -88,7 +89,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
   protected Object checkSecureLogin()
   {
-    String httpsRed = System.getProperty("gwiki.public.url.https");
+    String httpsRed = LocalSettings.get().get("gwiki.public.url.https");
     if (StringUtils.isBlank(httpsRed) == true) {
       return null;
     }
@@ -106,6 +107,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
     return noForward();
   }
 
+  @Override
   public Object onInit()
   {
     password = "";
@@ -126,7 +128,8 @@ public class GWikiLoginActionBean extends ActionBeanBase
       return null;
     }
 
-    boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(password));
+    boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user),
+        StringUtils.trim(password));
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
 
@@ -226,7 +229,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
       // wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.unkownuser");
       return null;
     }
-    GWikiArtefakt< ? > art = el.getPart("");
+    GWikiArtefakt<?> art = el.getPart("");
     if ((art instanceof GWikiPropsArtefakt) == false) {
       GWikiLog.warn("No Valid user, cann not determine email. User: " + passwordForgottenUser);
       wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.noemail");

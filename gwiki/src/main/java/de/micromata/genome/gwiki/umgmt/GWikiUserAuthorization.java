@@ -19,6 +19,7 @@
 package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,24 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return false;
     }
     return true;
+  }
+
+  public static String encryptLecacy(String plaintext)
+  {
+    try {
+      MessageDigest md = MessageDigest.getInstance("SHA");
+      md.update(plaintext.getBytes("UTF-8"));
+      byte raw[] = md.digest();
+      String hash = Converter.encodeBase64(raw);
+      return hash;
+    } catch (Exception ex) {
+      /**
+       * @logging
+       * @reason Beim asymetrischen verschluesseln ist ein Fehler aufgetreten.
+       * @action Ueberpruefen der Java-Installation
+       */
+      throw new RuntimeException(ex);
+    }
   }
 
   public static String encrypt(String plaintext)
@@ -238,7 +257,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return false;
     }
     if (PasswordUtils.checkSaltedPassword(password, su.getPassword()) == false) {
-      String penc = encrypt(password);
+      String penc = encryptLecacy(password);
       if (StringUtils.equals(su.getPassword(), penc) == false) {
         return false;
       }

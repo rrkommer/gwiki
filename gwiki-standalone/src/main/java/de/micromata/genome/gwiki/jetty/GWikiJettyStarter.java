@@ -18,10 +18,7 @@
 
 package de.micromata.genome.gwiki.jetty;
 
-import java.io.File;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.NCSARequestLog;
@@ -41,6 +38,9 @@ import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.runtime.LocalSettings;
+import de.micromata.genome.util.runtime.LocalSettingsEnv;
+import de.micromata.genome.util.runtime.Log4JInitializer;
 
 /**
  * Starter main class with embedded Jetty.
@@ -57,11 +57,14 @@ public class GWikiJettyStarter
     nwiki.setContextPath(jettyConfig.getContextPath());
     nwiki.setServletPath(servletPath);
     try {
-      final GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(), servletPath);
+      final GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, jettyConfig.getContextPath(),
+          servletPath);
       GWikiContext.setCurrent(ctx);
       nwiki.loadWeb();
-      nwiki.runInPluginContext(new CallableX<Void, RuntimeException>() {
+      nwiki.runInPluginContext(new CallableX<Void, RuntimeException>()
+      {
 
+        @Override
         public Void call() throws RuntimeException
         {
           SearchExpressionIndexerCallback scb = new SearchExpressionIndexerCallback();
@@ -79,13 +82,14 @@ public class GWikiJettyStarter
 
   void configureLogging(Server server, ServletContextHandler context)
   {
-    String reqPath = System.getProperty("gwiki.jetty.logs");
+
+    String reqPath = LocalSettings.get().get("gwiki.jetty.logs");
     if (StringUtils.isBlank(reqPath) == true) {
       return;
     }
     HandlerCollection handlers = new HandlerCollection();
     RequestLogHandler requestLogHandler = new RequestLogHandler();
-    handlers.setHandlers(new Handler[] { context, new DefaultHandler(), requestLogHandler});
+    handlers.setHandlers(new Handler[] { context, new DefaultHandler(), requestLogHandler });
     server.setHandler(handlers);
 
     NCSARequestLog requestLog = new NCSARequestLog(reqPath + "/jetty-yyyy_mm_dd.request.log");
@@ -100,25 +104,30 @@ public class GWikiJettyStarter
   public void start()
   {
     try {
+      LocalSettings.localSettingsPrefixName = "gwiki";
+
       GWikiInitialSetup initSetup = new GWikiInitialSetup();
       boolean firstStart = initSetup.readCheckBasicSettings();
+      LocalSettings localSettings = LocalSettings.get();
+      Log4JInitializer.initializeLog4J();
+      localSettings.logloadedFiles();
 
-      String contextFile = System.getProperty("de.micromata.genome.gwiki.contextfile");
+      LocalSettingsEnv localSettingsEnv = LocalSettingsEnv.get();
+      String contextFile = localSettings.get("gwiki.contextfile");
       GwikiFileContextBootstrapConfigLoader cfgLoader = new GwikiFileContextBootstrapConfigLoader();
       if (StringUtils.isNotBlank(contextFile) == true) {
         cfgLoader.setFileName(contextFile);
       } else {
         contextFile = ".";
       }
-      File f = new File(new File(contextFile).getParent(), "/log4j.properties");
-      if (f.exists() == true) {
-        PropertyConfigurator.configureAndWatch(f.getName(), 60 * 1000);
-      }
+
       GWikiDAOContext wikibootcfg = cfgLoader.loadConfig(null);
       JettyConfig jettyConfig = (JettyConfig) cfgLoader.getBeanFactory().getBean("JettyConfig");
       Server server = new Server(jettyConfig.getPort());
 
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+      context.getInitParams().putAll(localSettings.getMap());
+
       // upload applet needs this. set limit to 100mb
       context.setMaxFormContentSize(1024 * 1024 * 100);
       if (jettyConfig.getContextPath() == null || jettyConfig.getContextPath().equals("/") == true) {
@@ -153,7 +162,7 @@ public class GWikiJettyStarter
         buildIndex(jettyConfig, wikiServlet);
         System.out.println("Finished intial indexing.");
       }
-      System.out.println("You can now use gwiki with your web browser: " + System.getProperty("gwiki.public.url"));
+      System.out.println("You can now use gwiki with your web browser: " + LocalSettings.get().get("gwiki.public.url"));
       server.join();
     } catch (RuntimeException ex) {
       throw ex;
