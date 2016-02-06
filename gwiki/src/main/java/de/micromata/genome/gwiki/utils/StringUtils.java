@@ -155,9 +155,9 @@ public class StringUtils extends org.apache.commons.lang.StringUtils
     }
     int idx = text.indexOf(ch);
     if (idx == -1) {
-      return new String[] { text};
+      return new String[] { text };
     }
-    return new String[] { text.substring(0, idx), text.substring(idx + 1)};
+    return new String[] { text.substring(0, idx), text.substring(idx + 1) };
   }
 
   /**

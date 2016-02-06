@@ -36,7 +36,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
-import de.micromata.genome.util.types.ArrayMap;
+import de.micromata.genome.util.collections.ArrayMap;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -50,16 +50,17 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
   /**
    * pageId -> config to edit.
    */
-  protected Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> configs = new TreeMap<String, Pair<GWikiElement, GWikiArtefakt< ? >>>();
+  protected Map<String, Pair<GWikiElement, GWikiArtefakt<?>>> configs = new TreeMap<String, Pair<GWikiElement, GWikiArtefakt<?>>>();
 
-  protected ArrayMap<String, GWikiEditorArtefakt< ? >> editors = new ArrayMap<String, GWikiEditorArtefakt< ? >>();
+  protected ArrayMap<String, GWikiEditorArtefakt<?>> editors = new ArrayMap<String, GWikiEditorArtefakt<?>>();
 
   private String backUrl;
 
   protected boolean init()
   {
     String queryS = "PROP:PAGEID like \"admin/config/*\" and NOT (PROP:PAGEID like \"admin/config*/*\") and PROP:PAGEID like \"*Config\" ";
-    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getElementInfos(), wikiContext.getWikiWeb().getElementInfoCount());
+    SearchQuery query = new SearchQuery(queryS, wikiContext.getWikiWeb().getElementInfos(),
+        wikiContext.getWikiWeb().getElementInfoCount());
     query.setFindUnindexed(true);
     QueryResult result = wikiContext.getWikiWeb().getDaoContext().getContentSearcher().search(wikiContext, query);
     for (SearchResult sr : result.getResults()) {
@@ -68,20 +69,21 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
       if (el == null) {
         continue;
       }
-      GWikiArtefakt< ? > art = el.getMainPart();
+      GWikiArtefakt<?> art = el.getMainPart();
       if ((art instanceof GWikiEditableArtefakt) == false) {
         continue;
       }
       GWikiEditableArtefakt editableArt = (GWikiEditableArtefakt) art;
-      configs.put(pid, new Pair<GWikiElement, GWikiArtefakt< ? >>(el, art));
+      configs.put(pid, new Pair<GWikiElement, GWikiArtefakt<?>>(el, art));
       String partName = FileNameUtils.getNamePart(pid);
 
       editors.put(FileNameUtils.getNamePart(pid), editableArt.getEditor(el, null, partName));
     }
-    Collections.sort(editors.getEntries(), new Comparator<Map.Entry<String, GWikiEditorArtefakt< ? >>>() {
+    Collections.sort(editors.getEntries(), new Comparator<Map.Entry<String, GWikiEditorArtefakt<?>>>()
+    {
 
       @Override
-      public int compare(Entry<String, GWikiEditorArtefakt< ? >> o1, Entry<String, GWikiEditorArtefakt< ? >> o2)
+      public int compare(Entry<String, GWikiEditorArtefakt<?>> o1, Entry<String, GWikiEditorArtefakt<?>> o2)
       {
         int cmp = o1.getKey().compareTo(o2.getKey());
         if (cmp == 0) {
@@ -96,7 +98,7 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
         return cmp;
       }
     });
-    for (GWikiEditorArtefakt< ? > ea : editors.values()) {
+    for (GWikiEditorArtefakt<?> ea : editors.values()) {
       ea.prepareHeader(wikiContext);
     }
     return true;
@@ -104,7 +106,8 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
 
   protected void checkAccess()
   {
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+        GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
       throw new AuthorizationFailedException(translate("gwiki.authorization.message.cannoteditpage",
           GWikiAuthorizationRights.GWIKI_ADMIN.name()));
     }
@@ -135,14 +138,14 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
       return null;
     }
     checkAccess();
-    for (Map.Entry<String, Pair<GWikiElement, GWikiArtefakt< ? >>> me : configs.entrySet()) {
+    for (Map.Entry<String, Pair<GWikiElement, GWikiArtefakt<?>>> me : configs.entrySet()) {
       String pid = me.getKey();
       GWikiElement el = wikiContext.getWikiWeb().findElement(pid);
       if (el == null) {
         continue;
       }
       String partName = FileNameUtils.getNamePart(pid);
-      GWikiEditorArtefakt< ? > ped = editors.get(partName);
+      GWikiEditorArtefakt<?> ped = editors.get(partName);
       if (ped == null) {
         continue;
       }
@@ -164,22 +167,22 @@ public class GWikiEditWikiConfigActionBean extends ActionBeanBase
     return goBack();
   }
 
-  public ArrayMap<String, GWikiEditorArtefakt< ? >> getEditors()
+  public ArrayMap<String, GWikiEditorArtefakt<?>> getEditors()
   {
     return editors;
   }
 
-  public void setEditors(ArrayMap<String, GWikiEditorArtefakt< ? >> editors)
+  public void setEditors(ArrayMap<String, GWikiEditorArtefakt<?>> editors)
   {
     this.editors = editors;
   }
 
-  public Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> getConfigs()
+  public Map<String, Pair<GWikiElement, GWikiArtefakt<?>>> getConfigs()
   {
     return configs;
   }
 
-  public void setConfigs(Map<String, Pair<GWikiElement, GWikiArtefakt< ? >>> configs)
+  public void setConfigs(Map<String, Pair<GWikiElement, GWikiArtefakt<?>>> configs)
   {
     this.configs = configs;
   }

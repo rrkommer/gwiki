@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.MimeUtils;
 import de.micromata.genome.util.types.TimeInMillis;
-import de.micromata.genome.util.web.MimeUtils;
 
 /**
  * 
@@ -39,6 +39,7 @@ import de.micromata.genome.util.web.MimeUtils;
  * @deprecated the static content will also be provided by the GWikiServlet.
  * 
  */
+@Deprecated
 public class StaticFileServlet extends HttpServlet
 {
 
@@ -74,7 +75,7 @@ public class StaticFileServlet extends HttpServlet
 
     byte[] data = IOUtils.toByteArray(is);
     IOUtils.closeQuietly(is);
-    resp.setContentLength((int) data.length);
+    resp.setContentLength(data.length);
     IOUtils.write(data, resp.getOutputStream());
   }
 }

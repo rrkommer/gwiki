@@ -52,7 +52,7 @@ import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.manager.LogJobEventAttribute;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
-import de.micromata.genome.util.web.HostUtils;
+import de.micromata.genome.util.runtime.HostUtils;
 
 /**
  * Ausführungsobjekt, welches das wirkliche Runtime-Job-Objekt erzeugt, startet und die Fehlerbehandlung tätigt.
@@ -77,9 +77,11 @@ public class JobRunner implements Runnable
 
     this.jobStore = scheduler.getDispatcher().getJobStore();
 
-    if (GLog.isTraceEnabled() == true)
-      GLog.trace(GenomeLogCategory.Scheduler, "New JobRunner", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-          null, scheduler)));
+    if (GLog.isTraceEnabled() == true) {
+      GLog.trace(GenomeLogCategory.Scheduler, "New JobRunner",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+              null, scheduler)));
+    }
   }
 
   // /**
@@ -102,6 +104,7 @@ public class JobRunner implements Runnable
    * 
    * @see java.lang.Runnable#run()
    */
+  @Override
   @SuppressWarnings("unused")
   public void run()
   {
@@ -121,14 +124,18 @@ public class JobRunner implements Runnable
       try {
 
         job.setHostName(HostUtils.getNodeName());
-        if (GLog.isTraceEnabled() == true)
-          GLog.trace(GenomeLogCategory.Scheduler, "Start job", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-              null, scheduler)));
+        if (GLog.isTraceEnabled() == true) {
+          GLog.trace(GenomeLogCategory.Scheduler, "Start job",
+              new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+                  null, scheduler)));
+        }
 
         resultInfo = jobStore.jobStarted(job, scheduler);
         event = new JobEventImpl(job, job.getJobDefinition(), resultInfo, null, scheduler);
-        if (GLog.isInfoEnabled() == true)
-          GLog.info(GenomeLogCategory.Scheduler, "JobRunner resultInfo: " + resultInfo, new LogJobEventAttribute(event));
+        if (GLog.isInfoEnabled() == true) {
+          GLog.info(GenomeLogCategory.Scheduler, "JobRunner resultInfo: " + resultInfo,
+              new LogJobEventAttribute(event));
+        }
         final Object result = StaticDaoManager.get().getSchedulerDAO().filterJobRun(this);
         // final Object result =
         // job.getExecutor().call(job.getJobArguments());
@@ -207,14 +214,16 @@ public class JobRunner implements Runnable
     } catch (Exception ex) {
       try {
         long jobId = -1;
-        if (job != null)
+        if (job != null) {
           jobId = job.getPk();
+        }
         /**
          * @logging
          * @reason
          * @action
          */
-        GLog.error(GenomeLogCategory.Scheduler, "JobRunner fail handle: " + state + "; jobId: " + jobId + "; " + ex.getMessage(), ex);
+        GLog.error(GenomeLogCategory.Scheduler,
+            "JobRunner fail handle: " + state + "; jobId: " + jobId + "; " + ex.getMessage(), ex);
       } catch (Exception ex1) {
         // OOOPs
       }
@@ -227,8 +236,9 @@ public class JobRunner implements Runnable
 
   public long getJobId()
   {
-    if (job == null)
+    if (job == null) {
       return -1;
+    }
     return job.getPk();
   }
 
@@ -253,8 +263,9 @@ public class JobRunner implements Runnable
        * @reason
        * @action
        */
-      GLog.trace(GenomeLogCategory.Scheduler, "Failed job", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-          State.STOP, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Failed job",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+              State.STOP, scheduler)));
     }
     Date nextRun = job.getTrigger().updateAfterRun(scheduler, JobCompletion.EXCEPTION);
     job.setFireTime(nextRun);
@@ -284,15 +295,17 @@ public class JobRunner implements Runnable
        * @reason
        * @action
        */
-      GLog.trace(GenomeLogCategory.Scheduler, "Retry job", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-          State.RETRY, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Retry job",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+              State.RETRY, scheduler)));
     }
     Date nextRun = job.getTrigger().updateAfterRun(scheduler, JobCompletion.EXPECTED_RETRY);
     job.setFireTime(nextRun);
-    if (nextRun != null)
+    if (nextRun != null) {
       job.setState(State.WAIT);
-    else
+    } else {
       job.setState(State.STOP);
+    }
     jobStore.jobRetry(job, resultInfo, ex, scheduler);
   }
 
@@ -304,15 +317,17 @@ public class JobRunner implements Runnable
        * @reason
        * @action
        */
-      GLog.trace(GenomeLogCategory.Scheduler, "Retry job", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-          State.RETRY, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Retry job",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+              State.RETRY, scheduler)));
     }
     Date nextRun = job.getTrigger().updateAfterRun(scheduler, JobCompletion.JOB_COMPLETED);
     job.setFireTime(nextRun);
-    if (nextRun != null)
+    if (nextRun != null) {
       job.setState(State.WAIT);
-    else
+    } else {
       job.setState(State.STOP);
+    }
     jobStore.jobRetry(job, resultInfo, ex, scheduler);
   }
 
@@ -328,16 +343,18 @@ public class JobRunner implements Runnable
        * @reason
        * @action
        */
-      GLog.trace(GenomeLogCategory.Scheduler, "Service unavailable", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(),
-          null, State.RETRY, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Service unavailable",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(),
+              null, State.RETRY, scheduler)));
     }
 
     Date nextRun = job.getTrigger().updateAfterRun(scheduler, JobCompletion.SERVICE_UNAVAILABLE);
     job.setFireTime(nextRun);
-    if (nextRun != null)
+    if (nextRun != null) {
       job.setState(State.WAIT);
-    else
+    } else {
       job.setState(State.STOP);
+    }
     jobStore.serviceRetry(job, resultInfo, ex, scheduler);
     scheduler.pause(scheduler.getServiceRetryTime());
   }
@@ -355,15 +372,17 @@ public class JobRunner implements Runnable
        * @reason
        * @action
        */
-      GLog.trace(GenomeLogCategory.Scheduler, "Job completed", new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
-          State.FINISHED, scheduler)));
+      GLog.trace(GenomeLogCategory.Scheduler, "Job completed",
+          new LogJobEventAttribute(new JobEventImpl(job, job.getJobDefinition(), null,
+              State.FINISHED, scheduler)));
     }
     Date nextRun = job.getTrigger().updateAfterRun(scheduler, JobCompletion.JOB_COMPLETED);
     job.setFireTime(nextRun);
-    if (nextRun != null)
+    if (nextRun != null) {
       job.setState(State.WAIT);
-    else
+    } else {
       job.setState(State.FINISHED);
+    }
     jobStore.jobCompleted(job, resultInfo, result, scheduler, nextRun);
     if (traceEnabled == true) {
       GLog.trace(GenomeLogCategory.Scheduler, "Job updated and finished",

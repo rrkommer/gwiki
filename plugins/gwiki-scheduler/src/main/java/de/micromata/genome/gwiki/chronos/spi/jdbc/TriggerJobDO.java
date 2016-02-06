@@ -40,7 +40,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import de.micromata.genome.dao.db.StdRecordDO;
 import de.micromata.genome.gwiki.chronos.FutureJob;
 import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.JobStore;
@@ -55,7 +54,7 @@ import de.micromata.genome.util.types.Converter;
  * Datenbank-Sicht auf einen Job mit dem entsprechenden Auslöser(Trigger).
  * 
  */
-public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
+public class TriggerJobDO extends ChronosBaseDO // implements /* Trigger,
 // */Job
 {
 
@@ -185,8 +184,9 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public String getArgumentDefinitionString()
   {
-    if (jobArgumentString != null)
+    if (jobArgumentString != null) {
       return jobArgumentString;
+    }
     jobArgumentString = SerializationUtil.serializeJobArguments(jobArgumentObject);
     return jobArgumentString;
 
@@ -208,8 +208,9 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public String getJobDefinitionString()
   {
-    if (jobDefinitionString != null)
+    if (jobDefinitionString != null) {
       return jobDefinitionString;
+    }
     jobDefinitionString = SerializationUtil.serializeJobDefinition(jobDefinitionObject);
     return jobDefinitionString;
   }
@@ -225,7 +226,7 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
     this.triggerDefintionString = null;
   }
 
-/**
+  /**
    * An Hand des übergebenen String werden verschiedene Definitionen kreiert.
    * <p>
    * <ul>
@@ -256,20 +257,24 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public Trigger getTrigger()
   {
-    if (triggerDefintionObject != null)
+    if (triggerDefintionObject != null) {
       return triggerDefintionObject;
-    if (triggerDefintionString == null)
+    }
+    if (triggerDefintionString == null) {
       return null;
+    }
     triggerDefintionObject = parseTrigger(triggerDefintionString);
     return triggerDefintionObject;
   }
 
   public String getTriggerDefinition()
   {
-    if (triggerDefintionString != null)
+    if (triggerDefintionString != null) {
       return triggerDefintionString;
-    if (triggerDefintionObject == null)
+    }
+    if (triggerDefintionObject == null) {
       return null;
+    }
     triggerDefintionString = triggerDefintionObject.getTriggerDefinition();
     return triggerDefintionString;
   }
@@ -291,24 +296,27 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public Object getJobArguments()
   {
-    if (jobArgumentObject != null)
+    if (jobArgumentObject != null) {
       return jobArgumentObject;
+    }
     jobArgumentObject = SerializationUtil.deserializeJobArguments(jobArgumentString);
     return jobArgumentObject;
   }
 
   public String getJobArgumentString()
   {
-    if (jobArgumentString != null)
+    if (jobArgumentString != null) {
       return jobArgumentString;
+    }
     jobArgumentString = SerializationUtil.serializeJobArguments(jobArgumentObject);
     return jobArgumentString;
   }
 
   public JobDefinition getJobDefinition()
   {
-    if (jobDefinitionObject != null)
+    if (jobDefinitionObject != null) {
       return jobDefinitionObject;
+    }
     jobDefinitionObject = SerializationUtil.deserializeJobDefinition(jobDefinitionString);
     return jobDefinitionObject;
   }
@@ -331,8 +339,9 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public String getFireTimeString()
   {
-    if (nextFireTime == null)
+    if (nextFireTime == null) {
       return null;
+    }
     return Converter.formatByIsoTimestampFormat(nextFireTime);
   }
 
@@ -348,8 +357,9 @@ public class TriggerJobDO extends StdRecordDO // implements /* Trigger,
 
   public String getLastScheduleTimeString()
   {
-    if (lastScheduledTime == null)
+    if (lastScheduledTime == null) {
       return null;
+    }
     return Converter.formatByIsoTimestampFormat(lastScheduledTime);
   }
 

@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gdbfs.MimeUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.util.web.MimeUtils;
 
 /**
  * Standard provider.
@@ -64,7 +64,8 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiMimeTypeProvider#getMimeType(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiMimeTypeProvider#getMimeType(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String)
    */
   @Override
   public String getMimeType(GWikiContext wikiContext, String uri)

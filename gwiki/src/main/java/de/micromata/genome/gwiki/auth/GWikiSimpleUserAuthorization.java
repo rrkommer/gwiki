@@ -50,11 +50,14 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     // defaultUsers = new HashMap<String, GWikiSimpleUser>();
     defaultConfig.getUsers().put("gwikisu", new GWikiSimpleUser("gwikisu", "gwiki", "genome@micromata.de", "+*"));
     defaultConfig.getUsers().put("anon", new GWikiSimpleUser("anon", "anon", "genome@micromata.de", "GWIKI_VIEWPAGES"));
-    defaultConfig.getUsers().put("gwikiadmin", new GWikiSimpleUser("gwikiadmin", "gwiki", "genome@micromata.de", "+*,-GWIKI_DEVELOPER"));
+    defaultConfig.getUsers().put("gwikiadmin",
+        new GWikiSimpleUser("gwikiadmin", "gwiki", "genome@micromata.de", "+*,-GWIKI_DEVELOPER"));
     defaultConfig.getUsers()
-        .put("gwikideveloper", new GWikiSimpleUser("gwikideveloper", "gwiki", "genome@micromata.de", "+*,-GWIKI_ADMIN"));
+        .put("gwikideveloper",
+            new GWikiSimpleUser("gwikideveloper", "gwiki", "genome@micromata.de", "+*,-GWIKI_ADMIN"));
   }
 
+  @Override
   public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
     GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
@@ -66,6 +69,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     }
   }
 
+  @Override
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
     GWikiSimpleUser su = defaultConfig.getUser(user);
@@ -91,6 +95,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   }
 
+  @Override
   public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback)
   {
     GWikiSimpleUser su = GWikiUserServeElementFilterEvent.getUser();
@@ -104,11 +109,13 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     }
   }
 
+  @Override
   public boolean needAuthorization(GWikiContext ctx)
   {
     return ctx.getSessionAttribute(SINGLEUSER_SESSION_KEY) == null;
   }
 
+  @Override
   public boolean initThread(GWikiContext wikiContext)
   {
     GWikiSimpleUser su = getSingleUser(wikiContext);
@@ -119,6 +126,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return true;
   }
 
+  @Override
   public void clearThread(GWikiContext ctx)
   {
     GWikiUserServeElementFilterEvent.setUser(null);
@@ -165,6 +173,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return false;
   }
 
+  @Override
   @Deprecated
   public boolean login(GWikiContext ctx, String user, String password)
   {
@@ -183,10 +192,12 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
         return false;
       }
     }
+    afterLogin(ctx, su);
     setSingleUser(ctx, su);
     return true;
   }
 
+  @Override
   public void logout(GWikiContext ctx)
   {
     GWikiSimpleUser su = getSingleUser(ctx);
@@ -199,6 +210,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     clearSession(ctx);
   }
 
+  @Override
   public boolean isCurrentAnonUser(GWikiContext ctx)
   {
     return getSingleUser(ctx).isAnon();
@@ -226,6 +238,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return su;
   }
 
+  @Override
   public void reloadUser(GWikiContext wikiContext)
   {
     String userName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
@@ -244,20 +257,24 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     ctx.setSessionAttribute(SINGLEUSER_SESSION_KEY, su);
   }
 
+  @Override
   public String getCurrentUserEmail(GWikiContext ctx)
   {
     return getSingleUser(ctx).getEmail();
   }
 
+  @Override
   public String getCurrentUserName(GWikiContext ctx)
   {
     return getSingleUser(ctx).getUser();
   }
 
+  @Override
   public boolean isAllowTo(GWikiContext ctx, String right)
   {
-    if (StringUtils.isBlank(right) == true)
+    if (StringUtils.isBlank(right) == true) {
       return true;
+    }
 
     GWikiSimpleUser su = getSingleUser(ctx);
     if (su == null) {
@@ -269,6 +286,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return su.getRightsMatcher().match(right);
   }
 
+  @Override
   public String getUserProp(GWikiContext ctx, String key)
   {
     String val = ctx.getCookie(key);
@@ -282,6 +300,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return su.getProps().get(key);
   }
 
+  @Override
   public void setUserProp(GWikiContext ctx, String key, String value, boolean persist)
   {
     GWikiSimpleUser su = getSingleUser(ctx);
@@ -296,6 +315,8 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   /**
    * Encodes with a SHA-Hash
+   * 
+   * TODO RK use !salting!
    * 
    * @return encoded value as BASE64
    */

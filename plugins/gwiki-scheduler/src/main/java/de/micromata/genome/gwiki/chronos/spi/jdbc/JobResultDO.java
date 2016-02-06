@@ -38,10 +38,9 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import de.micromata.genome.dao.db.StdRecordDO;
 import de.micromata.genome.gwiki.chronos.State;
 
-public class JobResultDO extends StdRecordDO
+public class JobResultDO extends ChronosBaseDO
 {
   /**
    * 
@@ -126,8 +125,9 @@ public class JobResultDO extends StdRecordDO
 
   public String getResultString()
   {
-    if (resultString != null)
+    if (resultString != null) {
       return resultString;
+    }
     // resultString = SerializationUtil.serialize(resultObject);
     return resultString;
   }
@@ -198,8 +198,10 @@ public class JobResultDO extends StdRecordDO
   {
     final ToStringBuilder sb = new ToStringBuilder(this);
 
-    sb.append("id", getPk()).append("jobId", jobPk).append("state", state).append("duration", duration).append("retryCount", retryCount)
-        .append("hostName", hostName).append("resultString", getResultString()).append("createdAt", getCreatedAtString())
+    sb.append("id", getPk()).append("jobId", jobPk).append("state", state).append("duration", duration)
+        .append("retryCount", retryCount)
+        .append("hostName", hostName).append("resultString", getResultString())
+        .append("createdAt", getCreatedAtString())
         .append("modifiedAt", getModifiedAtString());
     return sb.toString();
   }

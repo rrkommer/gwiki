@@ -58,7 +58,7 @@ import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedJobDefineMacroBe
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedSchedDefineMacroBean;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.runtime.CallableX;
-import de.micromata.genome.util.web.HostUtils;
+import de.micromata.genome.util.runtime.HostUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -82,6 +82,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
 
   }
 
+  @Override
   public List<TriggerJobDO> getNextJobs(final long lookForward)
   {
     loadStandardJobs();
@@ -183,7 +184,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageInfos(//
         new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
             new EqualsMatcher<String>(pei.getId()))//
-        );
+    );
 
     for (GWikiElementInfo ei : childs) {
       TriggerJobDO trigger = createJobByPage(ei);
@@ -224,12 +225,13 @@ public class GWikiSchedElementJobStore extends RamJobStore
    * @param schedulers
    * @param allJobs
    */
-  public void loadJobs(GWikiElement el, final Map<String, SchedulerDO> schedulers, final Map<String, Map<String, TriggerJobDO>> allJobs)
+  public void loadJobs(GWikiElement el, final Map<String, SchedulerDO> schedulers,
+      final Map<String, Map<String, TriggerJobDO>> allJobs)
   {
     if (el == null) {
       return;
     }
-    GWikiArtefakt< ? > art = el.getPart("MainPage");
+    GWikiArtefakt<?> art = el.getPart("MainPage");
     if ((art instanceof GWikiWikiPageArtefakt) == false) {
       GWikiLog.warn("Scheduler; MainPart is not a wiki: " + el.getElementInfo().getId());
       return;
@@ -248,9 +250,11 @@ public class GWikiSchedElementJobStore extends RamJobStore
       return;
     }
     cont.iterate(new PopulateMacroBeansMacroVisitor(wikiContext));
-    GWikiSimpleFragmentVisitor vis = new GWikiSimpleFragmentVisitor() {
+    GWikiSimpleFragmentVisitor vis = new GWikiSimpleFragmentVisitor()
+    {
       String currentScheduler;
 
+      @Override
       public void begin(GWikiFragment fragment)
       {
         if ((fragment instanceof GWikiMacroFragment) == false) {
@@ -278,6 +282,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
         }
       }
 
+      @Override
       public void end(GWikiFragment fragment)
       {
         if ((fragment instanceof GWikiMacroFragment) == false) {
@@ -322,7 +327,8 @@ public class GWikiSchedElementJobStore extends RamJobStore
 
     String metaTemplateId = "admin/templates/intern/SchedJobMetaTemplate";
     long id = getNextJobId(wikiContext);
-    GWikiElement jobel = GWikiWebUtils.createNewElement(wikiContext, "admin/system/scheduler/job_" + id, metaTemplateId, "Job " + id);
+    GWikiElement jobel = GWikiWebUtils.createNewElement(wikiContext, "admin/system/scheduler/job_" + id, metaTemplateId,
+        "Job " + id);
     job.setPk(id);
     mapJobToPageInfo(job, jobel.getElementInfo());
     return jobel;
@@ -387,8 +393,10 @@ public class GWikiSchedElementJobStore extends RamJobStore
   {
 
     final GWikiContext wikiContext = GWikiContext.getCreateContext();
-    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         GWikiLog.note("Scheduler; jobRemove: " + job);
@@ -409,8 +417,10 @@ public class GWikiSchedElementJobStore extends RamJobStore
   public void updateJob(final TriggerJobDO job)
   {
     final GWikiContext wikiContext = GWikiContext.getCreateContext();
-    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         GWikiLog.note("Scheduler; updateJob: " + job);

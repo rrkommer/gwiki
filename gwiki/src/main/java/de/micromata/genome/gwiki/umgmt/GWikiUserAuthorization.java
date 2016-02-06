@@ -19,7 +19,6 @@
 package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
+import de.micromata.genome.gwiki.auth.PasswordUtils;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
@@ -81,21 +81,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
   public static String encrypt(String plaintext)
   {
-
-    try {
-      MessageDigest md = MessageDigest.getInstance("SHA");
-      md.update(plaintext.getBytes("UTF-8"));
-      byte raw[] = md.digest();
-      String hash = Converter.encodeBase64(raw);
-      return hash;
-    } catch (Exception ex) {
-      /**
-       * @logging
-       * @reason Beim asymetrischen verschluesseln ist ein Fehler aufgetreten.
-       * @action Ueberpruefen der Java-Installation
-       */
-      throw new RuntimeException(ex);
-    }
+    return PasswordUtils.createSaltedPassword(plaintext);
   }
 
   @Override
@@ -139,7 +125,8 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     String userId = GWikiContext.getNamePartFromPageId(el.getElementInfo().getId());
     String rr = props.getStringValue(USER_PROP_RIGHTSRULE);
 
-    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD), props.getStringValue(USER_PROP_EMAIL), rr);
+    GWikiSimpleUser user = new GWikiSimpleUser(userId, props.getStringValue(USER_PROP_PASSWORD),
+        props.getStringValue(USER_PROP_EMAIL), rr);
     user.setDeactivated(props.getBooleanValue(USER_PROP_DEACTIVATED));
     user.setProps(props.getMap());
 
@@ -151,13 +138,15 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return user;
   }
 
+  @Override
   public boolean createUser(GWikiContext wikiContext, String userName, GWikiProps props)
   {
     if (hasUser(wikiContext, userName) == true) {
       return false;
     }
     String id = "admin/user/" + userName;
-    GWikiElement userEl = GWikiWebUtils.createNewElement(wikiContext, id, "admin/templates/intern/WikiUserMetaTemplate", id);
+    GWikiElement userEl = GWikiWebUtils.createNewElement(wikiContext, id, "admin/templates/intern/WikiUserMetaTemplate",
+        id);
     GWikiProps settings = userEl.getElementInfo().getProps();
     settings.setStringValue(GWikiPropKeys.AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
     settings.setStringValue(GWikiPropKeys.AUTH_VIEW, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
@@ -168,6 +157,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return true;
   }
 
+  @Override
   public boolean hasUser(GWikiContext wikiContext, String userName)
   {
     if (StringUtils.isBlank(userName) == true) {
@@ -180,8 +170,9 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
 
   protected GWikiElement findUserElement(GWikiContext ctx, String user)
   {
-    if (ctx.getWikiWeb() == null)
+    if (ctx.getWikiWeb() == null) {
       return null;
+    }
     String id = "admin/user/" + user;
     GWikiElement el = ctx.getWikiWeb().findElement(id);
     return el;
@@ -193,11 +184,13 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     if (StringUtils.equals(wdun, user) == false) {
       return null;
     }
-    GWikiSimpleUser wdu = new GWikiSimpleUser(wdun, ctx.getWikiWeb().getDaoContext().getWebDavPasswordHash(), "gwiki-noreply@micromata.de",
+    GWikiSimpleUser wdu = new GWikiSimpleUser(wdun, ctx.getWikiWeb().getDaoContext().getWebDavPasswordHash(),
+        "gwiki-noreply@micromata.de",
         "+*");
     return wdu;
   }
 
+  @Override
   public GWikiSimpleUser findUser(GWikiContext ctx, String user)
   {
     if (StringUtils.isBlank(user) == true) {
@@ -217,6 +210,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     // return findFallbackUser(ctx, user);
   }
 
+  @Override
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
     GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.getUser();
@@ -232,6 +226,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     }
   }
 
+  @Override
   public boolean login(GWikiContext ctx, String user, String password)
   {
     GWikiSimpleUser su = findUser(ctx, user);
@@ -242,19 +237,13 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       GWikiLog.note("Deactivated user login attempt: " + user);
       return false;
     }
-    String penc = encrypt(password);
-    if (StringUtils.equals(su.getPassword(), penc) == false) {
-      return false;
+    if (PasswordUtils.checkSaltedPassword(password, su.getPassword()) == false) {
+      String penc = encrypt(password);
+      if (StringUtils.equals(su.getPassword(), penc) == false) {
+        return false;
+      }
     }
-
-    setSingleUser(ctx, su);
-    GWikiUserServeElementFilterEvent.setUser(su);
-    if (ctx.getWikiWeb().getFilter().onLogin(ctx, su) == false) {
-      GWikiUserServeElementFilterEvent.setUser(null);
-      return false;
-    }
-    GWikiLog.note("User logged in: " + user);
-    return true;
+    return afterLogin(ctx, su);
   }
 
   public void setUserProp(GWikiContext ctx, String key, String value)
@@ -345,6 +334,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     }
   }
 
+  @Override
   public SortedMap<String, GWikiRight> getSystemRights(GWikiContext wikiContext)
   {
     SortedMap<String, GWikiRight> ret = new TreeMap<String, GWikiRight>();
@@ -363,7 +353,8 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return new GWikiRight(rs, GWikiRight.RIGHT_CAT_OTHER_RIGHT, "");
   }
 
-  public boolean collectRights(Matcher<String> m, Map<String, GWikiRight> systemRights, SortedMap<String, GWikiRight> ret)
+  public boolean collectRights(Matcher<String> m, Map<String, GWikiRight> systemRights,
+      SortedMap<String, GWikiRight> ret)
   {
     if (m instanceof EqualsMatcher) {
       EqualsMatcher<String> em = (EqualsMatcher<String>) m;
@@ -407,7 +398,9 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return roles;
   }
 
-  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights, String roleString)
+  @Override
+  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights,
+      String roleString)
   {
     Matcher<String> rightsMatcher = new BooleanListRulesFactory<String>().createMatcher(roleString);
     GWikiRoleConfig rc = getRoleConfig(wikiContext);
