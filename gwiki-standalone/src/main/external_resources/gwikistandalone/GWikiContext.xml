@@ -18,7 +18,7 @@
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
-					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedgwikidbFileSystem">
 						<constructor-arg>
 							<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 								<constructor-arg>

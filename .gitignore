@@ -10,3 +10,5 @@ classes/
 
 **/.fslock
 gwiki/src/main/external_resources/gwiki_tmp
+gwiki-standalone/gwiki_derby
+gwiki-standalone/gwiki

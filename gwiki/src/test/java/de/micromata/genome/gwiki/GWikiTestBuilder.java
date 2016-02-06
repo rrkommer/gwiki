@@ -33,6 +33,8 @@ import de.micromata.genome.gwiki.web.StandaloneHttpServletResponse;
 import de.micromata.genome.test.web.SimHttpSession;
 import de.micromata.genome.test.web.SimServletConfig;
 import de.micromata.genome.test.web.SimServletContext;
+import de.micromata.genome.util.runtime.LocalSettings;
+import de.micromata.genome.util.runtime.LocalSettingsEnv;
 
 /**
  * Testbuilder for tests.
@@ -71,7 +73,8 @@ public class GWikiTestBuilder
       this.servlet = GWikiServlet.INSTANCE;
       return this;
     }
-    System.setProperty("gwiki.dev.path", ".");
+    LocalSettings.get();
+    LocalSettingsEnv.get();
     GenomeTemplateUtils.IN_UNITEST = true;
     SimServletConfig msc = new SimServletConfig();
     msc.setServletName("gwiki");
@@ -81,7 +84,8 @@ public class GWikiTestBuilder
         GWikiCpContextBootstrapConfigLoader.class.getName());
     initParams.put("de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader.fileName",
         "src/main/external_resources/GWikiContext.xml");
-    initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName", "GWikiTestContext.xml");
+    initParams.put("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName",
+        "GWikiTestContext.xml");
     sc.setServlet(GWikiServlet.class, "gwiki", initParams);
     msc.setServletContext(sc);
     servlet = GWikiServlet.INSTANCE;
@@ -176,7 +180,7 @@ public class GWikiTestBuilder
   {
     StandaloneHttpServletRequest req = createReq(pageId);
     for (int i = 0; i < postArgs.length - 1; ++i) {
-      req.getParameterMap().put(postArgs[i], new String[] { postArgs[i + 1]});
+      req.getParameterMap().put(postArgs[i], new String[] { postArgs[i + 1] });
       ++i;
     }
     return serve(req, createResp());

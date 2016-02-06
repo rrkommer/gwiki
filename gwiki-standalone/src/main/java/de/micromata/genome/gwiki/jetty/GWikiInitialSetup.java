@@ -1,15 +1,30 @@
 package de.micromata.genome.gwiki.jetty;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
+import java.util.function.Supplier;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
+import de.micromata.genome.gwiki.auth.GWikiSysUserAuthorization;
+import de.micromata.genome.gwiki.auth.PasswordUtils;
+import de.micromata.genome.util.collections.SortedProperties;
+import de.micromata.genome.util.runtime.LocalSettings;
+import de.micromata.genome.util.runtime.RuntimeIOException;
+import de.micromata.genome.util.text.PlaceHolderReplacer;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Utility class to create initial configuration.
@@ -17,9 +32,17 @@ import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiInitialSetup
+public class GWikiInitialSetup extends CmdLineInput
 {
+
   private String gwikiPropFileName = "gwiki.properties";
+
+  private Map<String, String> templateParams = new HashMap<>();
+  private boolean createNewContextFile = true;
+
+  private String configLocation = "";
+  Map<String, String> props = new HashMap<>();
+  Map<String, String> initialProps = new HashMap<>();
 
   public GWikiInitialSetup()
   {
@@ -29,101 +52,12 @@ public class GWikiInitialSetup
     }
   }
 
-  protected String readLine()
+  protected File getConfigLocation(String fileName)
   {
-    StringBuilder sb = new StringBuilder();
-    try {
-      do {
-        int c = System.in.read();
-        if (c == '\n') {
-          String s = sb.toString();
-          if (s.length() > 0 && s.charAt(s.length() - 1) == '\r') {
-            s = s.substring(0, s.length() - 1);
-          }
-          return s;
-        }
-        sb.append((char) c);
-      } while (true);
-    } catch (IOException ex) {
-      throw new RuntimeException(ex);
+    if (StringUtils.isEmpty(configLocation) == true || configLocation.equals(".") == true) {
+      return new File(new File(".").getAbsoluteFile(), fileName);
     }
-  }
-
-  protected void message(String message)
-  {
-    System.out.println(message);
-  }
-
-  protected boolean ask(String message)
-  {
-    System.out.println(message);
-    do {
-      System.out.print("(Yes/No): ");
-      String inp = StringUtils.trim(readLine());
-      inp = inp.toLowerCase();
-      if (inp.equals("y") == true || inp.equals("yes") == true) {
-        return true;
-      }
-      if (inp.equals("n") == true || inp.equals("no") == true) {
-        return false;
-      }
-    } while (true);
-  }
-
-  protected boolean ask(String message, boolean defaultYes)
-  {
-    System.out.println(message);
-    do {
-      if (defaultYes == true) {
-        System.out.print("([Yes]/No): ");
-      } else {
-        System.out.print("(Yes/[No]): ");
-      }
-      String inp = StringUtils.trim(readLine());
-      inp = inp.toLowerCase();
-      if (StringUtils.isEmpty(inp) == true) {
-        return defaultYes;
-      }
-      if (inp.equalsIgnoreCase("y") == true || inp.equalsIgnoreCase("yes") == true) {
-        return true;
-      }
-      if (inp.equalsIgnoreCase("n") == true || inp.equalsIgnoreCase("no") == true) {
-        return false;
-      }
-    } while (true);
-  }
-
-  protected String getInput(String prompt)
-  {
-    return getInput(prompt, null);
-  }
-
-  protected String getInput(String prompt, String defaultValue)
-  {
-    do {
-      if (defaultValue == null) {
-        message(prompt + ": ");
-      } else {
-        message(prompt + "[" + defaultValue + "]: ");
-      }
-      String inp = readLine();
-      if (defaultValue != null) {
-        if (inp.length() == 0) {
-          return defaultValue;
-        }
-      }
-      if (inp.length() > 0) {
-        return inp;
-      }
-    } while (true);
-  }
-
-  protected void setSysProp(String key, Properties props, String defaultValue)
-  {
-    if (StringUtils.isEmpty(System.getProperty(key)) == false) {
-      return;
-    }
-    System.setProperty(key, StringUtils.defaultString(props.getProperty(key), defaultValue));
+    return new File(new File(configLocation).getAbsoluteFile(), fileName);
   }
 
   /**
@@ -133,33 +67,21 @@ public class GWikiInitialSetup
   public boolean readCheckBasicSettings()
   {
     boolean firstStart = checkBasicSettings();
-    Properties props = new Properties();
-    File propFile = new File(gwikiPropFileName);
-    try {
-      props.load(new FileInputStream(new File(gwikiPropFileName)));
-    } catch (IOException ex) {
-      throw new RuntimeException("Failed to load properties file: " + propFile.getAbsolutePath() + ": " + ex.getMessage(), ex);
-    }
-    setSysProp("gwiki.jetty.port", props, "8081");
-    setSysProp("gwiki.jetty.contextpath", props, "/");
-    setSysProp("gwiki.jetty.logs", props, "");
-    setSysProp("gwiki.wikifilepath", props, "./gwiki");
-    setSysProp("gwiki.sys.user", props, "");
-    setSysProp("gwiki.sys.passwordhash", props, "");
-    setSysProp("gwiki.enable.webdav", props, "false");
-    setSysProp("gwiki.dev.path", props, "./gwiki");
-    setSysProp("de.micromata.genome.gwiki.contextfile", props, "GWikiContext.xml");
-    for (String k : (Set<String>) (Set) props.keySet()) {
-      setSysProp(k, props, "");
-    }
     return firstStart;
 
   }
 
-  protected void checkEmailServer(Properties props)
+  protected void checkEmailServer()
   {
     if (ask("GWiki sends email to notify page changes and in case user resets the password.\n"
         + "Do you want to configure an Email server?", false) == false) {
+      props.put("mail.smtp.auth", "false");
+      props.put("mail.smtp.host", "localhost");
+      props.put("mail.smtp.port", "25");
+      props.put("mail.smtp.user", "");
+      props.put("mail.smtp.password", "");
+      props.put("mail.smtp.ssl.enable", "false");
+      props.put("mail.smtp.starttls.enable", "false");
       return;
     }
     String server = getInput("Mail servers hostname");
@@ -181,14 +103,94 @@ public class GWikiInitialSetup
 
   protected boolean checkBasicSettings()
   {
-    File propFile = new File(gwikiPropFileName);
+    File propFile = getConfigLocation(gwikiPropFileName);
     if (propFile.exists() == true) {
       return false;
     }
+    return createNewProperties();
+  }
+
+  protected boolean createNewProperties()
+  {
+
     message("Welcome to GWiki.\n"
         + "You are running GWiki the first time.\nPlease answer following questions.\n"
         + "If the prompt has [defaultValue] you can also accept the defaultValue by hitting enter.\n\n");
-    Properties props = new Properties();
+
+    getConfigLocation(gwikiPropFileName);
+    getHttpServer();
+    getFileSystem();
+
+    if (ask("Generate System user?", true) == true) {
+      props.put(GWikiSysUserAuthorization.LS_GWIKI_SYS_USER, getInput("user name", "gwikisys"));
+      String pass;
+      do {
+        pass = StringUtils.trim(getInput("user password"));
+        if (pass.length() < 5) {
+          message("password should have at least 5 characters");
+          continue;
+        }
+        break;
+      } while (true);
+      String salted = PasswordUtils.createSaltedPassword(pass);
+      props.put(GWikiSysUserAuthorization.LS_GWIKI_SYS_PASSWORDHASH, salted);
+    }
+    String enableWebDAV = "false";
+    if (ask("Enable User for WebDAV Access?", false) == true) {
+      enableWebDAV = "true";
+    }
+    props.put("gwiki.enable.webdav", enableWebDAV);
+
+    checkEmailServer();
+
+    createContextFile();
+    storeConfig();
+    message("Configuration finished.\n");
+    return true;
+  }
+
+  protected void storeConfig()
+  {
+    getConfigLocation();
+    File propFile = getConfigLocation(gwikiPropFileName);
+    String contextFile = getGWikiContextFile();
+    props.put("gwiki.contextfile", contextFile);
+
+    Properties properties = new SortedProperties();
+    for (Map.Entry<String, String> me : props.entrySet()) {
+      properties.put(me.getKey(), me.getValue());
+    }
+    try (FileOutputStream fis = new FileOutputStream(propFile)) {
+      properties.store(fis, "Generated by Gwiki");
+    } catch (IOException ex) {
+      throw new RuntimeException("Failed to write Properties file: " + ex.getMessage(), ex);
+    }
+    message("The settings are stored in " + propFile.getAbsolutePath()
+        + "\nYou can change the settings using a text editor.");
+    message("GWiki Server is now starting");
+    LocalSettings ls = LocalSettings.get();
+    ls.getMap().putAll(props);
+    ls.getMap().putAll(this.initialProps);
+
+  }
+
+  private void getConfigLocation()
+  {
+    do {
+      String path = getInput("Directory to store Gwiki configuration", ".");
+      File file = new File(path);
+      if (file.isDirectory() == false) {
+        message("directory does not exists: " + file.getAbsolutePath());
+        continue;
+      }
+      configLocation = file.getAbsolutePath();
+      break;
+    } while (true);
+
+  }
+
+  private void getHttpServer()
+  {
     String port;
     do {
       port = getInput("HTTP Port", "8081");
@@ -223,6 +225,55 @@ public class GWikiInitialSetup
       props.put("gwiki.public.email", pubemail);
       break;
     } while (true);
+  }
+
+  private void createContextFile()
+  {
+    if (createNewContextFile == false) {
+      return;
+    }
+    try (InputStream is = getClass().getClassLoader().getResourceAsStream("GWikiContextTemplate.xml")) {
+      String content = IOUtils.toString(is, Charset.forName("UTF-8"));
+      String contxml = PlaceHolderReplacer.resolveReplace(content, "%{", "}", (repl) -> templateParams.get(repl));
+      File file = getConfigLocation("GWikiContext.xml");
+      FileUtils.write(file, contxml, Charset.forName("UTF-8"));
+    } catch (IOException ex) {
+      throw new RuntimeIOException(ex);
+    }
+  }
+
+  private String getGWikiContextFile()
+  {
+    if (ask("Use existing GWikiContext.xml file", false) == false) {
+      createNewContextFile = true;
+      return getConfigLocation("GWikiContext.xml").getAbsolutePath();
+    }
+    createNewContextFile = false;
+    String contextFile = "GWikiContext.xml";
+    do {
+      contextFile = getInput("Location of GWikiContext.xml file", "GWikiContext.xml");
+      File f = new File(contextFile);
+      if (f.exists() == false || f.isFile() == false) {
+        message("File cannot be found or is not a file: " + f.getAbsolutePath());
+        continue;
+      }
+      break;
+    } while (true);
+    return contextFile;
+  }
+
+  private void getFileSystem()
+  {
+    if (checkDbSettings() == true) {
+      props.put("gwiki.wikifilepath", "");
+      return;
+    }
+    getLocalFileSystem();
+
+  }
+
+  private void getLocalFileSystem()
+  {
     String defaultPath = new File("./gwiki").getAbsolutePath();
     do {
       message("Where to store gwiki files? Please select an empty directory.");
@@ -240,50 +291,112 @@ public class GWikiInitialSetup
         }
       }
       props.put("gwiki.wikifilepath", d.getAbsolutePath());
+      templateParams.put("PRIMARYFILESYSTEM",
+          "             <bean class=\"de.micromata.genome.gdbfs.StdFileSystem\">\r\n" +
+              "                <constructor-arg>\r\n" +
+              "                  <value>${gwiki.wikifilepath}</value>\r\n" +
+              "                </constructor-arg>\r\n" +
+              "              </bean>");
       break;
     } while (true);
+  }
 
-    if (ask("Generate System user?", true) == true) {
-      props.put("gwiki.sys.user", getInput("user name", "gwikisys"));
-      String pass;
-      do {
-        pass = getInput("user password");
-        if (pass.length() < 5) {
-          message("password should have at least 5 characters");
-          continue;
-        }
-        break;
-      } while (true);
-      props.put("gwiki.sys.passwordhash", GWikiSimpleUserAuthorization.encrypt(pass));
-    }
-    String enableWebDAV = "false";
-    if (ask("Enable User for WebDAV Access?", false) == true) {
-      enableWebDAV = "true";
-    }
-    props.put("gwiki.enable.webdav", enableWebDAV);
-
-    String contextFile = "GWikiContext.xml";
+  protected StandaloneDatabases getDataBase()
+  {
     do {
-      contextFile = getInput("Location of GWikiContext.xml file", "GWikiContext.xml");
-      File f = new File(contextFile);
-      if (f.exists() == false || f.isFile() == false) {
-        message("File cannot be found or is not a file: " + f.getAbsolutePath());
+      message("Select a Database type: ");
+      for (StandaloneDatabases db : StandaloneDatabases.values()) {
+        message(" (" + db.getNum() + ") " + db.getDescription());
+      }
+      message(" E(x)it");
+
+      String input = getInput("1, 2, 3 or x: ");
+      if (StringUtils.isBlank(input) == true) {
         continue;
       }
-      break;
+      if (StringUtils.equalsIgnoreCase(input, "x") == true) {
+        return null;
+      }
+      StandaloneDatabases db = StandaloneDatabases.getDatabaseByInput(input);
+      if (db != null) {
+        return db;
+      }
     } while (true);
+  }
 
-    checkEmailServer(props);
-    message("Configuration finished.\n");
-    props.put("de.micromata.genome.gwiki.contextfile", contextFile);
-    try {
-      props.store(new FileOutputStream(propFile), "Generated by Gwiki");
-    } catch (IOException ex) {
-      throw new RuntimeException("Failed to write Properties file: " + ex.getMessage(), ex);
+  /**
+   * 
+   * @param db
+   * @return first initial, url.
+   */
+  public Pair<String, String> getJdbcUrl(StandaloneDatabases db)
+  {
+    Supplier<Pair<String, String>> supl = db.getCmdlineUrlSuplider();
+    if (supl != null) {
+      return supl.get();
     }
-    message("The settings are stored in " + propFile.getAbsolutePath() + "\nYou can change the settings using a text editor.");
-    message("GWiki Server is now starting");
-    return true;
+    message(
+        "Get the jdbc url (Sample: " + db.getSampleUrl() + ")");
+    String inp = getInput("Get the jdbc url (Sample: " + db.getSampleUrl() + "): ");
+    return Pair.make(inp, inp);
+  }
 
+  protected boolean checkDbSettings()
+  {
+    do {
+      if (ask("Do you want to store pages in Database (otherwise in file system", false) == false) {
+        return false;
+      }
+      StandaloneDatabases db = getDataBase();
+      if (db == null) {
+        continue;
+      }
+      Pair<String, String> pair = getJdbcUrl(db);
+      String url = pair.getFirst();
+      String dbuser = getInput("database user", "", true);
+      String dbpass = getInput("database password", "", true);
+      if (checkDbUrl(db, url, dbuser, dbpass) == true) {
+        props.put("db.ds.gwikdb.name", "gwikidb");
+        props.put("db.ds.gwikdb.drivername", db.getDriver());
+        this.initialProps.put("db.ds.gwikdb.url", url);
+        props.put("db.ds.gwikdb.url", pair.getSecond());
+        props.put("db.ds.gwikdb.username", dbuser);
+        props.put("db.ds.gwikdb.password", dbpass);
+        props.put("genomeds", "gwikidb");
+
+        props.put("jndi.bind.standard.target", "java:/comp/env/genome/jdbc/dsWeb");
+        props.put("jndi.bind.standard.type", "DataSource");
+        props.put("jndi.bind.standard.source", "gwikidb");
+
+        templateParams.put("PRIMARYFILESYSTEM",
+            "             <bean class=\"de.micromata.genome.gdbfs.jpa.JpaFileSystemImpl\">\r\n" +
+                "              </bean>");
+
+        initialProps.put("hibernate.hbm2ddl.auto", "update");
+        return true;
+      }
+      continue;
+    } while (false);
+
+    return true;
+  }
+
+  private boolean checkDbUrl(StandaloneDatabases db, String url, String user, String pass)
+  {
+    try {
+      Class.forName(db.getDriver());
+      try (Connection con = DriverManager.getConnection(url, user, pass)) {
+        try (Statement stmt = con.createStatement()) {
+          message("Created DB Connection....");
+        }
+      }
+      return true;
+    } catch (ClassNotFoundException e) {
+      message("Cannot find db driver");
+      return false;
+    } catch (SQLException e) {
+      message("Cannot create connection: " + e.getMessage());
+      return false;
+    }
   }
 }
