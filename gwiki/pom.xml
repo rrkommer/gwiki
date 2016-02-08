@@ -22,7 +22,15 @@
               <archive>
                 <manifestEntries>
                   <Genome-Import-Library>
-                    P${gwiki.version}_gwiki-gdbfs;reexport:=true
+                    P${gwiki.version}_gwiki-gdbfs;reexport:=true,
+                    P${mgc.version}_de.micromata.mgc.util.xml;reexport:=true,
+                    commons-fileupload-1.2.2;reexport:=true,
+                    nekohtml-1.9.13;reexport:=true,
+                    milton-api-1.4.2;reexport:=true,
+                    milton-servlet-1.4.2;reexport:=true,
+                    slf4j-api-164_log4j-164,
+                    antlr-2.7.7;reexport:=true,
+                    xercesImpl-2.9.1;reexport:=true
                   </Genome-Import-Library>
                 </manifestEntries>
               </archive>
