@@ -58,7 +58,7 @@ public abstract class GWikiAbstractSpringContextBootstrapConfigLoader implements
   @Override
   public GWikiDAOContext loadConfig(ServletConfig config)
   {
-    if (config != null) {
+    if (config != null && StringUtils.isBlank(fileName) == true) {
       fileName = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.fileName");
       supportsJndi = StringUtils.equals(config.getInitParameter("de.micromata.genome.gwiki.supportsJndi"), "true");
     }

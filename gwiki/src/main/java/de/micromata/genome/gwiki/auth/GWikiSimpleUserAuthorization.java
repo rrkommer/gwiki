@@ -57,6 +57,8 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
             new GWikiSimpleUser("gwikideveloper", "gwiki", "genome@micromata.de", "+*,-GWIKI_ADMIN"));
   }
 
+  private boolean recursiveLogGuard = false;
+
   @Override
   public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
@@ -266,7 +268,16 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
   @Override
   public String getCurrentUserName(GWikiContext ctx)
   {
-    return getSingleUser(ctx).getUser();
+    if (recursiveLogGuard == true) {
+      return "anon";
+    }
+    try {
+      recursiveLogGuard = true;
+      return getSingleUser(ctx).getUser();
+    } finally {
+      recursiveLogGuard = false;
+    }
+
   }
 
   @Override

@@ -6,11 +6,10 @@
    <packaging>pom</packaging>
    <version>1.0.4</version><!-- GWIKVERSION -->
     <modules>
-    <module>gwiki-genome-dependencies</module>
     <module>gwiki-gdbfs</module>
-	<module>gwiki</module>
-	<module>plugins</module>
-	<module>gwiki-standalone</module>
+    <module>gwiki</module>
+    <module>plugins</module>
+    <module>gwiki-standalone</module>
     
   </modules>
   
@@ -33,6 +32,7 @@
 		<com.oracle.ojdbc6.version>11.2.0.2.0</com.oracle.ojdbc6.version>
  		<postgresql.version>9.4-1206-jdbc42</postgresql.version>
     <spring.version>3.2.13.RELEASE</spring.version>
+ 		<genome.mvn.plugin.version>2.1.0-SNAPSHOT</genome.mvn.plugin.version>    
   </properties>
 
   <profiles>
