@@ -1,0 +1,29 @@
+
+.loge {
+	border-bottom: 1px solid black;
+}
+.logt {
+	width: 100px;
+	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.logl {
+	width: 60px;
+	display: inline;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.logm {
+	display: inline;
+}
+
+.lewarn {
+	background-color: #ffcccc;
+}
+
+.leerror {
+	background-color: #ff3333;
+}

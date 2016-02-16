@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="frame" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.micromata.genome.javafx.logging.LoggingController">
+   <children>
+      <Pane maxWidth="1.7976931348623157E308" prefHeight="90.0" prefWidth="1000.0" VBox.vgrow="NEVER">
+         <children>
+            <CheckBox fx:id="autoScroll" layoutX="599.0" layoutY="13.0" mnemonicParsing="false" text="Autoscroll" />
+            <ChoiceBox fx:id="logLevel" layoutX="140.0" layoutY="9.0" prefHeight="25.0" prefWidth="93.0" />
+            <TextField fx:id="filterText" layoutX="233.0" layoutY="9.0" prefHeight="25.0" prefWidth="291.0" />
+            <Button fx:id="filterButton" layoutX="524.0" layoutY="11.0" mnemonicParsing="false" text="Filter" />
+            <Button fx:id="clearButton" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="Clear" />
+         </children>
+      </Pane>
+      <WebView fx:id="htmlView" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>

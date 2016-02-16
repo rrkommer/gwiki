@@ -26,7 +26,7 @@
 							<mainClass>de.micromata.genome.gwiki.jetty.GWikiJettyStarter</mainClass>
 						</manifest>
 						<manifestEntries>
-							<Built-By>Micromata GmbH</Built-By>
+							<Built-By>Roger Kommer</Built-By>
 						</manifestEntries>
 					</archive>
 				</configuration>

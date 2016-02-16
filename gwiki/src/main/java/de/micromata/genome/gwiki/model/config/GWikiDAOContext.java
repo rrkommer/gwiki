@@ -19,6 +19,8 @@
 package de.micromata.genome.gwiki.model.config;
 
 import javax.mail.Session;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -29,6 +31,7 @@ import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
+import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiLogging;
 import de.micromata.genome.gwiki.model.GWikiLoggingBufferedLogger;
 import de.micromata.genome.gwiki.model.GWikiLoggingLog4J;
@@ -142,19 +145,20 @@ public class GWikiDAOContext
     getLogging().reinitConfig();
   }
 
+  @Override
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
     sb.append("storage: ").append(ObjectUtils.toString(storage)).append("\n") //
         .append("authorization: ").append(ObjectUtils.toString(authorization)).append("\n") //
-    ;
+        ;
     return sb.toString();
   }
 
   @SuppressWarnings("unchecked")
   public <T> T getBean(String name, Class<T> requiredType)
   {
-    return (T) beanFactory.getBean(name, requiredType);
+    return beanFactory.getBean(name, requiredType);
   }
 
   public GWikiPageCache getNewPageCache()
@@ -259,6 +263,14 @@ public class GWikiDAOContext
 
   public Session getMailSession()
   {
+    if (mailSession != null) {
+      return mailSession;
+    }
+    try {
+      mailSession = (Session) new InitialContext().lookup("java:/comp/env/genome/mail/Session");
+    } catch (NamingException e) {
+      GWikiLog.warn("No Mail session found");
+    }
     return mailSession;
   }
 

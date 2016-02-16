@@ -31,12 +31,19 @@ import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class GWikiChangeNotificationFilter implements GWikiStorageStoreElementFilter
 {
 
-  public static void findUser(GWikiContext wikiContext, Properties props, GWikiElementInfo ei, boolean recursiveOnly, Set<String> ret)
+  public static void findUser(GWikiContext wikiContext, Properties props, GWikiElementInfo ei, boolean recursiveOnly,
+      Set<String> ret)
   {
-    Map<String, Boolean> m = GWikiChangeNotificationActionBean.getNotificationEmailsForPage(wikiContext, ei.getId(), props);
+    Map<String, Boolean> m = GWikiChangeNotificationActionBean.getNotificationEmailsForPage(wikiContext, ei.getId(),
+        props);
     for (Map.Entry<String, Boolean> me : m.entrySet()) {
       if (recursiveOnly == true && me.getValue() != Boolean.TRUE) {
         continue;
@@ -50,6 +57,7 @@ public class GWikiChangeNotificationFilter implements GWikiStorageStoreElementFi
     findUser(wikiContext, props, ei, true, ret);
   }
 
+  @Override
   public Void filter(GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
       GWikiStorageStoreElementFilterEvent event)
   {

@@ -39,7 +39,7 @@ public class GWikiInitialSetup extends CmdLineInput
 
   private Map<String, String> templateParams = new HashMap<>();
   private boolean createNewContextFile = true;
-
+  // TODO RK does not really works.
   private String configLocation = "";
   Map<String, String> props = new HashMap<>();
   Map<String, String> initialProps = new HashMap<>();
@@ -75,35 +75,59 @@ public class GWikiInitialSetup extends CmdLineInput
   {
     if (ask("GWiki sends email to notify page changes and in case user resets the password.\n"
         + "Do you want to configure an Email server?", false) == false) {
-      props.put("mail.smtp.auth", "false");
-      props.put("mail.smtp.host", "localhost");
-      props.put("mail.smtp.port", "25");
-      props.put("mail.smtp.user", "");
-      props.put("mail.smtp.password", "");
-      props.put("mail.smtp.ssl.enable", "false");
-      props.put("mail.smtp.starttls.enable", "false");
       return;
     }
+
+    //    props.put("mail.smtp.ssl.enable", "false");
+    //    props.put("mail.smtp.starttls.enable", "false");
+    //    props.put("mail.smtp.user", "");
+    //    props.put("mail.smtp.password", "");
+    //    if (ask("GWiki sends email to notify page changes and in case user resets the password.\n"
+    //        + "Do you want to configure an Email server?", false) == false) {
+    //      props.put("mail.smtp.auth", "false");
+    //      props.put("mail.smtp.host", "localhost");
+    //      props.put("mail.smtp.port", "25");
+    //      return;
+    //    }
+    props.put("mail.session.gwiki.name", "GWikiMailSession");
     String server = getInput("Mail servers hostname");
-    props.put("mail.smtp.host", server);
+    props.put("mail.session.gwiki.smtp.host", server);
     String port = getInput("Mail servers port", "25");
-    props.put("mail.smtp.host", port);
+    props.put("mail.session.gwiki.smtp.port", port);
     if (ask("Need your email server authentification?") == true) {
-      props.put("mail.smtp.auth", "true");
+      props.put("mail.session.gwiki.smtp.auth", "true");
       message("Input now email server account data. The password will be stored as clear text in the gwiki.properties");
       String user = getInput("email server user");
-      props.put("mail.smtp.user", user);
-      String pass = getInput("email server user");
-      props.put("mail.smtp.password", pass);
+      props.put("mail.session.gwiki.smtp.user", user);
+      String pass = getInput("email server password");
+      props.put("mail.session.gwiki.smtp.password", pass);
     } else {
-      props.put("mail.smtp.auth", "false");
+      props.put("mail.session.gwiki.smtp.auth", "false");
+      props.put("mail.session.gwiki.smtp.user", "");
+      props.put("mail.session.gwiki.smtp.password", "");
+    }
+    if (ask("Enbale StartTLSin for EMail SMPT")) {
+      props.put("mail.session.gwiki.smtp.starttls.enable", "true");
+    }
+    if (ask("Enbale SSL in for EMail SMPT")) {
+      props.put("mail.session.gwiki.smtp.ssl.enable", "true");
     }
 
+    props.put("jndi.bind.gwikimailsession.target", "java:/comp/env/genome/mail/Session");
+    props.put("jndi.bind.gwikimailsession.type", "MailSession");
+    props.put("jndi.bind.gwikimailsession.source", "GWikiMailSession");
+
+  }
+
+  public File getGwikiProperties()
+  {
+    File propFile = getConfigLocation(gwikiPropFileName);
+    return propFile;
   }
 
   protected boolean checkBasicSettings()
   {
-    File propFile = getConfigLocation(gwikiPropFileName);
+    File propFile = getGwikiProperties();
     if (propFile.exists() == true) {
       return false;
     }
@@ -176,6 +200,10 @@ public class GWikiInitialSetup extends CmdLineInput
 
   private void getConfigLocation()
   {
+    configLocation = new File("").getAbsolutePath();
+    if (true) {
+      return;
+    }
     do {
       String path = getInput("Directory to store Gwiki configuration", ".");
       File file = new File(path);

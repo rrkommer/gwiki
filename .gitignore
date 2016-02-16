@@ -12,5 +12,8 @@ classes/
 gwiki/src/main/external_resources/gwiki_tmp
 gwiki-standalone/gwiki_derby
 gwiki-standalone/gwiki
+gwiki-standalone/log
+gwikilauncher/gwiki-derby
+gwikilauncher/log
 **/gwiki-dev.properties
 **/local-settings-dev.properties

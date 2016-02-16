@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import de.micromata.genome.javafx.logging.*?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.micromata.genome.gwiki.launcher.MainWindow">
+   <children>
+      <MenuBar prefHeight="24.0" prefWidth="904.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Starter">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#openConfigDialog" text="Configure" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="60.0" prefHeight="60.0" prefWidth="904.0">
+         <children>
+            <Button fx:id="startServerButton" layoutX="724.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Start" />
+            <Button fx:id="stopServerButton" layoutX="813.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Stop" />
+            <Button fx:id="openBrowser" layoutX="589.0" layoutY="29.0" mnemonicParsing="false" text="Browser" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/fxml/gwikiLogo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <AnchorPane fx:id="loggingPane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <fx:include fx:id="logging" source="Logging.fxml" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

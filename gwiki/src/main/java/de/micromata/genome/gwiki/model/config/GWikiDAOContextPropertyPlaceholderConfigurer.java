@@ -107,6 +107,10 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
   protected String resolvePlaceholder(String key, Properties props)
   {
     String val;
+    val = resolveByLocalSettings(key);
+    if (val != null) {
+      return val;
+    }
     val = resolveBySystemProperties(key);
     if (val != null) {
       return val;
@@ -123,11 +127,20 @@ public class GWikiDAOContextPropertyPlaceholderConfigurer extends PropertyPlaceh
     if (val != null) {
       return val;
     }
-    if (props != null) {
-      return super.resolvePlaceholder(key, props);
+    if (props != null && props.isEmpty() == false) {
+      String ret = super.resolvePlaceholder(key, props);
+      if (ret != null) {
+        return ret;
+      }
+      return "";
     } else {
       return "";
     }
+  }
+
+  private String resolveByLocalSettings(String key)
+  {
+    return LocalSettings.get().get(key, null);
   }
 
   public ServletConfig getServletConfig()
