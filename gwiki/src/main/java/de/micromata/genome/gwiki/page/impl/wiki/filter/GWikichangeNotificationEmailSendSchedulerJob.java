@@ -33,11 +33,17 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJobBase;
 import de.micromata.genome.util.runtime.CallableX;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiSchedulerJobBase
 {
 
   private static final long serialVersionUID = 8545136772683895346L;
 
+  @Override
   public void call()
   {
     String id = getPageId();
@@ -61,19 +67,22 @@ public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiScheduler
     ctx.put(GWikiEmailProvider.TEXT, body);
     for (String userName : userNames) {
       try {
-        wikiContext.getWikiWeb().getAuthorization().runAsUser(userName, wikiContext, new CallableX<Void, RuntimeException>() {
+        wikiContext.getWikiWeb().getAuthorization().runAsUser(userName, wikiContext,
+            new CallableX<Void, RuntimeException>()
+            {
 
-          public Void call() throws RuntimeException
-          {
-            String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
-            if (StringUtils.isEmpty(email) == true) {
-              return null;
-            }
-            ctx.put(GWikiEmailProvider.TO, email);
-            wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
-            return null;
-          }
-        });
+              @Override
+              public Void call() throws RuntimeException
+              {
+                String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
+                if (StringUtils.isEmpty(email) == true) {
+                  return null;
+                }
+                ctx.put(GWikiEmailProvider.TO, email);
+                wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
+                return null;
+              }
+            });
       } catch (AuthorizationFailedException ex) {
         GWikiLog.warn("Cannot determine email for user: " + userName, ex);
       }

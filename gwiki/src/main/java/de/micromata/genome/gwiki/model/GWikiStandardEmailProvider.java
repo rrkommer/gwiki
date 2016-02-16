@@ -41,6 +41,7 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
 {
   private static final String DEFAULT_MAIL_ENCODING = "ISO-8859-1";
 
+  @Override
   public void sendEmail(Map<String, String> ctx)
   {
     try {
@@ -51,7 +52,8 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
       GWikiLog.note("Send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
     } catch (MessagingException ex) {
       ctx.put(SENDEMAILFAILED, ex.getMessage());
-      GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage, ctx.toString());
+      GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage,
+          ctx.toString());
     }
   }
 
@@ -82,21 +84,25 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
   {
     Map<String, String> headers = new HashMap<String, String>();
     if (ctx.containsKey(TO) == true) {
-      headers.put(TO, (String) ctx.get(TO));
+      headers.put(TO, ctx.get(TO));
     }
     if (ctx.containsKey(FROM) == true) {
-      headers.put(FROM, (String) ctx.get(FROM));
+      headers.put(FROM, ctx.get(FROM));
     }
     if (ctx.containsKey(CC) == true) {
-      headers.put(CC, (String) ctx.get(CC));
+      headers.put(CC, ctx.get(CC));
     }
     if (ctx.containsKey(BCC) == true) {
-      headers.put(BCC, (String) ctx.get(BCC));
+      headers.put(BCC, ctx.get(BCC));
     }
     if (ctx.containsKey(SUBJECT) == true) {
-      headers.put(SUBJECT, (String) ctx.get(SUBJECT));
+      headers.put(SUBJECT, ctx.get(SUBJECT));
     }
-    Session emailSession = GWikiWeb.get().getDaoContext().getMailSession();
+    Session emailSession = getEmailSession();
+    if (emailSession == null) {
+      GWikiLog.warn("Cannot send email, because no emailSession is configured");
+      return;
+    }
     MimeMessage message = new MimeMessage(emailSession);
     boolean multipart = false;
     String encoding = DEFAULT_MAIL_ENCODING;
@@ -105,6 +111,12 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
     mh.setText(ctx.get(TEXT));
     MimeMessage m = mh.getMimeMessage();
     Transport.send(m);
+  }
+
+  protected Session getEmailSession()
+  {
+    Session emailSession = GWikiWeb.get().getDaoContext().getMailSession();
+    return emailSession;
 
   }
 

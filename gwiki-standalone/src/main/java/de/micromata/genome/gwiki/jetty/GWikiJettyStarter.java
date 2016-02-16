@@ -29,8 +29,11 @@ import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import de.micromata.genome.gwiki.jetty.JettyStartListener.StartSucces;
 import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
+import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -50,6 +53,16 @@ import de.micromata.genome.util.runtime.Log4JInitializer;
  */
 public class GWikiJettyStarter
 {
+  static {
+    LocalSettings.localSettingsPrefixName = "gwiki";
+  }
+
+  private Server server;
+  private JettyConfig jettyConfig;
+
+  private GWikiDAOContext wikibootcfg;
+  private GWikiServlet wikiServlet;
+
   public void buildIndex(JettyConfig jettyConfig, GWikiServlet wikiServlet)
   {
     final GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
@@ -101,29 +114,50 @@ public class GWikiJettyStarter
     requestLogHandler.setRequestLog(requestLog);
   }
 
+  public void startCmdLine()
+  {
+    GWikiInitialSetup initSetup = new GWikiInitialSetup();
+    boolean firstStart = initSetup.readCheckBasicSettings();
+    start(null);
+    if (firstStart == true) {
+      onFirstStart();
+    }
+  }
+
   public void start()
   {
-    try {
-      LocalSettings.localSettingsPrefixName = "gwiki";
+    start(new JettyStartListener()
+    {
+    });
+  }
 
-      GWikiInitialSetup initSetup = new GWikiInitialSetup();
-      boolean firstStart = initSetup.readCheckBasicSettings();
+  public void start(JettyStartListener listener)
+  {
+    try {
       LocalSettings localSettings = LocalSettings.get();
       Log4JInitializer.initializeLog4J();
       localSettings.logloadedFiles();
 
       LocalSettingsEnv localSettingsEnv = LocalSettingsEnv.get();
-      String contextFile = localSettings.get("gwiki.contextfile");
-      GwikiFileContextBootstrapConfigLoader cfgLoader = new GwikiFileContextBootstrapConfigLoader();
-      if (StringUtils.isNotBlank(contextFile) == true) {
-        cfgLoader.setFileName(contextFile);
+      String contextFile = localSettings.get("gwiki.contextfile", "res:/StandaloneGWikiContext.xml");
+      GWikiBootstrapConfigLoader cfgLoader;
+      if (StringUtils.startsWith(contextFile, "res:") == true) {
+        String fileName = contextFile.substring("res:".length());
+        GWikiCpContextBootstrapConfigLoader cploader = new GWikiCpContextBootstrapConfigLoader();
+        cploader.setFileName(fileName);
+        cfgLoader = cploader;
       } else {
-        contextFile = ".";
+        GwikiFileContextBootstrapConfigLoader fcfgLoader = new GwikiFileContextBootstrapConfigLoader();
+        if (StringUtils.isNotBlank(contextFile) == true) {
+          fcfgLoader.setFileName(contextFile);
+        } else {
+          contextFile = ".";
+        }
+        cfgLoader = fcfgLoader;
       }
-
-      GWikiDAOContext wikibootcfg = cfgLoader.loadConfig(null);
-      JettyConfig jettyConfig = (JettyConfig) cfgLoader.getBeanFactory().getBean("JettyConfig");
-      Server server = new Server(jettyConfig.getPort());
+      wikibootcfg = cfgLoader.loadConfig(null);
+      jettyConfig = (JettyConfig) cfgLoader.getBeanFactory().getBean("JettyConfig");
+      server = new Server(jettyConfig.getPort());
 
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
       context.getInitParams().putAll(localSettings.getMap());
@@ -136,7 +170,7 @@ public class GWikiJettyStarter
       context.setContextPath(jettyConfig.getContextPath());
       context.setResourceBase(jettyConfig.getContextRoot());
       context.getSessionHandler().getSessionManager().setMaxInactiveInterval(jettyConfig.getSessionTimeout());
-      GWikiServlet wikiServlet = new GWikiServlet();
+      wikiServlet = new GWikiServlet();
       ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
       wikiServlet.setDAOContext(wikibootcfg);
       context.addServlet(wikiServletHolder, jettyConfig.getServletPath() + "*");
@@ -150,25 +184,37 @@ public class GWikiJettyStarter
       // Handler[] handlers = server.getHandlers();
       server.start();
 
-      if (firstStart == true) {
-        wikiServlet.setContextPath(jettyConfig.getContextPath());
-        if (jettyConfig.getServletPath().equals("/") == true) {
-          wikiServlet.setServletPath("");
-        } else {
-          wikiServlet.setServletPath(jettyConfig.getServletPath());
-        }
-        wikibootcfg.getWikiSelector().initWiki(wikiServlet, wikibootcfg);
-        System.out.println("First time starting GWiki.\nBuild index. This can take a few minutes...");
-        buildIndex(jettyConfig, wikiServlet);
-        System.out.println("Finished intial indexing.");
-      }
       System.out.println("You can now use gwiki with your web browser: " + LocalSettings.get().get("gwiki.public.url"));
+      listener.started(StartSucces.Success, null);
       server.join();
     } catch (RuntimeException ex) {
+      listener.started(StartSucces.Error, ex);
       throw ex;
     } catch (Exception ex) {
+      listener.started(StartSucces.Error, ex);
       throw new RuntimeException(ex);
     }
+  }
+
+  public void onFirstStart()
+  {
+
+    wikiServlet.setContextPath(jettyConfig.getContextPath());
+    if (jettyConfig.getServletPath().equals("/") == true) {
+      wikiServlet.setServletPath("");
+    } else {
+      wikiServlet.setServletPath(jettyConfig.getServletPath());
+    }
+    wikibootcfg.getWikiSelector().initWiki(wikiServlet, wikibootcfg);
+    System.out.println("First time starting GWiki.\nBuild index. This can take a few minutes...");
+    buildIndex(jettyConfig, wikiServlet);
+    System.out.println("Finished intial indexing.");
+
+  }
+
+  public Server getServer()
+  {
+    return server;
   }
 
   public static void main(String[] args)

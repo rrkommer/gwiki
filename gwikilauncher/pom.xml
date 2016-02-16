@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- README Before use the install_to_local_rep.sh to install the required libraries to your local repository -->
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>gwiki-root</artifactId>
+    <groupId>de.micromata.genome.gwiki</groupId>
+    <version>1.0.4</version><!-- GWIKVERSION -->
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>gwikilauncher</artifactId>
+
+  <properties>
+    <!-- The final name for the JAR that you can find in target directory -->
+    <jar.final.name>gwikilauncher</jar.final.name>
+    <!-- the default class that has the public static void main(String[]) method -->
+    <main.class>de.micromata.genome.gwiki.launcher.GWikiLauncher</main.class>
+    <jdk.home>C:\Program Files\Java\jdk1.8.0_60</jdk.home>
+    <javafx.version>2.2</javafx.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>de.micromata.genome.gwiki</groupId>
+      <artifactId>gwiki</artifactId>
+      <version>${gwiki.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>gwiki-standalone</artifactId>
+      <groupId>de.micromata.genome.gwiki</groupId>
+      <version>${gwiki.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>${org.apache.derby.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>${com.oracle.ojdbc6.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgresql.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>${jar.final.name}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>${main.class}</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <configuration>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <!-- <JavaFX-Version>${javafx.version}+</JavaFX-Version> -->
+              <Main-Class>${main.class}</Main-Class>
+              <implementation-version>1.0</implementation-version>
+              <JavaFX-Application-Class>${main.class}</JavaFX-Application-Class>
+              <JavaFX-Class-Path>
+
+              </JavaFX-Class-Path>
+              <!-- The artifactId (name) of the jfxrt.jar ... see dependency system scope -->
+              <!-- <Class-Path>javafx.jar</Class-Path> -->
+              <Built-By>Roger Kommer</Built-By>
+            </manifestEntries>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>${main.class}</mainClass>
+            </manifest>
+          </archive>
+          <descriptors>
+            <descriptor>src/maven/assembly/distribution.xml</descriptor>
+          </descriptors>
+          <finalName>${jar.final.name}</finalName>
+          <outputDirectory>target/assembly/</outputDirectory>
+          <workDirectory>target/assembly/work</workDirectory>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/assembly/${jar.final.name}-bin.zip</file>
+                  <type>zip</type>
+                  <classifier></classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <!-- define the deploy ANT task -->
+                <taskdef name="jfxdeploy" classname="com.sun.javafx.tools.ant.DeployFXTask" classpathref="maven.plugin.classpath" />
+                <!-- define the JarSing ANT task -->
+                <taskdef name="jfxsignjar" classname="com.sun.javafx.tools.ant.FXSignJarTask" classpathref="maven.plugin.classpath" />
+                <jfxdeploy width="1024" height="768" outdir="${project.build.directory}/deploy" outfile="${build.finalName}">
+                  <!-- nativeBundles="all" -->
+                  <info title="${project.name}" />
+                  <!-- set the main class of your applcation; I had to create a Main.class (class Main extends MyMain) otherwise 
+                    it will return an error on start -->
+                  <application name="${project.name}" mainClass="${main.class}" />
+                  <resources>
+                    <fileset dir="${project.build.directory}" includes="*.jar" />
+                    <fileset dir="${project.build.directory}/dependency" includes="*.jar" />
+                  </resources>
+                  <!-- set your jvm args -->
+                  <platform javafx="${javafx.version}+">
+                    <jvmarg value="-Xms512m" />
+                    <jvmarg value="-Xmx1024m" />
+                  </platform>
+                </jfxdeploy>
+                <!-- you need to generate a key yourself -->
+                <!-- <jfxsignjar destdir="${project.build.directory}/deploy" keyStore="path/to/your/keystore" storePass="yourPass" 
+                  alias="yourAlias" keyPass="keyPass"> <fileset dir="${project.build.directory}/deploy" includes="*.jar" /> </jfxsignjar> -->
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ant-javafx</artifactId>
+            <version>${javafx.version}</version>
+            <systemPath>${jdk.home}/lib/ant-javafx.jar</systemPath>
+            <scope>system</scope>
+          </dependency>
+          <!-- <dependency> <groupId>com.oracle</groupId> <artifactId>javafx</artifactId> <version>${javafx.version}</version> 
+            <systemPath>${java.home}/lib/jfxrt.jar</systemPath> <scope>system</scope> </dependency> -->
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

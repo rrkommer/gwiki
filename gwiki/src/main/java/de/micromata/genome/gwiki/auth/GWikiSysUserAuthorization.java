@@ -2,8 +2,10 @@ package de.micromata.genome.gwiki.auth;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
 import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.util.matcher.CommonMatchers;
+import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.LocalSettings;
 
 /**
@@ -67,6 +69,27 @@ public class GWikiSysUserAuthorization extends GWikiAuthorizationExtWrapper
       }
     }
     return super.login(ctx, user, password);
+  }
+
+  @Override
+  public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
+  {
+    if (super.hasUser(wikiContext, user) == true) {
+      return super.runAsUser(user, wikiContext, callback);
+    }
+    String sysuser = LocalSettings.get().get(LS_GWIKI_SYS_USER);
+    if (StringUtils.isNotBlank(sysuser) == true && StringUtils.equals(user, sysuser) == true) {
+      GWikiSimpleUser pu = GWikiUserServeElementFilterEvent.getUser();
+      GWikiSimpleUser su = createSystemUser(wikiContext, user);
+      try {
+        GWikiUserServeElementFilterEvent.setUser(su);
+        return callback.call();
+      } finally {
+        GWikiUserServeElementFilterEvent.setUser(pu);
+      }
+    }
+    return super.runAsUser(user, wikiContext, callback);
+
   }
 
 }
