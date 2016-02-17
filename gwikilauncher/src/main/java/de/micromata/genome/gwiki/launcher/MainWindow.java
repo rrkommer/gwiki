@@ -88,6 +88,10 @@ public class MainWindow implements Initializable
 
   public void startServer()
   {
+    if (LocalSettings.localSettingsExists() == false) {
+      loggingController.warn("GWiki is not configured.");
+      return;
+    }
     server.start(new JettyStartListener()
     {
 

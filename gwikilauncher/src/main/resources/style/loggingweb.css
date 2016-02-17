@@ -27,3 +27,19 @@
 .leerror {
 	background-color: #ff3333;
 }
+.logattr {
+   background-color: #FFFFFF;
+   padding-left: 50px;
+   display: block;
+}
+.logattrkey {
+  display: inline;
+}
+.logattrvalue {
+  display: inline;
+}
+.hidden{
+	  display: none;
+}
+
+  

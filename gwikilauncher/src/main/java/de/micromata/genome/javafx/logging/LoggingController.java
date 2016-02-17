@@ -18,10 +18,12 @@ import org.eclipse.jetty.io.RuntimeIOException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.events.EventTarget;
 
 import de.micromata.genome.gwiki.launcher.FxUtils;
 import de.micromata.genome.gwiki.launcher.LoggingItem;
 import de.micromata.genome.logging.CombinedLogging;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.logging.LogLevel;
 import de.micromata.genome.logging.LogWriteEntry;
 import de.micromata.genome.logging.Logging;
@@ -237,6 +239,11 @@ public class LoggingController implements Initializable
         lielid = "logentry" + ++idGenerator;
 
         Element liel = createElement(doc, "div", "id", lielid, "class", "loge" + getLogClass(lwe));
+
+        ((EventTarget) liel).addEventListener("click", event -> {
+          toggleLogAttribuesGui(doc, liel, lwe);
+        } , false);
+
         Element logt = createElement(doc, "div", "class", "logt");
         String date = DateUtils.getStandardDateTimeFormat().format(new Date(lwe.getTimestamp()));
         logt.appendChild(doc.createTextNode(date));
@@ -247,11 +254,45 @@ public class LoggingController implements Initializable
         Element logm = createElement(doc, "div", "class", "logm");
         logm.appendChild(doc.createTextNode(lwe.getMessage()));
         liel.appendChild(logm);
+        renderAttrs(lwe, doc, liel);
+
         les.appendChild(liel);
+
       }
       // TODO enable attributes
       scrollToBottom(engine, lielid);
     });
+  }
+
+  private void renderAttrs(LogWriteEntry lwe, Document doc, Element liel)
+  {
+    Element logattrs = createElement(doc, "div", "class", "logattrs hidden");
+    liel.appendChild(logattrs);
+    if (lwe.getAttributes() == null) {
+      return;
+    }
+    for (LogAttribute la : lwe.getAttributes()) {
+      Element attr = createElement(doc, "div", "class", "logattr");
+      Element attrkey = createElement(doc, "div", "class", "logattrkey");
+      attrkey.appendChild(doc.createTextNode(la.getTypeName()));
+      attr.appendChild(attrkey);
+      Element attrvalue = createElement(doc, "div", "class", "logattrvalue");
+      attrvalue.appendChild(doc.createTextNode(la.getValue()));
+      attr.appendChild(attrvalue);
+      logattrs.appendChild(attr);
+    }
+  }
+
+  private void toggleLogAttribuesGui(Document doc, Element liel, LogWriteEntry lwe)
+  {
+    Element lastchild = (Element) liel.getLastChild();
+    String curClass = lastchild.getAttribute("class");
+    if (StringUtils.equals(curClass, "logattr hidden")) {
+      lastchild.setAttribute("class", "logattr");
+    } else {
+      lastchild.setAttribute("class", "logattr hidden");
+    }
+
   }
 
   private void refilterGui()

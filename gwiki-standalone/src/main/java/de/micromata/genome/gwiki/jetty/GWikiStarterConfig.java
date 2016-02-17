@@ -34,12 +34,13 @@ public class GWikiStarterConfig
   @LocalSettingsPath(key = "gwiki.jetty.contextpath", defaultValue = "/")
   private String serverContextPath;
 
-  @LocalSettingsPath(key = "gwiki.public.url")
+  @LocalSettingsPath(key = "gwiki.public.url", defaultValue = "http://localhost:8081/")
   private String publicUrl;
+
   @LocalSettingsPath(key = "gwiki.public.email")
   private String publicEmail;
 
-  @LocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "false")
+  @LocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true")
   private String systemUserEnabled;
 
   @LocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys")
@@ -128,8 +129,22 @@ public class GWikiStarterConfig
   public boolean validate(ValidationContext ctx)
   {
     validateServerSettings(ctx);
+    validateSystemUser(ctx);
     validateStorage(ctx);
     return ctx.hasErrors();
+  }
+
+  private void validateSystemUser(ValidationContext ctx)
+  {
+    if (isSystemUserEnabled() == false) {
+      return;
+    }
+    if (StringUtils.isBlank(systemUserName) == true) {
+      ctx.error("systemUserName", "Please provide a name for system user");
+    }
+    if (StringUtils.isBlank(systemUserClearPass) == true && StringUtils.isBlank(systemUserEncPass) == true) {
+      ctx.error("systemUserClearPass", "Please provide password for system user");
+    }
   }
 
   public boolean validateServerSettings(ValidationContext ctx)
