@@ -43,13 +43,6 @@ public class GWikiLauncherServer
     return jettyThread != null;
   }
 
-  public void start()
-  {
-    start(new JettyStartListener()
-    {
-    });
-  }
-
   public void start(JettyStartListener listener)
   {
     if (jettyThread != null) {

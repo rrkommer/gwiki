@@ -89,8 +89,6 @@
                            <children>
                               <GridPane layoutY="5.0" prefHeight="258.0" prefWidth="585.0">
                                  <children>
-                                    <TextField fx:id="storageFilePath" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Button fx:id="storageFilePathSelector" mnemonicParsing="false" text="Select Directory" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label text="Local Filesystem" GridPane.rowIndex="1" />
                                     <ComboBox fx:id="jdbcDriver" prefWidth="150.0" GridPane.columnIndex="1" />
                                     <TextField fx:id="jdbcUrl" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -100,6 +98,19 @@
                                     <Label text="JDBC Url" GridPane.rowIndex="2" />
                                     <Label text="Database user" GridPane.rowIndex="3" />
                                     <Label text="Database password" GridPane.rowIndex="4" />
+                                    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.0" minWidth="10.0" prefWidth="120.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="293.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Button fx:id="storageFilePathSelector" mnemonicParsing="false" text="Select Directory" />
+                                          <TextField fx:id="storageFilePath" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="288.0" minWidth="10.0" prefWidth="172.0" />

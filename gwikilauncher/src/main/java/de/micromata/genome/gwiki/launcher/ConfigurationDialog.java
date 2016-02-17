@@ -107,7 +107,9 @@ public class ConfigurationDialog extends AbstractControler
       DirectoryChooser fileChooser = new DirectoryChooser();
       fileChooser.setInitialDirectory(new File(storageFilePath.getText()));
       File res = fileChooser.showDialog(getStage());
-      storageFilePath.setText(res.getAbsolutePath());
+      if (res != null) {
+        storageFilePath.setText(res.getAbsolutePath());
+      }
     });
 
     List<String> items = new ArrayList<>();
