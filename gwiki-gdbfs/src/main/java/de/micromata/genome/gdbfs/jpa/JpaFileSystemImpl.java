@@ -215,12 +215,24 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   {
 
     return emfac.tx().go((emgr) -> {
+      String normOldName = normalizeName(oldName);
+      String normNewName = normalizeName(newName);
+
+      String nparent = getParentDirString(normNewName);
+
+      Long nparentPk = mkdirsInternal(nparent);
+      if (nparentPk == null) {
+        throw new FsFileExistsException("Cannot parent dir: " + nparent);
+      }
+
       CriteriaUpdate<JpaFilesystemDO> cu = CriteriaUpdate.createUpdate(JpaFilesystemDO.class);
-      cu.set("name", newName);
-      cu.addWhere(Clauses.and(
-          Clauses.equal("fsName", getFileSystemName()),
-          Clauses.equal("name", oldName)));
-      return emgr.update(cu) > 0;
+      cu.set("name", normNewName)
+          .set("parent", nparentPk)
+          .addWhere(Clauses.and(
+              Clauses.equal("fsName", getFileSystemName()),
+              Clauses.equal("name", normOldName)));
+      int ret = emgr.update(cu);
+      return ret > 0;
     });
 
   }

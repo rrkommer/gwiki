@@ -40,6 +40,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.RuntimeIOException;
+import de.micromata.genome.util.types.TimeInMillis;
 
 /**
  * FileSystem implementation using the standard operation system file system.
@@ -68,7 +69,8 @@ public class StdFileSystem extends AbstractFileSystem
 
   private int localModificationCount;
 
-  private ThreadLocal<Map<String, StdFileSystemLock>> lockedLocks = new ThreadLocal<Map<String, StdFileSystemLock>>() {
+  private ThreadLocal<Map<String, StdFileSystemLock>> lockedLocks = new ThreadLocal<Map<String, StdFileSystemLock>>()
+  {
 
     @Override
     protected Map<String, StdFileSystemLock> initialValue()
@@ -354,7 +356,8 @@ public class StdFileSystem extends AbstractFileSystem
   }
 
   @Override
-  public List<FsObject> listFiles(final String name, final Matcher<String> matcher, final Character searchType, boolean recursive)
+  public List<FsObject> listFiles(final String name, final Matcher<String> matcher, final Character searchType,
+      boolean recursive)
   {
     final List<FsObject> ret = new ArrayList<FsObject>();
     File f = new File(rootFile, name);
@@ -375,7 +378,8 @@ public class StdFileSystem extends AbstractFileSystem
     return globalLockFileName.equals(name);
   }
 
-  protected void listFiles(String absRootName, File f, Matcher<String> matcher, final Character searchType, List<FsObject> ret,
+  protected void listFiles(String absRootName, File f, Matcher<String> matcher, final Character searchType,
+      List<FsObject> ret,
       boolean recursive)
   {
 
@@ -499,6 +503,9 @@ public class StdFileSystem extends AbstractFileSystem
 
   protected StdFileSystemLock getLock(String name, long timeOutMs)
   {
+    if (timeOutMs == -1) {
+      timeOutMs = TimeInMillis.MINUTE * 20;
+    }
     StdFileSystemLock lock;
     String nomName = name;
     if (name == null) {
@@ -524,11 +531,13 @@ public class StdFileSystem extends AbstractFileSystem
     return lock;
   }
 
-  protected <R> R runInTransactionInternal(String lockFile, long timeOutMs, CallableX<R, RuntimeException> callback, boolean noFsMod)
+  protected <R> R runInTransactionInternal(String lockFile, long timeOutMs, CallableX<R, RuntimeException> callback,
+      boolean noFsMod)
   {
     StdFileSystemLock lock = getLock(lockFile, timeOutMs);
     if (lock == null) {
-      throw new FsFileLockException("Cannot lock file " + (lockFile == null ? globalLockFileName : lockFile) + " in " + timeOutMs + " ms");
+      throw new FsFileLockException(
+          "Cannot lock file " + (lockFile == null ? globalLockFileName : lockFile) + " in " + timeOutMs + " ms");
     }
     try {
       return callback.call();
@@ -540,7 +549,8 @@ public class StdFileSystem extends AbstractFileSystem
   @Override
   public long getModificationCounter()
   {
-    Long ret = runInTransaction(null, 10000L, false, new CallableX<Long, RuntimeException>() {
+    Long ret = runInTransaction(null, 10000L, false, new CallableX<Long, RuntimeException>()
+    {
       @Override
       public Long call() throws RuntimeException
       {
