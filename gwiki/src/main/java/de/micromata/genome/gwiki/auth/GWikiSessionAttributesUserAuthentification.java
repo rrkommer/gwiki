@@ -24,8 +24,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -83,7 +85,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowTo(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isAllowTo(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String)
    */
   @Override
   public boolean isAllowTo(GWikiContext ctx, String right)
@@ -105,7 +108,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#needAuthorization(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see
+   * de.micromata.genome.gwiki.model.GWikiAuthorization#needAuthorization(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
   public boolean needAuthorization(GWikiContext ctx)
@@ -116,8 +120,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#login(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String,
-   * java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#login(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String, java.lang.String)
    */
   @Override
   public boolean login(GWikiContext ctx, String user, String password)
@@ -133,14 +137,17 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   @Override
   public void logout(GWikiContext ctx)
   {
-    ctx.getSession(true).setAttribute(GWIKI_SESSION_ATTRIBUTE, null);
+    HttpSession session = ctx.getSession(true);
+    clearAuthenticationCookie(ctx, null);
+    session.removeAttribute(GWIKI_SESSION_ATTRIBUTE);
     GWikiUserServeElementFilterEvent.setUser(null);
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#isCurrentAnonUser(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see
+   * de.micromata.genome.gwiki.model.GWikiAuthorization#isCurrentAnonUser(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
   public boolean isCurrentAnonUser(GWikiContext ctx)
@@ -151,7 +158,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getCurrentUserName(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see
+   * de.micromata.genome.gwiki.model.GWikiAuthorization#getCurrentUserName(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
   public String getCurrentUserName(GWikiContext ctx)
@@ -166,7 +174,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getCurrentUserEmail(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see
+   * de.micromata.genome.gwiki.model.GWikiAuthorization#getCurrentUserEmail(de.micromata.genome.gwiki.page.GWikiContext)
    */
   @Override
   public String getCurrentUserEmail(GWikiContext ctx)
@@ -181,7 +190,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getUserProp(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getUserProp(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String)
    */
   @Override
   public String getUserProp(GWikiContext ctx, String key)
@@ -196,24 +206,35 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#setUserProp(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String,
-   * java.lang.String, boolean)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#setUserProp(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String, java.lang.String, boolean)
    */
   @Override
-  public void setUserProp(GWikiContext ctx, String key, String value, boolean persist)
+  public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage)
   {
-    GWikiSimpleUser su = getSingleUser(ctx);
-    if (su == null) {
-      return;
+    switch (storage) {
+      case Client:
+        setUserPropInCookie(ctx, key, value);
+        break;
+      case Transient:
+        GWikiSimpleUser su = getSingleUser(ctx);
+        if (su == null) {
+          return;
+        }
+        su.getProps().put(key, value);
+        break;
+      case Server:
+        GLog.warn(GWikiLogCategory.Wiki, "Cannot store server user attribute");
+        break;
     }
-    su.getProps().put(key, value);
+
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRights(de.micromata.genome.gwiki.page.GWikiContext, java.lang.String[],
-   * de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRights(de.micromata.genome.gwiki.page.GWikiContext,
+   * java.lang.String[], de.micromata.genome.util.runtime.CallableX)
    */
   @Override
   public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback)
@@ -236,8 +257,8 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsUser(java.lang.String, de.micromata.genome.gwiki.page.GWikiContext,
-   * de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsUser(java.lang.String,
+   * de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.util.runtime.CallableX)
    */
   @Override
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)

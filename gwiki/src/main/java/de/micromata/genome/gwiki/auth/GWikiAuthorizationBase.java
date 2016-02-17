@@ -18,8 +18,11 @@
 
 package de.micromata.genome.gwiki.auth;
 
+import java.security.SecureRandom;
 import java.util.Locale;
+import java.util.Random;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -31,6 +34,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
 import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Implementation of common methods of GWikiAuthorization.
@@ -40,6 +44,7 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWikiPropKeys
 {
+  public static final String COOKIE_STAY_LOGIN_TOKEN = "gwikistaylogintk";
   private boolean generalPublicEdit = false;
 
   private boolean generalPublicView = false;
@@ -55,6 +60,78 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
     GWikiLog.note("User logged in: " + su.getUser());
     return true;
+  }
+
+  @Override
+  public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage)
+  {
+
+    switch (storage) {
+      case Client:
+        setUserPropInCookie(ctx, key, value);
+        break;
+      case Server:
+        break;
+      case Transient:
+        break;
+
+    }
+  }
+
+  protected void setUserPropInCookie(GWikiContext ctx, String key, String value)
+  {
+    ctx.setCookie(key, value);
+  }
+
+  @Override
+  public void createAuthenticationCookie(GWikiContext ctx, String user, String password)
+  {
+    Pair<String, String> token = createAuthToken(ctx, user, password);
+    setUserProp(ctx, COOKIE_STAY_LOGIN_TOKEN, token.getSecond(), UserPropStorage.Server);
+    setUserProp(ctx, COOKIE_STAY_LOGIN_TOKEN, token.getFirst(), UserPropStorage.Client);
+  }
+
+  @Override
+  public void clearAuthenticationCookie(GWikiContext ctx, String user)
+  {
+    setUserProp(ctx, COOKIE_STAY_LOGIN_TOKEN, "", UserPropStorage.Server);
+    setUserProp(ctx, COOKIE_STAY_LOGIN_TOKEN, "", UserPropStorage.Client);
+  }
+
+  protected GWikiSimpleUser findUserByAuthenticationToken(GWikiContext ctx)
+  {
+    String tk = ctx.getCookie(COOKIE_STAY_LOGIN_TOKEN, null);
+    if (StringUtils.isBlank(tk) == true) {
+      return null;
+    }
+    String[] tks = StringUtils.split(tk, ':');
+    if (tks.length < 2) {
+      return null;
+    }
+    String userName = tks[0];
+    GWikiSimpleUser user = findUser(ctx, userName);
+    if (user == null) {
+      return null;
+    }
+    String st = user.getProps().get(COOKIE_STAY_LOGIN_TOKEN);
+    if (StringUtils.equals(tks[1], st) == true) {
+      return user;
+    }
+    return null;
+  }
+
+  public GWikiSimpleUser findUser(GWikiContext wikiContext, String userName)
+  {
+    return null;
+  }
+
+  private Pair<String, String> createAuthToken(GWikiContext ctx, String user, String password)
+  {
+    int tklength = 16;
+    Random r = new SecureRandom();
+    String internalToken = RandomStringUtils.random(tklength, 32, 127, true, true, null, r);
+    return Pair.make(user + ":" + internalToken, internalToken);
+
   }
 
   public void ensureAllowTo(GWikiContext ctx, String right, GWikiElementInfo el)

@@ -877,6 +877,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   @SuppressWarnings("deprecation")
   public void setCookie(String key, String value)
   {
+
     String cvalue = URLEncoder.encode(value);
     Cookie tsc = new Cookie(key, cvalue);
     tsc.setPath(getWikiWeb().getContextPath());

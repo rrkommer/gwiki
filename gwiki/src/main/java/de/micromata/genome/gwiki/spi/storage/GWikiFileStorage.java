@@ -85,7 +85,7 @@ import de.micromata.genome.util.types.TimeInMillis;
  */
 public class GWikiFileStorage implements GWikiStorage
 {
-  protected long standardLockTimeout = TimeInMillis.SECOND * 10;
+  protected long standardLockTimeout = -1;//TimeInMillis.SECOND * 100;
 
   protected FileSystem storage;
 
@@ -114,11 +114,13 @@ public class GWikiFileStorage implements GWikiStorage
     artefaktTypes.put("controler", "de.micromata.genome.gwiki.page.impl.GwikiControlerArtefakt");
   }
 
+  @Override
   public String toString()
   {
     return "storage: " + ObjectUtils.toString(storage);
   }
 
+  @Override
   public String getArtefaktClassNameFromType(String type)
   {
     return artefaktTypes.get(type);
@@ -129,6 +131,7 @@ public class GWikiFileStorage implements GWikiStorage
     // currently not used
   }
 
+  @Override
   public long getModificationCounter()
   {
     return storage.getModificationCounter();
@@ -146,8 +149,9 @@ public class GWikiFileStorage implements GWikiStorage
   {
     Properties props = new Properties();
     byte[] data = storage.readBinaryFile(name);
-    if (data == null)
+    if (data == null) {
       return;
+    }
     try {
       props.load(new ByteArrayInputStream(data));
     } catch (IOException ex) {
@@ -156,7 +160,7 @@ public class GWikiFileStorage implements GWikiStorage
       throw new RuntimeException("Failed to load properties: " + name + "; " + ex.getMessage(), ex);
     }
 
-    map.putAll((Map<String, String>) (Map< ? , ? >) props);
+    map.putAll((Map<String, String>) (Map<?, ?>) props);
   }
 
   public void storeProps(String name, Map<String, String> map)
@@ -180,15 +184,19 @@ public class GWikiFileStorage implements GWikiStorage
 
   private String storage2WikiPath(String path)
   {
-    if (path.startsWith("/") == true)
+    if (path.startsWith("/") == true) {
       return path.substring(1);
+    }
     return path;
   }
 
+  @Override
   public <R> R runInTransaction(final long lockWaitTime, final CallableX<R, RuntimeException> callback)
   {
-    return storage.runInTransaction(null, lockWaitTime, false, new CallableX<R, RuntimeException>() {
+    return storage.runInTransaction(null, lockWaitTime, false, new CallableX<R, RuntimeException>()
+    {
 
+      @Override
       public R call() throws RuntimeException
       {
         return callback.call();
@@ -196,14 +204,16 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  protected GWikiElementInfo afterPageInfoLoad(FsObject fo, GWikiElementInfo el, final Map<String, GWikiElementInfo> ret)
+  protected GWikiElementInfo afterPageInfoLoad(FsObject fo, GWikiElementInfo el,
+      final Map<String, GWikiElementInfo> ret)
   {
     return el;
   }
 
   protected void loadPageInfosImpl(FileSystem fileSystem, final Map<String, GWikiElementInfo> ret)
   {
-    Matcher<String> matcher = new BooleanListRulesFactory<String>().createMatcher("+*Settings.properties,-*arch/*,-tmp/*");
+    Matcher<String> matcher = new BooleanListRulesFactory<String>()
+        .createMatcher("+*Settings.properties,-*arch/*,-tmp/*");
     long stms = System.currentTimeMillis();
     List<FsObject> elements = fileSystem.listFiles("/", matcher, 'F', true);
 
@@ -239,10 +249,13 @@ public class GWikiFileStorage implements GWikiStorage
    * 
    * @param ret
    */
+  @Override
   public synchronized void loadPageInfos(final Map<String, GWikiElementInfo> ret)
   {
-    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
+    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         loadPageInfosImpl(storage, ret);
@@ -252,6 +265,7 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
+  @Override
   public FileSystem getFileSystem()
   {
     return storage;
@@ -284,6 +298,7 @@ public class GWikiFileStorage implements GWikiStorage
     return loadPageInfos(archPath);
   }
 
+  @Override
   public List<String> findDeletedPages(Matcher<String> filter)
   {
     List<String> ret = new ArrayList<String>();
@@ -311,6 +326,7 @@ public class GWikiFileStorage implements GWikiStorage
     return ret;
   }
 
+  @Override
   public List<GWikiElementInfo> loadPageInfos(String path)
   {
     List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
@@ -342,8 +358,9 @@ public class GWikiFileStorage implements GWikiStorage
       return;
     }
     GWikiElementInfo mti = GWikiWeb.get().findElementInfo(mtk);
-    if (mti == null)
+    if (mti == null) {
       return;
+    }
 
     GWikiMetaTemplate template = GWikiWeb.get().findMetaTemplate(mti.getId());
     ei.setMetaTemplate(template);
@@ -357,9 +374,9 @@ public class GWikiFileStorage implements GWikiStorage
       if (typeClass == null) {
         throw new RuntimeException("Unknown element type: " + type + " in id " + ei.getId());
       }
-      Class< ? extends GWikiElement> cls = (Class< ? extends GWikiElement>) ClassUtils.classForName(typeClass);
-      Constructor< ? extends GWikiElement> constr = cls.getConstructor(new Class< ? >[] { GWikiElementInfo.class});
-      GWikiElement el = (GWikiElement) constr.newInstance(new Object[] { ei});
+      Class<? extends GWikiElement> cls = (Class<? extends GWikiElement>) ClassUtils.classForName(typeClass);
+      Constructor<? extends GWikiElement> constr = cls.getConstructor(new Class<?>[] { GWikiElementInfo.class });
+      GWikiElement el = constr.newInstance(new Object[] { ei });
       return el;
     } catch (RuntimeException ex) {
       throw ex;
@@ -368,6 +385,7 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
+  @Override
   public GWikiElement createElement(GWikiElementInfo ei)
   {
     initMetaTemplate(ei);
@@ -405,15 +423,17 @@ public class GWikiFileStorage implements GWikiStorage
     return storage.readTextFile(fname);
   }
 
+  @Override
   public GWikiElement hasModifiedArtefakts(GWikiElementInfo ei)
   {
     GWikiElement element = createElement(ei);
-    Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
     element.collectParts(parts);
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-      if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
+      if ((me.getValue() instanceof GWikiPersistArtefakt) == false) {
         continue;
-      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
+      }
+      GWikiPersistArtefakt<?> art = (GWikiPersistArtefakt<?>) me.getValue();
       String fname = art.buildFileName(ei.getId(), me.getKey());
       FsObject fsobj = storage.getFileObject(fname);
       if (fsobj == null) {
@@ -428,6 +448,7 @@ public class GWikiFileStorage implements GWikiStorage
     return null;
   }
 
+  @Override
   public GWikiElementInfo loadElementInfo(String path)
   {
     String fname = path + GWikiStorage.SETTINGS_SUFFIX;
@@ -438,35 +459,39 @@ public class GWikiFileStorage implements GWikiStorage
     return createElementInfo(obj);
   }
 
+  @Override
   public GWikiElement loadElement(String pageId)
   {
     GWikiElementInfo elinfo = loadElementInfo(pageId);
-    if (elinfo == null)
+    if (elinfo == null) {
       return null;
+    }
     return loadElement(elinfo);
   }
 
   public GWikiElement loadElementImpl(final GWikiElementInfo ei)
   {
     GWikiElement element = createElement(ei);
-    Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
     element.collectParts(parts);
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
       if (me.getKey().equals("Settings") == true) {
         continue;
       }
-      if ((me.getValue() instanceof GWikiPersistArtefakt< ? >) == false)
+      if ((me.getValue() instanceof GWikiPersistArtefakt<?>) == false) {
         continue;
-      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
+      }
+      GWikiPersistArtefakt<?> art = (GWikiPersistArtefakt<?>) me.getValue();
       String fname = art.buildFileName(ei.getId(), me.getKey());
-      if (art instanceof GWikiBinaryArtefakt< ? >) {
-        ((GWikiBinaryArtefakt< ? >) art).setStorageData(readBinaryIfExists(fname));
-      } else if (art instanceof GWikiTextArtefakt< ? >) {
-        ((GWikiTextArtefakt< ? >) art).setStorageData(readTextIfExists(fname));
+      if (art instanceof GWikiBinaryArtefakt<?>) {
+        ((GWikiBinaryArtefakt<?>) art).setStorageData(readBinaryIfExists(fname));
+      } else if (art instanceof GWikiTextArtefakt<?>) {
+        ((GWikiTextArtefakt<?>) art).setStorageData(readTextIfExists(fname));
       } else if (art instanceof GWikiPropsArtefakt) {
         ((GWikiPropsArtefakt) art).setStorageData(loadProperties(fname));
       } else {
-        throw new RuntimeException("Unknown artefakt storage type: " + art.getClass().toString() + " in id: " + ei.getId());
+        throw new RuntimeException(
+            "Unknown artefakt storage type: " + art.getClass().toString() + " in id: " + ei.getId());
       }
     }
     element.getElementInfo().setLoadedTimeStamp(System.currentTimeMillis());
@@ -474,11 +499,13 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
+  @Override
   public GWikiElement loadElement(final GWikiElementInfo ei)
   {
     return loadElementImpl(ei);
   }
 
+  @Override
   public List<GWikiElementInfo> getVersions(String id)
   {
     return loadVersionPageInfos(id);
@@ -534,15 +561,17 @@ public class GWikiFileStorage implements GWikiStorage
     }
     for (GWikiElementInfo ei : remove) {
       final GWikiElement bel = loadElement(ei);
-      final Map<String, GWikiArtefakt< ? >> parts = getParts(bel);
+      final Map<String, GWikiArtefakt<?>> parts = getParts(bel);
       destroyElement(wikiContext, bel, parts);
     }
   }
 
   protected void archivePage(final GWikiContext wikiContext, final GWikiElement el)
   {
-    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
+    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
 
@@ -556,7 +585,7 @@ public class GWikiFileStorage implements GWikiStorage
         }
 
         // List<GWikiArtefakt> artefakts = el.getArtefakts();
-        Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+        Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
         el.collectParts(parts);
         GWikiElementInfo clelinfo = new GWikiElementInfo(el.getElementInfo());
         String mod = clelinfo.getProps().getStringValue(GWikiPropKeys.MODIFIEDAT);
@@ -582,10 +611,11 @@ public class GWikiFileStorage implements GWikiStorage
         }
         clelinfo.setId(newId);
 
-        for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-          if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
+        for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
+          if ((me.getValue() instanceof GWikiPersistArtefakt) == false) {
             continue;
-          GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
+          }
+          GWikiPersistArtefakt<?> art = (GWikiPersistArtefakt<?>) me.getValue();
           String oldName = art.buildFileName(el.getElementInfo().getId(), me.getKey());
           String newName = art.buildFileName(clelinfo.getId(), me.getKey());
           if (storage.exists(oldName) == true) {
@@ -605,11 +635,14 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  public void persist(final GWikiContext wikiContext, GWikiElement element, Map<String, GWikiArtefakt< ? >> parts)
+  public void persist(final GWikiContext wikiContext, GWikiElement element, Map<String, GWikiArtefakt<?>> parts)
   {
-    wikiWeb.getFilter().storeElement(wikiContext, element, parts, new GWikiStorageStoreElementFilter() {
+    wikiWeb.getFilter().storeElement(wikiContext, element, parts, new GWikiStorageStoreElementFilter()
+    {
 
-      public Void filter(GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
+      @Override
+      public Void filter(
+          GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter> chain,
           GWikiStorageStoreElementFilterEvent event)
       {
         storeImpl(event.getElement(), event.getParts());
@@ -618,10 +651,13 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  protected void deleteImpl(final GWikiContext wikiContext, final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
+  protected void deleteImpl(final GWikiContext wikiContext, final GWikiElement element,
+      final Map<String, GWikiArtefakt<?>> parts)
   {
 
-    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
+    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         if (element.getMetaTemplate() != null
@@ -635,13 +671,15 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
-  protected void destroyElement(final GWikiContext wikiContext, final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
+  protected void destroyElement(final GWikiContext wikiContext, final GWikiElement element,
+      final Map<String, GWikiArtefakt<?>> parts)
   {
     String id = element.getElementInfo().getId();
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-      if ((me.getValue() instanceof GWikiPersistArtefakt) == false)
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
+      if ((me.getValue() instanceof GWikiPersistArtefakt) == false) {
         continue;
-      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
+      }
+      GWikiPersistArtefakt<?> art = (GWikiPersistArtefakt<?>) me.getValue();
       String fname = art.buildFileName(id, me.getKey());
       boolean deleted = storage.delete(fname);
       if (deleted == false) {
@@ -673,22 +711,27 @@ public class GWikiFileStorage implements GWikiStorage
 
   public void storeElementImpl(final GWikiContext wikiContext, final GWikiElement page, final boolean keepModifiedAt)
   {
-    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
+    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         setVersionStamps(page, keepModifiedAt);
-        Map<String, GWikiArtefakt< ? >> parts = getParts(page);
+        Map<String, GWikiArtefakt<?>> parts = getParts(page);
         persist(wikiContext, page, parts);
         return null;
       }
     });
   }
 
+  @Override
   public GWikiElement storeElement(final GWikiContext wikiContext, final GWikiElement elm, final boolean keepModifiedAt)
   {
-    return storage.runInTransaction(null, standardLockTimeout, false, new CallableX<GWikiElement, RuntimeException>() {
+    return storage.runInTransaction(null, standardLockTimeout, false, new CallableX<GWikiElement, RuntimeException>()
+    {
 
+      @Override
       public GWikiElement call() throws RuntimeException
       {
 
@@ -717,19 +760,23 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
-  public static Map<String, GWikiArtefakt< ? >> getParts(GWikiElement element)
+  public static Map<String, GWikiArtefakt<?>> getParts(GWikiElement element)
   {
-    Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
     element.collectParts(parts);
     return parts;
   }
 
+  @Override
   public void deleteElement(final GWikiContext wikiContext, GWikiElement element)
   {
-    Map<String, GWikiArtefakt< ? >> parts = getParts(element);
-    wikiWeb.getFilter().deleteElement(wikiContext, element, parts, new GWikiStorageDeleteElementFilter() {
+    Map<String, GWikiArtefakt<?>> parts = getParts(element);
+    wikiWeb.getFilter().deleteElement(wikiContext, element, parts, new GWikiStorageDeleteElementFilter()
+    {
 
-      public Void filter(GWikiFilterChain<Void, GWikiStorageDeleteElementFilterEvent, GWikiStorageDeleteElementFilter> chain,
+      @Override
+      public Void filter(
+          GWikiFilterChain<Void, GWikiStorageDeleteElementFilterEvent, GWikiStorageDeleteElementFilter> chain,
           GWikiStorageDeleteElementFilterEvent event)
       {
         deleteImpl(event.getWikiContext(), event.getElement(), event.getParts());
@@ -745,11 +792,13 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
-  public void storeImpl(final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
+  public void storeImpl(final GWikiElement element, final Map<String, GWikiArtefakt<?>> parts)
   {
     // TODO gwiki alles in einer transaktion laufen lassen.
-    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>() {
+    storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         storeImplNoTrans(element, parts);
@@ -780,7 +829,7 @@ public class GWikiFileStorage implements GWikiStorage
     fs.writeTextFile(fname, data, overWrite);
   }
 
-  public void storeImplNoTrans(final GWikiElement element, final Map<String, GWikiArtefakt< ? >> parts)
+  public void storeImplNoTrans(final GWikiElement element, final Map<String, GWikiArtefakt<?>> parts)
   {
 
     String id = element.getElementInfo().getId();
@@ -793,11 +842,12 @@ public class GWikiFileStorage implements GWikiStorage
         }
       }
     }
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
-      if ((me.getValue() instanceof GWikiPersistArtefakt< ? >) == false)
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
+      if ((me.getValue() instanceof GWikiPersistArtefakt<?>) == false) {
         continue;
+      }
 
-      GWikiPersistArtefakt< ? > art = (GWikiPersistArtefakt< ? >) me.getValue();
+      GWikiPersistArtefakt<?> art = (GWikiPersistArtefakt<?>) me.getValue();
       String fname = art.buildFileName(id, me.getKey());
       if (art instanceof GWikiPropsArtefakt) {
         GWikiPropsArtefakt pa = (GWikiPropsArtefakt) art;
@@ -805,14 +855,14 @@ public class GWikiFileStorage implements GWikiStorage
         if (map != null) {
           storeProps(fname, map);
         }
-      } else if (art instanceof GWikiTextArtefakt< ? >) {
-        GWikiTextArtefakt< ? > ta = (GWikiTextArtefakt< ? >) art;
+      } else if (art instanceof GWikiTextArtefakt<?>) {
+        GWikiTextArtefakt<?> ta = (GWikiTextArtefakt<?>) art;
         String text = ta.getStorageData();
         if (text != null) {
           writeTextFile(fname, text, /* ta.isNoArchiveData() == true */true);
         }
-      } else if (art instanceof GWikiBinaryArtefakt< ? >) {
-        GWikiBinaryArtefakt< ? > ba = (GWikiBinaryArtefakt< ? >) art;
+      } else if (art instanceof GWikiBinaryArtefakt<?>) {
+        GWikiBinaryArtefakt<?> ba = (GWikiBinaryArtefakt<?>) art;
         byte[] data = ba.getStorageData();
         if (data != null) {
           writeBinaryFile(fname, data, /* ta.isNoArchiveData() == true */true);
@@ -823,6 +873,7 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
+  @Override
   public boolean isArchivePageId(String path)
   {
     return path.startsWith("arch/") == true || path.contains("/arch/") == true;
@@ -857,6 +908,7 @@ public class GWikiFileStorage implements GWikiStorage
     return res;
   }
 
+  @Override
   public GWikiElementInfo restoreElement(GWikiContext wikiContext, GWikiElement elm)
   {
     String orgPageId = getOrginalPageIdFromArchivePageId(elm.getElementInfo().getId());
@@ -870,6 +922,7 @@ public class GWikiFileStorage implements GWikiStorage
    * 
    * @see de.micromata.genome.gwiki.model.GWikiStorage#rebuildIndex(java.util.Collection)
    */
+  @Override
   public void rebuildIndex(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis, boolean completeUpdate)
   {
     Map<String, WordIndexTextArtefakt> textIndice = new HashMap<String, WordIndexTextArtefakt>();
@@ -891,9 +944,9 @@ public class GWikiFileStorage implements GWikiStorage
           }
         }
         GWikiElement el = loadElement(ei);
-        Map<String, GWikiArtefakt< ? >> parts = getParts(el);
-        Map<String, GWikiArtefakt< ? >> cp = new HashMap<String, GWikiArtefakt< ? >>();
-        Map<String, GWikiArtefakt< ? >> np = new HashMap<String, GWikiArtefakt< ? >>();
+        Map<String, GWikiArtefakt<?>> parts = getParts(el);
+        Map<String, GWikiArtefakt<?>> cp = new HashMap<String, GWikiArtefakt<?>>();
+        Map<String, GWikiArtefakt<?>> np = new HashMap<String, GWikiArtefakt<?>>();
         cp.putAll(parts);
         pe.createNewIndex(wikiContext, wikiContext.getWikiWeb().getStorage(), el, cp);
         if (cp.containsKey(IndexStoragePersistHandler.TEXTINDEX_PARTNAME) == false) {
@@ -902,7 +955,8 @@ public class GWikiFileStorage implements GWikiStorage
         WordIndexTextArtefakt wit = (WordIndexTextArtefakt) cp.get(IndexStoragePersistHandler.TEXTINDEX_PARTNAME);
         textIndice.put(wit.getPageId(), wit);
         np.put(IndexStoragePersistHandler.TEXTINDEX_PARTNAME, wit);
-        np.put(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE, cp.get(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE));
+        np.put(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE,
+            cp.get(IndexStoragePersistHandler.TEXTEXTRACT_PARTNMAE));
         storeImplNoTrans(el, np);
 
         if (completeUpdate == false) {
@@ -958,6 +1012,7 @@ public class GWikiFileStorage implements GWikiStorage
     return wikiWeb;
   }
 
+  @Override
   public void setWikiWeb(GWikiWeb wikiWeb)
   {
     this.wikiWeb = wikiWeb;
@@ -978,6 +1033,7 @@ public class GWikiFileStorage implements GWikiStorage
    * 
    * @see de.micromata.genome.gwiki.model.GWikiStorage#setFileSystem(de.micromata.genome.gdb`.FileSystem)
    */
+  @Override
   public void setFileSystem(FileSystem fileSystem)
   {
     storage = fileSystem;

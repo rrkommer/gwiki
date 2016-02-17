@@ -202,6 +202,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
   @Override
   public void logout(GWikiContext ctx)
   {
+    clearAuthenticationCookie(ctx, null);
     GWikiSimpleUser su = getSingleUser(ctx);
     if (su != null) {
       if (ctx.getWikiWeb().getFilter().onLogout(ctx, su) == false) {
@@ -209,6 +210,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       }
     }
     ctx.removeSessionAttribute(SINGLEUSER_SESSION_KEY);
+
     clearSession(ctx);
   }
 
@@ -218,6 +220,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     return getSingleUser(ctx).isAnon();
   }
 
+  @Override
   public GWikiSimpleUser findUser(GWikiContext wikiContext, String userName)
   {
     return getConfig(wikiContext).getUser("anon");
@@ -230,7 +233,16 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       return su;
     }
     su = (GWikiSimpleUser) wikiContext.getSessionAttribute(SINGLEUSER_SESSION_KEY);
-    if (su == null && wikiContext.getWikiWeb() != null) {
+    if (su != null) {
+      return su;
+    }
+    if (wikiContext.getWikiWeb() != null) {
+      su = findUserByAuthenticationToken(wikiContext);
+      if (su != null) {
+        wikiContext.setSessionAttribute(SINGLEUSER_SESSION_KEY, su);
+        GWikiUserServeElementFilterEvent.setUser(su);
+        return su;
+      }
       // su = ctx.getWikiWeb().getAuthorization().(ctx, "anon");
       su = findUser(wikiContext, GWikiSimpleUser.ANON_USER_NAME);
       if (su == null) {
@@ -309,19 +321,6 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       return null;
     }
     return su.getProps().get(key);
-  }
-
-  @Override
-  public void setUserProp(GWikiContext ctx, String key, String value, boolean persist)
-  {
-    GWikiSimpleUser su = getSingleUser(ctx);
-    if (su == null) {
-      return;
-    }
-    su.getProps().put(key, value);
-    if (persist == true) {
-      ctx.setCookie(key, value);
-    }
   }
 
   /**

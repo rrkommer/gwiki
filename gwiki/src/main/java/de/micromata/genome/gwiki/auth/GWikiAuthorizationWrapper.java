@@ -53,6 +53,19 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
     return parent.needAuthorization(ctx);
   }
 
+  @Override
+  public void createAuthenticationCookie(GWikiContext ctx, String user, String password)
+  {
+    parent.createAuthenticationCookie(ctx, user, password);
+
+  }
+
+  @Override
+  public void clearAuthenticationCookie(GWikiContext ctx, String user)
+  {
+    parent.clearAuthenticationCookie(ctx, user);
+  }
+
   /**
    * @param ctx
    * @param user
@@ -205,9 +218,9 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
    *      java.lang.String, java.lang.String, boolean)
    */
   @Override
-  public void setUserProp(GWikiContext ctx, String key, String value, boolean persist)
+  public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage)
   {
-    parent.setUserProp(ctx, key, value, persist);
+    parent.setUserProp(ctx, key, value, storage);
   }
 
   /**

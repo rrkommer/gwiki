@@ -17,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.controls;
 
+import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
@@ -44,6 +45,7 @@ public class GWikiUserPrefAsyncActionBean extends ActionBeanBase
    */
   private boolean persist = false;
 
+  @Override
   public Object onInit()
   {
     return noForward();
@@ -51,7 +53,8 @@ public class GWikiUserPrefAsyncActionBean extends ActionBeanBase
 
   public Object onSave()
   {
-    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, key, value, persist);
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, key, value,
+        persist == true ? UserPropStorage.Server : UserPropStorage.Transient);
     return noForward();
   }
 

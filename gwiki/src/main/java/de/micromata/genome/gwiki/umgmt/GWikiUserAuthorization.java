@@ -265,20 +265,31 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
     return afterLogin(ctx, su);
   }
 
-  public void setUserProp(GWikiContext ctx, String key, String value)
+  @Override
+  public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage)
   {
     GWikiSimpleUser su = getSingleUser(ctx);
-    if (su == null) {
-      return;
+    switch (storage) {
+      case Client:
+        setUserPropInCookie(ctx, key, value);
+        break;
+      case Server:
+        GWikiElement el = findUserElement(ctx, su.getUser());
+        if (el == null) {
+          return;
+        }
+        Serializable ser = el.getMainPart().getCompiledObject();
+        GWikiProps props = (GWikiProps) ser;
+        props.setStringValue(key, value);
+        ctx.getWikiWeb().saveElement(ctx, el, false);
+        break;
+      case Transient:
+        if (su != null) {
+          su.getProps().put(value, key);
+        }
+        break;
     }
-    GWikiElement el = findUserElement(ctx, su.getUser());
-    if (el == null) {
-      return;
-    }
-    Serializable ser = el.getMainPart().getCompiledObject();
-    GWikiProps props = (GWikiProps) ser;
-    props.setStringValue(key, value);
-    ctx.getWikiWeb().saveElement(ctx, el, false);
+
   }
 
   public static GWikiRoleConfig getRoleConfig(GWikiContext wikiContext)
