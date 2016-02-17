@@ -33,6 +33,7 @@ import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiAttachment;
+import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -756,7 +757,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   public Object onAsyncWikiView()
   {
-    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "wiki", true);
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "wiki",
+        UserPropStorage.Client);
     return noForward();
   }
 
@@ -801,7 +803,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         wikiContext.append("no part name given");
         return noForward();
       }
-      wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "rte", true);
+      wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "rte",
+          UserPropStorage.Client);
       GWikiWikiPageArtefakt wiki = (GWikiWikiPageArtefakt) parts.get(partName);
       wikiContext.append("<div class=\"gwikiContent\">");
       wiki.render(wikiContext);
@@ -820,7 +823,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     if (StringUtils.equals(wikiContext.getRequestParameter("showFullScreen"), "true") == true) {
       value = "true";
     }
-    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN, value, true);
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN, value,
+        UserPropStorage.Client);
     // GWikiLog.note("Stored editmaximize: " + value);
     return noForward();
   }

@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.auth.GWikiSimpleUserAuthorization;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
+import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -67,6 +68,10 @@ public class GWikiLoginActionBean extends ActionBeanBase
   private boolean publicRegister = false;
 
   private boolean doubleOptInRegister = true;
+  /**
+   * if login token should stored in cookie.
+   */
+  private boolean keepLoginInSession = false;
 
   protected void checkPublicRegister()
   {
@@ -127,8 +132,8 @@ public class GWikiLoginActionBean extends ActionBeanBase
       password = "";
       return null;
     }
-
-    boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user),
+    GWikiAuthorization auth = wikiContext.getWikiWeb().getAuthorization();
+    boolean success = auth.login(wikiContext, StringUtils.trim(user),
         StringUtils.trim(password));
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
@@ -137,6 +142,11 @@ public class GWikiLoginActionBean extends ActionBeanBase
       password = "";
       return null;
     }
+    if (keepLoginInSession == true) {
+      auth.createAuthenticationCookie(wikiContext, user, password);
+    } else {
+      auth.clearAuthenticationCookie(wikiContext, user);
+    }
     password = "";
     if (StringUtils.isBlank(pageId) == false) {
       GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(pageId);
@@ -144,6 +154,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
         return ei;
       }
     }
+
     return wikiContext.getWikiWeb().getHomeElement(wikiContext);
   }
 
@@ -323,6 +334,16 @@ public class GWikiLoginActionBean extends ActionBeanBase
   public void setDoubleOptInRegister(boolean doubleOptInRegister)
   {
     this.doubleOptInRegister = doubleOptInRegister;
+  }
+
+  public boolean isKeepLoginInSession()
+  {
+    return keepLoginInSession;
+  }
+
+  public void setKeepLoginInSession(boolean keepLoginInSession)
+  {
+    this.keepLoginInSession = keepLoginInSession;
   }
 
 }

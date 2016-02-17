@@ -23,6 +23,10 @@ $(function() {
         <label for="pass"><fmt:message key="gwiki.page.admin.Login.label.password"/></label>
         <gwiki:password errorStyleClass="text error" styleClass="text" styleId="pass" size="20" property="password" />
       </div>
+       <div class="type-checkbox">
+        <label for="keepLoginInSession"><fmt:message key="gwiki.page.admin.Login.label.keepLoginInSession"/></label>
+        <gwiki:checkbox property="keepLoginInSession" /> 
+      </div>
       <div class="type-button">
         <input  class="submit main" type="submit" name="method_onLogin" value="<fmt:message key="gwiki.page.admin.Login.button.login"/>" />
         <ul class="gwikiLoginHelp">

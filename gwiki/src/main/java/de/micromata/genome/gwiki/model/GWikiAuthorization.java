@@ -72,6 +72,23 @@ public interface GWikiAuthorization
   public boolean login(GWikiContext ctx, String user, String password);
 
   /**
+   * To keep logged in.
+   * 
+   * @param ctx
+   * @param user
+   * @param password
+   */
+  public void createAuthenticationCookie(GWikiContext ctx, String user, String password);
+
+  /**
+   * clear auth token
+   * 
+   * @param ctx
+   * @param user
+   */
+  public void clearAuthenticationCookie(GWikiContext ctx, String user);
+
+  /**
    * logout the user.
    * 
    * In most cases the implementation also remove user object from session.
@@ -175,14 +192,37 @@ public interface GWikiAuthorization
   public String getUserProp(GWikiContext ctx, String key);
 
   /**
+   * Where to store user preferences.
+   * 
+   * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+   *
+   */
+  public enum UserPropStorage
+  {
+    /**
+     * Transient at server at the current user.
+     */
+    Transient,
+    /**
+     * As cookie
+     */
+    Client,
+    /**
+     * Persistent in user configuration.
+     */
+    Server
+  }
+
+  /**
    * Set user specific value.
    * 
    * @param ctx
    * @param key
    * @param value
-   * @param persist
+   * 
+   * 
    */
-  public void setUserProp(GWikiContext ctx, String key, String value, boolean persist);
+  public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage);
 
   /**
    * Return the users locale.
