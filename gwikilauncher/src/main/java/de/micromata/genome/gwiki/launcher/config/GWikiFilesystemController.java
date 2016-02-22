@@ -7,8 +7,10 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.util.types.Pair;
 import de.micromata.genome.util.validation.ValContext;
 import de.micromata.mgc.javafx.ControllerService;
+import de.micromata.mgc.javafx.launcher.MgcLauncher;
 import de.micromata.mgc.javafx.launcher.gui.AbstractConfigTabController;
 import de.micromata.mgc.javafx.launcher.gui.generic.JdbcConfigTabController;
+import de.micromata.mgc.launcher.MgcApplicationInfo;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,11 +49,14 @@ public class GWikiFilesystemController extends AbstractConfigTabController<GWiki
   @Override
   public void initializeWithModel(GWikiFilesystemConfigModel model)
   {
+    MgcApplicationInfo info = MgcLauncher.get().getApplication().getApplicationInfo();
+    info.getName();
     Pair<Pane, JdbcConfigTabController> jdbc = ControllerService.get()
         .loadControlWithModel(JdbcConfigTabController.class, Pane.class, model.getJdbcConfigModel());
     jdbcPane = jdbc.getFirst();
     jdbcController = jdbc.getSecond();
     tabPane.getChildren().add(jdbcPane);
+    jdbcPane.setLayoutY(30);
     fromModel(model);
     storageType.setItems(FXCollections.observableArrayList(model.getAvailableFileSystemTypes()));
     storageType.setOnAction(event -> switchToStoragetype(storageType.getValue().equals("Database")));
