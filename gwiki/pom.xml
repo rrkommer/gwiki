@@ -217,6 +217,10 @@
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
         </exclusion>
+         <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -228,17 +232,25 @@
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
         </exclusion>
+         <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+         <exclusion>
+          <artifactId>slf4j-log4j12</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jcl-over-slf4j</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-console</artifactId> <version>1.4.2</version> </dependency> -->
     <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-filesystem</artifactId> <version>1.4.2</version> 
       </dependency> <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-ftp</artifactId> <version>1.4.2</version> </dependency> 
       <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-json</artifactId> <version>1.4.2</version> </dependency> -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.5.3</version>
-    </dependency>
+
 
 
     <dependency>

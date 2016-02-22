@@ -10,7 +10,7 @@
     <module>gwiki</module>
     <module>plugins</module>
     <module>gwiki-standalone</module>
-    
+    <module>gwikilauncher</module>
   </modules>
   
   
@@ -33,6 +33,7 @@
  		<postgresql.version>9.4-1206-jdbc42</postgresql.version>
     <spring.version>3.2.13.RELEASE</spring.version>
  		<genome.mvn.plugin.version>2.1.0-SNAPSHOT</genome.mvn.plugin.version>    
+    <log4j.version>1.2.17</log4j.version>
   </properties>
 
   <profiles>
