@@ -19,6 +19,7 @@ import de.micromata.mgc.launcher.MgcApplicationStartStopStatus;
  */
 public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication<GWikiLocalSettingsConfigModel>
 {
+
   @Override
   public ValTranslateService getTranslateService()
   {

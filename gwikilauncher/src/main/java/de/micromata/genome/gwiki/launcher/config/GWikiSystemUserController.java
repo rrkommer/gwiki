@@ -29,7 +29,6 @@ public class GWikiSystemUserController extends AbstractConfigTabController<GWiki
     sysUserEnabled.setOnAction(e -> {
       enableSystemUser(sysUserEnabled.isSelected());
     });
-    registerValMessage("systemUserName");
 
   }
 
