@@ -28,17 +28,31 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public class GWikiLog
 {
+  static boolean inGetGWikiWeb = false;
+
   protected static GWikiWeb getWikiWeb(GWikiContext ctx)
   {
-    if (ctx != null) {
-      return ctx.getWikiWeb();
+    if (inGetGWikiWeb == true) {
+      return null;
     }
-    return GWikiWeb.getWiki();
+    try {
+      inGetGWikiWeb = true;
+      if (ctx != null) {
+        return ctx.getWikiWeb();
+      }
+      return GWikiWeb.getWiki();
+    } finally {
+      inGetGWikiWeb = false;
+    }
   }
 
   protected static GWikiLogging getLogging(GWikiContext ctx)
   {
-    return getWikiWeb(ctx).getLogging();
+    GWikiWeb wiki = getWikiWeb(ctx);
+    if (wiki == null) {
+      return new GenomeLogging();
+    }
+    return wiki.getLogging();
   }
 
   public static void debug(String message, Object... keyValues)
@@ -47,18 +61,39 @@ public class GWikiLog
     getLogging(ctx).debug(message, ctx, keyValues);
   }
 
+  public static void info(String message)
+  {
+    GWikiContext ctx = GWikiContext.getCurrent();
+    getLogging(ctx).info(message, ctx);
+  }
+
+  @Deprecated
   public static void info(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).info(message, ctx, keyValues);
   }
 
+  public static void note(String message)
+  {
+    GWikiContext ctx = GWikiContext.getCurrent();
+    getLogging(ctx).note(message, ctx);
+  }
+
+  @Deprecated
   public static void note(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).note(message, ctx, keyValues);
   }
 
+  public static void warn(String message)
+  {
+    GWikiContext ctx = GWikiContext.getCurrent();
+    getLogging(ctx).warn(message, ctx);
+  }
+
+  @Deprecated
   public static void warn(String message, Object... keyValues)
   {
     GWikiContext ctx = GWikiContext.getCurrent();

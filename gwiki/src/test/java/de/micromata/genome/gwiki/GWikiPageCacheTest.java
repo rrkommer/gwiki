@@ -16,7 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +32,6 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-
 // Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,12 +47,11 @@
 // limitations under the License.
 
 ////////////////////////////////////////////////////////////////////////////
-
 
 package de.micromata.genome.gwiki;
 
-import junit.framework.TestCase;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import junit.framework.TestCase;
 
 public class GWikiPageCacheTest extends TestCase
 {
@@ -84,6 +81,7 @@ public class GWikiPageCacheTest extends TestCase
         }
       } catch (RuntimeException ex) {
         someFailed = true;
+        ex.printStackTrace();
         throw ex;
       }
     }
@@ -121,7 +119,8 @@ public class GWikiPageCacheTest extends TestCase
       }
     }
     end = System.currentTimeMillis();
-    System.out.println("Served " + (loopCount * threadCount) + " index pages in " + threadCount + " threads in: " + (end - start) + " ms");
+    System.out.println("Served " + (loopCount * threadCount) + " index pages in " + threadCount + " threads in: "
+        + (end - start) + " ms");
     assertFalse(someFailed);
   }
 
@@ -175,7 +174,8 @@ public class GWikiPageCacheTest extends TestCase
       throw new RuntimeException(ex);
     }
     end = System.currentTimeMillis();
-    System.out.println("Served with cleared " + (loopCount * threadCount) + " index pages in " + threadCount + " threads in: " + (end - start) + " ms");
+    System.out.println("Served with cleared " + (loopCount * threadCount) + " index pages in " + threadCount
+        + " threads in: " + (end - start) + " ms");
     assertFalse(someFailed);
   }
 }
