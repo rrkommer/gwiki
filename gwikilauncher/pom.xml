@@ -2,14 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <!-- README Before use the install_to_local_rep.sh to install the required libraries to your local repository -->
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.3.1.RELEASE</version>
+ <parent>
+    <artifactId>gwiki-root</artifactId>
+    <groupId>de.micromata.genome.gwiki</groupId>
+    <version>1.0.4</version><!-- GWIKVERSION -->
+    <relativePath>../pom.xml</relativePath>
   </parent>
-  <groupId>de.micromata.genome.gwiki </groupId>
+  
   <artifactId>gwikilauncher</artifactId>
-  <version>1.0.4</version><!-- GWIKVERSION -->
+  
   <properties>
     <!-- The final name for the JAR that you can find in target directory -->
     <jar.final.name>${project.artifactId}-${project.version}</jar.final.name>
@@ -29,6 +30,7 @@
     <spring.version>3.2.13.RELEASE</spring.version>
     <genome.mvn.plugin.version>2.1.0-SNAPSHOT</genome.mvn.plugin.version>
     <log4j.version>1.2.17</log4j.version>
+    <spring-boot.version>1.3.1.RELEASE</spring-boot.version>
   </properties>
   <dependencies>
     <dependency>
@@ -86,6 +88,8 @@
               <MgcDescription>GWiki Content Management System</MgcDescription>
               <MgcHomeUrl>http://labs.micromata.de</MgcHomeUrl>
               <MgcLargLogoPath>/style/gwikiLogo.png</MgcLargLogoPath>
+               <mainClass>${start-class}</mainClass>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifestEntries>
           </archive>
         </configuration>
@@ -98,7 +102,34 @@
           <layout>ZIP</layout>
         </configuration>
       </plugin>
+        <!-- Support our own plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>${start-class}</mainClass>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
+    <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <!-- Import dependency management from Spring Boot -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

@@ -2,7 +2,6 @@ package de.micromata.genome.gwiki.launcher;
 
 import de.micromata.genome.gwiki.launcher.config.GWikiLocalSettingsConfigModel;
 import de.micromata.mgc.javafx.launcher.MgcLauncher;
-import de.micromata.mgc.javafx.launcher.gui.AbstractMainWindow;
 import de.micromata.mgc.javafx.launcher.gui.generic.GenericMainWindow;
 
 /**
@@ -20,7 +19,6 @@ public class GWikiLauncherMain extends MgcLauncher<GWikiLocalSettingsConfigModel
 
   public GWikiLauncherMain()
   {
-    super(new GWikiLauncherApplication(),
-        (Class<? extends AbstractMainWindow<GWikiLocalSettingsConfigModel>>) GenericMainWindow.class);
+    super(new GWikiLauncherApplication(), (Class) GenericMainWindow.class);
   }
 }
