@@ -16,16 +16,16 @@ import de.micromata.genome.util.runtime.LocalSettings;
  */
 public class LsFileSystemFactoryBean implements FactoryBean<FileSystem>
 {
-  public static final String LOCAL_FILE_SYSTEM = "localFileSystem";
-  public static final String JPA_FILE_SYSTEM = "jpaFileSystem";
+  public static final String LOCAL_FILE_SYSTEM = "Filesystem";
+  public static final String JPA_FILE_SYSTEM = "Database";
 
   @Override
   public FileSystem getObject() throws Exception
   {
     LocalSettings ls = LocalSettings.get();
-    String fsysType = ls.get("gwiki.filesystem.type", LOCAL_FILE_SYSTEM);
+    String fsysType = ls.get("gwiki.storage.type", LOCAL_FILE_SYSTEM);
     if (StringUtils.equals(fsysType, LOCAL_FILE_SYSTEM) == true) {
-      String path = ls.get("gwiki.wikifilepath");
+      String path = ls.get("gwiki.storage.filesystem.path");
       StdFileSystem ret = new StdFileSystem(path);
       return ret;
     } else if (StringUtils.equals(fsysType, JPA_FILE_SYSTEM) == true) {

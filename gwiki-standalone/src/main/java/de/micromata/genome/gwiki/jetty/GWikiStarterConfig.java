@@ -3,87 +3,98 @@ package de.micromata.genome.gwiki.jetty;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.auth.PasswordUtils;
 import de.micromata.genome.gwiki.spi.storage.LsFileSystemFactoryBean;
-import de.micromata.genome.util.bean.FieldMatchers;
-import de.micromata.genome.util.bean.PrivateBeanUtils;
+import de.micromata.genome.launcher.config.CastableConfigModel;
+import de.micromata.genome.launcher.config.ConfigModel;
+import de.micromata.genome.launcher.config.JettyConfigModel;
 import de.micromata.genome.util.collections.SortedProperties;
 import de.micromata.genome.util.runtime.LocalSettings;
+import de.micromata.genome.util.runtime.config.ALocalSettingsPath;
 
 /**
  * 
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
  */
-public class GWikiStarterConfig
+public class GWikiStarterConfig implements CastableConfigModel
 {
   private static Logger LOG = Logger.getLogger(GWikiStarterConfig.class);
-  @LocalSettingsPath(key = "gwiki.jetty.port", defaultValue = "8081")
-  private String serverPort;
-  @LocalSettingsPath(key = "gwiki.jetty.contextpath", defaultValue = "/")
-  private String serverContextPath;
 
-  @LocalSettingsPath(key = "gwiki.public.url", defaultValue = "http://localhost:8081/")
-  private String publicUrl;
+  private JettyConfigModel jettyConfig = new JettyConfigModel();
 
-  @LocalSettingsPath(key = "gwiki.public.email")
-  private String publicEmail;
-
-  @LocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true")
+  @ALocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true")
   private String systemUserEnabled;
 
-  @LocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys")
+  @ALocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys")
   private String systemUserName;
 
-  @LocalSettingsPath(key = "gwiki.sys.passwordhash")
+  @ALocalSettingsPath(key = "gwiki.sys.passwordhash")
   private String systemUserEncPass;
 
   private String systemUserClearPass;
 
-  @LocalSettingsPath(key = "gwiki.wikifilepath", defaultValue = "./gwiki")
+  @ALocalSettingsPath(key = "gwiki.wikifilepath", defaultValue = "./gwiki")
   private String storageFilePath;
 
-  @LocalSettingsPath(key = "db.ds.gwikdb.drivername")
+  @ALocalSettingsPath(key = "db.ds.gwikdb.drivername")
   private String jdbcDriver;
 
-  @LocalSettingsPath(key = "db.ds.gwikdb.url")
+  @ALocalSettingsPath(key = "db.ds.gwikdb.url")
   private String jdbcUrl;
-  @LocalSettingsPath(key = "db.ds.gwikdb.username")
+  @ALocalSettingsPath(key = "db.ds.gwikdb.username")
   private String jdbcUserName;
 
-  @LocalSettingsPath(key = "db.ds.gwikdb.password")
+  @ALocalSettingsPath(key = "db.ds.gwikdb.password")
   private String jdbcPassword;
 
-  @LocalSettingsPath(key = "gwiki.enable.webdav", defaultValue = "false")
+  @ALocalSettingsPath(key = "gwiki.webdav.enabled", defaultValue = "false")
   private String enableWebDav;
 
-  @LocalSettingsPath(key = "gwiki.filesystem.type", defaultValue = LsFileSystemFactoryBean.LOCAL_FILE_SYSTEM)
+  @ALocalSettingsPath(key = "gwiki.filesystem.type", defaultValue = LsFileSystemFactoryBean.LOCAL_FILE_SYSTEM)
   private String fileSystemType;
+
+  @ALocalSettingsPath(key = "gwiki.smpt.enabled", defaultValue = "false")
+  private String emailEnabled;
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.host", defaultValue = "localhost")
+  private String emailHost;
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.port", defaultValue = "25")
+  private String emailPort;
+
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.auth", defaultValue = "false")
+  private String emailAuthEnabled;
+
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.user")
+  private String emailAuthUser;
+
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.password")
+  private String emailAuthPass;
+
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.starttls.enable", defaultValue = "false")
+  private String emailAuthEnableStartTls;
+  @ALocalSettingsPath(key = "mail.session.gwiki.smtp.ssl.enable", defaultValue = "false")
+  private String emailAuthEnableStartSsl;
 
   public GWikiStarterConfig()
   {
 
   }
 
-  public void initFromLocalSettings(LocalSettings localSettings)
+  @Override
+  public <T extends ConfigModel> T castTo(Class<T> other)
   {
-    List<Field> fields = PrivateBeanUtils.findAllFields(getClass(),
-        FieldMatchers.hasAnnotation(LocalSettingsPath.class));
-    for (Field field : fields) {
-      LocalSettingsPath lsp = field.getAnnotation(LocalSettingsPath.class);
-      PrivateBeanUtils.writeField(this, field, localSettings.get(lsp.key(), lsp.defaultValue()));
+    if (other.isAssignableFrom(JettyConfigModel.class) == true) {
+      return (T) jettyConfig;
     }
+    return null;
   }
 
   public void storeConfig(ValidationContext ctx)
@@ -97,41 +108,48 @@ public class GWikiStarterConfig
     }
   }
 
-  public SortedProperties toProperties()
+  @Override
+  public void fromLocalSettings(LocalSettings localSettings)
+  {
+    CastableConfigModel.super.fromLocalSettings(localSettings);
+    jettyConfig.fromLocalSettings(localSettings);
+  }
+
+  @Override
+  public void toProperties(SortedProperties props)
   {
     if (isSystemUserEnabled() == true) {
       if (StringUtils.isNotBlank(systemUserClearPass) == true) {
         systemUserEncPass = PasswordUtils.createSaltedPassword(systemUserClearPass);
       }
     }
-    SortedProperties ret = new SortedProperties();
+
     if (isUseJdbc() == true) {
-      ret.put("db.ds.gwikdb.name", "gwikidb");
-      ret.put("genomeds", "gwikidb");
-      ret.put("jndi.bind.standard.target", "java:/comp/env/genome/jdbc/dsWeb");
-      ret.put("jndi.bind.standard.type", "DataSource");
-      ret.put("jndi.bind.standard.source", "gwikidb");
+      props.put("db.ds.gwikdb.name", "gwikidb");
+      props.put("genomeds", "gwikidb");
+      props.put("jndi.bind.standard.target", "java:/comp/env/genome/jdbc/dsWeb");
+      props.put("jndi.bind.standard.type", "DataSource");
+      props.put("jndi.bind.standard.source", "gwikidb");
     } else {
 
     }
+    jettyConfig.toProperties(props);
+    CastableConfigModel.super.toProperties(props);
+  }
 
-    List<Field> fields = PrivateBeanUtils.findAllFields(getClass(),
-        FieldMatchers.hasAnnotation(LocalSettingsPath.class));
-    for (Field field : fields) {
-      LocalSettingsPath lsp = field.getAnnotation(LocalSettingsPath.class);
-      String val = (String) PrivateBeanUtils.readField(this, field);
-      ret.put(lsp.key(), val);
-    }
-
+  public SortedProperties toProperties()
+  {
+    SortedProperties ret = new SortedProperties();
+    toProperties(ret);
     return ret;
   }
 
-  public boolean validate(ValidationContext ctx)
+  @Override
+  public void validate(ValidationContext ctx)
   {
-    validateServerSettings(ctx);
+    jettyConfig.validate(ctx);
     validateSystemUser(ctx);
     validateStorage(ctx);
-    return ctx.hasErrors();
   }
 
   private void validateSystemUser(ValidationContext ctx)
@@ -145,18 +163,6 @@ public class GWikiStarterConfig
     if (StringUtils.isBlank(systemUserClearPass) == true && StringUtils.isBlank(systemUserEncPass) == true) {
       ctx.error("systemUserClearPass", "Please provide password for system user");
     }
-  }
-
-  public boolean validateServerSettings(ValidationContext ctx)
-  {
-    if (StringUtils.isBlank(serverPort) == true) {
-      ctx.error("serverPort", "Please provide a server port");
-    } else {
-      if (NumberUtils.isDigits(serverPort) == false) {
-        ctx.error("serverPort", "Please provid numeric port number");
-      }
-    }
-    return ctx.hasErrors();
   }
 
   public boolean validateStorage(ValidationContext ctx)
@@ -233,46 +239,6 @@ public class GWikiStarterConfig
   public void setSystemUserEnabled(boolean enable)
   {
     systemUserEnabled = Boolean.toString(enable);
-  }
-
-  public String getServerPort()
-  {
-    return serverPort;
-  }
-
-  public void setServerPort(String serverPort)
-  {
-    this.serverPort = serverPort;
-  }
-
-  public String getServerContextPath()
-  {
-    return serverContextPath;
-  }
-
-  public void setServerContextPath(String serverContextPath)
-  {
-    this.serverContextPath = serverContextPath;
-  }
-
-  public String getPublicUrl()
-  {
-    return publicUrl;
-  }
-
-  public void setPublicUrl(String publicUrl)
-  {
-    this.publicUrl = publicUrl;
-  }
-
-  public String getPublicEmail()
-  {
-    return publicEmail;
-  }
-
-  public void setPublicEmail(String publicEmail)
-  {
-    this.publicEmail = publicEmail;
   }
 
   public String getSystemUserName()
