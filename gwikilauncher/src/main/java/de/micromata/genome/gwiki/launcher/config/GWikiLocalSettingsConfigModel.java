@@ -1,6 +1,7 @@
 package de.micromata.genome.gwiki.launcher.config;
 
 import de.micromata.genome.util.runtime.config.AbstractCompositLocalSettingsConfigModel;
+import de.micromata.genome.util.runtime.config.HibernateSchemaConfigModel;
 import de.micromata.genome.util.runtime.config.LocalSettingsWriter;
 import de.micromata.genome.util.runtime.config.MailSessionLocalSettingsConfigModel;
 import de.micromata.mgc.javafx.launcher.gui.generic.LauncherLocalSettingsConfigModel;
@@ -21,6 +22,7 @@ public class GWikiLocalSettingsConfigModel extends AbstractCompositLocalSettings
 
   private GWikiFilesystemConfigModel fileSystem = new GWikiFilesystemConfigModel();
   private MailSessionLocalSettingsConfigModel emailConfig = new MailSessionLocalSettingsConfigModel("gwikimailsession");
+  private HibernateSchemaConfigModel hibernateSchemaConfig = new HibernateSchemaConfigModel();
 
   public GWikiLocalSettingsConfigModel()
   {
@@ -32,7 +34,6 @@ public class GWikiLocalSettingsConfigModel extends AbstractCompositLocalSettings
   public LocalSettingsWriter toProperties(LocalSettingsWriter writer)
   {
     writer.put("gwiki.enable.webdav", "false");
-    writer.put("hibernate.hbm2ddl.auto", "update");
     return super.toProperties(writer);
   }
 
