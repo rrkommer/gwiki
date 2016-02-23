@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.eclipse.jetty.server.Connector;
 
+@Deprecated
 public class JettyConfig
 {
   private int port = 8081;

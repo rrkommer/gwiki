@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.jetty;
 
+import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
@@ -95,17 +97,22 @@ public class GWikiJettyStarter
 
   void configureLogging(Server server, ServletContextHandler context)
   {
-
-    String reqPath = LocalSettings.get().get("gwiki.jetty.logs");
+    Log4JInitializer.copyLogConfigFileFromCp();
+    Log4JInitializer.initializeLog4J();
+    String reqPath = LocalSettings.get().get("gwiki.jetty.logs", "./log");
     if (StringUtils.isBlank(reqPath) == true) {
       return;
+    }
+    File target = new File(reqPath);
+    if (target.exists() == false) {
+      target.mkdirs();
     }
     HandlerCollection handlers = new HandlerCollection();
     RequestLogHandler requestLogHandler = new RequestLogHandler();
     handlers.setHandlers(new Handler[] { context, new DefaultHandler(), requestLogHandler });
     server.setHandler(handlers);
 
-    NCSARequestLog requestLog = new NCSARequestLog(reqPath + "/jetty-yyyy_mm_dd.request.log");
+    NCSARequestLog requestLog = new NCSARequestLog(reqPath + "/gwiki-yyyy_mm_dd.request.log");
     requestLog.setExtended(true);
     requestLog.setRetainDays(90);
     requestLog.setAppend(true);
