@@ -1,11 +1,15 @@
 package de.micromata.genome.gwiki.launcher;
 
 import de.micromata.genome.gwiki.launcher.config.GWikiLocalSettingsConfigModel;
+import de.micromata.genome.util.i18n.ChainedResourceBundleTranslationResolver;
+import de.micromata.genome.util.i18n.DefaultWarnI18NTranslationProvider;
+import de.micromata.genome.util.i18n.I18NTranslationProvider;
+import de.micromata.genome.util.i18n.I18NTranslationProviderImpl;
+import de.micromata.genome.util.i18n.I18NTranslations;
+import de.micromata.genome.util.i18n.PlaceholderTranslationProvider;
 import de.micromata.genome.util.jdbc.LauncherDataSource;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
 import de.micromata.genome.util.runtime.Log4JInitializer;
-import de.micromata.genome.util.validation.ValTranslateService;
-import de.micromata.genome.util.validation.ValTranslateServices;
 import de.micromata.mgc.jettystarter.JettyConfigModel;
 import de.micromata.mgc.jettystarter.JettyServer;
 import de.micromata.mgc.jettystarter.MgcApplicationWithJettyApplication;
@@ -19,11 +23,12 @@ import de.micromata.mgc.launcher.MgcApplicationStartStopStatus;
  */
 public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication<GWikiLocalSettingsConfigModel>
 {
-
-  @Override
-  public ValTranslateService getTranslateService()
+  public GWikiLauncherApplication()
   {
-    return ValTranslateServices.noTranslation();
+    I18NTranslationProvider provider = new DefaultWarnI18NTranslationProvider(new PlaceholderTranslationProvider(
+        new I18NTranslationProviderImpl(I18NTranslations.systemDefaultLocaleProvider(),
+            new ChainedResourceBundleTranslationResolver("gwikilauncher", "mgclauncher", "mgcapp", "mgcjetty"))));
+    setTranslateService(provider);
   }
 
   @Override
