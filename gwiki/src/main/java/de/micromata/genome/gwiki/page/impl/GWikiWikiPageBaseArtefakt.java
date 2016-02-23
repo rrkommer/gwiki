@@ -50,16 +50,18 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
 
   private List<GWikiFragment> prepareHeaderFragments = null;
 
+  @Override
   public String getFileSuffix()
   {
     return ".gwiki";
   }
 
-  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
+  public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
   {
     return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
   }
 
+  @Override
   public void prepareHeader(GWikiContext wikiContext)
   {
     if (compileFragements(wikiContext) == false || prepareHeaderFragments == null) {
@@ -76,7 +78,8 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
     compileFragements(ctx);
     String contextPath = ctx.getRequest().getContextPath();
     String servletPath = ctx.getRequest().getServletPath();
-    GWikiStandaloneContext swc = new GWikiStandaloneContext(ctx.getWikiWeb(), ctx.getServlet(), contextPath, servletPath);
+    GWikiStandaloneContext swc = new GWikiStandaloneContext(ctx.getWikiWeb(), ctx.getServlet(), contextPath,
+        servletPath);
     swc.setWikiElement(ctx.getCurrentElement());
     GWikiContent wkk = getCompiledObject();
     if (wkk == null) {
@@ -112,8 +115,10 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
     final GWikiContext wctx = wikiContext;
     long start = System.currentTimeMillis();
     wikiContext.getWikiWeb().getFilter()
-        .compileWikiWikiPage(wikiContext, wikiContext.getCurrentElement(), this, new GWikiWikiPageCompileFilter() {
+        .compileWikiWikiPage(wikiContext, wikiContext.getCurrentElement(), this, new GWikiWikiPageCompileFilter()
+        {
 
+          @Override
           public Void filter(GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter> chain,
               GWikiWikiPageCompileFilterEvent event)
           {
@@ -126,22 +131,27 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
             return null;
           }
         });
-    wctx.getWikiWeb().getDaoContext().getLogging().addPerformance("GWikiParse.parse", System.currentTimeMillis() - start, 0);
+    wctx.getWikiWeb().getDaoContext().getLogging().addPerformance("GWikiParse.parse",
+        System.currentTimeMillis() - start, 0);
     if (getCompiledObject() == null) {
       return false;
     }
-    prepareHeaderFragments = new ArrayList<GWikiFragment>();
-    getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
+    ArrayList<GWikiFragment> tprepareHeaderFragments = new ArrayList<GWikiFragment>();
+    getCompiledObject().iterate(new GWikiSimpleFragmentVisitor()
+    {
 
+      @Override
       public void begin(GWikiFragment fragment)
       {
         if (fragment.requirePrepareHeader(wctx) == true) {
-          prepareHeaderFragments.add(fragment);
+          tprepareHeaderFragments.add(fragment);
         }
       }
     });
-    if (prepareHeaderFragments.isEmpty() == true) {
+    if (tprepareHeaderFragments.isEmpty() == true) {
       prepareHeaderFragments = null;
+    } else {
+      prepareHeaderFragments = tprepareHeaderFragments;
     }
     return getCompiledObject() != null;
   }
@@ -149,7 +159,9 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
   public boolean renderChunk(final GWikiContext ctx, String chunkName)
   {
     ctx.setRequestAttribute("gwikichunk", chunkName);
-    return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {
+    return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>()
+    {
+      @Override
       public Boolean call()
       {
         return renderWithParts(ctx);
@@ -157,19 +169,27 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
     });
   }
 
+  @Override
   public boolean renderWithParts(final GWikiContext ctx)
   {
 
-    if (compileFragements(ctx) == false)
+    if (compileFragements(ctx) == false) {
       return true;
+    }
 
-    return ctx.runWithArtefakt(this, new CallableX<Boolean, RuntimeException>() {
+    return ctx.runWithArtefakt(this, new CallableX<Boolean, RuntimeException>()
+    {
 
+      @Override
       public Boolean call() throws RuntimeException
       {
-        return ctx.getWikiWeb().getFilter().renderWikiWikiPage(ctx, GWikiWikiPageBaseArtefakt.this, new GWikiWikiPageRenderFilter() {
+        return ctx.getWikiWeb().getFilter().renderWikiWikiPage(ctx, GWikiWikiPageBaseArtefakt.this,
+            new GWikiWikiPageRenderFilter()
+        {
 
-          public Boolean filter(GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter> chain,
+          @Override
+          public Boolean filter(
+              GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter> chain,
               GWikiWikiPageRenderFilterEvent event)
           {
             return event.getWikiPageArtefakt().getCompiledObject().render(event.getWikiContext());
