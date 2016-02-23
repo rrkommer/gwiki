@@ -32,7 +32,11 @@ public enum GWikiLogCategory implements LogCategory
   /**
    * The Wiki.
    */
-  Wiki;
+  Wiki,
+  /**
+   * Launcher application
+   */
+  WikiLauncher;
   static {
     BaseLogging.registerLogCategories(values());
   }

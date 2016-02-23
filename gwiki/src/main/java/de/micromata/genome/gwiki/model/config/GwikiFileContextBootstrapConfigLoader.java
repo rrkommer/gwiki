@@ -22,6 +22,7 @@ import javax.servlet.ServletConfig;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.env.StandardEnvironment;
 
 /**
  * Loads a spring application context file from standard file system.
@@ -35,6 +36,10 @@ public class GwikiFileContextBootstrapConfigLoader extends GWikiAbstractSpringCo
   @Override
   protected ConfigurableApplicationContext createApplicationContext(ServletConfig config, String fileName)
   {
-    return new FileSystemXmlApplicationContext(new String[] { fileName}, false, null);
+    FileSystemXmlApplicationContext ret = new FileSystemXmlApplicationContext(new String[] { fileName }, false, null);
+    ret.setEnvironment(new StandardEnvironment()
+    {
+    });
+    return ret;
   }
 }
