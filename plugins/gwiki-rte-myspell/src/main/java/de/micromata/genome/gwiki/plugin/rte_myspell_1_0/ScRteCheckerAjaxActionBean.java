@@ -39,7 +39,7 @@ import org.dts.spell.dictionary.OpenOfficeSpellDictionary;
 import org.dts.spell.dictionary.SpellDictionary;
 
 import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**

@@ -30,12 +30,12 @@ import org.cyberneko.html.HTMLConfiguration;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiStorageStoreElementFilterEvent;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiTextContentArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableUtils;

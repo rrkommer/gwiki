@@ -37,7 +37,7 @@ import de.micromata.genome.gdbfs.AbstractFileSystem;
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FsException;
 import de.micromata.genome.gdbfs.FsObject;
-import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.matcher.Matcher;

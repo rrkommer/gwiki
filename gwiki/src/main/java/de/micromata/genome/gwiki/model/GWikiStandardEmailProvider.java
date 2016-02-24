@@ -29,6 +29,8 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.GenomeAttributeType;

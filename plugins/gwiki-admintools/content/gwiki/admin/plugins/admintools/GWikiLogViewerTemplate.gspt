@@ -118,7 +118,7 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
         <tr>
                     <td>
                     <!-- Button fuer Params -->
-            <c:if test="${not empty row.paramMap}">
+            <c:if test="${not empty row.attributes}">
              <a onclick="toggleVisibility('pa${status.count}')"><img src="../inc/img/info.png" alt="Params"/></a>
                     </c:if>
                     <c:if test="${row.ex != null}">
@@ -127,13 +127,13 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                     </c:if>
                     </td>
 
-          <td><fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+          <td><fmt:formatDate value="${row.timestampDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
           <td><c:out value="${row.logLevel}"/></td>
           <td><c:out value="${row.message}"/></td>
         </tr>
 
         <!-- Log Params -->
-        <c:if test="${not empty row.paramMap}">
+        <c:if test="${not empty row.attributes}">
           <tr id="pa${status.count}" style="display:none;">
             <td colspan="4">
               <table border="1" width="100%">
@@ -141,21 +141,14 @@ SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
                   <th><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.key"/></th>
                   <th><fmt:message key="gwiki.page.admin.LogViewer.SearchResult.value"/></th>
                 </tr>
-                <c:forEach var="detail" items="${row.paramMap}">
+                <c:forEach var="detail" items="${row.attributes}">
                   <tr>
-                    <td>${detail.key}</td>
+                    <td>${detail.typeName}</td>
                     <td>${detail.value}</td>
                   </tr>
                 </c:forEach>
               </table>
             </td>
-          </tr>
-        </c:if>
-        
-        <!-- Stacktrace -->
-        <c:if test="${row.ex != null}">
-          <tr id="st${status.count}" style="display:none;">
-            <td colspan="4"><pre>${row.stacktrace}</pre></td>
           </tr>
         </c:if>
       </c:forEach>

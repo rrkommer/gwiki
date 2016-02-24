@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageCompileFilterEvent;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageRenderFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiWikiPageRenderFilterEvent;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
@@ -37,6 +38,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.utils.AppendableI;
+import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -131,7 +133,7 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
             return null;
           }
         });
-    wctx.getWikiWeb().getDaoContext().getLogging().addPerformance("GWikiParse.parse",
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "GWikiParse.parse",
         System.currentTimeMillis() - start, 0);
     if (getCompiledObject() == null) {
       return false;

@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import javax.servlet.ServletConfig;
 
 import de.micromata.genome.gwiki.model.config.GWikiDAOContextPropertyPlaceholderConfigurer;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;

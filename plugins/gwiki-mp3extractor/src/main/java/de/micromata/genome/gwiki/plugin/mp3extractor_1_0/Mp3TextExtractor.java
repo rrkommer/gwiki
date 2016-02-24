@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;
 
-import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.attachments.TextExtractor;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.LogExceptionAttribute;

@@ -28,6 +28,7 @@ import java.util.Map;
 import de.micromata.genome.gdbfs.FileSystemEvent;
 import de.micromata.genome.gdbfs.FileSystemEventListener;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;

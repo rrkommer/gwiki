@@ -21,7 +21,7 @@ package de.micromata.genome.gwiki.model.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 
 /**
  * Chain implementation to dispatch events.

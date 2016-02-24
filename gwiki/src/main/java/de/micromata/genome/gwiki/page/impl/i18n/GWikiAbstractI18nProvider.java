@@ -20,7 +20,7 @@ package de.micromata.genome.gwiki.page.impl.i18n;
 import java.text.MessageFormat;
 
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
 import de.micromata.genome.util.text.StringResolver;

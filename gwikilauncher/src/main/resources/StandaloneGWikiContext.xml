@@ -35,9 +35,7 @@
       <constructor-arg><bean class="de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization"/></constructor-arg>
     </bean>
   </property>
-  <property name="logging">
-    <bean class="de.micromata.genome.gwiki.model.GenomeLogging"/>
-  </property>
+  
 		<!--  FILE -->
 
 		<property name="storage">
