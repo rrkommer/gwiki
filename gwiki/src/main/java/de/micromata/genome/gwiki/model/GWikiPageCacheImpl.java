@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections15.map.ReferenceMap;
 
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.matcher.Matcher;
 
 /**
@@ -37,8 +38,9 @@ import de.micromata.genome.util.matcher.Matcher;
 public class GWikiPageCacheImpl implements GWikiPageCache
 {
 
-  private Map<String, GWikiElement> cachedPages = Collections.synchronizedMap(new ReferenceMap<String, GWikiElement>(ReferenceMap.HARD,
-      ReferenceMap.SOFT));
+  private Map<String, GWikiElement> cachedPages = Collections
+      .synchronizedMap(new ReferenceMap<String, GWikiElement>(ReferenceMap.HARD,
+          ReferenceMap.SOFT));
 
   private Map<String, GWikiElementInfo> pageInfoMap = Collections.emptyMap();
 
@@ -54,71 +56,82 @@ public class GWikiPageCacheImpl implements GWikiPageCache
   // this.wikiWeb = wikiWeb;
   // }
 
+  @Override
   public void clearCachedPages()
   {
     if (logNode == true) {
-      GWikiLog.info("clearPages");
+      GLog.info(GWikiLogCategory.Wiki, "clearPages");
     }
     cachedPages.clear();
   }
 
+  @Override
   public void clearCachedPage(String pageId)
   {
     cachedPages.remove(pageId);
   }
 
+  @Override
   public GWikiElementInfo getPageInfo(String pageId)
   {
     return pageInfoMap.get(pageId);
   }
 
+  @Override
   public void putPageInfo(GWikiElementInfo ei)
   {
     if (logNode == true) {
-      GWikiLog.info("put pageInfo: " + this + ": " + ei.getId());
+      GLog.info(GWikiLogCategory.Wiki, "put pageInfo: " + this + ": " + ei.getId());
     }
     pageInfoMap.put(ei.getId(), ei);
   }
 
+  @Override
   public boolean hasCachedPage(String pageId)
   {
     return cachedPages.containsKey(pageId);
   }
 
+  @Override
   public GWikiElement getPage(String pageId)
   {
     return cachedPages.get(pageId);
   }
 
+  @Override
   public Collection<GWikiElementInfo> getPageInfos()
   {
     if (logNode == true) {
-      GWikiLog.info("getPageInfos: " + this);
+      GLog.info(GWikiLogCategory.Wiki, "getPageInfos: " + this);
     }
     return pageInfoMap.values();
   }
 
+  @Override
   public void removePageInfo(String pageId)
   {
     if (logNode == true) {
-      GWikiLog.info("remove pageId: " + pageId);
+      GLog.info(GWikiLogCategory.Wiki, "remove pageId: " + pageId);
     }
     pageInfoMap.remove(pageId);
   }
 
+  @Override
   public boolean hasPageInfo(String pageId)
   {
     return pageInfoMap.containsKey(pageId);
   }
 
+  @Override
   public void putCachedPage(String pageId, GWikiElement el)
   {
     if (logNode == true) {
-      GWikiLog.info("put page: " + pageId);
+      GLog.info(GWikiLogCategory.Wiki, "put page: " + pageId);
     }
     cachedPages.put(pageId, el);
   }
 
+  @Override
   public int getElementInfoCount()
   {
     return pageInfoMap.size();
@@ -134,11 +147,13 @@ public class GWikiPageCacheImpl implements GWikiPageCache
     this.cachedPages = cachedPages;
   }
 
+  @Override
   public void setPageInfoMap(Map<String, GWikiElementInfo> pageInfos)
   {
     this.pageInfoMap = pageInfos;
   }
 
+  @Override
   public void initPageCache(GWikiWeb wikiWeb)
   {
     // nothing
@@ -149,11 +164,13 @@ public class GWikiPageCacheImpl implements GWikiPageCache
     throw new UnsupportedOperationException("GWikiPageCacheImpl.registerCacheEvent not supported");
   }
 
-  public void clearCompiledFragments(Class< ? extends GWikiArtefakt< ? extends Serializable>> toClear)
+  @Override
+  public void clearCompiledFragments(Class<? extends GWikiArtefakt<? extends Serializable>> toClear)
   {
     throw new UnsupportedOperationException("GWikiPageCacheImpl.clearCompiledFragments not supported");
   }
 
+  @Override
   public GWikiPageCacheInfo getPageCacheInfo()
   {
     return new GWikiPageCacheInfo();

@@ -32,10 +32,11 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.chronos.JobAbortException;
 import de.micromata.genome.gwiki.chronos.JobRetryException;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
-import de.micromata.genome.gwiki.chronos.logging.LoggedRuntimeException;
 import de.micromata.genome.gwiki.chronos.spi.AbstractFutureJob;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogExceptionAttribute;
+import de.micromata.genome.logging.LoggedRuntimeException;
 import de.micromata.genome.util.text.PipeValueList;
 
 /**
@@ -88,7 +89,9 @@ public abstract class AbstractCommandLineJob extends AbstractFutureJob
        * @reason Ein Job ist abgebrochen
        * @action Abhaengig von der Exception
        */
-      GLog.error(GenomeLogCategory.Scheduler, "AdminJob failed. JobName: " + getClass().getSimpleName() + ": " + ex.getMessage(), ex);
+      GLog.error(GenomeLogCategory.Scheduler,
+          "AdminJob failed. JobName: " + getClass().getSimpleName() + ": " + ex.getMessage(),
+          new LogExceptionAttribute(ex));
       throw new JobRetryException();
     } finally {
       // AbstractGenomeJob.finishJob(this, sw, waitTime);
@@ -104,8 +107,9 @@ public abstract class AbstractCommandLineJob extends AbstractFutureJob
 
   public static Map<String, String> getStandardArgs(Object obj)
   {
-    if ((obj instanceof String) == false)
+    if ((obj instanceof String) == false) {
       throw new RuntimeException("Job expects standard pipe seperated args");
+    }
     String args = (String) obj;
     Map<String, String> margs = PipeValueList.decode(args);
     return margs;

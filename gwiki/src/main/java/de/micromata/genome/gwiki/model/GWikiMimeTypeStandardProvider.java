@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.MimeUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.logging.GLog;
 
 /**
  * Standard provider.
@@ -87,7 +88,7 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
     if (contt != null) {
       return contt;
     }
-    GWikiLog.note("Cannot find content type for pageId: " + uri);
+    GLog.note(GWikiLogCategory.Wiki, "Cannot find content type for pageId: " + uri);
     return null;
   }
 

@@ -41,10 +41,6 @@ import de.micromata.genome.gwiki.chronos.JobStore;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.StaticDaoManager;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
-import de.micromata.genome.gwiki.chronos.logging.LogLevel;
-import de.micromata.genome.gwiki.chronos.logging.LoggedRuntimeException;
 import de.micromata.genome.gwiki.chronos.spi.Dispatcher;
 import de.micromata.genome.gwiki.chronos.spi.DispatcherImpl;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
@@ -53,6 +49,10 @@ import de.micromata.genome.gwiki.chronos.util.CronTrigger;
 import de.micromata.genome.gwiki.chronos.util.DelayTrigger;
 import de.micromata.genome.gwiki.chronos.util.FixedTrigger;
 import de.micromata.genome.gwiki.chronos.util.SchedulerFactory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogLevel;
+import de.micromata.genome.logging.LoggedRuntimeException;
 import de.micromata.genome.util.text.PipeValueList;
 import de.micromata.genome.util.types.TimeInMillis;
 
@@ -139,6 +139,7 @@ public class SchedulerManager implements InitializingBean
     return manager;
   }
 
+  @Override
   public void afterPropertiesSet() throws Exception
   {
 
@@ -166,26 +167,31 @@ public class SchedulerManager implements InitializingBean
     init();
     for (SchedulerFactory sf : scheduleFactories) {
       sf.setDispatcher(this.getDispatcher());
-      if (dispatcher.getScheduler(sf.getSchedulerName()) == null)
+      if (dispatcher.getScheduler(sf.getSchedulerName()) == null) {
         sf.create(this.getDispatcher().getJobStore());
+      }
     }
 
   }
 
   public synchronized List<JobRunnerFilter> getFilters(String schedulerName)
   {
-    if (mergedFilter != null && mergedFilter.get(schedulerName) != null)
+    if (mergedFilter != null && mergedFilter.get(schedulerName) != null) {
       return mergedFilter.get(schedulerName);
+    }
     if (mergedFilter == null) {
       mergedFilter = new HashMap<String, List<JobRunnerFilter>>();
     }
     List<JobRunnerFilter> res = new ArrayList<JobRunnerFilter>();
     res.addAll(globalFilter);
     List<JobRunnerFilter> l = schedulerFilter.get(schedulerName);
-    if (l != null)
+    if (l != null) {
       res.addAll(l);
-    Collections.sort(res, new Comparator<JobRunnerFilter>() {
+    }
+    Collections.sort(res, new Comparator<JobRunnerFilter>()
+    {
 
+      @Override
       public int compare(JobRunnerFilter o1, JobRunnerFilter o2)
       {
         return o1.getPriority() - o2.getPriority();
@@ -242,7 +248,8 @@ public class SchedulerManager implements InitializingBean
        * @reason Der angegebene Job kann nicht gefunden werden
        * @action Techadmin kontaktieren, Konfiguration ueberpruefen
        */
-      throw new LoggedRuntimeException(LogLevel.Fatal, GenomeLogCategory.Scheduler, "Standard Scheduler Job cannot be found: " + name);
+      throw new LoggedRuntimeException(LogLevel.Fatal, GenomeLogCategory.Scheduler,
+          "Standard Scheduler Job cannot be found: " + name);
     }
     return jdef;
   }
@@ -250,7 +257,8 @@ public class SchedulerManager implements InitializingBean
   /**
    * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger)}.
    */
-  public long submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  public long submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     return submit(schedulerName, null, jobDefinition, arg, trigger);
   }
@@ -258,12 +266,14 @@ public class SchedulerManager implements InitializingBean
   /**
    * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger)}.
    */
-  public long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  public long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     return dispatcher.submit(schedulerName, jobName, jobDefinition, arg, trigger, null);
   }
 
-  public long submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger, String hostName)
+  public long submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger, String hostName)
   {
     return submit(schedulerName, null, jobDefinition, arg, trigger, hostName);
   }
@@ -286,7 +296,8 @@ public class SchedulerManager implements InitializingBean
    * @param arg
    * @param trigger
    */
-  public void submitOnEachNode(final String schedulerName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  public void submitOnEachNode(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     submitOnEachNode(schedulerName, null, jobDefinition, arg, trigger);
 
@@ -304,7 +315,8 @@ public class SchedulerManager implements InitializingBean
    * @param arg
    * @param trigger
    */
-  public void submitOnEachNode(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
+  public void submitOnEachNode(final String schedulerName, String jobName, final JobDefinition jobDefinition,
+      final Object arg,
       final Trigger trigger)
   {
     // List<Pair<String, Date>> nodeList = GenomeDaoManager.get().getInterNodeCallDAO().getRunningNodes();
@@ -433,8 +445,9 @@ public class SchedulerManager implements InitializingBean
   public void setMinNodeBindTime(long minNodeBindTime)
   {
     this.minNodeBindTime = minNodeBindTime;
-    if (dispatcher != null)
+    if (dispatcher != null) {
       dispatcher.setMinNodeBindTime(minNodeBindTime);
+    }
   }
 
   public long getMinRefreshInMillis()

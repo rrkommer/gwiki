@@ -37,7 +37,7 @@ import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
@@ -47,6 +47,7 @@ import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.matcher.BooleanListMatcher;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.EqualsMatcher;
@@ -253,7 +254,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
       return false;
     }
     if (su.isDeactivated() == true) {
-      GWikiLog.note("Deactivated user login attempt: " + user);
+      GLog.note(GWikiLogCategory.Wiki, "Deactivated user login attempt: " + user);
       return false;
     }
     if (PasswordUtils.checkSaltedPassword(password, su.getPassword()) == false) {

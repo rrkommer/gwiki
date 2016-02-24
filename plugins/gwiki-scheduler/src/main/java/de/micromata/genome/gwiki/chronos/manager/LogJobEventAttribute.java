@@ -28,10 +28,10 @@
 package de.micromata.genome.gwiki.chronos.manager;
 
 import de.micromata.genome.gwiki.chronos.JobEvent;
-import de.micromata.genome.gwiki.chronos.logging.GenomeAttributeType;
-import de.micromata.genome.gwiki.chronos.logging.LogAttribute;
 import de.micromata.genome.gwiki.chronos.spi.JobEventImpl;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
+import de.micromata.genome.logging.GenomeAttributeType;
+import de.micromata.genome.logging.LogAttribute;
 
 public class LogJobEventAttribute extends LogAttribute
 {
@@ -56,8 +56,9 @@ public class LogJobEventAttribute extends LogAttribute
 
   private static String getEventString(final JobEvent event)
   {
-    if (event == null)
+    if (event == null) {
       return "NullJobEvent";
+    }
     final StringBuilder sb = new StringBuilder();
     if (event.getScheduler() != null) {
       sb.append(" Scheduler=").append(event.getScheduler()).append("\n");

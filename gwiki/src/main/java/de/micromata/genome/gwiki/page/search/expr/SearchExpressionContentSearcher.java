@@ -28,7 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher;
@@ -36,6 +36,8 @@ import de.micromata.genome.gwiki.page.search.IndexTextFilesContentSearcher.Searc
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LoggingServiceManager;
 
 public class SearchExpressionContentSearcher implements ContentSearcher
 {
@@ -54,7 +56,8 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     Map<String, String> args = new HashMap<String, String>();
     args.put("pageId", pageId == null ? "" : pageId);
     args.put("full", Boolean.toString(full));
-    wikiContext.getWikiWeb().getSchedulerProvider().execAsyncOne(wikiContext, SearchExpressionIndexerCallback.class, args);
+    wikiContext.getWikiWeb().getSchedulerProvider().execAsyncOne(wikiContext, SearchExpressionIndexerCallback.class,
+        args);
   }
 
   protected void querySampleText(GWikiContext ctx, SearchExpression se, SearchQuery query, SearchResult sr)
@@ -86,7 +89,8 @@ public class SearchExpressionContentSearcher implements ContentSearcher
       if (query.isFindUnindexed() == false && sr.getElementInfo().isIndexed() == false) {
         continue;
       }
-      if (auth.isAllowToView(ctx, sr.getElementInfo()) == true || auth.isAllowToEdit(ctx, sr.getElementInfo()) == true) {
+      if (auth.isAllowToView(ctx, sr.getElementInfo()) == true
+          || auth.isAllowToEdit(ctx, sr.getElementInfo()) == true) {
         ret.add(sr);
       }
     }
@@ -112,7 +116,7 @@ public class SearchExpressionContentSearcher implements ContentSearcher
 
     SearchExpression se = parser.parse(StringUtils.defaultString(query.getSearchExpression()));
     String strsearch = se.toString();
-    GWikiLog.info("Search; " + query.getSearchExpression() + ": " + strsearch);
+    GLog.info(GWikiLogCategory.Wiki, "Search; " + query.getSearchExpression() + ": " + strsearch);
     startSearchTime = System.currentTimeMillis();
 
     Collection<SearchResult> res = se.filter(ctx, query);
@@ -128,7 +132,7 @@ public class SearchExpressionContentSearcher implements ContentSearcher
     }
     long now = System.currentTimeMillis();
     long searchTime = now - startSearchTime;
-    ctx.getWikiWeb().getLogging().addPerformance("WikiSearch.search", searchTime, 0);
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "WikiSearch.search", searchTime, 0);
     long startQuerySampleTime = now;
     int totalFound = ret.size();
     if (query.getSearchOffset() > 0 || query.getMaxCount() < totalFound) {

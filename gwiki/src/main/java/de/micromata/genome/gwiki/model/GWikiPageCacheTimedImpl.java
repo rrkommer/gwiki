@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
 import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.bean.PrivateBeanUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -85,11 +86,13 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return nm;
   }
 
+  @Override
   public GWikiElementInfo getPageInfo(String pageId)
   {
     return pageInfoMap.get(pageId);
   }
 
+  @Override
   public void putPageInfo(GWikiElementInfo ei)
   {
     putPageInfo(ei, true);
@@ -101,7 +104,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
       return;
     }
     if (logNode == true) {
-      GWikiLog.info("put pageInfo: " + this + ": " + ei.getId());
+      GLog.info(GWikiLogCategory.Wiki, "put pageInfo: " + this + ": " + ei.getId());
     }
 
     GWikiElementInfo oldEi = pageInfoMap.get(ei.getId());
@@ -113,20 +116,23 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     }
   }
 
+  @Override
   public boolean hasCachedPage(String pageId)
   {
     return cachedPages.containsKey(pageId);
   }
 
+  @Override
   public void clearCachedPages()
   {
     if (logNode == true) {
-      GWikiLog.info("clearPages");
+      GLog.info(GWikiLogCategory.Wiki, "clearPages");
     }
     cachedPages = newCachePagesMap();
     wikiWeb.initETag();
   }
 
+  @Override
   public void clearCachedPage(String pageId)
   {
     if (cachedPages.containsKey(pageId) == false) {
@@ -137,13 +143,14 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     cachedPages = nm;
   }
 
-  public void clearCompiledFragments(Class< ? extends GWikiArtefakt< ? extends Serializable>> toClear)
+  @Override
+  public void clearCompiledFragments(Class<? extends GWikiArtefakt<? extends Serializable>> toClear)
   {
     for (Pair<Long, GWikiElement> p : cachedPages.values()) {
       GWikiElement el = p.getSecond();
-      Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+      Map<String, GWikiArtefakt<?>> map = new HashMap<String, GWikiArtefakt<?>>();
       el.collectParts(map);
-      for (GWikiArtefakt< ? > art : map.values()) {
+      for (GWikiArtefakt<?> art : map.values()) {
         if (toClear.isAssignableFrom(art.getClass()) == false) {
           continue;
         }
@@ -173,6 +180,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return metaTemplate.getElementLifeTime();
   }
 
+  @Override
   public GWikiElement getPage(String pageId)
   {
     Pair<Long, GWikiElement> p = cachedPages.get(pageId);
@@ -191,19 +199,22 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return p.getSecond();
   }
 
+  @Override
   public Iterable<GWikiElementInfo> getPageInfos()
   {
     if (logNode == true) {
-      GWikiLog.info("getPageInfos: " + this);
+      GLog.info(GWikiLogCategory.Wiki, "getPageInfos: " + this);
     }
     return pageInfoMap.values();
   }
 
+  @Override
   public int getElementInfoCount()
   {
     return pageInfoMap.size();
   }
 
+  @Override
   public void removePageInfo(String pageId)
   {
     removePageInfo(pageId, true);
@@ -212,7 +223,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
   public void removePageInfo(String pageId, boolean notify)
   {
     if (logNode == true) {
-      GWikiLog.info("remove pageId: " + pageId);
+      GLog.info(GWikiLogCategory.Wiki, "remove pageId: " + pageId);
     }
     GWikiElementInfo oldInfo = pageInfoMap.get(pageId);
     if (oldInfo == null) {
@@ -226,6 +237,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     }
   }
 
+  @Override
   public boolean hasPageInfo(String pageId)
   {
     return pageInfoMap.containsKey(pageId);
@@ -242,7 +254,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
         }
         toRemove.add(me.getKey());
         if (logNode == true) {
-          GWikiLog.note("Remove element from cache: " + me.getKey());
+          GLog.note(GWikiLogCategory.Wiki, "Remove element from cache: " + me.getKey());
         }
       }
     }
@@ -255,13 +267,14 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     }
   }
 
+  @Override
   public void putCachedPage(String pageId, GWikiElement el)
   {
     if (noCachePages.match(pageId) == true) {
       return;
     }
     if (logNode == true) {
-      GWikiLog.note("put page: " + pageId);
+      GLog.note(GWikiLogCategory.Wiki, "put page: " + pageId);
     }
     long lifeTime = getLifeTime(el);
     if (lifeTime == 0) {
@@ -278,6 +291,7 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     cachedPages = nm;
   }
 
+  @Override
   public void initPageCache(GWikiWeb wikiWeb)
   {
     this.wikiWeb = wikiWeb;
@@ -288,8 +302,10 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
   {
     final GWikiStorage storage = wikiWeb.getStorage();
     storage.getFileSystem().registerListener(null, new EndsWithMatcher<String>(GWikiStorage.SETTINGS_SUFFIX),
-        new FileSystemEventListener() {
+        new FileSystemEventListener()
+        {
 
+          @Override
           public void onFileSystemChanged(FileSystemEvent event)
           {
             String fileName = event.getFileName();
@@ -366,12 +382,13 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
   public Map<String, GWikiElementInfo> getPageInfoMap()
   {
     if (logNode == true) {
-      GWikiLog.info("getPageInfoMap: " + this);
+      GLog.info(GWikiLogCategory.Wiki, "getPageInfoMap: " + this);
     }
 
     return pageInfoMap;
   }
 
+  @Override
   public void setPageInfoMap(Map<String, GWikiElementInfo> pageInfos)
   {
     this.pageInfoMap = pageInfos;
@@ -412,13 +429,15 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
    * 
    * @see de.micromata.genome.gwiki.model.GWikiPageCache#getPageCacheInfo()
    */
+  @Override
   public GWikiPageCacheInfo getPageCacheInfo()
   {
     GWikiPageCacheInfo ret = new GWikiPageCacheInfo();
     ret.setElementInfosCount(pageInfoMap.size());
     ret.setPageCount(cachedPages.size());
     Matcher<String> m = new BooleanListRulesFactory<String>()
-        .createMatcher("+*,-de.micromata.genome.gwiki.model.GWikiWeb,-de.micromata.genome.gwiki.model.config.GWikiMetaTemplate");
+        .createMatcher(
+            "+*,-de.micromata.genome.gwiki.model.GWikiWeb,-de.micromata.genome.gwiki.model.config.GWikiMetaTemplate");
     ret.setElementInfosSize(PrivateBeanUtils.getBeanSize(pageInfoMap, m));
     ret.setPageSize(PrivateBeanUtils.getBeanSize(cachedPages));
     return ret;

@@ -22,7 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.logging.GLog;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -31,15 +32,18 @@ import de.micromata.genome.gwiki.model.GWikiLog;
 public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
 {
 
+  @Override
   public void init()
   {
     super.init();
   }
 
+  @Override
   public Object onInit()
   {
     init();
-    if (folderNode.isDirectAttachments() == true || StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
+    if (folderNode.isDirectAttachments() == true
+        || StringUtils.equals(wikiContext.getRequestParameter("dl"), "true") == true) {
       return doDownload();
     }
 
@@ -49,7 +53,7 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
         try {
           GWikiVFolderUtils.writeContent(fvolderEl, pageId, wikiContext.getResponse());
         } catch (IOException ex) {
-          GWikiLog.note("Error writing attachment: " + pageId);
+          GLog.note(GWikiLogCategory.Wiki, "Error writing attachment: " + pageId);
         }
         return noForward();
       }
@@ -77,7 +81,7 @@ public class GWikiVFileActionBean extends GWikiVDirOrFileActionBeanBase
     try {
       GWikiVFolderUtils.writeContent(fvolderEl, pageId, wikiContext.getResponse());
     } catch (IOException ex) {
-      GWikiLog.note("Error writing attachment: " + pageId);
+      GLog.note(GWikiLogCategory.Wiki, "Error writing attachment: " + pageId);
     }
     return noForward();
   }

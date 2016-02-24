@@ -17,11 +17,12 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.pagelifecycle_1_0.jobs;
 
-import static de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants.BRANCH_INFO_LOCATION;
+import static de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
@@ -30,13 +31,14 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJobBase;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.logging.GWikiLogAttributeType;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.BranchFileStats;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.artefakt.FileStatsDO;
@@ -44,6 +46,8 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.matcher.MatcherBase;
@@ -75,7 +79,9 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
 
     // check all branches for release
     for (final String branch : branches) {
-      wikiContext.runInTenantContext(branch, wikiSelector, new CallableX<Void, RuntimeException>() {
+      wikiContext.runInTenantContext(branch, wikiSelector, new CallableX<Void, RuntimeException>()
+      {
+        @Override
         public Void call() throws RuntimeException
         {
           GWikiProps branchInfo = PlcUtils.getBranchInfo(wikiContext);
@@ -101,10 +107,11 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
           if (branchContents == null || branchContents.isEmpty() == true) {
             return null;
           }
-            
+
           // only release if all files are approved
           if (checkFileApprovals(branchContents) == false) {
-            GWikiLog.note("Release date expired but not all files in content released approved", "branch", branch);
+            GLog.note(GWikiLogCategory.Wiki, "Release date expired but not all files in content released approved",
+                new LogAttribute(GWikiLogAttributeType.BranchId, branch));
             return null;
           }
 
@@ -113,32 +120,38 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
       });
     }
   }
-  
+
   /**
    * Collect and filter contents in branch
    * 
    * @param branch
    * @return
    */
-  private Collection<GWikiElement> getBranchContents(final String branch) {
+  private Collection<GWikiElement> getBranchContents(final String branch)
+  {
     final Matcher<String> blackListMatcher = new BooleanListRulesFactory<String>().createMatcher("*intern/*,*admin/*");
-    final List<GWikiElement> branchContent = wikiContext.getElementFinder().getPages(new MatcherBase<GWikiElementInfo>() {
+    final List<GWikiElement> branchContent = wikiContext.getElementFinder().getPages(new MatcherBase<GWikiElementInfo>()
+    {
       private static final long serialVersionUID = -6020166500681050082L;
 
+      @Override
       public boolean match(GWikiElementInfo ei)
       {
         String tid = ei.getProps().getStringValue(GWikiPropKeys.TENANT_ID);
         return StringUtils.equals(branch, tid);
       }
     });
-    
-    Collection<GWikiElement> filteredBranchContent = CollectionUtils.select(branchContent, new Predicate<GWikiElement>() {
 
+    Collection<GWikiElement> filteredBranchContent = CollectionUtils.select(branchContent, new Predicate<GWikiElement>()
+    {
+
+      @Override
       public boolean evaluate(GWikiElement object)
       {
         return !blackListMatcher.match(object.getElementInfo().getId());
-      }});
-    
+      }
+    });
+
     return filteredBranchContent;
   }
 
@@ -173,10 +186,12 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
    */
   private Void releaseBranch(final String branch, final Collection<GWikiElement> filteredBranchContent)
   {
-    GWikiLog.note("Release branch " + branch);
+    GLog.note(GWikiLogCategory.Wiki, "Release branch " + branch);
 
     // copy pages in online space
-    wikiContext.runInTenantContext("", getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext("", getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         for (GWikiElement pageToRelease : filteredBranchContent) {
@@ -194,7 +209,9 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
     // add branch state offlien to branch meta data
     updateBranchInfo();
 
-    GWikiLog.note("Released pages", "pages", filteredBranchContent);
+    GLog.note(GWikiLogCategory.Wiki, "Released pages", new LogAttribute(GWikiLogAttributeType.PageIds,
+        StringUtils.join(
+            filteredBranchContent.stream().map(e -> e.getElementInfo().getId()).collect(Collectors.toList()), ",")));
     return null;
   }
 
@@ -207,19 +224,22 @@ public class GWikiPlcReleaseJob extends GWikiSchedulerJobBase
     if (branchInfoElement == null) {
       return;
     }
-    GWikiArtefakt< ? > artefakt = branchInfoElement.getMainPart();
+    GWikiArtefakt<?> artefakt = branchInfoElement.getMainPart();
     if (artefakt instanceof GWikiPropsArtefakt == false) {
       return;
     }
     GWikiPropsArtefakt propsArtefakt = (GWikiPropsArtefakt) artefakt;
     final GWikiProps props = propsArtefakt.getCompiledObject();
     props.setStringValue(PlcConstants.BRANCH_INFO_BRANCH_STATE, BranchState.ONLINE.name());
-    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         wikiContext.getWikiWeb().saveElement(wikiContext, branchInfoElement, true);
         return null;
-      }});
+      }
+    });
   }
 
   private GWikiMultipleWikiSelector getWikiSelector()

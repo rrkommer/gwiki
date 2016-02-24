@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
+import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
 import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilter;
@@ -49,8 +50,9 @@ public class GWikiForumReadFilter implements GWikiServeElementFilter
       return;
     }
     // GWikiForumTrackReadContainer wikiCo
-    GWikiForumTrackReadContainer rc = new GWikiForumTrackReadContainer(wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext,
-        GWIKI_READ_PAGES));
+    GWikiForumTrackReadContainer rc = new GWikiForumTrackReadContainer(
+        wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext,
+            GWIKI_READ_PAGES));
     if (rc.markRead(ei) == false) {
       return;
     }
@@ -60,19 +62,23 @@ public class GWikiForumReadFilter implements GWikiServeElementFilter
 
     QueryResult sr = wikiContext.getWikiWeb().getDaoContext().getContentSearcher().search(wikiContext, query);
     if (sr.getFoundItems() == 0) {
-      rc.setReadedPages((Set<String>) (Set) Collections.emptySet());
+      rc.setReadedPages((Set) Collections.emptySet());
       rc.setLastRead(new Date().getTime());
     }
-    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_READ_PAGES, rc.toString(), true);
+    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_READ_PAGES, rc.toString(),
+        UserPropStorage.Client);
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain,
+   * @see
+   * de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata.genome.gwiki.model.filter.GWikiFilterChain,
    * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
    */
-  public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain, GWikiServeElementFilterEvent event)
+  @Override
+  public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
+      GWikiServeElementFilterEvent event)
   {
     track(event.getWikiContext(), event.getElement().getElementInfo());
     return chain.nextFilter(event);

@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.filter.GWikiUserLogonFilterEvent.LoginState;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -42,6 +43,7 @@ import de.micromata.genome.gwiki.page.attachments.XmlTextExtractor;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 import de.micromata.genome.gwiki.plugin.GWikiPluginFilterDescriptor;
 import de.micromata.genome.gwiki.utils.ClassUtils;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
@@ -52,7 +54,7 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public class GWikiFilters
 {
-  private Set<Class< ? >> knownFilter = new HashSet<Class< ? >>();
+  private Set<Class<?>> knownFilter = new HashSet<Class<?>>();
 
   private List<GWikiServeElementFilter> serveElementFilters = new ArrayList<GWikiServeElementFilter>();
 
@@ -72,12 +74,13 @@ public class GWikiFilters
 
   private List<GWikiUserLogonFilter> userLogonFilters = new ArrayList<GWikiUserLogonFilter>();
 
-  public ThreadLocal<List<Class< ? >>> skipFilters = new ThreadLocal<List<Class< ? >>>() {
+  public ThreadLocal<List<Class<?>>> skipFilters = new ThreadLocal<List<Class<?>>>()
+  {
 
     @Override
-    protected List<Class< ? >> initialValue()
+    protected List<Class<?>> initialValue()
     {
-      return new ArrayList<Class< ? >>();
+      return new ArrayList<Class<?>>();
     }
 
   };
@@ -85,6 +88,7 @@ public class GWikiFilters
   private Map<String, TextExtractor> textExtractors = new HashMap<String, TextExtractor>();
 
   private static Map<String, TextExtractor> standardTextExtractors = new HashMap<String, TextExtractor>();
+
   static {
     standardTextExtractors.put(".txt", new TxtTextExtractor());
     standardTextExtractors.put(".xml", new XmlTextExtractor());
@@ -92,12 +96,12 @@ public class GWikiFilters
     standardTextExtractors.put(".htm", new XmlTextExtractor());
   }
 
-  public <R> R runWithoutFilters(Class< ? >[] filtersToSkip, CallableX<R, RuntimeException> callback)
+  public <R> R runWithoutFilters(Class<?>[] filtersToSkip, CallableX<R, RuntimeException> callback)
   {
-    List<Class< ? >> of = skipFilters.get();
-    List<Class< ? >> nf = new ArrayList<Class< ? >>();
+    List<Class<?>> of = skipFilters.get();
+    List<Class<?>> nf = new ArrayList<Class<?>>();
     nf.addAll(of);
-    for (Class< ? > cls : filtersToSkip) {
+    for (Class<?> cls : filtersToSkip) {
       nf.add(cls);
     }
     skipFilters.set(nf);
@@ -110,8 +114,8 @@ public class GWikiFilters
 
   public <R, E extends GWikiFilterEvent, F extends GWikiFilter<R, E, F>> boolean skipFilter(GWikiFilter<R, E, F> filter)
   {
-    List<Class< ? >> fscp = skipFilters.get();
-    for (Class< ? > cls : fscp) {
+    List<Class<?>> fscp = skipFilters.get();
+    for (Class<?> cls : fscp) {
       if (cls.isAssignableFrom(filter.getClass()) == true) {
         return true;
       }
@@ -119,14 +123,16 @@ public class GWikiFilters
     return false;
   }
 
-  public void storeElement(GWikiContext ctx, GWikiElement el, Map<String, GWikiArtefakt< ? >> parts, GWikiStorageStoreElementFilter target)
+  public void storeElement(GWikiContext ctx, GWikiElement el, Map<String, GWikiArtefakt<?>> parts,
+      GWikiStorageStoreElementFilter target)
   {
     GWikiStorageStoreElementFilterEvent event = new GWikiStorageStoreElementFilterEvent(ctx, el, parts);
     new GWikiFilterChain<Void, GWikiStorageStoreElementFilterEvent, GWikiStorageStoreElementFilter>(this, target,
         storageStoreElementFilters).nextFilter(event);
   }
 
-  public void deleteElement(GWikiContext ctx, GWikiElement el, Map<String, GWikiArtefakt< ? >> parts, GWikiStorageDeleteElementFilter target)
+  public void deleteElement(GWikiContext ctx, GWikiElement el, Map<String, GWikiArtefakt<?>> parts,
+      GWikiStorageDeleteElementFilter target)
   {
     GWikiStorageDeleteElementFilterEvent event = new GWikiStorageDeleteElementFilterEvent(ctx, el, parts);
     new GWikiFilterChain<Void, GWikiStorageDeleteElementFilterEvent, GWikiStorageDeleteElementFilter>(this, target,
@@ -135,31 +141,37 @@ public class GWikiFilters
 
   public void serveElement(final GWikiContext ctx, final GWikiElement el, final GWikiServeElementFilter target)
   {
-    ctx.runElement(el, new CallableX<Void, RuntimeException>() {
+    ctx.runElement(el, new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         GWikiServeElementFilterEvent event = new GWikiServeElementFilterEvent(ctx, el);
 
-        new GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter>(GWikiFilters.this, target, serveElementFilters)
-            .nextFilter(event);
+        new GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter>(GWikiFilters.this, target,
+            serveElementFilters)
+                .nextFilter(event);
         return null;
       }
     });
   }
 
-  public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageBaseArtefakt artefakt, GWikiWikiPageRenderFilter target)
+  public Boolean renderWikiWikiPage(GWikiContext ctx, GWikiWikiPageBaseArtefakt artefakt,
+      GWikiWikiPageRenderFilter target)
   {
     GWikiWikiPageRenderFilterEvent event = new GWikiWikiPageRenderFilterEvent(ctx, artefakt);
-    return new GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter>(this, target, renderWikiPageFilters)
-        .nextFilter(event);
+    return new GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter>(this, target,
+        renderWikiPageFilters)
+            .nextFilter(event);
   }
 
   public void compileWikiWikiPage(GWikiContext ctx, GWikiElement element, GWikiWikiPageBaseArtefakt artefakt,
       GWikiWikiPageCompileFilter target)
   {
     GWikiWikiPageCompileFilterEvent event = new GWikiWikiPageCompileFilterEvent(ctx, element, artefakt);
-    new GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter>(this, target, wikiCompileFilters)
-        .nextFilter(event);
+    new GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter>(this, target,
+        wikiCompileFilters)
+            .nextFilter(event);
   }
 
   public void pageChanged(GWikiContext ctx, GWikiWeb wikiWeb, GWikiElementInfo newElement, GWikiElementInfo oldElement)
@@ -167,15 +179,17 @@ public class GWikiFilters
     if (newElement != null) {
       String id = newElement.getId();
       if (oldElement != null) {
-        GWikiLog.note("Page changed:" + id);
+        GLog.note(GWikiLogCategory.Wiki, "Page changed:" + id);
       } else {
-        GWikiLog.note("Page New:" + id);
+        GLog.note(GWikiLogCategory.Wiki, "Page New:" + id);
       }
     } else if (oldElement != null) {
-      GWikiLog.note("Page Deleted:" + oldElement.getId());
+      GLog.note(GWikiLogCategory.Wiki, "Page Deleted:" + oldElement.getId());
     }
-    pageChanged(ctx, wikiWeb, newElement, oldElement, new GWikiPageChangedFilter() {
+    pageChanged(ctx, wikiWeb, newElement, oldElement, new GWikiPageChangedFilter()
+    {
 
+      @Override
       public Void filter(GWikiFilterChain<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter> chain,
           GWikiPageChangedFilterEvent event)
       {
@@ -188,15 +202,17 @@ public class GWikiFilters
       GWikiPageChangedFilter target)
   {
     GWikiPageChangedFilterEvent event = new GWikiPageChangedFilterEvent(ctx, wikiWeb, newElement, oldElement);
-    new GWikiFilterChain<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter>(this, target, pageChangedFilters).nextFilter(event);
+    new GWikiFilterChain<Void, GWikiPageChangedFilterEvent, GWikiPageChangedFilter>(this, target, pageChangedFilters)
+        .nextFilter(event);
   }
 
   public Map<String, GWikiElementInfo> loadPageInfos(GWikiContext ctx, Map<String, GWikiElementInfo> npageInfos,
       GWikiLoadElementInfosFilter target)
   {
     GWikiLoadElementInfosFilterEvent event = new GWikiLoadElementInfosFilterEvent(ctx, npageInfos);
-    new GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter>(this, target, loadPageInfosFilters)
-        .nextFilter(event);
+    new GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter>(this, target,
+        loadPageInfosFilters)
+            .nextFilter(event);
     return event.getPageInfos();
   }
 
@@ -209,9 +225,12 @@ public class GWikiFilters
   public boolean onLogin(GWikiContext ctx, GWikiSimpleUser user)
   {
     GWikiUserLogonFilterEvent event = new GWikiUserLogonFilterEvent(ctx, LoginState.Login, user);
-    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter() {
+    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter()
+    {
 
-      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
+      @Override
+      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain,
+          GWikiUserLogonFilterEvent event)
       {
         if (event.isAbort() == true) {
           event.getWikiContext().getWikiWeb().getAuthorization().logout(event.getWikiContext());
@@ -231,9 +250,12 @@ public class GWikiFilters
   public boolean onLogout(GWikiContext ctx, GWikiSimpleUser user)
   {
     GWikiUserLogonFilterEvent event = new GWikiUserLogonFilterEvent(ctx, LoginState.Logout, user);
-    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter() {
+    new GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter>(this, new GWikiUserLogonFilter()
+    {
 
-      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain, GWikiUserLogonFilterEvent event)
+      @Override
+      public Void filter(GWikiFilterChain<Void, GWikiUserLogonFilterEvent, GWikiUserLogonFilter> chain,
+          GWikiUserLogonFilterEvent event)
       {
         return null;
       }
@@ -247,9 +269,12 @@ public class GWikiFilters
       return;
     }
     GWikiSkinRenderFilterEvent event = new GWikiSkinRenderFilterEvent(ctx, ctx.getCurrentElement(), guiElement);
-    new GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter>(this, new GWikiSkinRenderFilter() {
+    new GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter>(this, new GWikiSkinRenderFilter()
+    {
 
-      public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain, GWikiSkinRenderFilterEvent event)
+      @Override
+      public Void filter(GWikiFilterChain<Void, GWikiSkinRenderFilterEvent, GWikiSkinRenderFilter> chain,
+          GWikiSkinRenderFilterEvent event)
       {
         return null;
       }
@@ -258,7 +283,7 @@ public class GWikiFilters
 
   }
 
-  public void registerNewFilterClass(GWikiWeb wikiWeb, Class< ? > filter)
+  public void registerNewFilterClass(GWikiWeb wikiWeb, Class<?> filter)
   {
     Object obj = ClassUtils.createDefaultInstance(filter);
     registerNewFilterObject(obj);
@@ -396,7 +421,8 @@ public class GWikiFilters
   public void init(GWikiWeb wikiWeb, GWikiGlobalConfig wikiConfig)
   {
     List<String> regClasses = wikiConfig.getStringList("GWIKI_FILTER_CLASSES");
-    final List<GWikiPluginFilterDescriptor> pluginFilters = wikiWeb.getDaoContext().getPluginRepository().getPluginFilters();
+    final List<GWikiPluginFilterDescriptor> pluginFilters = wikiWeb.getDaoContext().getPluginRepository()
+        .getPluginFilters();
     List<String> allClasses = getSortedClasses(regClasses, pluginFilters);
     for (String rc : allClasses) {
       rc = StringUtils.trim(rc);
@@ -419,16 +445,17 @@ public class GWikiFilters
     ClassLoader cl = wikiWeb.getDaoContext().getPluginRepository().getActivePluginClassLoader();
     for (Map.Entry<String, String> me : extm.entrySet()) {
       try {
-        Class< ? > cls = Class.forName(me.getValue(), true, cl);
+        Class<?> cls = Class.forName(me.getValue(), true, cl);
         TextExtractor extr = (TextExtractor) cls.newInstance();
         textExtractors.put(me.getKey(), extr);
       } catch (Exception ex) {
-        GWikiLog.warn("Cannot find text extractor class: " + me.getKey() + ": " + me.getValue() + "; " + ex.getMessage(), ex);
+        GWikiLog.warn(
+            "Cannot find text extractor class: " + me.getKey() + ": " + me.getValue() + "; " + ex.getMessage(), ex);
       }
     }
   }
 
-  public void registerFilter(GWikiWeb wikiWeb, Class< ? > filter)
+  public void registerFilter(GWikiWeb wikiWeb, Class<?> filter)
   {
     if (knownFilter.contains(filter) == true) {
       return;

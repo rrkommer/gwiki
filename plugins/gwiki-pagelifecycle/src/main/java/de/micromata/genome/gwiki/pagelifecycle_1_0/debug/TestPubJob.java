@@ -19,8 +19,9 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.debug;
 
 import java.util.Map;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.scheduler_1_0.jobs.GWikiSchedBaseJob;
+import de.micromata.genome.logging.GLog;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -37,7 +38,7 @@ public class TestPubJob extends GWikiSchedBaseJob
   @Override
   public Object execute(Map<String, String> args) throws Exception
   {
-    GWikiLog.note("pagelifecycle.TestPubJob executed");
+    GLog.note(GWikiLogCategory.Wiki, "pagelifecycle.TestPubJob executed");
     return null;
   }
 

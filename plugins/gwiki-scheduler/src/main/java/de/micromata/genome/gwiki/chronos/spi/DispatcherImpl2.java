@@ -40,6 +40,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.JobStore;
@@ -49,19 +50,20 @@ import de.micromata.genome.gwiki.chronos.SchedulerException;
 import de.micromata.genome.gwiki.chronos.ServiceUnavailableException;
 import de.micromata.genome.gwiki.chronos.State;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.manager.LogJobEventAttribute;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
  * Zentrale Klasse (Singleton) für die Job-Verteilung.
  * <p>
  * Pollt die Datenbank nach neuen {@link Scheduler} und {@link Job} ab und versucht diese zu Starten.
  * <p/>
- * Diese Implementierung geht davon aus, dass es eine implizite minimale Nodebindtimeout gibt, so dass ein lokaler Cache der zu startenden
- * Jobs verwaltet werden kann und damit die Anzahl der selects reduziert werden kann.
+ * Diese Implementierung geht davon aus, dass es eine implizite minimale Nodebindtimeout gibt, so dass ein lokaler Cache
+ * der zu startenden Jobs verwaltet werden kann und damit die Anzahl der selects reduziert werden kann.
  * </p>
  * <p>
  * Hier werden die Runtime-Instanzen von Schedulern und Jobs verwaltet.
@@ -70,7 +72,7 @@ import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
  */
 public class DispatcherImpl2 extends DispatcherImpl
 {
-
+  private static Logger LOG = Logger.getLogger(DispatcherImpl2.class);
   private ReservedJobs reservedJobs = new ReservedJobs();
 
   /**
@@ -134,13 +136,13 @@ public class DispatcherImpl2 extends DispatcherImpl
              * @reason Ein Job von einer anderen Node wurde gestartet
              * @action Keine. Ggf. Node ueberpruefen und erneut starten.
              */
-            GLog.note(GenomeLogCategory.Scheduler, "started foreign job: " + dif + " ms; " + job.getPk()); // TODO logging
+            GLog.note(GenomeLogCategory.Scheduler, "started foreign job: " + dif + " ms; " + job.getPk());
           }
           reservedJobs.removeJob(it, job);
 
         } else {
-          if (GLog.isDebugEnabled() == true) {
-            GLog.debug(GenomeLogCategory.Scheduler, "reserved job not executed: " + job.getPk()); // TODO logging
+          if (LOG.isDebugEnabled() == true) {
+            LOG.debug("reserved job not executed: " + job.getPk());
           }
         }
       }
@@ -151,14 +153,15 @@ public class DispatcherImpl2 extends DispatcherImpl
   private void checkJobsInDB()
   {
     long now = System.currentTimeMillis();
-    if (lastJobStoreRefreshTimestamp + minNodeBindTime > now)
+    if (lastJobStoreRefreshTimestamp + minNodeBindTime > now) {
       return;
+    }
     lastJobStoreRefreshTimestamp = now;
     long lookAHead = minNodeBindTime;
 
     List<TriggerJobDO> nextJobs = getJobStore().getNextJobs(lookAHead);
     if (nextJobs != null && nextJobs.size() > 0 && GLog.isDebugEnabled() == true) {
-      GLog.debug(GenomeLogCategory.Scheduler, "Dispatcher got new jobs from store: " + nextJobs.size());
+      LOG.debug("Dispatcher got new jobs from store: " + nextJobs.size());
     }
     reservedJobs.setReservedJobs(nextJobs);
   }
@@ -168,6 +171,7 @@ public class DispatcherImpl2 extends DispatcherImpl
    * 
    * @see java.lang.Runnable#run()
    */
+  @Override
   public void run()
   {
     // ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
@@ -190,8 +194,9 @@ public class DispatcherImpl2 extends DispatcherImpl
       while (Thread.interrupted() == false) {
         ++loopCount;
         // DynDaoManager.initForDeamonJobs(false);
-        if (loopCount < 0)
+        if (loopCount < 0) {
           loopCount = 0;
+        }
 
         // GenomeDaoManager.get().getInterNodeCallDAO().stampRunning();
 
@@ -209,14 +214,16 @@ public class DispatcherImpl2 extends DispatcherImpl
            * @reason Chronos Dispatcher hat einen Fehler entdeckt
            * @action Abhaengig von der Exception Entwickler kontaktieren
            */
-          GLog.error(GenomeLogCategory.Scheduler, "Error while dispatching: " + ex, ex);
+          GLog.error(GenomeLogCategory.Scheduler, "Error while dispatching: " + ex, new LogExceptionAttribute(ex));
         }
         try {
           long timeout = minNodeBindTime;
-          if (nextJobTime != -1 && nextJobTime - n < minNodeBindTime)
+          if (nextJobTime != -1 && nextJobTime - n < minNodeBindTime) {
             timeout = nextJobTime - n;
-          if (timeout < 0)
+          }
+          if (timeout < 0) {
             timeout = 0;
+          }
           synchronized (this) {
             this.wait(timeout);
           }
@@ -269,7 +276,8 @@ public class DispatcherImpl2 extends DispatcherImpl
   }
 
   /**
-   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese neu.
+   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese
+   * neu.
    * <p>
    * Ein neu angelegter Scheduler wird unmittelbar persisitiert und unter dem Namen inklusive Prefix abgespeichert.
    * </p>
@@ -278,6 +286,7 @@ public class DispatcherImpl2 extends DispatcherImpl
    * @return
    * @see #schedulers
    */
+  @Override
   public Scheduler createOrGetScheduler(final SchedulerDO schedulerDO)
   {
     Validate.notNull(schedulerDO, "schedulerDB ist null.");
@@ -299,9 +308,10 @@ public class DispatcherImpl2 extends DispatcherImpl
       final SchedulerDO schedulerDB = getJobStore().createOrGetScheduler(schedulerName);
       if (schedulerDB.getPk() != SchedulerDO.UNSAVED_SCHEDULER_ID) {
         schedulerDO.setPk(schedulerDB.getPk());
-        if (GLog.isTraceEnabled() == true)
+        if (GLog.isTraceEnabled() == true) {
           GLog.trace(GenomeLogCategory.Scheduler,
               "Reuse existing DB-Sheduler entrie. scheduler: " + schedulerName + "#" + schedulerDB.getPk());
+        }
 
       } else {
         schedulerDO.setName(schedulerDB.getName());
@@ -322,7 +332,7 @@ public class DispatcherImpl2 extends DispatcherImpl
       schedulers.put(schedulerName, scheduler);
       // jobs.put(schedulerName, new ArrayList<TriggerJobDO>());
       return scheduler;
-    }// synchronized end
+    } // synchronized end
   }
 
   /**
@@ -334,7 +344,9 @@ public class DispatcherImpl2 extends DispatcherImpl
    * @param arg
    * @param trigger
    */
-  public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  @Override
+  public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     submit(schedulerName, (String) null, jobDefinition, arg, trigger, getVirtualHostName());
   }
@@ -348,7 +360,9 @@ public class DispatcherImpl2 extends DispatcherImpl
    * @param arg
    * @param trigger
    */
-  public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg, final Trigger trigger)
+  @Override
+  public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
+      final Trigger trigger)
   {
     submit(schedulerName, jobName, jobDefinition, arg, trigger, getVirtualHostName());
   }
@@ -363,30 +377,37 @@ public class DispatcherImpl2 extends DispatcherImpl
    * @throws SchedulerConfigurationException wenn ein nicht registrierter Scheduler angesprochen wird
    * @throws SchedulerException wenn der Job im JobStore nicht angelegt werden kann.
    */
-  public synchronized long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
+  @Override
+  public synchronized long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition,
+      final Object arg,
       final Trigger trigger, String hostName)
   {
-    if (hostName == null)
+    if (hostName == null) {
       hostName = getVirtualHost();
+    }
 
     final Scheduler scheduler = getScheduler(schedulerName);
     if (scheduler == null) {
       final String msg = "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName;
       /**
        * @logging
-       * @reason Chronos Dispatcher hat einen Job ueber einen Schedulder bekommen, wobei der Scheduler nicht eingerichtet ist.
+       * @reason Chronos Dispatcher hat einen Job ueber einen Schedulder bekommen, wobei der Scheduler nicht
+       *         eingerichtet ist.
        * @action TechAdmin kontaktieren
        */
-      GLog.error(GenomeLogCategory.Scheduler, "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName);
+      GLog.error(GenomeLogCategory.Scheduler,
+          "Es wurde versucht einen nicht registrierten Scheduler zu benutzen: " + schedulerName);
       throw new SchedulerConfigurationException(msg);
     }
-    TriggerJobDO job = getJobStore().buildTriggerJob(scheduler, jobName, jobDefinition, arg, trigger, hostName, State.WAIT);
+    TriggerJobDO job = getJobStore().buildTriggerJob(scheduler, jobName, jobDefinition, arg, trigger, hostName,
+        State.WAIT);
 
     boolean dispatcherAndSchedulerRunning = isRunning() && scheduler.isRunning();
 
     boolean isLocalHost = false;
-    if (StringUtils.equals(hostName, getVirtualHostName()) == true)
+    if (StringUtils.equals(hostName, getVirtualHostName()) == true) {
       isLocalHost = true;
+    }
 
     boolean startJobNow = false;
     boolean addToLocalJobQueue = false;
@@ -416,14 +437,16 @@ public class DispatcherImpl2 extends DispatcherImpl
     Long jobPk = job.getPk();
     if (jobPk == null) {
       // pk = null sollte nicht auftreten können ist aber abhängig von der JobStore implemenmtierung und theoretisch möglich.
-      final String msg = "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : " + job.toString();
+      final String msg = "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
+          + job.toString();
       /**
        * @logging
        * @reason Im Job Store wurde beim persistieren eines neuen Jobs keine Referenz (pk) vergeben.
        * @action TechAdmin kontaktieren
        */
-      GLog.error(GenomeLogCategory.Scheduler, "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
-          + job.toString());
+      GLog.error(GenomeLogCategory.Scheduler,
+          "Beim Anlegen des Jobs ist ein Fehler aufgetreten. Die Referenz (pk) wurde nicht gesetzt : "
+              + job.toString());
       throw new SchedulerException(msg);
     }
     return jobPk.longValue();

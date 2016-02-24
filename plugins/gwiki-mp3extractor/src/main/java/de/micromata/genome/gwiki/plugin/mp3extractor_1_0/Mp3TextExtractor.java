@@ -7,8 +7,10 @@ import org.apache.commons.lang.StringUtils;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.attachments.TextExtractor;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
  * Simple mp3 extractor
@@ -42,7 +44,8 @@ public class Mp3TextExtractor implements TextExtractor
         appendIfExists(sb, "Comment", tag.getComment());
       }
     } catch (Exception e) {
-      GWikiLog.note("Cannot not extract mp3 content: " + e.getMessage(), e);
+      GLog.note(GWikiLogCategory.Wiki, "Cannot not extract mp3 content: " + e.getMessage(),
+          new LogExceptionAttribute(e));
     }
     return sb.toString();
   }

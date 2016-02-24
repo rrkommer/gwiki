@@ -27,10 +27,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.chronos;
 
-import de.micromata.genome.gwiki.chronos.logging.LogAttribute;
+import de.micromata.genome.logging.LogAttribute;
 
 /**
- * If the trigger is a chron expression, abort this job run with an error, but restart the job for the next regular time.
+ * If the trigger is a chron expression, abort this job run with an error, but restart the job for the next regular
+ * time.
  * 
  * @author roger@micromata.de
  * 

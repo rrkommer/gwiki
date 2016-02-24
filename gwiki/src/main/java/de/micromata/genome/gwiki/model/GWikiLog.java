@@ -55,85 +55,28 @@ public class GWikiLog
     return wiki.getLogging();
   }
 
-  public static void debug(String message, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).debug(message, ctx, keyValues);
-  }
-
-  public static void info(String message)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).info(message, ctx);
-  }
-
-  @Deprecated
-  public static void info(String message, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).info(message, ctx, keyValues);
-  }
-
-  public static void note(String message)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).note(message, ctx);
-  }
-
-  @Deprecated
-  public static void note(String message, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).note(message, ctx, keyValues);
-  }
-
   public static void warn(String message)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
     getLogging(ctx).warn(message, ctx);
   }
 
-  @Deprecated
-  public static void warn(String message, Object... keyValues)
+  public static void error(String message)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).warn(message, ctx, keyValues);
+    getLogging(ctx).error(message, ctx);
   }
 
-  public static void error(String message, Object... keyValues)
+  public static void warn(String message, Throwable ex)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).error(message, ctx, keyValues);
+    getLogging(ctx).warn(message, ctx, ex);
   }
 
-  public static void fatal(String message, Object... keyValues)
+  public static void error(String message, Throwable ex)
   {
     GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).fatal(message, ctx, keyValues);
-  }
-
-  public static void note(String message, Throwable ex, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).note(message, ctx, ex, keyValues);
-  }
-
-  public static void warn(String message, Throwable ex, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).warn(message, ctx, ex, keyValues);
-  }
-
-  public static void error(String message, Throwable ex, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).error(message, ctx, ex, keyValues);
-  }
-
-  public static void fatal(String message, Throwable ex, Object... keyValues)
-  {
-    GWikiContext ctx = GWikiContext.getCurrent();
-    getLogging(ctx).fatal(message, ctx, ex, keyValues);
+    getLogging(ctx).error(message, ctx, ex);
   }
 
   public static void doLog(GWikiLogLevel logLevel, String message, Throwable ex, Object... keyValues)

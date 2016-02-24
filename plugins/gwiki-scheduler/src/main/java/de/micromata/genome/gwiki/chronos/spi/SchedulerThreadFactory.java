@@ -31,8 +31,8 @@ import java.util.concurrent.ThreadFactory;
 
 import org.springframework.util.ClassUtils;
 
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 
 public class SchedulerThreadFactory implements ThreadFactory
 {
@@ -50,6 +50,7 @@ public class SchedulerThreadFactory implements ThreadFactory
 
   private int threadCount = 0;
 
+  @Override
   public Thread newThread(Runnable r)
   {
     return createThread(r);
@@ -77,8 +78,8 @@ public class SchedulerThreadFactory implements ThreadFactory
   /**
    * Return the thread name to use for a newly created thread.
    * <p>
-   * Default implementation returns the specified thread name prefix with an increasing thread count appended: for example,
-   * "SimpleAsyncTaskExecutor-0".
+   * Default implementation returns the specified thread name prefix with an increasing thread count appended: for
+   * example, "SimpleAsyncTaskExecutor-0".
    * 
    * @see #getThreadNamePrefix()
    */

@@ -44,6 +44,7 @@ import de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPageCache;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
@@ -52,6 +53,7 @@ import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.attachments.TextExtractorUtils;
 import de.micromata.genome.gwiki.utils.AppendableI;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.text.PipeValueList;
 import de.micromata.genome.util.types.Converter;
 
@@ -73,7 +75,7 @@ public class GWikiVFolderUtils
 
   public static Pattern titlePattern = Pattern.compile(".*<title>(.*)</title>.*", Pattern.DOTALL);
 
-  public static String[] indexFileNames = new String[] { "index.html", "Index.html", "index.htm", "Index.htm"};
+  public static String[] indexFileNames = new String[] { "index.html", "Index.html", "index.htm", "Index.htm" };
 
   public static final String VFILE_INDEXHTML = "VFILE_INDEXHTML";
 
@@ -146,7 +148,8 @@ public class GWikiVFolderUtils
     return false;
   }
 
-  public static List<GWikiElementInfo> resolveParents(GWikiContext wikiContext, GWikiElement el, GWikiVFolderCachedFileInfos cache)
+  public static List<GWikiElementInfo> resolveParents(GWikiContext wikiContext, GWikiElement el,
+      GWikiVFolderCachedFileInfos cache)
   {
     resolveIndexHtmls(wikiContext, el, cache);
     List<GWikiElementInfo> ret = new ArrayList<GWikiElementInfo>();
@@ -201,7 +204,8 @@ public class GWikiVFolderUtils
     return ret;
   }
 
-  static GWikiElementInfo createElementInfo(GWikiContext wikiContext, String localName, GWikiElement vfolderElement, GWikiVFolderNode node,
+  static GWikiElementInfo createElementInfo(GWikiContext wikiContext, String localName, GWikiElement vfolderElement,
+      GWikiVFolderNode node,
       FsObject fs)
   {
     String pid = vfolderElement.getElementInfo().getId();
@@ -382,7 +386,8 @@ public class GWikiVFolderUtils
     return filePageId.substring(vfid.length());
   }
 
-  public static void writeContent(GWikiElement vfolderEl, String filePageId, HttpServletResponse resp) throws IOException
+  public static void writeContent(GWikiElement vfolderEl, String filePageId, HttpServletResponse resp)
+      throws IOException
   {
 
     // resp.setContentType(getContentType());
@@ -393,7 +398,7 @@ public class GWikiVFolderUtils
     if (file.exists() == false) {
       return;
     }
-    resp.setContentLength((int) file.getLength());
+    resp.setContentLength(file.getLength());
     OutputStream os = resp.getOutputStream();
     fvn.getFileSystem().readBinaryFile(localName, os);
   }
@@ -429,15 +434,17 @@ public class GWikiVFolderUtils
 
   public static void getPreview(GWikiContext wikiContext, GWikiElement vfileEl, AppendableI sb)
   {
-    GWikiElement vfe = wikiContext.getWikiWeb().getElement(vfileEl.getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER));
+    GWikiElement vfe = wikiContext.getWikiWeb()
+        .getElement(vfileEl.getElementInfo().getProps().getStringValue(GWikiVFolderUtils.FVOLDER));
     String localName = getLocalFromFilePageId(vfe, vfileEl.getElementInfo().getId());
     GWikiVFolderNode fvn = GWikiVFolderNode.getVFolderFromElement(vfe);
     try {
       byte[] data = fvn.getFileSystem().readBinaryFile(localName);
-      String t = TextExtractorUtils.getTextExtract(wikiContext, vfileEl.getElementInfo().getId(), new ByteArrayInputStream(data));
+      String t = TextExtractorUtils.getTextExtract(wikiContext, vfileEl.getElementInfo().getId(),
+          new ByteArrayInputStream(data));
       sb.append(t);
     } catch (Throwable ex) {
-      GWikiLog.note("Failure extracting text: " + ex.getMessage());
+      GLog.note(GWikiLogCategory.Wiki, "Failure extracting text: " + ex.getMessage());
     }
   }
 }

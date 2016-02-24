@@ -39,6 +39,7 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiWeb;
@@ -56,6 +57,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedJobDefineMacroBean;
 import de.micromata.genome.gwiki.scheduler_1_0.macros.GWikiSchedSchedDefineMacroBean;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.HostUtils;
@@ -383,7 +385,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
   {
     GWikiContext wikiContext = GWikiContext.getCreateContext();
     GWikiElement el = createJobElement(wikiContext, job);
-    GWikiLog.note("Scheduler; insertJob: " + job);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; insertJob: " + job);
     super.insertJob(job);
     wikiContext.getWikiWeb().getStorage().storeElement(wikiContext, el, false);
   }
@@ -399,7 +401,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
       @Override
       public Void call() throws RuntimeException
       {
-        GWikiLog.note("Scheduler; jobRemove: " + job);
+        GLog.note(GWikiLogCategory.Wiki, "Scheduler; jobRemove: " + job);
         GWikiSchedElementJobStore.super.jobRemove(job, jobResult, scheduler);
 
         String pageId = getPageIdByJobId(job.getId());
@@ -423,7 +425,7 @@ public class GWikiSchedElementJobStore extends RamJobStore
       @Override
       public Void call() throws RuntimeException
       {
-        GWikiLog.note("Scheduler; updateJob: " + job);
+        GLog.note(GWikiLogCategory.Wiki, "Scheduler; updateJob: " + job);
 
         GWikiSchedElementJobStore.super.updateJob(job);
         String pageId = getPageIdByJobId(job.getId());
@@ -441,35 +443,35 @@ public class GWikiSchedElementJobStore extends RamJobStore
   @Override
   public void insertResult(JobResultDO result)
   {
-    GWikiLog.note("Scheduler; insertResult: " + result);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; insertResult: " + result);
     super.insertResult(result);
   }
 
   @Override
   public void jobResultRemove(TriggerJobDO job, JobResultDO jobResult, Scheduler scheduler)
   {
-    GWikiLog.note("Scheduler; jobResultRemove: " + job);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; jobResultRemove: " + job);
     super.jobResultRemove(job, jobResult, scheduler);
   }
 
   @Override
   public void persist(SchedulerDO scheduler)
   {
-    GWikiLog.note("Scheduler; persist Scheduler: " + scheduler);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; persist Scheduler: " + scheduler);
     super.persist(scheduler);
   }
 
   @Override
   public TriggerJobDO reserveJob(TriggerJobDO job)
   {
-    GWikiLog.note("Scheduler; reserveJob: " + job);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; reserveJob: " + job);
     return super.reserveJob(job);
   }
 
   @Override
   public int setJobState(long pk, String newState, String oldState)
   {
-    GWikiLog.note("Scheduler; setJobState: " + pk);
+    GLog.note(GWikiLogCategory.Wiki, "Scheduler; setJobState: " + pk);
     if (super.setJobState(pk, newState, oldState) == 1) {
       if (StringUtils.equals(newState, State.CLOSED.name()) == true) {
         TriggerJobDO job = getAdminJobByPk(pk);

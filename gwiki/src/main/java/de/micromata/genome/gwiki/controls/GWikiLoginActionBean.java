@@ -33,10 +33,12 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.text.PlaceHolderReplacer;
@@ -138,7 +140,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
     if (success == false) {
       wikiContext.addValidationError("gwiki.page.admin.Login.message.unknownuserpassword");
 
-      GWikiLog.note("Invalid login: user: " + user + "; ");
+      GLog.note(GWikiLogCategory.Wiki, "Invalid login: user: " + user + "; ");
       password = "";
       return null;
     }
@@ -235,7 +237,7 @@ public class GWikiLoginActionBean extends ActionBeanBase
 
     GWikiElement el = wikiContext.getWikiWeb().findElement(userId);
     if (el == null) {
-      GWikiLog.note("Passwort reset requested for unknown user: " + passwordForgottenUser);
+      GLog.note(GWikiLogCategory.Wiki, "Passwort reset requested for unknown user: " + passwordForgottenUser);
       wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.emailsent");
       // wikiContext.addValidationError("gwiki.page.admin.Login.message.resetpassw.unkownuser");
       return null;

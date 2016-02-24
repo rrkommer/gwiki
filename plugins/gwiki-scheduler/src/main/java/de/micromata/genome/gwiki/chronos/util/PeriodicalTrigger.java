@@ -38,8 +38,8 @@ import java.util.Date;
 import de.micromata.genome.gwiki.chronos.JobCompletion;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 
 public class PeriodicalTrigger implements Trigger
 {
@@ -48,11 +48,13 @@ public class PeriodicalTrigger implements Trigger
   private final Integer breakInSeconds;
 
   /**
-   * A job triggered by this trigger will be repeated every x seconds untill it's status is set to "STOP", "FINISHED" or "CLOSED" manually
-   * in the genome console.
+   * A job triggered by this trigger will be repeated every x seconds untill it's status is set to "STOP", "FINISHED" or
+   * "CLOSED" manually in the genome console.
    * 
-   * @param arg: 'p' plus an integer, represents the number of seconds that the scheduler is supposed to wait till the next run is started.
-   *          </br> </br> Example: "p3600" => 1 hour delay between the different runs
+   * @param arg: 'p' plus an integer, represents the number of seconds that the scheduler is supposed to wait till the
+   *          next run is started. </br>
+   *          </br>
+   *          Example: "p3600" => 1 hour delay between the different runs
    */
   public PeriodicalTrigger(final String arg)
   {
@@ -63,11 +65,13 @@ public class PeriodicalTrigger implements Trigger
     nextFireTime = new Date(System.currentTimeMillis() + breakInSeconds * 1000);
   }
 
+  @Override
   public String getTriggerDefinition()
   {
     return "p" + breakInSeconds.toString();
   }
 
+  @Override
   public Date updateAfterRun(final Scheduler scheduler, final JobCompletion cause)
   {
     switch (cause) {
@@ -92,16 +96,20 @@ public class PeriodicalTrigger implements Trigger
         // ????
         break;
     }
-    if (GLog.isTraceEnabled() == true)
-      GLog.trace(GenomeLogCategory.Scheduler, "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    if (GLog.isTraceEnabled() == true) {
+      GLog.trace(GenomeLogCategory.Scheduler,
+          "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    }
     return nextFireTime == null ? null : new Date(nextFireTime.getTime());
   }
 
+  @Override
   public Date getNextFireTime(final Date now)
   {
     return new Date(nextFireTime.getTime());
   }
 
+  @Override
   public void setNextFireTime(final Date nextFireTime)
   {
     this.nextFireTime = nextFireTime;

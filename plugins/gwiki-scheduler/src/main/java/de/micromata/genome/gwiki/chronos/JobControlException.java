@@ -18,8 +18,8 @@
 
 package de.micromata.genome.gwiki.chronos;
 
-import de.micromata.genome.gwiki.chronos.logging.LogAttribute;
-import de.micromata.genome.gwiki.chronos.logging.LogAttributeRuntimeException;
+import de.micromata.genome.logging.LogAttribute;
+import de.micromata.genome.logging.LogAttributeRuntimeException;
 
 /**
  * Base class for Exception thrown by jobs

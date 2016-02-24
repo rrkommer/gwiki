@@ -38,9 +38,9 @@ import java.util.Date;
 import de.micromata.genome.gwiki.chronos.JobCompletion;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.spi.CronExpression;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 
 /**
  * @see CronExpression
@@ -58,11 +58,13 @@ public class CronTrigger implements Trigger
     cronExpression = new CronExpression(arg);
   }
 
+  @Override
   public String getTriggerDefinition()
   {
     return cronExpression.toString();
   }
 
+  @Override
   public Date updateAfterRun(final Scheduler scheduler, final JobCompletion cause)
   {
     switch (cause) {
@@ -87,24 +89,29 @@ public class CronTrigger implements Trigger
         // ????
         break;
     }
-    if (GLog.isTraceEnabled() == true)
-      GLog.trace(GenomeLogCategory.Scheduler, "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    if (GLog.isTraceEnabled() == true) {
+      GLog.trace(GenomeLogCategory.Scheduler,
+          "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    }
     return nextFireTime == null ? null : new Date(nextFireTime.getTime());
   }
 
   private Date calculateNext()
   {
-    if (nextFireTime == null)
+    if (nextFireTime == null) {
       nextFireTime = new Date();
+    }
     nextFireTime = cronExpression.getNextFireTime(nextFireTime);
     return nextFireTime;
   }
 
+  @Override
   public Date getNextFireTime(final Date now)
   {
     return cronExpression.getNextFireTime(now);
   }
 
+  @Override
   public void setNextFireTime(Date nextFireTime)
   {
     this.nextFireTime = nextFireTime;

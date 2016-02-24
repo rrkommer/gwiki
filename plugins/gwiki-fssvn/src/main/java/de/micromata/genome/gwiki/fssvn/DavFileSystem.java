@@ -37,7 +37,9 @@ import de.micromata.genome.gdbfs.AbstractFileSystem;
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FsException;
 import de.micromata.genome.gdbfs.FsObject;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -99,6 +101,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#exists(java.lang.String)
    */
+  @Override
   public boolean exists(String name)
   {
     connect();
@@ -155,6 +158,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileObject(java.lang.String)
    */
+  @Override
   public FsObject getFileObject(String name)
   {
     connect();
@@ -175,6 +179,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileSystemName()
    */
+  @Override
   public String getFileSystemName()
   {
     return url;
@@ -185,6 +190,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getLastModified(java.lang.String)
    */
+  @Override
   public long getLastModified(String name)
   {
     FsObject f = getFileObject(name);
@@ -199,6 +205,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getModificationCounter()
    */
+  @Override
   public long getModificationCounter()
   {
     FsObject obj = getFileObject("");
@@ -215,9 +222,10 @@ public class DavFileSystem extends AbstractFileSystem
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher, java.lang.Character,
-   * boolean)
+   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher,
+   * java.lang.Character, boolean)
    */
+  @Override
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     connect();
@@ -226,7 +234,8 @@ public class DavFileSystem extends AbstractFileSystem
     return ret;
   }
 
-  protected void listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive, List<FsObject> ret)
+  protected void listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive,
+      List<FsObject> ret)
   {
     try {
       List<DavResource> dfl = sardine.getResources(gu(name));
@@ -268,6 +277,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#mkdir(java.lang.String)
    */
+  @Override
   public boolean mkdir(String name)
   {
     checkReadOnly();
@@ -276,7 +286,8 @@ public class DavFileSystem extends AbstractFileSystem
     try {
       sardine.createDirectory(fqname);
     } catch (SardineException ex) {
-      GWikiLog.note("Dav create failed: " + fqname + "; " + ex.getMessage(), ex);
+      GLog.note(GWikiLogCategory.Wiki, "Dav create failed: " + fqname + "; " + ex.getMessage(),
+          new LogExceptionAttribute(ex));
       return false;
     }
     return true;
@@ -287,6 +298,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#readBinaryFile(java.lang.String, java.io.OutputStream)
    */
+  @Override
   public void readBinaryFile(String file, OutputStream os)
   {
     connect();
@@ -306,6 +318,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#rename(java.lang.String, java.lang.String)
    */
+  @Override
   public boolean rename(String oldName, String newName)
   {
     checkReadOnly();
@@ -315,8 +328,10 @@ public class DavFileSystem extends AbstractFileSystem
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean,
+   * de.micromata.genome.util.runtime.CallableX)
    */
+  @Override
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
   {
     return callback.call();
@@ -327,6 +342,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#writeBinaryFile(java.lang.String, java.io.InputStream, boolean)
    */
+  @Override
   public void writeBinaryFile(String file, InputStream is, boolean overWrite)
   {
     checkReadOnly();
@@ -337,6 +353,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#delete(java.lang.String)
    */
+  @Override
   public boolean delete(String name)
   {
     checkReadOnly();
@@ -348,6 +365,7 @@ public class DavFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#erase()
    */
+  @Override
   public void erase()
   {
     checkReadOnly();
