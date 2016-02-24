@@ -34,12 +34,15 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.ClassUtils;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
+import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
 
@@ -97,7 +100,8 @@ public class GWikiServlet extends HttpServlet
       contextPath = config.getServletContext().getContextPath();
     }
     if (daoContext == null) {
-      String className = config.getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className");
+      String className = config
+          .getInitParameter("de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className");
       if (StringUtils.isBlank(className) == true) {
         throw new ServletException(
             "de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader.className is not set in ServletConfig for GWikiServlet");
@@ -128,7 +132,8 @@ public class GWikiServlet extends HttpServlet
 
   public static boolean isIgnorableAppServeIOException(Exception ex)
   {
-    return ex.getClass().getName().contains("RuntimeIOException") == true || ex.getClass().getName().contains("EofException") == true;
+    return ex.getClass().getName().contains("RuntimeIOException") == true
+        || ex.getClass().getName().contains("EofException") == true;
   }
 
   @Override
@@ -157,15 +162,16 @@ public class GWikiServlet extends HttpServlet
       }
       wiki.serveWiki(page, ctx);
     } catch (RuntimeIOException ex) {
-      GWikiLog.note("IO Error serving: " + ex.getMessage(), ex);
+      GLog.info(GWikiLogCategory.Wiki, "IO Error serving: " + ex.getMessage(), new LogExceptionAttribute(ex));
     } catch (Exception ex) {
       if (isIgnorableAppServeIOException(ex) == true) {
-        GWikiLog.note("IO Error serving: " + ex.getMessage());
+        GLog.note(GWikiLogCategory.Wiki, "IO Error serving: " + ex.getMessage());
       } else {
-        GWikiLog.error("GWikiWeb serve error: " + ex.getMessage(), ex);
+        GLog.error(GWikiLogCategory.Wiki, "GWikiWeb serve error: " + ex.getMessage(), new LogExceptionAttribute(ex));
       }
     } finally {
-      wiki.getLogging().addPerformance("GWikiServlet.doPost", System.currentTimeMillis() - start, 0);
+      LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "GWikiServlet.doPost",
+          System.currentTimeMillis() - start, 0);
       GWikiContext.setCurrent(null);
       if (daoContext != null) {
         daoContext.getWikiSelector().deinitWiki(this, req, resp);

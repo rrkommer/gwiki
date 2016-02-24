@@ -33,7 +33,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.chronos;
 
-import de.micromata.genome.gwiki.chronos.logging.LogAttribute;
+import de.micromata.genome.logging.LogAttribute;
 
 public class ServiceUnavailableException extends JobRetryException
 {

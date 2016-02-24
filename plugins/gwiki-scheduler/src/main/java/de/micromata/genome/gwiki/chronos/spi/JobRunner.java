@@ -47,11 +47,12 @@ import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.ServiceUnavailableException;
 import de.micromata.genome.gwiki.chronos.State;
 import de.micromata.genome.gwiki.chronos.StaticDaoManager;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.manager.LogJobEventAttribute;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.runtime.HostUtils;
 
 /**
@@ -150,7 +151,7 @@ public class JobRunner implements Runnable
            * @reasin
            * @action
            */
-          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner serviceUnavailabe: " + ex, ex);// new LogJobEventAttribute(event));
+          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner serviceUnavailabe: " + ex, new LogExceptionAttribute(ex));// new LogJobEventAttribute(event));
         }
         handleServiceError(resultInfo, ex);
       } catch (final ForceRetryException ex) {
@@ -162,14 +163,15 @@ public class JobRunner implements Runnable
            * @reasin
            * @action
            */
-          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner force retry: " + ex, ex);// , new LogJobEventAttribute(event));
+          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner force retry: " + ex, new LogExceptionAttribute(ex));// , new LogJobEventAttribute(event));
         }
         handleRetry(resultInfo, ex);
       } catch (final RetryNextRunException ex) {
         state = "RetryNextRunException";
         handleEx = ex;
         if (ex.isSilent() == false) {
-          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner abort with nextretry: " + ex, ex);
+          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner abort with nextretry: " + ex,
+              new LogExceptionAttribute(ex));
           // new LogJobEventAttribute(event));
         }
         handleRetryNextRun(resultInfo, ex);
@@ -177,7 +179,7 @@ public class JobRunner implements Runnable
         handleEx = ex;
         state = "RetryException";
         if (ex.isSilent() == false) {
-          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner retry: " + ex, ex);
+          GLog.warn(GenomeLogCategory.Scheduler, "JobRunner retry: " + ex, new LogExceptionAttribute(ex));
           // , new LogJobEventAttribute(event));
         }
         handleUnexpected(resultInfo, ex);
@@ -190,7 +192,7 @@ public class JobRunner implements Runnable
          * @reason
          * @action
          */
-        GLog.warn(GenomeLogCategory.Scheduler, "JobRunner abort: " + ex, ex);// , new LogJobEventAttribute(event));
+        GLog.warn(GenomeLogCategory.Scheduler, "JobRunner abort: " + ex, new LogExceptionAttribute(ex));// , new LogJobEventAttribute(event));
         handleFailure(resultInfo, ex);
       } catch (final Exception ex) {
         handleEx = ex;
@@ -201,7 +203,7 @@ public class JobRunner implements Runnable
          * @action
          * 
          */
-        GLog.warn(GenomeLogCategory.Scheduler, "JobRunner unexpected: " + ex, ex);
+        GLog.warn(GenomeLogCategory.Scheduler, "JobRunner unexpected: " + ex, new LogExceptionAttribute(ex));
         // new LogJobEventAttribute(event));
         handleUnexpected(resultInfo, ex);
       } finally {
@@ -223,7 +225,8 @@ public class JobRunner implements Runnable
          * @action
          */
         GLog.error(GenomeLogCategory.Scheduler,
-            "JobRunner fail handle: " + state + "; jobId: " + jobId + "; " + ex.getMessage(), ex);
+            "JobRunner fail handle: " + state + "; jobId: " + jobId + "; " + ex.getMessage(),
+            new LogExceptionAttribute(ex));
       } catch (Exception ex1) {
         // OOOPs
       }

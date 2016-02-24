@@ -33,10 +33,10 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import de.micromata.genome.gwiki.chronos.FutureJob;
 import de.micromata.genome.gwiki.chronos.JobDefinition;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
-import de.micromata.genome.gwiki.chronos.logging.LogLevel;
-import de.micromata.genome.gwiki.chronos.logging.LoggedRuntimeException;
 import de.micromata.genome.gwiki.chronos.util.ClassJobDefinition;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogLevel;
+import de.micromata.genome.logging.LoggedRuntimeException;
 
 /**
  * TODO rrk, was ist der Unterschied zwischen das hier und {@link ClassJobDefinition}
@@ -49,7 +49,7 @@ public class GenomeClassJobFactory implements JobDefinition
 
   private Map<String, Object> beanProperties = null;
 
-  public GenomeClassJobFactory(Class< ? extends FutureJob> job)
+  public GenomeClassJobFactory(Class<? extends FutureJob> job)
   {
     classJobDefinition = new ClassJobDefinition(job);
   }
@@ -58,7 +58,7 @@ public class GenomeClassJobFactory implements JobDefinition
   public GenomeClassJobFactory(String classNameToStart)
   {
     try {
-      Class< ? extends FutureJob> cls = (Class< ? extends FutureJob>) Thread.currentThread().getContextClassLoader()
+      Class<? extends FutureJob> cls = (Class<? extends FutureJob>) Thread.currentThread().getContextClassLoader()
           .loadClass(classNameToStart);
       classJobDefinition = new ClassJobDefinition(cls);
     } catch (Exception ex) {
@@ -67,29 +67,33 @@ public class GenomeClassJobFactory implements JobDefinition
        * @reason Die JobFactory konnte nicht initialisiert werden
        * @action TechAdmin kontaktieren
        */
-      throw new LoggedRuntimeException(ex, LogLevel.Error, GenomeLogCategory.Scheduler, "Cannot initialize GenomeClassJobFactory for: "
-          + classNameToStart
-          + ": "
-          + ex.getMessage());
+      throw new LoggedRuntimeException(ex, LogLevel.Error, GenomeLogCategory.Scheduler,
+          "Cannot initialize GenomeClassJobFactory for: "
+              + classNameToStart
+              + ": "
+              + ex.getMessage());
     }
   }
 
+  @Override
   public FutureJob getInstance()
   {
     FutureJob fj = classJobDefinition.getInstance();
     try {
-      if (beanProperties != null)
+      if (beanProperties != null) {
         BeanUtils.populate(fj, beanProperties);
+      }
     } catch (Exception ex) {
       /**
        * @logging
        * @reason Die JobFactory konnte die bean properties nicht setzen
        * @action TechAdmin kontaktieren
        */
-      throw new LoggedRuntimeException(ex, LogLevel.Error, GenomeLogCategory.Scheduler, "Cannot populate properties for bean: "
-          + fj.getClass().getName()
-          + ": "
-          + ex.getMessage());
+      throw new LoggedRuntimeException(ex, LogLevel.Error, GenomeLogCategory.Scheduler,
+          "Cannot populate properties for bean: "
+              + fj.getClass().getName()
+              + ": "
+              + ex.getMessage());
     }
     return fj;
   }

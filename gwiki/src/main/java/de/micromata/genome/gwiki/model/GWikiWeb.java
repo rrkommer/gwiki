@@ -43,6 +43,8 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
 
@@ -100,7 +102,8 @@ public class GWikiWeb
   /**
    * checked elements for mofications.
    */
-  private ThreadLocal<Set<String>> devModeChecked = new ThreadLocal<Set<String>>() {
+  private ThreadLocal<Set<String>> devModeChecked = new ThreadLocal<Set<String>>()
+  {
 
     @Override
     protected Set<String> initialValue()
@@ -198,7 +201,8 @@ public class GWikiWeb
       filter = new GWikiFilters();
       final GWikiGlobalConfig config = reloadWikiConfig();
       daoContext.getPluginRepository().initPluginRepository(this, config);
-      runInPluginContext(new CallableX<Void, RuntimeException>() {
+      runInPluginContext(new CallableX<Void, RuntimeException>()
+      {
 
         @Override
         public Void call() throws RuntimeException
@@ -211,9 +215,11 @@ public class GWikiWeb
 
           modCheckTimoutMs = config.getCheckFileSystemForModTimeout();
           Map<String, GWikiElementInfo> npageInfos = new HashMap<String, GWikiElementInfo>();
-          npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter() {
+          npageInfos = filter.loadPageInfos(GWikiContext.getCurrent(), npageInfos, new GWikiLoadElementInfosFilter()
+          {
             @Override
-            public Void filter(GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
+            public Void filter(
+                GWikiFilterChain<Void, GWikiLoadElementInfosFilterEvent, GWikiLoadElementInfosFilter> chain,
                 GWikiLoadElementInfosFilterEvent event)
             {
               getStorage().loadPageInfos(event.getPageInfos());
@@ -227,7 +233,8 @@ public class GWikiWeb
       });
       daoContext.getPluginRepository().afterWebLoaded(this, config);
     } finally {
-      getLogging().addPerformance("GWikiWeb.loadWeb", System.currentTimeMillis() - start, 0);
+      LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "GWikiWeb.loadWeb",
+          System.currentTimeMillis() - start, 0);
       inBootStrapping = false;
 
     }
@@ -326,7 +333,7 @@ public class GWikiWeb
       GWikiElement el = findElement(pageId);
       if (el == null) {
         String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, pageId);
-        GWikiLog.note("PageNot Found: " + pageId);
+        GLog.note(GWikiLogCategory.Wiki, "PageNot Found: " + pageId);
         if (doRedirectContentToPageNotFound(mimeType) == false) {
           ctx.sendErrorSilent(404);
           return;
@@ -345,7 +352,8 @@ public class GWikiWeb
         ctx.getResponse().setContentType(mimeType);
       }
 
-      filter.serveElement(ctx, el, new GWikiServeElementFilter() {
+      filter.serveElement(ctx, el, new GWikiServeElementFilter()
+      {
 
         @Override
         public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
@@ -379,7 +387,8 @@ public class GWikiWeb
       serveWikiIntern(ctx, nel);
     } catch (RuntimeException ex) {
       if (GWikiServlet.isIgnorableAppServeIOException(ex) == true) {
-        GWikiLog.note("IO Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage());
+        GLog.note(GWikiLogCategory.Wiki,
+            "IO Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage());
       } else {
         GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage(), ex);
       }
@@ -402,7 +411,7 @@ public class GWikiWeb
     try {
       if (getAuthorization().initThread(ctx) == false) {
         if (getAuthorization().isAllowToView(ctx, el.getElementInfo()) == false) {
-          GWikiLog.note("Unauthorized page view: " + el.getElementInfo().getId());
+          GLog.note(GWikiLogCategory.Wiki, "Unauthorized page view: " + el.getElementInfo().getId());
           if (isIncluded(ctx) == true) {
             return;
           } else {
@@ -704,7 +713,8 @@ public class GWikiWeb
   {
     long start = System.currentTimeMillis();
     getStorage().storeElement(wikiContext, element, keepModifiedAt);
-    getLogging().addPerformance("GWikiWeb.saveElement", System.currentTimeMillis() - start, 0);
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "GWikiWeb.saveElement",
+        System.currentTimeMillis() - start, 0);
     onReplacePageInfo(element.getElementInfo());
   }
 
@@ -723,7 +733,8 @@ public class GWikiWeb
   {
     long start = System.currentTimeMillis();
     getContentSearcher().rebuildIndex(GWikiContext.getCurrent(), null, full);
-    getLogging().addPerformance("GWikiWeb.rebuildIndex", System.currentTimeMillis() - start, 0);
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "GWikiWeb.rebuildIndex",
+        System.currentTimeMillis() - start, 0);
   }
 
   public void rebuildIndex(String pageId, GWikiContext ctx)
@@ -750,7 +761,8 @@ public class GWikiWeb
   {
     GWikiElement el = findElement(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH, true);
     if (el == null) {
-      throw new RuntimeException(GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH + " cannot be found. Please Check GWikiContext.xml");
+      throw new RuntimeException(
+          GWikiGlobalConfig.GWIKI_GLOBAL_CONFIG_PATH + " cannot be found. Please Check GWikiContext.xml");
     }
     Serializable ser = el.getMainPart().getCompiledObject();
     GWikiGlobalConfig nwikiGlobalConfig = new GWikiGlobalConfig((GWikiProps) ser);
@@ -793,6 +805,7 @@ public class GWikiWeb
     return daoContext.getJspProcessor();
   }
 
+  @Deprecated
   public GWikiLogging getLogging()
   {
     return daoContext.getLogging();

@@ -11,9 +11,18 @@ import de.micromata.genome.logging.LogAttributeType;
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
  */
-public enum GWikiLogAttributeTypes implements LogAttributeType
+public enum GWikiLogAttributeType implements LogAttributeType
 {
-  PageId
+  /**
+   * The current Page
+   */
+  PageId,
+  /**
+   * A list of page ids
+   */
+  PageIds,
+
+  BranchId,
 
   ;
   static {
@@ -43,7 +52,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
   /**
    * Instantiates a new genome attribute type.
    */
-  private GWikiLogAttributeTypes()
+  private GWikiLogAttributeType()
   {
 
   }
@@ -53,7 +62,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    *
    * @param renderer the renderer
    */
-  private GWikiLogAttributeTypes(LogAttributeRenderer renderer)
+  private GWikiLogAttributeType(LogAttributeRenderer renderer)
   {
     this(null, -1, null, renderer);
   }
@@ -64,7 +73,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    * @param columnName the column name
    * @param maxSize the max size
    */
-  private GWikiLogAttributeTypes(String columnName, int maxSize)
+  private GWikiLogAttributeType(String columnName, int maxSize)
   {
     this.columnName = columnName;
     this.maxSize = maxSize;
@@ -78,7 +87,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    * @param defaultFiller the default filler
    * @param renderer the renderer
    */
-  private GWikiLogAttributeTypes(String columnName, int maxSize, AttributeTypeDefaultFiller defaultFiller,
+  private GWikiLogAttributeType(String columnName, int maxSize, AttributeTypeDefaultFiller defaultFiller,
       LogAttributeRenderer renderer)
   {
     this.columnName = columnName;
@@ -94,7 +103,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    * @param maxSize the max size
    * @param defaultFiller the default filler
    */
-  private GWikiLogAttributeTypes(String columnName, int maxSize, AttributeTypeDefaultFiller defaultFiller)
+  private GWikiLogAttributeType(String columnName, int maxSize, AttributeTypeDefaultFiller defaultFiller)
   {
     this(columnName, maxSize, defaultFiller, new DefaultLogAttributeRenderer());
   }
@@ -105,7 +114,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    * @param defaultFiller the default filler
    * @param renderer the renderer
    */
-  private GWikiLogAttributeTypes(AttributeTypeDefaultFiller defaultFiller, LogAttributeRenderer renderer)
+  private GWikiLogAttributeType(AttributeTypeDefaultFiller defaultFiller, LogAttributeRenderer renderer)
   {
     this(null, -1, defaultFiller, renderer);
   }
@@ -115,7 +124,7 @@ public enum GWikiLogAttributeTypes implements LogAttributeType
    *
    * @param defaultFiller the default filler
    */
-  private GWikiLogAttributeTypes(AttributeTypeDefaultFiller defaultFiller)
+  private GWikiLogAttributeType(AttributeTypeDefaultFiller defaultFiller)
   {
     this(null, -1, defaultFiller, new DefaultLogAttributeRenderer());
   }

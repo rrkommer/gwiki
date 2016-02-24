@@ -40,8 +40,8 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.chronos.JobCompletion;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 
 public class DelayTrigger implements Trigger
 {
@@ -64,11 +64,13 @@ public class DelayTrigger implements Trigger
     nextFireTime = new Date(System.currentTimeMillis() + millis);
   }
 
+  @Override
   public String getTriggerDefinition()
   {
     return "+" + millis;
   }
 
+  @Override
   public Date updateAfterRun(final Scheduler scheduler, final JobCompletion cause)
   {
     switch (cause) {
@@ -86,8 +88,10 @@ public class DelayTrigger implements Trigger
         // ????
         break;
     }
-    if (GLog.isTraceEnabled() == true)
-      GLog.trace(GenomeLogCategory.Scheduler, "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    if (GLog.isTraceEnabled() == true) {
+      GLog.trace(GenomeLogCategory.Scheduler,
+          "Update firetime to: " + nextFireTime + " after " + cause + " for " + this);
+    }
     return nextFireTime == null ? null : new Date(nextFireTime.getTime());
   }
 
@@ -96,11 +100,13 @@ public class DelayTrigger implements Trigger
     return millis;
   }
 
+  @Override
   public Date getNextFireTime(final Date now)
   {
     return nextFireTime == null ? null : new Date(nextFireTime.getTime());
   }
 
+  @Override
   public void setNextFireTime(Date nextFireTime)
   {
     this.nextFireTime = nextFireTime;

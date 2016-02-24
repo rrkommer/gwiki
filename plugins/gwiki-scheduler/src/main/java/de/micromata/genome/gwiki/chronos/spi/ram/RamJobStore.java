@@ -40,14 +40,14 @@ import org.apache.commons.lang.Validate;
 import de.micromata.genome.gwiki.chronos.Scheduler;
 import de.micromata.genome.gwiki.chronos.State;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.spi.AbstractJobStore;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDisplayDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDisplayDO;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 
 /**
  * Abbildung der Jobs im Memory
@@ -73,12 +73,14 @@ public class RamJobStore extends AbstractJobStore
 
   protected long nextResultId = 0;
 
+  @Override
   public SchedulerDO createOrGetScheduler(String schedulerName)
   {
     synchronized (this) {
       SchedulerDO ret = schedulers.get(schedulerName);
-      if (ret != null)
+      if (ret != null) {
         return ret;
+      }
       ret = new SchedulerDO();
       ret.setName(schedulerName);
       ret.setPk(++nextSchedulerId);
@@ -87,6 +89,7 @@ public class RamJobStore extends AbstractJobStore
     }
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public List<TriggerJobDO> getJobs(Scheduler scheduler, Date fromDate, Date untilDate, State state)
   {
@@ -94,8 +97,9 @@ public class RamJobStore extends AbstractJobStore
     synchronized (allJobs) {
       tjobs = allJobs.get(scheduler.getName());
     }
-    if (tjobs == null)
+    if (tjobs == null) {
       return ListUtils.EMPTY_LIST;
+    }
     List<TriggerJobDO> ret = new ArrayList<TriggerJobDO>();
     synchronized (tjobs) {
       ret.addAll(tjobs.values());
@@ -110,6 +114,7 @@ public class RamJobStore extends AbstractJobStore
     // }
   }
 
+  @Override
   public List<TriggerJobDO> getNextJobs(Scheduler scheduler, boolean foreignJobs)
   {
     final Map<Long, TriggerJobDO> tjobs;
@@ -117,21 +122,24 @@ public class RamJobStore extends AbstractJobStore
       tjobs = allJobs.get(scheduler.getName());
     }
 
-    if (tjobs == null || tjobs.isEmpty() == true)
+    if (tjobs == null || tjobs.isEmpty() == true) {
       return ListUtils.EMPTY_LIST;
+    }
 
     final ArrayList<TriggerJobDO> jobsToStart = new ArrayList<TriggerJobDO>();
     Date now = new Date();
     boolean isDebugEnabled = GLog.isDebugEnabled();
     synchronized (tjobs) {
       for (final TriggerJobDO job : tjobs.values()) {
-        if (job.getState() != State.WAIT)
+        if (job.getState() != State.WAIT) {
           continue;
+        }
         final Trigger trigger = job.getTrigger();
         final Date nextFireTime = trigger.getNextFireTime(now);
         if (nextFireTime != null && nextFireTime.before(now)) {
-          if (isDebugEnabled == true)
+          if (isDebugEnabled == true) {
             GLog.debug(GenomeLogCategory.Scheduler, "Found trigger: " + trigger);
+          }
           jobsToStart.add(job);
         }
       }
@@ -139,6 +147,7 @@ public class RamJobStore extends AbstractJobStore
     return jobsToStart;
   }
 
+  @Override
   public List<TriggerJobDO> getNextJobs(long lookForward)
   {
     boolean isDebugEnabled = GLog.isDebugEnabled();
@@ -148,13 +157,15 @@ public class RamJobStore extends AbstractJobStore
       for (Map<Long, TriggerJobDO> tjobs : allJobs.values()) {
         synchronized (tjobs) {
           for (final TriggerJobDO job : tjobs.values()) {
-            if (job.getState() != State.WAIT)
+            if (job.getState() != State.WAIT) {
               continue;
+            }
             final Trigger trigger = job.getTrigger();
             final Date nextFireTime = job.getNextFireTime();
             if (nextFireTime != null && nextFireTime.before(vnow)) {
-              if (isDebugEnabled == true)
+              if (isDebugEnabled == true) {
                 GLog.debug(GenomeLogCategory.Scheduler, "Found trigger: " + trigger);
+              }
               jobsToStart.add(job);
             }
           }
@@ -169,6 +180,7 @@ public class RamJobStore extends AbstractJobStore
     return null;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public synchronized List<JobResultDO> getResults(TriggerJobDO job, int maxResults)
   {
@@ -178,11 +190,13 @@ public class RamJobStore extends AbstractJobStore
       tl = jobResults.get(job);
     }
 
-    if (tl == null)
+    if (tl == null) {
       return ListUtils.EMPTY_LIST;
+    }
 
-    if (maxResults >= tl.size())
+    if (maxResults >= tl.size()) {
       return tl;
+    }
     List<JobResultDO> ret = new ArrayList<JobResultDO>(maxResults);
     synchronized (tl) {
       for (int i = 0; i < maxResults; ++i) {
@@ -192,6 +206,7 @@ public class RamJobStore extends AbstractJobStore
     return ret;
   }
 
+  @Override
   public List<SchedulerDO> getSchedulers()
   {
     List<SchedulerDO> ret = new ArrayList<SchedulerDO>();
@@ -201,15 +216,18 @@ public class RamJobStore extends AbstractJobStore
     return ret;
   }
 
+  @Override
   public void withinTransaction(final Runnable runnable)
   {
     runnable.run();
   }
 
+  @Override
   public void jobRemove(TriggerJobDO job, JobResultDO jobResult, Scheduler scheduler)
   {
-    if (GLog.isTraceEnabled() == true)
+    if (GLog.isTraceEnabled() == true) {
       GLog.trace(GenomeLogCategory.Scheduler, "jobRemove: " + job.getPk() + "; " + job.toString());
+    }
     Map<Long, TriggerJobDO> schedJobs;
     synchronized (allJobs) {
       schedJobs = allJobs.get(scheduler.getName());
@@ -227,6 +245,7 @@ public class RamJobStore extends AbstractJobStore
 
   }
 
+  @Override
   public void jobResultRemove(TriggerJobDO job, JobResultDO jobResult, Scheduler scheduler)
   {
 
@@ -234,24 +253,28 @@ public class RamJobStore extends AbstractJobStore
     synchronized (jobResults) {
       resList = jobResults.get(job.getPk());
     }
-    if (resList == null)
+    if (resList == null) {
       return;
+    }
     synchronized (resList) {
       resList.remove(jobResult);
     }
   }
 
+  @Override
   public void persist(SchedulerDO scheduler)
   {
     synchronized (schedulers) {
       schedulers.put(scheduler.getName(), scheduler);
-      if (scheduler.getPk() == null || scheduler.getPk() == SchedulerDO.UNSAVED_SCHEDULER_ID)
+      if (scheduler.getPk() == null || scheduler.getPk() == SchedulerDO.UNSAVED_SCHEDULER_ID) {
         scheduler.setPk(nextSchedulerId++);
+      }
 
     }
 
   }
 
+  @Override
   public TriggerJobDO reserveJob(TriggerJobDO job)
   {
     job.setState(State.SCHEDULED);
@@ -263,26 +286,31 @@ public class RamJobStore extends AbstractJobStore
   {
   }
 
+  @Override
   public void shutdown() throws InterruptedException
   {
 
   }
 
+  @Override
   public synchronized long getNextJobId()
   {
     return ++nextJobId;
   }
 
+  @Override
   public synchronized long getNextJobResultId()
   {
     return ++nextResultId;
   }
 
+  @Override
   public synchronized long getNextSchedulerId()
   {
     return ++nextSchedulerId;
   }
 
+  @Override
   public void insertJob(TriggerJobDO job)
   {
     Validate.notNull(job);
@@ -296,14 +324,16 @@ public class RamJobStore extends AbstractJobStore
         allJobs.put(job.getSchedulerName(), list);
       }
     }
-    if (GLog.isTraceEnabled() == true)
+    if (GLog.isTraceEnabled() == true) {
       GLog.trace(GenomeLogCategory.Scheduler, "insertJob: " + job.getPk());
+    }
     synchronized (list) {
       list.put(job.getPk(), job);
     }
 
   }
 
+  @Override
   public void insertResult(JobResultDO result)
   {
     List<JobResultDO> l;
@@ -319,12 +349,14 @@ public class RamJobStore extends AbstractJobStore
     }
   }
 
+  @Override
   public void updateJob(TriggerJobDO job)
   {
     Validate.notNull(job);
     Validate.notNull(job.getSchedulerName());
-    if (GLog.isTraceEnabled() == true)
+    if (GLog.isTraceEnabled() == true) {
       GLog.trace(GenomeLogCategory.Scheduler, "updateJob: " + job.getPk() + "; " + job.toString());
+    }
 
     Map<Long, TriggerJobDO> c;
     synchronized (allJobs) {
@@ -340,26 +372,33 @@ public class RamJobStore extends AbstractJobStore
   }
 
   // TODO genome chronos synchronize
+  @Override
   public TriggerJobDO getAdminJobByPk(long pk)
   {
     for (Map<Long, TriggerJobDO> m : allJobs.values()) {
-      if (m.containsKey(pk) == true)
+      if (m.containsKey(pk) == true) {
         return m.get(pk);
+      }
     }
     return null;
   }
 
-  public List<TriggerJobDisplayDO> getAdminJobs(String hostName, String name, String state, String schedulerName, int resultCount)
+  @Override
+  public List<TriggerJobDisplayDO> getAdminJobs(String hostName, String name, String state, String schedulerName,
+      int resultCount)
   {
     List<TriggerJobDisplayDO> ret = new ArrayList<TriggerJobDisplayDO>();
     for (Map.Entry<String, Map<Long, TriggerJobDO>> m : allJobs.entrySet()) {
-      if (StringUtils.isNotEmpty(schedulerName) == true && StringUtils.equals(schedulerName, m.getKey()) == false)
+      if (StringUtils.isNotEmpty(schedulerName) == true && StringUtils.equals(schedulerName, m.getKey()) == false) {
         continue;
+      }
       for (Map.Entry<Long, TriggerJobDO> e : m.getValue().entrySet()) {
-        if (StringUtils.isNotEmpty(hostName) && StringUtils.equals(hostName, e.getValue().getHostName()) == false)
+        if (StringUtils.isNotEmpty(hostName) && StringUtils.equals(hostName, e.getValue().getHostName()) == false) {
           continue;
-        if (StringUtils.isNotEmpty(state) && StringUtils.equals(state, e.getValue().getState().name()) == false)
+        }
+        if (StringUtils.isNotEmpty(state) && StringUtils.equals(state, e.getValue().getState().name()) == false) {
           continue;
+        }
         TriggerJobDisplayDO tjd = new TriggerJobDisplayDO(e.getValue());
         ret.add(tjd);
         // TODO genome/RamJobStore Results
@@ -369,6 +408,7 @@ public class RamJobStore extends AbstractJobStore
     return ret;
   }
 
+  @Override
   public List<SchedulerDisplayDO> getAdminSchedulers()
   {
     List<SchedulerDisplayDO> ret = new ArrayList<SchedulerDisplayDO>();
@@ -378,16 +418,19 @@ public class RamJobStore extends AbstractJobStore
     return ret;
   }
 
+  @Override
   public TriggerJobDO getJobByPk(long pk)
   {
     return getAdminJobByPk(pk);
   }
 
+  @Override
   public List<JobResultDO> getResultsForJob(long jobId)
   {
     return jobResults.get(jobId);
   }
 
+  @Override
   public int setJobState(long pk, String newState, String oldState)
   {
     for (Map.Entry<String, Map<Long, TriggerJobDO>> m : allJobs.entrySet()) {
@@ -403,6 +446,7 @@ public class RamJobStore extends AbstractJobStore
     return 0;
   }
 
+  @Override
   public long getJobCount(State state)
   {
     long result = 0;
@@ -413,47 +457,54 @@ public class RamJobStore extends AbstractJobStore
     } else {
       for (Map<Long, TriggerJobDO> v : allJobs.values()) {
         for (TriggerJobDO tj : v.values()) {
-          if (tj.getState() == state)
+          if (tj.getState() == state) {
             ++result;
+          }
         }
       }
     }
     return result;
   }
 
+  @Override
   public long getJobResultCount(State state)
   {
     long result = 0;
     for (List<JobResultDO> lr : jobResults.values()) {
-      if (state == null)
+      if (state == null) {
         result += lr.size();
-      else {
+      } else {
         for (JobResultDO jr : lr) {
-          if (jr.getState() == state)
+          if (jr.getState() == state) {
             ++result;
+          }
         }
       }
     }
     return result;
   }
 
+  @Override
   public JobResultDO getResultByPk(long resultId)
   {
     for (List<JobResultDO> lr : jobResults.values()) {
       for (JobResultDO rs : lr) {
-        if (rs.getPk() == resultId)
+        if (rs.getPk() == resultId) {
           return rs;
+        }
       }
     }
     // TODO genome throw ex
     return null;
   }
 
+  @Override
   public void deleteScheduler(Long pk)
   {
     // TODO lado implement
   }
 
+  @Override
   public List<String> getJobNames()
   {
     List<String> jobNames = new ArrayList<String>();

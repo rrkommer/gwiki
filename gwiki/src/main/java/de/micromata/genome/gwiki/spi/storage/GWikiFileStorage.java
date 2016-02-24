@@ -44,6 +44,7 @@ import de.micromata.genome.gwiki.model.GWikiElementFactory;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPersistArtefakt;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
@@ -64,6 +65,8 @@ import de.micromata.genome.gwiki.page.search.GlobalIndexFile;
 import de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler;
 import de.micromata.genome.gwiki.page.search.WordIndexTextArtefakt;
 import de.micromata.genome.gwiki.utils.ClassUtils;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.matcher.AndMatcher;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -216,8 +219,8 @@ public class GWikiFileStorage implements GWikiStorage
         .createMatcher("+*Settings.properties,-*arch/*,-tmp/*");
     long stms = System.currentTimeMillis();
     List<FsObject> elements = fileSystem.listFiles("/", matcher, 'F', true);
-
-    wikiWeb.getLogging().addPerformance("Fs.ListPageInfoFiles", System.currentTimeMillis() - stms, 0);
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "Fs.ListPageInfoFiles",
+        System.currentTimeMillis() - stms, 0);
     stms = System.currentTimeMillis();
 
     for (FsObject fo : elements) {
@@ -240,7 +243,8 @@ public class GWikiFileStorage implements GWikiStorage
         ret.put(id, el);
       }
     }
-    wikiWeb.getLogging().addPerformance("Fs.LoadPageInfos", System.currentTimeMillis() - stms, 0);
+    LoggingServiceManager.get().getStatsDAO().addPerformance(GWikiLogCategory.Wiki, "Fs.LoadPageInfos",
+        System.currentTimeMillis() - stms, 0);
     resolvePageInfos(ret);
   }
 
@@ -963,7 +967,7 @@ public class GWikiFileStorage implements GWikiStorage
           ll.add(Pair.make(el, wit.getStorageData()));
           // GlobalIndexFile.updateSegment(wikiContext.getWikiWeb().getStorage(), el, wit.getStorageData());
         }
-        GWikiLog.note("Index updated for: " + ei.getId());
+        GLog.note(GWikiLogCategory.Wiki, "Index updated for: " + ei.getId());
       } catch (Exception ex) {
         GWikiLog.warn("Failed to index: " + ei.getId() + ": " + ex.getMessage(), ex);
       }

@@ -25,11 +25,13 @@ import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiBinaryArtefaktBase;
 import de.micromata.genome.gwiki.model.GWikiElement;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.attachments.TextExtractorUtils;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableI;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
  * Containing a binary attachment.
@@ -37,7 +39,8 @@ import de.micromata.genome.gwiki.utils.AppendableI;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[]> implements GWikiEditableArtefakt, GWikiIndexedArtefakt
+public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[]>
+    implements GWikiEditableArtefakt, GWikiIndexedArtefakt
 {
 
   private static final long serialVersionUID = 2413110416852468772L;
@@ -46,6 +49,7 @@ public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[
   {
   }
 
+  @Override
   public void getPreview(GWikiContext ctx, AppendableI sb)
   {
     if (ctx.getCurrentElement() == null) {
@@ -62,36 +66,42 @@ public class GWikiBinaryAttachmentArtefakt extends GWikiBinaryArtefaktBase<byte[
       String t = TextExtractorUtils.getTextExtract(ctx, pid, new ByteArrayInputStream(getStorageData()));
       sb.append(t);
     } catch (Exception ex) {
-      GWikiLog.note("Failure extracting text: " + ex.getMessage(), ex);
+      GLog.note(GWikiLogCategory.Wiki, "Failure extracting text: " + ex.getMessage(), new LogExceptionAttribute(ex));
     }
   }
 
-  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  @Override
+  public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiAttachmentEditorArtefakt(elementToEdit, bean, partKey, this);
   }
 
+  @Override
   public String buildFileName(String pageId, String partName)
   {
     return partName + pageId;
   }
 
-  public void collectArtefakts(List<GWikiArtefakt< ? >> al)
+  @Override
+  public void collectArtefakts(List<GWikiArtefakt<?>> al)
   {
     al.add(this);
 
   }
 
+  @Override
   public byte[] getCompiledObject()
   {
     return getStorageData();
   }
 
+  @Override
   public String getFileSuffix()
   {
     return "";
   }
 
+  @Override
   public void setCompiledObject(byte[] compiledObject)
   {
     // nix

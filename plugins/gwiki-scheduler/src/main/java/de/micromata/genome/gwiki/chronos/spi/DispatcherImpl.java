@@ -41,6 +41,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.chronos.JobDefinition;
 import de.micromata.genome.gwiki.chronos.JobStore;
@@ -50,10 +51,11 @@ import de.micromata.genome.gwiki.chronos.SchedulerException;
 import de.micromata.genome.gwiki.chronos.ServiceUnavailableException;
 import de.micromata.genome.gwiki.chronos.State;
 import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.logging.GLog;
-import de.micromata.genome.gwiki.chronos.logging.GenomeLogCategory;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
+import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.runtime.HostUtils;
 
 /**
@@ -68,6 +70,7 @@ import de.micromata.genome.util.runtime.HostUtils;
  */
 public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
 {
+  private static final Logger LOG = Logger.getLogger(DispatcherImpl.class);
   private final JobStore jobStore;
 
   /**
@@ -310,7 +313,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
            * @reason Chronos Dispatcher hat einen Fehler entdeckt
            * @action Abhaengig von der Exception Entwickler kontaktieren
            */
-          GLog.error(GenomeLogCategory.Scheduler, "Error while dispatching: " + ex, ex);
+          GLog.error(GenomeLogCategory.Scheduler, "Error while dispatching: " + ex, new LogExceptionAttribute(ex));
         }
         try {
           Thread.sleep(curRefreshInMillis);
@@ -385,7 +388,7 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
 
       for (final TriggerJobDO job : nextJobs) {
         if (debugLogenabled == true) {
-          GLog.debug(GenomeLogCategory.Scheduler, "Checking job: " + job.getPk() + " for " + schedulerDO);
+          LOG.debug("Checking job: " + job.getPk() + " for " + schedulerDO);
         }
         if (checkAndExecuteJob(scheduler, job) == false) {
           allJobRunned = false;

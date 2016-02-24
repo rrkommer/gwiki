@@ -30,6 +30,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeAttributeType;
+import de.micromata.genome.logging.LogAttribute;
+import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
  * Standard implementation for a GWikiEmailProvider.
@@ -49,11 +53,13 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
         evaluateMailTemplate(ctx.get("MAILTEMPLATE"), ctx);
       }
       sendEmailImpl(ctx);
-      GWikiLog.note("Send email: " + ctx.get(TO), GLogAttributeNames.EmailMessage, ctx.toString());
+      GLog.note(GWikiLogCategory.Wiki, "Send email: " + ctx.get(TO),
+          new LogAttribute(GenomeAttributeType.EmailMessage, ctx.toString()));
     } catch (MessagingException ex) {
       ctx.put(SENDEMAILFAILED, ex.getMessage());
-      GWikiLog.warn("Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(), ex, GLogAttributeNames.EmailMessage,
-          ctx.toString());
+      GLog.warn(GWikiLogCategory.Wiki, "Fail to send email: " + ctx.get(TO) + ": " + ex.getMessage(),
+          new LogExceptionAttribute(ex), new LogAttribute(GenomeAttributeType.EmailMessage,
+              ctx.toString()));
     }
   }
 

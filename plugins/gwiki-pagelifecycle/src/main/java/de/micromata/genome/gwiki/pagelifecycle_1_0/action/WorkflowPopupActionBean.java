@@ -18,13 +18,11 @@
 package de.micromata.genome.gwiki.pagelifecycle_1_0.action;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -34,10 +32,11 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
-import de.micromata.genome.gwiki.model.GWikiPropsArtefakt;
 import de.micromata.genome.gwiki.model.GWikiWeb;
+import de.micromata.genome.gwiki.model.logging.GWikiLogAttributeType;
 import de.micromata.genome.gwiki.model.matcher.GWikiPageIdMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiChangeCommentArtefakt;
@@ -48,6 +47,9 @@ import de.micromata.genome.gwiki.pagelifecycle_1_0.model.BranchState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.FileState;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcConstants;
 import de.micromata.genome.gwiki.pagelifecycle_1_0.model.PlcUtils;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeAttributeType;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
@@ -172,7 +174,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   private void init()
   {
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         GWikiElement page = wikiContext.getWikiWeb().getElement(pageId);
@@ -210,7 +214,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     updateFileStats(FileState.valueOf(newPageState), selectedAssignee, branch, getAllPageIdsForUpdate());
 
     // save change comment to page
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         wikiContext.getWikiWeb().saveElement(wikiContext, page, false);
@@ -237,7 +243,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     updateFileStats(FileState.valueOf(newPageState), selectedAssignee, selectedBranch, updatePages);
 
     // save page(s) in new branch
-    wikiContext.runInTenantContext(selectedBranch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(selectedBranch, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         for (GWikiElement pageToUpdate : getAllPagesForUpdate()) {
@@ -248,7 +256,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     });
 
     // remove page(s) in old branch
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         for (GWikiElement pageToUpdate : getAllPagesForUpdate()) {
@@ -268,12 +278,16 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     final String branchId = startDateOfArticle == null ? GWikiProps.formatTimeStamp(new Date()) : GWikiProps
         .formatTimeStamp(startDateOfArticle);
 
-    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         final GWikiElement branchInfo = PlcUtils.createInfoElement(wikiContext, branchId, "", branchId, "");
         final GWikiElement branchFileStats = PlcUtils.createFileStats(wikiContext);
-        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+        {
+          @Override
           public Void call() throws RuntimeException
           {
             wikiContext.getWikiWeb().saveElement(wikiContext, branchInfo, false);
@@ -281,7 +295,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
             return null;
           }
         });
-        GWikiLog.note("Autocreate branch", "name", branchId);
+        GLog.note(GWikiLogCategory.Wiki, "Autocreate branch: " + branchId);
         return null;
       }
     });
@@ -296,17 +310,20 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   public Date getStartDateOfArticle()
   {
     // lookup if article had specified a release date
-    String startDate = wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
-      public String call() throws RuntimeException
-      {
-        BranchFileStats branchFileStats = PlcUtils.getBranchFileStats(wikiContext);
-        if (branchFileStats == null) {
-          return null;
-        }
-        FileStatsDO fileStatsForPage = branchFileStats.getFileStatsForId(pageId);
-        return fileStatsForPage.getStartAt();
-      }
-    });
+    String startDate = wikiContext.runInTenantContext(branch, getWikiSelector(),
+        new CallableX<String, RuntimeException>()
+        {
+          @Override
+          public String call() throws RuntimeException
+          {
+            BranchFileStats branchFileStats = PlcUtils.getBranchFileStats(wikiContext);
+            if (branchFileStats == null) {
+              return null;
+            }
+            FileStatsDO fileStatsForPage = branchFileStats.getFileStatsForId(pageId);
+            return fileStatsForPage.getStartAt();
+          }
+        });
 
     if (StringUtils.isNotBlank(startDate) == true) {
       return GWikiProps.parseTimeStamp(startDate);
@@ -345,7 +362,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   {
     // copy file state meta information from source...
     final List<FileStatsDO> soureFileStats = wikiContext.runInTenantContext(sourceTenant, getWikiSelector(),
-        new CallableX<List<FileStatsDO>, RuntimeException>() {
+        new CallableX<List<FileStatsDO>, RuntimeException>()
+        {
+          @Override
           public List<FileStatsDO> call() throws RuntimeException
           {
             BranchFileStats pageStats = PlcUtils.getBranchFileStats(wikiContext);
@@ -358,14 +377,16 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     }
 
     // ...to destination
-    wikiContext.runInTenantContext(targetTenant, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(targetTenant, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
         if (fileStats == null || fileStats.getMainPart() == null) {
           return null;
         }
-        GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+        GWikiArtefakt<?> artefakt = fileStats.getMainPart();
         if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
           return null;
         }
@@ -378,7 +399,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         branchFilestatsArtefakt.setStorageData(pageStats.toString());
 
         // because filestats is located in /admin folder you need to be su to store/update that file
-        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+        {
+          @Override
           public Void call() throws RuntimeException
           {
             wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, true);
@@ -386,7 +409,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
           }
         });
 
-        GWikiLog.note("Copied BranchFileStats information from " + sourceTenant + " to " + targetTenant, "PageIds", pageIds);
+        GLog.note(GWikiLogCategory.Wiki,
+            "Copied BranchFileStats information from " + sourceTenant + " to " + targetTenant,
+            new LogAttribute(GWikiLogAttributeType.PageIds, StringUtils.join(pageIds, ",")));
         return null;
       }
     });
@@ -397,9 +422,12 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    * 
    * @param branchId
    */
-  private void updateFileStats(final FileState fileState, final String newAssignee, final String branchId, final List<String> pageIds)
+  private void updateFileStats(final FileState fileState, final String newAssignee, final String branchId,
+      final List<String> pageIds)
   {
-    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(branchId, getWikiSelector(), new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         final GWikiElement fileStats = wikiContext.getWikiWeb().findElement(PlcConstants.FILE_STATS_LOCATION);
@@ -407,7 +435,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
           return null;
         }
 
-        GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+        GWikiArtefakt<?> artefakt = fileStats.getMainPart();
         if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
           return null;
         }
@@ -424,7 +452,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
           // set new file state
           fileStatsForPage.setFileState(fileState);
           fileStatsForPage.setLastModifiedAt(GWikiProps.formatTimeStamp(new Date()));
-          fileStatsForPage.setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
+          fileStatsForPage
+              .setLastModifiedBy(wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
 
           // set new assignee
           if (PREVIOUS_ASSIGNEE.equalsIgnoreCase(newAssignee) == true
@@ -441,15 +470,20 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         branchFilestatsArtefakt.setStorageData(pageStats.toString());
 
         // because filestats is located in /admin folder you need to be su to store/update that file
-        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+        wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+        {
+          @Override
           public Void call() throws RuntimeException
           {
             wikiContext.getWikiWeb().saveElement(wikiContext, fileStats, true);
             return null;
           }
         });
-        GWikiLog.note("Update filestats for pages", "branchId", branchId, "pageIds", pageIds, "newAssignee", newAssignee, "pageState",
-            fileState.name());
+        GLog.note(GWikiLogCategory.Wiki, "Update filestats for pages",
+            new LogAttribute(GWikiLogAttributeType.BranchId, branchId),
+            new LogAttribute(GWikiLogAttributeType.PageIds, StringUtils.join(pageIds, ",")),
+            new LogAttribute(GenomeAttributeType.Miscellaneous,
+                "newAssignee: " + newAssignee + "; pageState: " + fileState.name()));
         return null;
       }
     });
@@ -464,7 +498,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
       return;
     }
 
-    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>() {
+    wikiContext.runInTenantContext(branch, getWikiSelector(), new CallableX<String, RuntimeException>()
+    {
+      @Override
       public String call() throws RuntimeException
       {
         BranchFileStats stats = PlcUtils.getBranchFileStats(wikiContext);
@@ -481,20 +517,25 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
         final String currentUserName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
         for (final String operator : statsForId.getOperators()) {
           try {
-            wikiContext.getWikiWeb().getAuthorization().runAsUser(operator, wikiContext, new CallableX<Void, RuntimeException>() {
+            wikiContext.getWikiWeb().getAuthorization().runAsUser(operator, wikiContext,
+                new CallableX<Void, RuntimeException>()
+            {
 
               GWikiI18nProvider i18n = wikiContext.getWikiWeb().getI18nProvider();
 
+              @Override
               public Void call() throws RuntimeException
               {
                 String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
                 if (StringUtils.isEmpty(email) == true) {
-                  GWikiLog.warn("User has no mail specified. No status article update mail sent.", "username", operator);
+                  GLog.warn(GWikiLogCategory.Wiki, "User has no mail specified. No status article update mail sent.",
+                      new LogAttribute(GenomeAttributeType.UserEmail, operator));
                   return null;
                 }
 
                 // prepare email contents
-                String subject = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.subject", "Article status updated",
+                String subject = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.subject",
+                    "Article status updated",
                     getPageTitle());
                 String bodyString = getBodyString(currentUserName);
 
@@ -505,7 +546,7 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
                 ctx.put(GWikiEmailProvider.MAILTEMPLATE, "edit/pagelifecycle/mailtemplates/StatusUpdateMailTemplate");
                 ctx.put(GWikiEmailProvider.TO, email);
 
-                GWikiLog.note("Sent status update mail", "Recipient", email);
+                GLog.note(GWikiLogCategory.Wiki, "Sent status update mail to: " + email);
                 wikiContext.getWikiWeb().getDaoContext().getEmailProvider().sendEmail(ctx);
                 return null;
               }
@@ -519,8 +560,10 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
               private String getBodyString(final String currentUserName)
               {
                 StringBuffer bodyString = new StringBuffer();
-                String body = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.body", "", wikiContext.getWikiWeb()
-                    .getAuthorization().getCurrentUserName(wikiContext), getPageTitle(), wikiContext.globalUrl(pageId), currentUserName,
+                String body = i18n.translate(wikiContext, "gwiki.plc.dashpoard.popup.mail.body", "",
+                    wikiContext.getWikiWeb()
+                        .getAuthorization().getCurrentUserName(wikiContext),
+                    getPageTitle(), wikiContext.globalUrl(pageId), currentUserName,
                     newPageState);
                 bodyString.append(body);
                 if (StringUtils.isNotBlank(comment) == true) {
@@ -544,9 +587,9 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
    */
   private void applyComment()
   {
-    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> map = new HashMap<String, GWikiArtefakt<?>>();
     page.collectParts(map);
-    GWikiArtefakt< ? > artefakt = map.get("ChangeComment");
+    GWikiArtefakt<?> artefakt = map.get("ChangeComment");
     if (artefakt instanceof GWikiChangeCommentArtefakt == false) {
       return;
     }
@@ -587,14 +630,17 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
     this.selectedBranch = NEW_BRANCH;
 
     for (String tenantId : allTenants) {
-      
+
       // if approve you have to copy the file in a branch other than draft
-      if (PlcConstants.DRAFT_ID.equalsIgnoreCase(tenantId) == true && FileState.APPROVED_CHIEF_EDITOR.name().equals(newPageState) == true) {
+      if (PlcConstants.DRAFT_ID.equalsIgnoreCase(tenantId) == true
+          && FileState.APPROVED_CHIEF_EDITOR.name().equals(newPageState) == true) {
         continue;
       }
 
       GWikiProps branchInfoProp = wikiContext.runInTenantContext(tenantId, getWikiSelector(),
-          new CallableX<GWikiProps, RuntimeException>() {
+          new CallableX<GWikiProps, RuntimeException>()
+          {
+            @Override
             public GWikiProps call() throws RuntimeException
             {
               return PlcUtils.getBranchInfo(wikiContext);
@@ -606,12 +652,14 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
       }
 
       // only add offline branches
-      if (BranchState.OFFLINE.name().equals(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_BRANCH_STATE)) == true) {
+      if (BranchState.OFFLINE.name()
+          .equals(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_BRANCH_STATE)) == true) {
         Map<String, Object> m = new HashMap<String, Object>();
         m.putAll(branchInfoProp.getMap());
-        m.put("RELEASE_DATE_DATE", GWikiProps.parseTimeStamp(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_RELEASE_DATE)));
+        m.put("RELEASE_DATE_DATE",
+            GWikiProps.parseTimeStamp(branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_RELEASE_DATE)));
         branchProps.add(m);
-        
+
         // if branch release date matches article release date -> preselect branch
         String release = branchInfoProp.getStringValue(PlcConstants.BRANCH_INFO_RELEASE_DATE);
         Date branchReleaseDate = GWikiProps.parseTimeStamp(release);
@@ -630,7 +678,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   {
     // TODO stefan an Rollen knüpfen
     final Matcher<String> m = new BooleanListRulesFactory<String>().createMatcher("admin/user/*");
-    final List<GWikiElementInfo> userInfos = wikiContext.getElementFinder().getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
+    final List<GWikiElementInfo> userInfos = wikiContext.getElementFinder()
+        .getPageInfos(new GWikiPageIdMatcher(wikiContext, m));
 
     List<String> users = new ArrayList<String>();
     for (final GWikiElementInfo user : userInfos) {
@@ -640,7 +689,8 @@ public class WorkflowPopupActionBean extends PlcActionBeanBase
   }
 
   /**
-   * Returns all page ids (current editied page and all selected dependent pages) that will be changes in this workflow step
+   * Returns all page ids (current editied page and all selected dependent pages) that will be changes in this workflow
+   * step
    */
   private List<String> getAllPageIdsForUpdate()
   {

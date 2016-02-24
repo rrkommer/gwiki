@@ -29,10 +29,12 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJobBase;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.IndexStoragePersistHandler;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.CallableX;
 
 public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
@@ -40,10 +42,11 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
 
   private static final long serialVersionUID = 261736968307852231L;
 
+  @Override
   public void call()
   {
     try {
-      GWikiLog.note("Start build full text index");
+      GLog.note(GWikiLogCategory.Wiki, "Start build full text index");
       String pageId = args.get("pageId");
       boolean full = false;
       if (StringUtils.equals(args.get("full"), "true") == true) {
@@ -59,7 +62,7 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
       } else {
         rebuildIndex(wikiContext, wikiContext.getWikiWeb().getElementInfos(), full);
       }
-      GWikiLog.note("Finished build full text index");
+      GLog.note(GWikiLogCategory.Wiki, "Finished build full text index");
     } catch (Exception ex) {
       GWikiLog.warn("Job failed: " + SearchExpressionIndexerCallback.class.getName() + "; " + ex.getMessage(), ex);
 
@@ -72,12 +75,12 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
     GWikiFileStorage storage = (GWikiFileStorage) wikiContext.getWikiWeb().getStorage();
     // TODO gwiki read lock
     GWikiElement el = storage.loadElementImpl(ei);
-    Map<String, GWikiArtefakt< ? >> parts = storage.getParts(el);
-    Map<String, GWikiArtefakt< ? >> cp = new HashMap<String, GWikiArtefakt< ? >>();
-    Map<String, GWikiArtefakt< ? >> np = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> parts = storage.getParts(el);
+    Map<String, GWikiArtefakt<?>> cp = new HashMap<String, GWikiArtefakt<?>>();
+    Map<String, GWikiArtefakt<?>> np = new HashMap<String, GWikiArtefakt<?>>();
     cp.putAll(parts);
     pe.onPersist(wikiContext, storage, el, parts);
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : parts.entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : parts.entrySet()) {
       if (cp.containsKey(me.getKey()) == false) {
         np.put(me.getKey(), me.getValue());
       }
@@ -85,11 +88,14 @@ public class SearchExpressionIndexerCallback extends GWikiSchedulerJobBase
     storage.storeImplNoTrans(el, np);
   }
 
-  public void rebuildIndex(final GWikiContext wikiContext, final Iterable<GWikiElementInfo> eis, final boolean completeIndex)
+  public void rebuildIndex(final GWikiContext wikiContext, final Iterable<GWikiElementInfo> eis,
+      final boolean completeIndex)
   {
 
-    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+    wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         wikiContext.getWikiWeb().getStorage().rebuildIndex(wikiContext, eis, completeIndex);

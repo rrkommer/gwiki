@@ -29,10 +29,11 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Pair;
 
@@ -58,7 +59,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
       GWikiUserServeElementFilterEvent.setUser(null);
       return false;
     }
-    GWikiLog.note("User logged in: " + su.getUser());
+    GLog.note(GWikiLogCategory.Wiki, "User logged in: " + su.getUser());
     return true;
   }
 

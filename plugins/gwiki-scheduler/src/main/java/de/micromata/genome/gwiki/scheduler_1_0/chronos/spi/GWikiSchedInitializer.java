@@ -21,9 +21,11 @@ import de.micromata.genome.gwiki.chronos.StaticDaoManager;
 import de.micromata.genome.gwiki.chronos.manager.SchedulerManager;
 import de.micromata.genome.gwiki.chronos.util.SchedulerFactory;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.plugin.GWikiAbstractPluginLifecycleListener;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
+import de.micromata.genome.logging.GLog;
 
 /**
  * Life cycle.
@@ -36,7 +38,7 @@ public class GWikiSchedInitializer extends GWikiAbstractPluginLifecycleListener
   @Override
   public void webLoaded(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GWikiLog.info("GWikiSchedInitializer:webLoaded");
+    GLog.info(GWikiLogCategory.Wiki, "GWikiSchedInitializer:webLoaded");
     StaticDaoManager.get().setSchedulerDAO(new GWikiSchedulerDAOImpl());
     SchedulerManager schedm = SchedulerManager.get();
     SchedulerFactory ssf = new SchedulerFactory();
@@ -48,7 +50,7 @@ public class GWikiSchedInitializer extends GWikiAbstractPluginLifecycleListener
   @Override
   public void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GWikiLog.info("GWikiSchedInitializer:deactivate");
+    GLog.info(GWikiLogCategory.Wiki, "GWikiSchedInitializer:deactivate");
     SchedulerManager schedm = SchedulerManager.get();
     try {
       schedm.shutdown();

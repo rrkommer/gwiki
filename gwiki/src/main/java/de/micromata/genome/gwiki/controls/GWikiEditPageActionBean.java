@@ -39,6 +39,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiSettingsProps;
@@ -64,6 +65,7 @@ import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.collections.ArrayMap;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -825,7 +827,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN, value,
         UserPropStorage.Client);
-    // GWikiLog.note("Stored editmaximize: " + value);
+    // GLog.note(GWikiLogCategory.Wiki, "Stored editmaximize: " + value);
     return noForward();
   }
 
@@ -908,12 +910,12 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
     GWikiElementInfo c1 = wikiContext.getWikiWeb().findElementInfo(page1);
     if (c1 == null) {
-      GWikiLog.note("Cannot find page: " + page1 + " for reordering");
+      GLog.note(GWikiLogCategory.Wiki, "Cannot find page: " + page1 + " for reordering");
       return noForward();
     }
     GWikiElementInfo c2 = wikiContext.getWikiWeb().findElementInfo(page2);
     if (c2 == null) {
-      GWikiLog.note("Cannot find page: " + page2 + " for reordering");
+      GLog.note(GWikiLogCategory.Wiki, "Cannot find page: " + page2 + " for reordering");
       return noForward();
     }
     if (StringUtils.equals(c1.getParentId(), pageId) == false
@@ -925,7 +927,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     if (ochildList != null) {
       childList.addAll(ochildList);
     }
-    GWikiLog.note("Reorder page " + page2 + " before " + page1);
+    GLog.note(GWikiLogCategory.Wiki, "Reorder page " + page2 + " before " + page1);
     childList.remove(page2);
     int insPos = childList.indexOf(page1);
     if (insPos == -1) {
