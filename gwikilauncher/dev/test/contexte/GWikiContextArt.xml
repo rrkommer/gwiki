@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  
+  
+  <bean id="GwikiMimeTypes" class="java.util.HashMap">
+    <constructor-arg>
+      <map>
+        <entry key=".txt" value="text/text" />
+        <entry key=".properties" value="text/properties" />
+        <entry key="Settings.properties" value="text/gwikisettings" />
+        <entry key="TextExtract.txt" value="text/gwikitextextract" />
+        <entry key="TextIndex.txt" value="text/gwikitextindex" />
+        <entry key=".gwiki" value="text/gwiki" />
+        <entry key=".gspt" value="text/gspt" />
+        <entry key=".xml" value="text/xml" />
+        <entry key=".js" value="text/javascipt" />
+        <entry key=".css" value="text/css" />
+        <entry key=".gif" value="image/gif" />
+        <entry key=".jpgeg" value="image/jpeg" />
+        <entry key=".jpg" value="image/jpeg" />
+        <entry key=".png" value="image/png" />
+      </map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+    <property name="enableWebDav" value="${gwiki.enable.webdav}" />
+    <property name="webDavUserName" value="${gwiki.sys.user}" />
+    <property name="webDavPasswordHash" value="${gwiki.sys.passwordhash}" />
+
+		<!--  FILE -->
+    <property name="staticContentFromClassPath" value="true" />
+    <property name="staticContentFileSystem">
+      <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+        <constructor-arg value="${gwiki.dev.path}/src/main/resources" />
+      </bean>
+    </property>
+
+    <property name="pluginRepository">
+      <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+        <property name="storePluginLocation">
+          <bean class="de.micromata.genome.gdbfs.MultiMergeFileSystem">
+            <property name="fileSystems">
+              <list>
+                <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                  <constructor-arg value="${gwiki.dev.path}/src/plugins" />
+                </bean>
+                <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                  <constructor-arg value="${gwiki.dev.path}/../plugins" />
+                </bean>
+              </list>
+            </property>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="storage">
+      <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
+            <constructor-arg>
+              <map>
+                <entry
+                  key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.temp.path}</value>
+                    </constructor-arg>
+                  </bean>
+
+                </entry>
+                <entry key="+admin/*,-admin/user/*,+edit/*,+gwikidocs/*,+inc/*,-inc/artefaktur/*,-admin/config/GWikiConfig*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <!-- 
+								<entry key="+pub/*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+                 -->
+                <entry key="*"><!--   -->
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${artweb.path}</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <!--  
+                <entry key="+images/*,+inc/artefaktur/*,+webroot*,+acdk/*,+acdkx/*,+corporate/*,+products/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${artweb.path}</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+								<entry key="*">
+									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
+										<constructor-arg>
+											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+										</constructor-arg>
+									</bean>
+								</entry>
+                 -->
+              </map>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+
+  </bean>
+</beans>

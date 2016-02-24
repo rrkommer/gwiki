@@ -251,7 +251,7 @@ public class GWikiDAOContext
       return mailSession;
     }
     try {
-      mailSession = (Session) new InitialContext().lookup("java:/comp/env/genome/mail/Session");
+      mailSession = (Session) new InitialContext().lookup("java:/comp/env/gwiki/mail/mailSession");
     } catch (NamingException e) {
       GWikiLog.warn("No Mail session found");
     }
