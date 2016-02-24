@@ -20,11 +20,11 @@ public class GWikiConfigurationTabLoaderService implements ConfigurationTabLoade
   {
     List<TabConfig> ret = new ArrayList<>();
 
-    GWikiSystemUserConfigModel launcherConfig = configModel.castTo(GWikiSystemUserConfigModel.class);
+    GWikiSystemUserConfigModel launcherConfig = configModel.castToForConfigDialog(GWikiSystemUserConfigModel.class);
     if (launcherConfig != null) {
       ret.add(new TabConfig(GWikiSystemUserController.class, launcherConfig));
     }
-    GWikiFilesystemConfigModel filesystemConfig = configModel.castTo(GWikiFilesystemConfigModel.class);
+    GWikiFilesystemConfigModel filesystemConfig = configModel.castToForConfigDialog(GWikiFilesystemConfigModel.class);
     if (filesystemConfig != null) {
       ret.add(new TabConfig(GWikiFilesystemController.class, filesystemConfig));
     }

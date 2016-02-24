@@ -9,7 +9,7 @@
     <module>gwiki-gdbfs</module>
     <module>gwiki</module>
     <module>plugins</module>
-    <module>gwiki-standalone</module>
+    <!-- <module>gwiki-standalone</module> -->
     <module>gwikilauncher</module>
   </modules>
   

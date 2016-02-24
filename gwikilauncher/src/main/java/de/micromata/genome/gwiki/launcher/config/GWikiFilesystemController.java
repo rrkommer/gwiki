@@ -5,7 +5,6 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.util.types.Pair;
-import de.micromata.genome.util.validation.ValContext;
 import de.micromata.mgc.javafx.ControllerService;
 import de.micromata.mgc.javafx.launcher.MgcLauncher;
 import de.micromata.mgc.javafx.launcher.gui.AbstractConfigTabController;
@@ -99,13 +98,6 @@ public class GWikiFilesystemController extends AbstractConfigTabController<GWiki
       jdbcController.toModel(modelObject.getJdbcConfigModel());
     }
     modelObject.setStorageFilePath(storageFilePath.getText());
-  }
-
-  @Override
-  public void mapValidationMessagesToGui(ValContext ctx)
-  {
-    // TODO Auto-generated method stub
-
   }
 
   @Override

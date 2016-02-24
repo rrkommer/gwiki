@@ -29,9 +29,9 @@ public class GWikiJettyServer extends JettyServer
   private GWikiDAOContext wikibootcfg;
   private GWikiServlet wikiServlet;
 
-  public GWikiJettyServer(JettyConfigModel config)
+  public GWikiJettyServer()
   {
-    super(config);
+    super();
   }
 
   @Override

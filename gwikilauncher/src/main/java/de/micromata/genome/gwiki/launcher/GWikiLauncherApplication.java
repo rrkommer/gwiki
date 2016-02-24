@@ -63,7 +63,9 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
   @Override
   protected JettyServer newJettyServer(JettyConfigModel cfg)
   {
-    return new GWikiJettyServer(cfg);
+    GWikiJettyServer ret = new GWikiJettyServer();
+    ret.initJetty(cfg);
+    return ret;
   }
 
 }
