@@ -2,7 +2,6 @@ package de.micromata.genome.gwiki.launcher.config;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.util.validation.ValContext;
 import de.micromata.mgc.javafx.launcher.gui.AbstractConfigTabController;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -58,13 +57,6 @@ public class GWikiSystemUserController extends AbstractConfigTabController<GWiki
     if (StringUtils.isNotBlank(modelObject.getSystemUserEncPass()) == true) {
       systemUserClearPass.setText("");
     }
-
-  }
-
-  @Override
-  public void mapValidationMessagesToGui(ValContext ctx)
-  {
-    // TODO Auto-generated method stub
 
   }
 
