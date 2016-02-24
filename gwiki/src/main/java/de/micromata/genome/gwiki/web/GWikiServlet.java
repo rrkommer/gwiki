@@ -34,10 +34,10 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gwiki.model.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.logging.GLog;

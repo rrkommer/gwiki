@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class CommonMutipartRequestHandler

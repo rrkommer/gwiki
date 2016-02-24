@@ -36,7 +36,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.groovy.runtime.InvokerHelper;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.gspt.ExtendedTemplate.ParseElement.Type;
 
 /**

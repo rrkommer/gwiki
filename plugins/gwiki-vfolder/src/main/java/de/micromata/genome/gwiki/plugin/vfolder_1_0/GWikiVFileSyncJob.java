@@ -24,8 +24,8 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJobBase;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementMetatemplateMatcher;
 import de.micromata.genome.util.types.Converter;
 

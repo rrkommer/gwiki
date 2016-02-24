@@ -31,6 +31,6 @@ public class AdminToolsPluginLifecycleListener extends GWikiAbstractPluginLifecy
   @Override
   public void activated(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    wikiWeb.getDaoContext().getLogging().reinitConfig();
+    //    wikiWeb.getDaoContext().getLogging().reinitConfig();
   }
 }

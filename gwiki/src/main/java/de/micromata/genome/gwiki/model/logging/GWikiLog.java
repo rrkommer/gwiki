@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 // Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,55 +13,41 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 ////////////////////////////////////////////////////////////////////////////
-package de.micromata.genome.gwiki.model;
+
+package de.micromata.genome.gwiki.model.logging;
+
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
- * LogLevel
+ * Static helper function delegates all calles to GWikiLogging.
  * 
- * @author Stefan Stuetzer/Roger Kommer
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
  */
-public enum GWikiLogLevel
+public class GWikiLog
 {
-  /**
-   * Debugging only
-   */
-  DEBUG(0),
-  /**
-   * Unimportant information
-   */
-  INFO(1),
-  /**
-   * Important information
-   */
-  NOTE(2),
-  /**
-   * Warning, wrong input
-   */
-  WARN(3),
-  /**
-   * Maybe programming error
-   */
-  ERROR(4),
-  /**
-   * Fatal resource situation.
-   */
-  FATAL(5);
 
-  private int priority;
-
-  GWikiLogLevel(int priority)
+  public static void warn(String message)
   {
-    this.priority = priority;
+    GLog.warn(GWikiLogCategory.Wiki, message);
   }
 
-  /**
-   * @return the priority
-   */
-  public int getPriority()
+  public static void error(String message)
   {
-    return priority;
+    GLog.error(GWikiLogCategory.Wiki, message);
+  }
+
+  public static void warn(String message, Throwable ex)
+  {
+    GLog.warn(GWikiLogCategory.Wiki, message, new LogExceptionAttribute(ex));
+  }
+
+  public static void error(String message, Throwable ex)
+  {
+    GLog.error(GWikiLogCategory.Wiki, message, new LogExceptionAttribute(ex));
   }
 
 }

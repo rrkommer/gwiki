@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections15.map.ReferenceMap;
 
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.matcher.Matcher;
 

@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.logging.GLog;
 
 /**

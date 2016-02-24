@@ -30,7 +30,7 @@ import java.util.List;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;

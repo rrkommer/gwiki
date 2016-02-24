@@ -4,12 +4,12 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;

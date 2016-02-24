@@ -17,7 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.admintools_1_0.logviewer;
 
-import java.text.DateFormat;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,12 +25,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import de.micromata.genome.gwiki.model.GWikiLogEntry;
-import de.micromata.genome.gwiki.model.GWikiLogLevel;
-import de.micromata.genome.gwiki.model.GWikiLogViewer;
-import de.micromata.genome.gwiki.model.GWikiLogging;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.StringUtils;
+import de.micromata.genome.logging.CollectLogEntryCallback;
+import de.micromata.genome.logging.LogEntry;
+import de.micromata.genome.logging.LogLevel;
+import de.micromata.genome.logging.Logging;
+import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -74,9 +75,10 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
 
   private int selectedPageSize;
 
-  private List<GWikiLogEntry> result;
-  
-  public ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>() {
+  private List<LogEntry> result;
+
+  public ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>()
+  {
     @Override
     protected SimpleDateFormat initialValue()
     {
@@ -127,19 +129,15 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
     if (StringUtils.isNotBlank(paramKey2) == true && StringUtils.isNotBlank(paramValue2) == true) {
       searchParams.add(new Pair<String, String>(paramKey2, paramValue2));
     }
-
-    result = new ArrayList<GWikiLogEntry>();
-    GWikiLogging loggingProvider = wikiContext.getWikiWeb().getLogging();
-    if (loggingProvider instanceof GWikiLogViewer) {
-      ((GWikiLogViewer) loggingProvider).grep(from, to, GWikiLogLevel.valueOf(selectedLogLevel), this.searchMessage, searchParams,
-          this.offset, this.selectedPageSize, new GWikiLogViewer.Callback() {
-
-            public void found(GWikiLogEntry entry)
-            {
-              result.add(entry);
-            }
-          });
-    }
+    LogLevel logLevel = LogLevel.fromString(selectedLogLevel, LogLevel.Note);
+    result = new ArrayList<LogEntry>();
+    Logging loggingProvider = LoggingServiceManager.get().getLogging();
+    CollectLogEntryCallback collectCollector = new CollectLogEntryCallback();
+    loggingProvider.selectLogs(new Timestamp(from.getTime()), new Timestamp(to.getTime()), logLevel.getLevel(), "Wiki",
+        searchMessage,
+        searchParams, offset,
+        selectedPageSize, null, true, collectCollector);
+    result = collectCollector.getEntries();
     return null;
   }
 
@@ -413,7 +411,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   public List<Pair<String, String>> getLogLevels()
   {
     List<Pair<String, String>> levels = new ArrayList<Pair<String, String>>();
-    for (GWikiLogLevel level : GWikiLogLevel.values()) {
+    for (LogLevel level : LogLevel.values()) {
       levels.add(new Pair<String, String>(level.name(), level.name()));
     }
     return levels;
@@ -438,7 +436,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   /**
    * @param result the result to set
    */
-  public void setResult(List<GWikiLogEntry> result)
+  public void setResult(List<LogEntry> result)
   {
     this.result = result;
   }
@@ -446,7 +444,7 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
   /**
    * @return the result
    */
-  public List<GWikiLogEntry> getResult()
+  public List<LogEntry> getResult()
   {
     return result;
   }

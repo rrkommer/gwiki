@@ -36,6 +36,8 @@ import de.micromata.genome.gwiki.model.filter.GWikiLoadElementInfosFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiLoadElementInfosFilterEvent;
 import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilter;
 import de.micromata.genome.gwiki.model.filter.GWikiServeElementFilterEvent;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GWikiJspProcessor;
 import de.micromata.genome.gwiki.page.impl.GWikiConfigElement;
@@ -44,6 +46,8 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanUtils;
 import de.micromata.genome.gwiki.page.search.ContentSearcher;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeAttributeType;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
@@ -139,7 +143,8 @@ public class GWikiWeb
     this.daoContext = daoContext;
     daoContext.getStorage().setWikiWeb(this);
 
-    getLogging().note("Inited GWiki", null, GLogAttributeNames.Miscellaneous, daoContext.toString());
+    GLog.note(GWikiLogCategory.Wiki, "Inited GWiki",
+        new LogAttribute(GenomeAttributeType.Miscellaneous, daoContext.toString()));
     initPageCache();
   }
 
@@ -803,12 +808,6 @@ public class GWikiWeb
   public GWikiJspProcessor getJspProcessor()
   {
     return daoContext.getJspProcessor();
-  }
-
-  @Deprecated
-  public GWikiLogging getLogging()
-  {
-    return daoContext.getLogging();
   }
 
   public String getStandardSkin()

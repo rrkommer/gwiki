@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;

@@ -31,10 +31,6 @@ import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
 import de.micromata.genome.gwiki.model.GWikiI18nProvider;
-import de.micromata.genome.gwiki.model.GWikiLog;
-import de.micromata.genome.gwiki.model.GWikiLogging;
-import de.micromata.genome.gwiki.model.GWikiLoggingBufferedLogger;
-import de.micromata.genome.gwiki.model.GWikiLoggingLog4J;
 import de.micromata.genome.gwiki.model.GWikiMenuProvider;
 import de.micromata.genome.gwiki.model.GWikiMimeTypeProvider;
 import de.micromata.genome.gwiki.model.GWikiMimeTypeStandardProvider;
@@ -49,6 +45,7 @@ import de.micromata.genome.gwiki.model.GWikiStandardSessionProvider;
 import de.micromata.genome.gwiki.model.GWikiStandardWikiSelector;
 import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.GWikiWikiSelector;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.gspt.GWikiJspProcessor;
 import de.micromata.genome.gwiki.page.gspt.GenomeJspProcessor;
 import de.micromata.genome.gwiki.page.impl.i18n.GWikiI18nStandardProvider;
@@ -76,8 +73,6 @@ public class GWikiDAOContext
   private GWikiAuthorization authorization = new GWikiUserAuthorization();
 
   private ContentSearcher contentSearcher = new SearchExpressionContentSearcher();
-
-  private GWikiLogging logging = new GWikiLoggingBufferedLogger(new GWikiLoggingLog4J());
 
   private GWikiSessionProvider sessionProvider = new GWikiStandardSessionProvider();
 
@@ -142,7 +137,6 @@ public class GWikiDAOContext
    */
   public void reinitConfig()
   {
-    getLogging().reinitConfig();
   }
 
   @Override
@@ -209,16 +203,6 @@ public class GWikiDAOContext
   public void setJspProcessor(GWikiJspProcessor jspProcessor)
   {
     this.jspProcessor = jspProcessor;
-  }
-
-  public GWikiLogging getLogging()
-  {
-    return logging;
-  }
-
-  public void setLogging(GWikiLogging logging)
-  {
-    this.logging = logging;
   }
 
   public GWikiSessionProvider getSessionProvider()

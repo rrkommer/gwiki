@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLogCategory;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
 import de.micromata.genome.logging.GLog;

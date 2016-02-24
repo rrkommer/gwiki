@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
 import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.scheduler_1_0.api.GWikiScheduler;
 import de.micromata.genome.util.text.PipeValueList;

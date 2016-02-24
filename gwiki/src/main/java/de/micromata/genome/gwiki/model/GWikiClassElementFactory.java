@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 
 import org.springframework.util.Assert;
 
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
