@@ -149,12 +149,14 @@
       <artifactId>derby</artifactId>
       <version>${org.apache.derby.version}</version>
     </dependency>
+    <!-- need an OTN account see parent pom
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>ojdbc6</artifactId>
       <version>${com.oracle.ojdbc6.version}</version>
       <optional>true</optional>
     </dependency>
+     -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
