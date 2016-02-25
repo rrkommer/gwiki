@@ -133,7 +133,16 @@ public class GWikiLogViewerActionBean extends ActionBeanBase
     result = new ArrayList<LogEntry>();
     Logging loggingProvider = LoggingServiceManager.get().getLogging();
     CollectLogEntryCallback collectCollector = new CollectLogEntryCallback();
-    loggingProvider.selectLogs(new Timestamp(from.getTime()), new Timestamp(to.getTime()), logLevel.getLevel(), "Wiki",
+    Timestamp fromt = null;
+    if (from != null) {
+      fromt = new Timestamp(from.getTime());
+    }
+    Timestamp tot = null;
+    if (to != null) {
+      tot = new Timestamp(to.getTime());
+    }
+
+    loggingProvider.selectLogs(fromt, tot, logLevel.getLevel(), "Wiki",
         searchMessage,
         searchParams, offset,
         selectedPageSize, null, true, collectCollector);
