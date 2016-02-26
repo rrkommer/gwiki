@@ -13,7 +13,6 @@ import de.micromata.genome.util.runtime.Log4JInitializer;
 import de.micromata.mgc.jettystarter.JettyConfigModel;
 import de.micromata.mgc.jettystarter.JettyServer;
 import de.micromata.mgc.jettystarter.MgcApplicationWithJettyApplication;
-import de.micromata.mgc.launcher.MgcApplicationStartStopListener;
 import de.micromata.mgc.launcher.MgcApplicationStartStopStatus;
 
 /**
@@ -32,12 +31,12 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
   }
 
   @Override
-  public MgcApplicationStartStopStatus start(String[] args, MgcApplicationStartStopListener listener)
+  public MgcApplicationStartStopStatus start(String[] args)
   {
     LocalSettingsEnv.dataSourceSuplier = () -> new LauncherDataSource();
 
     configureLogging();
-    return super.start(args, listener);
+    return super.start(args);
   }
 
   protected void configureLogging()
