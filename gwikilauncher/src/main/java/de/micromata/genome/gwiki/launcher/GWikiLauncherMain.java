@@ -13,6 +13,7 @@ public class GWikiLauncherMain extends MgcLauncher<GWikiLocalSettingsConfigModel
 {
   public static void main(String[] args)
   {
+
     GWikiLauncherMain el = new GWikiLauncherMain();
     el.launch(args);
   }

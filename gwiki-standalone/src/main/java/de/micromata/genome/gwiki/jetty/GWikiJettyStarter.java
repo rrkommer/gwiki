@@ -55,9 +55,6 @@ import de.micromata.genome.util.runtime.Log4JInitializer;
  */
 public class GWikiJettyStarter
 {
-  static {
-    LocalSettings.localSettingsPrefixName = "gwiki";
-  }
 
   private Server server;
   private JettyConfig jettyConfig;

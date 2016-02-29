@@ -7,6 +7,7 @@ import de.micromata.genome.gwiki.spi.storage.LsFileSystemFactoryBean;
 import de.micromata.genome.util.runtime.config.ALocalSettingsPath;
 import de.micromata.genome.util.runtime.config.AbstractCompositLocalSettingsConfigModel;
 import de.micromata.genome.util.runtime.config.JdbcLocalSettingsConfigModel;
+import de.micromata.genome.util.runtime.config.JndiLocalSettingsConfigModel;
 import de.micromata.genome.util.validation.ValContext;
 
 /**
@@ -26,7 +27,8 @@ public class GWikiFilesystemConfigModel extends AbstractCompositLocalSettingsCon
   private String storageFilePath;
 
   private JdbcLocalSettingsConfigModel jdbcConfigModel = new JdbcLocalSettingsConfigModel("gwiki",
-      "jdbc for gwiki", "java:/comp/env/genome/jdbc/dsWeb");
+      "jdbc for gwiki", new JndiLocalSettingsConfigModel("gwiki", JndiLocalSettingsConfigModel.DataType.DataSource,
+          "java:/comp/env/genome/jdbc/dsWeb"));
 
   @Override
   public void validate(ValContext ctx)

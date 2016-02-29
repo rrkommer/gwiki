@@ -8,8 +8,12 @@ import de.micromata.genome.util.i18n.I18NTranslationProviderImpl;
 import de.micromata.genome.util.i18n.I18NTranslations;
 import de.micromata.genome.util.i18n.PlaceholderTranslationProvider;
 import de.micromata.genome.util.jdbc.LauncherDataSource;
+import de.micromata.genome.util.runtime.InitWithCopyFromCpLocalSettingsClassLoader;
+import de.micromata.genome.util.runtime.LocalSettings;
+import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
 import de.micromata.genome.util.runtime.Log4JInitializer;
+import de.micromata.genome.util.runtime.config.ExtLocalSettingsLoader;
 import de.micromata.mgc.jettystarter.JettyConfigModel;
 import de.micromata.mgc.jettystarter.JettyServer;
 import de.micromata.mgc.jettystarter.MgcApplicationWithJettyApplication;
@@ -24,9 +28,17 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
 {
   public GWikiLauncherApplication()
   {
+    LocalSettings.localSettingsLoaderFactory = new InitWithCopyFromCpLocalSettingsClassLoader(
+        () -> {
+          ExtLocalSettingsLoader ret = new ExtLocalSettingsLoader();
+          ret.setLocalSettingsPrefixName("gwiki");
+          return ret;
+        });
+
     I18NTranslationProvider provider = new DefaultWarnI18NTranslationProvider(new PlaceholderTranslationProvider(
         new I18NTranslationProviderImpl(I18NTranslations.systemDefaultLocaleProvider(),
             new ChainedResourceBundleTranslationResolver("gwikilauncher", "mgclauncher", "mgcapp", "mgcjetty"))));
+
     setTranslateService(provider);
   }
 
@@ -43,13 +55,6 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
   {
     Log4JInitializer.copyLogConfigFileFromCp();
     Log4JInitializer.initializeLog4J();
-
-  }
-
-  @Override
-  public void reInit()
-  {
-    // TODO Auto-generated method stub
 
   }
 

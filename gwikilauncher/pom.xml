@@ -102,6 +102,7 @@
         <configuration>
           <mainClass>${start-class}</mainClass>
           <layout>ZIP</layout>
+           <executable>true</executable>
         </configuration>
       </plugin>
         <!-- Support our own plugin -->
