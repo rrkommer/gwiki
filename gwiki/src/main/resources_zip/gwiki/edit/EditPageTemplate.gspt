@@ -33,13 +33,18 @@ var codepressteaids = new Array();
 var saveHandlers = new Array();
 function onSave(event)
 {
+	onSaveOptRedit(event, event.ctrlKey == true);
+}
+function onSaveOptRedit(event, reedit)
+{
+
   gwikiContentChanged=false;
     
   for (var i = 0; i < saveHandlers.length; ++i)
   {
     saveHandlers[i]();
   }
-  if (event.ctrlKey == true) {
+  if (reedit == true) {
     \$("#formmn").attr("name", "method_onSaveEdit");
   } else {
   \$("#formmn").attr("name", "method_onSave");
@@ -52,7 +57,14 @@ function onReloadTemplates(event)
 	\$("#formmn").attr("name", "method_onReloadTemplateList");
   \$("#editForm").submit();
 }
-
+$(document).keydown(function (event) {
+	  console.log("keydown: " + event.which + "; ctrl: " + event.ctrlKey); 
+	  if (event.which == 83 && event.ctrlKey == true) {
+		     onSaveOptRedit(event, false);
+		     event.stopPropagation();
+	    	 event.preventDefault();
+	     }
+	  });
 </script>
 
 <gwiki:errors />
