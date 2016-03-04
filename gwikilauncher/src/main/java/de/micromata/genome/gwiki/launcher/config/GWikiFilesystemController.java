@@ -46,17 +46,17 @@ public class GWikiFilesystemController extends AbstractConfigTabController<GWiki
   }
 
   @Override
-  public void initializeWithModel(GWikiFilesystemConfigModel model)
+  public void initializeWithModel()
   {
     MgcApplicationInfo info = MgcLauncher.get().getApplication().getApplicationInfo();
     info.getName();
     Pair<Pane, JdbcConfigTabController> jdbc = ControllerService.get()
-        .loadControlWithModel(JdbcConfigTabController.class, Pane.class, model.getJdbcConfigModel());
+        .loadControlWithModel(JdbcConfigTabController.class, Pane.class, model.getJdbcConfigModel(), this);
     jdbcPane = jdbc.getFirst();
     jdbcController = jdbc.getSecond();
     tabPane.getChildren().add(jdbcPane);
     jdbcPane.setLayoutY(30);
-    fromModel(model);
+    fromModel();
     storageType.setItems(FXCollections.observableArrayList(model.getAvailableFileSystemTypes()));
     storageType.setOnAction(event -> switchToStoragetype(storageType.getValue().equals("Database")));
     storageFilePathSelector.setOnAction(e -> {
@@ -71,15 +71,15 @@ public class GWikiFilesystemController extends AbstractConfigTabController<GWiki
   }
 
   @Override
-  public void fromModel(GWikiFilesystemConfigModel modelObject)
+  public void fromModel()
   {
-    storageType.setValue(modelObject.getStorageType());
-    boolean jdbc = modelObject.isJdbcStorageType();
+    storageType.setValue(model.getStorageType());
+    boolean jdbc = model.isJdbcStorageType();
     switchToStoragetype(jdbc);
     if (jdbc == true) {
-      jdbcController.fromModel(modelObject.getJdbcConfigModel());
+      jdbcController.fromModel();
     }
-    storageFilePath.setText(modelObject.getStorageFilePath());
+    storageFilePath.setText(model.getStorageFilePath());
 
   }
 
@@ -90,14 +90,14 @@ public class GWikiFilesystemController extends AbstractConfigTabController<GWiki
   }
 
   @Override
-  public void toModel(GWikiFilesystemConfigModel modelObject)
+  public void toModel()
   {
-    modelObject.setStorageType(storageType.getValue());
-    boolean jdbc = modelObject.isJdbcStorageType();
+    model.setStorageType(storageType.getValue());
+    boolean jdbc = model.isJdbcStorageType();
     if (jdbc == true) {
-      jdbcController.toModel(modelObject.getJdbcConfigModel());
+      jdbcController.toModel();
     }
-    modelObject.setStorageFilePath(storageFilePath.getText());
+    model.setStorageFilePath(storageFilePath.getText());
   }
 
   @Override
