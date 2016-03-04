@@ -22,9 +22,9 @@ public class GWikiSystemUserController extends AbstractConfigTabController<GWiki
   private TextField systemUserClearPass;
 
   @Override
-  public void initializeWithModel(GWikiSystemUserConfigModel model)
+  public void initializeWithModel()
   {
-    fromModel(model);
+    fromModel();
     sysUserEnabled.setOnAction(e -> {
       enableSystemUser(sysUserEnabled.isSelected());
     });
@@ -39,22 +39,22 @@ public class GWikiSystemUserController extends AbstractConfigTabController<GWiki
   }
 
   @Override
-  public void toModel(GWikiSystemUserConfigModel modelObject)
+  public void toModel()
   {
-    modelObject.setSystemUserEnabled(sysUserEnabled.isSelected());
+    model.setSystemUserEnabled(sysUserEnabled.isSelected());
     if (sysUserEnabled.isSelected() == true) {
-      modelObject.setSystemUserName(systemUserName.getText());
-      modelObject.setSystemUserClearPass(systemUserClearPass.getText());
+      model.setSystemUserName(systemUserName.getText());
+      model.setSystemUserClearPass(systemUserClearPass.getText());
     }
 
   }
 
   @Override
-  public void fromModel(GWikiSystemUserConfigModel modelObject)
+  public void fromModel()
   {
-    enableSystemUser(modelObject.isSystemUserEnabled());
-    systemUserName.setText(modelObject.getSystemUserName());
-    if (StringUtils.isNotBlank(modelObject.getSystemUserEncPass()) == true) {
+    enableSystemUser(model.isSystemUserEnabled());
+    systemUserName.setText(model.getSystemUserName());
+    if (StringUtils.isNotBlank(model.getSystemUserEncPass()) == true) {
       systemUserClearPass.setText("");
     }
 
