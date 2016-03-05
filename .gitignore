@@ -10,6 +10,7 @@ classes/
 
 **/.fslock
 gwiki/src/main/external_resources/gwiki_tmp
+gwiki/src/main/resources_zip/gwiki/**/arch
 gwiki-standalone/gwiki_derby
 gwiki-standalone/gwiki
 gwiki-standalone/log
