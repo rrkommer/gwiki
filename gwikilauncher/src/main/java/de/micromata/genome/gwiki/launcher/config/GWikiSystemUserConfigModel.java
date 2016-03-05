@@ -15,10 +15,10 @@ import de.micromata.genome.util.validation.ValContext;
  */
 public class GWikiSystemUserConfigModel extends AbstractLocalSettingsConfigModel
 {
-  @ALocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true")
+  @ALocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true", comment = "Use a administrator user")
   private String systemUserEnabled;
 
-  @ALocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys")
+  @ALocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys", comment = "The user name for the adminstrator")
   private String systemUserName;
 
   @ALocalSettingsPath(key = "gwiki.sys.passwordhash")
