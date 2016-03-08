@@ -29,17 +29,6 @@
 	
 %>
 <%= wikiContext.getHeaderContent() %>
-<%if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, wikiPage.elementInfo) == true &&
-      "edit/EditPage".equals(wikiPage.elementInfo.id) == false) { %>
-<script type="text/javascript">
-$(document).keydown(function (event) {
-	 if (event.which == 69) {
-		 window.location.href = '<gwiki:url value="/edit/EditPage?pageId=${wikiPage.elementInfo.id}"/>';		 
-	 }
-});
-
-</script>
-<% } %>
 </head>
 <% def gwikiWithNavBar = wikiContext.getUserBooleanProp("WITH_NAVBAR", true); %>
 <body class="gwikibody<%= gwikiWithNavBar ? "" : " gwikibodyNoNav" %>">
