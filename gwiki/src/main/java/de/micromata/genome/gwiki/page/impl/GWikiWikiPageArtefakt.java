@@ -51,7 +51,8 @@ public class GWikiWikiPageArtefakt extends GWikiWikiPageBaseArtefakt implements 
     String editByE = "<script type=\"text/javascript\">\n" +
         "$(document).keydown(function (event) {\n" +
         "   if (event.which == 69) {\n" +
-        "     window.location.href = '" + wikiContext.localUrl("edit/EditPage") + "?pageId=" + ei.getId()
+        "     window.location.href = '" + wikiContext.localUrl("edit/EditPage") + "?pageId="
+        + wikiContext.escapeUrlParam(ei.getId())
         + "';\n"
         +
         "   }\n" +

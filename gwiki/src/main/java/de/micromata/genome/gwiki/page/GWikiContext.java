@@ -40,6 +40,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.collections15.ArrayStack;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.ObjectUtils;
@@ -408,11 +409,40 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return sb.toString();
   }
 
+  /**
+   * escape html.
+   * 
+   * @param text
+   * @return
+   */
   public String escape(String text)
   {
     return StringEscapeUtils.escapeHtml(text);
   }
 
+  /**
+   * Encodes parameter in UTF-8.
+   * 
+   * @param text
+   * @return
+   */
+  public String escapeUrlParam(String text)
+  {
+    try {
+      return URLDecoder.decode(text, CharEncoding.UTF_8);
+    } catch (UnsupportedEncodingException e) {
+      // should never b happen
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * 
+   * @param ei
+   * @param title
+   * @param addArgs has to be escaped by itself
+   * @return
+   */
   public String renderExistingLink(GWikiElementInfo ei, String title, String addArgs)
   {
     if (title == null) {
@@ -435,6 +465,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return sb.toString();
   }
 
+  /**
+   * 
+   * @param ei
+   * @param title
+   * @param addArgs
+   * @param attr note caller has to escape the paramers
+   * @return
+   */
   public String renderExistingLinkWithAttr(GWikiElementInfo ei, String title, String addArgs, String... attr)
   {
     if (title == null) {
@@ -471,6 +509,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     wikiWeb.getAuthorization().ensureAllowTo(this, right);
   }
 
+  /**
+   * 
+   * @param target
+   * @param title
+   * @param addArgs must be already escaped.
+   * @return
+   */
   public String renderLocalUrl(String target, String title, String addArgs)
   {
     GWikiElementInfo ei = wikiWeb.findElementInfo(target);
