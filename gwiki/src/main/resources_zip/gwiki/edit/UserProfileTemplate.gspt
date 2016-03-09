@@ -64,8 +64,8 @@
     \$(".tabindent").indent({spaceForTabs:true, tabWidth:2});
 
     \$('.wikiPageEditText').autocomplete(
-        '<gwiki:url value="/edit/PageSuggestions"/>', 
     {
+    	source: '<gwiki:url value="/edit/PageSuggestions"/>', 
       matchContains : true,
       minChars : 0,
       width : 350,

@@ -4,7 +4,6 @@
 </center>
 {html}
 
-
 {html}<table border="0"><tr><td valign="top">{html}
 h4. Content
 {children:depth=2|sort=title}

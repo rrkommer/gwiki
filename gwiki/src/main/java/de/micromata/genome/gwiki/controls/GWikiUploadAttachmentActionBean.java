@@ -63,7 +63,12 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
   private String token;
 
   private boolean storeTmpFile;
+  /**
+   * Response wanted in json
+   */
+  private boolean json;
 
+  @Override
   public Object onInit()
   {
     return noForward();
@@ -105,6 +110,23 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
     return sb.toString();
   }
 
+  protected String encodeAsJson(Map<String, String> map)
+  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("{ ");
+    boolean first = true;
+    for (Map.Entry<String, String> me : map.entrySet()) {
+      if (first == true) {
+        first = false;
+      } else {
+        sb.append(", ");
+      }
+      sb.append('\'').append(me.getKey()).append("': '").append(me.getValue()).append("'");
+    }
+    sb.append("}");
+    return sb.toString();
+  }
+
   protected Map<String, String> toMap(String... keyValues)
   {
     Map<String, String> ret = new HashMap<String, String>();
@@ -120,7 +142,12 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
 
   protected void sendResponse(Map<String, String> resp)
   {
-    String sr = encodeAsUrl(resp);
+    String sr;
+    if (json == true) {
+      sr = encodeAsJson(resp);
+    } else {
+      sr = encodeAsUrl(resp);
+    }
     try {
       wikiContext.getResponseOutputStream().write(sr.getBytes("UTF-8"));
       wikiContext.getResponseOutputStream().flush();
@@ -132,6 +159,27 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
   protected void sendResponse(int rc, String message)
   {
     sendResponse(toMap("rc", Integer.toString(rc), "rm", message));
+  }
+
+  private String extractImageData(String data)
+  {
+    String ret = data;
+    // data:image/png;base64,iV
+    if (ret.startsWith("data:") == true) {
+      ret = ret.substring("data:".length());
+    }
+    if (ret.startsWith("image") == true) {
+      int idx = ret.indexOf(';');
+      if (idx != -1) {
+        String mimet = ret.substring(0, idx);
+        ret = ret.substring(idx + 1);
+      }
+    }
+    if (ret.startsWith("base64,") == true) {
+      ret = ret.substring("base64,".length());
+    }
+    ret = StringUtils.trim(ret);
+    return ret;
   }
 
   public Object onUploadImage()
@@ -164,8 +212,8 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
           sendResponse(4, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.empty"));
           return noForward();
         }
-
-        byte[] data = Base64.decodeBase64(encData.getBytes());
+        String base64data = extractImageData(encData);
+        byte[] data = Base64.decodeBase64(base64data.getBytes());
         if (StringUtils.isNotEmpty(parentPageId) == true) {
           String pp = GWikiContext.getParentDirPathFromPageId(parentPageId);
           pageId = pp + pageId;
@@ -188,7 +236,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
           String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
           GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, fileName);
           el.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
-          GWikiArtefakt< ? > art = el.getMainPart();
+          GWikiArtefakt<?> art = el.getMainPart();
           GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
           att.setStorageData(data);
           if (data != null) {
@@ -286,6 +334,16 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanBase
   public void setStoreTmpFile(boolean storeTmpFile)
   {
     this.storeTmpFile = storeTmpFile;
+  }
+
+  public boolean isJson()
+  {
+    return json;
+  }
+
+  public void setJson(boolean json)
+  {
+    this.json = json;
   }
 
 }

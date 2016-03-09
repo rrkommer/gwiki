@@ -18,3 +18,7 @@ gwikilauncher/gwiki-derby
 gwikilauncher/log
 **/gwiki-dev.properties
 **/local-settings-dev.properties
+gwiki/dev/playzone
+**/*TextIndex.txt
+**/*TextExtract.txt
+**/tmp/**
