@@ -152,9 +152,9 @@
   <!-- -->
   <repositories>
     <repository>
-      <id>gwiki-deploy</id>
-      <name>gwiki-deploy</name>
-      <url>http://artefaktur.com/maven/</url>
+      <id>labs.micromata.de-releases</id>
+      <name>labs.micromata.de-releases</name>
+      <url>https://labs.micromata.de/nexus/content/groups/public/</url>
     </repository>
     <repository>
       <!--  vor maven plugins -->
@@ -209,15 +209,14 @@
   -->
   <distributionManagement>
     <repository>
-      <id>gwiki-releases</id>
-      <name>gwiki-releases</name>
-      <url>http://artefaktur.com/maven/
-      </url>
+      <id>labs.micromata.de-releases</id>
+      <name>labs.micromata.de-releases</name>
+      <url>https://labs.micromata.de/nexus/content/groups/public/</url>
     </repository>
     <snapshotRepository>
-      <id>gwiki-snapshots</id>
-      <name>gwiki-snapshots</name>
-      <url>http://artefaktur.com/maven/</url>
+      <id>labs.micromata.de-snapshots</id>
+      <name>labs.micromata.de-snapshots</name>
+      <url>https://labs.micromata.de/nexus/content/repositories/snapshots/</url>
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>

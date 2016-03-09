@@ -5,10 +5,8 @@ function gwikieditInsertImageCb(fileName, tmpFileName) {
 	// alert('receceived image: ' + tmpFileName);
 	$(gwikiEditCurrentDialog).dialog('close');
 	gwikiEditField.focus();
-	console.debug('gwikieditInsertImageCb: ' + tmpFileName);
 	if (tmpFileName != null && tmpFileName != null && tmpFileName != "") {
 		insertIntoTextArea(gwikiEditField, '!' + tmpFileName + '!', '');
-		console.debug('gwikieditInsertImageCb inserted: ' + tmpFileName);
 	}
 }
 

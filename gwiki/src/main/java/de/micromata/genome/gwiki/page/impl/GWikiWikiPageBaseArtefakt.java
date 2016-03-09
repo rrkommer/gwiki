@@ -60,7 +60,8 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
 
   public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
   {
-    return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
+    //    return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
+    return new GWikiWikiPageEditorArtefakt2(elementToEdit, bean, partName, this);
   }
 
   @Override

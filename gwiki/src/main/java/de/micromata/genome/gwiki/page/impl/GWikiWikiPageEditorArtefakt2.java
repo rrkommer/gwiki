@@ -42,15 +42,15 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
+public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
 {
   private static boolean useDivEditor = false;
-  private static boolean useHtmlImageInserter = false;
+  private static boolean useHtmlImageInserter = true;
   private static final long serialVersionUID = -3208103086581392210L;
 
   private GWikiWikiPageBaseArtefakt wikiPage;
 
-  public GWikiWikiPageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
+  public GWikiWikiPageEditorArtefakt2(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
       GWikiWikiPageBaseArtefakt wikiPage)
   {
     super(elementToEdit, editBean, partName, wikiPage);
@@ -66,17 +66,18 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
-    if (useHtmlImageInserter == true) {
-      wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
-    } else {
-      wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
-    }
-    if (useDivEditor == true) {
-      wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.4.js");
-    } else {
-      wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
 
-    }
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
+
+    wikiContext.getRequiredJs().add("/static/wedit/weditdl.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditdnd.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditfocus.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditkeyhandler.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditnewimagedlg.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditops.js");
+
+    //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.4.js");
+
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
@@ -94,22 +95,17 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     }
     String pn = partName;
     String html;
-    if (useDivEditor == true) {
-      String text = textPage.getStorageData();
-      text = StringEscapeUtils.escapeXml(text);
-      text = StringUtils.replace(text, "\n", "<br/>\n");
-      html = Html.div(
-          Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "contenteditable", "true",
-              "style", "width:100%;height:100%"), //
-          Xml.code(text)).toString();
-    } else {
-      html = Html.textarea(
-          Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name",
-              partName + ".wikiText",
-              "style", "width:100%;height:100%"), //
-          Xml.text(textPage.getStorageData())).toString();
 
-    }
+    String text = textPage.getStorageData();
+    text = StringEscapeUtils.escapeXml(text);
+    text = StringUtils.replace(text, "\n", "<br/>\n");
+    // TODO RK partname is not used
+    html = Html.div(
+        Xml.attrs("id", "editordiv"/* + partName */, "class", "wikiEditorTextArea", "contenteditable", "true",
+            "style", "width:100%;height:100%"),
+        Xml.code(text)).toString();
+    //    html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
+
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
         + "\" style=\"width: 100%; height: 100%\">"
@@ -140,15 +136,17 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
         + "</div>";
     ctx.append(tabs);
 
-    ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){\n"
-        + " jQuery(\"#textarea"
+    ctx.append("<script type=\"text/javascript\">\n");
+    ctx.append("jQuery(document).ready(function(){\n");
+    ctx.append(" jQuery(\"#editordiv"
         + pn
         + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '",
         partName, "' ");
     if (thisPageId != null) {
       ctx.append(", parentPageId: '", thisPageId, "'");
     }
-    ctx.append("});\n" + "  gwikicreateEditTab('" + partName + "'); } );\n");
+    ctx.append("});\n");
+    ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
     ctx.append("saveHandlers.push(function(){\n")//
         .append("  gwikiRestoreFromRte(gwikiCurrentPart);\n ")//
         .append("  gwikiUnsetContentChanged();\n")//

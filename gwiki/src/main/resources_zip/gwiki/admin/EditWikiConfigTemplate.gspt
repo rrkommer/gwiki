@@ -82,8 +82,8 @@ function onSave(event)
           });
     
     \$('.wikiPageEditText').autocomplete(
-        '<gwiki:url value="/edit/PageSuggestions"/>', 
     {
+    	source:  '<gwiki:url value="/edit/PageSuggestions"/>', 
       matchContains : true,
       minChars : 0,
       width : 350,
