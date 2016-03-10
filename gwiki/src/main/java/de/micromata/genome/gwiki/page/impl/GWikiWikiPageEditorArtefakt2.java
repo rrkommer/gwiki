@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentParseError;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.WeditWikiUtils;
 import de.micromata.genome.gwiki.utils.ThrowableUtils;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
@@ -69,21 +70,26 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
 
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
 
-    wikiContext.getRequiredJs().add("/static/wedit/weditdl.js");
-    wikiContext.getRequiredJs().add("/static/wedit/weditdnd.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditclipboard.js");
     wikiContext.getRequiredJs().add("/static/wedit/weditfocus.js");
-    wikiContext.getRequiredJs().add("/static/wedit/weditkeyhandler.js");
-    wikiContext.getRequiredJs().add("/static/wedit/weditnewimagedlg.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditdnd.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditdl.js");
     wikiContext.getRequiredJs().add("/static/wedit/weditops.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditnewimagedlg.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditautocomplete.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditkeyhandler.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditobj.js");
+    wikiContext.getRequiredJs().add("/static/gwedit/gweditautocomplete.js");
 
     //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.4.js");
 
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.4.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwikieditorlevel/editor_plugin_src.js");
     wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
+    wikiContext.getRequiredCss().add("/static/wedit/wautocmp.css");
   }
 
   @Override
@@ -100,12 +106,26 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
     text = StringEscapeUtils.escapeXml(text);
     text = StringUtils.replace(text, "\n", "<br/>\n");
     // TODO RK partname is not used
-    html = Html.div(
-        Xml.attrs("id", "editordiv"/* + partName */, "class", "wikiEditorTextArea", "contenteditable", "true",
-            "style", "width:100%;height:100%"),
-        Xml.code(text)).toString();
-    //    html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
+    html = "";
+    //html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
 
+    String weditoptions = "{ " +
+        "linkAutoCompleteUrl: '" + ctx.localUrl("edit/PageSuggestions") + "',"
+        + " partName: '" + partName + "' ,"
+        + " autocompletegetitemshandler: gwedit_autocomplete_entries ";
+    if (thisPageId != null) {
+      weditoptions += ", parentPageId: '" + thisPageId + "'";
+    }
+    weditoptions += "}";
+
+    html += Html.div(
+        Xml.attrs("id", "weditordiv" + partName, "class", "wikiEditorTextArea", "contenteditable", "true",
+            "style", "width:100%;height:100%"),
+        Xml.code(WeditWikiUtils.wikiToWedit(text))).toString();
+    html += Html.textarea(
+        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "name", partName + ".wikiText",
+            "style", "display: none"), //
+        Xml.text(textPage.getStorageData())).toString();
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
         + "\" style=\"width: 100%; height: 100%\">"
@@ -138,14 +158,9 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
 
     ctx.append("<script type=\"text/javascript\">\n");
     ctx.append("jQuery(document).ready(function(){\n");
-    ctx.append(" jQuery(\"#editordiv"
+    ctx.append(" jQuery('#weditordiv"
         + pn
-        + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '",
-        partName, "' ");
-    if (thisPageId != null) {
-      ctx.append(", parentPageId: '", thisPageId, "'");
-    }
-    ctx.append("});\n");
+        + "').wedit(", weditoptions, ");\n");
     ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
     ctx.append("saveHandlers.push(function(){\n")//
         .append("  gwikiRestoreFromRte(gwikiCurrentPart);\n ")//

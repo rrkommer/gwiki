@@ -1,16 +1,29 @@
 
-function wedit_autocomplete_getdummyentries(weditconfig, completeChar, typedText)
-{
-	return ["Erster Eintrag", "Zweiter Eintrag" ];
+function wedit_autocomplete_getdummyentries(jwedit, weditconfig, completeChar, typedText, callback) {
+	console.error("wedit_autocomplete_getdummyentries called");
+	callback([ {
+	  label : "X Eintrag",
+	  key : "first!"
+	}, {
+	  label : "X Eintrag",
+	  key : 'second!'
+	} ]);
+
 }
+var wedit_currentaclist;
 
-
-function wedit_autoComplete(ce, url,weditconfig) {
+/**
+ * TODO 
+ * @param ce
+ * @param url where to get the data
+ * @param weditconfig
+ */
+function wedit_autoComplete(jwedit, url, weditconfig) {
 	var before = wedit_charBeforePos();
 	if (weditconfig.ctrlSpaceAttchars.indexOf(before) == -1) {
 		return;
 	}
-	
+
 	if (!savedRanges[0]) {
 		return;
 	}
@@ -20,25 +33,45 @@ function wedit_autoComplete(ce, url,weditconfig) {
 	var point = wedit_getCursorCoords();
 	var startc = range.startContainer;
 
-	var items = weditconfig.autocompletegetitemshandler(weditconfig, before, "");
-	var popup = document.createElement("div");
-	
-	popup.setAttribute("id", "wautocopletewindow");
-	
-	popup.setAttribute("style", "position: absolute; left, " + point.x + "; top: " + point.y + ";");
-	for (var i in items) {
-		var p = document.createElement("p");
-		var text = document.createTextNode(items[i]);
-		p.appendChild(text);
-		popup.appendChild(p);	
-	}
+	weditconfig.autocompletegetitemshandler(jwedit, weditconfig, before, "", function(list) {
+		wedit_currentaclist = list;
 
-	range.insertNode(popup);
-	weditconfig.keydownhandler = autocompleKeyEventHandler;
-	weditconfig.keyuphandler = autocompleKeyUpHandler; 
+		var popup = $("<div id='wautocopletewindow' class='wautocmp'>");
+		var jul = $("<ul id='wautocopleteul'></ul>");
+		popup.append(jul);
+		popup.attr("style", "position: absolute; left, " + point.x + "; top: " + point.y + ";");
+
+		for ( var i in wedit_currentaclist) {
+			var li = $("<li class='wautoli' data-acidx='" + i + "'></li>");
+			li.click(function(event) {
+				popup.remove();
+				var selitem = wedit_currentaclist[i];
+				wedit_autocomplete_onselect(weditconfig, popup, selitem);
+
+				event.stopPropagation();
+			});
+			var label = wedit_currentaclist[i].label;
+			var key = wedit_currentaclist[i].key;
+			li.append(label);
+			jul.append(li);
+		}
+
+		range.insertNode(popup[0]);
+
+		weditconfig.keydownhandler = wedit_autocompleKeyEventHandler;
+		weditconfig.keyuphandler = autocompleKeyUpHandler;
+		var clickOutsideHandler = function(event) {
+			console.debug("clicked somewhere");
+			$(window).unbind("click", clickOutsideHandler);
+			wedit_autocomplete_close(weditconfig, popup);
+		};
+		$(window).bind("click", clickOutsideHandler);
+
+	});
+
 }
 
-function autocompleKeyUpHandler(event, weditconfig) {
+function autocompleKeyUpHandler(jwedit, weditconfig, event) {
 	console.debug("popkeypup	: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
 	    + event.altKey);
 	switch (event.which) {
@@ -53,26 +86,47 @@ function autocompleKeyUpHandler(event, weditconfig) {
 
 }
 
-function autocompleKeyEventHandler(event, weditconfig) {
+function wedit_getautocompletedSelectedInsert(jselitem) {
+	var idx = jselitem.attr("data-acidx");
+	var item = wedit_currentaclist[idx];
+	return item;
+}
+
+function wedit_autocomplete_close(weditconfig, popup) {
+	popup.remove();
+	weditconfig.keydownhandler = weditconfig.stdkeydownhandler;
+	weditconfig.keyuphandler = null;
+
+}
+
+function wedit_autocomplete_onselect(weditconfig, popup, item) {
+	var text = item.key;
+	console.debug("insert: " + text);
+	wedit_autocomplete_close(weditconfig, popup);
+
+	wedit_insertIntoPos(text);
+	wedit_moveforward(text.length);
+}
+
+function wedit_autocompleKeyEventHandler(jwedit, weditconfig, event) {
 	console.debug("popkeydown: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
 	    + event.altKey);
 	// var el = document.getElementById("wautocopletewindow");
 	var el = $("#wautocopletewindow");
-
+	var ul = $("#wautocopleteul");
 	switch (event.which) {
 	case 9: // TAB
 	case 13: // ENTER
 		var found = $(".wautocmpsel");
 		if (found.length && found.next().get()) {
-			var text = found.html();
-			console.debug("insert: " + text);
-			wedit_insertIntoPos(text);
-			wedit_moveforward(text.length);
+			var item = wedit_getautocompletedSelectedInsert(found)
+			wedit_autocomplete_onselect(weditconfig, el, item);
+		} else {
+			wedit_autocomplete_close(weditconfig, el);
 		}
+		break;
 	case 27: // ESC
-		el.remove();
-		weditconfig.keydownhandler = weditconfig.stdkeydownhandler;
-		weditconfig.keyuphandler = null;
+		wedit_autocomplete_close(weditconfig, el);
 		event.stopPropagation();
 		console.debug("popup removed");
 		return false;
@@ -90,8 +144,8 @@ function autocompleKeyEventHandler(event, weditconfig) {
 			found.removeClass("wautocmpsel");
 			found.next().addClass("wautocmpsel");
 		} else {
-			if (el.children(":first")) {
-				var fel = el.children(":first");
+			if (ul.children(":first")) {
+				var fel = ul.children(":first");
 				fel.addClass("wautocmpsel");
 			}
 		}
