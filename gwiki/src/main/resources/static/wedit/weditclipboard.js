@@ -19,11 +19,11 @@ function wedit_registerClipboard(jnode, weditconfig) {
 	}
 	window.addEventListener("paste", function(e) {
 		// We need to check if event.clipboardData is supported (Chrome)
-		console.debug("pasteed");
+		console.debug("pasted");
 		if (e.clipboardData) {
 			// Get the items from the clipboard
 			var items = e.clipboardData.items;
-			if (items) {
+			if (items && items.length > 0) {
 				// Loop through all items, looking for any kind of image
 				for (var i = 0; i < items.length; i++) {
 					if (items[i].type.indexOf("image") !== -1) {
@@ -38,9 +38,13 @@ function wedit_registerClipboard(jnode, weditconfig) {
 						// The URL can then be used as the source of an image
 						weditclipboard_createImage(jnode, weditconfig, source);
 						console.debug('screenshotPasteHandler image created: ' + source);
+						e.stopPropagation();
 					}
 				}
+			} else {
+				console.debug("paste has no items in clipboard")
 			}
+			
 			// If we can't handle clipboard data directly (Firefox),
 			// we need to read what was pasted from the contenteditable element
 		} else {
@@ -65,17 +69,19 @@ function weditclipboard_checkInput(jnode, weditconfig) {
 		// If the user pastes an image, the src attribute
 		// will represent the image as a base64 encoded string.
 		if (child.tagName === "IMG") {
-			createImage(jnode, weditconfig, child.src);
+			weditclipboard_createImage(jnode, weditconfig, child.src);
 		}
 	}
 }
 
 /* Creates a new image from a given source */
 function weditclipboard_createImage(jnode, weditconfig, source) {
-	var pastedImage = new Image();
-	pastedImage.onload = function() {
-		// You now have the image!
-	}
-	pastedImage.src = source;
-	jnode.append(pastedImage);
+	var range = wedit_getCurrentRange();
+	wedit_storeDroppedImage(	weditconfig, range.startContainer, range, "newfile.png", source);
+//	var pastedImage = new Image();
+//	pastedImage.onload = function() {
+//		// You now have the image!
+//	}
+//	pastedImage.src = source;
+//	jnode.append(pastedImage);
 }
