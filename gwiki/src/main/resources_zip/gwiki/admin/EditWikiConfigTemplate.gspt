@@ -67,7 +67,8 @@ function onSave(event)
   \$(document).ready(function(){
     var tabs = \$("#tabs").tabs(
           { selected: 0,
-            select: function(event, ui) {
+          	activate: function(event, ui) {
+          		console.debug("edit tab activated");
             /*try {
               eval("" + gwikiCurrentPart + "Deactivate('" + gwikiCurrentPart + "')");
             } catch (ex) {
