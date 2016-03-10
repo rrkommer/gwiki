@@ -1,8 +1,6 @@
-
-
 function storePastedImage(imgnode) {
 	var parent = imgnode.parentNode;
-	var doremovechild = true;
+
 	dialog = $("#imgupload-form").dialog({
 		autoOpen : false,
 		height : 300,
@@ -11,32 +9,21 @@ function storePastedImage(imgnode) {
 		buttons : {
 			"New Image" : function() {
 				var name = $("#imguploadfilename");
-				if (doremovechild == true) {
-					parent.removeChild(imgnode);
-					doremovechild = false;
-				}
+				var newNode = document.createElement("span");
+				newNode.innerHTML = "!" + name.val() + "!";
+
+				parent.insertBefore(newNode, imgnode);
+				parent.removeChild(imgnode);
 				dialog.dialog("close");
-				
-				wedit_restoreSelection();
-				wedit_insertIntoPos("!" + name.val() + "!");
-				
 			},
 			Cancel : function() {
-				if (doremovechild == true) {
-					parent.removeChild(imgnode);
-					doremovechild = false;
-				}
+				parent.removeChild(imgnode);
 				dialog.dialog("close");
-				wedit_restoreSelection();
 			}
 		},
 		close : function() {
 			form[0].reset();
-			if (doremovechild == true) {
-				parent.removeChild(imgnode);
-				doremovechild = false;
-			}
-
+			parent.removeChild(imgnode);
 		}
 	});
 
@@ -48,7 +35,7 @@ function storePastedImage(imgnode) {
 	dialog.dialog("open");
 }
 
-function wedit_storeDroppedImage(weditconfig, targetNode, range, file, data) {
+function storeDroppedImage(targetNode, range, file, data) {
 
 	var fileName = file.name;
 	var fileType = file.type;
@@ -80,7 +67,6 @@ function wedit_storeDroppedImage(weditconfig, targetNode, range, file, data) {
 				}
 				// wedit_insertIntoPos("!" + name.val() + "!");
 				dialog.dialog("close");
-			
 			},
 			Cancel : function() {
 				dialog.dialog("close");
@@ -88,7 +74,6 @@ function wedit_storeDroppedImage(weditconfig, targetNode, range, file, data) {
 		},
 		close : function() {
 			form[0].reset();
-		
 		}
 	});
 

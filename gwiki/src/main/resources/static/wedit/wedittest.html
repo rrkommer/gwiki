@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="../js/jquery-1.12.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+<script type="text/javascript" src="weditclipboard.js"></script>
+<script type="text/javascript" src="weditfocus.js"></script>
+<script type="text/javascript" src="weditdnd.js"></script>
+<script type="text/javascript" src="weditdl.js"></script>
+<script type="text/javascript" src="weditops.js"></script>
+<script type="text/javascript" src="weditnewimagedlg.js"></script>
+<script type="text/javascript" src="weditkeyhandler.js"></script>
+<script type="text/javascript" src="weditautocomplete.js"></script>
+<script type="text/javascript" src="weditobj.js"></script>
+
+<link rel="stylesheet" href="wautocmp.css" >
+
+<link rel="stylesheet" href="../js/jquery-ui-1.11.4.custom/jquery-ui.css" >
+<!--  <script type="text/javascript" src="domlistener.js"></script> -->
+<!--  <script type="text/javascript" src="insQ.js"></script> -->
+</head>
+<body>
+	<h1>Clipbard1</h1>
+	Dateiname
+	<input type="text"></input>
+	<br /> Button
+	<button id="btnBunt">Bunt</button>
+	<br />
+
+	<div class="editordiv" id="editordiv" contenteditable="true">
+		Type here text<br /> asdfasdf
+	</div>
+	
+	
+	<input type="text" id="inplaceautocomplete" style="display: none"></input>
+	<div id="imgupload-form" title="Create new Image">
+  <p class="validateTips">Safe image</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="imguploadfilename" value="newimage.img" class="text ui-widget-content ui-corner-all">
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+	
+</body>
+</html>

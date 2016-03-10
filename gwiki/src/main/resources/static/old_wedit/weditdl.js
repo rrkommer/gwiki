@@ -1,8 +1,8 @@
 
 
-function wedit_register_modifaction_monitor(jnode, weditconfig)
-{
-	var target = jnode.get(0);
+$(document).ready(function() {
+
+	var target = document.querySelector('#editordiv');
 
 	// create an observer instance
 	var observer = new MutationObserver(function(mutations) {
@@ -16,7 +16,7 @@ function wedit_register_modifaction_monitor(jnode, weditconfig)
 					console.debug("mod node: " + node + "; " + node.name);
 					if (node instanceof HTMLImageElement) {
 						console.debug("IS HTMLImageElement: " + node.src);
-						weditclipboard_createImage(jnode, weditconfig, node.src);
+						storePastedImage(node);
 					}
 
 				}
@@ -36,4 +36,4 @@ function wedit_register_modifaction_monitor(jnode, weditconfig)
 	// pass in the target node, as well as the observer options
 	observer.observe(target, config);
 
-}
+});
