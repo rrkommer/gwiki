@@ -20,6 +20,12 @@ package de.micromata.genome.gwiki.page.impl.actionbean;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * A Action bean for a wiki page.
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public interface ActionBean
 {
   public GWikiContext getWikiContext();

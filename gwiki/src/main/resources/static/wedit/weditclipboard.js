@@ -76,8 +76,8 @@ function weditclipboard_checkInput(jnode, weditconfig) {
 
 /* Creates a new image from a given source */
 function weditclipboard_createImage(jnode, weditconfig, source) {
-	var range = wedit_getCurrentRange();
-	wedit_storeDroppedImage(	weditconfig, range.startContainer, range, "newfile.png", source);
+	var range = wedit_getSavedRange();
+	wedit_storeDroppedImage(jnode,	weditconfig, range.startContainer, range, "newfile.png", source);
 //	var pastedImage = new Image();
 //	pastedImage.onload = function() {
 //		// You now have the image!

@@ -15,10 +15,14 @@ function wedit_register_modifaction_monitor(jnode, weditconfig)
 					var node = addedNodes[0];
 					console.debug("mod node: " + node + "; " + node.name);
 					if (node instanceof HTMLImageElement) {
-						console.debug("IS HTMLImageElement: " + node.src);
+						console.debug("IS HTMLImageElement: " + node + "; " + target + ";parent " + node.parentNode);
 						
 						weditclipboard_createImage(jnode, weditconfig, node.src);
-						node.parentNode.removeChild(node);
+						if (node.parentNode) {
+							node.parentNode.removeChild(node);
+						} else {
+							console.debug("image parent node missing: " + node);
+						}
 					}
 
 				}

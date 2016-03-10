@@ -15,6 +15,7 @@ jQuery.fn.wedit = function(settings) {
 	var wedit = this;
 	return this.each(function() {
 		var jthis = $(this);
+		jthis.css("white-space", "pre-wrap");
 		wedit_bindfocushandler(jthis);
 		wedit_registerkeyhandler(jthis, config);	
 		wedit_registerdragndrop(jthis, config);
@@ -23,6 +24,3 @@ jQuery.fn.wedit = function(settings) {
 	});
 };
 
-$(document).ready(function() {
-	var edit = $('div[contenteditable="true"]').wedit();
-});
