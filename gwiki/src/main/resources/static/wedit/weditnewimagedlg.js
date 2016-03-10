@@ -1,53 +1,5 @@
 
 
-function storePastedImage(imgnode) {
-	var parent = imgnode.parentNode;
-	var doremovechild = true;
-	dialog = $("#imgupload-form").dialog({
-		autoOpen : false,
-		height : 300,
-		width : 350,
-		modal : true,
-		buttons : {
-			"New Image" : function() {
-				var name = $("#imguploadfilename");
-				if (doremovechild == true) {
-					parent.removeChild(imgnode);
-					doremovechild = false;
-				}
-				dialog.dialog("close");
-				
-				wedit_restoreSelection();
-				wedit_insertIntoPos("!" + name.val() + "!");
-				
-			},
-			Cancel : function() {
-				if (doremovechild == true) {
-					parent.removeChild(imgnode);
-					doremovechild = false;
-				}
-				dialog.dialog("close");
-				wedit_restoreSelection();
-			}
-		},
-		close : function() {
-			form[0].reset();
-			if (doremovechild == true) {
-				parent.removeChild(imgnode);
-				doremovechild = false;
-			}
-
-		}
-	});
-
-	form = dialog.find("form").on("submit", function(event) {
-		event.preventDefault();
-
-	});
-
-	dialog.dialog("open");
-}
-
 function wedit_storeDroppedImage(weditconfig, targetNode, range, file, data) {
 
 	var fileName = file.name;

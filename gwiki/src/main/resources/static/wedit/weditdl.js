@@ -16,7 +16,9 @@ function wedit_register_modifaction_monitor(jnode, weditconfig)
 					console.debug("mod node: " + node + "; " + node.name);
 					if (node instanceof HTMLImageElement) {
 						console.debug("IS HTMLImageElement: " + node.src);
+						
 						weditclipboard_createImage(jnode, weditconfig, node.src);
+						node.parentNode.removeChild(node);
 					}
 
 				}

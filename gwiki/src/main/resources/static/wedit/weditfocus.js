@@ -1,9 +1,14 @@
 console.debug("Loaded contenteditfocus2.js");
 savedRanges = new Object();
 
-function wedit_getCurSel() {
+function wedit_getSavedRange() {
 	return savedRanges[0];
 }
+function wedit_getCurrentRange()
+{
+	return window.getSelection().getRangeAt(0);	
+}
+
 
 function wedit_insertIntoPos(text) {
 	
@@ -127,17 +132,14 @@ function wedit_getCursorCoords() {
 	};
 }
 
-function wedit_restoreSelection()
+function wedit_restoreSelection(jnode, weditconfig)
 {
 
 	var range = savedRanges[0];
 	console.debug("wedit_restoreSelection: " + range.startContainer);
-	if (false && range) {
-		range.startContainer.focus();
-	} else {
 	// $('div[contenteditable="true"]').focus();
-		document.getElementById('editordiv').focus();
-	}
+	jnode.focus();
+	
 
 	var sel = window.getSelection();
 	sel.removeAllRanges();

@@ -2,11 +2,12 @@ function calcDropPoint(event) {
 	var x = event.clientX;
 	var y = event.clientY;
 
-	console.debug("drop " + x + "; " + y);
+//	console.debug("drop " + x + "; " + y);
 	if (document.caretPositionFromPoint) {
 		var pos = document.caretPositionFromPoint(x, y);
 		range = document.createRange();
 		range.setStart(pos.offsetNode, pos.offset);
+		
 		// range.collapse();
 		// range.insertNode(img);
 		return range;
@@ -53,14 +54,15 @@ function wedit_registerdragndrop(jnode, weditconfig) {
 		    var files = dt.files;
 		    var data = dt.getData(files[0].type);
 
+		    wedit_restoreSelection(jnode, weditconfig);
 		    var selection = window.getSelection();
 		    var selectedText = selection.toString();
 		    var anchornode = selection.anchorNode;
 		    var focusnode = selection.focusNode;
 		    var range = calcDropPoint(event);
-
-		    console.debug("cursel: " + selectedText + "; range: " + range + "; " + anchornode + "; " + focusnode + "; "
-		        + event.target);
+		    
+		    console.debug("drop cursel: " + selectedText + "; range: " + range + "; " + anchornode + "; " + focusnode + "; "
+		        + event.target + "; range: " + range.startContainer + "; " + range.startOffset);
 		    weditconfig.drophandler(weditconfig, event.target, range, files[0], data);
 		    // see also http://help.dottoro.com/ljslrhdh.php
 
