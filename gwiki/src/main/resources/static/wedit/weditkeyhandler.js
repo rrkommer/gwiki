@@ -1,42 +1,33 @@
-function autoComplete() {
-	var before = wedit_charBeforePos();
-	if (before != '{' && before != '[' && before != '!') {
-		return;
-	}
-	var point = wedit_getCursorCoords();
-	console.debug("Char before: " + before + "; " + point.x + "|" + point.y);
-	var autocomp = $("#inplaceautocomplete")
-	autocomp.css('display', 'block');
-	autocomp.css('position', 'absolute');
-	autocomp.css('z-index', '10000');
-	autocomp.css('left', point.x);
-	autocomp.css('top', point.y);
-	var availableTags = [ "ActionScript", "AppleScript", "Asp", "BASIC", "C", "C++", "Clojure", "COBOL", "ColdFusion",
-	    "Erlang", "Fortran", "Groovy", "Haskell", "Java", "JavaScript", "Lisp", "Perl", "PHP", "Python", "Ruby", "Scala",
-	    "Scheme" ];
-	$("#inplaceautocomplete").autocomplete({
-		source : availableTags,
-		select: function( event, ui ) 
-		{
-			var val = autocomp.val();
-			wedit_insertIntoPos(val + before);
-			autocomp.css('display', 'none');
-			
+
+function standardEditKeyEvent(event, weditconfig) {
+	console.debug("stdkeypup	: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
+	    + event.altKey);
+	if (event.ctrlKey == true) {
+		switch (event.which) {
+		case 32: // space
+			event.stopPropagation();
+			wedit_autoComplete("#editordiv", "", weditconfig);
+			break;
+		case 69: // e
+			wedit_moveToEndline();
+			event.stopPropagation();
+			return false;
+		case 70: // f debug only
+			wedit_moveforward(2);
+			return false;
 		}
-	});
-	autocomp.focus();
+
+	}
 
 }
 
-$(document).ready(function() {
-	$("#editordiv").keydown(function(event) {
-		// Ctrl+Space autocomplete
-		if (event.ctrlKey == true && event.which == 32) {
-			event.stopPropagation();
-			autoComplete();
-		}
-		// console.debug("keypress: " + event.which + "; ctr: " + event.ctrlKey + ";
-		// shift " + event.shiftKey
-		// + "; alt " + event.altKey);
+function wedit_registerkeyhandler(jnode, weditconfig) {
+	jnode.keydown(function(event) {
+		return weditconfig.keydownhandler(event, weditconfig);
 	});
-});
+	jnode.keyup(function(event) {
+		if (weditconfig.keyuphandler) {
+			return weditconfig.keyuphandler(event, weditconfig);
+		}
+	});
+}
