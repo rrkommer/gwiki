@@ -19,10 +19,11 @@
 <!--  <script type="text/javascript" src="domlistener.js"></script> -->
 <!--  <script type="text/javascript" src="insQ.js"></script> -->4
 
-<script type="text/javascript"></script>
+<script type="text/javascript">
 $(document).ready(function() {
-  var edit = $('div[contenteditable="true"]').wedit();
+  var edit = $('#editordiv').wedit({});
 });
+</script>
 </head>
 <body>
 	<h1>Clipbard1</h1>
@@ -33,7 +34,11 @@ $(document).ready(function() {
 	<br />
 
 	<div class="editordiv" id="editordiv" contenteditable="true">
-		Type here text<br /> asdfasdf
+Type here text
+new long line Line alsdkjf laksdjf lkasdjf lkasdj flklkj lkasjdf lkajsdflk ajsdfl kajsdf lkasj dflkasj dflkasj dflkajsd flkasjd flkasjd flkasjd flkasjd flaksjd flas jdflasjd flkasd jflkj lkjalksjdf asdf
+Anotherline
+
+before two nlines.
 	</div>
 	
 	

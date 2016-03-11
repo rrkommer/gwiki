@@ -15,7 +15,8 @@ jQuery.fn.wedit = function(settings) {
 	var wedit = this;
 	return this.each(function() {
 		var jthis = $(this);
-		jthis.css("white-space", "pre-wrap");
+		jthis.css("white-space", "pre-line"); // pre but with break line if to long.
+		jthis.css("display",  "inline-block"); // just nl instead of <div>
 		wedit_bindfocushandler(jthis);
 		wedit_registerkeyhandler(jthis, config);	
 		wedit_registerdragndrop(jthis, config);
