@@ -48,6 +48,7 @@ public class GWikiWikiPageArtefakt extends GWikiWikiPageBaseArtefakt implements 
     if (attr != null) {
       return;
     }
+
     String editByE = "<script type=\"text/javascript\">\n" +
         "$(document).keydown(function (event) {\n" +
         "   if (event.which == 69) {\n" +

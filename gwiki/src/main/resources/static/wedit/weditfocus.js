@@ -1,12 +1,22 @@
 console.debug("Loaded contenteditfocus2.js");
 savedRanges = new Object();
 
-
 function wedit_getSavedRange() {
 	return savedRanges[0];
 }
 function wedit_getCurrentRange() {
 	return window.getSelection().getRangeAt(0);
+}
+
+function wedit_getElementAtRangeStartPos(range)
+{
+	var startc = range.startContainer;
+	var el = startc.getChildren(range.startOffset);
+	if (el) {
+		return el;
+	}
+	console.debug("No offset element found", range);
+	return startc;
 }
 
 function wedit_insertIntoPos(text) {
@@ -22,11 +32,12 @@ function wedit_insertIntoPos(text) {
 		startc.nodeValue = newtext;
 		console.debug("wedit_insertIntoPos: " + text + "; " + starto);
 		wedit_moveforward(starto + text.length);
-
+		
 	} else {
+		var insel = wedit_getElementAtRangeStartPos(range);
 		var textnode = document.createTextNode(text);
-		startc.appendChild(textnode);
-		console.debug("No text node: " + startc);
+		insel.appendChild(textnode);
+		wedit_dumpposition("insertpos No text node", range);
 
 	}
 
@@ -83,7 +94,7 @@ function wedit_moveforward(num) {
 	var startc = range.startContainer;
 	var starto = range.startOffset;
 	if (!(startc instanceof Text)) {
-		console.warn("startc is no text: " + startc);
+		wedit_dumpposition("startc is no text",  range);
 		return;
 	}
 	var sel = window.getSelection();
@@ -149,11 +160,11 @@ function wedit_restoreSelection(jnode, weditconfig, range) {
 }
 
 function wedit_bindfocushandler(jobj) {
-	
+
 	jobj.focus(function() {
 		console.debug("wedit got fous");
 		var s = window.getSelection();
-		
+
 		var t = $('div[contenteditable="true"]').index(this);
 		if (typeof (savedRanges[t]) === "undefined") {
 			if (!document.selection || !document.selection.createRange) {
@@ -170,19 +181,20 @@ function wedit_bindfocushandler(jobj) {
 				console.error("range not supported by browser: " + e);
 			}
 		}
-	}).bind("mouseup keyup", function() {
-		// console.debug("cef mouseup keyup");
-		var t = $('div[contenteditable="true"]').index(this);
-		var range = window.getSelection().getRangeAt(0);
-		savedRanges[t] = range;
-		if (range.startContainer instanceof Text) {
-			console.debug("lastr is text");
-		} else {
-			console.debug("lastr is NO text: " + range.startContainer + "; " + range.endContainer + "; " + range.startOffset + ":" + range.endOffset);
-		}
-		
-		
-	}).on("mousedown click", function(e) {
+	}).bind(
+	    "mouseup keyup",
+	    function() {
+		    // console.debug("cef mouseup keyup");
+		    var t = $('div[contenteditable="true"]').index(this);
+		    var range = window.getSelection().getRangeAt(0);
+		    savedRanges[t] = range;
+		    if (range.startContainer instanceof Text) {
+			    console.debug("lastr is text");
+		    } else {
+		    	wedit_dumpposition("lastpos NO text", range);
+		    }
+
+	    }).on("mousedown click", function(e) {
 		// console.debug("cef mousedown click");
 		if (!$(this).is(":focus")) {
 			e.stopPropagation();
@@ -191,3 +203,10 @@ function wedit_bindfocushandler(jobj) {
 		}
 	});
 }
+
+function wedit_dumpposition(range, message)
+{
+	 console.debug(message + ": " + range.startContainer + "; " + range.endContainer + "; "
+       + range.startOffset + ":" + range.endOffset + ": " + $(range.startContainer).html());
+}
+

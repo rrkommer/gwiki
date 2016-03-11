@@ -13,10 +13,10 @@ public class WeditWikiUtils
   public static String weditToWiki(String text)
   {
     String ret = StringUtils.defaultString(text);
-    ret = StringUtils.replace(ret, "\n", "");
-    ret = StringUtils.replace(ret, "\r", "");
-    ret = StringUtils.replace(ret, "</p>", "\n");
-    ret = StringUtils.replace(ret, "<p>", "");
+    //    ret = StringUtils.replace(ret, "\n", "");
+    //    ret = StringUtils.replace(ret, "\r", "");
+    //    ret = StringUtils.replace(ret, "</p>", "\n");
+    //    ret = StringUtils.replace(ret, "<p>", "");
 
     return ret;
   }
@@ -25,7 +25,7 @@ public class WeditWikiUtils
   {
     String ret = StringUtils.defaultString(text);
     //    ret = StringUtils.replace(ret, "\n", "<br/>\n");
-    ret = "<p>" + ret + "</p>";
+    //    ret = "<p>" + ret + "</p>";
     return ret;
   }
 
