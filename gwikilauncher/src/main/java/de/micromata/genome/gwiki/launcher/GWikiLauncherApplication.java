@@ -10,16 +10,14 @@ import de.micromata.genome.util.i18n.PlaceholderTranslationProvider;
 import de.micromata.genome.util.jdbc.LauncherDataSource;
 import de.micromata.genome.util.runtime.InitWithCopyFromCpLocalSettingsClassLoader;
 import de.micromata.genome.util.runtime.LocalSettings;
-import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
-import de.micromata.genome.util.runtime.Log4JInitializer;
 import de.micromata.genome.util.runtime.config.ExtLocalSettingsLoader;
 import de.micromata.mgc.jettystarter.JettyConfigModel;
 import de.micromata.mgc.jettystarter.JettyServer;
 import de.micromata.mgc.jettystarter.MgcApplicationWithJettyApplication;
-import de.micromata.mgc.launcher.MgcApplicationStartStopStatus;
 
 /**
+ * GWiki application.
  * 
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
@@ -28,6 +26,7 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
 {
   public GWikiLauncherApplication()
   {
+    LocalSettingsEnv.dataSourceSuplier = () -> new LauncherDataSource();
     LocalSettings.localSettingsLoaderFactory = new InitWithCopyFromCpLocalSettingsClassLoader(
         () -> {
           ExtLocalSettingsLoader ret = new ExtLocalSettingsLoader();
@@ -40,22 +39,6 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
             new ChainedResourceBundleTranslationResolver("gwikilauncher", "mgclauncher", "mgcapp", "mgcjetty"))));
 
     setTranslateService(provider);
-  }
-
-  @Override
-  public MgcApplicationStartStopStatus start(String[] args)
-  {
-    LocalSettingsEnv.dataSourceSuplier = () -> new LauncherDataSource();
-
-    configureLogging();
-    return super.start(args);
-  }
-
-  protected void configureLogging()
-  {
-    Log4JInitializer.copyLogConfigFileFromCp();
-    Log4JInitializer.initializeLog4J();
-
   }
 
   @Override
