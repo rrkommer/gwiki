@@ -9,8 +9,8 @@ import de.micromata.genome.util.runtime.config.JdbcLocalSettingsConfigModel;
 import de.micromata.genome.util.runtime.config.LocalSettingsConfigModel;
 import de.micromata.genome.util.runtime.config.LocalSettingsWriter;
 import de.micromata.genome.util.runtime.config.MailSessionLocalSettingsConfigModel;
+import de.micromata.mgc.application.webserver.config.JettyConfigModel;
 import de.micromata.mgc.javafx.launcher.gui.generic.LauncherLocalSettingsConfigModel;
-import de.micromata.mgc.jettystarter.JettyConfigModel;
 
 /**
  * 

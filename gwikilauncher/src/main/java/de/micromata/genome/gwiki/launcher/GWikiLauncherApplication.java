@@ -12,9 +12,9 @@ import de.micromata.genome.util.runtime.InitWithCopyFromCpLocalSettingsClassLoad
 import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
 import de.micromata.genome.util.runtime.config.ExtLocalSettingsLoader;
-import de.micromata.mgc.jettystarter.JettyConfigModel;
-import de.micromata.mgc.jettystarter.JettyServer;
-import de.micromata.mgc.jettystarter.MgcApplicationWithJettyApplication;
+import de.micromata.mgc.application.jetty.JettyServer;
+import de.micromata.mgc.application.jetty.MgcApplicationWithJettyApplication;
+import de.micromata.mgc.application.webserver.config.JettyConfigModel;
 
 /**
  * GWiki application.
