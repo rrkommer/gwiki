@@ -12,7 +12,36 @@
     <!-- <module>gwiki-standalone</module> -->
     <module>gwikilauncher</module>
   </modules>
-  
+  <organization>
+		<name>Micromata GmbH + artefaktur</name>
+		<url>http://www.micromata.de/</url>
+	</organization>
+  <inceptionYear>2016</inceptionYear>
+  <developers>
+    <developer>
+      <id>r.kommer</id>
+      <name>Roger Kommer</name>
+      <email>kommer@extern.micromata.de/kommer@artefaktur.com</email>
+      <organization>Micromata GmbH</organization>
+      <organizationUrl>http://www.micromata.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-1</timezone>
+    </developer>
+  </developers>
+  <contributors>
+  </contributors>
+
+  <licenses>
+    <license>
+      <name>Apache 2.0</name>
+      <url>/LICENSE.txt</url>
+      <comments>All rights reserved.</comments>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
   
   <dependencies>
     <dependency>
@@ -152,10 +181,18 @@
   <!-- -->
   <repositories>
     <repository>
-      <id>labs.micromata.de-releases</id>
-      <name>labs.micromata.de-releases</name>
-      <url>https://labs.micromata.de/nexus/content/groups/public/</url>
-    </repository>
+			<id>MGC</id>
+			<name>MGC</name>
+			<url>https://labs.micromata.de/nexus/content/repositories/MGC/</url>
+		</repository>
+		<repository>
+			<id>MGC-snapshot</id>
+			<name>MGC-snapshot</name>
+			<url>https://labs.micromata.de/nexus/content/repositories/MGC-snapshot/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
     <repository>
       <!--  vor maven plugins -->
       <id>orig-apache</id>
@@ -170,6 +207,11 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
+    </repository>
+    <repository>
+      <id>gwiki-deploy</id>
+      <name>gwiki-deploy</name>
+      <url>http://artefaktur.com/maven/</url>
     </repository>
     <!-- you need a account to OTN to use this
          see https://blogs.oracle.com/dev2dev/entry/oracle_maven_repository_instructions_for
@@ -188,38 +230,22 @@
   </repositories>
   
   <pluginRepositories>
-
-
   </pluginRepositories>
-  <!--  repo is dead 
+
   <distributionManagement>
-    <repository>
-      <id>labs.micromata.de-releases</id>
-      <name>labs.micromata.de-releases</name>
-      <url>https://labs.micromata.de/nexus/content/repositories/releases</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <snapshotRepository>
-      <id>labs.micromata.de-snapshots</id>
-      <name>labs.micromata.de-snapshots</name>
-      <url>https://labs.micromata.de/nexus/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
-  -->
-  <distributionManagement>
-    <repository>
-      <id>labs.micromata.de-releases</id>
-      <name>labs.micromata.de-releases</name>
-      <url>https://labs.micromata.de/nexus/content/groups/public/</url>
-    </repository>
-    <snapshotRepository>
-      <id>labs.micromata.de-snapshots</id>
-      <name>labs.micromata.de-snapshots</name>
-      <url>https://labs.micromata.de/nexus/content/repositories/snapshots/</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
+   <repository>
+			<id>GWIKI</id>
+			<name>GWIKI</name>
+			<url>https://labs.micromata.de/nexus/content/repositories/GWIKI/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>GWIKI-snapshot</id>
+			<name>GWIKI-snapshot</name>
+			<url>https://labs.micromata.de/nexus/content/repositories/GWIKI-snapshot/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
   <scm>
     <connection>
      scm:git:git://github.com/rrkommer/gwiki
