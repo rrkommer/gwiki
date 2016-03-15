@@ -16,8 +16,8 @@ import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallbac
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.LocalSettings;
-import de.micromata.mgc.jettystarter.JettyConfigModel;
-import de.micromata.mgc.jettystarter.JettyServer;
+import de.micromata.mgc.application.jetty.JettyServer;
+import de.micromata.mgc.application.webserver.config.JettyConfigModel;
 
 /**
  * 
@@ -62,6 +62,7 @@ public class GWikiJettyServer extends JettyServer
     ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
     wikiServlet.setDAOContext(wikibootcfg);
     context.addServlet(wikiServletHolder, "/*");
+
     return context;
   }
 

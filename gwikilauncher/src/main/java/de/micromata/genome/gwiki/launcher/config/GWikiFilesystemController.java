@@ -5,11 +5,11 @@ import java.io.File;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.util.types.Pair;
+import de.micromata.mgc.application.MgcApplicationInfo;
 import de.micromata.mgc.javafx.ControllerService;
 import de.micromata.mgc.javafx.launcher.MgcLauncher;
 import de.micromata.mgc.javafx.launcher.gui.AbstractConfigTabController;
 import de.micromata.mgc.javafx.launcher.gui.generic.JdbcConfigTabController;
-import de.micromata.mgc.launcher.MgcApplicationInfo;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

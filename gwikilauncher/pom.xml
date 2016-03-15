@@ -45,6 +45,11 @@
       <artifactId>de.micromata.mgc.javafx.launcher</artifactId>
       <version>${mgc.version}</version>
     </dependency>
+     <dependency>
+      <groupId>de.micromata.mgc</groupId>
+      <artifactId>de.micromata.mgc.application.jetty</artifactId>
+      <version>${mgc.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
