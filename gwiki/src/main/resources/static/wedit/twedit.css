@@ -1,0 +1,44 @@
+.wautocmp {
+	background: white;
+}
+
+.wautocmp ul {
+  padding: 5px;
+  margin: 5px;
+	
+}
+
+.wautocmp li {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 0.9em;
+	cursor: pointer;
+}
+
+.wautocmpsel {
+	color: red !important;
+}
+
+.weditmacrohead {
+	border-color: #000000;
+	border-style: solid;
+	border-width: 1px;
+	background-color: #F0F0F0;
+	
+	
+}
+
+.weditmacrobody {
+	border-color: #000000;
+  border-style: solid;
+  border-width: 1px;
+  background-color: #FFFFFF;
+}
+.editmacrobd_pre {
+	white-space: pre;
+}
+
+.weditpaglink {
+	
+}

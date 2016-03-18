@@ -85,11 +85,13 @@ public class GWikiFragmentImage extends GWikiFragmentBase
 
   }
 
+  @Override
   public List<GWikiFragment> getChilds()
   {
     return Collections.emptyList();
   }
 
+  @Override
   public void getSource(StringBuilder sb)
   {
     sb.append("!").append(target);
@@ -123,6 +125,7 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     sb.append("!");
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean render(GWikiContext ctx)
   {
@@ -187,8 +190,13 @@ public class GWikiFragmentImage extends GWikiFragmentBase
         ctx.append(" class=\"mediumThumb\"");
       }
     }
+    String tstyleClass = "weditimg";
     if (StringUtils.isNotEmpty(styleClass) == true) {
-      ctx.append(" class=\"", styleClass, "\"");
+      tstyleClass += " " + styleClass;
+    }
+    ctx.append(" class=\"", tstyleClass, "\"");
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append(" data-pageid=\"", target, "\"");
     }
     ctx.append("/>");
     if (StringUtils.isNotEmpty(thumbnail) == true) {
@@ -212,6 +220,7 @@ public class GWikiFragmentImage extends GWikiFragmentBase
     super.prepareHeader(ctx);
   }
 
+  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     // empty

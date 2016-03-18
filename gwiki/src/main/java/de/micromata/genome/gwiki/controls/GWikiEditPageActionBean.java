@@ -65,6 +65,7 @@ import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
+import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.collections.ArrayMap;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -874,7 +875,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
   {
     try {
       String htmlCode = wikiContext.getRequestParameter("htmlCode");
-      Html2WikiFilter filter = new Html2WikiFilter();
+      Html2WikiFilter filter = new Rte2WikiFilter(wikiContext);
+
       filter.setSupportedHtmlTags(getHtmlTagMacros());
       filter.setMacroTransformer(collectHtml2WikiTransformers());
       String ret = filter.transform(htmlCode);
