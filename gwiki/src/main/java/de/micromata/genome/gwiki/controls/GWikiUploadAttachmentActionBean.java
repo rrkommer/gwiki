@@ -152,8 +152,31 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
           return sendResponse(toMap("rc", "0", "tmpFileName", nf));
         } else {
           if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
-            sendResponse(5, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.fileexists"));
+
+            Map<String, String> map = toMap("rc", Integer.toString(5), "rm",
+                wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.fileexists"));
+            String baseName = pageId;
+            String suffix = "";
+            int idx = baseName.lastIndexOf('.');
+            if (idx != -1) {
+              baseName = baseName.substring(0, idx);
+              suffix = pageId.substring(idx);
+            }
+            for (int i = 1; i < 10; ++i) {
+              String npageId = baseName + i + suffix;
+              if (wikiContext.getWikiWeb().findElementInfo(npageId) == null) {
+                String fnfn = npageId;
+                if (StringUtils.contains(fnfn, '/') == true) {
+                  fnfn = StringUtils.substringAfterLast(npageId, "/");
+                }
+                map.put("alternativeFileName", fnfn);
+                break;
+              }
+            }
+
+            sendResponse(map);
             return noForward();
+
           }
           String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
           GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, fileName);
@@ -165,7 +188,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
             el.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
           }
           wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-          return sendUrlResponse(toMap("rc", "0", "tmpFileName", el.getElementInfo().getId()));
+          return sendResponse(toMap("rc", "0", "tmpFileName", el.getElementInfo().getId()));
 
         }
       } finally {

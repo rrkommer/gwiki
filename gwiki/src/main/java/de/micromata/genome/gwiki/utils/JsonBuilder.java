@@ -49,11 +49,13 @@ public class JsonBuilder
       if (object instanceof Number) {
         sb.append(((Number) object).toString());
         return;
+      } else if (object instanceof Boolean) {
+        sb.append(Boolean.toString((Boolean) object));
+      } else {
+        String s = esc(ObjectUtils.toString(object));
+        sb.append("'").append(s).append("'");
       }
-      String s = esc(ObjectUtils.toString(object));
-      sb.append("'").append(s).append("'");
     }
-
   }
 
   public static class JsonArray extends JsonObject
@@ -95,6 +97,16 @@ public class JsonBuilder
     public void put(String key, JsonObject value)
     {
       elements.put(key, value);
+    }
+
+    public void put(String key, boolean value)
+    {
+      elements.put(key, new JsonPrimtive(value));
+    }
+
+    public void put(String key, String value)
+    {
+      elements.put(key, new JsonPrimtive(value));
     }
 
     @Override
@@ -160,6 +172,7 @@ public class JsonBuilder
     t = StringUtils.replace(t, "\\", "\\\\");
     t = StringUtils.replace(t, "'", "\\'");
     t = StringUtils.replace(t, "\"", "\\\"");
+    t = StringUtils.replace(t, "\n", "\\n");
     return t;
   }
 }

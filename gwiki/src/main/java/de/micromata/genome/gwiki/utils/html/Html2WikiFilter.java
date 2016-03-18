@@ -65,6 +65,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTable;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
@@ -89,7 +90,7 @@ public class Html2WikiFilter extends DefaultFilter
   /**
    * Tags, which may not be closed in HTML code.
    */
-  private String[] autoCloseTags = new String[] { "hr", "br"};
+  private String[] autoCloseTags = new String[] { "hr", "br" };
 
   private static final String DEFAULT_SPECIAL_CHARACTERS = "*-_~^+{}[]!#|\\";
 
@@ -102,7 +103,7 @@ public class Html2WikiFilter extends DefaultFilter
 
   private ArrayStack<GWikiFragment> autoCloseTagStack = new ArrayStack<GWikiFragment>();
 
-  private ArrayStack<String> liStack = new ArrayStack<String>();
+  protected ArrayStack<String> liStack = new ArrayStack<String>();
 
   public static Map<String, String> DefaultSimpleTextDecoMap = new HashMap<String, String>();
 
@@ -131,10 +132,10 @@ public class Html2WikiFilter extends DefaultFilter
   private List<Html2WikiTransformer> macroTransformer = new ArrayList<Html2WikiTransformer>();
 
   /**
-   * because character will be intercepted if an entity like &auml; is in the character text, this will be used to collect all characters
-   * before parsing it.
+   * because character will be intercepted if an entity like &auml; is in the character text, this will be used to
+   * collect all characters before parsing it.
    */
-  private StringBuilder collectedText = new StringBuilder();
+  protected StringBuilder collectedText = new StringBuilder();
 
   // protected boolean in
   public static String html2Wiki(String text)
@@ -154,12 +155,13 @@ public class Html2WikiFilter extends DefaultFilter
   {
     parseContext.pushFragList();
     XMLParserConfiguration parser = new HTMLConfiguration();
-    parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { this});
+    parser.setProperty("http://cyberneko.org/html/properties/filters", new XMLDocumentFilter[] { this });
+    text = StringUtils.defaultString(text);
     XMLInputSource source = new XMLInputSource(null, null, null, new StringReader(text), "UTF-8");
     try {
       parser.parse(source);
       GWikiFragmentChildContainer cont = new GWikiFragmentChildContainer(parseContext.popFragList());
-      Html2WikiFragmentVisitor visitor = new Html2WikiFragmentVisitor();
+      GWikiFragmentVisitor visitor = createVisitor();
       cont.iterate(visitor);
       return cont.getSource();
       // return nf.resultText.toString();
@@ -168,6 +170,11 @@ public class Html2WikiFilter extends DefaultFilter
     } catch (Exception ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  protected GWikiFragmentVisitor createVisitor()
+  {
+    return new Html2WikiFragmentVisitor();
   }
 
   protected boolean isSimpleWordDeco(String el, XMLAttributes attributes)
@@ -190,9 +197,9 @@ public class Html2WikiFilter extends DefaultFilter
     return null;
   }
 
-  protected GWikiFragment findFragsInStack(Class< ? extends GWikiFragment>... classes)
+  protected GWikiFragment findFragsInStack(Class<? extends GWikiFragment>... classes)
   {
-    for (Class< ? extends GWikiFragment> cls : classes) {
+    for (Class<? extends GWikiFragment> cls : classes) {
       GWikiFragment f = findFragInStack(cls);
       if (f != null) {
         return f;
@@ -366,8 +373,9 @@ public class Html2WikiFilter extends DefaultFilter
         || (attributes.getLength() == 1 && StringUtils.equals(attributes.getValue("class"), "gwikiTable") == true)) {
       frag = new GWikiFragmentTable();
     } else {
-      frag = convertToBodyMacro(element, attributes, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
-          GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.TrimTextContent));
+      frag = convertToBodyMacro(element, attributes,
+          GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
+              GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.TrimTextContent));
     }
     parseContext.addFragment(frag);
     parseContext.pushFragList();
@@ -404,8 +412,9 @@ public class Html2WikiFilter extends DefaultFilter
       parseContext.pushFragList();
       return;
     }
-    GWikiFragment frag = convertToBodyMacro(element, attributes, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.TrimTextContent));
+    GWikiFragment frag = convertToBodyMacro(element, attributes,
+        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
+            GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.TrimTextContent));
     parseContext.addFragment(frag);
     parseContext.pushFragList();
   }
@@ -576,6 +585,7 @@ public class Html2WikiFilter extends DefaultFilter
     return false;
   }
 
+  @Override
   public void startElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
     flushText();
@@ -625,8 +635,10 @@ public class Html2WikiFilter extends DefaultFilter
   @SuppressWarnings("deprecation")
   private boolean requireTextDecoMacroSyntax(final GWikiFragmentTextDeco fragDeco)
   {
-    fragDeco.iterate(new GWikiSimpleFragmentVisitor() {
+    fragDeco.iterate(new GWikiSimpleFragmentVisitor()
+    {
 
+      @Override
       public void begin(GWikiFragment fragment)
       {
         if (fragDeco.isRequireMacroSyntax() == true) {
@@ -659,6 +671,7 @@ public class Html2WikiFilter extends DefaultFilter
     return false;
   }
 
+  @Override
   public void endElement(QName element, Augmentations augs) throws XNIException
   {
     flushText();
@@ -694,7 +707,8 @@ public class Html2WikiFilter extends DefaultFilter
       li.addChilds(frags);
     } else if (isSimpleWordDeco(en, null) == true) {
       frags = parseContext.popFragList();
-      GWikiFragmentTextDeco fragDeco = new GWikiFragmentTextDeco(simpleTextDecoMap.get(en).charAt(0), "<" + en + ">", "</" + en + ">",
+      GWikiFragmentTextDeco fragDeco = new GWikiFragmentTextDeco(simpleTextDecoMap.get(en).charAt(0), "<" + en + ">",
+          "</" + en + ">",
           frags);
       fragDeco.setRequireMacroSyntax(requireTextDecoMacroSyntax(fragDeco));
       parseContext.addFragment(fragDeco);
@@ -830,7 +844,7 @@ public class Html2WikiFilter extends DefaultFilter
     return null;
   }
 
-  private void flushText()
+  protected void flushText()
   {
     if (collectedText.length() == 0) {
       return;
@@ -869,6 +883,7 @@ public class Html2WikiFilter extends DefaultFilter
     }
   }
 
+  @Override
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
     String t = text.toString();

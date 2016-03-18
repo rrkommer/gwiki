@@ -1,0 +1,20 @@
+.wautocmp {
+	background: white;
+}
+
+.wautocmp ul {
+  padding: 5px;
+  margin: 5px;
+	
+}
+
+.wautocmp li {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 0.8em;
+}
+
+.wautocmpsel {
+	color: red;
+}

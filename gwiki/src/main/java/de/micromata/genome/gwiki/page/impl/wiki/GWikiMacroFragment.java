@@ -53,11 +53,13 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
     this.attrs = attrs;
   }
 
+  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     macro.ensureRight(attrs, ctx);
   }
 
+  @Override
   public void addChilds(List<GWikiFragment> childs)
   {
     GWikiFragmentChildContainer frag = attrs.getChildFragment();
@@ -127,31 +129,48 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
     renderSourceFoot(sb);
   }
 
+  private static String esc(String text)
+  {
+    return StringEscapeUtils.escapeXml(text);
+  }
+
+  @Override
   public boolean render(GWikiContext ctx)
   {
-    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true && (macro instanceof GWikiMacroRte) == false) {
-      StringBuilder sb = new StringBuilder();
-      renderSourceHead(sb);
-      ctx.append(sb.toString());
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      //   (macro instanceof GWikiMacroRte) == false
+
+      StringBuilder sbsourehead = new StringBuilder();
+      attrs.toHeadContent(sbsourehead);
+      String macroname = esc(sbsourehead.toString());
+      ctx.append("<div class='mceNonEditable weditmacrohead' data-macrohead='" + macroname + "'>");
+      ctx.append(macroname);
+
       if (macro.hasBody() == false) {
+        ctx.append("</div>");
         return true;
       }
-      sb = new StringBuilder();
-
+      ctx.append("<div class='mceEditable weditmacrobody");
+      if (macro.evalBody() == false) {
+        ctx.append(" editmacrobd_pre");
+      }
+      ctx.append("' contenteditable='true'>");
       if (macro.evalBody() == true) {
         if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
           attrs.getChildFragment().render(ctx);
-        } else {
-          sb.append(attrs.getBody());
         }
       } else {
-        sb.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+        ctx.append("<pre>");
+        ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+        ctx.append("</pre>");
       }
-      renderSourceFoot(sb);
-      ctx.append(sb.toString());
+      ctx.append("</div>");
+      ctx.append("</div>");
       return true;
     }
-    try {
+    try
+
+    {
       return ((GWikiRuntimeMacro) macro).render(attrs, ctx);
     } catch (Exception ex) {
       GWikiLog.warn("Failed to render macro: " + attrs.toString() + ": " + ex.getMessage(), ex);
@@ -166,9 +185,10 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#addChilds(de.micromata.genome.gwiki.page.impl.wiki.fragment
-   * .GWikiFragment)
+   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#addChilds(de.micromata.genome.gwiki.page.
+   * impl.wiki.fragment .GWikiFragment)
    */
+  @Override
   public void addChilds(GWikiFragment child)
   {
     getChilds().add(child);
@@ -178,8 +198,11 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#renderChilds(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#renderChilds(de.micromata.genome.gwiki.page
+   * .GWikiContext)
    */
+  @Override
   public void renderChilds(GWikiContext ctx)
   {
     for (GWikiFragment frag : getChilds()) {
@@ -191,9 +214,10 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#replaceChilds(de.micromata.genome.gwiki.page.impl.wiki.fragment
-   * .GWikiFragment, java.util.List)
+   * de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment#replaceChilds(de.micromata.genome.gwiki.
+   * page.impl.wiki.fragment .GWikiFragment, java.util.List)
    */
+  @Override
   public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -228,6 +252,7 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
     this.macro = macro;
   }
 
+  @Override
   public List<GWikiFragment> getChilds()
   {
     return attrs.getChildFragment().getChilds();

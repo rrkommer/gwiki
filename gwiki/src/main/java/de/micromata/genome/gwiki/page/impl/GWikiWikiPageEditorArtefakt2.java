@@ -21,9 +21,6 @@ package de.micromata.genome.gwiki.page.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -88,6 +85,7 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwikieditorlevel/editor_plugin_src.js");
+    wikiContext.getRequiredJs().add("/static/gwedit/gwedit.js");
     wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
     wikiContext.getRequiredCss().add("/static/wedit/wautocmp.css");
   }
@@ -103,25 +101,23 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
     String html;
 
     String text = textPage.getStorageData();
-    text = StringEscapeUtils.escapeXml(text);
-    text = StringUtils.replace(text, "\n", "<br/>\n");
     // TODO RK partname is not used
     html = "";
     //html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
 
     String weditoptions = "{ " +
-        "linkAutoCompleteUrl: '" + ctx.localUrl("edit/PageSuggestions") + "',"
+        "linkAutoCompleteUrl: '" + ctx.localUrl("edit/WeditService") + "',"
         + " partName: '" + partName + "' ,"
         + " autocompletegetitemshandler: gwedit_autocomplete_entries ";
     if (thisPageId != null) {
       weditoptions += ", parentPageId: '" + thisPageId + "'";
     }
     weditoptions += "}";
-
+    String weditstr = WeditWikiUtils.wikiToWedit(text);
     html += Html.div(
         Xml.attrs("id", "weditordiv" + partName, "class", "wikiEditorTextArea", "contenteditable", "true",
             "style", "width:100%;height:100%"),
-        Xml.code(WeditWikiUtils.wikiToWedit(text))).toString();
+        Xml.code(weditstr)).toString();
     html += Html.textarea(
         Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "name", partName + ".wikiText",
             "style", "display: none"), //
@@ -162,11 +158,9 @@ public class GWikiWikiPageEditorArtefakt2 extends GWikiTextPageEditorArtefakt
         + pn
         + "').wedit(", weditoptions, ");\n");
     ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
-    ctx.append("saveHandlers.push(function(){\n")//
-        .append("  gwikiRestoreFromRte(gwikiCurrentPart);\n ")//
-        .append("  gwikiUnsetContentChanged();\n")//
-        .append("});\n");
-
+    ctx.append("saveHandlers.push(gwikiRestoreFromRte);\n");
+    ctx.append("saveHandlers.push(restoreWeditToTextArea);\n");
+    ctx.append("saveHandlers.push(gwikiUnsetContentChanged);\n");
     ctx.append("</script>");
     return true;
   }

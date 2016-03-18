@@ -28,7 +28,7 @@ var saveHandlers = new Array();
 function onSave(event)
 {
   gwikiContentChanged=false;
-    
+    // TODO RK check saveHandlers signature.
   for (var i = 0; i < saveHandlers.length; ++i)
   {
     saveHandlers[i]();
