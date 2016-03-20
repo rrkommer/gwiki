@@ -18,7 +18,6 @@
 
 package de.micromata.genome.gwiki.utils.html;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.xerces.xni.XMLAttributes;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
@@ -43,54 +43,6 @@ import de.micromata.genome.util.matcher.Matcher;
  */
 public class Html2WikiTransformInfo implements Html2WikiTransformer
 {
-  public static class AttributeMatcher
-  {
-    /**
-     * name of the attribute
-     */
-    private String name;
-
-    /**
-     * should match
-     */
-    private Matcher<String> valueMatcher;
-
-    public AttributeMatcher()
-    {
-
-    }
-
-    public AttributeMatcher(String name, Matcher<String> valueMatcher)
-    {
-      this.name = name;
-      this.valueMatcher = valueMatcher;
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public Matcher<String> getValueMatcher()
-    {
-      return valueMatcher;
-    }
-
-    public void setValueMatcher(Matcher<String> valueMatcher)
-    {
-      this.valueMatcher = valueMatcher;
-    }
-
-  }
-
-  /**
-   * Name of the html tag.
-   */
   private String tagName;
 
   /**
@@ -106,60 +58,70 @@ public class Html2WikiTransformInfo implements Html2WikiTransformer
   /**
    * List of required macros
    */
-  private List<AttributeMatcher> attributeMatcher = new ArrayList<AttributeMatcher>();
+
+  private Matcher<SaxElement> saxElementMatcher;
 
   public Html2WikiTransformInfo()
   {
 
   }
 
-  public Html2WikiTransformInfo(String tagName, String macroName, Class< ? extends GWikiMacro> macro)
+  public Html2WikiTransformInfo(String tagName, Matcher<SaxElement> saxElementMatcher, String macroName,
+      Class<? extends GWikiMacro> macro)
   {
     this.tagName = tagName;
     this.macroName = macroName;
     this.macroFactory = new GWikiMacroClassFactory(macro);
+    this.saxElementMatcher = saxElementMatcher;
   }
 
-  public Html2WikiTransformInfo(String tagName, String macroName, GWikiMacroFactory macroFactory, List<AttributeMatcher> attributeMatcher)
+  public Html2WikiTransformInfo(String tagName, Matcher<SaxElement> saxElementMatcher, String macroName,
+      GWikiMacroFactory macroFactory)
   {
     this.tagName = tagName;
     this.macroName = macroName;
     this.macroFactory = macroFactory;
-    this.attributeMatcher = attributeMatcher;
+    this.saxElementMatcher = saxElementMatcher;
   }
 
-  protected boolean matchAttribute(AttributeMatcher am, XMLAttributes attributes)
-  {
-    String value = attributes.getValue(am.getName());
-    return am.getValueMatcher().match(value);
-  }
-
+  @Override
   public boolean match(String tagName, XMLAttributes attributes, boolean withBody)
   {
-    if (getTagName().equals(tagName) == false) {
-      return false;
-    }
-    if (macroFactory.hasBody() != withBody) {
+    SaxElement saxElement = new SaxElement(tagName, attributes, withBody);
+    if (saxElementMatcher.match(saxElement) == false) {
       return false;
     }
 
-    for (AttributeMatcher am : getAttributeMatcher()) {
-      if (matchAttribute(am, attributes) == false) {
-        return false;
-      }
-    }
     return true;
+  }
+
+  public static String getMarcroArgsAttributesForRte(GWikiContext ctx, MacroAttributes attrs)
+  {
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
+      return "";
+    }
+    StringBuilder ret = new StringBuilder();
+    StringBuilder sbsourehead = new StringBuilder();
+    attrs.toHeadContent(sbsourehead);
+
+    ret.append("  data-macroname='").append(attrs.getCmd()).append("' data-macrohead='").append(sbsourehead.toString())
+        .append("'");
+    if (attrs.getArgs().isEmpty() == true) {
+      return ret.toString();
+    }
+    String maargs = MacroAttributes.encode(attrs.getArgs().getMap());
+    ret.append(" title=\"").append(maargs).append("\"");
+    return ret.toString();
+
   }
 
   public static void renderMacroArgs(GWikiContext ctx, MacroAttributes attrs)
   {
-    if (attrs.getArgs().isEmpty() == true) {
-      return;
-    }
-    String maargs = MacroAttributes.encode(attrs.getArgs().getMap());
-    ctx.append(" title=\"").append(maargs).append("\"");
+    String sb = getMarcroArgsAttributesForRte(ctx, attrs);
+    ctx.append(sb);
   }
 
+  @Override
   public GWikiMacroFragment handleMacroTransformer(String tagName, XMLAttributes attributes, boolean withBody)
   {
     MacroAttributes ma = new MacroAttributes();
@@ -174,6 +136,7 @@ public class Html2WikiTransformInfo implements Html2WikiTransformer
     return frag;
   }
 
+  @Override
   public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body)
   {
     // if ((lpfm instanceof GWikiBodyEvalMacro) == false) {
@@ -183,16 +146,6 @@ public class Html2WikiTransformInfo implements Html2WikiTransformer
       lpfm.addChilds(children);
     }
     // }
-  }
-
-  public String getTagName()
-  {
-    return tagName;
-  }
-
-  public void setTagName(String tagName)
-  {
-    this.tagName = tagName;
   }
 
   public GWikiMacroFactory getMacroFactory()
@@ -205,14 +158,14 @@ public class Html2WikiTransformInfo implements Html2WikiTransformer
     this.macroFactory = macroFactory;
   }
 
-  public List<AttributeMatcher> getAttributeMatcher()
+  public String getTagName()
   {
-    return attributeMatcher;
+    return tagName;
   }
 
-  public void setAttributeMatcher(List<AttributeMatcher> attributeMatcher)
+  public void setTagName(String tagName)
   {
-    this.attributeMatcher = attributeMatcher;
+    this.tagName = tagName;
   }
 
 }

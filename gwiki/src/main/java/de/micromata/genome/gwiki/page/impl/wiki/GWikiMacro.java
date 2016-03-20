@@ -43,8 +43,9 @@ public interface GWikiMacro
   public boolean evalBody();
 
   /**
-   * Will be called if a wiki artefakt will be safed by the user. The implementation should throw AuthorizationFailedException if the
-   * current user has not the right to make usage of this macro or use invalid attributes.
+   * Will be called if a wiki artefakt will be safed by the user. The implementation should throw
+   * AuthorizationFailedException if the current user has not the right to make usage of this macro or use invalid
+   * attributes.
    * 
    * @param attrs the attributes of the macro.
    * @param ctx Context.
@@ -58,5 +59,7 @@ public interface GWikiMacro
    * @return
    */
   public int getRenderModes();
+
+  public GWikiMacroInfo getMacroInfo();
 
 }

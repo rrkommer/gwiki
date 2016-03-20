@@ -22,6 +22,7 @@ import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * Ajax services.
@@ -122,6 +123,9 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
     Collections.sort(macroNames);
     for (String macroName : macroNames) {
       GWikiMacroFactory fac = mfm.get(macroName);
+      if (fac.isRteMacro() == true) {
+        continue;
+      }
       JsonObject map = JsonBuilder.map("key", macroName, "label", macroName);
       map.set("onInsert", "gwedit_insert_macro");
       fillMacroInfo(macroName, fac);
@@ -144,11 +148,14 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           "info", pi.getInfo()));
 
     }
+    Pair<String, String> templ = mInfo.getRteTemplate(macroName);
     JsonObject ret = JsonBuilder.map("info", mInfo.getInfo(),
         "macroName", macroName,
         "hasBody", mInfo.hasBody(),
         "evalBody", mInfo.evalBody(),
         "rteMacro", mInfo.isRteMacro(),
+        "macroTemplateBegin", templ.getFirst(),
+        "macroTemplateEnd", templ.getSecond(),
         "macroParams", jp);
     return ret;
   }

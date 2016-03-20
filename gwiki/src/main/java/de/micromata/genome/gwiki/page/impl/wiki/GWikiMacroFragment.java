@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
+import de.micromata.genome.util.types.Pair;
 
 /**
  * A wiki fragment containing a macro.
@@ -137,42 +138,23 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   @Override
   public boolean render(GWikiContext ctx)
   {
-    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-      //   (macro instanceof GWikiMacroRte) == false
-
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true && (macro instanceof GWikiMacroRte) == false) {
+      //      if ((macro instanceof GWikiMacroRte) == false) {
       StringBuilder sbsourehead = new StringBuilder();
       attrs.toHeadContent(sbsourehead);
-      String macroname = esc(sbsourehead.toString());
-      ctx.append(
-          "<div tabindex='-1' class='mceNonEditable weditmacrohead' data-macrohead='" + macroname + "' data-macroname='"
-              + attrs.getCmd() + "'>");
-      ctx.append(macroname);
-
-      if (macro.hasBody() == false) {
-        ctx.append("</div>");
-        return true;
-      }
-      ctx.append("<div tabindex='-1' class='mceEditable weditmacrobody");
-      if (macro.evalBody() == false) {
-        ctx.append(" editmacrobd_pre");
-      }
-      ctx.append("' contenteditable='true'>");
+      Pair<String, String> templ = macro.getMacroInfo().getRteTemplate(sbsourehead.toString());
+      ctx.append(templ.getFirst());
       if (macro.evalBody() == true) {
         if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
           attrs.getChildFragment().render(ctx);
         }
       } else {
-        ctx.append("<pre>");
         ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
-        ctx.append("</pre>");
       }
-      ctx.append("</div>");
-      ctx.append("</div>");
+      ctx.append(templ.getSecond());
       return true;
     }
-    try
-
-    {
+    try {
       return ((GWikiRuntimeMacro) macro).render(attrs, ctx);
     } catch (Exception ex) {
       GWikiLog.warn("Failed to render macro: " + attrs.toString() + ": " + ex.getMessage(), ex);

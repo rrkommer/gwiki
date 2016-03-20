@@ -219,6 +219,9 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 }
 
 function wedit_escapemacrohead(k) {
+	if (!k) {
+		return k;
+	}
 	k = k.replace("\\", "\\\\");
 	k = k.replace("|", "\\|");
 	k = k.replace("=", "\\=");
@@ -259,7 +262,8 @@ function wedit_updateMacro(ed, curMacroInfo, newMacroInfo) {
 	var hdiv = $(curMacroInfo.macroHeadDiv);
 	hdiv.attr('data-macrohead', nhead);
 	hdiv.attr('data-macroname', newMacroInfo.macroName);
-	hdiv.find(">").text(nhead);
+	var htext = hdiv.find(".weditmacrn");
+	htext.text(nhead);
 }
 
 function wedit_getMacroInfos(ed, callback) {
@@ -339,27 +343,20 @@ function gwedit_insert_macro(ed, item) {
 function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 {
 	var withbody = macroInfo.macroMetaInfo.hasBody;
-	var evalbody = macroInfo.evalBody;
+	var evalbody = macroInfo.macroMetaInfo.evalBody;
 	var headId = wedit_genid("mhead_");
 	var bodyid = wedit_genid("mbody_");
-
-	var html = "<div id='" + headId + "' contenteditable='false' class='mceNonEditable weditmacrohead' data-macrohead='"
-	    + macroInfo.macroHead + "' data-macroname='" + macroInfo.macroName + "'>" + macroInfo.macroHead;
-	if (withbody) {
-		html += "<div id='" + bodyid + "' contenteditable='true' class='mceEditable weditmacrobody";
-		if (!evalbody) {
-			html += " editmacrobd_pre";
+	var templBegin = macroInfo.macroMetaInfo.macroTemplateBegin;
+	var templEnd = macroInfo.macroMetaInfo.macroTemplateEnd;
+	var fuellsel = '';
+	if (macroInfo.macroMetaInfo.hasBody) {
+		var fuellsel = "<p>&nbsp;</p>";
+		if (macroInfo.macroMetaInfo.evalBody == false) {
+			fuellsel = "<pre>\n</pre>";
 		}
-		html += "'>";
-		if (evalbody) {
-			html += " ";
-		} else {
-			html += "<pre id='" + bodyid + "'>\n</pre>";
-		}
-
-		html += "</div>";
 	}
-	html += "</div>";
+	var html = templBegin + fuellsel + templEnd;
+
 	var node = tedit_insertRaw(ed, html);
 	if (withbody) {
 
@@ -386,22 +383,27 @@ function wedit_hide_contextToollBar(ed) {
 
 }
 
-function wedit_macro_delete_current(ed, el) {
-	var divel = el;
-	if (divel.nodeName != 'DIV') {
-		divel = ed.dom.getParent(divel, "DIV");
-	}
-	if (!divel) {
-		return;
-	}
-	var body = null;
-	if (divel.getAttribute('class').indexOf('weditmacrobody') != -1) {
-		body = divel;
-		divel = divel.parentElement;
-	}
-	if (divel.getAttribute('class').indexOf('weditmacrohead') == -1) {
-		console.warn('no macrohead div found');
+function wedit_macro_findFrame(ed, divel) {
+	if (divel == null) {
 		return null;
+	}
+	if (divel.nodeName != 'DIV') {
+		var pel = divel.parentNode;
+		return wedit_macro_findFrame(ed, pel);
+	}
+	if (divel.getAttribute('class').indexOf('weditmacroframe') == -1) {
+		var pel = divel.parentNode;
+		return wedit_macro_findFrame(ed, pel);
+	}
+	return divel;
+}
+
+function wedit_macro_delete_current(ed, el) {
+
+	var divel = wedit_macro_findFrame(ed, el);
+	if (divel == null) {
+		console.warn("no weditmacroframe found");
+		return;
 	}
 	var pnode = divel.parentNode;
 	pnode.removeChild(divel);

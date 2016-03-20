@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -31,7 +32,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiMacroUnknown implements GWikiRuntimeMacro
+public class GWikiMacroUnknown extends GWikiMacroBase implements GWikiRuntimeMacro
 {
 
   private static final long serialVersionUID = -1990609591192712242L;
@@ -47,20 +48,24 @@ public class GWikiMacroUnknown implements GWikiRuntimeMacro
     this.message = message;
   }
 
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
   }
 
+  @Override
   public boolean evalBody()
   {
     return false;
   }
 
+  @Override
   public boolean hasBody()
   {
     return false;
   }
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     String msg = message;
@@ -71,6 +76,7 @@ public class GWikiMacroUnknown implements GWikiRuntimeMacro
     return true;
   }
 
+  @Override
   public int getRenderModes()
   {
     return 0;

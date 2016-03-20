@@ -3,6 +3,8 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.micromata.genome.util.types.Pair;
+
 /**
  * Information about a macro.
  * 
@@ -91,7 +93,7 @@ public interface GWikiMacroInfo
 
   }
 
-  public static class MacroInfoBean implements GWikiMacroInfo
+  public static class MacroInfoBean extends GWikiMacroInfoBase
   {
     boolean hasBody;
     boolean evalBody;
@@ -170,4 +172,6 @@ public interface GWikiMacroInfo
   String getInfo();
 
   List<MacroParamInfo> getParamInfos();
+
+  Pair<String, String> getRteTemplate(String macroHead);
 }

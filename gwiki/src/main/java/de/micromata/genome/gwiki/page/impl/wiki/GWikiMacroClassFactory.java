@@ -68,6 +68,9 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
     if (macro instanceof GWikiMacroBase && macro.getRenderModes() == 0) {
       ((GWikiMacroBase) macro).setRenderModes(renderModes);
     }
+    if (macro instanceof GWikiMacroBase) {
+      ((GWikiMacroBase) macro).setMacroInfo(getMacroInfo());
+    }
     return macro;
   }
 
@@ -95,7 +98,7 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
     String macinfo = info;
     List<MacroParamInfo> paramlist = new ArrayList<>(params.values());
     GWikiMacroClassFactory fac = this;
-    return new GWikiMacroInfo()
+    return new GWikiMacroInfoBase()
     {
 
       @Override

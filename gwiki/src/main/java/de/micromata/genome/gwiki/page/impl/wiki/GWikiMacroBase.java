@@ -25,21 +25,34 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 public abstract class GWikiMacroBase implements GWikiMacro
 {
+  private GWikiMacroInfo macroInfo;
   /**
    * combinations of GWikiMacroRenderFlags
    */
   private int renderModes = 0;
 
+  public GWikiMacroBase(GWikiMacroInfo macroInfo)
+  {
+    this.macroInfo = macroInfo;
+  }
+
+  public GWikiMacroBase()
+  {
+  }
+
+  @Override
   public boolean hasBody()
   {
     return this instanceof GWikiBodyMacro;
   }
 
+  @Override
   public boolean evalBody()
   {
     return this instanceof GWikiBodyEvalMacro;
   }
 
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
 
@@ -69,6 +82,18 @@ public abstract class GWikiMacroBase implements GWikiMacro
 
   }
 
+  @Override
+  public GWikiMacroInfo getMacroInfo()
+  {
+    return macroInfo;
+  }
+
+  public void setMacroInfo(GWikiMacroInfo macroInfo)
+  {
+    this.macroInfo = macroInfo;
+  }
+
+  @Override
   public int getRenderModes()
   {
     return renderModes;

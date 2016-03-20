@@ -39,7 +39,7 @@ public interface GWikiMacroFactory
   default GWikiMacroInfo getMacroInfo()
   {
     GWikiMacroFactory fac = this;
-    return new GWikiMacroInfo()
+    return new GWikiMacroInfoBase()
     {
 
       @Override

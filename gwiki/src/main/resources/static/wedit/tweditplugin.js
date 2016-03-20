@@ -238,13 +238,16 @@
 		  });
 	  },
 	  _editMacro : function(ed) {
+	  	wedit_hide_contextToollBar(ed);
 		  var elm = ed.selection.getNode();
 		  wedit_show_editmacro_dialog(ed, elm);
 	  },
 	  _insertMacro : function(ed) {
+	  	wedit_hide_contextToollBar(ed);
 		  wedit_show_newmacro_dialog(ed);
 	  },
 	  _deleteMacro : function(ed) {
+	  	wedit_hide_contextToollBar(ed);
 	  	var elm = ed.selection.getNode();
 	  	wedit_macro_delete_current(ed, elm);
 	  },
