@@ -491,6 +491,7 @@ public class Html2WikiFilter extends DefaultFilter
           parseContext.addFragment(frag);
           parseContext.pushFragList();
         }
+        
         return true;
       }
     }
@@ -630,7 +631,7 @@ public class Html2WikiFilter extends DefaultFilter
         parseContext.pushFragList();
       }
     }
-    super.startElement(element, attributes, augs);
+    
   }
 
   @SuppressWarnings("deprecation")

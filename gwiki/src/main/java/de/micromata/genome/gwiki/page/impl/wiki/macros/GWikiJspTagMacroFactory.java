@@ -45,6 +45,7 @@ public class GWikiJspTagMacroFactory implements GWikiMacroFactory
     this.tag = createTag();
   }
 
+  @Override
   public String toString()
   {
     return "JspTag(" + tagInfo.getTagName() + ")";
@@ -56,22 +57,26 @@ public class GWikiJspTagMacroFactory implements GWikiMacroFactory
     return ClassUtils.createDefaultInstance(className, JspTag.class);
   }
 
+  @Override
   public GWikiMacro createInstance()
   {
-    return new GWikiJspTagMacro(tagInfo, createTag());
+    return new GWikiJspTagMacro(tagInfo, createTag(), getMacroInfo());
   }
 
+  @Override
   public boolean evalBody()
   {
     return tag instanceof BodyTag;
     // return false;
   }
 
+  @Override
   public boolean hasBody()
   {
     return evalBody();
   }
 
+  @Override
   public boolean isRteMacro()
   {
     return false;

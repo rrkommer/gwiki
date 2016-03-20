@@ -29,6 +29,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
@@ -74,11 +75,19 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
     }
   }
 
+  @Override
+  public GWikiMacroInfo getMacroInfo()
+  {
+    return macroFactory.getMacroInfo();
+  }
+
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
     // nothing
   }
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     GWikiElement executer = ctx.getWikiWeb().getElement(execPageId);
@@ -108,11 +117,13 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
     return true;
   }
 
+  @Override
   public boolean evalBody()
   {
     return evalBody;
   }
 
+  @Override
   public boolean hasBody()
   {
     return withBody;
@@ -178,6 +189,7 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
     this.macroFactory = macroFactory;
   }
 
+  @Override
   public int getRenderModes()
   {
     return renderModes;

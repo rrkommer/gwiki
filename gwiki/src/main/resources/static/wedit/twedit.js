@@ -74,6 +74,8 @@ function twedit_create(partName, content) {
 	      },
 
 	      theme : 'modern',
+	      forced_root_block: false, // br instead of p
+	      keep_styles: false, // otherwise h1. will not terminated.
 	      /*
 				 * plugins : [ 'advlist autolink lists link image charmap print preview
 				 * hr anchor pagebreak', 'searchreplace wordcount visualblocks
@@ -81,12 +83,12 @@ function twedit_create(partName, content) {
 				 * table contextmenu directionality', 'template paste textcolor
 				 * colorpicker textpattern imagetools' ],
 				 */
-	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table', //
+	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
 	      paste_data_images : true,
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
 				// bullist
 	      // numlist",
-	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikiimage  wikinewmacro | styleselect bold italic | bullist numlist | table",
+	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikiimage  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
 	      // alignleft
@@ -148,15 +150,16 @@ function wedit_deleteLeftUntil(ed, char) {
 
 
 function wedit_cleanuphtml(content) {
-	var cnode = $(content);
-	var attr = cnode.attr("class");
-	if (attr && attr.indexOf("gwikiContent") != -1) {
-		content = cnode.html();
-	}
+	
+	//will not work on text like: h1. bla<br/>blub.
+	// jquery-1.12.1.js:1502 Uncaught Error: Syntax error, unrecognized expression: h1. Titel<br />asdf
+//	var cnode = $(content); 
+//	var attr = cnode.attr("class");
+//	if (attr && attr.indexOf("gwikiContent") != -1) {
+//		content = cnode.html();
+//	}
+//	} 
 	return content;
-//	var node = $(content).find("#wautocopletewindow");
-//	node.remove();
-//	return cnode.prop('outerHTML');
 }
 function gwedit_buildUrl(pageId) {
 	// return gwikiContextPath + gwikiServletPath + pageId;

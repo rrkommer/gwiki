@@ -37,6 +37,11 @@ public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRunt
 
   private boolean populated = false;
 
+  public GWikiMacroBean(GWikiMacroInfo macroInfo)
+  {
+    super(macroInfo);
+  }
+
   public GWikiMacroBean()
   {
 
@@ -61,6 +66,7 @@ public abstract class GWikiMacroBean extends GWikiMacroBase implements GWikiRunt
 
   }
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     if (populated == false) {

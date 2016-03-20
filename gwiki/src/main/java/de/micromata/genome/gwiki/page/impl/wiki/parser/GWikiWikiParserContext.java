@@ -195,6 +195,14 @@ public class GWikiWikiParserContext
     return fragStack.pop();
   }
 
+  public GWikiFragment peekFragStack()
+  {
+    if (fragStack.isEmpty() == true) {
+      return null;
+    }
+    return fragStack.peek();
+  }
+
   public GWikiMacroFragment createMacro(MacroAttributes ma)
   {
     GWikiMacroFactory mf = macroFactories.get(ma.getCmd());

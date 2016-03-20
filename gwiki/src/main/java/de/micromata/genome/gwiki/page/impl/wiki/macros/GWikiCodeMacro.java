@@ -39,8 +39,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
-import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.AttributeMatcher;
-import de.micromata.genome.util.matcher.EqualsMatcher;
+import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
+import de.micromata.genome.util.matcher.CommonMatchers;
+import de.micromata.genome.util.matcher.StringMatchers;
 
 /**
  * GWiki macro code.
@@ -59,14 +60,10 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   private String lang = "java";
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("pre", "code", GWikiCodeMacro.class);
-  static {
-    AttributeMatcher am = new AttributeMatcher();
-    am.setName("class");
-    am.setValueMatcher(new EqualsMatcher<String>("wikiCode"));
-    transformInfo.getAttributeMatcher().add(am);
-
-  }
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("pre",
+      CommonMatchers.and(SaxElementMatchers.nameMatcher("pre"),
+          SaxElementMatchers.attribute("class", StringMatchers.containsString("wikiCode"))),
+      "code", GWikiCodeMacro.class);
 
   public static GWikiMacroFactory getFactory()
   {
@@ -75,7 +72,10 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   public GWikiCodeMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP/* , GWikiMacroRenderFlags.TrimTextContent */));
+    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP/*
+                                                                                   * , GWikiMacroRenderFlags.
+                                                                                   * TrimTextContent
+                                                                                   */));
   }
 
   @Override
@@ -146,6 +146,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     return "<pre>\n" + StringEscapeUtils.escapeHtml(code) + "</pre>\n";
   }
 
+  @Override
   public Html2WikiTransformInfo getTransformInfo()
   {
     return transformInfo;
