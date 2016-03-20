@@ -208,14 +208,19 @@ public class Rte2WikiFilter extends Html2WikiFilter
       LOG.debug("rte_end: macro" + element.rawname);
       GWikiMacroFragment mf = (GWikiMacroFragment) lastfrag;
       List<GWikiFragment> childs = parseContext.popFragList();
-      if (mf.getMacro().hasBody() == true) {
-        RteMacroBodyFragment mbody = (RteMacroBodyFragment) childs.get(0);
-        List<GWikiFragment> bodychilds = mbody.getChilds();
-        if (mf.getMacro().evalBody() == true) {
-          mf.getAttrs().setChildFragment(new GWikiFragmentChildContainer(bodychilds));
+      if (mf.getMacro().hasBody() == true && childs.size() > 0) {
+        if (childs.get(0) instanceof RteMacroBodyFragment) {
+          RteMacroBodyFragment mbody = (RteMacroBodyFragment) childs.get(0);
+          List<GWikiFragment> bodychilds = mbody.getChilds();
+          if (mf.getMacro().evalBody() == true) {
+            mf.getAttrs().setChildFragment(new GWikiFragmentChildContainer(bodychilds));
+          } else {
+            String text = childsToTextString(bodychilds);
+            mf.getAttrs().setBody(text);
+          }
         } else {
-          String text = childsToTextString(bodychilds);
-          mf.getAttrs().setBody(text);
+          LOG.info("Expected RteMacroBodyFragment as child, but found: " + childs.get(0).getClass().getName());
+
         }
 
       }

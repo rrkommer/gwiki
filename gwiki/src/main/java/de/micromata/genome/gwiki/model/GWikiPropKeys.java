@@ -104,7 +104,10 @@ public interface GWikiPropKeys
   public static final String MACRO_WITH_PREVIEW = "MACRO_WITH_PREVIEW";
 
   public static final String MACRO_RENDERMODES = "MACRO_RENDERMODES";
-
+  /**
+   * json string for macros
+   */
+  public static final String MACRO_MACROINFO = "MACRO_MACROINFO";
   /**
    * List of pageIds with the I18N-Modudes used by the page.
    */

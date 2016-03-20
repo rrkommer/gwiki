@@ -36,24 +36,27 @@ public class GWikiTextPageEditorArtefakt extends GWikiEditorArtefaktBase<String>
 
   private static final long serialVersionUID = -1675589607133523091L;
 
-  protected GWikiTextArtefaktBase< ? > textPage;
+  protected GWikiTextArtefaktBase<?> textPage;
 
   public GWikiTextPageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
-      GWikiTextArtefaktBase< ? > textPage)
+      GWikiTextArtefaktBase<?> textPage)
   {
     super(elementToEdit, editBean, partName);
     this.textPage = textPage;
   }
 
+  @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
     String html = //
-    Html.textarea(Xml.attrs("id", ctx.genHtmlId("gwikitextpe"), "rows", "40", "cols", "100", "name", partName + ".wikiText"), // 
-        Xml.text(textPage.getStorageData())).toString();
+        Html.textarea(
+            Xml.attrs("id", ctx.genHtmlId("gwikitextpe"), "rows", "40", "cols", "100", "name", partName + ".wikiText"), // 
+            Xml.text(textPage.getStorageData())).toString();
     ctx.append(html);
     return true;
   }
 
+  @Override
   public void onSave(GWikiContext ctx)
   {
     String text = ctx.getRequestParameter(partName + ".wikiText");

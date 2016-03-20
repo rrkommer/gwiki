@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
@@ -40,12 +41,17 @@ import de.micromata.genome.util.matcher.EqualsMatcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(
+    info = "The Macro pageintro markes a section of wiki text, which will be used as short abstract of the page.\n" +
+        "This text can also be used to be displayed in children Macros.")
 public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte
 {
 
   private static final long serialVersionUID = -3030397042733595461L;
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div", "pageintro", GWikiPageIntroMacroBean.class) {
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div", "pageintro",
+      GWikiPageIntroMacroBean.class)
+  {
 
     @Override
     public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body)
@@ -67,8 +73,10 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
 
   public GWikiPageIntroMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModes(
+        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+            GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
+            GWikiMacroRenderFlags.TrimTextContent));
   }
 
   @Override
@@ -82,6 +90,7 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
     return true;
   }
 
+  @Override
   public Html2WikiTransformInfo getTransformInfo()
   {
     return transformInfo;
