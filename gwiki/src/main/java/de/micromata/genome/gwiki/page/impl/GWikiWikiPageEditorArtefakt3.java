@@ -21,6 +21,8 @@ package de.micromata.genome.gwiki.page.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -29,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentParseError;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.WeditWikiUtils;
 import de.micromata.genome.gwiki.utils.ThrowableUtils;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
@@ -73,6 +76,7 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/wedit/gwiki-link-dialog.js");
     wikiContext.getRequiredJs().add("/static/wedit/twedittabs.js");
     wikiContext.getRequiredJs().add("/static/wedit/gweditautocomplete.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditmacrodlg.js");
 
     //    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
     //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
@@ -117,43 +121,41 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     String text = textPage.getStorageData();
     html = "";
     //html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
-
-    String weditoptions = "{ " +
-        "linkAutoCompleteUrl: '" + ctx.localUrl("edit/WeditService") + "',"
-        + " partName: '" + partName + "' ,"
-        + " autocompletegetitemshandler: gwedit_autocomplete_entries ";
-    if (thisPageId != null) {
-      weditoptions += ", parentPageId: '" + thisPageId + "'";
-    }
-    weditoptions += "}";
-
+    String lastactivetabviewid = "lastactiveview" + partName;
+    html += Html.input("type", "hidden", "name", lastactivetabviewid, "id", lastactivetabviewid);
     html += Html.textarea(
         Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name",
             partName + ".wikiText",
             "style", "width:100%;height:100%"), //
         Xml.text(text)).toString();
+    String rtetext = WeditWikiUtils.wikiToRte(ctx, text);
+
+    String rtetextarea = Html.textarea(Xml.attrs("id", "gwikihtmledit" + partName, "name", "gwikihtmledit" + partName),
+        Xml.text(rtetext)).toString();
+
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
         + "\" style=\"width: 100%; height: 100%\">"
         + "<div id='gwikiwktabs"
         + pn
         + "'>"
-        + "<ul><li><a href='#WikiEdit"
+        + "<ul><li><a href='#WikiRte"
         + pn
-        + "'><span>Wiki</span></a></li><li>"
-        + "<a href='#WikiRte"
+        + "'><span>Rich Text</span></a></li><li>"
+        + "<a href='#WikiEdit"
         + pn
-        + "'><span>Rich Text</span></a></li><li><a href='#WikiPreview"
+        + "'><span>Source</span></a></li><li><a href='#WikiPreview"
         + pn
         + "'><span>Preview</span></a></li></ul>"
+        + "<div id='WikiRte"
+        + pn
+        + "'>" + rtetextarea + "</div>"
         + "<div id='WikiEdit"
         + pn
         + "'>"
         + html
         + "</div>"
-        + "<div id='WikiRte"
-        + pn
-        + "'></div>"
+
         + "<div id='WikiPreview"
         + pn
         + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
@@ -165,8 +167,8 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     ctx.append("<script type=\"text/javascript\">\n");
     ctx.append("jQuery(document).ready(function(){\n");
     ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
-    ctx.append("saveHandlers.push(gwikiRestoreFromRte);\n");
-    //    ctx.append("saveHandlers.push(restoreWeditToTextArea);\n");
+    ctx.append("saveHandlers.push(gwikiSaveRte);\n");
+    //      ctx.append("saveHandlers.push(restoreWeditToTextArea);\n");
     ctx.append("saveHandlers.push(gwikiUnsetContentChanged);\n");
     ctx.append("</script>");
     return true;
@@ -175,7 +177,17 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
   @Override
   public void onSave(GWikiContext ctx)
   {
-    super.onSave(ctx);
+    String htmlCode = ctx.getRequestParameter("gwikihtmledit" + partName);
+
+    String lastactivetabviewid = "lastactiveview" + partName;
+    String lastactive = ctx.getRequestParameter(lastactivetabviewid);
+    // sourceditor or rteeditor
+    if (StringUtils.equals(lastactive, "wiki") == false) {
+      String ret = WeditWikiUtils.rteToWiki(ctx, htmlCode);
+      wikiPage.setStorageData(ret);
+    } else {
+      super.onSave(ctx);
+    }
     try {
       wikiPage.compileFragements(ctx);
       wikiPage.getCompiledObject().ensureRight(ctx);

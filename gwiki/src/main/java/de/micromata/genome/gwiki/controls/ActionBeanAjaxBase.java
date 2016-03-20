@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.eclipsesource.json.JsonObject;
+
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
 /**
@@ -100,6 +102,11 @@ public class ActionBeanAjaxBase extends ActionBeanBase
       sr = encodeAsUrl(resp);
     }
     return sendStringResponse(sr);
+  }
+
+  protected Object sendResponse(JsonObject obj)
+  {
+    return sendStringResponse(obj.toString());
   }
 
   protected Object sendStringResponse(String sr)

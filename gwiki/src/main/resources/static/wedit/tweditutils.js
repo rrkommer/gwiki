@@ -16,3 +16,10 @@ function dumpString(str) {
 	}
 	console.debug("> " + out);
 }
+
+
+var idseq = 0;
+function wedit_genid(prefix) {
+	++idseq;
+	return prefix + idseq;
+}

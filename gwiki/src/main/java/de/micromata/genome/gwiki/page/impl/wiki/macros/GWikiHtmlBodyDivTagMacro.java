@@ -18,6 +18,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * Html macro works like div.
@@ -25,6 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Generates an HTML DIV element")
 public class GWikiHtmlBodyDivTagMacro extends GWikiHtmlBodyTagMacro
 {
 
@@ -32,7 +34,8 @@ public class GWikiHtmlBodyDivTagMacro extends GWikiHtmlBodyTagMacro
 
   public GWikiHtmlBodyDivTagMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock));
+    setRenderModes(
+        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+            GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock));
   }
 }

@@ -623,6 +623,7 @@ public class Html2WikiFilter extends DefaultFilter
       createThTd(element, attributes);
     } else if (en.equals("span") == true && handleSpanStart(element, attributes) == true) {
       // nothing
+
     } else {
       if (supportedHtmlTags.contains(en) == true) {
         parseContext.addFragment(convertToBodyMacro(element, attributes, 0));

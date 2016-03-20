@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>gwiki</artifactId>
-<profiles>
+  <profiles>
     <profile>
       <id>genome</id>
       <build>
@@ -136,6 +136,11 @@
       <version>${mgc.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.eclipsesource.minimal-json</groupId>
+      <artifactId>minimal-json</artifactId>
+      <version>${minimal-json.version}</version>
+    </dependency>
+    <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4.1</version>
@@ -219,7 +224,7 @@
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
         </exclusion>
-         <exclusion>
+        <exclusion>
           <artifactId>slf4j-api</artifactId>
           <groupId>org.slf4j</groupId>
         </exclusion>
@@ -234,11 +239,11 @@
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
         </exclusion>
-         <exclusion>
+        <exclusion>
           <artifactId>slf4j-api</artifactId>
           <groupId>org.slf4j</groupId>
         </exclusion>
-         <exclusion>
+        <exclusion>
           <artifactId>slf4j-log4j12</artifactId>
           <groupId>org.slf4j</groupId>
         </exclusion>

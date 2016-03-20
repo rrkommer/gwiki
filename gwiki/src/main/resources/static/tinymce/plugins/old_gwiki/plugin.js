@@ -22,59 +22,23 @@
 		  ed.addButton('wikilink', {
 		    title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
 		    cmd : 'mceGWikiInsertLink',
-		    'class' : 'mce-ico mce-i-link',
-		    image : '../../static/wedit/img/iconlink.png'
+		    'class' : 'mceIcon mce_link'
 		  });
-		  /**
-			 * "\e014" image "\e017": <> e019: auge
-			 */
 		  ed.addButton('wikichoosenlink', {
 		    title : "gwiki.editor.tinymce.gwiki.wikilink.title".i18n(),
 		    cmd : 'mceGWikiInsertChoosenLink',
-		    icon : 'wikichoosenlink',
-		    image : '../../static/wedit/img/iconlink.png'
-		  // text: "%"
-		  // image: '../../static/wedit/img/image.png'
+		    'class' : 'mceIcon mce_link'
 		  });
 		  ed.addButton('wikisaveaction', {
 		    title : "gwiki.editor.button.tooltip.save".i18n(),
-		    shortcut : 'Meta+S',
-		    text : 'S',
 		    cmd : 'mceGWikiSaveAction',
-		    'class' : 'mce-ico mce-i-save'
+		    'class' : 'mceIcon mce_save'
 		  });
 		  ed.addButton('wikicancelaction', {
 		    title : "gwiki.editor.button.tooltip.cancel".i18n(),
 		    cmd : 'mceGWikiCancelAction',
-		    'class' : 'mceIcon mce_cancel',
-		    text : 'C'
+		    'class' : 'mceIcon mce_cancel'
 		  });
-		  ed.addButton('wikieditmacro', {
-		    title : "Edit Macro",
-		    onClick : function() {
-			    t._editMacro(t.editor)
-		    },
-		    text : 'Edit Macro'
-		  });
-		  ed.addButton('wikinewmacro', {
-		    title : "Insert Macro",
-		    onClick : function() {
-			    t._insertMacro(t.editor)
-		    },
-		    text : '{M}'
-		  });
-		  ed.addButton('wikidelmacro', {
-		    title : "Delete Macro",
-		    onClick : function() {
-			    t._deleteMacro(t.editor)
-		    },
-		    text : 'Delete'
-		  });
-		  var linktoolbaritems = 'wikichoosenlink';
-
-		  ed.addContextToolbar(this._isLink, linktoolbaritems);
-
-		  ed.addContextToolbar(this._isMacro, "wikieditmacro wikidelmacro");
 
 	  },
 	  createControl : function(n, cm) {
@@ -228,45 +192,20 @@
 		    title : title
 		  }, function(result) {
 
-			  // var newUrl = gwikiContextPath + "/" + result.url;
+//			  var newUrl = gwikiContextPath + "/" + result.url;
 			  var item = {
-			    key : result.url,
-			    title : result.title
+			  		key: result.url,
+			  		title: result.title
 			  };
 			  gwedit_insert_pagelink(tinyMCE.activeEditor, item, elm);
-
+			  
 		  });
-	  },
-	  _editMacro : function(ed) {
-		  var elm = ed.selection.getNode();
-		  wedit_show_editmacro_dialog(ed, elm);
-	  },
-	  _insertMacro : function(ed) {
-		  wedit_show_newmacro_dialog(ed);
-	  },
-	  _deleteMacro : function(ed) {
-	  	var elm = ed.selection.getNode();
-	  	wedit_macro_delete_current(ed, elm);
 	  },
 	  _saveAction : function(ui, v) {
 		  $("#gwikieditsavebutton").click();
 	  },
 	  _cancelAction : function(ui, v) {
 		  $("#gwikieditcancelbutton").click();
-	  },
-	  _isLink : function(el) {
-		  var found = el.tagName.toLowerCase() == 'a';
-		  return found;
-	  },
-	  _isMacro : function(el) {
-		  if (el.tagName.toLowerCase() != 'div') {
-			  return false;
-		  }
-		  var cls = el.getAttribute('class');
-		  if (cls != null && cls.indexOf('weditmacrohead') != -1) {
-			  return true;
-		  }
-		  return false;
 	  }
 	});
 

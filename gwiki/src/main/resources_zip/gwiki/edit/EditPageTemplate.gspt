@@ -19,15 +19,17 @@ gwikiCurrentPart = gwikiParts[0];
 
 var gwikiEditPageId ='<c:out value="${form.pageId}"/>';
 gwikiContext.gwikiEditPageId = gwikiEditPageId; 
-gwikiContext.gwikiParts = gwikiParts;
+
 var gwikiRteDefault = <c:out value="${form.rteDefaultEditor}"/>;
 var gwikiEditDefaultFullscreen = <c:out value="${form.gwikiEditDefaultFullscreen}"/>;
 <%
  StringBuilder localCsse = new StringBuilder();
  StringBuilder localCssarray = new StringBuilder();
- 
- localCssarray.append("[ '").append(wikiContext.localUrl("static/wedit/twedit.css")).append("', ");
- for (String lp : wikiContext.getContentCsse()) {
+ java.util.List lcsse = new java.util.ArrayList();
+ lcsse.addAll(wikiContext.getContentCsse());
+ lcsse.add("static/wedit/twedit.css");
+ localCssarray.append("[ ");
+ for (String lp : lcsse) {
    if (localCsse.length() > 0) {
      localCsse.append(",");
      localCssarray.append(",");

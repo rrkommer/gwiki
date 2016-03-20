@@ -233,7 +233,7 @@
 			  var rng = ed.selection.getRng(true);
 			  var txt = rng.startContainer.textContent;
 			  var char = txt.substring(rng.startOffset - 1, rng.startOffset);
-			  console.log("character before current cursor position = [" + char + "]");
+//			  console.log("character before current cursor position = [" + char + "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
 			  	startAutocomplete(ed, char);
 			  }

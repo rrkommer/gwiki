@@ -143,14 +143,16 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       StringBuilder sbsourehead = new StringBuilder();
       attrs.toHeadContent(sbsourehead);
       String macroname = esc(sbsourehead.toString());
-      ctx.append("<div class='mceNonEditable weditmacrohead' data-macrohead='" + macroname + "'>");
+      ctx.append(
+          "<div tabindex='-1' class='mceNonEditable weditmacrohead' data-macrohead='" + macroname + "' data-macroname='"
+              + attrs.getCmd() + "'>");
       ctx.append(macroname);
 
       if (macro.hasBody() == false) {
         ctx.append("</div>");
         return true;
       }
-      ctx.append("<div class='mceEditable weditmacrobody");
+      ctx.append("<div tabindex='-1' class='mceEditable weditmacrobody");
       if (macro.evalBody() == false) {
         ctx.append(" editmacrobd_pre");
       }
@@ -255,6 +257,9 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   @Override
   public List<GWikiFragment> getChilds()
   {
+    if (attrs.getChildFragment() == null) {
+      attrs.setChildFragment(new GWikiFragmentChildContainer());
+    }
     return attrs.getChildFragment().getChilds();
   }
 

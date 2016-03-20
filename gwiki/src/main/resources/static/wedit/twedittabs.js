@@ -1,5 +1,14 @@
 //if (!window.console){ window.console.log = function {}; }
 
+
+
+var TABINDEX_RTE = 0;
+
+var TABINDEX_WIKI = 1;
+
+var TABINDEX_PREVIEW = 2;
+
+
 function gwikidbglog(msg) {
 	if (typeof console == "undefined")
 		return;
@@ -59,45 +68,66 @@ function hideToolbars(editorId, body, doc) {
 	}
 };
 
+
+function gwikiSaveRte(partName, chain)
+{
+	var edit = tinyMCE.get('gwikihtmledit' + partName);
+	if (edit) {
+		var content = edit.getContent();
+		var cleancontent = wedit_cleanuphtml(content);
+		console.debug("store content: " + cleancontent);
+		$('#gwikihtmledit' + partName).val(cleancontent);
+		var nc = $('#gwikihtmledit' + partName).val();
+		
+// edit.save();
+	} 
+	if (chain) {
+		chain();
+	}
+}
+
 function gwikiRestoreFromRte(partName, chain) {
 	var callback = chain;
-	var edit = tinyMCE.get('gwikihtmledit' + partName);
-	console.debug(' gwikiRestoreFromRte');
-	if (!edit) {
-		return callback();
+	if (gwikiGetLastActiveTabIndex(partName) != TABINDEX_RTE) {
+		if (callback) {
+			return callback(partName);
+		}
+		return;
 	}
-	// var firefox = false;
-	if (edit.isDirty() == false && htmlIsNotDirty == true) {
-		tinyMCE.execCommand('mceRemoveControl', false, 'gwikihtmledit' + partName);
-		tinyMCE.remove(edit);
-		return callback();
-	}
-	var content = edit.getContent();
-	// alert("gwk: " + content);
-	tinyMCE.execCommand('mceRemoveControl', false, 'gwikihtmledit' + partName);
-	tinyMCE.remove(edit);
-	content = wedit_cleanuphtml(content);
-	jQuery.ajax({
-	  cache : false,
-	  url : './EditPage?method_onRteToWiki=true',
-	  type : 'POST',
-	  dataType : "html",
-	  data : {
-		  htmlCode : content
-	  },
-	  complete : function(res, status) {
-		  console.debug(' html2wiki: ' + res.responseText);
-		  if (status == "success" || status == "notmodified") {
-			  if (res.status == 200) {
-				  $("#textarea" + partName).val(res.responseText);
-				  callback();
-			  } else {
-				  alert(res.responseText);
-			  }
-		  }
-		  // gwikiEditField.value = res.responseText;
-	  }
-	});
+	gwikiUpdateWikiFromRte(partName, chain);
+//	
+//	var edit = tinyMCE.get('gwikihtmledit' + partName);
+//	console.debug(' gwikiRestoreFromRte: ' + edit + "; " + edit.isDirty());
+//	if (!edit) {
+//		return callback();
+//	}
+//	// var firefox = false;
+//	if (edit.isDirty() == false && htmlIsNotDirty == true) {
+//		return callback();
+//	}
+//	var content = edit.getContent();
+//
+//	content = wedit_cleanuphtml(content);
+//	jQuery.ajax({
+//	  cache : false,
+//	  url : './EditPage?method_onRteToWiki=true',
+//	  type : 'POST',
+//	  dataType : "html",
+//	  data : {
+//		  htmlCode : content
+//	  },
+//	  complete : function(res, status) {
+//		  console.debug(' html2wiki: ' + res.responseText);
+//		  if (status == "success" || status == "notmodified") {
+//			  if (res.status == 200) {
+//				  $("#textarea" + partName).val(res.responseText);
+//				  callback();
+//			  } else {
+//				  alert(res.responseText);
+//			  }
+//		  }
+//	  }
+//	});
 
 }
 
@@ -105,65 +135,129 @@ function gwikiRelaodPreviewFrame() {
 
 }
 
+function gwikiSetLastActiveTab(partName, tabidx)
+{
+	var tabtype;
+	if (tabidx == 0) {
+		tabtype = 'rte';
+	} else if (tabidx == 1) {
+		tabtype = 'wiki';
+	} else {
+		return;
+	}
+	$("#lastactiveview" + partName).val(tabtype);
+}
+
+function gwikiGetLastActiveTabIndex(partName)
+{
+	var lac = $("#lastactiveview" + partName).val();
+	if (lac == 'wiki') {
+		return TABINDEX_WIKI;
+	} else {
+		return TABINDEX_RTE;
+	}
+}
+
+
+function gwikiStoreLastEditorType(editorType)
+{
+// Either wiki / rte
+	jQuery.ajax({
+    cache : false,
+    url : gwedit_buildUrl("edit/WeditService") + '?method_onSetDefaultEditorType=true&editorType=' + editorType,
+    type : 'POST',
+    dataType : "html",
+    complete : function(res, status) {
+    }
+  });
+	
+}
+function gwikiUpdateWikiFromRte(partName, chain)
+{
+	var callback = chain;
+	gwikiSaveRte(partName);
+	var text = $("#gwikihtmledit" + partName).val();
+	
+  $.ajax({
+    cache : false,
+    url : gwedit_buildUrl("edit/WeditService") + '?method_onRteToWiki=true',
+    type : 'POST',
+    data : { 
+    	txt: text
+    	},
+    success: function(data) {
+    	$("#textarea" + partName).val(data);
+    	if (callback) {
+    		callback(partName);
+    	}
+    },
+    fail: function(jqXHR, textStatus, errorThrown)
+    {
+    	console.error("got  error: " + textStatus);
+    }
+    
+  });
+}
+
+function gwikiUpdateRteFromWiki(partName, chain)
+{
+	var callback = chain;
+	var text = $("#textarea" + partName).val();
+	
+  $.ajax({
+    cache : false,
+    url : gwedit_buildUrl("edit/WeditService") + '?method_onWikiToRte=true',
+    type : 'POST',
+    data : { 
+    	txt: text
+    	},
+    success: function(data) {
+    	
+    	gwikiSetRteContent(partName, data);
+    	if (callback) {
+    		callback(partName);
+    	}
+    },
+    fail: function(jqXHR, textStatus, errorThrown)
+    {
+    	console.error("got  error: " + textStatus);
+    }
+    
+  });
+}
+function gwikiSetRteContent(partName, content)
+{
+	$("#gwikihtmledit" + partName).val(content);
+	var edit = tinyMCE.get('gwikihtmledit' + partName);
+	if (edit) {
+		edit.setContent(content);
+	}
+}
 function gwikicreateEditTab(partName) {
 	var pn = partName;
 	$(document).ready(
 	    function() {
-		    var tabs = $("#gwikiwktabs" + pn).tabs(
-		        {
+				var edid = twedit_create(pn);
+
+		    var tabs = $("#gwikiwktabs" + pn).tabs( {
 			        activate : function(event, ui) {
 				        var tabindex = ui.newTab.index();
-				        // ui.tab // anchor element of the selected (clicked) tab
-				        // ui.panel // element, that contains the selected/clicked
-				        // tab contents
-				        // ui.index
-				        // jQuery('#WikiPreview').html("Loading...");
-				        console.debug("gwikiwktabs.activate: " + tabindex);
-				        if (tabindex != 1) {
-					        gwikiRestoreFromRte(pn, function(){});
-				        }
-				        if (tabindex == 0) {
-					        var frmqs = jQuery("#editForm").serialize();
-					        jQuery.ajax({
-					          cache : false,
-					          url : './EditPage?method_onAsyncWikiView=true&partName=' + partName,
-					          type : 'POST',
-					          dataType : "html",
-					          data : frmqs,
-					          complete : function(res, status) {
-					          }
-					        });
-				        } else if (tabindex == 1) {
-					        var frmqs = jQuery("#editForm").serialize();
-					        jQuery.ajax({
-					          cache : false,
-					          url : './EditPage?method_onAsyncRteCode=true&partName=' + partName,
-					          type : 'POST',
-					          dataType : "html",
-					          data : frmqs,
-					          complete : function(res, status) {
-						          if (status == "success" || status == "notmodified") {
-							          if (res.status == 200) {
-								          if (!$('#gwikihtmledit' + pn).length) {
-									          var te = "<textarea rows='30' cols='100' id='gwikihtmledit" + pn
-									              + "' style='width: 100%;height: 100%'>";
-									          $('#WikiRte' + pn).html(te);
-								          }
-								          $('#gwikihtmledit' + pn).val(res.responseText);
-								          twedit_create(pn, res.responseText);
-								          // window
-								          // .setTimeout(
-								          // "ajustScreen('gwikiWikiEditorFrame" + pn + "')",
-								          // 200);
-								          window.setTimeout("gwikiFitTiny('" + pn + "')", 500);
-
-							          } else {
-								          alert(res.responseText);
-							          }
-						          }
-					          }
-					        });
-				        } else if (tabindex == 2) {
+				        var lasttabindex = gwikiGetLastActiveTabIndex(partName);
+						        console.debug("gwikiwktabs.activate: " + tabindex + "; last: " + lasttabindex);
+				      
+				        gwikiSetLastActiveTab(partName, tabindex);
+				        if (tabindex == TABINDEX_WIKI) {
+// var frmqs = jQuery("#editForm").serialize();
+					        gwikiStoreLastEditorType('wiki');
+					        if (lasttabindex == TABINDEX_RTE) {
+					        	gwikiUpdateWikiFromRte(partName);
+					        }
+				        } else if (tabindex == TABINDEX_RTE) {
+				        	gwikiStoreLastEditorType('rte');
+				        	if (lasttabindex == TABINDEX_WIKI) {
+				        		gwikiUpdateRteFromWiki(partName);
+				        	}
+				        } else if (tabindex == TABINDEX_PREVIEW) {
 					        var frmqs = jQuery("#editForm").serialize();
 					        jQuery.ajax({
 					          cache : false,
@@ -186,8 +280,8 @@ function gwikicreateEditTab(partName) {
 
 			        }
 		        });
-		    if (true || gwikiRteDefault) {
-		    	tabs.tabs("option", "active", 1);
+		    if (false && gwikiRteDefault) {
+		    	tabs.tabs("option", "active", 0);
 		    }
 		    if (gwikiEditDefaultFullscreen) {
 			    gwikiFullscreen('gwikiwktabs');
