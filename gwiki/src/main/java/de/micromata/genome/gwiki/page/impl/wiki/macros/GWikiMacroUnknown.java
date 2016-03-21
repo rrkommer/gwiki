@@ -20,7 +20,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
@@ -46,11 +45,6 @@ public class GWikiMacroUnknown extends GWikiMacroBase implements GWikiRuntimeMac
   public GWikiMacroUnknown(String message)
   {
     this.message = message;
-  }
-
-  @Override
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
-  {
   }
 
   @Override

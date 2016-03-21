@@ -43,6 +43,15 @@ public interface GWikiMacro
   public boolean evalBody();
 
   /**
+   * Pages with this macro cannot be saved by current user.
+   *
+   * @param attrs the attrs
+   * @param ctx the ctx
+   * @return true, if is restricted
+   */
+  public boolean isRestricted(MacroAttributes attrs, GWikiContext ctx);
+
+  /**
    * Will be called if a wiki artefakt will be safed by the user. The implementation should throw
    * AuthorizationFailedException if the current user has not the right to make usage of this macro or use invalid
    * attributes.

@@ -142,6 +142,9 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       //      if ((macro instanceof GWikiMacroRte) == false) {
       StringBuilder sbsourehead = new StringBuilder();
       attrs.toHeadContent(sbsourehead);
+      if (macro.getMacroInfo() == null) {
+        macro.getMacroInfo();
+      }
       Pair<String, String> templ = macro.getMacroInfo().getRteTemplate(sbsourehead.toString());
       ctx.append(templ.getFirst());
       if (macro.evalBody() == true) {
