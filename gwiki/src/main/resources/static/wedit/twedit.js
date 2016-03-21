@@ -52,29 +52,44 @@ function twedit_create(partName, content) {
 	      paste_preprocess : twedit_preprocess,
 	      paste_postprocess : twedit_postprocess,
 	      textpattern_patterns : wiki_textpattern_patterns,
+	      auto_focus: editId,
 	      language : "locale".i18n(),
+	      init_instance_callback : function(editor) {
+	      	editor.contentWindow.document.addEventListener('keydown', function(event) {
+		      	if (event.keyCode == 9) {
+		      		tedit_insert_into_text(editor, "\t");
+		      		event.stopPropagation();
+				      event.preventDefault();
+		      	}
+		     }, true);
+	      },
 	      setup : function(ed) {
 		      twedit_editors[editId] = ed;
-		      ed.on('change', function(e) {
-			      // console.log('the event object ' + e);
-			      // console.log('the editor object ' + ed);
-			      // console.log('the content ' + ed.getContent());
-		      });
+//		      ed.on('change', function(e) {
+//			      // console.log('the event object ' + e);
+//			      // console.log('the editor object ' + ed);
+//			      // console.log('the content ' + ed.getContent());
+//		      });
 		      ed.on('paste', function(e) {
 			      twedit_paste(this, e);
 		      });
+		      
 		      ed.on('keydown', function(event) {
-			      if (event.which == 83 && event.ctrlKey == true) {
+			      if (event.which == 83 && event.ctrlKey == true) { // CTRL+S
 				      onSaveOptRedit(event, false);
 				      event.stopPropagation();
 				      event.preventDefault();
+				      // } else if (event.keyCode == 9) {
+				      // ed.execCommand('mceInsertContent', false, "\t");
+				      // event.stopPropagation();
+				      //				      event.preventDefault();
 			      }
-		      });
+		      }, true);
 		      twedit_bind_native_paste(ed, '#gwikihtmledit' + partName);
 	      },
 
 	      theme : 'modern',
-	      forced_root_block: 'p', // br instead of p
+	      forced_root_block: false, // 'p', // br instead of p
 	      keep_styles: false, // otherwise h1. will not terminated. ! does not working!
 	      /*
 				 * plugins : [ 'advlist autolink lists link image charmap print preview
@@ -125,6 +140,27 @@ function tedit_insertRaw(ed, html) {
 	ed.selection.setCursorLocation(node.nextSibling, 0);
 	return node;
 }
+
+/**
+ * May not work
+ * @param ed
+ * @param text
+ */
+function tedit_insert_into_text(ed, text)
+{
+	var sel = ed.selection;
+	var range = sel.getRng(true);
+	var cont = range.startContainer;
+	if (cont.nodeName = '#text') {
+		var nodetext = cont.nodeValue;
+		var pf = nodetext.substring(0, range.startOffset);
+		var ef = nodetext.substring(range.startOffset);
+		var ntext = pf + text + ef;
+		cont.nodeValue = ntext;
+		sel.setCursorLocation(cont, range.startOffset);
+		
+	}
+}
 function gwedit_getCharBeforePos(ed) {
 	var rng = ed.selection.getRng(true);
 	var txt = rng.startContainer.textContent;
@@ -163,8 +199,7 @@ function wedit_cleanuphtml(content) {
 	return content;
 }
 function gwedit_buildUrl(pageId) {
-	// return gwikiContextPath + gwikiServletPath + pageId;
-	return gwikiHomeUrl + pageId;
+	return gwikiLocalUrl(pageId);
 }
 
 function wedit_getCursorCoords(range) {

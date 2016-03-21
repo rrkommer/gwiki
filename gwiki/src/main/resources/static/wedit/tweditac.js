@@ -240,7 +240,9 @@
 			  // console.log("character before current cursor position = [" + char +
 				// "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
-				  startAutocomplete(ed, char);
+			  	if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
+			  		startAutocomplete(ed, char);
+			  	}
 			  }
 		  }
 		  function getCurrentCursorPos() {
@@ -291,6 +293,25 @@
 
 	tinymce.PluginManager.add('tweditac', tinymce.plugins.tweditac);
 })();
+
+
+function twedit_ac_hasParentElement(container, elementName)
+{
+	if (container.parentNode) {
+		if (container.parentNode.nodeName == elementName) {
+			return true;
+		}
+	}
+	return false;
+}
+function twedit_ac_is_protected_area(ed, startChar, container)
+{
+	if (twedit_ac_hasParentElement(container, 'PRE') == true) {
+		return true;
+	}
+	return false;
+}
+
 
 function twedit_dummy_itemReceiver(char, typedText, callback) {
 	var dummy = [ {

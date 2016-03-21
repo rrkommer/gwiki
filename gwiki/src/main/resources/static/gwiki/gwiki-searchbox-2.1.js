@@ -1,28 +1,48 @@
-function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) 
-{
-	var _currVal = "";
-//	$(field).keyup(function() {
-//		_currVal = $(this).val();
-//	});
-//	
-//	$(field).autocomplete(linkAutoCompleteUrl, {
-//		matchContains : true,
-//		cacheLength: 1,
-//		matchSubset: false,
-//		minChars : 0,
-//		width : 350,
-//		scroll: true,
-//		scrollHeight: 400,
-//		extraParams: { pageId: curPageId },
-//		formatItem : function(row) {
-//			return row[1];
-//		}
-//	}).result(function(event, item) {
-//		if (item[0].trim().startsWith("/edit/Search")) {
-//			location.href = item[0].replace(/se=.*$/,"se=" + _currVal);;
-//		} else {
-//			location.href = item[0];
-//		}
-//		return false;
-//	});
+function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
+	$(document).ready(function() {
+		var _currVal = "";
+		$(field).keyup(function() {
+			_currVal = $(this).val();
+		});
+
+		$(field).autocomplete({
+		  source : function(term, callback) {
+			  $.ajax({
+			    url : linkAutoCompleteUrl + '?=' + term + '&pageType=gwiki',
+			    type : 'GET',
+			    success : function(data) {
+				    var jdata = eval('(' + data + ')');
+				    callback(jdata);
+			    },
+			    fail : function(jqXHR, textStatus, errorThrown) {
+				    console.error("got  error: " + textStatus);
+			    }
+			  });
+		  },
+		  matchContains : true,
+		  cacheLength : 2,
+		  matchSubset : false,
+		  minChars : 0,
+		  width : 350,
+		  scroll : true,
+		  scrollHeight : 400,
+		  extraParams : {
+			  pageId : curPageId
+		  },
+		  select : function(even, ui) {
+			  var item = ui.item;
+			  if (item.key.trim().startsWith("/edit/Search")) {
+			  	location.href = item.key.replace(/se=.*$/,"se=" + _currVal);;
+				  //location.href = gwikiLocalUrl(item.key);
+			  } else {
+				  location.href = gwikiLocalUrl(item.key);
+			  }
+			  return false
+		  }
+
+		}).autocomplete("instance")._renderItem = function(ul, item) {
+			return $("<li>" + item.label + "</li>").appendTo(ul);
+			
+		};
+	});
 }

@@ -8,8 +8,8 @@
  */
 function gwedit_autocomplete_entries(completeChar, typedText, callback) {
 
-	var url = gwedit_buildUrl("edit/WeditService") + "?method_onWeditAutocomplete=true&c=" + completeChar + "&q="
-	    + typedText;
+	var url = gwedit_buildUrl("edit/WeditService") + "?method_onWeditAutocomplete=true&c=" + escape(completeChar) + "&q="
+	    + escape(typedText);
 
 	var json = null;
 	$.ajax(url, {
@@ -74,9 +74,9 @@ function gwedit_insert_pagelink(ed, item, activeNode) {
 
 	// i = id.selection.getBookmark();
 	if (activeNode == null) {
-		var encpageId = gwikiEscapeInput(item.key);
-		var html = "<a href='" + encpageId + "' data-pageid='" + encpageId + "' title='" + gwikiEscapeInput(item.title)
-		    + "'>" + gwikiEscapeInput(item.title) + "</a>";
+		var encpageId = gwikiEscapeAttr(item.key);
+		var html = "<a href='" + encpageId + "' data-pageid='" + encpageId + "' title='" + gwikiEscapeAttr(item.title)
+		    + "'>" + gwikiEscapeAttr(item.title) + "</a>";
 		tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
 	} else {
 
@@ -89,5 +89,3 @@ function gwedit_insert_pagelink(ed, item, activeNode) {
 	}
 
 }
-
-

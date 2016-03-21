@@ -154,6 +154,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
         "hasBody", mInfo.hasBody(),
         "evalBody", mInfo.evalBody(),
         "rteMacro", mInfo.isRteMacro(),
+        "renderFlags", mInfo.getRenderFlags(),
         "macroTemplateBegin", templ.getFirst(),
         "macroTemplateEnd", templ.getSecond(),
         "macroParams", jp);

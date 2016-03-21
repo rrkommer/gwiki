@@ -26,7 +26,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-@MacroInfo(info = "Generates an HTML DIV element")
+@MacroInfo(info = "Generates an HTML DIV element",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock })
 public class GWikiHtmlBodyDivTagMacro extends GWikiHtmlBodyTagMacro
 {
 
@@ -34,8 +36,6 @@ public class GWikiHtmlBodyDivTagMacro extends GWikiHtmlBodyTagMacro
 
   public GWikiHtmlBodyDivTagMacro()
   {
-    setRenderModes(
-        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-            GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock));
+    setRenderModesFromAnnot();
   }
 }

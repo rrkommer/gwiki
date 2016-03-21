@@ -23,4 +23,11 @@ public @interface MacroInfoParam {
   String info() default "";
 
   boolean restricted() default false;
+
+  /**
+   * {macroName:parameter}
+   * 
+   * @return
+   */
+  boolean defaultParameter() default false;
 }

@@ -23,11 +23,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
- * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de) TODO not documented.
  */
+@MacroInfo(info = "Render a list of change comments", renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiChangeCommentMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro
 {
 
@@ -41,20 +42,22 @@ public class GWikiChangeCommentMacroBean extends GWikiMacroBean implements GWiki
 
   public GWikiChangeCommentMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     ctx.append("<fieldset><legend>");
-    ctx.appendEscText(modifiedBy).append(", ").appendEscText(ctx.getUserDateString(GWikiProps.string2date(modifiedAt))).append(", (")
+    ctx.appendEscText(modifiedBy).append(", ").appendEscText(ctx.getUserDateString(GWikiProps.string2date(modifiedAt)))
+        .append(", (")
         .append(version).append(")");
     ctx.append("</legend>");
     if (attrs.getChildFragment() != null) {

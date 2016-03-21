@@ -15,7 +15,7 @@ public interface GWikiMacroInfo
 {
   public static enum MacroParamType
   {
-    String, PageId,
+    String, Boolean, Integer, PageId,
   }
 
   public static class MacroParamInfo
@@ -99,6 +99,7 @@ public interface GWikiMacroInfo
     boolean evalBody;
     boolean rteMacro;
     String info;
+    int renderFlags;
     List<MacroParamInfo> paramsInfos = new ArrayList<>();
 
     @Override
@@ -151,6 +152,17 @@ public interface GWikiMacroInfo
       this.info = info;
     }
 
+    @Override
+    public int getRenderFlags()
+    {
+      return renderFlags;
+    }
+
+    public void setRenderFlags(int renderFlags)
+    {
+      this.renderFlags = renderFlags;
+    }
+
   }
 
   boolean hasBody();
@@ -174,4 +186,6 @@ public interface GWikiMacroInfo
   List<MacroParamInfo> getParamInfos();
 
   Pair<String, String> getRteTemplate(String macroHead);
+
+  int getRenderFlags();
 }

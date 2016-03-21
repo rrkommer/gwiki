@@ -51,8 +51,9 @@ public enum GWikiMacroRenderFlags
   /**
    * Trim WS after closing tag.
    */
-  TrimWsAfter(0x0080) //
+  TrimWsAfter(0x0080), //
 
+  RteSpan(0x0100),
   ;
   private int flag;
 

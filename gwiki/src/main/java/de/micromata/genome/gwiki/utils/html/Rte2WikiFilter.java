@@ -111,9 +111,14 @@ public class Rte2WikiFilter extends Html2WikiFilter
     super.startElement(element, attributes, augs);
   }
 
+  private boolean isMacroEl(String en)
+  {
+    return en.equals("div") == true || en.equals("span") == true;
+  }
+
   private boolean handleMacroBody(String en, QName element, XMLAttributes attributes, Augmentations augs)
   {
-    if (en.equals("div") == false) {
+    if (isMacroEl(en) == false) {
       return false;
     }
     String cls = attributes.getValue("class");
@@ -138,14 +143,14 @@ public class Rte2WikiFilter extends Html2WikiFilter
   {
 
     String cls = attributes.getValue("class");
-    if (en.equals("div") == true && StringUtils.contains(cls, "weditmacroframe") == true) {
+    if (isMacroEl(en) == true && StringUtils.contains(cls, "weditmacroframe") == true) {
       flushText();
       RteMacroFragment rtmacfragment = new RteMacroFragment();
       parseContext.pushFragStack(rtmacfragment);
       return true;
     }
 
-    if (en.equals("div") == true && StringUtils.contains(cls, "weditmacrohead") == true) {
+    if (isMacroEl(en) == true && StringUtils.contains(cls, "weditmacrohead") == true) {
       GWikiFragment lfrag = parseContext.peekFragStack();
       if ((lfrag instanceof RteMacroFragment) == false) {
         GLog.warn(GWikiLogCategory.Wiki, "Expect RteMacroFragment stack");
@@ -174,8 +179,12 @@ public class Rte2WikiFilter extends Html2WikiFilter
       }
       if (rtf.inBody == true) {
         ++rtf.bodyDivs;
+        if (rtf.macroFragment.getMacro().evalBody() == false) {
+          return true;
+        }
         return false;
       }
+
     }
     return false;
   }
@@ -202,8 +211,9 @@ public class Rte2WikiFilter extends Html2WikiFilter
     return true;
   }
 
-  private String childsToTextString(List<GWikiFragment> bodychilds)
+  private String childsToTextString(RteMacroFragment ftf, List<GWikiFragment> bodychilds)
   {
+
     StringBuilder sb = new StringBuilder();
     for (GWikiFragment frag : bodychilds) {
       if (frag instanceof GWikiFragmentText) {
@@ -211,11 +221,25 @@ public class Rte2WikiFilter extends Html2WikiFilter
         sb.append(txtf.getText().toString());
       } else if (frag instanceof GWikiFragmentBr) {
         sb.append("\n");
+      } else if (frag instanceof GWikiMacroFragment) {
+        GWikiMacroFragment mf = (GWikiMacroFragment) frag;
+        if (StringUtils.equals(mf.getAttrs().getCmd(), "pre") == true) {
+          if (mf.getAttrs().getBody() != null) {
+            sb.append(mf.getAttrs().getBody());
+          }
+          if (mf.getAttrs().getChildFragment() != null) {
+            String childtext = childsToTextString(ftf, mf.getAttrs().getChildFragment().getChilds());
+            sb.append(childtext);
+          }
+        } else {
+          LOG.warn("Expected text nodes");
+        }
       } else {
         LOG.warn("Expected text nodes");
       }
     }
     return sb.toString();
+
   }
 
   @Override
@@ -235,20 +259,26 @@ public class Rte2WikiFilter extends Html2WikiFilter
     if (ftf.inBody == true) {
       --ftf.bodyDivs;
       if (ftf.bodyDivs <= 0) {
+
         ftf.inBody = false;
-        List<GWikiFragment> childs = parseContext.popFragList();
         GWikiMacro macro = ftf.macroFragment.getMacro();
         if (macro.hasBody() == true) {
           if (macro.evalBody() == true) {
+            flushText();
+            List<GWikiFragment> childs = parseContext.popFragList();
             ftf.macroFragment.getAttrs().setChildFragment(new GWikiFragmentChildContainer(childs));
           } else {
-            String text = childsToTextString(childs);
+            String text = collectedText.toString();//childsToTextString(ftf, childs);
+            collectedText.setLength(0);
             ftf.macroFragment.getAttrs().setBody(text);
           }
         } else {
           parseContext.popFragStack();
           parseContext.addFragment(ftf.macroFragment);
         }
+        return;
+      }
+      if (ftf.macroFragment.getMacro().evalBody() == false) {
         return;
       }
     } else if (ftf.inHead == true) {

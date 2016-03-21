@@ -12,5 +12,14 @@ import java.lang.annotation.RetentionPolicy;
 public @interface MacroInfo {
   String info() default "";
 
+  /**
+   * user must not edit this macro.
+   * 
+   * @return
+   */
+  boolean restricted() default false;
+
   MacroInfoParam[] params() default {};
+
+  GWikiMacroRenderFlags[] renderFlags() default {};
 }

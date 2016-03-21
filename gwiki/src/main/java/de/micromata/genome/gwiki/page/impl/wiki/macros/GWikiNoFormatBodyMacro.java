@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * GWiki macro to implement the noformat macro.
@@ -35,21 +36,24 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The macro noformat wrapps a section of text to supress evaluation of wiki code.",
+    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiNoFormatBodyMacro extends GWikiMacroBase implements GWikiBodyMacro, GWikiRuntimeMacro
 {
   private static final long serialVersionUID = 335691916315972801L;
 
   public GWikiNoFormatBodyMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro#render(de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes,
-   * de.micromata.genome.gwiki.page.GWikiContext)
+   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro#render(de.micromata.genome.gwiki.page.impl.wiki.
+   * MacroAttributes, de.micromata.genome.gwiki.page.GWikiContext)
    */
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     ctx.append("<pre style=\"border=1;\">");

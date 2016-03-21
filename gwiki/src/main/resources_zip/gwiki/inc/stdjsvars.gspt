@@ -9,6 +9,10 @@ var gwikiHomeUrl = '<gwiki:url value="/"/>';
 var gwikiPublicUrl = '<%= wikiContext.getWikiWeb().getWikiConfig().getPublicURL() %>';
 var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
 
+function gwikiLocalUrl(pageId) {
+	return gwikiHomeUrl + pageId;
+}
+
 var gwikiContext = {
   contextPath: gwikiContextPath,
   servletPath: gwikiServletPath,
@@ -50,9 +54,7 @@ String.prototype.i18n = function() {
   var s = i18n["javascript." + this];
   return (s) ? s : "???" + this + "???";
 };
-</script>
 
-<script type="text/javascript">
         function displayHilfeLayer(content, backwardscompparam){
             Tip(content,
                     STICKY, true,
