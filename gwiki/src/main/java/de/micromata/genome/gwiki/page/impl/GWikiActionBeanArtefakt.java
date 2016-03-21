@@ -37,20 +37,20 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends ActionBean>> implements
-    GWikiExecutableArtefakt<Class< ? extends ActionBean>>
+public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class<? extends ActionBean>> implements
+    GWikiExecutableArtefakt<Class<? extends ActionBean>>
 {
 
   private static final long serialVersionUID = -3934990772359212231L;
 
   private String beanClassName;
 
-  private Class< ? extends ActionBean> beanClass;
+  private Class<? extends ActionBean> beanClass;
 
-  private GWikiExecutableArtefakt< ? > forward;
+  private GWikiExecutableArtefakt<?> forward;
 
   @Override
-  public void collectParts(Map<String, GWikiArtefakt< ? >> map)
+  public void collectParts(Map<String, GWikiArtefakt<?>> map)
   {
     super.collectParts(map);
     if (forward != null) {
@@ -59,19 +59,21 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     }
   }
 
+  @Override
   public void prepareHeader(GWikiContext wikiContext)
   {
 
   }
 
   @SuppressWarnings("unchecked")
-  protected Class< ? extends ActionBean> getActionBeanClass(GWikiContext ctx)
+  protected Class<? extends ActionBean> getActionBeanClass(GWikiContext ctx)
   {
     if (beanClass != null) {
       return beanClass;
     }
     if (StringUtils.isBlank(beanClassName) == true) {
-      beanClassName = ctx.getCurrentElement().getElementInfo().getProps().getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
+      beanClassName = ctx.getCurrentElement().getElementInfo().getProps()
+          .getStringValue(GWikiPropKeys.WIKICONTROLERCLASS);
 
     }
     if (StringUtils.isBlank(beanClassName) == true) {
@@ -79,7 +81,7 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
       // throw new RuntimeException("No bean class defined");
     }
     try {
-      beanClass = (Class< ? extends ActionBean>) ClassUtils.classForName(beanClassName);
+      beanClass = (Class<? extends ActionBean>) ClassUtils.classForName(beanClassName);
       return beanClass;
     } catch (Throwable ex) {
       throw new RuntimeException("Failed to create ActionBean: " + beanClassName + ": " + ex.getMessage(), ex);
@@ -89,15 +91,20 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
   public ActionBean getActionBean(GWikiContext ctx)
   {
     try {
-      Class< ? extends ActionBean> cls = getActionBeanClass(ctx);
-      if (cls == null)
+      Class<? extends ActionBean> cls = getActionBeanClass(ctx);
+      if (cls == null) {
         return null;
-      return cls.newInstance();
+      }
+      ActionBean actionBean = cls.newInstance();
+      ctx.setActionBean(actionBean);
+      return actionBean;
     } catch (Throwable ex) {
-      throw new RuntimeException("Failed to intializable ActionBean: " + getActionBeanClass(ctx).getName() + ": " + ex.getMessage(), ex);
+      throw new RuntimeException(
+          "Failed to intializable ActionBean: " + getActionBeanClass(ctx).getName() + ": " + ex.getMessage(), ex);
     }
   }
 
+  @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
     ActionBean bean = getActionBean(ctx);
@@ -113,12 +120,12 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     return true;
   }
 
-  public Class< ? extends ActionBean> getBeanClass()
+  public Class<? extends ActionBean> getBeanClass()
   {
     return beanClass;
   }
 
-  public void setBeanClass(Class< ? extends ActionBean> beanClass)
+  public void setBeanClass(Class<? extends ActionBean> beanClass)
   {
     this.beanClass = beanClass;
   }
@@ -133,12 +140,12 @@ public class GWikiActionBeanArtefakt extends GWikiArtefaktBase<Class< ? extends 
     this.beanClassName = beanClassName;
   }
 
-  public GWikiExecutableArtefakt< ? > getForward()
+  public GWikiExecutableArtefakt<?> getForward()
   {
     return forward;
   }
 
-  public void setForward(GWikiExecutableArtefakt< ? > forward)
+  public void setForward(GWikiExecutableArtefakt<?> forward)
   {
     this.forward = forward;
   }
