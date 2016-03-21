@@ -10,7 +10,7 @@
 <link href="<gwiki:url value="/inc/mmLabs/css/main.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/mmLabs/css/typo.css"/>" rel="stylesheet" type="text/css" />
 <link href="<gwiki:url value="/inc/mmLabs/css/menu.css"/>" rel="stylesheet" type="text/css" />
-<link href="<gwiki:url value="/inc/mmLabs/css/jquery-ui-1.8.1.custom.css"/>" rel="stylesheet" type="text/css" />
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-ui-1.11.4.custom/jquery-ui.js" />'></script>
 
 <% wikiContext.addContentCss("/inc/gwiki/css/gwiki.css");
 	wikiContext.addContentCss("/inc/gwiki/css/reset.css");
