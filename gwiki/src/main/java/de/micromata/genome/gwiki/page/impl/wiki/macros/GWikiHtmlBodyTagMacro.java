@@ -22,7 +22,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
 /**
@@ -31,7 +30,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro, GWikiMacroRte
+public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = 9204139467653157793L;
