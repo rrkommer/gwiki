@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -85,7 +84,9 @@ public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWi
     return ret;
   }
 
-  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  @Override
+  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks,
+      GWikiWikiParserContext ctx)
   {
     populate(macroFrag.getAttrs());
 
@@ -120,21 +121,25 @@ public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWi
     return l;
   }
 
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  @Override
+  protected GWikiAuthorizationRights requiredRight()
   {
-    ctx.getWikiWeb().getAuthorization().ensureAllowTo(ctx, GWikiAuthorizationRights.GWIKI_DEVELOPER.name());
+    return GWikiAuthorizationRights.GWIKI_DEVELOPER;
   }
 
+  @Override
   public boolean evalBody()
   {
     return false;
   }
 
+  @Override
   public boolean hasBody()
   {
     return false;
   }
 
+  @Override
   public int getRenderModes()
   {
     return 0;

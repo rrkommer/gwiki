@@ -47,14 +47,23 @@ public class GWikiHtmlBodyMacro extends GWikiCompileTimeMacroBase implements GWi
 
   private static final long serialVersionUID = -2785686179610004641L;
 
+  @Override
+  protected GWikiAuthorizationRights requiredRight()
+  {
+    return GWikiAuthorizationRights.GWIKI_EDITHTML;
+  }
+
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
+    if (isRestricted(attrs, ctx)) {
       throw new AuthorizationFailedException("Unsecure usage of HTML Macro.");
     }
   }
 
-  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  @Override
+  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks,
+      GWikiWikiParserContext ctx)
   {
     Collection<GWikiFragment> frags = new ArrayList<GWikiFragment>();
     macroFrag.addChild(new GWikiFragmentUnsecureHtml(StringUtils.defaultString(macroFrag.getAttrs().getBody())));

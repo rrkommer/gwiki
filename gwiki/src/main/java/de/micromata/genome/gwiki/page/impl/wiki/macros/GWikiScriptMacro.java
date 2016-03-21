@@ -82,6 +82,12 @@ public class GWikiScriptMacro implements GWikiRuntimeMacro, GWikiPropKeys
   }
 
   @Override
+  public boolean isRestricted(MacroAttributes attrs, GWikiContext ctx)
+  {
+    return false;
+  }
+
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
     // nothing

@@ -20,7 +20,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.Map;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GenomeTemplateUtils;
@@ -75,9 +74,9 @@ public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRunti
   }
 
   @Override
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  protected GWikiAuthorizationRights requiredRight()
   {
-    ctx.getWikiWeb().getAuthorization().ensureAllowTo(ctx, GWikiAuthorizationRights.GWIKI_DEVELOPER.name());
+    return GWikiAuthorizationRights.GWIKI_DEVELOPER;
   }
 
   @Override

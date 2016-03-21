@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
@@ -64,7 +63,8 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
   protected void renderStandardAttr(String attr, GWikiContext ctx, MacroAttributes attrs)
   {
     if (StringUtils.isNotBlank(attrs.getArgs().getStringValue(attr)) == true) {
-      ctx.append(" " + attr + "=\"").append(StringEscapeUtils.escapeHtml(attrs.getArgs().getStringValue(attr))).append("\"");
+      ctx.append(" " + attr + "=\"").append(StringEscapeUtils.escapeHtml(attrs.getArgs().getStringValue(attr)))
+          .append("\"");
     }
   }
 
@@ -81,7 +81,8 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -174,9 +175,10 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable#toSource(de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment,
-   * java.lang.StringBuilder)
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable#toSource(de.micromata.genome.gwiki.page.impl.wiki.
+   * GWikiMacroFragment, java.lang.StringBuilder)
    */
+  @Override
   public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
   {
     if (getFormSource(sb) == false) {
@@ -185,11 +187,9 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
   }
 
   @Override
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  protected GWikiAuthorizationRights requiredRight()
   {
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
-      throw new AuthorizationFailedException("Unsecure usage of form Macro.");
-    }
+    return GWikiAuthorizationRights.GWIKI_EDITHTML;
   }
 
   public String getName()

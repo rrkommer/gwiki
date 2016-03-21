@@ -21,6 +21,7 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public abstract class GWikiMacroBase implements GWikiMacro
@@ -53,9 +54,26 @@ public abstract class GWikiMacroBase implements GWikiMacro
   }
 
   @Override
+  public boolean isRestricted(MacroAttributes attrs, GWikiContext ctx)
+  {
+    GWikiAuthorizationRights reqr = requiredRight();
+    if (reqr == null) {
+      return false;
+    }
+    return ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, reqr.name()) == false;
+  }
+
+  protected GWikiAuthorizationRights requiredRight()
+  {
+    return null;
+  }
+
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
-
+    if (isRestricted(attrs, ctx)) {
+      throw new AuthorizationFailedException("Forbitten usage of Macro.");
+    }
   }
 
   /**

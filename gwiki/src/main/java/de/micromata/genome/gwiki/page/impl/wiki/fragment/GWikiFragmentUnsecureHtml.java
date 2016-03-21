@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
@@ -41,29 +42,32 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
  */
-@MacroInfo(info = "The macro html marks a region of text as pure HTML.<br/>"
-    + "To save a page containing the html macro the user requires the right GWIKI_EDITHTML.",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock })
+
 public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
 {
 
   private static final long serialVersionUID = 6726490960427363801L;
 
+  @MacroInfo(info = "The macro html marks a region of text as pure HTML.<br/>"
+      + "To save a page containing the html macro the user requires the right GWIKI_EDITHTML.",
+      renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart,
+          GWikiMacroRenderFlags.NewLineBeforeEnd,
+          GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock })
   public static class Macro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
   {
 
     private static final long serialVersionUID = 6651596226823444417L;
 
-    public Macro()
+    public Macro(GWikiMacroInfo macroInfo)
     {
+      super(macroInfo);
       setRenderModesFromAnnot();
     }
 
     @Override
-    public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+    protected GWikiAuthorizationRights requiredRight()
     {
+      return GWikiAuthorizationRights.GWIKI_EDITHTML;
     }
 
     @Override
@@ -98,7 +102,7 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
       @Override
       public GWikiMacro createInstance()
       {
-        return new Macro();
+        return new Macro(getMacroInfo());
       }
 
       @Override
