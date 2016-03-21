@@ -1,0 +1,95 @@
+<@include file="inc/mgc/head.gspt"@>
+<% boolean wikiWithMainTopicNavNavigation = false; %>
+<% boolean wikiWithNavNavigation = true; %>
+
+<script type="text/javascript">
+  \$(document).ready(function(){
+  	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
+   
+ });
+</script>
+
+<% 
+void renderHeadMenu(wikiContext, menu, toplevel) {
+  if (menu == null) {
+    return;
+  }
+  if (menu.divider) {
+    out.println("<li></li>");
+    return;
+  }
+  boolean hasChilds = menu.children.isEmpty() == false;
+  if (toplevel == true) { 
+    out.print('<li class="gwikiMenuIcon gwikiMenuoneSearchBar">'); 
+  }  else {
+    out.print('<li>');
+  }
+  if (menu.iconMedium != null) { 
+    out.print('<span class="gwikiMenuoneSearchBar" style="background-image: url(' + "'" +  menu.iconMedium + "');" + '">');
+   } 
+  if (menu.url != null) {
+    out.print('<a  href="' + menu.url + '"');
+    if (menu.target != null) {
+      out.print(' target="' + menu.target + '"');
+    }
+    if (menu.linkTitle != null) {
+      out.print(' title="' + esc(menu.linkTitle) + '"');
+    }
+    out.print('>'); 
+  }
+  if ( menu.iconMedium) {
+    out.print("<img src='" +  menu.iconMedium + "'>");
+  } else {
+    out.print(esc(menu.label));
+  }
+  if (menu.url != null) {
+    out.print("</a>");
+  }
+  if (menu.iconMedium != null) {
+    out.print('</span>');
+  } 
+  if (toplevel == true && hasChilds == true) {
+    out.print('<ul>');
+    for (cm in menu.children) { 
+      renderHeadMenu(wikiContext, cm, false);
+    }
+    out.print('</ul>');
+  }
+  out.println('</li>');
+} 
+%>
+
+<div id="gwikiTopNav">
+  
+	<div id="gwikiBreadcrumb">
+	 <img src="<gwiki:url value="/inc/mgc/img/logo.gif"/>">
+		<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
+	</div>
+  
+  <div id="gwikiSearchBar">
+    <ul style="" class="menu gwikiMenuone ">
+    <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
+    <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
+    </ul>
+    <gwiki:authorize pageId="edit/SiteMap">
+      <a href="<gwiki:url value="/edit/SiteMap"/>"><img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"/></a>
+    </gwiki:authorize>
+   <gwiki:authorize pageId="edit/ViewAllPages">
+     <a href="<gwiki:url value="/edit/ViewAllPages"/>">
+      <img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a>
+    </gwiki:authorize>
+    <gwiki:authorize pageId="edit/Keywords">
+      <a href="<gwiki:url value="/edit/Keywords"/>">
+        <img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a>
+     </gwiki:authorize>
+		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST" style="display:inline;">
+		  <input id="quick-search-query" class="gwikiSearchBox " type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="gwikiQuicksearchSubmit quick-search-submit " type="submit" value="&nbsp;" name="method_onSearch"/>
+		</form>
+</div>
+
+	<div style="position:absolute; right:5px; top:40px;">
+		<@include file="inc/mgc/headMenu.gspt" @>
+	</div>
+<div style="margin-top: 40px">
+	<div class="wiki-content gwikiContent" style="margin-right: 10px;">
+	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
