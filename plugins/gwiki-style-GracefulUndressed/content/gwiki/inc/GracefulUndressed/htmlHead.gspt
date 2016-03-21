@@ -12,8 +12,9 @@
 
 <link type="text/css" href="<gwiki:url value='/inc/gwiki.css'/>" rel="stylesheet" />
 
-<script src='<gwiki:url value="/static/js/jquery-1.3.2.min.js" />' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/js/jquery-ui-1.7.2.custom.min.js" />' type="text/JavaScript"></script>
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-1.12.1.js" />'></script> 
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery-ui-1.11.4.custom/jquery-ui.js" />'></script>
+
 <script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-searchbox-0.1.js'/>"></script>
 <script src='<gwiki:url value="/static/js/jquery.menu.v009/jquery.menu.js" />' type="text/JavaScript"></script>
