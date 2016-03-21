@@ -17,7 +17,6 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.s5slideshow_1_0;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
@@ -25,6 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * For slide shows will be inserted into the head sections.
@@ -32,7 +32,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiSlideStyleMacro extends GWikiMacroBean implements GWikiRuntimeMacro, GWikiWithHeaderPrepare, GWikiBodyMacro
+@MacroInfo(info = "Macro to define slide style for a slide show.")
+public class GWikiSlideStyleMacro extends GWikiMacroBean
+    implements GWikiRuntimeMacro, GWikiWithHeaderPrepare, GWikiBodyMacro
 {
 
   private static final long serialVersionUID = -815738777375318294L;
@@ -40,7 +42,8 @@ public class GWikiSlideStyleMacro extends GWikiMacroBean implements GWikiRuntime
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -53,17 +56,19 @@ public class GWikiSlideStyleMacro extends GWikiMacroBean implements GWikiRuntime
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare#prepareHeader(de.micromata.genome.gwiki.page.GWikiContext)
+   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare#prepareHeader(de.micromata.genome.gwiki.page.
+   * GWikiContext)
    */
+  @Override
   public void prepareHeader(GWikiContext ctx, MacroAttributes attrs)
   {
     ctx.getRequiredHeader().add(attrs.getBody());
   }
 
   @Override
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  protected GWikiAuthorizationRights requiredRight()
   {
-    super.ensureRight(attrs, ctx);
-    ctx.ensureAllowTo(GWikiAuthorizationRights.GWIKI_EDITHTML.name());
+    return GWikiAuthorizationRights.GWIKI_EDITHTML;
   }
+
 }
