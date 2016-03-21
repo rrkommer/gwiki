@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.controls.GWikiPageListActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -37,14 +39,16 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
   public GWikiListUsersActionBean()
   {
     fixedFilterExpression = "prop:PAGEID like \"admin/user/*\"";
+    setFields("USER|EMAIL|operations");
   }
 
   @Override
   public Object onInit()
   {
-    return null;
+    return onFilter();
   }
 
+  @Override
   public Object onFilter()
   {
     Object ret = super.onFilter();
@@ -59,10 +63,10 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
     GWikiProps props = (GWikiProps) ser;
 
     if ("USER".equals(fieldName) == true) {
-      return GWikiContext.getNamePartFromPageId(elementInfo.getId());
+      return StringEscapeUtils.escapeHtml(GWikiContext.getNamePartFromPageId(elementInfo.getId()));
     }
     if ("EMAIL".equals(fieldName) == true) {
-      return props.getStringValue("email");
+      return StringEscapeUtils.escapeHtml(props.getStringValue("email"));
     }
     if ("operations".equals(fieldName) == true) {
       return "<a href='"

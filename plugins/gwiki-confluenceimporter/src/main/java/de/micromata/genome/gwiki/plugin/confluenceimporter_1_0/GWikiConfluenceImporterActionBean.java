@@ -84,10 +84,14 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
 
   private String selIds;
 
+  public GWikiConfluenceImporterActionBean()
+  {
+    setFields("PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|IMPSTATUS");
+  }
+
   @Override
   public Object onInit()
   {
-    // super.onInit();
     return null;
   }
 
@@ -105,6 +109,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
     return null;
   }
 
+  @Override
   protected boolean filterBeforeQuery(GWikiElementInfo ei)
   {
     return ei.getId().startsWith(tmpDirName);
@@ -174,7 +179,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
   protected QueryResult query()
   {
     if (StringUtils.isBlank(tmpDirName) == true) {
-      writeXmlErrorResponse("Keine Dateien gefunden");
+      wikiContext.addSimpleValidationError("Keine Dateien gefunden");
       return null;
     }
     String searchExpr = "";
@@ -198,15 +203,11 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
     }
   }
 
+  @Override
   public Object onFilter()
   {
-    QueryResult qr = query();
-    if (qr == null) {
-      wikiContext.flush();
-      return noForward();
-    }
-    writeXmlResult(qr);
-    return noForward();
+    queryResult = query();
+    return null;
   }
 
   protected String getPageIdNoTemp(GWikiElementInfo ei)
@@ -244,6 +245,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
     return CompareStatus.EQUAL;
   }
 
+  @Override
   public String renderField(String fieldName, GWikiElementInfo ei)
   {
     // if (fieldName)

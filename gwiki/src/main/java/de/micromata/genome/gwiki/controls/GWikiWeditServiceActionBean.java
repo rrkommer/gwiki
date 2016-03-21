@@ -12,6 +12,7 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamInfo;
@@ -124,6 +125,11 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
     for (String macroName : macroNames) {
       GWikiMacroFactory fac = mfm.get(macroName);
       if (fac.isRteMacro() == true) {
+        continue;
+      }
+      GWikiMacro macroinst = fac.createInstance();
+      MacroAttributes mat = new MacroAttributes(macroName);
+      if (macroinst.isRestricted(mat, wikiContext) == true) {
         continue;
       }
       JsonObject map = JsonBuilder.map("key", macroName, "label", macroName);
