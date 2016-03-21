@@ -19,9 +19,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLogAttributeType;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.WebUtils;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.util.types.Pair;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;
@@ -128,15 +132,15 @@ public class RogMp3ActionBean extends ActionBeanBase
   public Object onInit()
   {
     init();
-    if (StringUtils.isBlank(imagePk) == false || StringUtils.isBlank(jpcImagePk) == false || StringUtils.isBlank(naxosImagePk) == false) {
+    if (StringUtils.isBlank(imagePk) == false || StringUtils.isBlank(jpcImagePk) == false
+        || StringUtils.isBlank(naxosImagePk) == false) {
       return onServeCover();
     }
     if (serveMp3 == true) {
       if (StringUtils.isNotBlank(trackPk) == true) {
         return onServeTrackMp3();
 
-      } else
-        if (StringUtils.isNotBlank(tit) == true) {
+      } else if (StringUtils.isNotBlank(tit) == true) {
         return onServeTitleMp3();
       }
     }
@@ -147,8 +151,7 @@ public class RogMp3ActionBean extends ActionBeanBase
     if (downloadMp3 == true) {
       if (StringUtils.isNotBlank(tit) == true) {
         return onDownloadTitleMp3();
-      } else
-        if (StringUtils.isNotBlank(mediaPk) == true) {
+      } else if (StringUtils.isNotBlank(mediaPk) == true) {
         return onDownloadMediaMp3();
       }
     }
@@ -159,8 +162,8 @@ public class RogMp3ActionBean extends ActionBeanBase
   {
     Title title = db.getTitleByPk(tit);
     Pair<String, byte[]> zip = title.getMp3Zip();
-    GWikiLog.note("RogMp3; Download title: " + title.getComposer().getNameOnFs() + "/" + title.getNameOnFs(), "RequestRemoteHost",
-        wikiContext.getRequest().getRemoteHost());
+    GLog.note(GWikiLogCategory.Wiki,
+        "RogMp3; Download title: " + title.getComposer().getNameOnFs() + "/" + title.getNameOnFs());
     serveFile(zip.getSecond(), zip.getFirst(), "application/zip");
     return noForward();
   }
@@ -168,8 +171,9 @@ public class RogMp3ActionBean extends ActionBeanBase
   private Object onDownloadMediaMp3()
   {
     Media media = db.getMediaByPk(mediaPk);
-    GWikiLog.note("RogMp3; Download media: " + media.getDetailDescription(localUrl()), "RequestRemoteHost",
-        wikiContext.getRequest().getRemoteHost());
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; Download media: " + media.getDetailDescription(localUrl()),
+        new LogAttribute(GWikiLogAttributeType.RemoteHost,
+            wikiContext.getRequest().getRemoteHost()));
     Pair<String, byte[]> zip = media.getMp3Zip();
     serveFile(zip.getSecond(), zip.getFirst(), "application/zip");
     return noForward();
@@ -177,7 +181,7 @@ public class RogMp3ActionBean extends ActionBeanBase
 
   private void serveFile(byte[] data, String name, String contentType)
   {
-    GWikiLog.note("RogMp3; datafile: " + name, "RequestRemoteHost", wikiContext.getRequest().getRemoteHost());
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; datafile: " + name);
     try {
       wikiContext.getResponse().setContentType(contentType);
       wikiContext.getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
@@ -185,18 +189,18 @@ public class RogMp3ActionBean extends ActionBeanBase
       OutputStream os = wikiContext.getResponse().getOutputStream();
       IOUtils.copy(new ByteArrayInputStream(data), os);
     } catch (IOException ex) {
-      GWikiLog.note("Cannot serve  file: " + name + ": " + ex.toString());
+      GLog.note(GWikiLogCategory.Wiki, "Cannot serve  file: " + name + ": " + ex.toString());
     }
   }
 
   private void serveFile(File f, String contentType)
   {
-    GWikiLog.note("RogMp3; serveFile: " + f.getAbsolutePath());
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; serveFile: " + f.getAbsolutePath());
     try {
       byte[] data = FileUtils.readFileToByteArray(f);
       serveFile(data, f.getName(), contentType);
     } catch (IOException e) {
-      GWikiLog.note("Cannot read  file: " + f.getAbsolutePath() + ": " + e.toString());
+      GLog.note(GWikiLogCategory.Wiki, "Cannot read  file: " + f.getAbsolutePath() + ": " + e.toString());
     }
   }
 
@@ -304,8 +308,7 @@ public class RogMp3ActionBean extends ActionBeanBase
     if (StringUtils.isNotBlank(tit) == true) {
       Title title = db.getTitleByPk(tit);
       tracks = title.getTracks();
-    } else
-      if (StringUtils.isNotBlank(mediaPk) == true) {
+    } else if (StringUtils.isNotBlank(mediaPk) == true) {
       Media media = db.getMediaByPk(mediaPk);
       tracks = media.getTrackList();
     }
@@ -377,38 +380,28 @@ public class RogMp3ActionBean extends ActionBeanBase
     renderHeader();
     if (StringUtils.isBlank(tit) == false) {
       renderTitel();
-    } else
-      if (StringUtils.isBlank(mediaPk) == false) {
+    } else if (StringUtils.isBlank(mediaPk) == false) {
       renderMedia();
-    } else
-        if (StringUtils.isBlank(komp) == false) {
+    } else if (StringUtils.isBlank(komp) == false) {
       renderKomposer();
-    } else
-          if (StringUtils.isNotBlank(orchesterPk) == true) {
+    } else if (StringUtils.isNotBlank(orchesterPk) == true) {
       renderOrchester();
-    } else
-            if (StringUtils.isNotEmpty(dirigentPk) == true) {
+    } else if (StringUtils.isNotEmpty(dirigentPk) == true) {
       renderDirigent();
-    } else
-              if (StringUtils.isNotEmpty(interpretPk) == true) {
+    } else if (StringUtils.isNotEmpty(interpretPk) == true) {
       renderInterpret();
     } else {
       if (StringUtils.equals(showT, "media") == true) {
         renderMediaList();
-      } else
-        if (StringUtils.equals(showT, "timeline") == true) {
+      } else if (StringUtils.equals(showT, "timeline") == true) {
         renderTimeline();
-      } else
-          if (StringUtils.equals(showT, "orchester") == true) {
+      } else if (StringUtils.equals(showT, "orchester") == true) {
         renderOrchesterList();
-      } else
-            if (StringUtils.equals(showT, "interpret") == true) {
+      } else if (StringUtils.equals(showT, "interpret") == true) {
         renderInterpretList();
-      } else
-              if (StringUtils.equals(showT, "dirigent") == true) {
+      } else if (StringUtils.equals(showT, "dirigent") == true) {
         renderDirigentList();
-      } else
-                if (StringUtils.equals(showT, "stats") == true) {
+      } else if (StringUtils.equals(showT, "stats") == true) {
         renderStatistics();
       } else {
         renderKomposers();
@@ -425,7 +418,8 @@ public class RogMp3ActionBean extends ActionBeanBase
     for (Dirigent dirigent : dirigents) {
 
       node.add(Html.li( //
-          Html.a(attrs("href", localUrl() + "?dirigentPk=" + WebUtils.encodeUrlParam(dirigent.getPk())), text(dirigent.getName()))));
+          Html.a(attrs("href", localUrl() + "?dirigentPk=" + WebUtils.encodeUrlParam(dirigent.getPk())),
+              text(dirigent.getName()))));
     }
     node.add(code("</ul>"));
     wikiContext.append(node.toString());
@@ -459,7 +453,8 @@ public class RogMp3ActionBean extends ActionBeanBase
     for (Orchester orch : orchs) {
 
       node.add(Html.li( //
-          Html.a(attrs("href", localUrl() + "?orchesterPk=" + WebUtils.encodeUrlParam(orch.getPk())), text(orch.getName()))));
+          Html.a(attrs("href", localUrl() + "?orchesterPk=" + WebUtils.encodeUrlParam(orch.getPk())),
+              text(orch.getName()))));
     }
     node.add(code("</ul>"));
     wikiContext.append(node.toString());
@@ -521,7 +516,8 @@ public class RogMp3ActionBean extends ActionBeanBase
 
   private XmlElement renderMediaLink(Media media)
   {
-    return Html.a(attrs("href", localUrl() + "?mediaPk=" + WebUtils.encodeUrlParam(media.getPk())), text(media.getListName()));
+    return Html.a(attrs("href", localUrl() + "?mediaPk=" + WebUtils.encodeUrlParam(media.getPk())),
+        text(media.getListName()));
   }
 
   private void renderMediaList()
@@ -531,7 +527,8 @@ public class RogMp3ActionBean extends ActionBeanBase
     node.add(Html.p( //
         Html.a(attrs("href", localUrl() + "?showT=media"), text("Name")), //
         text(" |"), //
-        Html.a(attrs("href", localUrl() + "?showT=media&sort=" + Media.DATE_INDB + "&desc=" + (desc == false)), text("Date")), //
+        Html.a(attrs("href", localUrl() + "?showT=media&sort=" + Media.DATE_INDB + "&desc=" + (desc == false)),
+            text("Date")), //
         text(" |"), //
         Html.a(attrs("href", localUrl() + "?showT=media&sort=-1&desc=" + (desc == false)), text("Usage Count")), //
         text(" |"), //
@@ -543,8 +540,7 @@ public class RogMp3ActionBean extends ActionBeanBase
       int isort = NumberUtils.toInt(sort);
       if (isort == -1) {
         Track.sortByUsage(medias, desc);
-      } else
-        if (isort == -2) {
+      } else if (isort == -2) {
         Track.sortByDate(medias, desc);
       } else {
         RecBase.sortByIdx(medias, isort, desc);
@@ -588,8 +584,7 @@ public class RogMp3ActionBean extends ActionBeanBase
 
     if (StringUtils.equals(upUse, "true") == true) {
       db.getUsageDb().upUse(db, null, mediaPk, true);
-    } else
-      if (StringUtils.equals(upUse, "false") == true) {
+    } else if (StringUtils.equals(upUse, "false") == true) {
       db.getUsageDb().upUse(db, null, mediaPk, false);
     }
 
@@ -609,8 +604,9 @@ public class RogMp3ActionBean extends ActionBeanBase
     if (composerPks.size() == 1) {
       Composer composer = titles.get(0).getComposer();
       node.add(
-          element("h4", Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(composer.getPk())), text(composer.getName()))))//
-          ;
+          element("h4", Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(composer.getPk())),
+              text(composer.getName()))))//
+      ;
       node.add(element("p", code(composer.getDetailDescription())));
     }
     node.add(element("H3", text("Titel")));
@@ -624,8 +620,7 @@ public class RogMp3ActionBean extends ActionBeanBase
     node = Html.p(Html.a(attrs("href", localUrl() + "?mediaPk=" + mediaPk + "&downloadMp3=true"), text("Download")));
     wikiContext.append(node.toString());
     wikiContext.append(node.toString());
-    GWikiLog.note("RogMp3; Media: " + media.getDetailDescription(localUrl()), "RequestRemoteHost",
-        wikiContext.getRequest().getRemoteHost());
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; Media: " + media.getDetailDescription(localUrl()));
 
   }
 
@@ -648,10 +643,14 @@ public class RogMp3ActionBean extends ActionBeanBase
     node.add(element("H1", text(comp.getName())));
     node.add(element("p", code(comp.getDetailDescription())));
     node.add(
-        Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk()) + "&showKomposerMedias=false"), text("Titel")));
+        Html.a(
+            attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk()) + "&showKomposerMedias=false"),
+            text("Titel")));
     node.add(text(" "));
     node.add(
-        Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk()) + "&showKomposerMedias=true"), text("Medien")));
+        Html.a(
+            attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk()) + "&showKomposerMedias=true"),
+            text("Medien")));
 
     List<Title> titels = db.getTitelFromKomposer(comp.getName());
     if (StringUtils.equals(showKomposerMedias, "true") == true) {
@@ -660,7 +659,7 @@ public class RogMp3ActionBean extends ActionBeanBase
       renderTitleList(node, titels, false);
     }
     wikiContext.append(node.toString());
-    GWikiLog.note("RogMp3; composer: " + comp.getNameOnFs(), "RequestRemoteHost", wikiContext.getRequest().getRemoteHost());
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; composer: " + comp.getNameOnFs());
   }
 
   private void renderKomposerMedias(XmlElement node, Composer comp, List<Title> titels)
@@ -706,16 +705,16 @@ public class RogMp3ActionBean extends ActionBeanBase
 
     if (StringUtils.equals(upUse, "true") == true) {
       db.getUsageDb().upUse(db, tit, null, true);
-    } else
-      if (StringUtils.equals(upUse, "false") == true) {
+    } else if (StringUtils.equals(upUse, "false") == true) {
       db.getUsageDb().upUse(db, tit, null, false);
     }
 
     Composer composer = title.getComposer();
     XmlElement node = element("div", "name", "x");
     node.add(
-        element("H2", Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(composer.getPk())), text(composer.getName()))))//
-        ;
+        element("H2", Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(composer.getPk())),
+            text(composer.getName()))))//
+    ;
 
     node.add(element("H1", text(title.getTitleName())));
 
@@ -724,7 +723,8 @@ public class RogMp3ActionBean extends ActionBeanBase
     if (media != null) {
 
       node.nest(text("Media: "),
-          Html.a(attrs("href", localUrl() + "?mediaPk=" + WebUtils.encodeUrlParam(media.getPk())), text(media.getListName())));
+          Html.a(attrs("href", localUrl() + "?mediaPk=" + WebUtils.encodeUrlParam(media.getPk())),
+              text(media.getListName())));
       node.add(code("<br/>"));
       renderMediaImages(node, media);
       node.add(code("<br/>"));
@@ -735,9 +735,9 @@ public class RogMp3ActionBean extends ActionBeanBase
     wikiContext.append(node.toString());
 
     renderaudios(title);
-    GWikiLog.note("RogMp3; title: " + composer.getNameOnFs() + "/" + title.getNameOnFs(), "RequestRemoteHost",
-        wikiContext.getRequest().getRemoteHost());
-    node = Html.p(Html.a(attrs("href", localUrl() + "?tit=" + WebUtils.encodeUrlParam(tit) + "&downloadMp3=true"), text("Download")));
+    GLog.note(GWikiLogCategory.Wiki, "RogMp3; title: " + composer.getNameOnFs() + "/" + title.getNameOnFs());
+    node = Html.p(Html.a(attrs("href", localUrl() + "?tit=" + WebUtils.encodeUrlParam(tit) + "&downloadMp3=true"),
+        text("Download")));
     wikiContext.append(node.toString());
 
   }
@@ -805,14 +805,16 @@ public class RogMp3ActionBean extends ActionBeanBase
         if (born.getChilds().isEmpty() == false) {
           born.add(code("<br/>"));
         }
-        born.add(Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk())), text(comp.getListDescription())));
+        born.add(Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk())),
+            text(comp.getListDescription())));
       }
       XmlElement died = Html.td(attrs());
       for (Composer comp : te.end) {
         if (died.getChilds().isEmpty() == false) {
           died.add(code("<br/>"));
         }
-        died.add(Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk())), text(comp.getListDescription())));
+        died.add(Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(comp.getPk())),
+            text(comp.getListDescription())));
       }
       table.nest(Html.tr(//
           Html.td(text(Integer.toString(te.year))), //
@@ -844,7 +846,8 @@ public class RogMp3ActionBean extends ActionBeanBase
     node.add(code("<ul>"));
     for (Composer c : db.getComposers()) {
       node.add(Html.li( //
-          Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(c.getPk())), text(c.getListDescription()))));
+          Html.a(attrs("href", localUrl() + "?komp=" + WebUtils.encodeUrlParam(c.getPk())),
+              text(c.getListDescription()))));
     }
     node.add(code("</ul>"));
     String b = node.toString();
