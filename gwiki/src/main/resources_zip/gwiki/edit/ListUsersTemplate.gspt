@@ -6,7 +6,8 @@
   <input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ListUsers.link.filter"/>"/>
 </form>
 <br/>
-<span id="rsperror" style="color:red"></span> 
+<gwiki:errors />
+
 
 <%= wikiContext.actionBean.writeTableResult() %>
 

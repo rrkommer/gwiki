@@ -18,7 +18,7 @@
 
 </form>
 <br/>
-<span id="rsperror" style="color:red"></span> 
+<gwiki:errors />
 
 <%= wikiContext.actionBean.writeTableResult() %>
 <%-- TODO export --%>
