@@ -28,10 +28,7 @@ var gwikiContext = {
  
  output is a little bit obfuscated to minimize traffic overhead
 --%>
-String.prototype.i18n = function() {
-  var s = i18n["javascript." + this];
-  return (s) ? s : "???" + this + "???";
-}
+
 var i18n={<%
     final String lang = wikiContext.getUserStringProp("lang", "en");
 
@@ -46,9 +43,13 @@ var i18n={<%
     }
     if (buf.length() > 0) {
         buf.deleteCharAt(buf.length() - 1);
-    }
+    } 
     wikiContext.append(buf.toString());
-%>}
+%>};
+String.prototype.i18n = function() {
+  var s = i18n["javascript." + this];
+  return (s) ? s : "???" + this + "???";
+};
 </script>
 
 <script type="text/javascript">

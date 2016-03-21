@@ -13,7 +13,9 @@
 %>
 <!-- head.gspt START -->
 <head>
+<%--
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+ --%>
 <@include file="/inc/htmlHead.gspt" @>
 <%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
 <link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
