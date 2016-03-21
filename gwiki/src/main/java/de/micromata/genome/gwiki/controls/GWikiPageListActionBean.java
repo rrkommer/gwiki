@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.util.matcher.InvalidMatcherGrammar;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
@@ -220,12 +221,17 @@ public class GWikiPageListActionBean extends ActionBeanBase
 
   public Object onFilter()
   {
-    SearchQuery query = buildQuery();
-    if (query == null) {
+    try {
+      SearchQuery query = buildQuery();
+      if (query == null) {
+        return null;
+      }
+      queryResult = filter(query);
+      return null;
+    } catch (InvalidMatcherGrammar ex) {
+      wikiContext.addSimpleValidationError(ex.getMessage());
       return null;
     }
-    queryResult = filter(query);
-    return null;
 
   }
 
@@ -255,7 +261,7 @@ public class GWikiPageListActionBean extends ActionBeanBase
     if (qr == null) {
       return "";
     }
-    XmlElement table = Html.table();
+    XmlElement table = Html.table(Xml.attrs("class", "gwikiTable"));
     List<String> fieldList = Converter.parseStringTokens(fields, "|", false);
     XmlElement tr = Html.tr(Xml.attrs("class", "gwikiTable"));
     for (String fname : fieldList) {
