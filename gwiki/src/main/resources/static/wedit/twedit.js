@@ -74,8 +74,8 @@ function twedit_create(partName, content) {
 	      },
 
 	      theme : 'modern',
-	      forced_root_block: false, // br instead of p
-	      keep_styles: false, // otherwise h1. will not terminated.
+	      forced_root_block: 'p', // br instead of p
+	      keep_styles: false, // otherwise h1. will not terminated. ! does not working!
 	      /*
 				 * plugins : [ 'advlist autolink lists link image charmap print preview
 				 * hr anchor pagebreak', 'searchreplace wordcount visualblocks
@@ -83,12 +83,12 @@ function twedit_create(partName, content) {
 				 * table contextmenu directionality', 'template paste textcolor
 				 * colorpicker textpattern imagetools' ],
 				 */
-	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
+	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker  code ', //
 	      paste_data_images : true,
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
 				// bullist
 	      // numlist",
-	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikiimage  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor",
+	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikiimage  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
 	      // alignleft
@@ -101,6 +101,7 @@ function twedit_create(partName, content) {
 				 * templates : [ { title : 'Test template 1', content : 'Test 1' }, {
 				 * title : 'Test template 2', content : 'Test 2' } ],
 				 */
+	      browser_spellcheck: true,
 	      image_advtab : true,
 	      content_css : gwikiContentCssArray
 	    /* ,'//www.tinymce.com/css/codepen.min.css' */

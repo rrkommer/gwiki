@@ -206,7 +206,7 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 
 		$(dialog).dialog('close');
 		ed.focus();
-		callback(ed, macroInfo, macroMetaInfo);
+		callback(ed, curMacroInfo, macroInfo);
 	};
 	var dlghtml = modc.html();
 	console.debug("dialog: " + dlghtml);
@@ -245,25 +245,31 @@ function wedit_renderHead(macroInfo) {
 
 	var h = macroInfo.macroName;
 	if (macroInfo.macroParams && macroInfo.macroParams.length) {
-		h += ':';
+		var firstP = true;
 		for (var i = 0; i < macroInfo.macroParams.length; ++i) {
-			if (i > 0) {
+		
+			var pm = macroInfo.macroParams[i];
+			if (!pm.value) {
+				continue;
+			}
+			if (firstP) {
+				h += ':';
+				firstP = false;
+			} else {
 				h += '|';
 			}
-			var pm = macroInfo.macroParams[i];
 			h += wedit_escapemacrohead(pm.name) + '=' + wedit_escapemacrohead(pm.value);
 		}
 	}
 	return h;
 }
 function wedit_updateMacro(ed, curMacroInfo, newMacroInfo) {
-	var nhead = wedit_renderHead(newMacroInfo);
-
+	
 	var hdiv = $(curMacroInfo.macroHeadDiv);
-	hdiv.attr('data-macrohead', nhead);
+	hdiv.attr('data-macrohead', newMacroInfo.macroHead);
 	hdiv.attr('data-macroname', newMacroInfo.macroName);
 	var htext = hdiv.find(".weditmacrn");
-	htext.text(nhead);
+	htext.text(newMacroInfo.macroHead);
 }
 
 function wedit_getMacroInfos(ed, callback) {

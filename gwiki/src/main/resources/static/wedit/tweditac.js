@@ -21,28 +21,26 @@
 	  },
 
 	  init : function(ed, url) {
-	  	console.debug("init tweditac");
+		  console.debug("init tweditac");
 		  config = {
 		    tweidac_checkac_start : ed.getParam('tweidac_checkac_start'),
 		    options : parseOptions(ed.getParam('autocomplete_options', '')),
 		    ed : ed,
 		    itemReceiver : gwedit_autocomplete_entries
-		  // TODO
 		  };
 		  /**
-		   * div with ul popup window
-		   */
+			 * div with ul popup window
+			 */
 		  var popup;
 		  var popupul;
 		  /**
-		   * List of items
-		   */
+			 * List of items
+			 */
 		  var itemlist = new Array();
 		  var _this = this;
 		  var keyupHandler = checkAutocomplete;
-		  var keydownHandler = defaultHandler; 
+		  var keydownHandler = defaultHandler;
 		  var typedText = '';
-		  
 
 		  function startAutocomplete(ed, char) {
 			  config.itemReceiver(char, typedText, popupList);
@@ -58,7 +56,7 @@
 			  fillList(popupul);
 
 			  range.insertNode(popup[0]);
-			  
+
 			  keydownHandler = onpopupkeydown;
 			  keyupHandler = onpopupkeyup;
 			  var clickOutsideHandler = function(event) {
@@ -67,6 +65,13 @@
 				  close();
 			  };
 			  $(window).bind("click", clickOutsideHandler);
+
+			  var clickOutsideHandlerEd = function(event) {
+				  console.debug("clicked somewhere in ed");
+				  ed.off("click", clickOutsideHandlerEd);
+				  close();
+			  };
+			  ed.on('click', clickOutsideHandlerEd, true);
 		  }
 		  function close() {
 			  popup.remove();
@@ -103,9 +108,9 @@
 
 				  var li = $("<li class='wautoli' data-acidx='" + i + "'></li>");
 				  li.click(function(event) {
-				  	// strange dooesnt word
-				  	var idx = $(event.target).attr('data-acidx');
-				  	var clickitem  = itemlist[idx];
+					  // strange dooesnt word
+					  var idx = $(event.target).attr('data-acidx');
+					  var clickitem = itemlist[idx];
 					  popup.remove();
 					  onselect(clickitem);
 					  cancelEvent(event);
@@ -117,7 +122,7 @@
 			  }
 		  }
 		  function refreshList() {
-		  	popupul.empty();
+			  popupul.empty();
 			  fillList(popupul);
 		  }
 		  function onselect(item) {
@@ -135,7 +140,7 @@
 				  }
 
 			  } else {
-			  	console.error("Cannot find function")
+				  console.error("Cannot find function")
 			  }
 		  }
 		  function insertSelected(jselitem) {
@@ -179,11 +184,11 @@
 		  function onpopupkeydown(event) {
 			  console.debug("popkeydown: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
 			      + event.altKey);
-			  var el = popup;//$("#wautocopletewindow");
-			  var ul = popupul; //$("#wautocopleteul");
+			  var el = popup;// $("#wautocopletewindow");
+			  var ul = popupul; // $("#wautocopleteul");
 			  if (!ul[0]) {
-					console.warn("ac popup ul not found");
-				}
+				  console.warn("ac popup ul not found");
+			  }
 			  switch (event.which) {
 			  case 9: // TAB
 			  case 13: // ENTER
@@ -191,7 +196,7 @@
 				  if (found.length && found.next().get()) {
 					  var item = insertSelected(found)
 					  onselect(item);
-				  } 
+				  }
 				  close();
 				  return cancelEvent(event);
 			  case 27: // ESC
@@ -219,52 +224,51 @@
 				  return cancelEvent(event);
 			  }
 		  }
-		  function cancelEvent(event)
-		  {
-//		  	event.stopPropagation();
-//			  event.preventDefault();
-		  	return tinymce.dom.Event.cancel(event);
+		  function cancelEvent(event) {
+			  // event.stopPropagation();
+			  // event.preventDefault();
+			  return tinymce.dom.Event.cancel(event);
 		  }
-		  function defaultHandler(event)
-		  {
-//		  	console.debug("defaultHandler");
+		  function defaultHandler(event) {
+			  // console.debug("defaultHandler");
 		  }
 		  function checkAutocomplete(event) {
 			  var rng = ed.selection.getRng(true);
 			  var txt = rng.startContainer.textContent;
 			  var char = txt.substring(rng.startOffset - 1, rng.startOffset);
-//			  console.log("character before current cursor position = [" + char + "]");
+			  // console.log("character before current cursor position = [" + char +
+				// "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
-			  	startAutocomplete(ed, char);
+				  startAutocomplete(ed, char);
 			  }
 		  }
 		  function getCurrentCursorPos() {
-		  	var x = 0, y = 0;
-		  	var range = ed.selection.getRng();
-		  	var startc = range.startContainer;
-		  	// a trick to get coordinates.
-		  	var span = document.createElement("span");
-		  	span.appendChild(document.createTextNode("\u200b") /*
-		  																											 * Zero-width space
-		  																											 * character
-		  																											 */);
-		  	range.insertNode(span);
+			  var x = 0, y = 0;
+			  var range = ed.selection.getRng();
+			  var startc = range.startContainer;
+			  // a trick to get coordinates.
+			  var span = document.createElement("span");
+			  span.appendChild(document.createTextNode("\u200b") /*
+																														 * Zero-width space
+																														 * character
+																														 */);
+			  range.insertNode(span);
 
-		  	var rect = span.getBoundingClientRect();
-		  	span.parentNode.removeChild(span);
+			  var rect = span.getBoundingClientRect();
+			  span.parentNode.removeChild(span);
 
-		  	y = rect.top;
-		  	x = rect.left;
-		  	return {
-		  	  x : x,
-		  	  y : y
-		  	};
+			  y = rect.top;
+			  x = rect.left;
+			  return {
+			    x : x,
+			    y : y
+			  };
 		  }
 		  ed.on('keyup', function(event) {
-		  	keyupHandler(event);
+			  keyupHandler(event);
 		  });
 		  ed.on('keydown', function(event) {
-		  	keydownHandler(event);
+			  keydownHandler(event);
 		  });
 		  // ed.on('keypress', function(event) {
 		  // keyPressEvent(ed, event);
@@ -285,7 +289,6 @@
 
 	tinymce.PluginManager.add('tweditac', tinymce.plugins.tweditac);
 })();
-
 
 function twedit_dummy_itemReceiver(char, typedText, callback) {
 	var dummy = [ {
