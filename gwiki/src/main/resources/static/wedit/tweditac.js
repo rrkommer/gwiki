@@ -49,12 +49,13 @@
 			  itemlist = list;
 			  var range = ed.selection.getRng();
 			  var point = getCurrentCursorPos();
-			  popup = $("<div id='wautocopletewindow' class='wautocmp'>");
-			  popupul = $("<ul id='wautocopleteul'></ul>");
+			  var doc = ed.contentWindow.document;
+			  popup = ed.$("<div id='wautocopletewindow' class='wautocmp'>");
+			  popupul = ed.$("<ul id='wautocopleteul'></ul>");
 			  popup.append(popupul);
 			  popup.attr("style", "position: absolute; left, " + point.x + "; top: " + point.y + ";");
 			  fillList(popupul);
-
+			  
 			  range.insertNode(popup[0]);
 
 			  keydownHandler = onpopupkeydown;
@@ -193,7 +194,7 @@
 			  case 9: // TAB
 			  case 13: // ENTER
 				  var found = ul.find(".wautocmpsel");
-				  if (found.length && found.next().get()) {
+				  if (found.length && found.next()) {
 					  var item = insertSelected(found)
 					  onselect(item);
 				  }
@@ -247,8 +248,9 @@
 			  var range = ed.selection.getRng();
 			  var startc = range.startContainer;
 			  // a trick to get coordinates.
-			  var span = document.createElement("span");
-			  span.appendChild(document.createTextNode("\u200b") /*
+			  var doc = ed.contentWindow.document;
+			  var span = doc.createElement("span");
+			  span.appendChild(doc.createTextNode("\u200b") /*
 																														 * Zero-width space
 																														 * character
 																														 */);

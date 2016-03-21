@@ -118,7 +118,7 @@ function twedit_setContent(partName, html)
 
 function tedit_insertRaw(ed, html) {
 	var range = ed.selection.getRng(true);
-	var node = $(html)[0];
+	var node = ed.$(html)[0];
 	// var node = tinymce.DOM.createFragment(html);
 	range.insertNode(node);
 
