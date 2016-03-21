@@ -1,4 +1,11 @@
-asdf
-!store.png!!store2.png!!data3.png!
+{code:lang=java}
 
-!bild.png!
+ class X {
+String foo()
+{
+  return "asdf";
+}
+}
+
+{code}noch was:
+

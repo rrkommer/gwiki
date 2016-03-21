@@ -23,6 +23,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * See also GWikiSectionMacro.
@@ -30,6 +32,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(
+    info = "The Macro column can be used in connection with Macro section to define a multiple column layout.<br/>"
+        + "This Macro must be nested inside a section macro.",
+    params = { @MacroInfoParam(name = "width", info = " Optional String, width (px, % or em) of the column"),
+        @MacroInfoParam(name = "class", info = "Optional. CSS class attribute of the Column"),
+        @MacroInfoParam(name = "style", info = "Optional. CSS style attribute"),
+    },
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiColumnMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 
@@ -37,13 +47,14 @@ public class GWikiColumnMacro extends GWikiHtmlTagMacro implements GWikiBodyEval
 
   public GWikiColumnMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -51,7 +62,8 @@ public class GWikiColumnMacro extends GWikiHtmlTagMacro implements GWikiBodyEval
   {
     ctx.append("<td");
     for (String k : attrs.getArgs().getMap().keySet()) {
-      ctx.append(" ").append(k).append("=\"").append(StringEscapeUtils.escapeXml(attrs.getArgs().getStringValue(k))).append("\"");
+      ctx.append(" ").append(k).append("=\"").append(StringEscapeUtils.escapeXml(attrs.getArgs().getStringValue(k)))
+          .append("\"");
     }
 
     ctx.append(">\n");

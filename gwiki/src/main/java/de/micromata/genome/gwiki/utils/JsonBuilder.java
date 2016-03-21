@@ -125,11 +125,24 @@ public class JsonBuilder
   //      sb.append(" }");
   //    }
   //  }
+  public static JsonArray array()
+  {
+    return new JsonArray();
+  }
 
   public static JsonArray array(JsonValue... elements)
   {
     JsonArray ret = new JsonArray();
     for (JsonValue el : elements) {
+      ret.add(el);
+    }
+    return ret;
+  }
+
+  public static JsonArray array(String... elements)
+  {
+    JsonArray ret = new JsonArray();
+    for (String el : elements) {
       ret.add(el);
     }
     return ret;

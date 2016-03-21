@@ -44,7 +44,10 @@ import de.micromata.genome.util.matcher.StringMatchers;
  */
 @MacroInfo(
     info = "The Macro pageintro markes a section of wiki text, which will be used as short abstract of the page.\n" +
-        "This text can also be used to be displayed in children Macros.")
+        "This text can also be used to be displayed in children Macros.",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
+        GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro//, GWikiMacroRte
 {
 
@@ -71,10 +74,7 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
 
   public GWikiPageIntroMacroBean()
   {
-    setRenderModes(
-        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-            GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
-            GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   @Override

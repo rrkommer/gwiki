@@ -72,6 +72,13 @@ public interface GWikiMacroFactory
         return new ArrayList<>();
       }
 
+      @Override
+      public int getRenderFlags()
+      {
+        // TODO Auto-generated method stub
+        return 0;
+      }
+
     };
   }
 }

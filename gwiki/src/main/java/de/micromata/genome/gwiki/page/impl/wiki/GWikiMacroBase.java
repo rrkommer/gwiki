@@ -103,4 +103,17 @@ public abstract class GWikiMacroBase implements GWikiMacro
   {
     this.renderModes = renderModes;
   }
+
+  protected void setRenderModesFromAnnot()
+  {
+    MacroInfo mi = getClass().getAnnotation(MacroInfo.class);
+    if (mi == null) {
+      return;
+    }
+    int flags = 0;
+    for (GWikiMacroRenderFlags rf : mi.renderFlags()) {
+      flags |= rf.getFlag();
+    }
+    setRenderModes(flags);
+  }
 }

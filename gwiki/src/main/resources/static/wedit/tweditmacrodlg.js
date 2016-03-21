@@ -1,3 +1,13 @@
+
+// has to equal to GWikiMacroRenderFlags
+var WEDIT_MACRO_RENDER_FLAG_NewLineAfterStart = 0x0001;
+var WEDIT_MACRO_RENDER_FLAG_NewLineBeforeEnd = 0x0002;
+var WEDIT_MACRO_RENDER_FLAG_TrimTextContent = 0x0010;
+var WEDIT_MACRO_RENDER_FLAG_NoWrapWithP = 0x0020;
+var WEDIT_MACRO_RENDER_FLAG_ContainsTextBlock = 0x0040;
+var WEDIT_MACRO_RENDER_FLAG_TrimWsAfter= 0x0080;
+var WEDIT_MACRO_RENDER_FLAG_RteInline = 0x0100;
+
 function MacroInfo() {
 	this.newMacro = true;
 	this.macroName = null;
@@ -24,17 +34,15 @@ function MacroInfo() {
 
 function extractMacroDefinition(ed, el) {
 	var divel = el;
-	if (divel.nodeName != 'DIV') {
-		divel = ed.dom.getParent(divel, "DIV");
+	var divframe = wedit_macro_findFrame(ed, el);
+	if (divframe == null) {
+		console.warn('no macroframe div found');
 	}
+	var divel = $(divframe).find('.weditmacrohead')[0];
+	var frameq = $(divframe).find('.weditmacrobody');
 	var body = null;
-	if (divel.getAttribute('class').indexOf('weditmacrobody') != -1) {
-		body = divel;
-		divel = divel.parentElement;
-	}
-	if (divel.getAttribute('class').indexOf('weditmacrohead') == -1) {
-		console.warn('no macrohead div found');
-		return null;
+	if (frameq.length > 0) {
+		body = frameq[0]; 
 	}
 	var head = divel.getAttribute('data-macrohead');
 	var ret = new MacroInfo();
@@ -357,7 +365,11 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 	var fuellsel = '';
 	if (macroInfo.macroMetaInfo.hasBody) {
 		var fuellsel = "<p>&nbsp;</p>";
-		if (macroInfo.macroMetaInfo.evalBody == false) {
+		
+		if (WEDIT_MACRO_RENDER_FLAG_RteInline & macroInfo.macroMetaInfo.renderFlags) {
+			fuellsel = "&nbsp;";
+		}
+		else if (macroInfo.macroMetaInfo.evalBody == false) {
 			fuellsel = "<pre>\n</pre>";
 		}
 	}
@@ -393,7 +405,7 @@ function wedit_macro_findFrame(ed, divel) {
 	if (divel == null) {
 		return null;
 	}
-	if (divel.nodeName != 'DIV') {
+	if (divel.nodeName != 'DIV' && divel.nodeName != 'SPAN') {
 		var pel = divel.parentNode;
 		return wedit_macro_findFrame(ed, pel);
 	}

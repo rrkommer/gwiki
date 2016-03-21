@@ -39,28 +39,32 @@ public class GWikiWikiPageArtefakt extends GWikiWikiPageBaseArtefakt implements 
   public void prepareHeader(GWikiContext wikiContext)
   {
     //    wikiContext.getRequiredJs().add("static/js/jquery.thumbs.js");
+    wikiContext.getRequiredJs().add("static/prism/prism.js");
+    wikiContext.getRequiredCss().add("static/prism/prism.css");
     super.prepareHeader(wikiContext);
     GWikiElementInfo ei = wikiContext.getCurrentElement().getElementInfo();
     if (wikiContext.getWikiWeb().getAuthorization().isAllowToEdit(wikiContext, ei) == false) {
       return;
     }
-    Object attr = wikiContext.getRequestAttribute("gwiki_edit_e_key_added");
-    if (attr != null) {
-      return;
-    }
+    wikiContext.getRequiredJs().add("static/wedit/gwiki_edit_hook.js");
 
-    String editByE = "<script type=\"text/javascript\">\n" +
-        "$(document).keydown(function (event) {\n" +
-        "   if (event.which == 69) {\n" +
-        "     window.location.href = '" + wikiContext.localUrl("edit/EditPage") + "?pageId="
-        + wikiContext.escapeUrlParam(ei.getId())
-        + "';\n"
-        +
-        "   }\n" +
-        "});\n</script>\n";
-
-    wikiContext.getRequiredHeader().add(editByE);
-    wikiContext.setRequestAttribute("gwiki_edit_e_key_added", Boolean.TRUE);
+    //    Object attr = wikiContext.getRequestAttribute("gwiki_edit_e_key_added");
+    //    if (attr != null) {
+    //      return;
+    //    }
+    //
+    //    String editByE = "<script type=\"text/javascript\">\n" +
+    //        "$(document).keydown(function (event) {\n" +
+    //        "   if (event.which == 69) {\n" +
+    //        "     window.location.href = '" + wikiContext.localUrl("edit/EditPage") + "?pageId="
+    //        + wikiContext.escapeUrlParam(ei.getId())
+    //        + "';\n"
+    //        +
+    //        "   }\n" +
+    //        "});\n</script>\n";
+    //
+    //    wikiContext.getRequiredHeader().add(editByE);
+    //    wikiContext.setRequestAttribute("gwiki_edit_e_key_added", Boolean.TRUE);
   }
 
 }

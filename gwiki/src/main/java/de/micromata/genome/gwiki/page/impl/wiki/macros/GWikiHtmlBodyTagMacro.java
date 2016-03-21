@@ -56,7 +56,7 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
 
   public GWikiHtmlBodyTagMacro()
   {
-    // this(GWikiMacroRenderFlags.TrimTextContent.getFlag());
+    setRenderModesFromAnnot();
   }
 
   public static GWikiMacroFactory table()

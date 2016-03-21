@@ -38,8 +38,11 @@ import de.micromata.genome.gwiki.page.impl.GWikiContent;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
@@ -52,6 +55,27 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The macro children create a table content of the children pages.",
+    params = {
+        @MacroInfoParam(name = "page",
+            info = "pageId of the parent element. If not set use the current page.<br/>If page is GWIKI_WELCOME_PAGE it uses the welcome page defined in the GWiki Config."),
+        @MacroInfoParam(name = "depth", info = "Maximal depth. If not set, use all nested pages."),
+        @MacroInfoParam(name = "sort",
+            info = "One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER"),
+        @MacroInfoParam(name = "reverse", info = " if true use the reverse order.", type = MacroParamType.Boolean),
+        @MacroInfoParam(name = "withPageIntro",
+            info = "If true, include the {pageintro} sections of the children page. See also: Macro pageintro.",
+            type = MacroParamType.Boolean),
+        @MacroInfoParam(name = "withPageTocs",
+            info = "If true, all internal headings of the children pages will be included in the table of content."),
+        @MacroInfoParam(name = "type", info = "default gwiki. Type of Element. all return all types.",
+            defaultValue = "gwiki"),
+        @MacroInfoParam(name = "withEditLinks", info = " If true also render info and edit links for elements.<br/>"
+            + "This is usefull, if you want display a list with elements to edit, which are not directly viewable, resp. does not have itself an edit link in the HTML frame.",
+            type = MacroParamType.Boolean),
+
+    },
+    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiChildrenMacro extends GWikiMacroBean
 {
 
@@ -94,7 +118,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
 
   public GWikiChildrenMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   @Override
@@ -264,7 +288,8 @@ public class GWikiChildrenMacro extends GWikiMacroBean
     ctx.append("\n</ul>\n");
   }
 
-  public static final ThreadLocal<SimpleDateFormat> SITE_CONTENT_FORMAT = new ThreadLocal<SimpleDateFormat>() {
+  public static final ThreadLocal<SimpleDateFormat> SITE_CONTENT_FORMAT = new ThreadLocal<SimpleDateFormat>()
+  {
 
     @Override
     protected SimpleDateFormat initialValue()
@@ -291,7 +316,8 @@ public class GWikiChildrenMacro extends GWikiMacroBean
       wikiContext.append("<lastmod>").append(SITE_CONTENT_FORMAT.get().format(d)).append("</lastmod>");
     }
     if (StringUtils.isNotEmpty(defaultChageFreq) == true) {
-      wikiContext.append("<changefreq>").append(StringEscapeUtils.escapeXml(defaultChageFreq)).append("</changefreq>\n");
+      wikiContext.append("<changefreq>").append(StringEscapeUtils.escapeXml(defaultChageFreq))
+          .append("</changefreq>\n");
     }
 
     wikiContext.append("</url>\n");

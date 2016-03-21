@@ -144,8 +144,8 @@
 
 			  i = inst.selection.getBookmark();
 			  if (elm == null) {
-				  var html = "<a href=\"" + gwikiEscapeInput(newUrl) + "\" title=\"" + gwikiEscapeInput(result.title) + "\">"
-				      + gwikiEscapeInput(result.title) + "</a>";
+				  var html = "<a href=\"" + gwikiEscapeAttr(newUrl) + "\" title=\"" + gwikiEscapeAttr(result.title) + "\">"
+				      + gwikiEscapeAttr(result.title) + "</a>";
 				  tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
 			  } else {
 
@@ -183,7 +183,7 @@
 
 			  i = inst.selection.getBookmark();
 			  if (elm == null) {
-				  var html = "<img src=\"" + gwikiEscapeInput(newUrl) + "\" alt=\"" + gwikiEscapeInput(result.alt) + "\"/>";
+				  var html = "<img src=\"" + gwikiEscapeAttr(newUrl) + "\" alt=\"" + gwikiEscapeAttr(result.alt) + "\"/>";
 				  tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
 			  } else {
 
@@ -199,7 +199,7 @@
 			  parentPageId : gwikiEditPageId
 		  }, this.editor, function(editor, newId) {
 			  var newUrl = gwikiContextPath + "/" + newId;
-			  var html = "<img src=\"" + gwikiEscapeInput(newUrl) + "\"/>";
+			  var html = "<img src=\"" + gwikiEscapeAttr(newUrl) + "\"/>";
 			  tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
 		  });
 		  // alert('insert screen');
@@ -262,7 +262,8 @@
 		  return found;
 	  },
 	  _isMacro : function(el) {
-		  if (el.tagName.toLowerCase() != 'div') {
+	  	var eln = el.tagName.toLowerCase();
+		  if (eln != 'div' && eln != 'span') {
 			  return false;
 		  }
 		  var cls = el.getAttribute('class');

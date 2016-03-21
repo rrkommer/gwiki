@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
 
@@ -35,6 +36,8 @@ import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The macro quote marks a section of wiki text as quoted text.",
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiQuoteMacroBean extends GWikiMacroBean
     implements GWikiBodyEvalMacro, GWikiMacroRte, GWikiMacroSourceable
 {
@@ -46,11 +49,7 @@ public class GWikiQuoteMacroBean extends GWikiMacroBean
 
   public GWikiQuoteMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(/*
-                                                  * GWikiMacroRenderFlags.NewLineAfterStart,
-                                                  * GWikiMacroRenderFlags.NewLineBeforeEnd,
-                                                  */
-        GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   @Override

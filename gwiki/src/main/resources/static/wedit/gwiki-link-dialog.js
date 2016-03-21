@@ -1,28 +1,15 @@
-/**
- * 
- * @param editor
- * @param pageType
- *          wiki or image
- * @param currentLink {
- *          url:, title: }
- * @param callback
- *          currentLink structure
- * @return nothing
- */
-function gwikiEscapeInput(str) {
-	return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
+
 
 function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
 	var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input size=\"30\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {
-		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
+		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.title) + "\"";
 	}
 	dlghtml += "><br/>\n" + "gwiki.editor.wikilink.dialog.link".i18n()
 	    + ": <input size=\"30\" type=\"text\" id=\"linkpropt\"";
 	if (currentLink.url) {
-		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
+		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.url) + "\"";
 	}
 	dlghtml += ">";
 	modc.html(dlghtml);
@@ -62,7 +49,7 @@ function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback)
 	  }
 	});
 	$('#linkpropt').autocomplete({
-	  source : "./PageSuggestions?pageType=" + pageType,
+	  source : "./PageSuggestions?pageType=" + gwikiEscapeUrlParam(pageType),
 	  matchContains : true,
 	  minChars : 0,
 	  width : 300,
@@ -81,12 +68,12 @@ function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
 	var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input size=\"50\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {
-		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.title) + "\"";
+		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.title) + "\"";
 	}
 	dlghtml += "><br/>\n" + "gwiki.editor.wikilink.dialog.link".i18n()
 	    + ": <input size=\"50\" type=\"text\" id=\"linkpropt\"";
 	if (currentLink.url) {
-		dlghtml += " value=\"" + gwikiEscapeInput(currentLink.url) + "\"";
+		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.url) + "\"";
 	}
 	dlghtml += ">";
 	dlghtml += "<div id='filechooser' style='width:350px; height:200px; margin-top: 20px; font-family: verdana; font-size: 10px;'></div>";
@@ -146,7 +133,7 @@ function gwikiEditShowLink(parentWindow, pageType, currentLink, callback) {
 	});
 	$('#linkpropt').focus(function() {
 		$('#linkpropt').autocomplete({
-		  source : "./PageSuggestions?pageType=" + pageType,
+		  source : "./PageSuggestions?pageType=" + gwikiEscapeUrlParam(pageType),
 		  matchContains : true,
 		  minChars : 0,
 		  width : 460,

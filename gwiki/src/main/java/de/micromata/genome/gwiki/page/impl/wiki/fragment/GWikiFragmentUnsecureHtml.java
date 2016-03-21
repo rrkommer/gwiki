@@ -32,9 +32,20 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
+@MacroInfo(info = "The macro html marks a region of text as pure HTML.<br/>"
+    + "To save a page containing the html macro the user requires the right GWIKI_EDITHTML.",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart,
+        GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock })
 public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
 {
 
@@ -45,21 +56,31 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
 
     private static final long serialVersionUID = 6651596226823444417L;
 
+    public Macro()
+    {
+      setRenderModesFromAnnot();
+    }
+
+    @Override
     public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
     {
     }
 
+    @Override
     public boolean evalBody()
     {
       return false;
     }
 
+    @Override
     public boolean hasBody()
     {
       return true;
     }
 
-    public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+    @Override
+    public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks,
+        GWikiWikiParserContext ctx)
     {
       List<GWikiFragment> fragl = new ArrayList<GWikiFragment>();
       macroFrag.addChild(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
@@ -67,33 +88,32 @@ public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
       return fragl;
     }
 
-    public int getRenderModes()
-    {
-      return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-          GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock);
-    }
-
   }
 
   public static GWikiMacroFactory getFactory()
   {
-    return new GWikiMacroFactory() {
+    return new GWikiMacroFactory()
+    {
 
+      @Override
       public GWikiMacro createInstance()
       {
         return new Macro();
       }
 
+      @Override
       public boolean evalBody()
       {
         return false;
       }
 
+      @Override
       public boolean hasBody()
       {
         return true;
       }
 
+      @Override
       public boolean isRteMacro()
       {
         return false;
