@@ -79,25 +79,15 @@ function twedit_create(partName, content) {
 				      onSaveOptRedit(event, false);
 				      event.stopPropagation();
 				      event.preventDefault();
-				      // } else if (event.keyCode == 9) {
-				      // ed.execCommand('mceInsertContent', false, "\t");
-				      // event.stopPropagation();
-				      //				      event.preventDefault();
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#gwikihtmledit' + partName);
 	      },
 
 	      theme : 'modern',
-	      forced_root_block: false, // 'p', // br instead of p
+//	      forced_root_block: false, // 'p', // br instead of p
 	      keep_styles: false, // otherwise h1. will not terminated. ! does not working!
-	      /*
-				 * plugins : [ 'advlist autolink lists link image charmap print preview
-				 * hr anchor pagebreak', 'searchreplace wordcount visualblocks
-				 * visualchars code fullscreen', 'insertdatetime media nonbreaking save
-				 * table contextmenu directionality', 'template paste textcolor
-				 * colorpicker textpattern imagetools' ],
-				 */
+
 	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker  code ', //
 	      paste_data_images : true,
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
@@ -119,7 +109,6 @@ function twedit_create(partName, content) {
 	      browser_spellcheck: true,
 	      image_advtab : true,
 	      content_css : gwikiContentCssArray
-	    /* ,'//www.tinymce.com/css/codepen.min.css' */
 	    });
 	return editId;
 }
@@ -134,9 +123,7 @@ function twedit_setContent(partName, html)
 function tedit_insertRaw(ed, html) {
 	var range = ed.selection.getRng(true);
 	var node = ed.$(html)[0];
-	// var node = tinymce.DOM.createFragment(html);
 	range.insertNode(node);
-
 	ed.selection.setCursorLocation(node.nextSibling, 0);
 	return node;
 }
