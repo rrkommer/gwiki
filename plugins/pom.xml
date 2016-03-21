@@ -34,6 +34,8 @@
 		<module>gwiki-wikilinks</module>
     <module>gwiki-style-ProjectForge</module>
     <module>gwiki-style-ProjectForge-example</module>
+    <module>gwiki-style-mmLabs</module>
+    <module>gwiki-style-mgc</module>
     <module>rogmp3</module>
   </modules>
   

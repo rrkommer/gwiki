@@ -1,0 +1,466 @@
+@CHARSET "UTF-8";
+
+body  {
+    background: #858E94 url("../img/bg.png") top left repeat-x;
+}
+#gwikiWrapper {
+	position:relative;
+	background:#FFFFFF;
+	height:auto;
+	margin:0 auto;
+	text-align:left;
+	width:98em;
+}
+#gwikiHead {
+	background: url("../img/head.jpg") no-repeat center center;
+	position:relative;
+	height:22em;
+}
+#gwikiLogo {
+	height:11em;
+	padding:4em 2em 2em;
+	position:absolute;
+	right:3.2em;
+	top:0;
+	width:21em;
+	background:url("../img/bubble.gif") no-repeat left bottom;
+}
+/**
+ * @section        #topbarNav
+ *
+ * Die Hauptnavigation der gWiki Seite, wird vermutlich in Labs nicht benötigt.
+ *
+ * @see            #topbarNav
+ */
+#gwikiTopNav {
+	display:none;
+	position:absolute;
+ 	top: 40px;
+ 	left:5px;
+ 	color:#fff;
+ }
+#gwikiTopNav a.menuItem {
+ 	color:#fff;
+ 	font:1.6em/1.2em Arial,Helvetica,sans-serif;
+ 	text-decoration:none;
+ 	padding: 0 5px;
+ }
+ #gwikiTopNav a.menuItem:hover {
+ 	text-decoration:underline;
+ }
+/**
+ * @section        topbar
+ *
+ * Die obere Zeile die eine Suche und eine Navigation beinhaltet
+ *
+ * @see            #topbar
+ */
+#topbar {
+	background:url("../img/gradient.png") repeat-x scroll 44% 20% transparent;
+	border-bottom:1px solid #767676;
+	height:2.5em;
+	width:100%;
+	position:absolute;
+	top:0;
+	padding:0.2em 0;
+	z-index:100;
+}
+ul#socialLinks li {
+	float:left;
+	margin: 0 0 0 0.2em;
+}
+#topbarNav li {
+	float:right;
+	z-index:101;
+	margin: 5px 10px 0 0;
+}
+#topbar #gwikiSearchmenu {float:right;margin: 0 7em 0 0;}
+.gwikiQuicksearchSubmit {display:none;}
+
+/**
+ * @section       Navigation
+ *
+ * Hauptnavigation
+ *
+ * @see            #gwikiExplorer
+ */
+#menu {
+	float:right;
+	width:160px;
+	margin-top:40px;
+	border: 1px solid #69A100;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	background:#69A100;
+}
+ul.gwikiNavMenu {
+	margin:10px 0;
+	font-size:12px;
+}
+ul.gwikiNavMenu li {
+	color:#fff;
+	padding: 3px 6px;
+}
+ul.gwikiNavMenu li a {
+	cursor:pointer;
+	color: #69A100;
+	text-decoration:none;
+	background:#fff;
+	display:block;
+	padding: 3px 6px;
+}
+ul.gwikiNavMenu li a:hover {
+	color: #fff;
+	text-decoration:none;
+	background:#75C100;
+}
+#gwikiContent {
+	float:left;
+	width:760px;
+	margin-bottom: 20px;
+}
+#gwikiComments {
+	clear:both;
+}
+/**
+ * @section        Container
+ *
+ * Content
+ *
+ * @see            #gwikiContainer
+ */
+#gwikiContainer {
+	padding:3em 20px 1.5em 30px;
+}
+#gwikiContainer h1#pagetitle {
+	-moz-border-radius:0.3em 0.3em 0.3em 0.3em;
+	-webkit-border-radius:0.3em 0.3em 0.3em 0.3em;
+	background:none repeat scroll 0 0 #69A100;
+	color:#FFFFFF;
+	line-height:1;
+	max-width:30em;
+	opacity:0.8;
+	padding:0.2em;
+	margin:0;
+	position:absolute;
+	top:4.6em;
+	left:0.4em;
+	width:auto;
+	z-index:200;
+	font-weight:bold;
+	font-size: 24px;
+}
+/**
+ * @section        Footer
+ *
+ * footer-section
+ *
+ * @see            #footer
+ */
+
+#footer {
+	padding:1.5em 3.4em;
+	background:#69A100;
+ 	min-height:10em;
+}
+#footer #site-info {
+ 	opacity:0.5;
+}
+#footer #site-info:hover {
+	opacity:1;
+}
+#footer #site-info li {
+	color: #fff;
+	font-size:1.2em;
+	line-height:1.8em;
+}
+#footer #site-info li a {
+	color: #fff;
+}
+#footer #site-info li a:hover {
+	color:#111;
+}
+#footer #site-info li a.mmLabsLogo {
+	display:inline-block;
+	width:123px;
+	height:18px;
+	background: url('../img/labsfooter.png') no-repeat left top;
+	text-indent: -9999em;
+}
+ /**
+ * @section        User Login and Registration
+ *
+ * Styles for the Userlogin and Userregistration
+ *
+ * @see            LoginTemplate.gspt and RegisterUserTemplate.gspt
+ */
+
+#gwikiForm {
+	-moz-border-radius:3px 3px 3px 3px;
+	border:1px solid #EEEEEE;
+	padding: 3em 4em;
+	background:none repeat scroll 0 0 #FFFFFF;
+	margin:0 auto 2em auto;
+	margin-top:3em;
+	width:40em;
+}
+#gwikiForm fieldset {
+	padding-top:1.5em;
+	border:0 none;
+	display:block;
+	margin-bottom:5px;
+	padding-bottom:5px;
+	position:relative;
+}
+#gwikiForm legend {
+	position: absolute;
+	left: -99999em;
+	top: -99999em;
+}
+#gwikiForm div.type-text {
+	clear:both;
+	display:block;
+	margin:0;
+	margin-bottom:0.5em;
+	min-height:1.6em;
+	padding:0 0 0.5em 8em;
+}
+#gwikiForm div.type-text label {
+	text-align:left;
+	display:block;
+	float:left;
+	left:-8em;
+	line-height:1;
+	margin-right:-13em;
+	padding-top:0.4em;
+	position:relative;
+	width:13em;
+	font-size:1.2em;
+	cursor:pointer;
+}
+#gwikiForm div.type-text input {
+	margin:0;
+	margin-right:5px;
+	padding:2px;
+	width:95%;
+}
+#gwikiForm div.type-button {
+	clear:both;
+	display:block;
+	margin:0;
+	min-height:1.6em;
+	padding:0 0 0 8em;
+}
+ul.gwikiLoginHelp {
+	float:right;
+	line-height:1.6em;
+	margin:0 10px 0 0;
+	padding:0;
+}
+ul.gwikiLoginHelp li {
+	display:inline;
+	padding-left:1em;
+}
+ul.gwikiLoginHelp li a {
+	color:#69A100;
+	cursor:pointer;
+}
+ul.gwikiLoginHelp li a:hover {
+	color:#111;
+	cursor:pointer;
+}
+ul.error {margin:0; margin-left:6.2em; list-style:none;}
+
+ /**
+ * @section        Interaktionselemente
+ *
+ * Styles für alle Interaktionselemente: Formulare, Links
+ *
+ * @see            form.control, a usw.
+ */
+form.control fieldset {
+	margin-top:1em;
+}
+form.control legend {
+	font-size: 1.4em;
+	font-weight:bold;
+	margin: 0 0 0.5em 0;
+}
+form.control label {
+	font-size:1.4em;
+}
+
+a:link,
+a:visited,
+a:active,
+a:hover,
+a.add {
+	color:#69A100;
+}
+#tabs ul li a {
+	font-size: 1.3em;
+	font-size:normal;
+}
+#EditorSettings, #Editor {
+	margin-top: 2em;
+}
+/*
+ * Tab Wiki
+ */
+.gwiki-toolBar {
+	background: #C3D0D9;
+	/*padding: 10px 0 3px 5px;*/
+	line-height:1.6em;
+	margin-bottom:-1px;
+}
+.gwiki-toolBar span {
+	padding:0 3px;
+}
+.gwiki-toolBar span a {
+	font-size:1.2em;
+	color:#4B5053;
+}
+.gwiki-toolBar span a:hover {
+	color:#5D839B;
+}
+#gwikiwedMainPage {
+	padding-right:9px;
+}
+#gwikiwedMainPage textarea#textareaMainPage {
+	font:1.6em monospace;
+	color:#333;
+	border:1px solid #c1c1c1;
+}
+#gwikiwedMainPage textarea#textareaMainPage:hover,
+#gwikiwedMainPage textarea#textareaMainPage:active
+#gwikiwedMainPage textarea#textareaMainPage:focus {
+	border:1px solid #333;
+}
+/*
+ * Tab Preview
+ */
+#WikiPreviewMainPage {
+ 	height:600px;
+ 	border-left:1px solid #c1c1c1;
+ 	border-bottom: 1px solid #c1c1c1;
+}
+#WikiPreviewMainPage .gwikiContent {
+	margin:2em 1em 1em 1em;
+}
+/**
+ * @section        Editier Funktion
+ *
+ * 
+ *
+ * @see            #editForm
+ */
+#editForm label {
+	font-size: 1.3em;
+	padding: 0 1em 0 0;	
+}
+#editForm input#editPageTitle {
+	width:35em;
+}
+/* control */
+
+div.control {margin: 0.5em 0 0.5em 0;}
+div.control input {
+	font-size:1.3em;
+}
+/* Einbinden der MCE-Icons */
+ul.gwikiToolPanel {
+	background: #C3D0D9;
+	display:block;
+	width:100%;
+	height:20px;
+	margin-bottom:1em;
+}
+ul.gwikiToolPanel li {
+	display:inline;
+}
+ul.gwikiToolPanel li a span {
+	float:left;
+}
+.gwikiToolbarIcon {
+	display: block;
+	height: 20px;
+	width: 20px;
+	-moz-background-clip: border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background: url(../../../static/tiny_mce/themes/advanced/img/icons.gif) no-repeat 20px 20px;
+}
+.gwikiIcon_help {
+	background-position: -340px 0;
+}
+
+.gwikiIcon_fullscreen {
+	background-position: -100px -20px;
+}
+
+.gwikiIcon_cancel {
+	background-position: -460px -20px;
+}
+
+.gwikiIcon_save {
+	background-position: -480px -20px;
+}
+
+ /**
+ * @section        Plugins
+ *
+ * Verwaltung und hinzufügen von Plugins
+ *
+ * @see            #listPlugins
+ */
+ul#listPlugins {
+	width: 670px;
+	margin:2em 0 0 0;
+	padding:0;
+}
+ul#listPlugins li {
+	position:relative;
+ 	display:block;
+ 	width: 210px;
+ 	height:160px;
+ 	float:left;
+ 	margin: 0 10px 10px 0;
+ 	border:1px solid #56778F;
+ 	z-index:20;
+}
+ul#listPlugins li h3 {
+	font-size: 1.6em;
+	color:#fff;
+	background:#69A100;
+	margin:0;
+	padding: 0.5em 10px;	
+}
+ul#listPlugins li p {
+	font-size:12px;
+	padding: 0 10px;
+}
+ul#listPlugins li form input {
+	position:absolute;
+	bottom:0.5em;
+	right:0.5em;
+}
+ /**
+ * @section        
+ *
+ * 
+ *
+ * @see            .gwikiProperties
+ */
+table.gwikiProperties tr {
+	font-size:12px;
+}
+table.gwikiProperties tr td {
+	padding: 5px 0;
+}
+table.gwikiProperties tr td input {
+	width:80%;
+}
+table.gwikiProperties tr td select {
+	padding: 3px 0;
+	width:82%;
+}
