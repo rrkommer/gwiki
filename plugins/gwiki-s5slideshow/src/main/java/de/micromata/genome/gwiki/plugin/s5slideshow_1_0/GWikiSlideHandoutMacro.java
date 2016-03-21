@@ -22,6 +22,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * Marks a region will printed only in non-slide view.
@@ -29,6 +30,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(
+    info = "The Macro slidehandout can be used inside a slide section to mark wiki text shown only in non-slide view.")
 public class GWikiSlideHandoutMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiRuntimeMacro
 {
 
@@ -37,7 +40,8 @@ public class GWikiSlideHandoutMacro extends GWikiMacroBean implements GWikiBodyE
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
