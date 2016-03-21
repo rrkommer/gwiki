@@ -1,6 +1,0 @@
-ui-icons_919ca9_256x240.png is a copy of ui-icons_222222_256x240
-
-missing
-http://localhost:8081/gwiki/static/css/ui-lightness/images/ui-bg_highlight-soft_100_f2f4f5_1x100.png
-http://localhost:8081/gwiki/static/css/ui-lightness/images/ui-bg_highlight-soft_50_dee5e7_1x100.png7
-Copz of ui-bg_highlight-soft_75_ffe45c_1x100
