@@ -28,9 +28,12 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor for a HTML artefakt.
  * 
+ * @deprecated this is broken, becuase tinyMCE doesn't work for core html. Using GWikiPlainHtmlEditorArtefakt instead.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> implements GWikiEditorArtefakt<String>
 {
 
@@ -99,8 +102,8 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> imp
     String textareaid = partName + ".htmlText";
 
     String html = //
-    Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), //
-        Xml.text(wikiPage.getStorageData())).toString();
+        Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), //
+            Xml.text(wikiPage.getStorageData())).toString();
     String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n"
         + "setTimeout(function() {\n"
         // + "alert('now timeout');\n"

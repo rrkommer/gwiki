@@ -68,10 +68,10 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
         + ",start_highlight: true\n"
         + ",replace_tab_by_spaces: 2\n"
         + "});\n"
-        + "saveHandlers.push(function(chain){ "
+        + "saveHandlers.push(function(partName, chain){\n"
         + "editAreaLoader.toggle('"
         + textId
-        + "');, chain(); });\n"
+        + "'); chain(); });\n"
         + "function "
         + partName
         + "Activate(partName){\n"
