@@ -91,6 +91,8 @@ $(document).keydown(function (event) {
 	    	 event.preventDefault();
 	     }
 	  });
+	  
+gwikiCallGlobalFunctionsWithPrefix('_gwiki_enable_edit_view_',[]);
 </script>
 
 <gwiki:errors />

@@ -1,5 +1,6 @@
 /**
  * http://stackoverflow.com/questions/7753448/how-do-i-escape-quotes-in-html-attribute-values
+ * 
  * @param s
  * @param preserveCR
  * @returns
@@ -18,12 +19,9 @@ function gwikiEscapeAttr(s, preserveCR) {
 	.replace(/[\r\n]/g, preserveCR);
 	;
 }
-function gwikiEscapeUrlParam(s)
-{
+function gwikiEscapeUrlParam(s) {
 	return escape(s);
 }
-
-
 
 String.prototype.startsWith = function(str) {
 	return (this.match("^" + str) == str);
@@ -35,4 +33,44 @@ String.prototype.trim = function() {
 
 String.prototype.endsWith = function(str) {
 	return (this.match(str + "$") == str);
+}
+
+/**
+ * get all global function with prefix
+ * 
+ * @param prefix
+ */
+function gwikiGetGlobalFunctionsWithPrefix(prefix) {
+	var ret = [];
+	for ( var i in window) {
+		var typ = typeof window[i];
+		if (typ == 'function') {
+			try {
+				var func = window[i];
+				var str = "" + func;
+				var funcname = str;
+				var idx = funcname.indexOf('function ');
+				if (idx != -1) {
+					funcname = funcname.substring(idx + 'function '.length);
+					idx = funcname.indexOf('(');
+					if (idx != -1) {
+						funcname = funcname.substring(0, idx);
+						if (funcname.startsWith(prefix) == true) {
+							ret[ret.length] = func;
+						}
+					}
+				}
+			} catch (e) {
+			}
+		}
+	}
+	return ret;
+}
+
+function gwikiCallGlobalFunctionsWithPrefix(prefix, arguments) {
+	var funcs = gwikiGetGlobalFunctionsWithPrefix(prefix);
+	for ( var i in funcs) {
+		var func = funcs[i];
+		func(arguments);
+	}
 }
