@@ -249,7 +249,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
 
   public Object onSetDefaultEditorType()
   {
-    String editorType = (String) wikiContext.getRequestAttribute("editorType");
+    String editorType = wikiContext.getRequestParameter("editorType");
     editorType = StringUtils.defaultString(editorType, "wiki");
     wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, editorType,
         UserPropStorage.Client);

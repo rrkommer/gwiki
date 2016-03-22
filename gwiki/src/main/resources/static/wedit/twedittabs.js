@@ -155,7 +155,11 @@ function gwikiStoreLastEditorType(editorType) {
 	// Either wiki / rte
 	jQuery.ajax({
 	  cache : false,
-	  url : gwedit_buildUrl("edit/WeditService") + '?method_onSetDefaultEditorType=true&editorType=' + editorType,
+	  url : gwedit_buildUrl("edit/WeditService"),
+	  data: {
+	  	method_onSetDefaultEditorType: true,
+	  	editorType: editorType
+	  },
 	  type : 'POST',
 	  dataType : "html",
 	  complete : function(res, status) {
@@ -221,10 +225,12 @@ function gwikiSetRteContent(partName, content) {
 }
 function gwikicreateEditTab(partName) {
 	var pn = partName;
+	
 	$(document).ready(function() {
 		var edid = twedit_create(pn);
 
 		var tabs = $("#gwikiwktabs" + pn).tabs({
+			active: gwikiGetLastActiveTabIndex(partName),
 			activate : function(event, ui) {
 				var tabindex = ui.newTab.index();
 				var lasttabindex = gwikiGetLastActiveTabIndex(partName);

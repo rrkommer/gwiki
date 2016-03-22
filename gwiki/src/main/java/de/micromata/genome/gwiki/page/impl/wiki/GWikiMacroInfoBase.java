@@ -44,7 +44,7 @@ public abstract class GWikiMacroInfoBase implements GWikiMacroInfo
     }
     begin.append("' contenteditable='true'>");
     if (evalBody() == false) {
-      begin.append("<pre>\n");
+      begin.append("<pre style='-moz-tab-size: 2; -o-tab-size: 2; tab-size: 2;'>\n");
       end.append("</pre>");
     }
     end.append("</").append(eln).append("></").append(eln).append(">");

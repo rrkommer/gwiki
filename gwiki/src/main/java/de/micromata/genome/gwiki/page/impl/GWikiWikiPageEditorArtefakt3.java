@@ -121,8 +121,11 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     String text = textPage.getStorageData();
     html = "";
     //html += Html.input("id", "inplaceautocomplete", "type", "text", "style", "display: none").toString();
+
+    boolean rtedefault = editBean.isRteDefaultEditor();
     String lastactivetabviewid = "lastactiveview" + partName;
-    html += Html.input("type", "hidden", "name", lastactivetabviewid, "id", lastactivetabviewid);
+    html += Html.input("type", "hidden", "name", lastactivetabviewid, "id", lastactivetabviewid, "value",
+        rtedefault ? "rte" : "wiki");
     html += Html.textarea(
         Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name",
             partName + ".wikiText",

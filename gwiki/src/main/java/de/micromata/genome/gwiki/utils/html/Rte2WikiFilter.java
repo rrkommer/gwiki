@@ -118,24 +118,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
 
   private boolean handleMacroBody(String en, QName element, XMLAttributes attributes, Augmentations augs)
   {
-    if (isMacroEl(en) == false) {
-      return false;
-    }
-    String cls = attributes.getValue("class");
-    if (StringUtils.contains(cls, "weditmacrobody") == false) {
-      return false;
-    }
-
-    GWikiFragment lastfrag = parseContext.peekFragStack();
-    if ((lastfrag instanceof RteMacroFragment) == false) {
-      GLog.warn(GWikiLogCategory.Wiki, "Expect RteMacroFragment stack in body");
-      return false;
-    }
-    RteMacroFragment nfrag = (RteMacroFragment) lastfrag;
-    parseContext.pushFragList();
-    nfrag.inBody = true;
-    nfrag.bodyDivs = 1;
-    return true;
+    return false;
   }
 
   protected boolean handleMacro(String en, QName element, XMLAttributes attributes, Augmentations augs)
@@ -143,50 +126,64 @@ public class Rte2WikiFilter extends Html2WikiFilter
   {
 
     String cls = attributes.getValue("class");
-    if (isMacroEl(en) == true && StringUtils.contains(cls, "weditmacroframe") == true) {
-      flushText();
-      RteMacroFragment rtmacfragment = new RteMacroFragment();
-      parseContext.pushFragStack(rtmacfragment);
-      return true;
-    }
-
-    if (isMacroEl(en) == true && StringUtils.contains(cls, "weditmacrohead") == true) {
-      GWikiFragment lfrag = parseContext.peekFragStack();
-      if ((lfrag instanceof RteMacroFragment) == false) {
-        GLog.warn(GWikiLogCategory.Wiki, "Expect RteMacroFragment stack");
-        return false;
-      }
-      String macrodef = attributes.getValue("data-macrohead");
-      if (StringUtils.isBlank(macrodef) == true) {
-        GLog.warn(GWikiLogCategory.Wiki, "Cannot parse macro head while parsing rte");
-        return false;
-      }
-      RteMacroFragment rtf = (RteMacroFragment) lfrag;
-      MacroAttributes attrs = new MacroAttributes(macrodef);
-      rtf.macroFragment = parseContext.createMacro(attrs);
-      rtf.ignoreContent = true;
-      rtf.inHead = true;
-      rtf.headDivs = 1;
-      flushText();
-      return true;
-    }
-    GWikiFragment lfrag = parseContext.peekFragStack();
-    if ((lfrag instanceof RteMacroFragment) == true) {
-      RteMacroFragment rtf = (RteMacroFragment) lfrag;
-      if (rtf.inHead == true) {
-        ++rtf.headDivs;
+    if (isMacroEl(en) == true) {
+      if (StringUtils.contains(cls, "weditmacroframe") == true) {
+        flushText();
+        RteMacroFragment rtmacfragment = new RteMacroFragment();
+        parseContext.pushFragStack(rtmacfragment);
         return true;
       }
-      if (rtf.inBody == true) {
-        ++rtf.bodyDivs;
-        if (rtf.macroFragment.getMacro().evalBody() == false) {
-          return true;
-        }
-        return false;
-      }
 
+      if (StringUtils.contains(cls, "weditmacrohead") == true) {
+        GWikiFragment lfrag = parseContext.peekFragStack();
+        if ((lfrag instanceof RteMacroFragment) == false) {
+          GLog.warn(GWikiLogCategory.Wiki, "Expect RteMacroFragment stack");
+          return false;
+        }
+        String macrodef = attributes.getValue("data-macrohead");
+        if (StringUtils.isBlank(macrodef) == true) {
+          GLog.warn(GWikiLogCategory.Wiki, "Cannot parse macro head while parsing rte");
+          return false;
+        }
+        RteMacroFragment rtf = (RteMacroFragment) lfrag;
+        MacroAttributes attrs = new MacroAttributes(macrodef);
+        rtf.macroFragment = parseContext.createMacro(attrs);
+        rtf.ignoreContent = true;
+        rtf.inHead = true;
+        rtf.headDivs = 1;
+        flushText();
+        return true;
+      }
+      if (StringUtils.contains(cls, "weditmacrobody") == true) {
+        GWikiFragment lastfrag = parseContext.peekFragStack();
+        if ((lastfrag instanceof RteMacroFragment) == false) {
+          GLog.warn(GWikiLogCategory.Wiki, "Expect RteMacroFragment stack in body");
+          return false;
+        }
+        RteMacroFragment nfrag = (RteMacroFragment) lastfrag;
+        parseContext.pushFragList();
+        nfrag.inBody = true;
+        nfrag.bodyDivs = 1;
+        return true;
+      }
     }
-    return false;
+    GWikiFragment lfrag = parseContext.peekFragStack();
+    if ((lfrag instanceof RteMacroFragment) == false) {
+      return false;
+    }
+    RteMacroFragment rtf = (RteMacroFragment) lfrag;
+    if (rtf.inHead == true) {
+      ++rtf.headDivs;
+      return true;
+    }
+    if (rtf.inBody == true) {
+      ++rtf.bodyDivs;
+      if (rtf.macroFragment.getMacro().evalBody() == false) {
+        return true;
+      }
+      return false;
+    }
+    return true;
   }
 
   protected boolean handleImage(String en, QName element, XMLAttributes attributes, Augmentations augs)
@@ -262,20 +259,19 @@ public class Rte2WikiFilter extends Html2WikiFilter
 
         ftf.inBody = false;
         GWikiMacro macro = ftf.macroFragment.getMacro();
+        List<GWikiFragment> childs = parseContext.popFragList();
         if (macro.hasBody() == true) {
           if (macro.evalBody() == true) {
             flushText();
-            List<GWikiFragment> childs = parseContext.popFragList();
             ftf.macroFragment.getAttrs().setChildFragment(new GWikiFragmentChildContainer(childs));
           } else {
             String text = collectedText.toString();//childsToTextString(ftf, childs);
             collectedText.setLength(0);
             ftf.macroFragment.getAttrs().setBody(text);
           }
-        } else {
-          parseContext.popFragStack();
-          parseContext.addFragment(ftf.macroFragment);
         }
+        //parseContext.popFragStack();
+        //parseContext.addFragment(ftf.macroFragment);
         return;
       }
       if (ftf.macroFragment.getMacro().evalBody() == false) {
@@ -285,10 +281,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
       --ftf.headDivs;
       if (ftf.headDivs <= 0) {
         ftf.inHead = false;
-        if (ftf.macroFragment.getMacro().hasBody() == false) {
-          ftf.inBody = true;
-          parseContext.pushFragList();
-        }
+        // now wait until last </div>
       }
       return;
     } else {
