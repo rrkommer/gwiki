@@ -1,6 +1,13 @@
 
 
-function gwikiEditShowLinkSuggest(parentWindow, pageType, currentLink, callback) {
+/**
+ * deprecated
+ * @param parentWindow
+ * @param pageType
+ * @param currentLink
+ * @param callback
+ */
+function gwikiEditShowLinkSuggestOld(parentWindow, pageType, currentLink, callback) {
 	var modc = $("#editDialogBox");
 	var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input size=\"30\" type=\"text\" id=\"linkprtitle\"";
 	if (currentLink.title) {

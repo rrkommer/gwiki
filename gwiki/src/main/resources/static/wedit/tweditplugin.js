@@ -135,8 +135,8 @@
 		  if (href.match("^" + gwikiContextPath) == gwikiContextPath) {
 			  href = href.substring(gwikiContextPath.length + 1);
 		  }
-
-		  gwikiEditShowLinkSuggest(inst, 'gwiki', {
+		  // TODO replace
+		  gwikiEditShowLink(inst, 'gwiki', {
 		    url : href,
 		    title : title
 		  }, function(result) {
@@ -175,7 +175,7 @@
 			  href = href.substring(gwikiContextPath.length + 1);
 		  }
 
-		  gwikiEditShowLinkSuggest(inst, 'image', {
+		  gwikiEditShowLink(inst, 'image', {
 		    url : href,
 		    title : title
 		  }, function(result) {

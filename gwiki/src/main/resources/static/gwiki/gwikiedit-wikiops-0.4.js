@@ -1,4 +1,5 @@
 
+// TODO deprecated
 function wikiEditInsertImage(options, field) {
 	if (options.parentPageId == undefined || options.parentPageId == '') {
 		alert("gwiki.editor.wikiops.message.saved".i18n());
@@ -44,7 +45,7 @@ function wikiEditInsertImage(options, field) {
 				}
 					});
 }
-
+// TODO deprecated
 function wikiEditShowSuggest(options, field, pageType, linkstart, linkend) {
 
 	var modc = $("#editDialogBox");
