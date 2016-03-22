@@ -337,8 +337,8 @@ function gwikimaximizeWindow(framId, partName) {
 	// window.console.log("gwikimaximizeWindow");
 	var vp = getViewPort();
 	var pn = partName;
-	var ie6 = jQuery.browser.version == '6.0' && jQuery.browser.msie == true;
-	var position = (ie6 || (jQuery.browser.msie && !jQuery.support.boxModel)) ? 'absolute' : 'fixed';
+	var ie6 = false; //jQuery.browser.version == '6.0' && jQuery.browser.msie == true;
+	var position = 'fixed';//(ie6 || (jQuery.browser.msie && !jQuery.support.boxModel)) ? 'absolute' : 'fixed';
 	// alert("framId: " + framId);
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css({

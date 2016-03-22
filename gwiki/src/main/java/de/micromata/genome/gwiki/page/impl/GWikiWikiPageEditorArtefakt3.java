@@ -61,7 +61,8 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
   public void prepareHeader(GWikiContext wikiContext)
   {
     super.prepareHeader(wikiContext);
-
+    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-1.2.js");
     wikiContext.getRequiredJs().add("/static/tinymce/tinymce.js");
     wikiContext.getRequiredJs().add("/static/wedit/tweditutils.js");
     wikiContext.getRequiredJs().add("/static/wedit/tweditac.js");
@@ -77,8 +78,8 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/wedit/twedittabs.js");
     wikiContext.getRequiredJs().add("/static/wedit/gweditautocomplete.js");
     wikiContext.getRequiredJs().add("/static/wedit/tweditmacrodlg.js");
-
-    //    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.4.js");
+    wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
     //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
     //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
     //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
@@ -169,6 +170,16 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
 
     ctx.append("<script type=\"text/javascript\">\n");
     ctx.append("jQuery(document).ready(function(){\n");
+
+    ctx.append(" jQuery(\"#textarea"
+        + pn
+        + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '",
+        partName, "' ");
+    if (thisPageId != null) {
+      ctx.append(", parentPageId: '", thisPageId, "'");
+    }
+    ctx.append("});\n");
+
     ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
     ctx.append("saveHandlers.push(gwikiSaveRte);\n");
     //      ctx.append("saveHandlers.push(restoreWeditToTextArea);\n");

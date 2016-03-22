@@ -1,3 +1,62 @@
+
+
+/**
+ * 
+ * @param field textarea
+ * @param startC [
+  * @param endC ]
+ */
+function gwikiEditGetTextInBound(field, startC, endC)
+{
+	var res = {
+		found: false,
+		startPos: -1,
+		endPos: -1,
+		text: null
+	};
+	var curPos = field.selectionStart;
+	var txt = field.value;
+	
+	for (var i = curPos; i > 0; --i) {
+		var c = txt[i];
+		if (c == startC) {
+			res.startPos = i + 1;
+			break;
+		}
+		if (c == '\n') {
+			return res;
+		}
+	}
+	if (res.startPos == -1) {
+		return res;
+	}
+	for (var i = curPos; i < txt.length; ++i) {
+		var c = txt[i];
+		if (c == endC) {
+			res.endPos = i;
+			break;
+		}
+		if (c == '\n') {
+			break;
+		}
+	}
+	if (res.endPos == -1) {
+		return res;
+	}
+	var ret = txt.substring(res.startPos, res.endPos);
+	res.text = ret;
+	res.found = true;
+	return res;
+}
+
+function gwikiEditsetTextInBound(field, text, textRange)
+{
+	var txt = field.value;
+	var rst = txt.substring(0, textRange.startPos) + text + txt.substring(textRange.endPos);
+	field.value = rst;
+}
+
+
 //create attribute
 function gwikiEditAttribute(string) {
 	if (string) {
@@ -9,6 +68,7 @@ function gwikiEditAttribute(string) {
 	}
 }
 
+// unused?
 function gwikiEditTag(field, button) {
 	gwikiEditGet(field);
 	// if it's a function to fire
@@ -86,6 +146,9 @@ function gwikiEditSet(field, start, end) {
 	field.scrollTop = scrollPos;
 	field.focus();
 }
+
+
+
 
 // get the selection
 function gwikiEditGet(field) {

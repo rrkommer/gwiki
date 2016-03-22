@@ -23,3 +23,18 @@ function wedit_genid(prefix) {
 	++idseq;
 	return prefix + idseq;
 }
+
+function wedit_split_wiki_link_title(text, item)
+{
+	if (!text) {
+		return;
+	}
+	var idx = text.indexOf('|');
+	if (idx != -1) {
+		item.title = text.substring(idx + 1);
+		item.url = text.substring(0, idx);
+	} else {
+		item.url = text;
+	}
+	
+}
