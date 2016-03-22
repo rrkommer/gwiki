@@ -98,11 +98,14 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     }
     String body = attrs.getBody();
     body = StringUtils.trim(body);
-    boolean preview = RenderModes.ForText.isSet(ctx.getRenderMode());
+    boolean forText = RenderModes.ForText.isSet(ctx.getRenderMode());
     String clang = determineLang(body);
     ctx.append("<pre><code");
     if (StringUtils.isNotBlank(clang) == true) {
       ctx.append(" class='language-" + clang + "'");
+    }
+    if (forText == false) {
+      body = StringEscapeUtils.escapeXml(body);
     }
     ctx.append(">").append(body).append("</code></pre>");
 
