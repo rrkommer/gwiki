@@ -129,58 +129,6 @@ function twedit_setContent(partName, html)
 }
 
 
-function tedit_insertRaw(ed, html) {
-	var range = ed.selection.getRng(true);
-	var node = ed.$(html)[0];
-	range.insertNode(node);
-	ed.selection.setCursorLocation(node.nextSibling, 0);
-	return node;
-}
-
-/**
- * May not work
- * @param ed
- * @param text
- */
-function tedit_insert_into_text(ed, text)
-{
-	var sel = ed.selection;
-	var range = sel.getRng(true);
-	var cont = range.startContainer;
-	if (cont.nodeName = '#text') {
-		var nodetext = cont.nodeValue;
-		var pf = nodetext.substring(0, range.startOffset);
-		var ef = nodetext.substring(range.startOffset);
-		var ntext = pf + text + ef;
-		cont.nodeValue = ntext;
-		sel.setCursorLocation(cont, range.startOffset);
-		
-	}
-}
-function gwedit_getCharBeforePos(ed) {
-	var rng = ed.selection.getRng(true);
-	var txt = rng.startContainer.textContent;
-	if (rng.startOffset == 0) {
-		return null;
-	}
-	var rchar = txt.substring(rng.startOffset - 1, rng.startOffset);
-	return rchar;
-}
-
-function wedit_deleteLeftUntil(ed, char) {
-	var range = ed.selection.getRng(true);
-	var txt = range.startContainer.textContent;
-	var found = false;
-	var i;
-	for (i = range.startOffset; i >= 0; --i) {
-		if (txt.charAt(i) == char) {
-			found = true;
-		}
-	}
-	var ntext = txt.substring(0, i) + txt.substring(range.startOffset);
-	range.startContainer.textContent = ntext;
-}
-
 
 function wedit_cleanuphtml(content) {
 	
@@ -193,9 +141,6 @@ function wedit_cleanuphtml(content) {
 //	}
 //	} 
 	return content;
-}
-function gwedit_buildUrl(pageId) {
-	return gwikiLocalUrl(pageId);
 }
 
 function wedit_getCursorCoords(range) {

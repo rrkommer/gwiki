@@ -191,7 +191,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
       return;
     }
-    ctx.append(" data-wiki-target='").append(escAttr(target)).append("'");
+    ctx.append(" data-wiki-url='").append(escAttr(target)).append("'");
     ctx.append(" data-wiki-title='").append(escAttr(title)).append("'");
     ctx.append(" data-wiki-tip='").append(escAttr(tip)).append("'");
     ctx.append(" data-wiki-titleDefined='").append(escAttr(titleDefined)).append("'");

@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -146,7 +147,7 @@ public class GWikiFragmentImage extends GWikiFragmentBase
       set.add(ltarget);
     }
     if (StringUtils.isNotEmpty(thumbnail) == true) {
-      ctx.append("<a class=\"showimage\" href=\"" + ltarget + "\">");
+      ctx.append("<a class='showimage' href='" + StringEscapeUtils.escapeXml(ltarget) + "'>");
     }
     if (GWikiFragmentLink.isGlobalUrl(target) == true) {
       // ctx.append("<img src='", target, "'>");
@@ -159,44 +160,51 @@ public class GWikiFragmentImage extends GWikiFragmentBase
         ltarget = ctx.localUrl(target);
       }
     }
-    ctx.append("<img src=\"", ltarget, "\"");
+    ctx.append("<img src='", StringEscapeUtils.escapeXml(ltarget), "'");
     if (StringUtils.isNotEmpty(lwidth) == true) {
-      ctx.append(" width=\"", lwidth, "\"");
+      ctx.append(" width='", StringEscapeUtils.escapeXml(lwidth), "'");
     }
     if (StringUtils.isNotEmpty(height) == true) {
-      ctx.append(" height=\"", height, "\"");
+      ctx.append(" height='", StringEscapeUtils.escapeXml(height), "'");
     }
     if (StringUtils.isNotEmpty(border) == true) {
-      ctx.append(" border=\"", border, "\"");
+      ctx.append(" border='", StringEscapeUtils.escapeXml(border), "'");
     }
     if (StringUtils.isNotEmpty(alt) == true) {
-      ctx.append(" alt=\"", alt, "\"");
+      ctx.append(" alt='", StringEscapeUtils.escapeXml(alt), "'");
     } else {
-      ctx.append(" alt=\"\"");
+      ctx.append(" alt=''");
     }
     if (StringUtils.isNotEmpty(hspace) == true) {
-      ctx.append(" hspace=\"", hspace, "\"");
+      ctx.append(" hspace='", StringEscapeUtils.escapeXml(hspace), "'");
     }
     if (StringUtils.isNotEmpty(width) == true) {
-      ctx.append(" hspace=\"", hspace, "\"");
+      ctx.append(" width='", StringEscapeUtils.escapeXml(width), "'");
     }
     if (StringUtils.isNotEmpty(style) == true) {
-      ctx.append(" style=\"", style, "\"");
+      ctx.append(" style='", StringEscapeUtils.escapeXml(style), "'");
     }
-    if (StringUtils.isNotEmpty(thumbnail) == true) {
-      if (thumbnail.equals("small") == true || thumbnail.equals("large") == true) {
-        ctx.append(" class=\"" + thumbnail + "Thumb\"");
-      } else {
-        ctx.append(" class=\"mediumThumb\"");
-      }
-    }
+
     String tstyleClass = "weditimg";
     if (StringUtils.isNotEmpty(styleClass) == true) {
       tstyleClass += " " + styleClass;
     }
-    ctx.append(" class=\"", tstyleClass, "\"");
+    if (StringUtils.isNotEmpty(thumbnail) == true) {
+      if (thumbnail.equals("small") == true || thumbnail.equals("large") == true) {
+        tstyleClass += " " + thumbnail;
+      } else {
+        tstyleClass += " mediumThumb";
+      }
+    }
+    ctx.append(" class='", StringEscapeUtils.escapeXml(tstyleClass), "'");
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-      ctx.append(" data-pageid=\"", target, "\"");
+      ctx.append(" data-wiki-url='", StringEscapeUtils.escapeXml(target), "'");
+      ctx.append(" data-wiki-height='", StringEscapeUtils.escapeXml(height), "'");
+      ctx.append(" data-wiki-width='", StringEscapeUtils.escapeXml(width), "'");
+      ctx.append(" data-wiki-style='", StringEscapeUtils.escapeXml(style), "'");
+      ctx.append(" data-wiki-styleClass='", StringEscapeUtils.escapeXml(styleClass), "'");
+      ctx.append(" data-wiki-thumbnail='", StringEscapeUtils.escapeXml(thumbnail), "'");
+
     }
     ctx.append("/>");
     if (StringUtils.isNotEmpty(thumbnail) == true) {

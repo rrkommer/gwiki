@@ -215,7 +215,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
         continue;
       }
       JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "label", macroName);
-      map.set("onInsert", "gwedit_insert_macro");
+      map.set("onInsert", "gwedit_ac_insert_macro");
       fillMacroInfo(macroName, fac);
       map.set("macroMetaInfo", fillMacroInfo(macroName, fac));
       array.add(map);
@@ -267,7 +267,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           "label",
           StringEscapeUtils.escapeHtml(titel) + "<br/><small>("
               + StringEscapeUtils.escapeHtml(pageid) + ")</small>",
-          "onInsert", "gwedit_insert_acpagelink"));
+          "onInsert", "gwedit_ac_insert_acpagelink"));
     }
 
   }
@@ -287,7 +287,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
       }
       String title = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
       array.add(JsonBuilder.map("key", sr.getPageId(), "url", sr.getPageId(), "label",
-          title, "title", title, "onInsert", "gwedit_insert_imagelink"));
+          title, "title", title, "onInsert", "gwedit_ac_insert_imagelink"));
     }
   }
 
