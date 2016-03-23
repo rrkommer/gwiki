@@ -25,11 +25,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "generates a formLabel",
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
 {
 
@@ -37,7 +40,7 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
 
   public GWikiFormLabelMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   /*

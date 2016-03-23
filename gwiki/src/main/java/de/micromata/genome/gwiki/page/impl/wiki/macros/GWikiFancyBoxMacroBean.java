@@ -28,21 +28,34 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Generates a fancy box (see http://fancybox.net/)",
+    params = { @MacroInfoParam(name = "href", info = "link to image"),
+        @MacroInfoParam(name = "title"), @MacroInfoParam(name = "width"),
+        @MacroInfoParam(name = "height"), @MacroInfoParam(name = "padding"),
+        @MacroInfoParam(name = "margin"), @MacroInfoParam(name = "overlayOpacity"), @MacroInfoParam(name = "speedIn"),
+        @MacroInfoParam(name = "changeSpeed"), @MacroInfoParam(name = "autoDimensions"),
+        @MacroInfoParam(name = "fitToView"),
+        @MacroInfoParam(name = "autoSize")
+    },
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = -3086810926057970512L;
 
-  private static final String[] NON_FANCYBOX_OPTIONS = new String[] { "href", "title"};
+  private static final String[] NON_FANCYBOX_OPTIONS = new String[] { "href", "title" };
 
-  private static final String[] INT_FANCYBOX_OPTIONS = new String[] { "width", "height", "padding", "margin", "overlayOpacity", "speedIn",
-      "changeSpeed", "autoDimensions", "fitToView", "autoSize"};
+  private static final String[] INT_FANCYBOX_OPTIONS = new String[] { "width", "height", "padding", "margin",
+      "overlayOpacity", "speedIn",
+      "changeSpeed", "autoDimensions", "fitToView", "autoSize" };
 
   private String href;
 
@@ -50,8 +63,7 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
 
   public GWikiFancyBoxMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(/* GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd, */
-    /* GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock, */GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   private boolean isFencyScriptArg(String key)
@@ -72,7 +84,8 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -88,13 +101,15 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
     } else {
       url = ctx.localUrl(href);
     }
-    ctx.append("<a id=\"").append(id).append("\" href=\"").append(url).append("\" title=\"").append(StringEscapeUtils.escapeHtml(title))
+    ctx.append("<a id=\"").append(id).append("\" href=\"").append(url).append("\" title=\"")
+        .append(StringEscapeUtils.escapeHtml(title))
         .append("\">");
 
     attrs.getChildFragment().render(ctx);
     ctx.append("</a>");
 
-    ctx.append("<script type=\"text/javascript\">\njQuery(document).ready(function() {\n" + "$(\"#" + id + "\").fancybox({\n");
+    ctx.append(
+        "<script type=\"text/javascript\">\njQuery(document).ready(function() {\n" + "$(\"#" + id + "\").fancybox({\n");
     boolean first = true;
     for (Map.Entry<String, String> me : attrs.getArgs().getMap().entrySet()) {
       if (isFencyScriptArg(me.getKey()) == false) {

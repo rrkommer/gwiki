@@ -1,6 +1,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.micromata.genome.util.types.Pair;
@@ -26,6 +27,8 @@ public interface GWikiMacroInfo
     private String defaultValue;
     private String info;
 
+    private List<String> enumValues;
+
     public MacroParamInfo()
     {
 
@@ -39,6 +42,7 @@ public interface GWikiMacroInfo
       // TODO restricted
       this.defaultValue = anot.defaultValue();
       this.info = anot.info();
+      this.enumValues = Arrays.asList(anot.enumValues());
     }
 
     public MacroParamType getType()
@@ -89,6 +93,16 @@ public interface GWikiMacroInfo
     public void setInfo(String info)
     {
       this.info = info;
+    }
+
+    public List<String> getEnumValues()
+    {
+      return enumValues;
+    }
+
+    public void setEnumValues(List<String> enumValues)
+    {
+      this.enumValues = enumValues;
     }
 
   }

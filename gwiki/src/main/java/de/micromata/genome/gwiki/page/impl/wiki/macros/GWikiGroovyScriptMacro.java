@@ -26,6 +26,7 @@ import de.micromata.genome.gwiki.page.gspt.GenomeTemplateUtils;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -38,6 +39,7 @@ import groovy.lang.Script;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "A embedded Groovy script")
 public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRuntimeMacro
 {
 

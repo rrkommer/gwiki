@@ -229,11 +229,15 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
     List<MacroParamInfo> params = mInfo.getParamInfos();
     JsonArray jp = JsonBuilder.array();
     for (MacroParamInfo pi : params) {
-      jp.add(JsonBuilder.map("name", pi.getName(),
+      JsonObject pmi = JsonBuilder.map("name", pi.getName(),
           "type", pi.getType().name(),
           "required", pi.isRequired(),
           "defaultValue", pi.getDefaultValue(),
-          "info", pi.getInfo()));
+          "info", pi.getInfo());
+      if (pi.getEnumValues().isEmpty() == false) {
+        pmi.add("enumValues", JsonBuilder.array(pi.getEnumValues()));
+      }
+      jp.add(pmi);
 
     }
     Pair<String, String> templ = mInfo.getRteTemplate(macroName);

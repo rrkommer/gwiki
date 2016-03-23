@@ -28,8 +28,11 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiExecutableArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 
@@ -41,6 +44,16 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Includes another page.",
+    params = {
+        @MacroInfoParam(name = "pageId", type = MacroParamType.PageId, required = true, info = "Page to include"),
+        @MacroInfoParam(name = "partName", info = "Part Name to include"),
+        @MacroInfoParam(name = "chunk", info = "Chunk name to include.<br/>"
+            + "The chunks has to be defined with chunk macro in included page."),
+        @MacroInfoParam(name = "complete", info = "Include complete page including frame decorations.",
+            defaultValue = "false"),
+        @MacroInfoParam(name = "titleHeading", type = MacroParamType.Integer,
+            info = " if set include the title of the included page with given heading") })
 public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMacro
 {
   private static final long serialVersionUID = -1172470071868033038L;
@@ -74,12 +87,12 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
    */
   private int titleHeading = 0;
 
-  protected void renderPart(GWikiContext ctx, MacroAttributes attrs, GWikiArtefakt< ? > art)
+  protected void renderPart(GWikiContext ctx, MacroAttributes attrs, GWikiArtefakt<?> art)
   {
     if (StringUtils.isEmpty(chunk) == false) {
       ctx.setRequestAttribute(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK, chunk);
     }
-    ((GWikiExecutableArtefakt< ? >) art).render(ctx);
+    ((GWikiExecutableArtefakt<?>) art).render(ctx);
   }
 
   @Override
@@ -105,10 +118,10 @@ public class GWikiIncludeMacro extends GWikiMacroBean implements GWikiRuntimeMac
       heading.addChild(new GWikiFragmentText(ctx.getTranslatedProp(el.getElementInfo().getTitle())));
       heading.render(ctx);
     }
-    Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
     el.collectParts(parts);
     if (StringUtils.isNotEmpty(partName) == true) {
-      GWikiArtefakt< ? > art = parts.get(partName);
+      GWikiArtefakt<?> art = parts.get(partName);
       if (art == null) {
         renderErrorMessage(ctx, "include; Cannot find part " + partName + " in  " + pageId, attrs);
         return true;

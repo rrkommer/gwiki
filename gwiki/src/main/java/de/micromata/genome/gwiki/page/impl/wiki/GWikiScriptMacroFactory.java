@@ -80,9 +80,11 @@ public class GWikiScriptMacroFactory implements GWikiMacroFactory, GWikiPropKeys
       JsonObject jobj = Json.parse(mi).asObject();
       MacroInfoBean ret = new MacroInfoBean();
       ret.setInfo(jobj.getString("info", ""));
+
       ret.setHasBody(defaultInfos.hasBody());
       ret.setEvalBody(defaultInfos.evalBody());
       ret.setRteMacro(defaultInfos.isRteMacro());
+
       JsonValue pv = jobj.get("macroParams");
       if (pv.isArray() == true) {
         JsonArray jarr = pv.asArray();
@@ -93,6 +95,13 @@ public class GWikiScriptMacroFactory implements GWikiMacroFactory, GWikiPropKeys
           paramInfo.setInfo(pinf.getString("info", ""));
           paramInfo.setRequired(pinf.getBoolean("required", false));
           paramInfo.setType(MacroParamType.valueOf(pinf.getString("type", MacroParamType.String.name())));
+          JsonValue enums = pinf.get("enumValues");
+          if (enums != null) {
+            JsonArray ejarr = enums.asArray();
+            for (JsonValue ea : ejarr) {
+              paramInfo.getEnumValues().add(ea.asString());
+            }
+          }
           ret.getParamInfos().add(paramInfo);
         }
       }

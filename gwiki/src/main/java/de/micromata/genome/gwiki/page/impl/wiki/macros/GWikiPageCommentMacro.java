@@ -23,6 +23,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * Macro to create a comment section inside a page.
@@ -30,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Macro to create a comment section inside a page.")
 public class GWikiPageCommentMacro extends GWikiMacroBean
 {
 
@@ -61,7 +63,7 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
     StringBuilder sb = new StringBuilder();
 
     sb.append("<div id='PageComments'></div>\n")
-    //
+        //
         .append("<script type=\"text/javascript\">\n") //
         .append("$(document).ready(function(){\n")//
         // .append("alert('ready');\n")

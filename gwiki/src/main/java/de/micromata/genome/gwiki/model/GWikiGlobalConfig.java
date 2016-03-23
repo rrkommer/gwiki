@@ -40,6 +40,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.registry.GWikiMacroProviderRegistry;
 import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -279,7 +280,8 @@ public class GWikiGlobalConfig extends GWikiProps
     List<GWikiElementInfo> eis = wikiContext.getElementFinder().getPageInfos(
         new GWikiPageIdMatcher(wikiContext, new StartWithMatcher<String>("admin/macros/")));
     for (GWikiElementInfo ei : eis) {
-      if (StringUtils.equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE), "admin/templates/ScriptMacroMetaTemplate") == false) {
+      if (StringUtils.equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE),
+          "admin/templates/ScriptMacroMetaTemplate") == false) {
         continue;
       }
       factories.put(GWikiContext.getNamePartFromPageId(ei.getId()), new GWikiScriptMacroFactory(ei));
@@ -289,11 +291,12 @@ public class GWikiGlobalConfig extends GWikiProps
   @SuppressWarnings("unchecked")
   public Map<String, GWikiMacroFactory> getWikiMacros(GWikiContext wikiContext)
   {
+
     if (wikiFactories != null) {
       return wikiFactories;
     }
+    Map<String, GWikiMacroFactory> facs = GWikiMacroProviderRegistry.getMacros();
     GWikiProps macros = getStringValueMap(GWIKI_WIKI_MACROS);
-    Map<String, GWikiMacroFactory> facs = new HashMap<String, GWikiMacroFactory>();
     for (Map.Entry<String, String> me : macros.getMap().entrySet()) {
       try {
         String key = StringUtils.trim(me.getKey());
@@ -307,11 +310,11 @@ public class GWikiGlobalConfig extends GWikiProps
             continue;
           }
         }
-        Class< ? > cls = ClassUtils.classForName(v);
+        Class<?> cls = ClassUtils.classForName(v);
         if (GWikiMacroFactory.class.isAssignableFrom(cls) == true) {
           facs.put(key, ClassUtils.createDefaultInstance(v, GWikiMacroFactory.class));
         } else if (GWikiMacro.class.isAssignableFrom(cls) == true) {
-          facs.put(key, new GWikiMacroClassFactory((Class< ? extends GWikiMacro>) cls));
+          facs.put(key, new GWikiMacroClassFactory((Class<? extends GWikiMacro>) cls));
         } else {
           throw new RuntimeException("Incompatible Class for Macro factory: " + cls.getName());
         }
@@ -336,11 +339,11 @@ public class GWikiGlobalConfig extends GWikiProps
     for (Map.Entry<String, String> me : macros.getMap().entrySet()) {
       String key = StringUtils.trim(me.getKey());
       String v = StringUtils.trim(me.getValue());
-      Class< ? > cls = ClassUtils.classForName(v);
+      Class<?> cls = ClassUtils.classForName(v);
       if (GWikiElementFactory.class.isAssignableFrom(cls) == true) {
         elementFactories.put(key, ClassUtils.createDefaultInstance(v, GWikiElementFactory.class));
       } else if (GWikiElement.class.isAssignableFrom(cls) == true) {
-        elementFactories.put(key, new GWikiClassElementFactory((Class< ? extends GWikiElement>) cls));
+        elementFactories.put(key, new GWikiClassElementFactory((Class<? extends GWikiElement>) cls));
       }
     }
     return elementFactories;

@@ -36,6 +36,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
@@ -47,6 +49,11 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Use a declared Macro in this page",
+    params = { @MacroInfoParam(name = "localName", info = "local macro name", required = true),
+        @MacroInfoParam(name = "pageId", info = "macro is user defined an can be loaded from there."),
+        @MacroInfoParam(name = "macroClass", info = "Macro is a class either Macro or MacroFactory."),
+    })
 public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
 {
   private static final long serialVersionUID = 1423464798547568584L;
