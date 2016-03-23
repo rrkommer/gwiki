@@ -1,4 +1,11 @@
 function gwedit_buildUrl(pageId) {
+	if (!pageId) {
+		return pageId;
+	}
+	var idx = pageId.indexOf('://');
+	if (idx != -1) { 
+		return pageId;
+	}
 	return gwikiLocalUrl(pageId);
 }
 
@@ -104,10 +111,12 @@ function wedit_find_current_link(ed) {
 	}
 	ret.element = startC;
 	ret.url = wedit_ed_get_el_attribute(ret.element, 'url', 'href');
-	ret.title = wedit_ed_get_el_attribute(ret.element, 'title');
+	
 	ret.styleClass = ret.element.getAttribute('data-wiki-styleClass');
 	ret.style = ret.element.getAttribute('data-wiki-style');
+	ret.tip = ret.element.getAttribute('data-wiki-tip');
 	ret.windowTarget = ret.element.getAttribute('data-wiki-windowTarget');
+	ret.title = wedit_ed_get_el_attribute(ret.element, 'title');
 
 	return ret;
 }
@@ -176,7 +185,7 @@ function gwedit_insert_pagelink(ed, item, element) {
 	_wedit_set_attr_in_jq_or_el(tel, 'href', url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-url', item.url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-title', item.title);
-	
+	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-tip', item.tip);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-style', item.style);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-styleClass', item.styleClass);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-windowTarget', item.windowTarget);
