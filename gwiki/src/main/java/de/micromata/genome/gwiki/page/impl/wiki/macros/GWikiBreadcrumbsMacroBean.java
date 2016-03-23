@@ -30,7 +30,10 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Implements the bread crumbs as Macro.
@@ -38,6 +41,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Generates a bread crumb of pages.",
+    params = { @MacroInfoParam(name = "maxItems", type = MacroParamType.Integer, info = "Maximum items displayed",
+        defaultValue = "10") })
 public class GWikiBreadcrumbsMacroBean extends GWikiMacroBean
 {
 

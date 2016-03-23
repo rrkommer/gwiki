@@ -1,11 +1,10 @@
-
 // has to equal to GWikiMacroRenderFlags
 var WEDIT_MACRO_RENDER_FLAG_NewLineAfterStart = 0x0001;
 var WEDIT_MACRO_RENDER_FLAG_NewLineBeforeEnd = 0x0002;
 var WEDIT_MACRO_RENDER_FLAG_TrimTextContent = 0x0010;
 var WEDIT_MACRO_RENDER_FLAG_NoWrapWithP = 0x0020;
 var WEDIT_MACRO_RENDER_FLAG_ContainsTextBlock = 0x0040;
-var WEDIT_MACRO_RENDER_FLAG_TrimWsAfter= 0x0080;
+var WEDIT_MACRO_RENDER_FLAG_TrimWsAfter = 0x0080;
 var WEDIT_MACRO_RENDER_FLAG_RteInline = 0x0100;
 
 function MacroInfo() {
@@ -42,7 +41,7 @@ function extractMacroDefinition(ed, el) {
 	var frameq = $(divframe).find('.weditmacrobody');
 	var body = null;
 	if (frameq.length > 0) {
-		body = frameq[0]; 
+		body = frameq[0];
 	}
 	var head = divel.getAttribute('data-macrohead');
 	var ret = new MacroInfo();
@@ -83,20 +82,24 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 	var scrollable = $("<div style='overflow:auto; height: 300px'>");
 	for (var i = 0; i < list.length; ++i) {
 		var macroMetaInfo = list[i].macroMetaInfo;
-		var p = $("<p>");
+		var p = $("<h4>").hover(function() {
+			$(this).css("text-decoration", "underline");
+			$(this).css("cursor", "pointer");
+		}, function() {
+			$(this).css("text-decoration", "none");
+			$(this).css("cursor", "inherit");
+		});
 		p.attr('data-macroName', macroMetaInfo.macroName);
 		p.on('click', function(event) {
 			$(dialog).dialog('close');
 			wedit_switch_to_macro_edit(ed, event.target, list);
 		});
 		p.text(macroMetaInfo.macroName);
-		if (macroMetaInfo.info) {
-			p.append($("<br/>"));
-			var sp = $("<span style='font-size: 0.9em>");
-			sp.text(macroMetaInfo.info);
-			p.append(sp);
-		}
 		scrollable.append(p);
+		if (macroMetaInfo.info) {
+			scrollable.append($("<blockquote>").html(macroMetaInfo.info));
+		}
+
 	}
 	modc.append(scrollable);
 }
@@ -118,7 +121,7 @@ function wedit_show_newmacro_dialog_impl(ed, list) {
 	var dialog = modc.dialog({
 	  width : 500,
 	  modal : true,
-	  dialogClass: 'jquiNoDialogTitle', 
+	  dialogClass : 'jquiNoDialogTitle',
 	  buttons : buttons
 	});
 }
@@ -144,7 +147,7 @@ function wedit_switch_to_macro_edit(ed, el, macroMetaInfoList) {
 function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 	modc.html('');
 	var contentdiv = $("<div class='ui-dialog-content ui-widget-content'>");
-	var th = $("<p>");
+	var th = $("<h4>");
 	th.text("Macro " + curMacroInfo.macroName);
 	contentdiv.append(th);
 	var info = $("<p id='wmd_info'></span>");
@@ -176,7 +179,7 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 			);
 			if (pmi.info) {
 				fieldset.append($("<br/>"));
-				fieldset.append($("<span>").text(pmi.info));
+				fieldset.append($("<span>").html(pmi.info));
 				fieldset.append($("<p>"));
 
 			}
@@ -221,7 +224,7 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
 	  width : 500,
-	  dialogClass: 'jquiNoDialogTitle', 
+	  dialogClass : 'jquiNoDialogTitle',
 	  modal : true,
 	  buttons : buttons
 	});
@@ -257,7 +260,7 @@ function wedit_renderHead(macroInfo) {
 	if (macroInfo.macroParams && macroInfo.macroParams.length) {
 		var firstP = true;
 		for (var i = 0; i < macroInfo.macroParams.length; ++i) {
-		
+
 			var pm = macroInfo.macroParams[i];
 			if (!pm.value) {
 				continue;
@@ -274,7 +277,7 @@ function wedit_renderHead(macroInfo) {
 	return h;
 }
 function wedit_updateMacro(ed, curMacroInfo, newMacroInfo) {
-	
+
 	var hdiv = $(curMacroInfo.macroHeadDiv);
 	hdiv.attr('data-macrohead', newMacroInfo.macroHead);
 	hdiv.attr('data-macroname', newMacroInfo.macroName);
@@ -367,11 +370,10 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 	var fuellsel = '';
 	if (macroInfo.macroMetaInfo.hasBody) {
 		var fuellsel = "<p>&nbsp;</p>";
-		
+
 		if (WEDIT_MACRO_RENDER_FLAG_RteInline & macroInfo.macroMetaInfo.renderFlags) {
 			fuellsel = "&nbsp;";
-		}
-		else if (macroInfo.macroMetaInfo.evalBody == false) {
+		} else if (macroInfo.macroMetaInfo.evalBody == false) {
 			fuellsel = "<pre>\n</pre>";
 		}
 	}

@@ -1,5 +1,7 @@
 package de.micromata.genome.gwiki.utils;
 
+import java.util.Collection;
+
 import org.apache.commons.lang.ObjectUtils;
 
 import com.eclipsesource.json.Json;
@@ -128,6 +130,15 @@ public class JsonBuilder
   public static JsonArray array()
   {
     return new JsonArray();
+  }
+
+  public static JsonArray array(Collection<String> elements)
+  {
+    JsonArray ret = new JsonArray();
+    for (String el : elements) {
+      ret.add(Json.value(el));
+    }
+    return ret;
   }
 
   public static JsonArray array(JsonValue... elements)

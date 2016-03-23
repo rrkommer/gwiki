@@ -22,6 +22,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * Hide the body from output, so content is only visible in wiki source.
@@ -29,6 +30,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author roger
  * 
  */
+@MacroInfo(info = "Hide the body from output, so content is only visible in wiki source.")
 public class GWikiHiddenMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro
 {
 

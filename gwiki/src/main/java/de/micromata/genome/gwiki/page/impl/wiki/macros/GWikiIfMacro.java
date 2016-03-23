@@ -28,6 +28,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * if macro to test against language (lang) or right.
@@ -36,6 +38,13 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "if macro to test against language (lang) or right.",
+    params = {
+        @MacroInfoParam(name = "lang", info = "Test if user has given language (de,en)"),
+        @MacroInfoParam(name = "right", info = "Test if user has given right"),
+        @MacroInfoParam(name = "renderMode", info = "Test if Page is render in given RenderMode.<br/>"
+            + "See class RenderModes"),
+    })
 public class GWikiIfMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiRuntimeMacro
 {
 

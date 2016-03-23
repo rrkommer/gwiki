@@ -9,10 +9,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
  */
-@MacroInfo(info = "Create an html table &lt;td&gt;",
+@MacroInfo(info = "Create an html legend element.",
     renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
         GWikiMacroRenderFlags.TrimTextContent })
-public class GWikiHtmlTdMacro extends GWikiHtmlBodyTagMacro
+public class GWikiHtmlLegendMacro extends GWikiHtmlBodyTagMacro
 {
 
 }

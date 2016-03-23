@@ -30,4 +30,6 @@ public @interface MacroInfoParam {
    * @return
    */
   boolean defaultParameter() default false;
+
+  String[] enumValues() default {};
 }

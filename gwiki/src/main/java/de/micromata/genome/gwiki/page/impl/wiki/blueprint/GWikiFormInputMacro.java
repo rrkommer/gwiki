@@ -35,6 +35,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+
 public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSourceable
 {
 
