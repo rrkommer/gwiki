@@ -151,16 +151,16 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
         + "'><span>Source</span></a></li><li><a href='#WikiPreview"
         + pn
         + "'><span>Preview</span></a></li></ul>"
-        + "<div id='WikiRte"
+        + "<div class='wikiEditRtePanel'  id='WikiRte"
         + pn
         + "'>" + rtetextarea + "</div>"
-        + "<div id='WikiEdit"
+        + "<div class='wikiEditSourcePanel' id='WikiEdit"
         + pn
         + "'>"
         + html
         + "</div>"
 
-        + "<div id='WikiPreview"
+        + "<div class='wikiEditPreviewPanel' id='WikiPreview"
         + pn
         + "' style=\"width: 100%; height: 100%; overflow: scroll;\">" // overflow: scroll;
         + "</div>"

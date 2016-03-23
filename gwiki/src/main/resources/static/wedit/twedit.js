@@ -32,6 +32,13 @@ var wiki_textpattern_patterns = [ {
   cmd : 'InsertUnorderedList'
 } ];
 
+var twedit_tinyMenu = {
+  edit: { title: 'Edit', items: 'undo redo  | cut copy paste selectall | searchreplace' },
+  insert: { title: 'Insert', items: 'link charmap' },
+  format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | removeformat' },
+  table: { title: 'Table', items: 'inserttable tableprops deletetable | cell row column' }
+};
+
 var twedit_editors = {
 
 };
@@ -90,10 +97,12 @@ function twedit_create(partName, content) {
 
 	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker  code ', //
 	      paste_data_images : true,
+	      menu: false, //twedit_tinyMenu,
+	      menubar: false,
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
 				// bullist
 	      // numlist",
-	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
+	      toolbar : "fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
 	      // alignleft

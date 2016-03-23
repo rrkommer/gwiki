@@ -346,8 +346,8 @@ function gwedit_insert_macro(ed, item) {
 	wedit_deleteLeftUntil(ed, "{");
 	var macroInfo = new MacroInfo();
 	macroInfo.macroMetaInfo = item.macroMetaInfo;
-	macroInfo.macroName = item.key;
-	macroInfo.macroHead = item.key;
+	macroInfo.macroName = item.url;
+	macroInfo.macroHead = item.url;
 
 	if (wedit_macroHasRequiredParams(macroInfo.macroMetaInfo) == false) {
 		gwedit_insert_macro_impl(ed, macroInfo);

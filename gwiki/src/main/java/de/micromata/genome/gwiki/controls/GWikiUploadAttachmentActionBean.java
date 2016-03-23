@@ -24,10 +24,8 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gdbfs.FileNameUtils;
-import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gdbfs.FileSystemUtils;
-import de.micromata.genome.gdbfs.FsDirectoryObject;
+import com.eclipsesource.json.JsonObject;
+
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -107,32 +105,28 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
   public Object onUploadImage()
   {
     try {
+
       if (wikiContext.getWikiWeb().getAuthorization().needAuthorization(wikiContext) == true) {
         if (StringUtils.isBlank(userName) == true || StringUtils.isBlank(passWord)) {
-          sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
-          return noForward();
+          return sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
         }
         boolean loggedIn = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, userName, passWord);
         if (loggedIn == false) {
-          sendResponse(1, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.invaliduser"));
-          return noForward();
+          return sendResponse(1, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.invaliduser"));
         }
       }
       try {
         if (wikiContext.getWikiWeb().getAuthorization().initThread(wikiContext) == false) {
-          sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
-          return noForward();
+          return sendResponse(2, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nologin"));
         }
         if (StringUtils.isEmpty(pageId) == true) {
           pageId = fileName;
         }
         if (StringUtils.isEmpty(pageId) == true) {
-          sendResponse(3, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nofilename"));
-          return noForward();
+          return sendResponse(3, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.nofilename"));
         }
         if (StringUtils.isEmpty(encData) == true) {
-          sendResponse(4, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.empty"));
-          return noForward();
+          return sendResponse(4, wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.empty"));
         }
         String base64data = extractImageData(encData);
         byte[] data = Base64.decodeBase64(base64data.getBytes());
@@ -140,57 +134,65 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
           String pp = GWikiContext.getParentDirPathFromPageId(parentPageId);
           pageId = pp + pageId;
         }
-        if (storeTmpFile == true) {
-          FileSystem fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
-          FsDirectoryObject tmpDir = fs.createTempDir("appletupload", 1000 * 60 * 30);
-          String nf = FileSystemUtils.mergeDirNames(tmpDir.getName(), pageId);
+        //        if (storeTmpFile == true) {
+        //          FileSystem fs = wikiContext.getWikiWeb().getStorage().getFileSystem();
+        //          FsDirectoryObject tmpDir = fs.createTempDir("appletupload", 1000 * 60 * 30);
+        //          String nf = FileSystemUtils.mergeDirNames(tmpDir.getName(), pageId);
+        //
+        //          FileSystem fswrite = fs.getFsForWrite(nf);
+        //          String pdirs = FileNameUtils.getParentDir(nf);
+        //          fswrite.mkdirs(pdirs);
+        //          fswrite.writeBinaryFile(nf, data, true);
+        //          
+        //          return sendResponse(toMap("rc", "0", "tmpFileName", nf));
+        //        } else {
+        if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
 
-          FileSystem fswrite = fs.getFsForWrite(nf);
-          String pdirs = FileNameUtils.getParentDir(nf);
-          fswrite.mkdirs(pdirs);
-          fswrite.writeBinaryFile(nf, data, true);
-          return sendResponse(toMap("rc", "0", "tmpFileName", nf));
-        } else {
-          if (wikiContext.getWikiWeb().findElementInfo(pageId) != null) {
+          JsonObject res = new JsonObject();
+          res.set("rc", 5);
+          res.set("rm", wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.fileexists"));
 
-            Map<String, String> map = toMap("rc", Integer.toString(5), "rm",
-                wikiContext.getTranslated("gwiki.edit.EditPage.attach.message.fileexists"));
-            String baseName = pageId;
-            String suffix = "";
-            int idx = baseName.lastIndexOf('.');
-            if (idx != -1) {
-              baseName = baseName.substring(0, idx);
-              suffix = pageId.substring(idx);
-            }
-            for (int i = 1; i < 10; ++i) {
-              String npageId = baseName + i + suffix;
-              if (wikiContext.getWikiWeb().findElementInfo(npageId) == null) {
-                String fnfn = npageId;
-                if (StringUtils.contains(fnfn, '/') == true) {
-                  fnfn = StringUtils.substringAfterLast(npageId, "/");
-                }
-                map.put("alternativeFileName", fnfn);
-                break;
+          String baseName = pageId;
+          String suffix = "";
+          int idx = baseName.lastIndexOf('.');
+          if (idx != -1) {
+            baseName = baseName.substring(0, idx);
+            suffix = pageId.substring(idx);
+          }
+          for (int i = 1; i < 10; ++i) {
+            String npageId = baseName + i + suffix;
+            if (wikiContext.getWikiWeb().findElementInfo(npageId) == null) {
+              String fnfn = npageId;
+              if (StringUtils.contains(fnfn, '/') == true) {
+                fnfn = StringUtils.substringAfterLast(npageId, "/");
               }
+              res.set("alternativeFileName", fnfn);
+              break;
             }
-
-            sendResponse(map);
-            return noForward();
-
           }
-          String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
-          GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, fileName);
-          el.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
-          GWikiArtefakt<?> art = el.getMainPart();
-          GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
-          att.setStorageData(data);
-          if (data != null) {
-            el.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
-          }
-          wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
-          return sendResponse(toMap("rc", "0", "tmpFileName", el.getElementInfo().getId()));
 
+          return sendResponse(res);
         }
+        JsonObject res = new JsonObject();
+        res.set("rc", 0);
+        JsonObject item = new JsonObject();
+        res.set("item", item);
+
+        String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
+        GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, fileName);
+        el.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
+        GWikiArtefakt<?> art = el.getMainPart();
+        GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
+        att.setStorageData(data);
+        if (data != null) {
+          el.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
+        }
+        wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
+        item.set("url", el.getElementInfo().getId());
+        item.set("title", el.getElementInfo().getTitle());
+        return sendResponse(res);
+
+        //        }
       } finally {
         wikiContext.getWikiWeb().getAuthorization().clearThread(wikiContext);
       }
