@@ -273,18 +273,34 @@ public class Html2WikiFilter extends DefaultFilter
     return new GWikiMacroFragment(new GWikiHtmlTagMacro(), ma);
   }
 
+  protected String getAttribute(XMLAttributes attributes, String key)
+  {
+    return getAttribute(attributes, key, key);
+  }
+
+  protected String getAttribute(XMLAttributes attributes, String nativeKey, String dataKey)
+  {
+    String ret = attributes.getValue("data-wiki-" + dataKey);
+    if (ret != null) {
+      return ret;
+    }
+    return attributes.getValue(nativeKey);
+  }
+
   protected void parseLink(XMLAttributes attributes)
   {
     // if (StringUtils.isNotEmpty(attributes.getValue("wikitarget")) == true) {
     // parseContext.addFragment(new GWikiFragementLink(attributes.getValue("wikitarget")));
     // return;
     // }
-    String href = attributes.getValue("href");
+    String href = getAttribute(attributes, "href", "url");
     GWikiContext wikiContext = GWikiContext.getCurrent();
+    String tat = getAttribute(attributes, "title");
+    String title = tat;
+    String id = href;
     if (href != null && wikiContext != null) {
       String ctxpath = wikiContext.getRequest().getContextPath();
       if (href.startsWith(ctxpath) == true) {
-        String id = href;
         if (ctxpath.length() > 0) {
           id = href.substring(ctxpath.length() + 1);
         }
@@ -294,26 +310,32 @@ public class Html2WikiFilter extends DefaultFilter
         GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(id);
         if (ei == null) {
           id = href;
+        } else {
+          String origtitle = ei.getTitle();
+          if (StringUtils.equals(origtitle, title) == true) {
+            title = null;
+          }
         }
-        GWikiFragmentLink link = new GWikiFragmentLink(id);
-        if (StringUtils.isNotBlank(attributes.getValue("title")) == true) {
-          link.setTitle(attributes.getValue("title"));
-        }
-        if (StringUtils.isNotBlank(attributes.getValue("target")) == true) {
-          link.setWindowTarget(attributes.getValue("target"));
-        }
-        if (StringUtils.isNotBlank(attributes.getValue("class")) == true) {
-          link.setLinkClass(attributes.getValue("class"));
-        }
-        parseContext.addFragment(link);
-        return;
-        // }
       }
     }
-    if (href == null) {
-      href = "";
+    if (id == null) {
+      id = "";
     }
-    parseContext.addFragment(new GWikiFragmentLink(href));
+    GWikiFragmentLink link = new GWikiFragmentLink(id);
+
+    if (StringUtils.isNotBlank(title) == true) {
+      link.setTitle(title);
+    }
+    tat = getAttribute(attributes, "target", "windowTarget");
+    if (StringUtils.isNotBlank(tat) == true) {
+      link.setWindowTarget(tat);
+    }
+    tat = getAttribute(attributes, "class");
+    if (StringUtils.isNotBlank(tat) == true) {
+      link.setLinkClass(tat);
+    }
+    parseContext.addFragment(link);
+    return;
   }
 
   protected void finalizeLink()
@@ -339,29 +361,37 @@ public class Html2WikiFilter extends DefaultFilter
       }
     }
     GWikiFragmentImage image = new GWikiFragmentImage(source);
-    if (StringUtils.isNotEmpty(attributes.getValue("alt")) == true) {
-      image.setAlt(attributes.getValue("alt"));
+    String tat = getAttribute(attributes, "alt");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setAlt(tat);
     }
+    tat = getAttribute(attributes, "width");
     if (StringUtils.isNotEmpty(attributes.getValue("width")) == true) {
-      image.setWidth(attributes.getValue("width"));
+      image.setWidth(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("height")) == true) {
-      image.setHeight(attributes.getValue("height"));
+    tat = getAttribute(attributes, "height");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setHeight(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("border")) == true) {
-      image.setBorder(attributes.getValue("border"));
+    tat = getAttribute(attributes, "border");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setBorder(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("hspace")) == true) {
-      image.setHspace(attributes.getValue("hspace"));
+    tat = getAttribute(attributes, "hspace");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setHspace(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("vspace")) == true) {
-      image.setVspace(attributes.getValue("vspace"));
+    tat = getAttribute(attributes, "vspace");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setVspace(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("class")) == true) {
-      image.setStyleClass(attributes.getValue("class"));
+    tat = getAttribute(attributes, "class", "styleClass");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setStyleClass(tat);
     }
-    if (StringUtils.isNotEmpty(attributes.getValue("style")) == true) {
-      image.setStyle(attributes.getValue("style"));
+    tat = getAttribute(attributes, "style");
+    if (StringUtils.isNotEmpty(tat) == true) {
+      image.setStyle(tat);
     }
     parseContext.addFragment(image);
   }
@@ -491,7 +521,7 @@ public class Html2WikiFilter extends DefaultFilter
           parseContext.addFragment(frag);
           parseContext.pushFragList();
         }
-        
+
         return true;
       }
     }
@@ -631,7 +661,7 @@ public class Html2WikiFilter extends DefaultFilter
         parseContext.pushFragList();
       }
     }
-    
+
   }
 
   @SuppressWarnings("deprecation")

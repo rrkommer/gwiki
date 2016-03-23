@@ -101,14 +101,13 @@ gwikiCallGlobalFunctionsWithPrefix('_gwiki_enable_edit_view_',[]);
 	<script type="text/javascript">
 
 function openPreviewWindow(url) {
-    myWindow = open(url, "preview",
-      "dependend=yes,resizable=yes,scrollbars=yes");
-    if(myWindow && myWindow.outerWidth && myWindow.outerHeight) {
-      /*myWindow.outerWidth = 1200;
-      myWindow.outerHeight = 800;*/
+    var myWindow = window.open(url, "preview", "dependend=yes,resizable=yes,scrollbars=yes");
+    if (!myWindow ) {
+    	alert('Cannot open preview Window (Browser permit?)')
     }
-    //myWindow.moveTo(40, 40);
-    myWindow.focus();
+    else {
+      myWindow.focus();
+    }
   }  
 openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 </script>
