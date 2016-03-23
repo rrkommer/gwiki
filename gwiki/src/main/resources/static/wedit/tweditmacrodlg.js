@@ -170,19 +170,51 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 			if (curParam) {
 				curval = curParam.value;
 			}
-			fieldset.append( //
-			$("<input>") //
-			.attr("class", "text ui-widget-content ui-corner-all") //
-			.attr('type', 'text') //
-			.attr('style', 'width: 100%') //
-			.attr('id', 'wmd_param_' + pmi.name).val(curval)//
-			);
-			if (pmi.info) {
-				fieldset.append($("<br/>"));
-				fieldset.append($("<span>").html(pmi.info));
-				fieldset.append($("<p>"));
+
+			if (pmi.type == 'Boolean') {
+				var inp = $("<input>") //
+				.attr("class", "text ui-widget-content ui-corner-all") //
+				.attr('type', 'checkbox') //
+				.attr('style', 'width: 100%') //
+				.attr('id', 'wmd_param_' + pmi.name);//
+				if (curval == 'true') {
+					inp.attr("checked", curval);
+				}
+				fieldset.append(inp);
+
+			} else if (pmi.enumValues && pmi.enumValues.length > 0) {
+				var select = $("<select>") //
+				.attr('id', 'wmd_param_' + pmi.name) //
+				.attr('class', "select ui-widget-content ui-corner-all");
+				select.change(function() {
+					console.log('select changed: ' + $(this).val());
+				});
+				for (var i = 0; i < pmi.enumValues.length; ++i) {
+					var ev = pmi.enumValues[i];
+					var option = $("<option>").attr("value", ev).text(ev);
+					if (ev == curval) {
+						option.attr('selected', true);
+					}
+					select.append(option);
+				}
+				fieldset.append(select);
+			} else {
+				fieldset.append( //
+				$("<input>") //
+				.attr("class", "text ui-widget-content ui-corner-all") //
+				.attr('type', 'text') //
+				.attr('style', 'width: 100%') //
+				.attr('id', 'wmd_param_' + pmi.name).val(curval)//
+				);
+				if (pmi.info) {
+					fieldset.append($("<br/>"));
+					fieldset.append($("<span>").html(pmi.info));
+					fieldset.append($("<p>"));
+
+				}
 
 			}
+
 		}
 		contentdiv.append(form);
 	}
@@ -206,7 +238,19 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 		macroInfo.macroMetaInfo = macroMetaInfo;
 		for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
 			var pmi = macroMetaInfo.macroParams[i];
-			var val = $('#wmd_param_' + pmi.name).val();
+			var val = null;
+			if (pmi.type == 'Boolean') {
+				if ($('#wmd_param_' + pmi.name).attr('checked')) {
+					val = 'true';
+				} else {
+					val = 'false';
+				}
+			} else if (pmi.enumValues && pmi.enumValues.length > 0) {
+				// val = $('#wmd_param_' + pmi.name + ' option:selected').val();
+				val = $('#wmd_param_' + pmi.name).val();
+			} else {
+				val = $('#wmd_param_' + pmi.name).val();
+			}
 			if (val && val != '') {
 				macroInfo.macroParams[macroInfo.macroParams.length] = {
 				  name : pmi.name,
