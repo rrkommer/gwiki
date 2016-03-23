@@ -27,7 +27,7 @@ public interface GWikiMacroInfo
     private String defaultValue;
     private String info;
 
-    private List<String> enumValues;
+    private List<String> enumValues = new ArrayList<>();
 
     public MacroParamInfo()
     {
