@@ -45,7 +45,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-min-frame-0.3.js");
-    wikiContext.getRequiredJs().add("/static/js/jstree/jquery.jstree.js");
+    wikiContext.getRequiredJs().add("/static/js/jstree/jstree.min.js");
   }
 
   /**

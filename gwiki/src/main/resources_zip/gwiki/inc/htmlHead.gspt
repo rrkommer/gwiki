@@ -25,7 +25,7 @@
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/fancybox/fancybox-1.3.1.min.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/js/jquery.thumbs.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/gwiki/gwikiedit-common-0.1.js" />'></script>
-<script type="text/JavaScript" src='<gwiki:url value="/static/js/jstree/jquery.jstree.js" />'></script>
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/jstree/jstree.js" />'></script>
 <script type="text/JavaScript" src='<gwiki:url value="/static/gwikiutils/gwikiutils.js" />'></script>
 <!--  <script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.js'/>"></script>  -->
 <script type="text/javascript" src="<gwiki:url value='/static/gwiki/gwiki-searchbox-2.1.js'/>"></script>  

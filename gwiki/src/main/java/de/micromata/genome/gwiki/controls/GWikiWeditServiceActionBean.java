@@ -12,6 +12,8 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
+import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
@@ -33,6 +35,86 @@ import de.micromata.genome.util.types.Pair;
  */
 public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
 {
+  public static enum SearchType
+  {
+    All(""), Wiki("gwiki"),
+
+    Image("image"),
+
+    Attachment("attachment");
+    private String elmentType;
+
+    private SearchType(String wikiType)
+    {
+      this.elmentType = wikiType;
+    }
+
+    public static SearchType fromString(String type)
+    {
+      if (StringUtils.isBlank(type) == true) {
+        return All;
+      }
+      if (type.equals("wiki") == true) {
+        type = "gwiki";
+      }
+      for (SearchType tp : SearchType.values()) {
+        if (tp.getElementType().equals(type) == true) {
+          return tp;
+        }
+      }
+      return All;
+    }
+
+    public static SearchType fromElementInfo(GWikiContext ctx, GWikiElementInfo ei)
+    {
+      if (StringUtils.equals(ei.getType(), "gwiki") == true) {
+        return SearchType.Wiki;
+      }
+      String mimetype = ctx.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(ctx, ei);
+      if (StringUtils.startsWith(mimetype, "image") == true) {
+        return SearchType.Image;
+      }
+      return SearchType.Attachment;
+    }
+
+    public String getElementType()
+    {
+      return elmentType;
+    }
+
+    public String getElmentJsonType()
+    {
+      if (SearchType.Wiki == this) {
+        return "wiki";
+      }
+      return getElementType();
+    }
+
+    public boolean matches(GWikiContext ctx, GWikiElementInfo ei)
+    {
+      String mimetype = ctx.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(ctx, ei);
+      boolean isImage = StringUtils.startsWith(mimetype, "image");
+      switch (this) {
+        case Wiki:
+          return elmentType.equals(ei.getType());
+        case Image:
+          return isImage;
+        case All:
+          return true;
+        case Attachment:
+        default:
+          return isImage == false;
+      }
+    }
+
+    public boolean matches(SearchType other)
+    {
+      if (this == All || other == All) {
+        return true;
+      }
+      return this == other;
+    }
+  }
 
   public static final String GWIKI_DEFAULT_EDITOR = "gwikidefeditor";
   private String txt;

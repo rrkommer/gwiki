@@ -24,18 +24,22 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+
+import de.micromata.genome.gwiki.controls.GWikiWeditServiceActionBean.SearchType;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
-import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
  * 
  */
-public class GWikiTreeChildrenActionBean extends ActionBeanBase
+public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 {
   private String rootPage;
 
@@ -46,79 +50,89 @@ public class GWikiTreeChildrenActionBean extends ActionBeanBase
     GWikiElement el = null;
     List<GWikiElementInfo> rootElements = null;
 
-    final String superCategory = wikiContext.getRequest().getParameter("id");
-    final String urlField = wikiContext.getRequest().getParameter("urlField");
-    final String titleField = wikiContext.getRequest().getParameter("titleField");
-    final String openTarget = wikiContext.getRequest().getParameter("target");
-
-    if (StringUtils.isBlank(superCategory)) {
+    String superCategory = wikiContext.getRequest().getParameter("id");
+    String urlField = wikiContext.getRequest().getParameter("urlField");
+    String titleField = wikiContext.getRequest().getParameter("titleField");
+    String openTarget = wikiContext.getRequest().getParameter("target");
+    String type = wikiContext.getRequest().getParameter("type");
+    if (StringUtils.isBlank(superCategory) || superCategory.equals("#") == true) {
       rootElements = getRootElements();
     } else {
       el = wikiContext.getWikiWeb().findElement(superCategory);
       rootElements = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
     }
+    SearchType searchType = SearchType.fromString(type);
+    StringBuffer sb = new StringBuffer("");
+    JsonArray rootNodes = JsonBuilder.array();
 
-    final StringBuffer sb = new StringBuffer("");
-
-    for (final GWikiElementInfo ei : rootElements) {
-      if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
-        continue;
+    // TODO expand to current id.
+    for (GWikiElementInfo ei : rootElements) {
+      JsonObject children = buildNodeInfo(ei, searchType);
+      if (children != null) {
+        rootNodes.add(children);
       }
 
-      String title = ei.getTitle();
-      if (ei.getTitle().startsWith("I{") == true) {
-        title = wikiContext.getTranslatedProp(title);
-      }
-
-      if (StringUtils.isBlank(title)) {
-        continue;
-      }
-
-      if (wikiContext.getElementFinder().getAllDirectChilds(ei).size() > 0) {
-        sb.append("<li class='jstree-closed' ");
-      } else {
-        sb.append("<li ");
-      }
-
-      sb.append("id='").append(ei.getId()).append("'>");
-      sb.append("<a onclick=\"");
-
-      if (StringUtils.isEmpty(openTarget)) {
-        if (StringUtils.isNotEmpty(urlField)) {
-          sb.append("$('#" + urlField + "').val('" + ei.getId() + "');");
-        }
-
-        if (StringUtils.isNotEmpty(titleField)) {
-          sb.append("$('#" + titleField + "').val('" + ei.getTitle() + "');");
-        }
-      } else if (StringUtils.equals(openTarget, "true")) {
-        String targetLink = wikiContext.localUrl(ei.getId());
-        sb.append("javascript:window.location.href='").append(targetLink).append("'");
-      }
-
-      sb.append("\" style=\"cursor:pointer\">");
-      sb.append(title);
-
-      if (StringUtils.isBlank(ei.getParentId())) {
-        sb.append("<i style=\"color:grey\">");
-        sb.append("(").append(ei.getId()).append(")</i>");
-      }
-
-      sb.append("</a>");
-      sb.append("</li>");
     }
 
-    wikiContext.append(sb.toString());
-    wikiContext.flush();
-    return noForward();
+    return sendResponse(rootNodes);
+  }
+
+  private JsonObject buildNodeInfo(GWikiElementInfo ei, SearchType searchType)
+  {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowToView(wikiContext, ei) == false) {
+      return null;
+    }
+    JsonObject ret = new JsonObject();
+    String title = ei.getTitle();
+    if (ei.getTitle().startsWith("I{") == true) {
+      title = wikiContext.getTranslatedProp(title);
+    }
+    if (StringUtils.isBlank(title) == true) {
+      return null;
+    }
+    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(ei);
+    JsonArray childNodes = JsonBuilder.array();
+    for (GWikiElementInfo sid : childs) {
+      JsonObject subnode = buildNodeInfo(sid, searchType);
+      if (subnode != null) {
+        childNodes.add(subnode);
+      }
+    }
+    SearchType st = SearchType.fromElementInfo(wikiContext, ei);
+    boolean match = searchType.matches(st);
+    if (match == false && childNodes.size() == 0) {
+      return null;
+    }
+    ret.add("children", childNodes);
+    JsonObject data = new JsonObject();
+    ret.add("data", data);
+    // TODO debug only
+    //    if (childNodes.isEmpty() == false) {
+    //      ret.add("state", JsonBuilder.map("opened", "true"));
+    //    }
+    data.add("url", ei.getId());
+    ret.add("id", StringUtils.replace(ei.getId(), "/", "_"));
+    //    ret.add("id", ei.getId());
+    String targetLink = wikiContext.localUrl(ei.getId());
+
+    //    data.add("url", targetLink);
+
+    data.add("type", st.getElmentJsonType());
+
+    data.add("matchtype", match);
+
+    data.add("title", title);
+    ret.add("text", title);
+    return ret;
   }
 
   private List<GWikiElementInfo> getRootElements()
   {
-    GWikiElementPropMatcher rootPageMatcher = new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(
-        null));
-    final List<GWikiElement> rootPages = wikiContext.getElementFinder().getPages(rootPageMatcher);
-    final List<GWikiElementInfo> validRootPages = new ArrayList<GWikiElementInfo>();
+    GWikiElementPropMatcher rootPageMatcher = new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE,
+        new EqualsMatcher<String>(
+            null));
+    List<GWikiElement> rootPages = wikiContext.getElementFinder().getPages(rootPageMatcher);
+    List<GWikiElementInfo> validRootPages = new ArrayList<GWikiElementInfo>();
 
     for (GWikiElement elem : rootPages) {
       if (elem.getElementInfo().isIndexed()

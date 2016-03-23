@@ -93,7 +93,7 @@ function twedit_create(partName, content) {
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
 				// bullist
 	      // numlist",
-	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikiimage  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
+	      toolbar : "wikisaveaction wikicancelaction fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
 	      // alignleft
