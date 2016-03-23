@@ -58,7 +58,7 @@ function WeditAutocomplete(jwedit, weditconfig, completeChar) {
 		}
 		dumpString(search);
 		var label = item.label.toLowerCase();
-		var key = item.key.toLowerCase();
+		var key = item.url.toLowerCase();
 		var search = search.toLowerCase();
 		if (label && label.indexOf(search) != -1) {
 			return true;
@@ -96,7 +96,7 @@ function WeditAutocomplete(jwedit, weditconfig, completeChar) {
 		this.fillList(ul);
 	}
 	this.onselect = function(item) {
-		var text = item.key;
+		var text = item.url;
 		// console.debug("insert: " + text);
 
 		this.close();

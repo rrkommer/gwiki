@@ -6,71 +6,7 @@
  * @param currentLink
  * @param callback
  */
-// function gwikiEditShowLinkSuggestOld(parentWindow, pageType, currentLink,
-// callback) {
-// var modc = $("#editDialogBox");
-// var dlghtml = "gwiki.editor.wikilink.dialog.title".i18n() + ": <input
-// size=\"30\" type=\"text\" id=\"linkprtitle\"";
-// if (currentLink.title) {
-// dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.title) + "\"";
-// }
-// dlghtml += "><br/>\n" + "gwiki.editor.wikilink.dialog.link".i18n()
-// + ": <input size=\"30\" type=\"text\" id=\"linkpropt\"";
-// if (currentLink.url) {
-// dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.url) + "\"";
-// }
-// dlghtml += ">";
-// modc.html(dlghtml);
-//
-// var buttons = {};
-// buttons["gwiki.common.cancel".i18n()] = function() {
-// $(dialog).dialog('close');
-// parentWindow.focus();
-// }
-// buttons["gwiki.common.ok".i18n()] = function() {
-// var lt = $("#linkpropt").attr('value');
-// $(dialog).dialog('close');
-// parentWindow.focus();
-// var ret = {
-// url : $("#linkpropt").val(),
-// title : $("#linkprtitle").val()
-// };
-// callback(ret);
-// }
-//
-// var dialog = $("#editDialogBox").dialog({
-// modal : true,
-// dialogClass: 'jquiNoDialogTitle',
-// open : function(event, ui) {
-// $("#linkpropt").focus();
-// },
-// close : function(event, ui) {
-// $(dialog).dialog('destroy');
-// },
-// overlay : {
-// backgroundColor : '#000',
-// opacity : 0.5
-// },
-// buttons : buttons,
-// Abbrechen : function() {
-// $(this).dialog('close');
-// parentWindow.focus();
-// }
-// });
-// $('#linkpropt').autocomplete({
-// source : "./PageSuggestions?pageType=" + gwikiEscapeUrlParam(pageType),
-// matchContains : true,
-// minChars : 0,
-// width : 300,
-// cacheLength : 1,
-// max : 1000,
-// formatItem : function(row) {
-// return row[1] + "<br><i>(" + row[0] + ")</i>";
-// }
-// }).result(function(event, item) {
-// $("#linkprtitle").val(item[1]);
-// })
-// }
+
 function WikiLinkItem(linktype) {
 	// one of wiki, attachment, image
 	this.type = linktype;
@@ -85,6 +21,7 @@ function WikiLinkItem(linktype) {
 	this.windowTarget = null;
 	this.element = null;
 	this.textRange = null;
+	this.thumbnail = null;
 }
 
 function gwikiEditShowLink(parentWindow, currentLink, callback) {
@@ -126,9 +63,9 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	dlghtml += "<div  style='display:block;' id='gwikdlglnkdetails'>(+)</div>";
 	dlghtml += "<div id='gwikidlnkdetailsdiv' style='display: none;'>";
 	if (currentLink.type == 'wiki') {
-		dlghtml += "<p><label for='windowTarget' style='display:block;'>"
+		dlghtml += "<p><label for='gweditwindowTarget' style='display:block;'>"
 		dlghtml += "gwiki.editor.wikilink.dialog.windowTarget".i18n() + "</label>"
-		    + "<input size=\"50\" type=\"text\" id=\"windowTarget\"";
+		    + "<input size=\"50\" type=\"text\" id=\"gweditwindowTarget\"";
 		if (currentLink.windowTarget) {
 			dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.windowTarget) + "\"";
 		}
@@ -153,12 +90,27 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		}
 		dlghtml += ">";
 		dlghtml += "</div>";
+
+		dlghtml += "<p><label for='gweditthumbnail' style='display:block;'>"
+		dlghtml += "gwiki.editor.wikilink.dialog.thumbnail".i18n() + "</label>"
+		    + "<input size='50' type='text' id='gweditthumbnail'";
+		if (currentLink.thumbnail) {
+			dlghtml += " value='" + gwikiEscapeAttr(currentLink.thumbnail) + "'";
+		}
+		dlghtml += "></p>";
+
 	}
-	dlghtml += "<p><label for='linkstyleClass' style='display:block;'>"
+	dlghtml += "<p><label for='gweditstyleClass' style='display:block;'>"
 	dlghtml += "gwiki.editor.wikilink.dialog.styleClass".i18n() + "</label>"
-	    + "<input size=\"50\" type=\"text\" id=\"linkstyleClass\"";
+	    + "<input size='50' type='text' id='gweditstyleClass'";
 	if (currentLink.styleClass) {
 		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.styleClass) + "\"";
+	}
+	dlghtml += "></p>";
+	dlghtml += "<p><label for='gweditstyle' style='display:block;'>"
+	dlghtml += "gwiki.editor.wikilink.dialog.style".i18n() + "</label>" + "<input size='50' type='text' id='gweditstyle'";
+	if (currentLink.style) {
+		dlghtml += " value=\"" + gwikiEscapeAttr(currentLink.style) + "\"";
 	}
 	dlghtml += "></p>";
 	dlghtml += "</div>";
@@ -180,6 +132,16 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		var ret = new WikiLinkItem(currentLink.type);
 		ret.url = $("#linkpropt").val();
 		ret.title = $("#linkprtitle").val();
+		if (currentLink.type == 'wiki') {
+			ret.windowTarget = $('#gweditwindowTarget').val();
+		}
+		if (currentLink.type == 'image') {
+			ret.width = $('#gweditwidth').val();
+			ret.height = $('#gweditheight').val();
+			ret.thumbnail = $('#gweditthumbnail').val();
+		}
+		ret.styleClass = $('#gweditstyleClass').val();
+		ret.style = $('#gweditstyle').val();
 		callback(ret);
 	}
 
@@ -306,92 +268,12 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	});
 }
 
-function wedit_find_parent_node_type_el(el, nodeName) {
-	if (el.nodeName == nodeName) {
-		return el;
-	}
-	if (el.parentNode) {
-		return wedit_find_parent_node_type_el(el.parentNode, nodeName);
-	}
-	return null;
-}
-function wedit_find_parent_node_type(ed, nodeName) {
-	var rng = ed.selection.getRng(true);
-	var startC = rng.startContainer;
-	return wedit_find_parent_node_type_el(startC, nodeName);
-}
 
-function wedit_find_current_link(ed) {
-	var ret = new WikiLinkItem('wiki');
-	var startC = wedit_find_parent_node_type(ed, 'A');
-	if (!startC) {
-		return ret;
-	}
-	ret.element = startC;
-	ret.url = ret.element.getAttribute('data-wiki-target');
-	if (!ret.url) {
-		ret.url = ret.element.getAttribute('href');
-	}
-	ret.title = ret.element.getAttribute('data-wiki-title');
-	if (!ret.title) {
-		ret.title = ret.element.getAttribute('title');
-	}
-	ret.tip = ret.element.getAttribute('data-wiki-tip');
-	ret.styleClass = ret.element.getAttribute('data-wiki-styleClass');
-	ret.windowTarget = ret.element.getAttribute('data-wiki-windowTarget');
-
-	return ret;
-}
-
-function wedit_find_current_image(ed) {
-	var ret = new WikiLinkItem('image');
-	var startC = ed.selection.getNode();
-	if (!startC || startC.nodeName != 'IMG') {
-		startC = wedit_find_parent_node_type(ed, 'IMG');
-	}
-	if (!startC) {
-		return ret;
-	}
-	ret.element = startC;
-	ret.url = ret.element.getAttribute('data-pageid');
-	if (!ret.url) {
-		ret.url = ret.element.getAttribute('src');
-	}
-	ret.title = ret.element.getAttribute('data-wiki-title');
-	if (!ret.title) {
-		ret.title = ret.element.getAttribute('title');
-	}
-	ret.width = ret.element.getAttribute('width');
-	ret.height = ret.element.getAttribute('height');
-	ret.tip = ret.element.getAttribute('data-wiki-tip');
-	ret.styleClass = ret.element.getAttribute('data-wiki-styleClass');
-	return ret;
-}
-
-function wedit_update_or_insert_link(ed, olditem, newItem) {
-	if (olditem.element) {
-		olditem.element.setAttribute('href', newItem.url);
-		olditem.element.setAttribute('title', newItem.title);
-		olditem.element.textContent = newItem.title;
-	} else {
-		gwedit_insert_pagelink(ed, newItem);
-	}
-}
-function wedit_update_or_insert_image(ed, olditem, newItem) {
-	if (olditem.element) {
-		olditem.element.setAttribute('src', newItem.url);
-		olditem.element.setAttribute('title', newItem.title);
-		olditem.element.textContent = newItem.title;
-	} else {
-
-		gwedit_insert_imagelink(ed, newItem);
-	}
-}
 function wedit_show_link_dialog(ed) {
 	console.debug('link selected');
 	var item = wedit_find_current_link(ed);
 	gwikiEditShowLink(ed, item, function(newitem) {
-		wedit_update_or_insert_link(ed, item, newitem);
+		gwedit_insert_pagelink(ed, newitem, item.element);
 	});
 }
 
@@ -399,7 +281,7 @@ function wedit_show_image_dialog(ed) {
 	console.debug('image selected');
 	var item = wedit_find_current_image(ed);
 	gwikiEditShowLink(ed, item, function(newitem) {
-		wedit_update_or_insert_image(ed, item, newitem);
+		wedit_update_or_insert_image(ed, newitem, item.element);
 	});
 }
 function wedit_show_attachment_dialog(ed) {
@@ -407,6 +289,6 @@ function wedit_show_attachment_dialog(ed) {
 	var item = wedit_find_current_link(ed);
 	item.type = 'attachment';
 	gwikiEditShowLink(ed, item, function(newitem) {
-		wedit_update_or_insert_link(ed, item, newitem);
+		gwedit_insert_pagelink(ed, newitem, item.element);
 	});
 }

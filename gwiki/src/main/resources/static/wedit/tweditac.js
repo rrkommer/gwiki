@@ -100,7 +100,7 @@
 			  return false;
 		  }
 		  function fillList(jul) {
-			  console.debug("weditautoc_fillList: '" + typedText + "'");
+//			  console.debug("weditautoc_fillList: '" + typedText + "'");
 			  for ( var i in itemlist) {
 				  var selitem = itemlist[i];
 				  if (filterItem(selitem) == false) {
@@ -294,23 +294,6 @@
 	tinymce.PluginManager.add('tweditac', tinymce.plugins.tweditac);
 })();
 
-
-function twedit_ac_hasParentElement(container, elementName)
-{
-	if (container.parentNode) {
-		if (container.parentNode.nodeName == elementName) {
-			return true;
-		}
-	}
-	return false;
-}
-function twedit_ac_is_protected_area(ed, startChar, container)
-{
-	if (twedit_ac_hasParentElement(container, 'PRE') == true) {
-		return true;
-	}
-	return false;
-}
 
 
 function twedit_dummy_itemReceiver(char, typedText, callback) {

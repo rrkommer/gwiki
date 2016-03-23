@@ -353,13 +353,11 @@ function gwikiEditInsertTemplate(templateText) {
 				var item = new WikiLinkItem('wiki');
 				getSelectedLinkItem(item);
 				gwikiEditShowLink(field,  item, function(result) {
-					var url = result.url;
-					var title = result.title;
-					// TODO build with title, if title is set.
+					var nt = wedit_gen_wiki_link(result);
 					if (item.textRange) {
-						gwikiEditsetTextInBound(field, result.url, item.textRange);
+						gwikiEditsetTextInBound(field, nt, item.textRange);
 					} else {
-						insertIntoTextArea(field, '[' + result.url + ']', '');
+						insertIntoTextArea(field, '[' + nt + ']', '');
 					}
 				});
 			}
@@ -376,13 +374,12 @@ function gwikiEditInsertTemplate(templateText) {
 				var item = new WikiLinkItem('image');
 				getSelectedImageItem(item);
 				gwikiEditShowLink(field, item, function(result) {
-					var url = result.url;
-					var title = result.title;
-					// TODO build with title, if title is set.
+					
+					var ntext = wedit_gen_wiki_image(result);
 					if (item.textRange) {
-						gwikiEditsetTextInBound(field, result.url, item.textRange);
+						gwikiEditsetTextInBound(field, ntext, item.textRange);
 					} else {
-						insertIntoTextArea(field, '!' + result.url + '!', '');
+						insertIntoTextArea(field, '!' + ntext + '!', '');
 					}
 				});
 			}
@@ -390,8 +387,8 @@ function gwikiEditInsertTemplate(templateText) {
 				var tarange = gwikiEditGetTextInBound(field, '!', '!');
 				if (tarange.found) {
 					item.found = true;
+					wedit_split_wiki_image(tarange.text, item);
 					item.textRange = tarange;
-					item.url = tarange.text;
 				}
 			}
 
@@ -399,13 +396,11 @@ function gwikiEditInsertTemplate(templateText) {
 				var item = new WikiLinkItem('attachment');
 				getSelectedLinkItem(item);
 				gwikiEditShowLink(field, item, function(result) {
-					var url = result.url;
-					var title = result.title;
-					// TODO build with title, if title is set.
+					var ntext = wedit_gen_wiki_link(result);
 					if (item.textRange) {
-						gwikiEditsetTextInBound(field, result.url, item.textRange);
+						gwikiEditsetTextInBound(field, ntext, item.textRange);
 					} else {
-						insertIntoTextArea(field, '[' + result.url + ']', '');
+						insertIntoTextArea(field, '[' + ntext + ']', '');
 					}
 				});
 			}
