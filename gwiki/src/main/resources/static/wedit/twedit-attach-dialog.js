@@ -1,7 +1,10 @@
-var gwikiInsertNewAttachmentDialog_html = "  <form><fieldset>" + "<label for='linkprtitle'>"
-    + "gwiki.editor.wikilink.dialog.title".i18n() + " </label><input size='50' type='text' id='linkprtitle'>"
-    + "<label for='linkpropt'>" + "gwiki.editor.wikilink.dialog.link".i18n()
-    + " </label><input size='50' type='text' id='linkpropt'><br/>" + "<p><span id='editDlgInserImageMsg'></span></p>";
+var gwikiInsertNewAttachmentDialog_html = 
+	"<h2>Insert new Image/Attachment</h2>\n"
+	+ "<form><fieldset>" + "<p><label for='linkprtitle' style='display:block;'>"
+    + "gwiki.editor.wikilink.dialog.title".i18n() + " </label><input size='50' type='text' id='linkprtitle'></p>"
+    + "<p><label style='display:block;' for='linkpropt'>" + "gwiki.editor.wikilink.dialog.link".i18n()
+    + " </label><input size='50' type='text' id='linkpropt'></p>" + 
+    "<p><span id='editDlgInserImageMsg'></span></p>";
 +" </fieldset></form>";
 /**
  * 
@@ -57,6 +60,7 @@ function gwikiInsertNewAttachmentDialog(ed, clipData) {
 
 	var dialog = $("#editDialogBox").dialog({
 	  modal : true,
+	  dialogClass: 'jquiNoDialogTitle', 
 	  width : 600,
 	  open : function(event, ui) {
 		  $('#linkpropt').val(fileName);

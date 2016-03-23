@@ -118,13 +118,15 @@ function gwikiEditInsertTemplate(templateText) {
 		      accessKey : "",
 		      callBack : "insertAttachment",
 		      clazz : "gwikiedit_attachment"// ,
-		    }, {
-		      label : "Blueprint",
-		      tooltip : "gwiki.editor.button.tooltip.blueprint".i18n(),
-		      accessKey : "",
-		      callBack : "insertTemplate",
-		      clazz : "gwikiedit_template"// ,
-		    }, {
+		    },
+//		    {
+//		      label : "Blueprint",
+//		      tooltip : "gwiki.editor.button.tooltip.blueprint".i18n(),
+//		      accessKey : "",
+//		      callBack : "insertTemplate",
+//		      clazz : "gwikiedit_template"// ,
+//		    }, 
+		    {
 			    type : "seperator"
 		    }, {
 		      label : "Help",
@@ -348,14 +350,9 @@ function gwikiEditInsertTemplate(templateText) {
 				keyAlt = evt.altKey;
 			}
 			function showLinkProposal() {
-				var item = {
-				  found : false,
-				  url : null,
-				  title : null,
-				  textRange : null
-				};
+				var item = new WikiLinkItem('wiki');
 				getSelectedLinkItem(item);
-				gwikiEditShowLink(field, 'wiki', item, function(result) {
+				gwikiEditShowLink(field,  item, function(result) {
 					var url = result.url;
 					var title = result.title;
 					// TODO build with title, if title is set.
@@ -370,19 +367,15 @@ function gwikiEditInsertTemplate(templateText) {
 			function getSelectedLinkItem(item) {
 				var tarange = gwikiEditGetTextInBound(field, '[', ']');
 				if (tarange.found) {
+					item.found = true;
 					item.textRange = tarange;
 					wedit_split_wiki_link_title(tarange.text, item);
 				}
 			}
 			function showImageProposal() {
-				var item = {
-				  found : false,
-				  url : null,
-				  title : null,
-				  textRange : null
-				};
+				var item = new WikiLinkItem('image');
 				getSelectedImageItem(item);
-				gwikiEditShowLink(field, 'image', item, function(result) {
+				gwikiEditShowLink(field, item, function(result) {
 					var url = result.url;
 					var title = result.title;
 					// TODO build with title, if title is set.
@@ -396,20 +389,16 @@ function gwikiEditInsertTemplate(templateText) {
 			function getSelectedImageItem(item) {
 				var tarange = gwikiEditGetTextInBound(field, '!', '!');
 				if (tarange.found) {
+					item.found = true;
 					item.textRange = tarange;
 					item.url = tarange.text;
 				}
 			}
 
 			function insertAttachment() {
-				var item = {
-				  found : false,
-				  url : null,
-				  title : null,
-				  textRange : null
-				};
+				var item = new WikiLinkItem('attachment');
 				getSelectedLinkItem(item);
-				gwikiEditShowLink(field, 'attachment', item, function(result) {
+				gwikiEditShowLink(field, item, function(result) {
 					var url = result.url;
 					var title = result.title;
 					// TODO build with title, if title is set.

@@ -118,6 +118,7 @@ function wedit_show_newmacro_dialog_impl(ed, list) {
 	var dialog = modc.dialog({
 	  width : 500,
 	  modal : true,
+	  dialogClass: 'jquiNoDialogTitle', 
 	  buttons : buttons
 	});
 }
@@ -220,6 +221,7 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
 	  width : 500,
+	  dialogClass: 'jquiNoDialogTitle', 
 	  modal : true,
 	  buttons : buttons
 	});

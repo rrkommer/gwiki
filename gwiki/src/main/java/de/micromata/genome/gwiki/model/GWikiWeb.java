@@ -352,7 +352,7 @@ public class GWikiWeb
         }
       }
 
-      String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el);
+      String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el.getElementInfo());
       if (mimeType != null) {
         ctx.getResponse().setContentType(mimeType);
       }

@@ -60,7 +60,7 @@ public class PtWikiLinkEditor extends PtWikiTextEditorBase
   public void prepareHeader(final GWikiContext wikiContext)
   {
     super.prepareHeader(wikiContext);
-    wikiContext.getRequiredJs().add("/static/js/jstree/jquery.jstree.js");
+    wikiContext.getRequiredJs().add("/static/js/jstree/jstree.min.js");
   }
 
   /*

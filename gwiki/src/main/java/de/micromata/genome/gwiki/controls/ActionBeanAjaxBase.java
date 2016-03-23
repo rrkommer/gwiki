@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 
@@ -90,6 +90,7 @@ public class ActionBeanAjaxBase extends ActionBeanBase
   protected Object sendJsonResponse(Map<String, String> resp)
   {
     String sr = encodeAsJson(resp);
+    wikiContext.getResponse().setContentType("application/json");
     return sendStringResponse(sr);
   }
 
@@ -98,14 +99,16 @@ public class ActionBeanAjaxBase extends ActionBeanBase
     String sr;
     if (json == true) {
       sr = encodeAsJson(resp);
+      wikiContext.getResponse().setContentType("application/json");
     } else {
       sr = encodeAsUrl(resp);
     }
     return sendStringResponse(sr);
   }
 
-  protected Object sendResponse(JsonObject obj)
+  protected Object sendResponse(JsonValue obj)
   {
+    wikiContext.getResponse().setContentType("application/json");
     return sendStringResponse(obj.toString());
   }
 

@@ -34,7 +34,7 @@ public interface GWikiMimeTypeProvider
    * @param ei
    * @return the mime type application/format if found, otherwise null
    */
-  public String getMimeType(GWikiContext wikiContext, GWikiElement el);
+  public String getMimeType(GWikiContext wikiContext, GWikiElementInfo el);
 
   /**
    * Provides mime type for given page uri
