@@ -88,7 +88,7 @@
 			  }
 			  dumpString(search);
 			  var label = item.label.toLowerCase();
-			  var key = item.key.toLowerCase();
+			  var key = item.url.toLowerCase();
 			  var search = search.toLowerCase();
 			  if (label && label.indexOf(search) != -1) {
 				  return true;
@@ -117,7 +117,7 @@
 					  cancelEvent(event);
 				  });
 				  var label = selitem.label;
-				  var key = selitem.key;
+				  var key = selitem.url;
 				  li.append(label);
 				  jul.append(li);
 			  }
@@ -127,7 +127,7 @@
 			  fillList(popupul);
 		  }
 		  function onselect(item) {
-			  var text = item.key;
+			  var text = item.url;
 			  console.debug("insert: " + text);
 
 			  close();

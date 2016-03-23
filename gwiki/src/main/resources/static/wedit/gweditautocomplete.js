@@ -53,8 +53,8 @@ function gwedit_replace_image_before(ed, item) {
 	gwedit_insert_imagelink_direct(ed, item);
 }
 function gwedit_insert_imagelink_direct(ed, item) {
-	var url = gwedit_buildUrl(item.key);
-	var html = "<img class='weditimg' data-pageid='" + item.key + "' src='" + url + "'/>";
+	var url = gwedit_buildUrl(item.url);
+	var html = "<img class='weditimg' data-pageid='" + item.url + "' src='" + url + "'/>";
 	var node = tedit_insertRaw(ed, html);
 	$(node).on('click', function(el) {
 		gwedit_click_imagelink(el);
@@ -74,7 +74,7 @@ function gwedit_insert_pagelink(ed, item, activeNode) {
 
 	// i = id.selection.getBookmark();
 	if (activeNode == null) {
-		var encpageId = gwikiEscapeAttr(item.key);
+		var encpageId = gwikiEscapeAttr(item.url);
 		var html = "<a href='" + encpageId + "' data-pageid='" + encpageId + "' title='" + gwikiEscapeAttr(item.title)
 		    + "'>" + gwikiEscapeAttr(item.title) + "</a>";
 		tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);

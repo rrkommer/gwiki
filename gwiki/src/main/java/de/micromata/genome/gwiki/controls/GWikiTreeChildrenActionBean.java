@@ -103,13 +103,13 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     if (match == false && childNodes.size() == 0) {
       return null;
     }
+
     ret.add("children", childNodes);
     JsonObject data = new JsonObject();
     ret.add("data", data);
-    // TODO debug only
-    //    if (childNodes.isEmpty() == false) {
-    //      ret.add("state", JsonBuilder.map("opened", "true"));
-    //    }
+    if (!match) {
+      ret.add("state", JsonBuilder.map("disabled", "true"));
+    }
     data.add("url", ei.getId());
     ret.add("id", StringUtils.replace(ei.getId(), "/", "_"));
     //    ret.add("id", ei.getId());

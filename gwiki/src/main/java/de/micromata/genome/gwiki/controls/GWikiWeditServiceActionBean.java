@@ -144,8 +144,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           break;
 
         case 'x':
-          array.add(JsonBuilder.map("label", "Erster!", "key", "first"));
-          array.add(JsonBuilder.map("label", "Zweiter!", "key", "second"));
+          array.add(JsonBuilder.map("title", "Erster!", "url", "first"));
+          array.add(JsonBuilder.map("title", "Zweiter!", "url", "second"));
           break;
         default:
           resp = JsonBuilder.map("ret", 11, "message", "Unknown type: " + format);
@@ -214,7 +214,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
       if (macroinst.isRestricted(mat, wikiContext) == true) {
         continue;
       }
-      JsonObject map = JsonBuilder.map("key", macroName, "label", macroName);
+      JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "label", macroName);
       map.set("onInsert", "gwedit_insert_macro");
       fillMacroInfo(macroName, fac);
       map.set("macroMetaInfo", fillMacroInfo(macroName, fac));
@@ -261,6 +261,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
       String pageid = sr.getPageId();
       String titel = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
       array.add(JsonBuilder.map(
+          "url", pageid,
           "key", pageid,
           "title", titel,
           "label",
@@ -285,8 +286,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
         continue;
       }
       String title = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
-      array.add(JsonBuilder.map("key", sr.getPageId(), "label",
-          title, "onInsert", "gwedit_insert_imagelink"));
+      array.add(JsonBuilder.map("key", sr.getPageId(), "url", sr.getPageId(), "label",
+          title, "title", title, "onInsert", "gwedit_insert_imagelink"));
     }
   }
 

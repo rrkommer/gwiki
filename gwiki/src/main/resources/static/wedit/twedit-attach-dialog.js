@@ -49,11 +49,12 @@ function gwikiInsertNewAttachmentDialog(ed, clipData) {
 				return false;
 			}
 			$(dialog).dialog('close');
-			resobj.title = $('#linkprtitle').val();
+			var item = resobj.item;
+			item.title = $('#linkprtitle').val();
 			if (clipData.isImage) {
-				twedit_attach_insertImageLink(ed, resobj);
+				twedit_attach_insertImageLink(ed, item);
 			} else {
-				twedit_attach_insertFileLink(ed, resobj);
+				twedit_attach_insertFileLink(ed, item);
 			}
 		});
 	}
@@ -83,18 +84,13 @@ function tweid_editfocus(ed) {
 	}
 
 }
-function twedit_attach_insertFileLink(ed, resobj) {
-	var item = {
-	  key : resobj.tmpFileName,
-	  title : resobj.title
-	}
+function twedit_attach_insertFileLink(ed, item) {
 	gwedit_insert_pagelink(ed, item);
 }
-function twedit_attach_insertImageLink(ed, resobj) {
+function twedit_attach_insertImageLink(ed, item) {
 
 	tweid_editfocus(ed);
-	resobj.key = resobj.tmpFileName;
-	gwedit_replace_image_before(ed, resobj);
+	gwedit_replace_image_before(ed, item);
 
 }
 
@@ -113,9 +109,7 @@ function twedit_attach_storeAttachment(ed, clipData, fileName, title, callback) 
 	    encData : clipData.base64Data
 	  },
 	  success : function(result) {
-		  console.debug("image uploaded: " + result);
-		  var resobj = eval('(' + result + ')');
-		  callback(resobj);
+		  callback(result);
 	  },
 	  error : function(xhr, status, error) {
 		  var resobj = {

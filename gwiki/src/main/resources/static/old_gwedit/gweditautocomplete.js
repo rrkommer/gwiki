@@ -34,8 +34,8 @@ function gwedit_autocomplete_entries(jwedit, weditconfig, completeChar, typedTex
 function gwedit_insert_imagelink(item) {
 	var range = wedit_getSavedRange();
 	
-	var url = gwedit_buildUrl(item.key);
-	var img = $("<img class='weditimg' data-pageid='" + item.key + "' src='" + url + "'/>");
+	var url = gwedit_buildUrl(item.url);
+	var img = $("<img class='weditimg' data-pageid='" + item.url + "' src='" + url + "'/>");
 	wedit_domobserver_ignore_next_image = true;
 	var imgnode = img[0];
 	range.insertNode(imgnode);
