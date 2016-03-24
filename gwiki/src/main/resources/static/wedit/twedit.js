@@ -43,9 +43,8 @@ var twedit_editors = {
 
 };
 
-function twedit_create(partName, content) {
+function twedit_create(editId, content) {
 
-	var editId = 'gwikihtmledit' + partName;
 	var ed = tinymce
 	    .init({
 	      homeUrl : gwikiHomeUrl,
@@ -88,7 +87,7 @@ function twedit_create(partName, content) {
 				      event.preventDefault();
 			      }
 		      }, true);
-		      twedit_bind_native_paste(ed, '#gwikihtmledit' + partName);
+		      twedit_bind_native_paste(ed, '#' + editId);
 	      },
 
 	      theme : 'modern',

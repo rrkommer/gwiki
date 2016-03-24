@@ -80,33 +80,6 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/wedit/tweditmacrodlg.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.4.js");
     wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
-    //
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
-    //
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditclipboard.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditfocus.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditdnd.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditdl.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditops.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditnewimagedlg.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditautocomplete.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditkeyhandler.js");
-    //    wikiContext.getRequiredJs().add("/static/wedit/weditobj.js");
-    //    wikiContext.getRequiredJs().add("/static/gwedit/gweditautocomplete.js");
-    //
-    //    //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.4.js");
-    //
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.4.js");
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
-    //    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
-    //    wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
-    //    wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwikieditorlevel/editor_plugin_src.js");
-    //    wikiContext.getRequiredJs().add("/static/gwedit/gwedit.js");
-    //    wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
-    //    wikiContext.getRequiredCss().add("/static/wedit/wautocmp.css");
   }
 
   @Override
