@@ -2,7 +2,9 @@
 <% boolean wikiWithMainTopicNavNavigation = false; %>
 <% boolean wikiWithNavNavigation = true; %>
 
+<% def gwikiWithNavBar = wikiContext.getUserBooleanProp("WITH_NAVBAR", true); %>
 <script type="text/javascript">
+
   \$(document).ready(function(){
   	gwikiSearchBox('.gwikiSearchBox', '<c:out value="${wikiPage.elementInfo.id}"/>', '<gwiki:url value="/edit/SearchBox"/>'); 
    
@@ -63,10 +65,11 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
   
 	<div id="gwikiBreadcrumb">
 	 <img src="<gwiki:url value="/inc/mgc/img/logo.gif"/>">
-		<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
+	 <%--
+  	<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
+		--%>
 	</div>
-  
-  <div id="gwikiSearchBar">
+   <div id="gwikiSearchBar">
     <ul style="" class="menu gwikiMenuone ">
     <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
     <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
@@ -90,6 +93,35 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
 	<div style="position:absolute; right:5px; top:40px;">
 		<@include file="inc/mgc/headMenu.gspt" @>
 	</div>
-<div style="margin-top: 40px">
-	<div class="wiki-content gwikiContent" style="margin-right: 10px;">
+	</div>
+<div id='gwikiBodySplit' style="margin-top: 40px; width: 100%; display: inline-flex " class='gwikiBodySplit'>
+  <div id="gwikiNavContent" class="split" style="overflow: auto; display: block; " >
+    <@include file="inc/navMenuJsTree" @>
+  </div>
+  <script type="text/javascript">
+  jQuery(document).ready(function() {
+  	var navWidth = gwikiGetCookie('gwikiNavContentWidth');
+  	if (!navWidth) {
+  		navWidth = 25;
+  	} else {
+  		navWidth = parseInt(navWidth);
+  		console.debug("gwikiNavContentWidth: " + navWidth);
+  	}
+  	Split(['#gwikiNavContent', '#gwikiContent' ], {
+  		direction: 'horizontal',
+  		sizes: [navWidth, 100],
+  		minSize: 3,
+  		gutterSize: 3,
+  		onDragEnd: function() {
+  			 var ncw = $('#gwikiNavContent').width();
+  			 var wcw = $('#gwikiContent').width();
+  			 var perc = (ncw / wcw) * 100;
+  			 perc = perc|0; // as int
+  			 console.debug("Store gwikiNavContentWidth: " + perc)
+  			gwikiSetCookie('gwikiNavContentWidth', perc, 30);
+  		}
+  	});
+  });
+  </script>
+	<div id='gwikiContent' class="wiki-content gwikiContent split" style="margin-right: 10px; position: relative; ">
 	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>

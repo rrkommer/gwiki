@@ -1,0 +1,16 @@
+<!-- navMenu.gspt Start -->
+
+<div id="navMenuJsTree" class="navMenuJsTree">
+	<input type="text" id="gwikiNavMenuQsText" >
+	<div id='gwikiNavMenu'> Here nav</div>
+
+	<script type="text/javascript">
+    jQuery(document).ready(function() {
+    	gwikiBuildNavMenuTree('gwikiNavMenu', 'gwikiNavMenuQsText', '<gwiki:url value="/edit/TreeChildren"/>', null);
+    });
+	</script>
+
+</div>
+<!-- #menu end -->
+
+<!-- navMenu.gspt Start -->

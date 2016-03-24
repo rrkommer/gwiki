@@ -405,3 +405,7 @@ ul.error {margin:0; margin-left:6.2em; list-style:none;}
   font-size: 16pt;
   cursor: ns-resize;
 }
+
+.navMenuJsTree {
+	padding-top: 30px;
+}
