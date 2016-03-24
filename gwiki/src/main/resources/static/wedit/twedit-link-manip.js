@@ -3,7 +3,7 @@ function gwedit_buildUrl(pageId) {
 		return pageId;
 	}
 	var idx = pageId.indexOf('://');
-	if (idx != -1) { 
+	if (idx != -1) {
 		return pageId;
 	}
 	return gwikiLocalUrl(pageId);
@@ -18,12 +18,6 @@ function twedit_ac_hasParentElement(container, elementName) {
 	return false;
 }
 
-function twedit_ac_is_protected_area(ed, startChar, container) {
-	if (twedit_ac_hasParentElement(container, 'PRE') == true) {
-		return true;
-	}
-	return false;
-}
 function tedit_insertRaw(ed, html) {
 	var range = ed.selection.getRng(true);
 	var node = ed.$(html)[0];
@@ -111,7 +105,7 @@ function wedit_find_current_link(ed) {
 	}
 	ret.element = startC;
 	ret.url = wedit_ed_get_el_attribute(ret.element, 'url', 'href');
-	
+
 	ret.styleClass = ret.element.getAttribute('data-wiki-styleClass');
 	ret.style = ret.element.getAttribute('data-wiki-style');
 	ret.tip = ret.element.getAttribute('data-wiki-tip');
@@ -140,8 +134,7 @@ function wedit_find_current_image(ed) {
 	return ret;
 }
 
-function _wedit_set_attr_in_jq_or_el(el, key, value)
-{
+function _wedit_set_attr_in_jq_or_el(el, key, value) {
 	if (el.setAttribute) {
 		el.setAttribute(key, value);
 	} else {
@@ -165,7 +158,7 @@ function wedit_update_or_insert_image(ed, item, element) {
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-style', item.style);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-styleClass', item.styleClass);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-thumbnail', item.thumbnail);
-	
+
 	if (element) {
 		element.textContent = item.title;
 	} else {
@@ -189,7 +182,7 @@ function gwedit_insert_pagelink(ed, item, element) {
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-style', item.style);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-styleClass', item.styleClass);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-windowTarget', item.windowTarget);
-	
+
 	if (element) {
 		element.textContent = item.title;
 	} else {
@@ -215,4 +208,66 @@ function gwedit_replace_image_before(ed, item) {
 	}
 	wedit_update_or_insert_image(ed, item);
 }
+function twedit_ac_is_protected_area(ed, startChar, container) {
+	var type = wedit_get_selection_el_type(ed);
+	if (type == 'IMG' || type == 'A' || type == 'PRE') {
+		return true;
+	} else {
+		return false;
+	}
+}
 
+function twedit_is_macro_button_enabled(ed) {
+	var type = wedit_get_selection_el_type(ed);
+	if (type == 'IMG' || type == 'A') {
+		return false;
+	}
+	return true;
+}
+function twedit_is_image_button_enabled(ed) {
+	var type = wedit_get_selection_el_type(ed);
+	if (type == 'PRE' || type == 'A') {
+		return false;
+	}
+	return true;
+}
+function twedit_is_link_button_enabled(ed) {
+	var type = wedit_get_selection_el_type(ed);
+	if (type == 'PRE' || type == 'IMG') {
+		return false;
+	}
+	return true;
+}
+/**
+ * IMG, A, PRE
+ * 
+ * @param ed
+ */
+function wedit_get_selection_el_type(ed) {
+	var startc = ed.selection.getNode();
+	if (startc.nodeName == 'IMG' || startc.nodeName == 'A' || startc.nodeName == 'PRE') {
+		return startc.nodeName;
+	}
+	if (twedit_ac_hasParentElement(startc, 'A') == true) {
+		return 'A';
+	}
+	if (twedit_ac_hasParentElement(startc, 'PRE') == true) {
+		return 'PRE';
+	}
+	return "P";
+}
+
+// not working
+//function wedit_tinyCommand_delete(ed, event) {
+//}
+//function wedit_tinyCommand_beginLine(ed, event) {
+//
+//}
+//function wedit_tinyCommand_endLine(ed, event) {
+//	var endKey = 35;
+//  event.stopPropagation();
+//  event.preventDefault();
+//	var e = jQuery.Event("keydown");
+//  e.which = endKey; // # c code value
+//  jQuery(event.target.parentNode).trigger(e);
+//}
