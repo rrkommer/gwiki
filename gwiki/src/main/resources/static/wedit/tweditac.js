@@ -55,7 +55,7 @@
 			  popup.append(popupul);
 			  popup.attr("style", "position: absolute; left, " + point.x + "; top: " + point.y + ";");
 			  fillList(popupul);
-			  
+
 			  range.insertNode(popup[0]);
 
 			  keydownHandler = onpopupkeydown;
@@ -100,7 +100,7 @@
 			  return false;
 		  }
 		  function fillList(jul) {
-//			  console.debug("weditautoc_fillList: '" + typedText + "'");
+			  // console.debug("weditautoc_fillList: '" + typedText + "'");
 			  for ( var i in itemlist) {
 				  var selitem = itemlist[i];
 				  if (filterItem(selitem) == false) {
@@ -111,9 +111,11 @@
 				  li.click(function(event) {
 					  // strange dooesnt word
 					  var idx = $(event.target).attr('data-acidx');
-					  var clickitem = itemlist[idx];
-					  popup.remove();
-					  onselect(clickitem);
+					  if (idx) {
+						  var clickitem = itemlist[idx];
+						  popup.remove();
+						  onselect(clickitem);
+					  }
 					  cancelEvent(event);
 				  });
 				  var label = selitem.label;
@@ -238,11 +240,11 @@
 			  var txt = rng.startContainer.textContent;
 			  var char = txt.substring(rng.startOffset - 1, rng.startOffset);
 			  // console.log("character before current cursor position = [" + char +
-				// "]");
+			  // "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
-			  	if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
-			  		startAutocomplete(ed, char);
-			  	}
+				  if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
+					  startAutocomplete(ed, char);
+				  }
 			  }
 		  }
 		  function getCurrentCursorPos() {
@@ -253,9 +255,9 @@
 			  var doc = ed.contentWindow.document;
 			  var span = doc.createElement("span");
 			  span.appendChild(doc.createTextNode("\u200b") /*
-																														 * Zero-width space
-																														 * character
-																														 */);
+																											 * Zero-width space
+																											 * character
+																											 */);
 			  range.insertNode(span);
 
 			  var rect = span.getBoundingClientRect();
@@ -293,8 +295,6 @@
 
 	tinymce.PluginManager.add('tweditac', tinymce.plugins.tweditac);
 })();
-
-
 
 function twedit_dummy_itemReceiver(char, typedText, callback) {
 	var dummy = [ {
