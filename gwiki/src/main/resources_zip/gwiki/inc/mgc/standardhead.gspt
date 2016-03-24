@@ -63,8 +63,8 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
 
 <div id="gwikiTopNav">
   
-	<div id="gwikiBreadcrumb">
-	 <img src="<gwiki:url value="/inc/mgc/img/logo.gif"/>">
+	<div id="gwikiBreadcrumb" >
+	 <img style="padding-left: 5px; padding-top: 5px;" src="<gwiki:url value="/inc/mgc/img/gui/gwikiLogo.png"/>">
 	 <%--
   	<% de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean.doRender(wikiContext); %>
 		--%>

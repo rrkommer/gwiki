@@ -227,7 +227,7 @@ function gwikicreateEditTab(partName) {
 	var pn = partName;
 	
 	$(document).ready(function() {
-		var edid = twedit_create(pn);
+		var edid = twedit_create('gwikihtmledit' + pn);
 
 		var tabs = $("#gwikiwktabs" + pn).tabs({
 			active: gwikiGetLastActiveTabIndex(partName),
