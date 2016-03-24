@@ -113,8 +113,7 @@ openPreviewWindow('<gwiki:url value="/${form.pageId}"/>');
 </script>
 </c:if>
 <% %>
-<form id="editForm" name="editForm" method="POST"
-	enctype="multipart/form-data">
+<form id="editForm" name="editForm" method="POST"	enctype="multipart/form-data">
 	<gwiki:hidden property="pageId" />
 	<input id="formmn" type="hidden" name="m" value="" />
 	<gwiki:hidden property="parentPageId" />
@@ -176,11 +175,11 @@ function viewBackupDiff()
 			</fmt:message></a>
 		<% } %>
 	</div>
-	<div id="EditPageHead">
+	<div id="EditPageHead" style="padding: 5px;">
 		<div class="type-text">
 			<label class="PageTitle" for="editPageTitle"><fmt:message
 					key="gwiki.edit.EditPage.label.title" /></label>
-			<gwiki:text styleId="editPageTitle" property="title" />
+			<gwiki:text styleId="editPageTitle" property="title" style="width: 300px;"/>
 		</div>
 	</div>
 	<!--  END #EditPageHead -->

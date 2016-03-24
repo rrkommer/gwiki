@@ -70,24 +70,41 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
 		--%>
 	</div>
    <div id="gwikiSearchBar">
-    <ul style="" class="menu gwikiMenuone ">
-    <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
-    <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
-    </ul>
+    <ul style="" class="menu gwikiMenuone">
+      <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
+      <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
     <gwiki:authorize pageId="edit/SiteMap">
-      <a href="<gwiki:url value="/edit/SiteMap"/>"><img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"/></a>
+      <li class="gwikiMenuIcon gwikiMenuoneSearchBar">
+          <span class="gwikiMenuoneSearchBar" style="background-image: url('<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>';">
+            <a href="<gwiki:url value="/edit/SiteMap"/>"> </a>
+          <img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"/></a>
+        </span>
+      </li> 
     </gwiki:authorize>
-   <gwiki:authorize pageId="edit/ViewAllPages">
-     <a href="<gwiki:url value="/edit/ViewAllPages"/>">
-      <img title="All Pages" alt="All Pages"  class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/recycle16.png'/>" /></a>
+     <gwiki:authorize pageId="edit/ViewAllPages">
+     <li class="gwikiMenuIcon gwikiMenuoneSearchBar">
+      <span class="gwikiMenuoneSearchBar" style="background-image: url('<gwiki:url value="/inc/gwiki/img/icons/recycle16.png"/>';">
+        <a href="<gwiki:url value="/edit/ViewAllPages"/>">
+          <img src='<gwiki:url value="/inc/gwiki/img/icons/recycle16.png"/>'/>
+        </a>
+        </span>
+      </li>
     </gwiki:authorize>
     <gwiki:authorize pageId="edit/Keywords">
+      <li class="gwikiMenuIcon gwikiMenuoneSearchBar">
+        <span class="gwikiMenuoneSearchBar" style="background-image: url('<gwiki:url value="/inc/gwiki/img/icons/notepencil16.png"/>';">
       <a href="<gwiki:url value="/edit/Keywords"/>">
         <img title="Keywords" alt="Keywords" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" /></a>
+        </span>
+     </li>
      </gwiki:authorize>
+      
+    </ul>
 		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST" style="display:inline;">
 		  <input id="quick-search-query" class="gwikiSearchBox " type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="gwikiQuicksearchSubmit quick-search-submit " type="submit" value="&nbsp;" name="method_onSearch"/>
 		</form>
+		
+		
 </div>
 
 	<div style="position:absolute; right:5px; top:40px;">
