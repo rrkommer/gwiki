@@ -19,9 +19,9 @@
 package de.micromata.genome.gwiki.page.impl.wiki;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamInfo;
 import de.micromata.genome.gwiki.utils.ClassUtils;
@@ -82,7 +82,9 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
     }
 
     List<MacroInfo> anots = de.micromata.genome.util.runtime.ClassUtils.findClassAnnotations(clazz, MacroInfo.class);
-    Map<String, MacroParamInfo> params = new HashMap<>();
+    //    Map<String, MacroParamInfo> params = new HashMap<>();
+    List<MacroParamInfo> paramlist = new ArrayList<>();
+    Set<String> paramNames = new HashSet<>();
     String info = null;
     int renderFlags = 0;
     for (MacroInfo mi : anots) {
@@ -90,10 +92,12 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
         info = mi.info();
       }
       for (MacroInfoParam pi : mi.params()) {
-        if (params.containsKey(pi.name()) == true) {
+        if (paramNames.contains(pi.name()) == true) {
           continue;
         }
-        params.put(pi.name(), new MacroParamInfo(pi));
+        paramNames.add(pi.name());
+
+        paramlist.add(new MacroParamInfo(pi));
       }
       for (GWikiMacroRenderFlags rf : mi.renderFlags()) {
         renderFlags |= rf.getFlag();
@@ -101,7 +105,6 @@ public class GWikiMacroClassFactory implements GWikiMacroFactory
     }
     int collectedRenderFlags = renderFlags;
     String macinfo = info;
-    List<MacroParamInfo> paramlist = new ArrayList<>(params.values());
     GWikiMacroClassFactory fac = this;
     return new GWikiMacroInfoBase()
     {

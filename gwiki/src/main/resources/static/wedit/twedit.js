@@ -94,7 +94,7 @@ function twedit_create(editId, content) {
 //	      forced_root_block: false, // 'p', // br instead of p
 	      keep_styles: false, // otherwise h1. will not terminated. ! does not working!
 
-	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker  code ', //
+	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
 	      paste_data_images : true,
 	      menu: false, //twedit_tinyMenu,
 	      menubar: false,
