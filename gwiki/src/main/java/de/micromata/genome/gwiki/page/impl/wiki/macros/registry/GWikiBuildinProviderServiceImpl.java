@@ -40,6 +40,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTableMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTdMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlThMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTrMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlVideoMacro;
 
 /**
  * the build in macros.
@@ -97,6 +98,8 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("legend", new GWikiMacroClassFactory(GWikiHtmlLegendMacro.class));
     ret.put("div", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
     ret.put("center", new GWikiMacroClassFactory(GWikiHtmlCenterMacro.class));
+    ret.put("audio", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
+    ret.put("video", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
 
     return ret;
   }

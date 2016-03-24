@@ -156,13 +156,14 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 	}
 	contentdiv.append(info);
 	if (macroMetaInfo.macroParams.length > 0) {
-		var form = $("<form>");
+		// var form = $("<form>");
 		var fieldset = $("<fieldset>");
-		form.append(fieldset);
+		// form.append(fieldset);
 		for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
 
 			var pmi = macroMetaInfo.macroParams[i];
-			var label = $("<label>");
+			var label = $("<label style='display:block; padding-top: 5px;'>");
+			label.attr('for', 'wmd_param_' + pmi.name);
 			label.text(pmi.name)
 			fieldset.append(label);
 			var curParam = curMacroInfo.findParamByName(pmi.name);
@@ -172,25 +173,33 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 			}
 
 			if (pmi.type == 'Boolean') {
-				var inp = $("<input>") //
-				.attr("class", "text ui-widget-content ui-corner-all") //
+				var inp = $("<input >") //
+				.attr("class", "quicheck") //
 				.attr('type', 'checkbox') //
-				.attr('style', 'width: 100%') //
-				.attr('id', 'wmd_param_' + pmi.name);//
+				.attr('id', 'wmd_param_' + pmi.name).attr('name', 'wmd_param_' + pmi.name);//
+				;//
 				if (curval == 'true') {
 					inp.attr("checked", curval);
 				}
+				inp.val(curval);
+				// only needed, because :checked doesn't worl
+				inp.on('click', function(el) {
+						var olval = $(el.target).val();
+						var nval = olval == 'true' ? 'false' : 'true';
+						$(el.target).val(nval);
+				});
 				fieldset.append(inp);
 
 			} else if (pmi.enumValues && pmi.enumValues.length > 0) {
 				var select = $("<select>") //
 				.attr('id', 'wmd_param_' + pmi.name) //
+				.attr('name', 'wmd_param_' + pmi.name) //
 				.attr('class', "select ui-widget-content ui-corner-all");
 				select.change(function() {
 					console.log('select changed: ' + $(this).val());
 				});
-				for (var i = 0; i < pmi.enumValues.length; ++i) {
-					var ev = pmi.enumValues[i];
+				for (var j = 0; j < pmi.enumValues.length; ++j) {
+					var ev = pmi.enumValues[j];
 					var option = $("<option>").attr("value", ev).text(ev);
 					if (ev == curval) {
 						option.attr('selected', true);
@@ -204,7 +213,9 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 				.attr("class", "text ui-widget-content ui-corner-all") //
 				.attr('type', 'text') //
 				.attr('style', 'width: 100%') //
-				.attr('id', 'wmd_param_' + pmi.name).val(curval)//
+				.attr('id', 'wmd_param_' + pmi.name)//
+				.attr('name', 'wmd_param_' + pmi.name)//
+				.val(curval)//
 				);
 				if (pmi.info) {
 					fieldset.append($("<br/>"));
@@ -216,7 +227,8 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 			}
 
 		}
-		contentdiv.append(form);
+		// contentdiv.append(form);
+		contentdiv.append(fieldset);
 	}
 	modc.append(contentdiv);
 }
@@ -240,11 +252,8 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 			var pmi = macroMetaInfo.macroParams[i];
 			var val = null;
 			if (pmi.type == 'Boolean') {
-				if ($('#wmd_param_' + pmi.name).attr('checked')) {
-					val = 'true';
-				} else {
-					val = 'false';
-				}
+				var ceckb = $('#wmd_param_' + pmi.name);
+				val = ceckb.val();
 			} else if (pmi.enumValues && pmi.enumValues.length > 0) {
 				// val = $('#wmd_param_' + pmi.name + ' option:selected').val();
 				val = $('#wmd_param_' + pmi.name).val();
@@ -265,12 +274,15 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 		callback(ed, curMacroInfo, macroInfo);
 	};
 	var dlghtml = modc.html();
-	console.debug("dialog: " + dlghtml);
+	// console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
 	  width : 500,
 	  dialogClass : 'jquiNoDialogTitle',
 	  modal : true,
-	  buttons : buttons
+	  buttons : buttons,
+	  open : function(event, ui) {
+//		  $(".quicheck").button();
+	  }
 	});
 
 }
