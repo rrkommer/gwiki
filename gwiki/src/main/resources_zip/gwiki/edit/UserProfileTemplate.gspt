@@ -2,12 +2,6 @@
 <@include file="inc/stdtags.gspt" @> 
 
 
-<script src='<%=wikiContext.localUrl("/static/jqgrid/js/i18n/grid.locale-" + wikiContext.getUserStringProp("lang") + ".js") %>' type="text/JavaScript"></script>
-<script src='<gwiki:url value="/static/jqgrid/js/jquery.jqGrid.min.js" />' type="text/JavaScript"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<gwiki:url value="/static/jqgrid/css/ui.jqgrid.css"/>" />
-<%-- <script type="text/javascript" src="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.pack.js'/>"></script>  --%>
-<%--<link type="text/css" href="<gwiki:url value='/static/jquery-autocomplete/jquery.autocomplete.css'/>" rel="stylesheet" />  --%>
-
 <gwiki:errors />
 
 <% form = pageContext.getRequest().getAttribute('form'); %>
