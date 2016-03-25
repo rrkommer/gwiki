@@ -49,7 +49,9 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
  */
 @MacroInfo(info = "The macro code wrap a text as source code.",
     params = { @MacroInfoParam(name = "title", info = "Title for the code"),
-        @MacroInfoParam(name = "lang", defaultValue = "java", info = "Code language") },
+        @MacroInfoParam(name = "lang", defaultValue = "java", info = "Code language",
+            enumValues = { "wiki", "markup", "groovy", "java", "xml", "css", "javascript", "json", "c", "cpp",
+                "objectivec", "pascal", "perl", "php", "python", "scala", "sql", "tcl" }) },
     renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro
 {
@@ -101,6 +103,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     boolean forText = RenderModes.ForText.isSet(ctx.getRenderMode());
     String clang = determineLang(body);
     ctx.append("<pre><code");
+
     if (StringUtils.isNotBlank(clang) == true) {
       ctx.append(" class='language-" + clang + "'");
     }
@@ -119,6 +122,9 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
   private String determineLang(String body)
   {
     if (StringUtils.isNotBlank(lang) == true) {
+      if (lang.equals("wiki") == true) {
+        lang = "textile";
+      }
       return lang;
     }
     if (body.trim().startsWith("<") == true) {

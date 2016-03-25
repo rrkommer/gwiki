@@ -93,7 +93,7 @@ function twedit_create(editId, content) {
 		      });
 
 		      ed.on('keydown', function(event) {
-		      	console.debug("keydown: " + event.which);
+//		      	console.debug("keydown: " + event.which);
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
