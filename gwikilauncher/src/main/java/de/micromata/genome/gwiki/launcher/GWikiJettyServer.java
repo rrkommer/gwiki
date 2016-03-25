@@ -20,6 +20,7 @@ import de.micromata.mgc.application.jetty.JettyServer;
 import de.micromata.mgc.application.webserver.config.JettyConfigModel;
 
 /**
+ * Jetty server for GWiki.
  * 
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
@@ -37,8 +38,10 @@ public class GWikiJettyServer extends JettyServer
   @Override
   protected ServletContextHandler createContextHandler(JettyConfigModel config)
   {
-
-    String contextFile = LocalSettings.get().get("gwiki.contextfile", "res:/StandaloneGWikiContext.xml");
+    String contextFile = "res:/StandaloneGWikiContext.xml";
+    if (LocalSettings.get().getBooleanValue("gwiki.useContextXml", false) == true) {
+      contextFile = LocalSettings.get().get("gwiki.contextfile", contextFile);
+    }
     GWikiBootstrapConfigLoader cfgLoader;
     if (StringUtils.startsWith(contextFile, "res:") == true) {
       String fileName = contextFile.substring("res:".length());
