@@ -36,7 +36,7 @@ function tedit_insert_into_text(ed, text) {
 	var sel = ed.selection;
 	var range = sel.getRng(true);
 	var cont = range.startContainer;
-	if (cont.nodeName = '#text') {
+	if (cont.nodeName == '#text') {
 		var nodetext = cont.nodeValue;
 		var pf = nodetext.substring(0, range.startOffset);
 		var ef = nodetext.substring(range.startOffset);
@@ -141,13 +141,19 @@ function _wedit_set_attr_in_jq_or_el(el, key, value) {
 		el.attr(key, value);
 	}
 }
-
+function wedit_set_titel_default(item)
+{
+	if (item.title == null || item.titel == '' || item.titel == undefined) {
+		item.title = item.url;
+	}
+}
 function wedit_update_or_insert_image(ed, item, element) {
 	var url = gwedit_buildUrl(item.url);
 	var tel = element;
 	if (element == null) {
 		tel = $("<img>");
 	}
+	wedit_set_titel_default(item);
 	_wedit_set_attr_in_jq_or_el(tel, 'src', url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-url', item.url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-title', item.title);
@@ -175,6 +181,7 @@ function gwedit_insert_pagelink(ed, item, element) {
 	if (element == null) {
 		tel = $("<a>");
 	}
+		wedit_set_titel_default(item);
 	_wedit_set_attr_in_jq_or_el(tel, 'href', url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-url', item.url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-title', item.title);
@@ -257,17 +264,43 @@ function wedit_get_selection_el_type(ed) {
 	return "P";
 }
 
+function twedit_ac_get_text_betweenranges(ed, oldRange, newRange) {
+	if (oldRange == null) {
+		return null;
+	}
+	if (newRange == null) {
+		newRange = ed.selection.getRng();
+	}
+	if (newRange.startContainer.nodeName != "#text") {
+		console.warn("twedit_ac_get_text_betweenranges: End container is not text");
+		return null;
+	}
+	if (newRange.startContainer != oldRange.startContainer) {
+		console.warn("twedit_ac_get_text_betweenranges: End container start container not equal");
+		return null;
+	}
+	if (newRange.startOffset < oldRange.startOffset) {
+		console.warn("twedit_ac_get_text_betweenranges: neg range");
+		return null;
+	}
+	var text = newRange.startContainer.nodeValue;
+	var ret = text.substring(oldRange.startOffset, newRange.startOffset);
+	console.debug("range text is: "  + ret);
+	
+	return ret;
+}
+
 // not working
-//function wedit_tinyCommand_delete(ed, event) {
-//}
-//function wedit_tinyCommand_beginLine(ed, event) {
+// function wedit_tinyCommand_delete(ed, event) {
+// }
+// function wedit_tinyCommand_beginLine(ed, event) {
 //
-//}
-//function wedit_tinyCommand_endLine(ed, event) {
-//	var endKey = 35;
-//  event.stopPropagation();
-//  event.preventDefault();
-//	var e = jQuery.Event("keydown");
-//  e.which = endKey; // # c code value
-//  jQuery(event.target.parentNode).trigger(e);
-//}
+// }
+// function wedit_tinyCommand_endLine(ed, event) {
+// var endKey = 35;
+// event.stopPropagation();
+// event.preventDefault();
+// var e = jQuery.Event("keydown");
+// e.which = endKey; // # c code value
+// jQuery(event.target.parentNode).trigger(e);
+// }

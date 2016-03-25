@@ -7,6 +7,12 @@
 	var ENTER_KEY = 13;
 	var END_WORD_KEYS = [ 32, 59, 186, 188, 190 ];
 
+	var tweidit_ac_stop_chars = {
+	  '!' : [ '!' ],
+	  '{' : [ '}', '{' ],
+	  '[' : [ ']' ]
+	};
+
 	function parseOptions(param) {
 		return param.options == null && typeof param != "boolean" ? param.split(",") : param.options;
 	}
@@ -21,7 +27,6 @@
 	  },
 
 	  init : function(ed, url) {
-		  console.debug("init tweditac");
 		  config = {
 		    tweidac_checkac_start : ed.getParam('tweidac_checkac_start'),
 		    options : parseOptions(ed.getParam('autocomplete_options', '')),
@@ -42,8 +47,18 @@
 		  var keydownHandler = defaultHandler;
 		  var typedText = '';
 
+		  var stopChars = [];
+		  var startChar;
+		  var startRange = null;
 		  function startAutocomplete(ed, char) {
+			  this.startChar = char;
+			  this.stopChars = tweidit_ac_stop_chars[char];
 			  config.itemReceiver(char, typedText, popupList);
+			  startRange = ed.selection.getRng(true);
+			  if (startRange.startContainer.nodeName != '#text') {
+				  console.warn("codecompletion cannot start because container is not #text");
+				  close();
+			  }
 		  }
 		  function popupList(list) {
 			  itemlist = list;
@@ -61,22 +76,38 @@
 			  keydownHandler = onpopupkeydown;
 			  keyupHandler = onpopupkeyup;
 			  var clickOutsideHandler = function(event) {
-				  console.debug("clicked somewhere");
+				  //console.debug("clicked somewhere");
 				  $(window).unbind("click", clickOutsideHandler);
 				  close();
 			  };
 			  $(window).bind("click", clickOutsideHandler);
 
 			  var clickOutsideHandlerEd = function(event) {
-				  console.debug("clicked somewhere in ed");
+				  //console.debug("clicked somewhere in ed");
 				  ed.off("click", clickOutsideHandlerEd);
 				  close();
 			  };
 			  ed.on('click', clickOutsideHandlerEd, true);
 		  }
+		  function isStopChar(char, typedText) {
+			  for ( var i in this.stopChars) {
+				  var stc = this.stopChars[i];
+				  if (typedText.indexOf(stc) != -1) {
+					  //console.debug("find stopchar");
+					  return true;
+				  }
+
+			  }
+			  var ret = this.stopChars.indexOf(char) != -1;
+			  if (ret == true) {
+				  //console.debug("find stopchar");
+			  }
+			  return ret;
+		  }
 		  function close() {
 			  popup.remove();
 			  typedText = '';
+			  stopChars = [];
 			  keyupHandler = checkAutocomplete;
 			  keydownHandler = defaultHandler;
 		  }
@@ -96,7 +127,7 @@
 			  if (key && key.indexOf(search) != -1) {
 				  return true;
 			  }
-			  console.debug("No match: " + search + "> " + label + ", " + key);
+			  //console.debug("No match: " + search + "> " + label + ", " + key);
 			  return false;
 		  }
 		  function fillList(jul) {
@@ -130,7 +161,7 @@
 		  }
 		  function onselect(item) {
 			  var text = item.url;
-			  console.debug("insert: " + text);
+			  //console.debug("insert: " + text);
 
 			  close();
 			  if (item.onInsert) {
@@ -152,8 +183,8 @@
 			  return item;
 		  }
 		  function onpopupkeyup(event) {
-			  console.debug("popkeypup	: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
-			      + event.altKey + "; curtext: '" + this.typedText + "'");
+//			  console.debug("popkeypup	: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
+//			      + event.altKey + "; curtext: '" + this.typedText + "'");
 			  switch (event.which) {
 			  case 9: // TAB
 			  case 13: // ENTER
@@ -175,18 +206,24 @@
 					  break;
 				  }
 				  var ch = keyeventToString(event);
+
 				  if (event.shiftKey == false) {
 					  ch = ch.toLowerCase();
 				  }
-				  typedText += ch;
-				  refreshList();
+				  typedText = twedit_ac_get_text_betweenranges(ed, startRange, null);
+
+				  if (isStopChar(ch, typedText)) {
+					  close();
+				  } else {
+					  refreshList();
+				  }
 				  return true;
 			  }
 
 		  }
 		  function onpopupkeydown(event) {
-			  console.debug("popkeydown: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
-			      + event.altKey);
+//			  console.debug("popkeydown: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
+//			      + event.altKey);
 			  var el = popup;// $("#wautocopletewindow");
 			  var ul = popupul; // $("#wautocopleteul");
 			  if (!ul[0]) {
@@ -204,7 +241,7 @@
 				  return cancelEvent(event);
 			  case 27: // ESC
 				  close();
-				  console.debug("popup removed");
+				  //console.debug("popup removed");
 				  return cancelEvent(event);
 			  case 38: // UP
 				  var found = ul.find(".wautocmpsel");
@@ -226,6 +263,7 @@
 				  }
 				  return cancelEvent(event);
 			  }
+
 		  }
 		  function cancelEvent(event) {
 			  // event.stopPropagation();
@@ -239,11 +277,17 @@
 			  var rng = ed.selection.getRng(true);
 			  var txt = rng.startContainer.textContent;
 			  var char = txt.substring(rng.startOffset - 1, rng.startOffset);
+			  var prevchar = null;
+			  if (rng.startOffset >= 2) {
+				  prevchar = txt.substring(rng.startOffset - 2, rng.startOffset - 1)
+			  }
 			  // console.log("character before current cursor position = [" + char +
 			  // "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
-				  if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
-					  startAutocomplete(ed, char);
+				  if (prevchar != null && config.tweidac_checkac_start.indexOf(prevchar) == -1) {
+					  if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
+						  startAutocomplete(ed, char);
+					  }
 				  }
 			  }
 		  }

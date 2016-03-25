@@ -20,7 +20,7 @@ var gwikiContext = {
   publicUrl: gwikiPublicUrl,
   welcomeUrl: gwikiWelcomeUrl,
   pageId: null,
-  contentLanguage: null.
+  contentLanguage: null
 }
 <% if (wikiContext?.wikiElement?.elementInfo) { %>
   gwikiContext.pageId = '<%= wikiContext?.wikiElement?.elementInfo?.id %>';
