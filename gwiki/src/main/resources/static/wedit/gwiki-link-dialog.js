@@ -206,7 +206,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		      // console.debug('selected: ' + item);
 		      // });
 		      tree.on("changed.jstree", function(e, data) {
-			      console.debug('changed: ' + data);
+//			      console.debug('changed: ' + data);
 			      var selNone = data.node.data;
 			      $("#linkpropt").val(selNone.url);
 			      $("#linkprtitle").val(selNone.title);
@@ -270,7 +270,6 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 
 
 function wedit_show_link_dialog(ed) {
-	console.debug('link selected');
 	var item = wedit_find_current_link(ed);
 	gwikiEditShowLink(ed, item, function(newitem) {
 		gwedit_insert_pagelink(ed, newitem, item.element);
@@ -278,14 +277,12 @@ function wedit_show_link_dialog(ed) {
 }
 
 function wedit_show_image_dialog(ed) {
-	console.debug('image selected');
 	var item = wedit_find_current_image(ed);
 	gwikiEditShowLink(ed, item, function(newitem) {
 		wedit_update_or_insert_image(ed, newitem, item.element);
 	});
 }
 function wedit_show_attachment_dialog(ed) {
-	console.debug('attachment selected');
 	var item = wedit_find_current_link(ed);
 	item.type = 'attachment';
 	gwikiEditShowLink(ed, item, function(newitem) {

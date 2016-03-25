@@ -52,6 +52,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 			var ln = currentPageId.replace(/\//g, '_');
 			var st = tree.get_node(ln);
 			tree.select_node(ln);
+			tree.open_node(ln);
 		}
 	});
 }
