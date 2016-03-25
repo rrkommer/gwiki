@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  
+  <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+    <property name="enableWebDav" value="${gwiki.enable.webdav}" />
+    <property name="webDavUserName" value="${gwiki.sys.user}" />
+    <property name="webDavPasswordHash" value="${gwiki.sys.passwordhash}" />
+    <property name="staticContentFromClassPath" value="true" />
+    <property name="staticContentFileSystem">
+      <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+        <constructor-arg value="${gwiki.dev.path}/src/main/resources" />
+      </bean>
+    </property>
+
+    <property name="pluginRepository">
+      <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+        <property name="storePluginLocation">
+          <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+            <constructor-arg value="${gwiki.dev.path}/../plugins" />
+          </bean>
+        </property>
+      </bean>
+    </property>
+
+    <property name="storage">
+      <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gdbfs.MultiMountCombinedFileSystem">
+            <constructor-arg>
+              <map>
+                <entry
+                  key="-*,+tmp/*,+arch/*,+*/arch/*,+*TextExtract.txt,+*TextIndex.txt,+admin/GlobalTextIndexSettings.properties">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/src/main/external_resources/gwiki_tmp</value>
+                    </constructor-arg>
+                  </bean>
+
+                </entry>
+                <entry key="+admin/*,-admin/user/*,-admin/plugins/*,+admin/plugins/Index*,+edit/*,+gwikidocs/*,+inc/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/src/main/resources_zip/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <!--  Mapping to plugins -->
+                
+                <entry key="+pub/plugins/gwiki\-admintools/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-admintools/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                
+                <entry key="+pub/plugins/gwiki\-s5slideshow/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-s5slideshow/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="+pub/plugins/gwiki\-keywordsmarttags/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-keywordsmarttags/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                 <entry key="pub/plugins/gwiki\-rte\-myspell/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-rte-myspell/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="pub/plugins/gwiki\-feed/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-feed/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="pub/plugins/gwiki\-msotextextractor/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-msotextextractor/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="pub/plugins/gwiki\-pdftextextractor/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-pdftextextractor/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                 <entry key="pub/plugins/gwiki\-vfolder/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-vfolder/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="pub/plugins/gwiki\-fssvn/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/../plugins/gwiki-fssvn/content/gwiki</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+                <entry key="+*,-pub/plugins/gwiki\-admintools/*,-pub/plugins/gwiki\-admintools/*,-pub/plugins/gwiki\-s5slideshow/*,-pub/plugins/gwiki\-rte\-myspell/*,-pub/plugins/gwiki\-feed/*,-pub/plugins/gwiki\-msotextextractor/*,-pub/plugins/gwiki\-pdftextextractor/*,-pub/plugins/gwiki\-vfolder/*,-pub/plugins/gwiki\-fssvn/*">
+                  <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                    <constructor-arg>
+                      <value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+                    </constructor-arg>
+                  </bean>
+                </entry>
+
+              </map>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+
+
+
+  </bean>
+</beans>
