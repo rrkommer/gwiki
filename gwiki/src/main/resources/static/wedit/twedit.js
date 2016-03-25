@@ -91,33 +91,45 @@ function twedit_create(editId, content) {
 		      ed.on('paste', function(e) {
 			      twedit_paste(this, e);
 		      });
-
+		      ed.on('FullscreenStateChanged', function(e) {
+			      var nstate = e.state;
+			      gwikiSetCookie('wikirtefullscreen', "" + nstate, 30);
+		      });
+		      var fullscreenstate = gwikiGetCookie('wikirtefullscreen');
+		      if (fullscreenstate == 'true') {
+			      var localed = ed;
+			      setTimeout(function() {
+				      localed.execCommand('mceFullScreen', true);
+				      //				      
+			      }, 200);
+		      }
 		      ed.on('keydown', function(event) {
-//		      	console.debug("keydown: " + event.which);
+			      // console.debug("keydown: " + event.which);
+		      	// TODO REMOVE
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
 					      event.stopPropagation();
 					      event.preventDefault();
-				      } 
-				      // not working
-//				      else if (event.which == 65) { // A
-//				      	wedit_tinyCommand_beginLine(ed, event);
-//				      } else if (event.which == 68) { // D
-//				      	wedit_tinyCommand_delete(ed, event);
-//				      } else if (event.which == 69) { // E
-//				      	wedit_tinyCommand_endLine(ed, event);
-//				      }
-			      } else if (event.altKey == true) { // ALT
-				      if (event.which == 77) { // M
-					      if (twedit_is_macro_button_enabled(ed) == true) {
-						      wedit_show_newmacro_dialog(ed);
-					      }
-				      } else if (event.which == 76) { // L
-					      if (twedit_is_link_button_enabled(ed) == true) {
-						      wedit_show_link_dialog(ed);
-					      }
 				      }
+				      // not working
+				      // else if (event.which == 65) { // A
+				      // wedit_tinyCommand_beginLine(ed, event);
+				      // } else if (event.which == 68) { // D
+				      // wedit_tinyCommand_delete(ed, event);
+				      // } else if (event.which == 69) { // E
+				      // wedit_tinyCommand_endLine(ed, event);
+				      // }
+			      } else if (event.altKey == true) { // ALT
+//				      if (event.which == 77) { // M
+//					      if (twedit_is_macro_button_enabled(ed) == true) {
+//						      wedit_show_newmacro_dialog(ed);
+//					      }
+//				      } else if (event.which == 76) { // L
+//					      if (twedit_is_link_button_enabled(ed) == true) {
+//						      wedit_show_link_dialog(ed);
+//					      }
+//				      }
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
@@ -135,7 +147,7 @@ function twedit_create(editId, content) {
 	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
 	      // bullist
 	      // numlist",
-	      toolbar : "fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
+	      toolbar : "wikisave wikicancel | fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
 	      // alignleft

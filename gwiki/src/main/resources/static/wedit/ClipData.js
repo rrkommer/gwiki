@@ -38,7 +38,7 @@ function ClipData(clipEvent) {
 	}
 	this.waitForBinaryData = function(callback) {
 		findBinaryData(clipEvent, function(file, data, url) {
-			console.debug("bindata found: " + url + "; " + data);
+//			console.debug("bindata found: " + url + "; " + data);
 			if (url) {
 				_this.dataUrl = url;
 			}

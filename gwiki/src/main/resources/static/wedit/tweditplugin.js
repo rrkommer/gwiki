@@ -49,12 +49,27 @@
 		  // 'class' : 'mceIcon mce_cancel',
 		  // text : 'C'
 		  // });
-		  
+		  ed.addButton('wikisave', {
+		    title : "Save and close editor (Ctrl+S)",
+		    text : 'Save',
+		    shortcut : 'Ctrl+S',
+		    onClick : function() {
+			    t._saveAction();
+		    }
+		  });
+		  ed.addButton('wikicancel', {
+		    title : "Cancel",
+		    text : 'Cancel',
+		    // shortcut : 'Ctrl+S',
+		    onClick : function() {
+		    	t._cancelAction();
+		    }
+		  });
 		  var macroButton;
 		  ed.addButton('wikinewmacro', {
 		    title : "Insert/Edit Macro (Alt+M)",
 		    text : '{M}',
-		    // TODO access key
+		    shortcut : 'Alt+Meta+M',
 		    onClick : function() {
 			    t._insertMacro(t.editor)
 		    },
@@ -70,18 +85,18 @@
 		    },
 		    text : '[L]',
 		    onPostRender : function() {
-		    	linkButton = this;
+			    linkButton = this;
 		    }
 		  });
 		  var imageButton;
 		  ed.addButton('imagelink', {
-		    title : "Insert Image",
+		    title : "Insert Image (Alt+I)",
 		    onClick : function() {
 			    t._insertImage(t.editor)
 		    },
 		    text : '!I!',
 		    onPostRender : function() {
-		    	imageButton = this;
+			    imageButton = this;
 		    }
 		  });
 		  var attachmentButton;
@@ -92,8 +107,22 @@
 		    },
 		    text : '[A]',
 		    onPostRender : function() {
-		    	attachmentButton = this;
+			    attachmentButton = this;
 		    }
+		  });
+		  ed.on('init', function() {
+			  ed.addShortcut('Alt+M', 'Alt+M', function() {
+				  t._insertMacro(t.editor);
+			  });
+			  ed.addShortcut('Alt+I', 'Alt+I', function() {
+				  t._insertImage(t.editor);
+			  });
+			  ed.addShortcut('Alt+L', 'Alt+L', function() {
+				  t._insertLink(t.editor);
+			  });
+			  ed.addShortcut('Ctrl+S', 'Ctrl+S', function() {
+				  t._saveAction(t.editor);
+			  });
 		  });
 		  ed.on('NodeChange', function(event) {
 			  if (macroButton) {
@@ -101,16 +130,16 @@
 			  }
 			  var linkenabled = twedit_is_link_button_enabled(ed);
 			  if (linkButton) {
-			  	linkButton.disabled(!linkenabled);
+				  linkButton.disabled(!linkenabled);
 			  }
 			  if (attachmentButton) {
-			  	attachmentButton.disabled(!linkenabled);
+				  attachmentButton.disabled(!linkenabled);
 			  }
 			  if (imageButton) {
-			  	imageButton.disabled(!twedit_is_image_button_enabled(ed));
+				  imageButton.disabled(!twedit_is_image_button_enabled(ed));
 			  }
 		  });
-		  
+
 		  // for toolbar
 
 		  ed.addButton('wikieditmacro', {
@@ -128,10 +157,6 @@
 		    },
 		    text : 'Delete'
 		  });
-		  // var linktoolbaritems = 'wikichoosenlink';
-
-		  // ed.addContextToolbar(this._isLink, linktoolbaritems);
-
 		  ed.addContextToolbar(this._isMacro, "wikieditmacro wikidelmacro");
 
 	  },
@@ -176,120 +201,6 @@
 		    version : tinymce.majorVersion + "." + tinymce.minorVersion
 		  };
 	  },
-	  // _insertLink : function(ui, v) {
-	  // var inst = this.editor;
-	  // var elm = inst.selection.getNode();
-	  //
-	  // elm = inst.dom.getParent(elm, "A");
-	  // var action = "insert";
-	  // var href = '';
-	  // var title = '';
-	  // if (elm != null && elm.nodeName == "A") {
-	  // action = "update";
-	  // href = inst.dom.getAttrib(elm, 'href');
-	  // title = inst.dom.getAttrib(elm, 'title');
-	  // } else {
-	  // }
-	  // if (href.match("^" + gwikiContextPath) == gwikiContextPath) {
-	  // href = href.substring(gwikiContextPath.length + 1);
-	  // }
-	  // // TODO replace
-	  // gwikiEditShowLink(inst, 'gwiki', {
-	  // url : href,
-	  // title : title
-	  // }, function(result) {
-	  // var newUrl = gwikiContextPath + "/" + result.url;
-	  //
-	  // i = inst.selection.getBookmark();
-	  // if (elm == null) {
-	  // var html = "<a href=\"" + gwikiEscapeAttr(newUrl) + "\" title=\"" +
-		// gwikiEscapeAttr(result.title) + "\">"
-	  // + gwikiEscapeAttr(result.title) + "</a>";
-	  // tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
-	  // } else {
-	  //
-	  // // elm.setAttrib('href', newUrl);
-	  // tinyMCE.activeEditor.dom.setAttrib(elm, 'href', newUrl);
-	  // tinyMCE.activeEditor.dom.setAttrib(elm, 'title', result.title);
-	  // // elm.setHTML(escape(itemTitle));
-	  // tinyMCE.activeEditor.dom.setHTML(elm,
-		// tinyMCE.activeEditor.dom.encode(result.title));
-	  // }
-	  // });
-	  // },
-	  // _insertImage : function(ui, v) {
-	  // var inst = this.editor;
-	  // var elm = inst.selection.getNode();
-	  //
-	  // elm = inst.dom.getParent(elm, "img");
-	  // var action = "insert";
-	  // var href = '';
-	  // var title = '';
-	  // if (elm != null && elm.nodeName == "IMG") {
-	  // action = "update";
-	  // href = inst.dom.getAttrib(elm, 'src');
-	  // title = inst.dom.getAttrib(elm, 'alt');
-	  // } else {
-	  // }
-	  // if (href.match("^" + gwikiContextPath) == gwikiContextPath) {
-	  // href = href.substring(gwikiContextPath.length + 1);
-	  // }
-	  //
-	  // gwikiEditShowLink(inst, 'image', {
-	  // url : href,
-	  // title : title
-	  // }, function(result) {
-	  // var newUrl = gwikiContextPath + "/" + result.url;
-	  //
-	  // i = inst.selection.getBookmark();
-	  // if (elm == null) {
-	  // var html = "<img src=\"" + gwikiEscapeAttr(newUrl) + "\" alt=\"" +
-		// gwikiEscapeAttr(result.alt) + "\"/>";
-	  // tinyMCE.activeEditor.execCommand('mceInsertContent', false, html);
-	  // } else {
-	  //
-	  // tinyMCE.activeEditor.dom.setAttrib(elm, 'src', newUrl);
-	  // tinyMCE.activeEditor.dom.setAttrib(elm, 'alt', result.title);
-	  // // elm.setHTML(escape(itemTitle));
-	  // tinyMCE.activeEditor.dom.setHTML(elm,
-		// tinyMCE.activeEditor.dom.encode(result.title));
-	  // }
-	  // });
-	  // },
-	  // // TODO deprecated?
-	  // _insertChoosenLink : function(ui, v) {
-	  // var inst = this.editor;
-	  //
-	  // var elm = inst.selection.getNode();
-	  //
-	  // elm = inst.dom.getParent(elm, "A");
-	  // var action = "insert";
-	  // var href = '';
-	  // var title = '';
-	  // if (elm != null && elm.nodeName == "A") {
-	  // action = "update";
-	  // href = inst.dom.getAttrib(elm, 'href');
-	  // title = inst.dom.getAttrib(elm, 'title');
-	  // } else {
-	  // }
-	  // if (href.match("^" + gwikiContextPath) == gwikiContextPath) {
-	  // href = href.substring(gwikiContextPath.length + 1);
-	  // }
-	  //
-	  // gwikiEditShowLink(inst, 'gwiki', {
-	  // url : href,
-	  // title : title
-	  // }, function(result) {
-	  //
-	  // // var newUrl = gwikiContextPath + "/" + result.url;
-	  // var item = {
-	  // key : result.url,
-	  // title : result.title
-	  // };
-	  // gwedit_insert_pagelink(tinyMCE.activeEditor, item, elm);
-	  //
-	  // });
-	  // },
 	  _editMacro : function(ed) {
 		  wedit_hide_contextToollBar(ed);
 		  var elm = ed.selection.getNode();
