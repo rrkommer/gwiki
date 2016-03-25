@@ -122,7 +122,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
   		navWidth = 25;
   	} else {
   		navWidth = parseInt(navWidth);
-  		console.debug("gwikiNavContentWidth: " + navWidth);
+  		//console.debug("gwikiNavContentWidth: " + navWidth);
   	}
   	Split(['#gwikiNavContent', '#gwikiContent' ], {
   		direction: 'horizontal',
@@ -134,7 +134,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
   			 var wcw = $('#gwikiContent').width();
   			 var perc = (ncw / wcw) * 100;
   			 perc = perc|0; // as int
-  			 console.debug("Store gwikiNavContentWidth: " + perc)
+  			 //console.debug("Store gwikiNavContentWidth: " + perc)
   			gwikiSetCookie('gwikiNavContentWidth', perc, 30);
   		}
   	});
