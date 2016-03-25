@@ -125,6 +125,7 @@ public class Html2WikiFilter extends DefaultFilter
       DefaultWiki2HtmlTextDecoMap.put(me.getValue(), me.getKey());
       TextDecoMacroFactories.put(me.getValue(), new GWikiMacroClassFactory(GWikiTextFormatMacro.class));
     }
+
   }
 
   private Map<String, String> simpleTextDecoMap = DefaultSimpleTextDecoMap;
@@ -492,6 +493,18 @@ public class Html2WikiFilter extends DefaultFilter
     }
   }
 
+  protected void createCode(QName element, XMLAttributes attributes)
+  {
+    parseContext.pushFragList();
+  }
+
+  protected void endCode()
+  {
+    List<GWikiFragment> childs = parseContext.popFragList();
+    GWikiFragmentFixedFont ff = new GWikiFragmentFixedFont(childs);
+    parseContext.addFragment(ff);
+  }
+
   protected boolean hasPreviousBr()
   {
     // last character field has br
@@ -654,7 +667,8 @@ public class Html2WikiFilter extends DefaultFilter
       createThTd(element, attributes);
     } else if (en.equals("span") == true && handleSpanStart(element, attributes) == true) {
       // nothing
-
+    } else if (en.equals("code") == true) {
+      createCode(element, attributes);
     } else {
       if (supportedHtmlTags.contains(en) == true) {
         parseContext.addFragment(convertToBodyMacro(element, attributes, 0));
@@ -757,6 +771,8 @@ public class Html2WikiFilter extends DefaultFilter
       endTdTh();
     } else if (en.equals("td") == true) {
       endTdTh();
+    } else if (en.equals("code") == true) {
+      endCode();
     } else if (en.equals("span") == true && handleSpanEnd() == true) {
       // nothing
 

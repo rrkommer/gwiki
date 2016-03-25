@@ -25,6 +25,10 @@ var wiki_textpattern_patterns = [ {
   start : 'h6. ',
   format : 'h6'
 }, {
+  start : '{{',
+  end : "}}",
+  format : 'code'
+}, {
   start : '# ',
   cmd : 'InsertOrderedList'
 }, {
@@ -105,7 +109,7 @@ function twedit_create(editId, content) {
 		      }
 		      ed.on('keydown', function(event) {
 			      // console.debug("keydown: " + event.which);
-		      	// TODO REMOVE
+			      // TODO REMOVE
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
@@ -121,15 +125,15 @@ function twedit_create(editId, content) {
 				      // wedit_tinyCommand_endLine(ed, event);
 				      // }
 			      } else if (event.altKey == true) { // ALT
-//				      if (event.which == 77) { // M
-//					      if (twedit_is_macro_button_enabled(ed) == true) {
-//						      wedit_show_newmacro_dialog(ed);
-//					      }
-//				      } else if (event.which == 76) { // L
-//					      if (twedit_is_link_button_enabled(ed) == true) {
-//						      wedit_show_link_dialog(ed);
-//					      }
-//				      }
+			      // if (event.which == 77) { // M
+			      // if (twedit_is_macro_button_enabled(ed) == true) {
+			      // wedit_show_newmacro_dialog(ed);
+			      // }
+			      // } else if (event.which == 76) { // L
+			      // if (twedit_is_link_button_enabled(ed) == true) {
+			      // wedit_show_link_dialog(ed);
+			      // }
+			      // }
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);

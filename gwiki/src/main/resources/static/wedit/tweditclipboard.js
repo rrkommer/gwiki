@@ -3,9 +3,9 @@ function twedit_bind_native_paste(ed, selector) {
 	// frame = $("#tinymce");
 	// var el = frame[0];
 	window.addEventListener("paste", function(event) {
-		console.debug("twedit_bind_native_paste");
+//		console.debug("twedit_bind_native_paste");
 		var cp = new ClipData(event);
-		cp.dumpEvent();
+//		cp.dumpEvent();
 		// twedit_dump_pasteEvent(event);
 	});
 }
@@ -20,11 +20,11 @@ function twedit_paste(ed, event) {
 }
 
 function twedit_preprocess(ed, args) {
-	console.debug("twedit_preprocess: " + args.content);
+//	console.debug("twedit_preprocess: " + args.content);
 }
 
 function twedit_postprocess(ed, args) {
-	console.debug("twedit_postprocess: " + args.content);
+//	console.debug("twedit_postprocess: " + args.content);
 }
 
 // http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
@@ -48,7 +48,7 @@ function wedit_registerClipboard(ed) {
 	}
 	window.addEventListener("paste", function(e) {
 		// We need to check if event.clipboardData is supported (Chrome)
-		console.debug("pasted");
+		//console.debug("pasted");
 		if (e.clipboardData) {
 			// Get the items from the clipboard
 			var items = e.clipboardData.items;
@@ -66,12 +66,12 @@ function wedit_registerClipboard(ed) {
 
 						// The URL can then be used as the source of an image
 						weditclipboard_createImage(jnode, weditconfig, source);
-						console.debug('screenshotPasteHandler image created: ' + source);
+						//console.debug('screenshotPasteHandler image created: ' + source);
 						e.stopPropagation();
 					}
 				}
 			} else {
-				console.debug("paste has no items in clipboard")
+				//console.debug("paste has no items in clipboard")
 			}
 
 			// If we can't handle clipboard data directly (Firefox),

@@ -20,6 +20,11 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 import java.util.List;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class GWikiFragmentFixedFont extends GWikiFragmentDecorator
 {
 
@@ -27,7 +32,7 @@ public class GWikiFragmentFixedFont extends GWikiFragmentDecorator
 
   public GWikiFragmentFixedFont(List<GWikiFragment> childs)
   {
-    super("<span style=\"font-family:courier new,courier,monospace;\">", "</span>", childs);
+    super("<code style=\"font-family:courier new,courier,monospace;\">", "</code>", childs);
   }
 
   @Override
