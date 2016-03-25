@@ -95,7 +95,7 @@ public class Html2WikiFilterTest extends Html2WikiBase
     String wiki = transform(html);
     System.out.println(wiki);
     assertEquals(
-        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}",
+        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
         wiki);
   }
 
@@ -105,7 +105,7 @@ public class Html2WikiFilterTest extends Html2WikiBase
     String wiki = transform(html);
     System.out.println(wiki);
     assertEquals(
-        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}",
+        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
         wiki);
   }
 
@@ -270,6 +270,6 @@ public class Html2WikiFilterTest extends Html2WikiBase
     String html = "<h1>First</h1>\n<h2>Second</h2>";
     String wiki = transform(html);
     System.out.println(wiki);
-    assertEquals("h1.First\nh2.Second\n", wiki);
+    assertEquals("h1. First\nh2. Second\n", wiki);
   }
 }

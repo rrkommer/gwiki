@@ -80,7 +80,11 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    ctx.append("<div class=\"wikiPageIntro weditmacrohead\"");
+    ctx.append("<div class=\"wikiPageIntro");
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append(" weditmacrohead");
+    }
+    ctx.append("\"");
     Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
     ctx.append(">");
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {

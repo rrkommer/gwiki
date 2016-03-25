@@ -15,8 +15,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiColumnMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiFancyBoxMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiGroovyScriptMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHTMLcommentMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHiddenMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlCenterMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIfMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiImageGalleryMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIncludeMacro;
@@ -58,7 +59,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("pre", new GWikiMacroClassFactory(GWikiHtmlPreMacro.class));
     ret.put("blockquote", new GWikiMacroClassFactory(GWikiHtmlBlockquoteMacro.class));
     ret.put("span", new GWikiMacroClassFactory(GWikiHtmlSpanMacro.class));
-    ret.put("center", new GWikiMacroClassFactory(GWikiHtmlCenterMacro.class));
+
     ret.put("breadcrumbs", new GWikiMacroClassFactory(GWikiBreadcrumbsMacroBean.class));
     ret.put("toc", new GWikiMacroClassFactory(GWikiTocMacro.class));
     ret.put("code", new GWikiMacroClassFactory(GWikiCodeMacro.class));
@@ -73,7 +74,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("quote", new GWikiMacroClassFactory(GWikiQuoteMacroBean.class));
     ret.put("usemacro", new GWikiMacroClassFactory(GWikiUseMacroMacro.class));
     ret.put("include", new GWikiMacroClassFactory(GWikiIncludeMacro.class));
-    ret.put("HTMLcomment", new GWikiMacroClassFactory(GWikiHtmlCenterMacro.class));
+    ret.put("HTMLcomment", new GWikiMacroClassFactory(GWikiHTMLcommentMacro.class));
     ret.put("ScrollNextPrevPage", new GWikiMacroClassFactory(GWikiScrollNextPrevPageMacro.class));
     ret.put("groovy", new GWikiMacroClassFactory(GWikiGroovyScriptMacro.class));
     ret.put("pageattachments", new GWikiMacroClassFactory(GWikiPageAttachmentsMacro.class));
@@ -87,7 +88,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("changecomment", new GWikiMacroClassFactory(GWikiChangeCommentMacroBean.class));
     ret.put("fancybox", new GWikiMacroClassFactory(GWikiFancyBoxMacroBean.class));
     ret.put("pagetree", new GWikiMacroClassFactory(GWikiPageTreeMacro.class));
-    ret.put("navbreadcrumb", new GWikiMacroClassFactory(GWikiHtmlCenterMacro.class));
+    ret.put("navbreadcrumb", new GWikiMacroClassFactory(GWikiHierarchicalBreadcrumbMacroBean.class));
     ret.put("hidden", new GWikiMacroClassFactory(GWikiHiddenMacro.class));
     ret.put("table", new GWikiMacroClassFactory(GWikiHtmlTableMacro.class));
     ret.put("th", new GWikiMacroClassFactory(GWikiHtmlThMacro.class));
@@ -97,7 +98,6 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("fieldset", new GWikiMacroClassFactory(GWikiHtmlFieldsetMacro.class));
     ret.put("legend", new GWikiMacroClassFactory(GWikiHtmlLegendMacro.class));
     ret.put("div", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
-    ret.put("center", new GWikiMacroClassFactory(GWikiHtmlCenterMacro.class));
     ret.put("audio", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
     ret.put("video", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
 

@@ -59,8 +59,7 @@ public interface GWikiFragment extends Serializable
   /**
    * Check before save if current user has right to store a Wiki Fragment
    * 
-   * @param ctx
-   * @throws
+   * @param ctx @throws
    */
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException;
 
@@ -77,10 +76,20 @@ public interface GWikiFragment extends Serializable
   boolean requirePrepareHeader(GWikiContext ctx);
 
   /**
-   * Will be called before rendering page to add html header informations. simply provide empty implementaiton, if requirePrepareHeader(ctx)
-   * doesn't return true;
+   * Will be called before rendering page to add html header informations. simply provide empty implementaiton, if
+   * requirePrepareHeader(ctx) doesn't return true;
    * 
    * @param ctx
    */
   void prepareHeader(GWikiContext ctx);
+
+  /**
+   * return GWikiMacroRenderFlags
+   * 
+   * @return
+   */
+  default int getRenderModes()
+  {
+    return 0;
+  }
 }

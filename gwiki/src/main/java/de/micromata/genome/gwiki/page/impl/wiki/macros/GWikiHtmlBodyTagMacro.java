@@ -22,6 +22,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlDivMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTableMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTdMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlTrMacro;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
 /**
@@ -35,18 +39,29 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
 
   private static final long serialVersionUID = 9204139467653157793L;
 
+  public static int getStandardBodyRenderFlags()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
+        GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock,
+        GWikiMacroRenderFlags.NoWrapWithP);
+  }
+
+  public static int getStandardNestedBodyRenderFlags()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
+        GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.TrimWsAfter);
+  }
+
   public static GWikiMacroFactory standardBody()
   {
-    return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, //
-        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-            GWikiMacroRenderFlags.TrimTextContent));
+    return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, getStandardBodyRenderFlags());
   }
 
   public static GWikiMacroFactory nestedHtmlBody()
   {
-    return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, //
-        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-            GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.TrimWsAfter));
+    return new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class, getStandardNestedBodyRenderFlags());
   }
 
   public GWikiHtmlBodyTagMacro(int renderModes)
@@ -57,26 +72,29 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
   public GWikiHtmlBodyTagMacro()
   {
     setRenderModesFromAnnot();
+    if (getRenderModes() == 0) {
+      setRenderModes(getStandardBodyRenderFlags());
+    }
   }
 
   public static GWikiMacroFactory table()
   {
-    return standardBody();
+    return new GWikiMacroClassFactory(GWikiHtmlTableMacro.class);
   }
 
   public static GWikiMacroFactory tr()
   {
-    return nestedHtmlBody();
+    return new GWikiMacroClassFactory(GWikiHtmlTrMacro.class);
   }
 
   public static GWikiMacroFactory td()
   {
-    return nestedHtmlBody();
+    return new GWikiMacroClassFactory(GWikiHtmlTdMacro.class);
   }
 
   public static GWikiMacroFactory div()
   {
-    return standardBody();
+    return new GWikiMacroClassFactory(GWikiHtmlDivMacro.class);
   }
 
   public Html2WikiTransformInfo getTransformInfo()

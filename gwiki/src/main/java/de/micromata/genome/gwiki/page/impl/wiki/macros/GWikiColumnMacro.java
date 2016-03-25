@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
@@ -38,16 +37,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
     params = { @MacroInfoParam(name = "width", info = " Optional String, width (px, % or em) of the column"),
         @MacroInfoParam(name = "class", info = "Optional. CSS class attribute of the Column"),
         @MacroInfoParam(name = "style", info = "Optional. CSS style attribute"),
-    },
-    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
-public class GWikiColumnMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
+    })
+public class GWikiColumnMacro extends GWikiHtmlBodyTagMacro implements GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = 8874624229089176168L;
 
   public GWikiColumnMacro()
   {
-    setRenderModesFromAnnot();
   }
 
   /*

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlDivMacro;
 import de.micromata.genome.gwiki.page.impl.wiki2.GWikiWikiParserTestBase;
 
 /**
@@ -35,7 +36,7 @@ public class GWikiParserNoformatMacroTest extends GWikiWikiParserTestBase
   public GWikiParserNoformatMacroTest()
   {
     macroFactories.put("noformat", new GWikiMacroClassFactory(GWikiNoFormatBodyMacro.class));
-    macroFactories.put("div", new GWikiMacroClassFactory(GWikiHtmlBodyDivTagMacro.class));
+    macroFactories.put("div", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
   }
 
   public void testPut()
@@ -45,6 +46,8 @@ public class GWikiParserNoformatMacroTest extends GWikiWikiParserTestBase
 
   public void testNested()
   {
-    w2htest("{div}a{noformat}b{noformat}{div}", "<div><p>a</p>\n<pre style=\"border=1;\">b</pre></div>", macroFactories);
+    //parseDumpWiki("{div}a{noformat}b{noformat}{div}", macroFactories);
+    w2htest("{div}a{noformat}b{noformat}{div}", "<div><p>a</p>\n<pre style=\"border=1;\">b</pre></div>",
+        macroFactories);
   }
 }

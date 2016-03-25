@@ -69,7 +69,8 @@ public class GWikiTestBuilder
   protected GWikiTestBuilder initGWiki(GWikiDAOContext daoContext)
   {
     this.daoContext = daoContext;
-    if (GWikiServlet.INSTANCE != null) {
+    if (GWikiServlet.INSTANCE != null && GWikiServlet.INSTANCE.getDAOContext() != null
+        && GWikiServlet.INSTANCE.getWikiWeb() != null) {
       this.servlet = GWikiServlet.INSTANCE;
       return this;
     }

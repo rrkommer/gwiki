@@ -14,7 +14,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
         GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiHtmlPreMacro extends GWikiHtmlBodyTagMacro
 {
-
   @Override
   public boolean evalBody()
   {

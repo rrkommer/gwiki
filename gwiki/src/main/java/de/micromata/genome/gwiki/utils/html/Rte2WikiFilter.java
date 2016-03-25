@@ -265,7 +265,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
             flushText();
             ftf.macroFragment.getAttrs().setChildFragment(new GWikiFragmentChildContainer(childs));
           } else {
-            String text = collectedText.toString();//childsToTextString(ftf, childs);
+            String text = collectedText.toString();
             collectedText.setLength(0);
             ftf.macroFragment.getAttrs().setBody(text);
           }

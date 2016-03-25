@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
@@ -124,14 +126,18 @@ public abstract class GWikiMacroBase implements GWikiMacro
 
   protected void setRenderModesFromAnnot()
   {
-    MacroInfo mi = getClass().getAnnotation(MacroInfo.class);
-    if (mi == null) {
-      return;
+    List<MacroInfo> allanots = de.micromata.genome.util.runtime.ClassUtils.findClassAnnotations(getClass(),
+        MacroInfo.class);
+    for (MacroInfo mi : allanots) {
+      if (mi.renderFlags().length > 0) {
+        int flags = 0;
+        for (GWikiMacroRenderFlags rf : mi.renderFlags()) {
+          flags |= rf.getFlag();
+        }
+        setRenderModes(flags);
+        return;
+      }
     }
-    int flags = 0;
-    for (GWikiMacroRenderFlags rf : mi.renderFlags()) {
-      flags |= rf.getFlag();
-    }
-    setRenderModes(flags);
+
   }
 }
