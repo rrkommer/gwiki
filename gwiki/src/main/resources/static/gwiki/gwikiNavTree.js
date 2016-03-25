@@ -1,4 +1,3 @@
-
 function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, currentPageId) {
 	if (!currentPageId) {
 		currentPageId = gwikiContext.pageId;
@@ -6,7 +5,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	var tree = $('#' + menuDivId).jstree({
 	  plugins : [ 'search', 'themes', 'ui' ],
 	  core : {
-	  	themes : {
+	    themes : {
 	      theme : 'classic',
 	      dots : false,
 	      icons : false
@@ -24,7 +23,24 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	  }
 	});
 	var to = false;
-	$('#' + searchTextId).keyup(function() {
+	$('#' + searchTextId).on('keydown', function(event) {
+		if (event.keyCode == 13) { // ENTER
+			var first = $('.jstree-search').first().attr('id');
+			if (!first) {
+				return;
+			}
+			var tree = $('#' + menuDivId).jstree(true);
+			var node = tree.get_node(first);
+			if (!node.data || !node.data.url) {
+				return;
+			}
+			var nurl = gwikiLocalUrl(node.data.url);
+			if (window.location.pathname != nurl) {
+				window.location = nurl;
+			}
+		}
+	});
+	$('#' + searchTextId).on('keyup', function(event) {
 		if (to) {
 			clearTimeout(to);
 		}
@@ -33,15 +49,15 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 			$('#' + menuDivId).jstree(true).search(v);
 		}, 250);
 	});
-	tree.on('select_node.jstree', function(e, data){
-		
+	tree.on('select_node.jstree', function(e, data) {
+
 		var selNone = data.node.data;
-		var nurl = gwikiLocalUrl(selNone.url); 
+		var nurl = gwikiLocalUrl(selNone.url);
 		if (window.location.pathname != nurl) {
 			window.location = nurl;
 		}
 	});
-//	tree.on('check_node.jstree', 
+	// tree.on('check_node.jstree',
 	tree.on("changed.jstree", function(e, data) {
 		var selNone = data.node.data;
 		window.localation = selNone.url;
