@@ -88,6 +88,9 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   public void renderSourceFoot(StringBuilder sb)
   {
     sb.append("{").append(attrs.getCmd()).append("}");
+    if (GWikiMacroRenderFlags.NewLineBeforeEnd.isSet(macro.getRenderModes()) == true) {
+      sb.append("\n");
+    }
   }
 
   @Override
@@ -128,6 +131,7 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       }
     }
     renderSourceFoot(sb);
+
   }
 
   private static String esc(String text)
@@ -168,6 +172,12 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
     }
   }
 
+  @Override
+  public int getRenderModes()
+  {
+    return macro.getRenderModes();
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -179,7 +189,6 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   public void addChilds(GWikiFragment child)
   {
     getChilds().add(child);
-
   }
 
   /*
@@ -246,6 +255,15 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       attrs.setChildFragment(new GWikiFragmentChildContainer());
     }
     return attrs.getChildFragment().getChilds();
+  }
+
+  @Override
+  public void setChilds(List<GWikiFragment> childs)
+  {
+    if (attrs.getChildFragment() == null) {
+      attrs.setChildFragment(new GWikiFragmentChildContainer());
+    }
+    attrs.getChildFragment().setChilds(childs);
   }
 
   @Override

@@ -34,4 +34,9 @@ public class GWikiFragmentBr extends GWikiFragmentHtml
     sb.append("\n");
   }
 
+  @Override
+  public int getRenderModes()
+  {
+    return 0;//return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineBeforeEnd);
+  }
 }

@@ -32,7 +32,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
  * 
  */
 @MacroInfo(info = "generates a formLabel",
-    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NewLineAfterStart,
+        GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.ContainsTextBlock })
 public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
 {
 

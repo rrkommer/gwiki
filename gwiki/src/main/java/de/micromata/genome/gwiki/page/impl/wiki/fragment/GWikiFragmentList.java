@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 
 public class GWikiFragmentList extends GWikiFragmentChildsBase
 {
@@ -49,6 +50,7 @@ public class GWikiFragmentList extends GWikiFragmentChildsBase
     return StringUtils.equals(this.listTag, other.listTag);
   }
 
+  @Override
   public boolean render(GWikiContext ctx)
   {
     final char type = listTag.charAt(listTag.length() - 1);
@@ -102,6 +104,12 @@ public class GWikiFragmentList extends GWikiFragmentChildsBase
         }
         return "";
     }
+  }
+
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP);
   }
 
   public String getListTag()

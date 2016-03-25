@@ -21,6 +21,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 import java.util.List;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 
 /**
  * Represents p html element.
@@ -56,6 +57,7 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   }
 
   // @Override
+  @Override
   public boolean render(GWikiContext ctx)
   {
     // if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
@@ -79,6 +81,12 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
       }
     }
     return true;
+  }
+
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP);
   }
 
   public String getAddClass()

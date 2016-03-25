@@ -115,7 +115,6 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-
     ctx.append("<", attrs.getCmd());
     renderAttributes(ctx, attrs.getArgs().getMap());
     ctx.append(">");

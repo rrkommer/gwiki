@@ -156,7 +156,7 @@ public class GWikiWikiParserContext
     if (LOG.isDebugEnabled() == true) {
       LOG.debug("poped " + fragListToString(ret) + "; " + getFragsToString());
     }
-    ret.toString();
+    //    ret.toString();
     return ret;
   }
 

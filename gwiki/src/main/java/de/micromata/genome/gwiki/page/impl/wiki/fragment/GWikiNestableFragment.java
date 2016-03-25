@@ -33,6 +33,10 @@ public interface GWikiNestableFragment
 
   public void addChilds(GWikiFragment child);
 
+  public List<GWikiFragment> getChilds();
+
+  public void setChilds(List<GWikiFragment> childs);
+
   /**
    * 
    * @param search direct child of this Fragment to replace.

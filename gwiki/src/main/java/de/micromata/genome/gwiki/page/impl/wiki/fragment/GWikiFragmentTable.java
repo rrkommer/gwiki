@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
 /**
@@ -81,6 +82,7 @@ public class GWikiFragmentTable extends GWikiFragmentChildsBase
 
   // private List<List<Pair<String, GWikiFragmentChildContainer>>> table = new ArrayList<List<Pair<String, GWikiFragmentChildContainer>>>();
 
+  @Override
   public boolean render(GWikiContext ctx)
   {
     ctx.append("<table class=\"gwikiTable\"><tbody>");
@@ -121,6 +123,7 @@ public class GWikiFragmentTable extends GWikiFragmentChildsBase
     }
   }
 
+  @Override
   public void iterate(GWikiFragmentVisitor visitor)
   {
     visitor.begin(this);
@@ -130,6 +133,12 @@ public class GWikiFragmentTable extends GWikiFragmentChildsBase
       }
     }
     visitor.end(this);
+  }
+
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd);
   }
 
   public void addRow(Row row)

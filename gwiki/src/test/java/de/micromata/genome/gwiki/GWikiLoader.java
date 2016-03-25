@@ -18,47 +18,16 @@
 
 package de.micromata.genome.gwiki;
 
-import javax.servlet.ServletConfig;
-
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
-import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader;
-import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
-import de.micromata.genome.gwiki.web.GWikiServlet;
 
 public class GWikiLoader
 {
-  private static GWikiWeb wikiWeb;
-  private static GWikiServlet wikiServlet;
-
-  public static GWikiWeb getGWikiWeb()
-  {
-    if (wikiWeb != null) {
-      return wikiWeb;
-    }
-    GWikiBootstrapConfigLoader loader = new GWikiCpContextBootstrapConfigLoader()
-    {
-      @Override
-      protected ConfigurableApplicationContext createApplicationContext(ServletConfig config, String fileName)
-      {
-        return new ClassPathXmlApplicationContext(new String[] { "GWikiTestContext.xml" }, false, null);
-      }
-    };
-    wikiServlet = new GWikiServlet();
-    //    wikiServlet.setDAOContext(loader.loadConfig(config);
-    GWikiDAOContext bootStrapConfig = loader.loadConfig(null);
-    GWikiWeb wikiWeb = new GWikiWeb(bootStrapConfig);
-    return wikiWeb;
-  }
 
   public static GWikiStandaloneContext getStandaloneContext()
   {
+    GWikiTestBuilder testBuilder = new GWikiTestBuilder();
     GWikiStandaloneContext ret = new GWikiStandaloneContext();
-    ret.setWikiWeb(getGWikiWeb());
+    ret.setWikiWeb(testBuilder.getServlet().getWikiWeb());
     return ret;
   }
 

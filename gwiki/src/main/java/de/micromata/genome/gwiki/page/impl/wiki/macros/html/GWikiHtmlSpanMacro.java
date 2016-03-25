@@ -11,5 +11,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlInSpanBodyTagMac
 @MacroInfo(info = "create html span")
 public class GWikiHtmlSpanMacro extends GWikiHtmlInSpanBodyTagMacro
 {
+  public GWikiHtmlSpanMacro()
+  {
 
+  }
 }

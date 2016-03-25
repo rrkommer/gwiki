@@ -19,10 +19,12 @@ var gwikiContext = {
   homeUrl: gwikiHomeUrl,
   publicUrl: gwikiPublicUrl,
   welcomeUrl: gwikiWelcomeUrl,
-  pageId: null
+  pageId: null,
+  contentLanguage: null.
 }
 <% if (wikiContext?.wikiElement?.elementInfo) { %>
   gwikiContext.pageId = '<%= wikiContext?.wikiElement?.elementInfo?.id %>';
+  gwikiContext.contentLanguage = '<%= wikiContext?.wikiElement?.elementInfo?.getLang(wikiContext)%>';
 <%}%>
 <%--
  you can localize any string of a registered i18n map starting with 'javascript.' 

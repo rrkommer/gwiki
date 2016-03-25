@@ -1099,11 +1099,6 @@ public class GWikiWikiParser
     convertPs(ctx);
   }
 
-  public void reworkPs(GWikiWikiParserContext ctx)
-  {
-
-  }
-
   public GWikiWikiTokens createGWikiTokens(String text)
   {
     String delimiter = "\n \t \\-*_|{}=#+^~[]!.:?;,\"";
@@ -1116,6 +1111,6 @@ public class GWikiWikiParser
     ctx.pushFragList();
     GWikiWikiTokens tks = createGWikiTokens(text);
     parseText(tks, ctx);
-    reworkPs(ctx);
+    GWikiWikiParserUtils.reworkPs(ctx);
   }
 }

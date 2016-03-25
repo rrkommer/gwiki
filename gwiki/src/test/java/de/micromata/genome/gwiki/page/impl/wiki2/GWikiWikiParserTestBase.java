@@ -23,16 +23,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.registry.GWikiBuildinProviderServiceImpl;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.WikiParserUtils;
+import junit.framework.TestCase;
 
 public abstract class GWikiWikiParserTestBase extends TestCase
 {
+  protected Map<String, GWikiMacroFactory> stdMacroFactories = new GWikiBuildinProviderServiceImpl().getMacros();
 
   protected List<GWikiFragment> parseText(String wikiText, String macroName, GWikiMacroFactory macroFactorie)
   {
@@ -94,5 +97,14 @@ public abstract class GWikiWikiParserTestBase extends TestCase
       return ((GWikiFragmentP) frags.get(0)).getChilds();
     }
     return frags;
+  }
+
+  protected List<GWikiFragment> parseDumpWiki(String wiki, Map<String, GWikiMacroFactory> macroFactories)
+  {
+    List<GWikiFragment> ret = parseText(wiki, macroFactories);
+    StringBuilder sb = new StringBuilder();
+    WikiParserUtils.dumpFragmentTree(ret, sb, "");
+    System.out.println("FragmentTree:\n" + sb.toString());
+    return ret;
   }
 }

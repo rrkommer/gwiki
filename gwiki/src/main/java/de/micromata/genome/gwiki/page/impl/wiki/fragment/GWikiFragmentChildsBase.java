@@ -53,6 +53,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     childs.addAll(other.childs);
   }
 
+  @Override
   public void iterate(GWikiFragmentVisitor visitor)
   {
     visitor.begin(this);
@@ -71,6 +72,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     }
   }
 
+  @Override
   public void renderChilds(GWikiContext ctx)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -85,6 +87,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
    * @param replace
    * @return true if replaced
    */
+  @Override
   public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -99,6 +102,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     return true;
   }
 
+  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -107,12 +111,14 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     }
   }
 
+  @Override
   public void addChilds(List<GWikiFragment> childs)
   {
     List<GWikiFragment> lchilds = getChilds();
     lchilds.addAll(childs);
   }
 
+  @Override
   public void addChilds(GWikiFragment child)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -125,9 +131,16 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     lchilds.add(child);
   }
 
+  @Override
   public List<GWikiFragment> getChilds()
   {
     return childs;
+  }
+
+  @Override
+  public void setChilds(List<GWikiFragment> childs)
+  {
+    this.childs = childs;
   }
 
 }
