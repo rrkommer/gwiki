@@ -79,9 +79,30 @@ function wedit_show_editmacro_dialog(ed, el) {
 
 function wedit_render_select_new_macro(ed, dialog, modc, list) {
 	modc.html('');
-	var scrollable = $("<div style='overflow:auto; height: 300px'>");
+	var searchText = $("<input>").attr('id', "macrosearchbox").css('width', '100%');
+	searchText.on('keyup', function(event) {
+		var sv = searchText.val();
+		if (sv == '') {
+			$('.macrodiv').show();
+		} else {
+			$(".dlgmacrodiv").each(function (index, el) {
+				
+				var texth = $($(el).children()[0]).html();
+				var textb = '';//	$($(el).children()[1]).html();
+				if (texth.indexOf(sv) != -1 || textb.indexOf(sv) != -1) {
+					$(el).show();
+				} else {
+					$(el).hide();
+				}
+			});
+		}
+	});
+	modc.append(searchText);
+	var scrollable = $("<div style='overflow:auto; height: 300px'>").attr('id', 'dlgmacronlist');
 	for (var i = 0; i < list.length; ++i) {
 		var macroMetaInfo = list[i].macroMetaInfo;
+		var macrodiv = $('<div>').addClass('dlgmacron' + macroMetaInfo.macroName).addClass('dlgmacrodiv');
+
 		var p = $("<h4>").hover(function() {
 			$(this).css("text-decoration", "underline");
 			$(this).css("cursor", "pointer");
@@ -95,11 +116,12 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 			wedit_switch_to_macro_edit(ed, event.target, list);
 		});
 		p.text(macroMetaInfo.macroName);
-		scrollable.append(p);
-		if (macroMetaInfo.info) {
-			scrollable.append($("<blockquote>").html(macroMetaInfo.info));
-		}
+		macrodiv.append(p);
 
+		if (macroMetaInfo.info) {
+			macrodiv.append($("<blockquote>").html(macroMetaInfo.info));
+		}
+		scrollable.append(macrodiv);
 	}
 	modc.append(scrollable);
 }
@@ -184,9 +206,9 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 				inp.val(curval);
 				// only needed, because :checked doesn't worl
 				inp.on('click', function(el) {
-						var olval = $(el.target).val();
-						var nval = olval == 'true' ? 'false' : 'true';
-						$(el.target).val(nval);
+					var olval = $(el.target).val();
+					var nval = olval == 'true' ? 'false' : 'true';
+					$(el.target).val(nval);
 				});
 				fieldset.append(inp);
 
@@ -281,7 +303,7 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	  modal : true,
 	  buttons : buttons,
 	  open : function(event, ui) {
-//		  $(".quicheck").button();
+		  // $(".quicheck").button();
 	  }
 	});
 

@@ -83,7 +83,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
   {
     String en = element.rawname.toLowerCase();
     GWikiFragment lastparent = parseContext.peekFragStack();
-    if ((lastparent instanceof RteMacroFragment) == false) {
+    if ((lastparent instanceof RteMacroFragment) == true) {
       RteMacroFragment lfrag = (RteMacroFragment) lastparent;
 
       if (lfrag.inBody == true) {

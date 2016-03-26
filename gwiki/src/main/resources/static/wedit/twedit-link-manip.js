@@ -142,7 +142,7 @@ function _wedit_set_attr_in_jq_or_el(el, key, value) {
 	}
 }
 function wedit_set_titel_default(item) {
-	if (item.title == null || item.titel == '' || item.titel == undefined) {
+	if (item.title == null || item.title == '' || item.title == undefined) {
 		item.title = item.url;
 	}
 }

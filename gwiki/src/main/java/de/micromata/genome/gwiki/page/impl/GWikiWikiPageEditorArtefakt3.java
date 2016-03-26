@@ -153,7 +153,7 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     }
     ctx.append("});\n");
 
-    ctx.append(" gwikicreateEditTab('" + partName + "'); } );\n");
+    ctx.append(" gwikicreateEditTab('" + partName + "', " + (thisPageId == null ? "true" : "false") + "); } );\n");
     ctx.append("saveHandlers.push(gwikiSaveRte);\n");
     //      ctx.append("saveHandlers.push(restoreWeditToTextArea);\n");
     ctx.append("saveHandlers.push(gwikiUnsetContentChanged);\n");

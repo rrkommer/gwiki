@@ -107,12 +107,12 @@ public class WeditWikiUtils
     GWikiWikiPageArtefakt wiki = new GWikiWikiPageArtefakt();
 
     wiki.setStorageData(wikiText);
-    wiki.compileFragements(wikiContext);
     GWikiStandaloneContext nctx = new GWikiStandaloneContext(wikiContext);
     nctx.pushWikiElement(wikiContext.getCurrentElement());
     nctx.setCurrentPart(wiki);
     nctx.setCurrentPart(wikiContext.getCurrentPart());
     nctx.setRenderMode(RenderModes.combine(RenderModes.ForRichTextEdit));
+    wiki.compileFragements(nctx);
     //    nctx.append("<div class=\"gwikiContent\">");
     wiki.render(nctx);
     //    nctx.append("</div>\n");

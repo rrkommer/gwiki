@@ -27,12 +27,14 @@ import org.apache.commons.lang.StringUtils;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 
 import de.micromata.genome.gwiki.controls.GWikiWeditServiceActionBean.SearchType;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByI18NPropsComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
@@ -41,25 +43,51 @@ import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 
 /**
- * @author Christian Claus (c.claus@micromata.de)
  * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
  */
 public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 {
   private String rootPage;
-
+  private String type;
   private Map<String, String> rootCategories;
+
+  public static String renderTree(GWikiContext ctx, String rootPageId)
+  {
+    return renderTree(ctx, rootPageId, "gwiki");
+  }
+
+  public static String renderTree(GWikiContext ctx, String rootPageId, String searchType)
+  {
+    StringBuilder res = new StringBuilder();
+    GWikiTreeChildrenActionBean bean = new GWikiTreeChildrenActionBean()
+    {
+
+      @Override
+      protected Object sendResponse(JsonValue obj)
+      {
+        res.append(obj.toString());
+        return null;
+      }
+    };
+    bean.setWikiContext(ctx);
+    bean.setRootPage(rootPageId);
+    bean.setType(searchType);
+
+    bean.onLoadAsync();
+    return res.toString();
+  }
 
   public Object onLoadAsync()
   {
     GWikiElement el = null;
     List<GWikiElementInfo> rootElements = null;
-
-    String superCategory = wikiContext.getRequest().getParameter("id");
+    SearchType.fromString(type);
+    String superCategory = rootPage;
     //    String urlField = wikiContext.getRequest().getParameter("urlField");
     //    String titleField = wikiContext.getRequest().getParameter("titleField");
     //    String openTarget = wikiContext.getRequest().getParameter("target");
-    String type = wikiContext.getRequest().getParameter("type");
     if (StringUtils.isBlank(superCategory) || superCategory.equals("#") == true) {
       rootElements = getRootElements();
     } else {
@@ -67,7 +95,6 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
       rootElements = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
     }
     SearchType searchType = SearchType.fromString(type);
-    StringBuffer sb = new StringBuffer("");
     JsonArray rootNodes = JsonBuilder.array();
     Collections.sort(rootElements, new GWikiElementByChildOrderComparator(//
         new GWikiElementByOrderComparator(//
@@ -90,6 +117,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
       return null;
     }
     JsonObject ret = new JsonObject();
+
     String title = ei.getTitle();
     if (ei.getTitle().startsWith("I{") == true) {
       title = wikiContext.getTranslatedProp(title);
@@ -187,4 +215,15 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     }
     return rootCategories;
   }
+
+  public String getType()
+  {
+    return type;
+  }
+
+  public void setType(String type)
+  {
+    this.type = type;
+  }
+
 }
