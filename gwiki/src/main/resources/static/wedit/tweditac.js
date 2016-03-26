@@ -76,14 +76,14 @@
 			  keydownHandler = onpopupkeydown;
 			  keyupHandler = onpopupkeyup;
 			  var clickOutsideHandler = function(event) {
-				  //console.debug("clicked somewhere");
+				  // console.debug("clicked somewhere");
 				  $(window).unbind("click", clickOutsideHandler);
 				  close();
 			  };
 			  $(window).bind("click", clickOutsideHandler);
 
 			  var clickOutsideHandlerEd = function(event) {
-				  //console.debug("clicked somewhere in ed");
+				  // console.debug("clicked somewhere in ed");
 				  ed.off("click", clickOutsideHandlerEd);
 				  close();
 			  };
@@ -93,14 +93,14 @@
 			  for ( var i in this.stopChars) {
 				  var stc = this.stopChars[i];
 				  if (typedText.indexOf(stc) != -1) {
-					  //console.debug("find stopchar");
+					  // console.debug("find stopchar");
 					  return true;
 				  }
 
 			  }
 			  var ret = this.stopChars.indexOf(char) != -1;
 			  if (ret == true) {
-				  //console.debug("find stopchar");
+				  // console.debug("find stopchar");
 			  }
 			  return ret;
 		  }
@@ -127,7 +127,7 @@
 			  if (key && key.indexOf(search) != -1) {
 				  return true;
 			  }
-			  //console.debug("No match: " + search + "> " + label + ", " + key);
+			  // console.debug("No match: " + search + "> " + label + ", " + key);
 			  return false;
 		  }
 		  function fillList(jul) {
@@ -161,7 +161,7 @@
 		  }
 		  function onselect(item) {
 			  var text = item.url;
-			  //console.debug("insert: " + text);
+			  // console.debug("insert: " + text);
 
 			  close();
 			  if (item.onInsert) {
@@ -183,8 +183,9 @@
 			  return item;
 		  }
 		  function onpopupkeyup(event) {
-//			  console.debug("popkeypup	: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
-//			      + event.altKey + "; curtext: '" + this.typedText + "'");
+			  // console.debug("popkeypup : " + event.which + "; ctr: " +
+				// event.ctrlKey + "; shift " + event.shiftKey + "; alt "
+			  // + event.altKey + "; curtext: '" + this.typedText + "'");
 			  switch (event.which) {
 			  case 9: // TAB
 			  case 13: // ENTER
@@ -222,8 +223,9 @@
 
 		  }
 		  function onpopupkeydown(event) {
-//			  console.debug("popkeydown: " + event.which + "; ctr: " + event.ctrlKey + "; shift " + event.shiftKey + "; alt "
-//			      + event.altKey);
+			  // console.debug("popkeydown: " + event.which + "; ctr: " +
+				// event.ctrlKey + "; shift " + event.shiftKey + "; alt "
+			  // + event.altKey);
 			  var el = popup;// $("#wautocopletewindow");
 			  var ul = popupul; // $("#wautocopleteul");
 			  if (!ul[0]) {
@@ -233,15 +235,23 @@
 			  case 9: // TAB
 			  case 13: // ENTER
 				  var found = ul.find(".wautocmpsel");
+				  var item = null;
+				  if (!found.length || found.length == 0 ) {
+					  found = ul.children();
+				  }
 				  if (found.length && found.next()) {
-					  var item = insertSelected(found)
-					  onselect(item);
+					  item = insertSelected(found)
+					  if (item) {
+						  onselect(item);
+					  } else {
+					  	console.warn("tweditac: no ac item found");
+					  }
 				  }
 				  close();
 				  return cancelEvent(event);
 			  case 27: // ESC
 				  close();
-				  //console.debug("popup removed");
+				  // console.debug("popup removed");
 				  return cancelEvent(event);
 			  case 38: // UP
 				  var found = ul.find(".wautocmpsel");
@@ -284,7 +294,7 @@
 			  // console.log("character before current cursor position = [" + char +
 			  // "]");
 			  if (config.tweidac_checkac_start.indexOf(char) != -1) {
-				  if (prevchar != null && config.tweidac_checkac_start.indexOf(prevchar) == -1) {
+				  if (prevchar == null || config.tweidac_checkac_start.indexOf(prevchar) == -1) {
 					  if (twedit_ac_is_protected_area(ed, char, rng.startContainer) == false) {
 						  startAutocomplete(ed, char);
 					  }

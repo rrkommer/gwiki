@@ -139,8 +139,8 @@ function wedit_switch_to_macro_edit(ed, el, macroMetaInfoList) {
 	macroInfo.macroName = macroMetaInfo.macroName;
 	macroInfo.macroMetaInfo = macroMetaInfo;
 
-	wedit_open_macro_dialog(ed, macroInfo, macroMetaInfo, function(ed, macroInfo, macroMetaInfo) {
-		gwedit_insert_macro_impl(ed, macroInfo)
+	wedit_open_macro_dialog(ed, macroInfo, macroMetaInfo, function(ed, curMacroInfo, newMacroInfo) {
+		gwedit_insert_macro_impl(ed, newMacroInfo);
 
 	});
 }

@@ -263,6 +263,9 @@ function tweid_collect_containers_between_inParent(start, end, collection){
 	}
 }
 function twedit_collect_containers_between(start, end, collection) {
+	if (collection.indexOf(start) != -1){
+		return false;
+	}
 	collection[collection.length] = start;
 	if (start == end) {
 		return true;
@@ -299,7 +302,22 @@ function twedit_check_valid_range_for_insideOutsideMacros(colels)
 }
 function twedit_check_valid_range_for_del(ed) {
 	var rng = ed.selection.getRng(true);
+	return tweid_check_valid_range_for_del_in_range(ed, rng);
+}
+
+
+function tweid_check_valid_range_for_del_in_range(ed, rng)
+{
 	if (rng.startContainer == rng.endContainer) {
+		if (rng.startContainer.getAttribute) {
+			var cls = rng.startContainer.getAttribute('class');
+			if (cls) {
+				if (cls.indexOf('weditmacrohead') != -1 || cls.indexOf('weditmacrobody') != -1 || cls.indexOf('weditmacroframe') != -1) {
+					wedit_macro_delete_current(ed, rng.startContainer);
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
