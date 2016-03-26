@@ -19,8 +19,14 @@ function twedit_paste(ed, event) {
 
 }
 
-function twedit_preprocess(ed, args) {
+function twedit_preprocess(self, args) {
 //	console.debug("twedit_preprocess: " + args.content);
+	var typ = wedit_get_selection_el_type(args.target);
+	if (typ == 'PRE' && args.content) {
+		var nc = args.content.replace(/<br\/>/g, '\n');
+		nc = nc.replace(/<br>/g, '\n');
+		//args.content = nc;
+	}
 }
 
 function twedit_postprocess(ed, args) {

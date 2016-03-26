@@ -139,19 +139,20 @@ function twedit_create(editId, content) {
 	      theme : 'modern',
 	      keep_styles : false,
 
-	      plugins : ['gwiki tweditac',
-	                 'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker',
-	                 'hr anchor'], //
+	      plugins : [
+	          'gwiki tweditac',
+	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker codesample',
+	          'hr anchor' ], //
 	      paste_data_images : true,
 	      menu : false, // twedit_tinyMenu,
 	      menubar : false,
 	      toolbar1 : "wikisave wikicancel | fullscreen | cut copy paste | undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat bold italic | bullist numlist outdent indent ",
-	      toolbar2 : "formatselect styleselect |  alignleft aligncenter alignright alignjustify | fontselect fontsizeselect forecolor backcolor | hr charmap |  table ",
+	      toolbar2 : "formatselect styleselect |  alignleft aligncenter alignright alignjustify | fontselect fontsizeselect forecolor backcolor | hr charmap |  table codesample ",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      browser_spellcheck : true,
 	      image_advtab : true,
 	      content_css : gwikiContentCssArray,
-	      block_formats : 'Paragraph=p;Header 1=h1;Header 2=h2;Header 3=h3;Header 4=h4;Header 5=h5;Quote=blockquote;Preformatted=pre',
+	      block_formats : 'Paragraph=p;Header 1=h1;Header 2=h2;Header 3=h3;Header 4=h4;Header 5=h5;Quote=blockquote;Preformatted=pre;',
 	      style_formats : twedit_style_formats,
 	      init_instance_callback : function(editor) {
 		      editor.contentWindow.document.addEventListener('keydown', function(event) {
@@ -219,6 +220,14 @@ function twedit_create(editId, content) {
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
+//		      jQuery('.mce-edit-area').on('keydown keyup keypress', function(event) {
+//			      var rng = document.getSelection();
+//			      if (tweid_check_valid_range_for_del_in_range(rng) == false) {
+//				      event.stopPropagation();
+//				      event.preventDefault();
+//			      }
+//		      });
+
 	      }
 
 	    });
