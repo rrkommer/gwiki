@@ -424,4 +424,5 @@ ul.error {
 
 .navMenuJsTree {
 	padding-top: 30px;
+	min-height: 500px;
 }
