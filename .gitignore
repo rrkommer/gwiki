@@ -22,6 +22,8 @@ gwiki/dev/playzone
 **/*TextIndex.txt
 **/*TextExtract.txt
 **/tmp/**
+**/GlobalTextIndexSettings.properties
+**/_PageViewCounter.properties
 temp
 gwiki/src/main/resources_zip/gwiki/admin/plugins
 gwiki/src/main/resources_zip/gwiki/pub/en/playzone
