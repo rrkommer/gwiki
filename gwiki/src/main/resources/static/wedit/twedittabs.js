@@ -223,11 +223,11 @@ function gwikiSetRteContent(partName, content) {
 		edit.setContent(content);
 	}
 }
-function gwikicreateEditTab(partName) {
+function gwikicreateEditTab(partName, newPage) {
 	var pn = partName;
 	
 	$(document).ready(function() {
-		var edid = twedit_create('gwikihtmledit' + pn);
+		var edid = twedit_create('gwikihtmledit' + pn, newPage);
 
 		var tabs = $("#gwikiwktabs" + pn).tabs({
 			active: gwikiGetLastActiveTabIndex(partName),

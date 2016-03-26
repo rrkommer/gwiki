@@ -2,6 +2,21 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	if (!currentPageId) {
 		currentPageId = gwikiContext.pageId;
 	}
+	var treedata;
+	if (typeof treeChildrenServiceUrl == 'object') {
+		treedata = treeChildrenServiceUrl;
+	} else {
+		treedata = {
+			  url : treeChildrenServiceUrl + '?type=wiki',
+			  dataType : 'json',
+			  data : function(n) {
+				  return {
+				    method_onLoadAsync : 'true',
+				    id : n.id
+				  }
+			  }
+			};
+	}
 	var tree = $('#' + menuDivId).jstree({
 	  plugins : [ 'search', 'themes', 'ui' ],
 	  core : {
@@ -10,16 +25,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	      dots : false,
 	      icons : false
 	    },
-	    data : {
-	      url : treeChildrenServiceUrl + '?type=wiki',
-	      dataType : 'json',
-	      data : function(n) {
-		      return {
-		        method_onLoadAsync : 'true',
-		        id : n.id
-		      }
-	      }
-	    }
+	    data : treedata
 	  }
 	});
 	var to = false;

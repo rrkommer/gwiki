@@ -119,14 +119,15 @@ var twedit_editors = {
 
 };
 
-function twedit_create(editId, content) {
+function twedit_create(editId,  newPage) {
 
 	var ed = tinymce
 	    .init({
 	      homeUrl : gwikiHomeUrl,
 	      selector : '#' + editId,
 	      height : 500,
-	      tweidac_checkac_start : [ '!', '[', '{' ],
+	      tweidac_checkac_start : [ '[', '{' ], // don't '!' becuase to common
+	      // char.
 	      visualblocks_default_state : false,
 	      end_container_on_empty_block : true,
 	      cache_suffix : '?' + Date.now(),
@@ -140,7 +141,7 @@ function twedit_create(editId, content) {
 	      keep_styles : false,
 
 	      plugins : [
-	          'gwiki tweditac',
+	          'gwiki tweditac lists',
 	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker codesample',
 	          'hr anchor' ], //
 	      paste_data_images : true,
@@ -180,10 +181,12 @@ function twedit_create(editId, content) {
 		      var fullscreenstate = gwikiGetCookie('wikirtefullscreen');
 		      if (fullscreenstate == 'true') {
 			      var localed = ed;
-			      setTimeout(function() {
-				      localed.execCommand('mceFullScreen', true);
-				      //				      
-			      }, 200);
+			      if (!newPage) {
+				      setTimeout(function() {
+					      localed.execCommand('mceFullScreen', true);
+					      //				      
+				      }, 100);
+			      }
 		      }
 		      ed.on('keydown', function(event) {
 			      // all keys because overwerite
@@ -220,13 +223,14 @@ function twedit_create(editId, content) {
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
-//		      jQuery('.mce-edit-area').on('keydown keyup keypress', function(event) {
-//			      var rng = document.getSelection();
-//			      if (tweid_check_valid_range_for_del_in_range(rng) == false) {
-//				      event.stopPropagation();
-//				      event.preventDefault();
-//			      }
-//		      });
+		      // jQuery('.mce-edit-area').on('keydown keyup keypress',
+		      // function(event) {
+		      // var rng = document.getSelection();
+		      // if (tweid_check_valid_range_for_del_in_range(rng) == false) {
+		      // event.stopPropagation();
+		      // event.preventDefault();
+		      // }
+		      // });
 
 	      }
 
