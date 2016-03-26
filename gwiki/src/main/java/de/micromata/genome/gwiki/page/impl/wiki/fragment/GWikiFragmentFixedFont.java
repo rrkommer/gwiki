@@ -32,7 +32,7 @@ public class GWikiFragmentFixedFont extends GWikiFragmentDecorator
 
   public GWikiFragmentFixedFont(List<GWikiFragment> childs)
   {
-    super("<code style=\"font-family:courier new,courier,monospace;\">", "</code>", childs);
+    super("<code>", "</code>", childs);
   }
 
   @Override

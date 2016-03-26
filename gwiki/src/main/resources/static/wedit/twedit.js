@@ -36,6 +36,66 @@ var wiki_textpattern_patterns = [ {
   cmd : 'InsertUnorderedList'
 } ];
 
+var twedit_style_formats = [ {
+  title : 'Bold text',
+  inline : 'b'
+}, {
+  title : 'Italic',
+  inline : 'i'
+}, {
+  title : 'Underlined',
+  inline : 'u'
+}, {
+  title : 'Strike throug',
+  inline : 'del'
+}, {
+  title : 'Superscript',
+  inline : 'sup'
+}, {
+  title : 'Subscript',
+  inline : 'sub'
+
+}, {
+  title : 'Code',
+  inline : 'code'
+} ];
+
+var twedit_formats = {
+  alignleft : {
+    selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+    classes : 'left'
+  },
+  aligncenter : {
+    selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+    classes : 'center'
+  },
+  alignright : {
+    selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+    classes : 'right'
+  },
+  alignfull : {
+    selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+    classes : 'full'
+  },
+  strikethrough : {
+	  inline : 'del'
+  },
+  forecolor : {
+    inline : 'span',
+    classes : 'forecolor',
+    styles : {
+	    color : '%value'
+    }
+  },
+  hilitecolor : {
+    inline : 'span',
+    classes : 'hilitecolor',
+    styles : {
+	    backgroundColor : '%value'
+    }
+  }
+};
+
 var twedit_tinyMenu = {
   edit : {
     title : 'Edit',
@@ -77,18 +137,22 @@ function twedit_create(editId, content) {
 	      auto_focus : editId,
 	      language : "locale".i18n(),
 	      theme : 'modern',
-	      keep_styles : false, 
+	      keep_styles : false,
 
-	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
+	      plugins : ['gwiki tweditac',
+	                 'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker',
+	                 'hr anchor'], //
 	      paste_data_images : true,
 	      menu : false, // twedit_tinyMenu,
 	      menubar : false,
-	      toolbar : "wikisave wikicancel | fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat styleselect bold italic | bullist numlist outdent indent | table forecolor backcolor attribs code",
+	      toolbar1 : "wikisave wikicancel | fullscreen | cut copy paste | undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat bold italic | bullist numlist outdent indent ",
+	      toolbar2 : "formatselect styleselect |  alignleft aligncenter alignright alignjustify | fontselect fontsizeselect forecolor backcolor | hr charmap |  table ",
 	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      browser_spellcheck : true,
 	      image_advtab : true,
 	      content_css : gwikiContentCssArray,
-	      block_formats: 'Paragraph=p;Header 1=h1;Header 2=h2;Header 3=h3',
+	      block_formats : 'Paragraph=p;Header 1=h1;Header 2=h2;Header 3=h3;Header 4=h4;Header 5=h5;Quote=blockquote;Preformatted=pre',
+	      style_formats : twedit_style_formats,
 	      init_instance_callback : function(editor) {
 		      editor.contentWindow.document.addEventListener('keydown', function(event) {
 			      if (event.keyCode == 9) {
@@ -121,14 +185,13 @@ function twedit_create(editId, content) {
 			      }, 200);
 		      }
 		      ed.on('keydown', function(event) {
-			      console.debug("keydown: " + event.which);
-			      if (event.which == 46) { // DEL
-			      	if (twedit_check_valid_range_for_del(ed) == false) {
-			      		event.stopPropagation();
-					      event.preventDefault();
-					      return;
-			      	}
+			      // all keys because overwerite
+			      if (twedit_check_valid_range_for_del(ed) == false) {
+				      event.stopPropagation();
+				      event.preventDefault();
+				      return;
 			      }
+			      // }
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
@@ -144,21 +207,20 @@ function twedit_create(editId, content) {
 				      // wedit_tinyCommand_endLine(ed, event);
 				      // }
 			      } else if (event.altKey == true) { // ALT
-			      // if (event.which == 77) { // M
-			      // if (twedit_is_macro_button_enabled(ed) == true) {
-			      // wedit_show_newmacro_dialog(ed);
-			      // }
-			      // } else if (event.which == 76) { // L
-			      // if (twedit_is_link_button_enabled(ed) == true) {
-			      // wedit_show_link_dialog(ed);
-			      // }
-			      // }
+				      // if (event.which == 77) { // M
+				      // if (twedit_is_macro_button_enabled(ed) == true) {
+				      // wedit_show_newmacro_dialog(ed);
+				      // }
+				      // } else if (event.which == 76) { // L
+				      // if (twedit_is_link_button_enabled(ed) == true) {
+				      // wedit_show_link_dialog(ed);
+				      // }
+				      // }
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
 	      }
 
-	      
 	    });
 	return editId;
 }

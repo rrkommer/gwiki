@@ -1,7 +1,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros.html;
 
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyRteTagMacro;
 
 /**
  * 
@@ -9,7 +9,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
  *
  */
 @MacroInfo(info = "Create an html div element")
-public class GWikiHtmlDivMacro extends GWikiHtmlBodyTagMacro
+public class GWikiHtmlDivMacro extends GWikiHtmlBodyRteTagMacro
 {
   public GWikiHtmlDivMacro()
   {

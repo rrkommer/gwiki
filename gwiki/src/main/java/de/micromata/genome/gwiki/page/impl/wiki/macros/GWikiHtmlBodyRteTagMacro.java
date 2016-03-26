@@ -9,7 +9,16 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
  *
  */
 public class GWikiHtmlBodyRteTagMacro extends GWikiHtmlBodyTagMacro implements GWikiMacroRte
-
 {
+
+  public GWikiHtmlBodyRteTagMacro()
+  {
+    super();
+  }
+
+  public GWikiHtmlBodyRteTagMacro(int renderModes)
+  {
+    super(renderModes);
+  }
 
 }

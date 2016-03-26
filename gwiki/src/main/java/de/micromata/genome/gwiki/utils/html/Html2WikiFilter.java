@@ -68,6 +68,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisitor;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyPTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTextFormatMacro;
@@ -640,8 +641,21 @@ public class Html2WikiFilter extends DefaultFilter
     if (handleMacroTransformerBegin(en, attributes, true) == true) {
       ; // nothing more
     } else if (en.equals("p") == true) {
-      // all p should always be a br, but tinyMCE encodes center images as p style=text-align: center;
-
+      String styleClass = attributes.getValue("class");
+      String style = attributes.getValue("style");
+      if (StringUtils.isNotBlank(styleClass) == true || StringUtils.isNotBlank(style) == true) {
+        MacroAttributes ma = new MacroAttributes();
+        ma.setCmd("p");
+        if (StringUtils.isNotBlank(styleClass) == true) {
+          ma.getArgs().setStringValue("class", styleClass);
+        }
+        if (StringUtils.isNotBlank(style) == true) {
+          ma.getArgs().setStringValue("style", style);
+        }
+        GWikiMacroFragment mf = new GWikiMacroFragment(new GWikiHtmlBodyPTagMacro(), ma);
+        parseContext.pushFragStack(mf);
+        parseContext.pushFragList();
+      }
     } else if (en.length() == 2 && en.charAt(0) == 'h' && Character.isDigit(en.charAt(1)) == true) {
       parseContext.addFragment(new GWikiFragmentHeading(Integer.parseInt("" + en.charAt(1))));
       parseContext.pushFragList();
@@ -735,10 +749,19 @@ public class Html2WikiFilter extends DefaultFilter
       GWikiFragmentHeading lfh = (GWikiFragmentHeading) parseContext.lastFragment();
       lfh.addChilds(frags);
     } else if (en.equals("p") == true) {
-      if (hasPreviousBr() == false) {
-        parseContext.addFragment(getNlFragement(new GWikiFragmentP()));
+      GWikiFragment top = parseContext.peekFragStack(); // p with attributes
+      if (top instanceof GWikiMacroFragment
+          && ((GWikiMacroFragment) top).getMacro() instanceof GWikiHtmlBodyPTagMacro) {
+        parseContext.popFragStack();
+        frags = parseContext.popFragList();
+        ((GWikiMacroFragment) top).getAttrs().setChildFragment(new GWikiFragmentChildContainer(frags));
+        parseContext.addFragment(top);
       } else {
-        parseContext.addFragment(getNlFragement(new GWikiFragmentBr()));
+        if (hasPreviousBr() == false) {
+          parseContext.addFragment(getNlFragement(new GWikiFragmentP()));
+        } else {
+          parseContext.addFragment(getNlFragement(new GWikiFragmentBr()));
+        }
       }
     } else if (en.equals("ul") == true || en.equals("ol") == true) {
       if (liStack.isEmpty() == false && liStack.peek().equals(en) == true) {

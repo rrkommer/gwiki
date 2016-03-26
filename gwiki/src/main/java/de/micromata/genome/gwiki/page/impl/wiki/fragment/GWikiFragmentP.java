@@ -20,8 +20,11 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
 /**
  * Represents p html element.
@@ -34,10 +37,8 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
 
   private static final long serialVersionUID = -8245596367479475761L;
 
-  /**
-   * TODO later. Create Class HtmlAttrs witch contains class.
-   */
-  private String addClass;
+  private String styleClass;
+  private String style;
 
   public GWikiFragmentP()
   {
@@ -52,33 +53,43 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   @Override
   public void getSource(StringBuilder sb)
   {
-    sb.append("\n\n");
+    if (StringUtils.isBlank(style) == true && StringUtils.isBlank(styleClass) == true) {
+      sb.append("\n\n");
+      getChildSouce(sb);
+      return;
+    }
+    MacroAttributes mas = new MacroAttributes();
+    mas.setCmd("p");
+    if (StringUtils.isBlank(style) == false) {
+      mas.getArgs().setStringValue("style", style);
+    }
+    if (StringUtils.isBlank(styleClass) == false) {
+      mas.getArgs().setStringValue("styleClass", styleClass);
+    }
+    sb.append("{");
+    mas.toHeadContent(sb);
+    sb.append("}\n");
     getChildSouce(sb);
+    sb.append("\n{p}\n");
   }
 
   // @Override
   @Override
   public boolean render(GWikiContext ctx)
   {
-    // if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-    // renderChilds(ctx);
-    // ctx.append("<br/>\n<br/>\n");
-    // return true;
-    // }
+    ctx.append("<p");
+    if (StringUtils.isNotBlank(styleClass) == true) {
+      ctx.append(" class=\"").append(ctx.escape(styleClass)).append("\"");
+    }
+    if (StringUtils.isNotBlank(style) == true) {
+      ctx.append(" style=\"").append(ctx.escape(style)).append("\"");
+    }
     if (childs != null && childs.size() > 0) {
-      if (addClass != null) {
-        ctx.append("<p class=\"").append(addClass).append("\">");
-      } else {
-        ctx.append("<p>");
-      }
+      ctx.append(">\n");
       renderChilds(ctx);
       ctx.append("</p>\n");
     } else {
-      if (addClass != null) {
-        ctx.append("<p class=\"").append(addClass).append("\"/>\n");
-      } else {
-        ctx.append("<p/>\n");
-      }
+      ctx.append("/>");
     }
     return true;
   }
@@ -89,13 +100,24 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
     return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP);
   }
 
-  public String getAddClass()
+  public String getStyleClass()
   {
-    return addClass;
+    return styleClass;
   }
 
-  public void setAddClass(String addClass)
+  public void setStyleClass(String addClass)
   {
-    this.addClass = addClass;
+    this.styleClass = addClass;
   }
+
+  public String getStyle()
+  {
+    return style;
+  }
+
+  public void setStyle(String style)
+  {
+    this.style = style;
+  }
+
 }

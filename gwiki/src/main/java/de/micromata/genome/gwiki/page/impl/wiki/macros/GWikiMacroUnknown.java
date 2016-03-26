@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroInfoBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -74,6 +76,20 @@ public class GWikiMacroUnknown extends GWikiMacroBase implements GWikiRuntimeMac
   public int getRenderModes()
   {
     return 0;
+  }
+
+  @Override
+  public boolean isRestricted(MacroAttributes attrs, GWikiContext ctx)
+  {
+    return true;
+  }
+
+  @Override
+  public GWikiMacroInfo getMacroInfo()
+  {
+    MacroInfoBean mi = new MacroInfoBean();
+    mi.setInfo("Unknown macro.");
+    return mi;
   }
 
 }
