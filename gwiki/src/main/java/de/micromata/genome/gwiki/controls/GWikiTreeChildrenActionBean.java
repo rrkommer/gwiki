@@ -18,6 +18,7 @@
 package de.micromata.genome.gwiki.controls;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,10 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByI18NPropsComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 
@@ -51,9 +56,9 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     List<GWikiElementInfo> rootElements = null;
 
     String superCategory = wikiContext.getRequest().getParameter("id");
-    String urlField = wikiContext.getRequest().getParameter("urlField");
-    String titleField = wikiContext.getRequest().getParameter("titleField");
-    String openTarget = wikiContext.getRequest().getParameter("target");
+    //    String urlField = wikiContext.getRequest().getParameter("urlField");
+    //    String titleField = wikiContext.getRequest().getParameter("titleField");
+    //    String openTarget = wikiContext.getRequest().getParameter("target");
     String type = wikiContext.getRequest().getParameter("type");
     if (StringUtils.isBlank(superCategory) || superCategory.equals("#") == true) {
       rootElements = getRootElements();
@@ -64,8 +69,10 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     SearchType searchType = SearchType.fromString(type);
     StringBuffer sb = new StringBuffer("");
     JsonArray rootNodes = JsonBuilder.array();
-
-    // TODO expand to current id.
+    Collections.sort(rootElements, new GWikiElementByChildOrderComparator(//
+        new GWikiElementByOrderComparator(//
+            new GWikiElementByIntPropComparator("ORDER", 0, //
+                new GWikiElementByI18NPropsComparator(wikiContext, GWikiPropKeys.TITLE)))));
     for (GWikiElementInfo ei : rootElements) {
       JsonObject children = buildNodeInfo(ei, searchType);
       if (children != null) {
@@ -91,6 +98,10 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
       return null;
     }
     List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(ei);
+    Collections.sort(childs, new GWikiElementByChildOrderComparator(//
+        new GWikiElementByOrderComparator(//
+            new GWikiElementByIntPropComparator("ORDER", 0, //
+                new GWikiElementByI18NPropsComparator(wikiContext, GWikiPropKeys.TITLE)))));
     JsonArray childNodes = JsonBuilder.array();
     for (GWikiElementInfo sid : childs) {
       JsonObject subnode = buildNodeInfo(sid, searchType);

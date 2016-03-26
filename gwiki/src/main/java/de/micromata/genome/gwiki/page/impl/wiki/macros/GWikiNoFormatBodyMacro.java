@@ -37,7 +37,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
  * 
  */
 @MacroInfo(info = "The macro noformat wrapps a section of text to supress evaluation of wiki code.",
-    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
+    renderFlags = { GWikiMacroRenderFlags.InTextFlow })
 public class GWikiNoFormatBodyMacro extends GWikiMacroBase implements GWikiBodyMacro, GWikiRuntimeMacro
 {
   private static final long serialVersionUID = 335691916315972801L;
@@ -56,9 +56,9 @@ public class GWikiNoFormatBodyMacro extends GWikiMacroBase implements GWikiBodyM
   @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
-    ctx.append("<pre style=\"border=1;\">");
+    //ctx.append("<pre style=\"border=1;\">");
     ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
-    ctx.append("</pre>");
+    //    ctx.append("</pre>");
     return true;
   }
 
