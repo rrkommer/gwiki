@@ -4,9 +4,15 @@
 	<input type="text" id="gwikiNavMenuQsText" >
 	<div id='gwikiNavMenu'> Here nav</div>
 
+<% 
+ String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTree(wikiContext, null);
+%>
+
 	<script type="text/javascript">
+	 var jsonNavJsTree = <%= jsonNavJsTree %>;
+	 var url = '<gwiki:url value="/edit/TreeChildren"/>';
     jQuery(document).ready(function() {
-    	gwikiBuildNavMenuTree('gwikiNavMenu', 'gwikiNavMenuQsText', '<gwiki:url value="/edit/TreeChildren"/>', null);
+    	gwikiBuildNavMenuTree('gwikiNavMenu', 'gwikiNavMenuQsText', jsonNavJsTree, null);
     });
 	</script>
 
