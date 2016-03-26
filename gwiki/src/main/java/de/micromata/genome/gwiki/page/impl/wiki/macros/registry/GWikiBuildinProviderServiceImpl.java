@@ -18,6 +18,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiGroovyScriptMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHTMLcommentMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHiddenMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyPTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIfMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiImageGalleryMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIncludeMacro;
@@ -56,6 +57,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
   public Map<String, GWikiMacroFactory> getMacros()
   {
     Map<String, GWikiMacroFactory> ret = new TreeMap<String, GWikiMacroFactory>();
+    ret.put("p", new GWikiMacroClassFactory(GWikiHtmlBodyPTagMacro.class));
     ret.put("pre", new GWikiMacroClassFactory(GWikiHtmlPreMacro.class));
     ret.put("blockquote", new GWikiMacroClassFactory(GWikiHtmlBlockquoteMacro.class));
     ret.put("span", new GWikiMacroClassFactory(GWikiHtmlSpanMacro.class));

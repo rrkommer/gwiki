@@ -23,6 +23,7 @@ import java.util.List;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 
 /**
  * Abstract implementation of a fragment with childs.
@@ -69,10 +70,15 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
   public void getChildSouce(StringBuilder sb)
   {
     List<GWikiFragment> lchilds = getChilds();
-    for (GWikiFragment c : lchilds) {
-      if (c != null) {
-        c.getSource(sb);
+    for (int i = 0; i < lchilds.size(); ++i) {
+      GWikiFragment c = lchilds.get(i);
+      // avoid double nl
+      if (i > 0 &&
+          GWikiMacroRenderFlags.NewLineAfterStart.isSet(c.getRenderModes()) == true &&
+          GWikiMacroRenderFlags.NewLineBeforeEnd.isSet(lchilds.get(i - 1).getRenderModes()) == true) {
+        sb.setLength(sb.length());
       }
+      c.getSource(sb);
     }
   }
 

@@ -19,11 +19,8 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
@@ -37,9 +34,10 @@ import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
  * 
  */
 @MacroInfo(info = "The macro quote marks a section of wiki text as quoted text.",
-    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP })
-public class GWikiQuoteMacroBean extends GWikiMacroBean
-    implements GWikiBodyEvalMacro, GWikiMacroRte, GWikiMacroSourceable
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP,
+        GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd })
+public class GWikiQuoteMacroBean extends GWikiHtmlBodyRteTagMacro
+    implements GWikiMacroSourceable
 {
 
   private static final long serialVersionUID = -3030397042733595461L;
