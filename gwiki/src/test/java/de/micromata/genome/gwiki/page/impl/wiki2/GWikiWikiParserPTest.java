@@ -42,12 +42,12 @@ public class GWikiWikiParserPTest extends GWikiWikiParserTestBase
 
   public void test2LineAfterHeading()
   {
-    w2htest("h1. U\n\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>b</p>\n");
+    w2htest("h1. U\n\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>\nb</p>\n");
   }
 
   public void test1LineAfterHeading()
   {
-    w2htest("h1. U\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>b</p>\n");
+    w2htest("h1. U\nb", "<h1><a name=\"U\" target=\"_top\"></a>U</h1>\n<p>\nb</p>\n");
   }
 
 }
