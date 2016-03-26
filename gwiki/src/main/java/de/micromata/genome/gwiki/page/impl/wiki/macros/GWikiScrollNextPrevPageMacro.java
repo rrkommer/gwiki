@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
@@ -41,7 +42,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 @MacroInfo(info = "Renders Next/Previsous Page link",
     params = { @MacroInfoParam(name = "prevPage", type = MacroParamType.Boolean,
         info = "If true, renders a link to previous page, otherwise to next."),
-        @MacroInfoParam(name = "title", info = "Title for the link") })
+        @MacroInfoParam(name = "title", info = "Title for the link") },
+    renderFlags = { GWikiMacroRenderFlags.InTextFlow, GWikiMacroRenderFlags.RteSpan })
 public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
 {
 
@@ -53,7 +55,7 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
 
   public GWikiScrollNextPrevPageMacro()
   {
-
+    setRenderModesFromAnnot();
   }
 
   public GWikiScrollNextPrevPageMacro(String title, boolean prevPage)

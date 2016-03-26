@@ -69,6 +69,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
   {
     parseContext.getMacroFactories()
         .putAll(wikiContext.getWikiWeb().getWikiConfig().getWikiMacros(wikiContext));
+    listenerRegistry.addListener(new RteCodeHtmlFilterListener());
   }
 
   @Override
@@ -81,6 +82,18 @@ public class Rte2WikiFilter extends Html2WikiFilter
   public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
     String en = element.rawname.toLowerCase();
+    GWikiFragment lastparent = parseContext.peekFragStack();
+    if ((lastparent instanceof RteMacroFragment) == false) {
+      RteMacroFragment lfrag = (RteMacroFragment) lastparent;
+
+      if (lfrag.inBody == true) {
+        if (lfrag.macroFragment != null && lfrag.macroFragment.getMacro().evalBody() == false) {
+          // skip <br/>
+          return;
+        }
+      }
+    }
+
     if (handleImage(en, element, attributes, augs) == true) {
       return;
     }
@@ -105,20 +118,12 @@ public class Rte2WikiFilter extends Html2WikiFilter
     if (handleMacro(en, element, attributes, augs) == true) {
       return;
     }
-    if (handleMacroBody(en, element, attributes, augs) == true) {
-      return;
-    }
     super.startElement(element, attributes, augs);
   }
 
   private boolean isMacroEl(String en)
   {
     return en.equals("div") == true || en.equals("span") == true;
-  }
-
-  private boolean handleMacroBody(String en, QName element, XMLAttributes attributes, Augmentations augs)
-  {
-    return false;
   }
 
   protected boolean handleMacro(String en, QName element, XMLAttributes attributes, Augmentations augs)
