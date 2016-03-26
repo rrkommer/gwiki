@@ -141,8 +141,7 @@ function _wedit_set_attr_in_jq_or_el(el, key, value) {
 		el.attr(key, value);
 	}
 }
-function wedit_set_titel_default(item)
-{
+function wedit_set_titel_default(item) {
 	if (item.title == null || item.titel == '' || item.titel == undefined) {
 		item.title = item.url;
 	}
@@ -181,7 +180,7 @@ function gwedit_insert_pagelink(ed, item, element) {
 	if (element == null) {
 		tel = $("<a>");
 	}
-		wedit_set_titel_default(item);
+	wedit_set_titel_default(item);
 	_wedit_set_attr_in_jq_or_el(tel, 'href', url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-url', item.url);
 	_wedit_set_attr_in_jq_or_el(tel, 'data-wiki-title', item.title);
@@ -245,6 +244,76 @@ function twedit_is_link_button_enabled(ed) {
 	}
 	return true;
 }
+
+function tweid_collect_containers_between_inParent(start, end, collection){
+	var foundthis = false;
+	for (var cc = start.parentNode.firstChild; cc; cc = cc.nextSibling) {
+		if (foundthis == false) {
+			if (cc == start) {
+				foundthis = true;
+			}
+		} else {
+			if (twedit_collect_containers_between(cc, end, collection)) {
+				return true;
+			}
+		}
+	}
+	if (start.parentNode.parentNode) {
+		return tweid_collect_containers_between_inParent(start.parentNode, end, collection);
+	}
+}
+function twedit_collect_containers_between(start, end, collection) {
+	collection[collection.length] = start;
+	if (start == end) {
+		return true;
+	}
+	if (start.children) {
+		for (var cc = start.firstChild; cc; cc = cc.nextSibling) {
+			if (twedit_collect_containers_between(cc, end, collection) == true) {
+				return true;
+			}
+		}
+	}
+	if (start.nextElementSibling) {
+		return twedit_collect_containers_between(start.nextElementSibling, end, collection);
+	} else 	if (start.parentNode) {
+		return tweid_collect_containers_between_inParent(start, end, collection);
+	}
+	return false;
+}
+function twedit_check_valid_range_for_insideOutsideMacros(colels)
+{
+	var wasOutsideBody = false;
+	var wasInsideBody = false;
+	for (var i = 0; i < colels.length; ++i) {
+		var el = colels[i];
+		if (el.getAttribute ) {
+			var cl = el.getAttribute('class');
+			if (cl && cl.indexOf('weditmacroframe') != -1) {
+				return true;
+			}
+		}
+	}
+	return false;
+	
+}
+function twedit_check_valid_range_for_del(ed) {
+	var rng = ed.selection.getRng(true);
+	if (rng.startContainer == rng.endContainer) {
+		return true;
+	}
+
+	var start = rng.startContainer;
+	var end = rng.endContainer
+	var colels = [];
+	var found = twedit_collect_containers_between(start, end, colels);
+	if (!found) {
+		return true;
+	}
+	var insideout = twedit_check_valid_range_for_insideOutsideMacros(colels);
+	return !insideout;
+}
+
 /**
  * IMG, A, PRE
  * 
@@ -285,8 +354,8 @@ function twedit_ac_get_text_betweenranges(ed, oldRange, newRange) {
 	}
 	var text = newRange.startContainer.nodeValue;
 	var ret = text.substring(oldRange.startOffset, newRange.startOffset);
-	console.debug("range text is: "  + ret);
-	
+	console.debug("range text is: " + ret);
+
 	return ret;
 }
 

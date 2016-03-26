@@ -76,6 +76,19 @@ function twedit_create(editId, content) {
 	      textpattern_patterns : wiki_textpattern_patterns,
 	      auto_focus : editId,
 	      language : "locale".i18n(),
+	      theme : 'modern',
+	      keep_styles : false, 
+
+	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
+	      paste_data_images : true,
+	      menu : false, // twedit_tinyMenu,
+	      menubar : false,
+	      toolbar : "wikisave wikicancel | fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat styleselect bold italic | bullist numlist outdent indent | table forecolor backcolor attribs code",
+	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+	      browser_spellcheck : true,
+	      image_advtab : true,
+	      content_css : gwikiContentCssArray,
+	      block_formats: 'Paragraph=p;Header 1=h1;Header 2=h2;Header 3=h3',
 	      init_instance_callback : function(editor) {
 		      editor.contentWindow.document.addEventListener('keydown', function(event) {
 			      if (event.keyCode == 9) {
@@ -108,8 +121,14 @@ function twedit_create(editId, content) {
 			      }, 200);
 		      }
 		      ed.on('keydown', function(event) {
-			      // console.debug("keydown: " + event.which);
-			      // TODO REMOVE
+			      console.debug("keydown: " + event.which);
+			      if (event.which == 46) { // DEL
+			      	if (twedit_check_valid_range_for_del(ed) == false) {
+			      		event.stopPropagation();
+					      event.preventDefault();
+					      return;
+			      	}
+			      }
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
@@ -137,36 +156,9 @@ function twedit_create(editId, content) {
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
-	      },
+	      }
 
-	      theme : 'modern',
-	      // forced_root_block: false, // 'p', // br instead of p
-	      keep_styles : false, // otherwise h1. will not terminated. ! does not
-	      // working!
-
-	      plugins : 'gwiki visualblocks tweditac noneditable paste textpattern fullscreen searchreplace contextmenu  table textcolor colorpicker', //
-	      paste_data_images : true,
-	      menu : false, // twedit_tinyMenu,
-	      menubar : false,
-	      // menubar : "cut copy paste | undo redo | styleselect | bold italic |
-	      // bullist
-	      // numlist",
-	      toolbar : "wikisave wikicancel | fullscreen | cut copy paste| undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | styleselect bold italic | bullist numlist | table forecolor backcolor attribs code",
-	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
-	      // toolbar1 : 'insertfile undo redo | styleselect | bold italic |
-	      // alignleft
-	      // aligncenter alignright alignjustify | bullist numlist outdent indent
-	      // |
-	      // link image',
-	      // toolbar2 : 'print preview media | forecolor backcolor emoticons',
-	      // image_advtab : true,
-	      /*
-				 * templates : [ { title : 'Test template 1', content : 'Test 1' }, {
-				 * title : 'Test template 2', content : 'Test 2' } ],
-				 */
-	      browser_spellcheck : true,
-	      image_advtab : true,
-	      content_css : gwikiContentCssArray
+	      
 	    });
 	return editId;
 }

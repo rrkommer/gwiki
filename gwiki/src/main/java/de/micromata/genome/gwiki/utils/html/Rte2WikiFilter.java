@@ -178,6 +178,9 @@ public class Rte2WikiFilter extends Html2WikiFilter
     }
     if (rtf.inBody == true) {
       ++rtf.bodyDivs;
+      if (rtf.macroFragment == null) { // gargabe from rte
+        return true;
+      }
       if (rtf.macroFragment.getMacro().evalBody() == false) {
         return true;
       }
@@ -258,6 +261,10 @@ public class Rte2WikiFilter extends Html2WikiFilter
       if (ftf.bodyDivs <= 0) {
 
         ftf.inBody = false;
+        if (ftf.macroFragment == null) {
+          flushText();
+          return;
+        }
         GWikiMacro macro = ftf.macroFragment.getMacro();
         List<GWikiFragment> childs = parseContext.popFragList();
         if (macro.hasBody() == true) {
@@ -274,7 +281,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
         //parseContext.addFragment(ftf.macroFragment);
         return;
       }
-      if (ftf.macroFragment.getMacro().evalBody() == false) {
+      if (ftf.macroFragment == null || ftf.macroFragment.getMacro().evalBody() == false) {
         return;
       }
     } else if (ftf.inHead == true) {
