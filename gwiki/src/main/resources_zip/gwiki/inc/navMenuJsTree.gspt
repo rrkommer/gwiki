@@ -13,7 +13,10 @@
 	 var url = '<gwiki:url value="/edit/TreeChildren"/>';
     jQuery(document).ready(function() {
     	gwikiBuildNavMenuTree('gwikiNavMenu', 'gwikiNavMenuQsText', jsonNavJsTree, null);
+    	$('#gwikiNavMenuQsText').attr('accesskey', 'N');
+    	$('#gwikiNavMenuQsText').attr('placeholder', 'Navigate (Alt+N)');
     });
+    
 	</script>
 
 </div>

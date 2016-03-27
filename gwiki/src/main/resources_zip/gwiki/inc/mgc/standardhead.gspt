@@ -101,7 +101,9 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
       
     </ul>
 		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST" style="display:inline;">
-		  <input id="quick-search-query" class="gwikiSearchBox " type="text" size="25" name="searchExpression" autocomplete="off" accesskey="n"/>&nbsp;<input id="quick-search-submit" class="gwikiQuicksearchSubmit quick-search-submit " type="submit" value="&nbsp;" name="method_onSearch"/>
+		  <input id="quick-search-query" 
+		        class="gwikiSearchBox " type="text" size="25" 
+		        name="searchExpression" autocomplete="off" accesskey="s" placeholder="Search (Alt+S)"/>&nbsp;<input id="quick-search-submit" class="gwikiQuicksearchSubmit quick-search-submit " type="submit" value="&nbsp;" name="method_onSearch"/>
 		</form>
 		
 		
