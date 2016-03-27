@@ -8,10 +8,11 @@ $(document).keydown(function(event) {
 	if (!gwikiContext.pageId) {
 		return;
 	}
-	
 	var el = document.activeElement;
-	if (el && el.nodeName == 'INPUT') {
-		return;
+	if (el) {
+		if (el.nodeName == 'INPUT' || el.nodeName == 'TEXTAREA') {
+			return;
+		}
 	}
 	window.location.href = gwikiLocalUrl('edit/EditPage') + "?pageId=" + gwikiEscapeUrlParam(gwikiContext.pageId);
 
