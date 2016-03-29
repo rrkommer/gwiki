@@ -142,5 +142,5 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
   	});
   });
   </script>
-	<div id='gwikiContent' class="wiki-content gwikiContent split" style="margin-right: 10px; position: relative; ">
+	<div id='gwikiContent' class="wiki-content gwikiContent " style="margin-right: 10px; position: relative; ">
 	<h1><%= esc(wikiContext.getTranslatedProp(wikiPage.elementInfo.title)) %></h1>
