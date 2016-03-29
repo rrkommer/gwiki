@@ -97,6 +97,7 @@ element.style {
 */
 .gwikiContent {
 	margin: 10px;
+	min-height: calc(100vh - 150px);
 }
 
 .gwikifooter {
