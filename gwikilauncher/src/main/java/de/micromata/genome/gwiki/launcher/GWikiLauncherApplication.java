@@ -1,6 +1,8 @@
 package de.micromata.genome.gwiki.launcher;
 
 import de.micromata.genome.gwiki.launcher.config.GWikiLocalSettingsConfigModel;
+import de.micromata.genome.logging.LoggingServiceManager;
+import de.micromata.genome.logging.config.LsLoggingImpl;
 import de.micromata.genome.util.i18n.ChainedResourceBundleTranslationResolver;
 import de.micromata.genome.util.i18n.DefaultWarnI18NTranslationProvider;
 import de.micromata.genome.util.i18n.I18NTranslationProvider;
@@ -39,6 +41,21 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
             new ChainedResourceBundleTranslationResolver("gwikilauncher", "mgclauncher", "mgcapp", "mgcjetty"))));
 
     setTranslateService(provider);
+  }
+
+  @Override
+  public GWikiLocalSettingsConfigModel loadConfigModel()
+  {
+    GWikiLocalSettingsConfigModel ret = super.loadConfigModel();
+    LocalSettingsEnv.get();
+    LoggingServiceManager.get().setLogging(new LsLoggingImpl());
+    return ret;
+  }
+
+  @Override
+  protected void storeToLocalSettings(GWikiLocalSettingsConfigModel model)
+  {
+    super.storeToLocalSettings(model);
   }
 
   @Override

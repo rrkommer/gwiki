@@ -1,0 +1,70 @@
+<% wikiContext.skinInclude("standardhead"); %>
+<@include file="inc/stdtags.gspt" @> 
+<script type="text/javascript">
+<!--
+<%= wikiContext.actionBean.getJavaScript() %>
+
+var logBackedUrl = '<gwiki:url value="/loghtml"/>';
+var logViewer = new GLogViewer({
+  logListId : 'glogentries',
+  formId : 'glogform',
+  backendUrl : logBackedUrl,
+  maxItems : 100,
+  logPollTimeout : 1000
+
+});
+
+//-->
+</script>
+<style>
+<%= wikiContext.actionBean.getCssContent() %>
+/*
+.loge {
+  border-bottom: 1px solid black;
+}
+.logt {
+  width: 100px;
+  display: inline;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.logl {
+  width: 60px;
+  display: inline;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.logm {
+  display: inline;
+}
+
+.lewarn {
+  background-color: #ffcccc;
+}
+
+.leerror {
+  background-color: #ff3333;
+}
+.logattr {
+   background-color: #FFFFFF;
+   padding-left: 20px;
+   display: block;
+}
+.logattrkey {
+  display: inline;
+  width: 150px;
+  padding-right: 3px;
+}
+.logattrvalue {
+  display: inline;
+}
+.hidden{
+    display: none;
+}
+*/
+</style>
+<%= wikiContext.actionBean.getStandardLogForm() %>
+  
+<% wikiContext.skinInclude("standardfoot"); %>

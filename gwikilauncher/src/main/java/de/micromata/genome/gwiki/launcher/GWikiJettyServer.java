@@ -13,6 +13,7 @@ import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
+import de.micromata.genome.gwiki.web.GWikiLogHtmlWindowServlet;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.LocalSettings;
@@ -65,7 +66,10 @@ public class GWikiJettyServer extends JettyServer
     ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
     wikiServlet.setDAOContext(wikibootcfg);
     context.addServlet(wikiServletHolder, "/*");
-
+    GWikiLogHtmlWindowServlet logHtmlServlet = new GWikiLogHtmlWindowServlet();
+    logHtmlServlet.init();
+    ServletHolder logHtmlServletHolder = new ServletHolder(logHtmlServlet);
+    context.addServlet(logHtmlServletHolder, "/loghtml");
     return context;
   }
 
