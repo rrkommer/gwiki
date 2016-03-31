@@ -24,6 +24,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Just ignore the macros.
@@ -31,6 +33,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The Macro anchor defines a local anchor in the current page.<br>"
+    + "[#ToLocalAnchor]<br/>\n" +
+    "...\n" +
+    "{anchor:ToLocalAnchor} Here is the target.",
+    params = { @MacroInfoParam(name = "defaultValue", info = "Link to the anchor defined", required = true,
+        defaultParameter = true) })
 public class GWikiLocalAnchorMacroBean extends GWikiMacroBean
 {
 

@@ -38,9 +38,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
-import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.AttributeMatcher;
-import de.micromata.genome.util.matcher.EqualsMatcher;
 
 /**
  * GWiki macro code.
@@ -48,6 +48,13 @@ import de.micromata.genome.util.matcher.EqualsMatcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The macro code wrap a text as source code.",
+    params = { @MacroInfoParam(name = "title", info = "Title for the code"),
+        @MacroInfoParam(name = "lang", defaultValue = "java", info = "Code language",
+            enumValues = { "wiki", "markup", "groovy", "java", "xml", "css", "javascript", "json", "c", "cpp",
+                "objectivec", "pascal", "perl", "php", "python", "scala", "sql", "tcl" }) },
+    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NewLineAfterStart })
 public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro, GWikiMacroRte
 {
 
@@ -59,14 +66,10 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   private String lang = "java";
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("pre", "code", GWikiCodeMacro.class);
-  static {
-    AttributeMatcher am = new AttributeMatcher();
-    am.setName("class");
-    am.setValueMatcher(new EqualsMatcher<String>("wikiCode"));
-    transformInfo.getAttributeMatcher().add(am);
-
-  }
+  //  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("pre",
+  //      CommonMatchers.and(SaxElementMatchers.nameMatcher("pre"),
+  //          SaxElementMatchers.attribute("class", StringMatchers.containsString("wikiCode"))),
+  //      "code", GWikiCodeMacro.class);
 
   public static GWikiMacroFactory getFactory()
   {
@@ -75,7 +78,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
 
   public GWikiCodeMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP/* , GWikiMacroRenderFlags.TrimTextContent */));
+    setRenderModesFromAnnot();
   }
 
   @Override
@@ -85,26 +88,62 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
       return true;
     }
-    // following will not be rendered.
-    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
-      // TODO attributes rendering
-      String body = attrs.getBody();
-
-      body = StringEscapeUtils.escapeHtml(body);
-
-      ctx.append("<pre class=\"wikiCode\"");
-      Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
-      ctx.append(">").append(body).append("</pre>");
-      return true;
-    }
     String body = attrs.getBody();
     body = StringUtils.trim(body);
-    boolean preview = RenderModes.ForText.isSet(ctx.getRenderMode());
-    ctx.append("<div class=\"preformatted panel\" style=\"border-width: 1px;\">", //
-        "<div class=\"preformattedContent panelContent\">\n", //
-        preview ? attrs.getBody() : colorize(lang, body), //
-        "</div></div>");
+    String clang = determineLang(body);
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append("<pre");
+      if (StringUtils.isNotBlank(clang) == true) {
+        ctx.append(" class='language-" + clang + "'");
+      }
+      ctx.append(" contenteditable='false'>");
+      ctx.append(body);
+      ctx.append("</pre>");
+      return true;
+
+    }
+    //      // TODO attributes rendering
+    //      String body = attrs.getBody();
+    //
+    //      body = StringEscapeUtils.escapeHtml(body);
+    //
+    //      ctx.append("<pre class=\"wikiCode\"");
+    //      Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
+    //      ctx.append(">").append(body).append("</pre>");
+    //      return true;
+    //    }
+
+    boolean forText = RenderModes.ForText.isSet(ctx.getRenderMode());
+
+    ctx.append("<pre><code");
+
+    if (StringUtils.isNotBlank(clang) == true) {
+      ctx.append(" class='language-" + clang + "'");
+    }
+    if (forText == false) {
+      body = StringEscapeUtils.escapeXml(body);
+    }
+    ctx.append(">").append(body).append("</code></pre>");
+
+    //    ctx.append("<div class=\"preformatted panel\" style=\"border-width: 1px;\">", //
+    //        "<div class=\"preformattedContent panelContent\">\n", //
+    //        preview ? attrs.getBody() : colorize(lang, body), //
+    //        "</div></div>");
     return true;
+  }
+
+  private String determineLang(String body)
+  {
+    if (StringUtils.isNotBlank(lang) == true) {
+      if (lang.equals("wiki") == true) {
+        lang = "textile";
+      }
+      return lang;
+    }
+    if (body.trim().startsWith("<") == true) {
+      return "xml";
+    }
+    return lang;
   }
 
   protected XhtmlRenderer getRenderer(String lang, String code)
@@ -146,14 +185,21 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     return "<pre>\n" + StringEscapeUtils.escapeHtml(code) + "</pre>\n";
   }
 
-  public Html2WikiTransformInfo getTransformInfo()
-  {
-    return transformInfo;
-  }
+  //  @Override
+  //  public Html2WikiTransformInfo getTransformInfo()
+  //  {
+  //    return transformInfo;
+  //  }
 
   public String getDefaultValue()
   {
     return defaultValue;
+  }
+
+  @Override
+  public Html2WikiTransformInfo getTransformInfo()
+  {
+    return null;
   }
 
   public void setDefaultValue(String defaultValue)

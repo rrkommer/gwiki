@@ -28,8 +28,11 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.Matcher;
@@ -40,6 +43,17 @@ import de.micromata.genome.util.matcher.Matcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Generates a gallery of images",
+    params = {
+        @MacroInfoParam(name = "pageId", type = MacroParamType.PageId, info = "The parent page for the images.<br>"
+            + "If not set uses the current page"),
+        @MacroInfoParam(name = "title", info = "Titel"),
+        @MacroInfoParam(name = "columns", type = MacroParamType.Integer, defaultValue = "4",
+            info = "Number of columns the images should be shown"),
+        @MacroInfoParam(name = "sort", info = "Fieldname to sort. ", enumValues = { "title", "date" }),
+        @MacroInfoParam(name = "reverse", type = MacroParamType.Boolean, info = "Reverse order"),
+        @MacroInfoParam(name = "include", info = "Matcher expression, which elements should be included")
+    })
 public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithHeaderPrepare
 {
 
@@ -74,7 +88,8 @@ public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithH
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -145,9 +160,10 @@ public class GWikiImageGalleryMacro extends GWikiMacroBean implements GWikiWithH
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare#prepareHeader(de.micromata.genome.gwiki.page.GWikiContext,
-   * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
+   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiWithHeaderPrepare#prepareHeader(de.micromata.genome.gwiki.page.
+   * GWikiContext, de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
+  @Override
   public void prepareHeader(GWikiContext ctx, MacroAttributes attrs)
   {
     ctx.getRequiredJs().add("static/js/jquery.thumbs.js");

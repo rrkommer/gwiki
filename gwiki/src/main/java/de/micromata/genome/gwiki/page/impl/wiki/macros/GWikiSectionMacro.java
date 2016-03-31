@@ -24,6 +24,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * See also GWikiColumnMacro.
@@ -31,6 +33,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "The Macro section can be used in connection with Macro column to define a multiple column layout.",
+    params = {
+        @MacroInfoParam(name = "width", info = "Optional String, width (px, % or em) of the column."),
+        @MacroInfoParam(name = "border", info = "Optional Border attribute of the <table> element"),
+        @MacroInfoParam(name = "class", info = "Optional. CSS class attribute of the Column"),
+        @MacroInfoParam(name = "style", info = "Optional. CSS style attribute"),
+    },
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiSectionMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 
@@ -38,13 +48,14 @@ public class GWikiSectionMacro extends GWikiHtmlTagMacro implements GWikiBodyEva
 
   public GWikiSectionMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override

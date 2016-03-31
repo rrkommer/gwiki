@@ -1,5 +1,5 @@
 .collapsible {
-	cursor: default;	
+	cursor: default;
 }
 
 .gwiki-toolBar {
@@ -11,16 +11,16 @@
 .gwikiedit_table td {
 	margin-right: 1px;
 	margin-top: 2px;
-	background-repeat: no-repeat;	
+	background-repeat: no-repeat;
 }
 
 .gwikiedit_icon {
-	border:1px solid #F0F0EE;
+	border: 1px solid #F0F0EE;
 	display: block;
 	width: 20px;
 	height: 20px;
 	padding: 1px;
-	background-position:center; 
+	background-position: center;
 	background-repeat: no-repeat;
 	cursor: default;
 }
@@ -53,13 +53,13 @@
 }
 
 .gwikiedit_icon:hover {
-	border:1px solid #0A246A; 
-	background-color:#B2BBD0;
+	border: 1px solid #0A246A;
+	background-color: #B2BBD0;
 }
 
 .gwikiedit_iconActive {
-	border:1px solid #0A246A; 
-	background-color:#C2CBE0;
+	border: 1px solid #0A246A;
+	background-color: #C2CBE0;
 }
 
 .gwikiedit_help {
@@ -120,4 +120,12 @@
 
 .gwikiedit_template {
 	background-image: url(img/layout.png);
+}
+
+.weditpaglink {
+	color: #3572b0 !important;
+}
+
+.jquiNoDialogTitle .ui-dialog-titlebar {
+	display: none;
 }

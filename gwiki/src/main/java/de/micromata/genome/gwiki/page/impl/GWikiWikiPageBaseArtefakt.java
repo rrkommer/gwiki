@@ -60,12 +60,15 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
 
   public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partName)
   {
-    return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
+    //    return new GWikiWikiPageEditorArtefakt(elementToEdit, bean, partName, this);
+    return new GWikiWikiPageEditorArtefakt3(elementToEdit, bean, partName, this);
   }
 
   @Override
   public void prepareHeader(GWikiContext wikiContext)
   {
+    wikiContext.getRequiredJs().add("/static/js/tooltip.js");
+
     if (compileFragements(wikiContext) == false || prepareHeaderFragments == null) {
       return;
     }
@@ -187,16 +190,16 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
       {
         return ctx.getWikiWeb().getFilter().renderWikiWikiPage(ctx, GWikiWikiPageBaseArtefakt.this,
             new GWikiWikiPageRenderFilter()
-        {
+            {
 
-          @Override
-          public Boolean filter(
-              GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter> chain,
-              GWikiWikiPageRenderFilterEvent event)
-          {
-            return event.getWikiPageArtefakt().getCompiledObject().render(event.getWikiContext());
-          }
-        });
+              @Override
+              public Boolean filter(
+                  GWikiFilterChain<Boolean, GWikiWikiPageRenderFilterEvent, GWikiWikiPageRenderFilter> chain,
+                  GWikiWikiPageRenderFilterEvent event)
+              {
+                return event.getWikiPageArtefakt().getCompiledObject().render(event.getWikiContext());
+              }
+            });
 
       }
     });

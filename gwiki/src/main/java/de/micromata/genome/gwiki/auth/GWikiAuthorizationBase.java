@@ -34,6 +34,8 @@ import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.umgmt.GWikiUserServeElementFilterEvent;
 import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeAttributeType;
+import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Pair;
 
@@ -116,6 +118,8 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
     String st = user.getProps().get(COOKIE_STAY_LOGIN_TOKEN);
     if (StringUtils.equals(tks[1], st) == true) {
+      GLog.note(GWikiLogCategory.Wiki, "User autologin from cookie: " + userName,
+          new LogAttribute(GenomeAttributeType.AdminUserName, userName));
       return user;
     }
     return null;

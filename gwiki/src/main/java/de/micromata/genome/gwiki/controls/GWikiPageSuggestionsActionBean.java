@@ -18,6 +18,9 @@
 
 package de.micromata.genome.gwiki.controls;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -43,8 +46,14 @@ public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean
     return onLinkAutocomplete();
   }
 
+  /**
+   * deprecated
+   * 
+   * @return
+   */
   public Object onLinkAutocomplete()
   {
+    String format = wikiContext.getRequestParameter("f");
     String q = wikiContext.getRequestParameter("q");
     String pageType = wikiContext.getRequestParameter("pageType");
     String queryexpr = SearchUtils.createLinkExpression(q, true, pageType);
@@ -54,8 +63,27 @@ public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean
     QueryResult qr = filter(query);
     StringBuilder sb = new StringBuilder();
     // int size = qr.getResults().size();
-    for (SearchResult sr : qr.getResults()) {
-      sb.append(sr.getPageId()).append("|").append(wikiContext.getTranslatedProp(sr.getElementInfo().getTitle())).append("\n");
+    if (StringUtils.equals(format, "json") == true) {
+      wikiContext.getResponse().setContentType("application/json");
+      sb.append("[");
+      boolean first = true;
+      for (SearchResult sr : qr.getResults()) {
+        if (first == false) {
+          sb.append(",");
+        } else {
+          first = false;
+        }
+        String tti = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
+        sb.append("{ pageId: '").append(sr.getPageId()).append("', title: '")
+            .append(StringEscapeUtils.unescapeJavaScript(tti)).append("'}");
+        //        sb.append("'").append(sr.getPageId()).append("'");
+      }
+      sb.append("]");
+    } else {
+      for (SearchResult sr : qr.getResults()) {
+        sb.append(sr.getPageId()).append("|").append(wikiContext.getTranslatedProp(sr.getElementInfo().getTitle()))
+            .append("\n");
+      }
     }
     wikiContext.append(sb.toString());
     wikiContext.flush();

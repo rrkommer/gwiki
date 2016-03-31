@@ -32,6 +32,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
@@ -41,7 +42,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro, GWikiRuntimeMacro, GWikiBodyEvalMacro
+@MacroInfo(info = "With the Macro slideshow, you can create a HTML based slideshow.",
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP })
+public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase
+    implements GWikiCompileTimeMacro, GWikiRuntimeMacro, GWikiBodyEvalMacro
 {
 
   private static final long serialVersionUID = 3025588244594913253L;
@@ -52,38 +56,45 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
 
   public GWikiSlideShowMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro#getFragments(de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment
-   * , de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens,
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro#getFragments(de.micromata.genome.gwiki.page.impl.
+   * wiki.GWikiMacroFragment , de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens,
    * de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext)
    */
-  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  @Override
+  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks,
+      GWikiWikiParserContext ctx)
   {
     ctx.getMacroFactories().put(
         "slide",
-        new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
-            GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
+        new GWikiMacroClassFactory(GWikiSlideMacro.class,
+            GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
+                GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put(
         "slidefooter",
-        new GWikiMacroClassFactory(GWikiSlideFooterMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
-            GWikiMacroRenderFlags.NoWrapWithP)));
+        new GWikiMacroClassFactory(GWikiSlideFooterMacro.class,
+            GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
+                GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put(
         "slideheader",
-        new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
-            GWikiMacroRenderFlags.NoWrapWithP)));
+        new GWikiMacroClassFactory(GWikiSlideHeaderMacro.class,
+            GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
+                GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put("incremental",
-        new GWikiMacroClassFactory(GWikiSlideIncrementalMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP)));
+        new GWikiMacroClassFactory(GWikiSlideIncrementalMacro.class,
+            GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP)));
     ctx.getMacroFactories().put("slidestyle", new GWikiMacroClassFactory(GWikiSlideStyleMacro.class));
     ctx.getMacroFactories().put(
         "slidehandout",
-        new GWikiMacroClassFactory(GWikiSlideHandoutMacro.class, GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock,
-            GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
+        new GWikiMacroClassFactory(GWikiSlideHandoutMacro.class,
+            GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock,
+                GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>(1);
     ret.add(macroFrag);
     return ret;
@@ -91,7 +102,8 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase implements GW
 
   protected void checkIncremental(MacroAttributes attrs, GWikiContext ctx)
   {
-    if (patchedIncremental == true || StringUtils.equals(attrs.getArgs().getStringValue("incremental"), "true") == false) {
+    if (patchedIncremental == true
+        || StringUtils.equals(attrs.getArgs().getStringValue("incremental"), "true") == false) {
       return;
     }
     synchronized (this) {

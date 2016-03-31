@@ -18,82 +18,48 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiCompileTimeMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
+
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 
 public class GWikiFragmentUnsecureHtml extends GWikiFragmentHtml
 {
 
   private static final long serialVersionUID = 6726490960427363801L;
 
-  public static class Macro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
-  {
-
-    private static final long serialVersionUID = 6651596226823444417L;
-
-    public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
-    {
-    }
-
-    public boolean evalBody()
-    {
-      return false;
-    }
-
-    public boolean hasBody()
-    {
-      return true;
-    }
-
-    public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
-    {
-      List<GWikiFragment> fragl = new ArrayList<GWikiFragment>();
-      macroFrag.addChild(new GWikiFragmentUnsecureHtml(macroFrag.getAttrs().getBody()));
-      fragl.add(macroFrag);
-      return fragl;
-    }
-
-    public int getRenderModes()
-    {
-      return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-          GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock);
-    }
-
-  }
-
   public static GWikiMacroFactory getFactory()
   {
-    return new GWikiMacroFactory() {
+    return new GWikiMacroFactory()
+    {
 
+      @Override
       public GWikiMacro createInstance()
       {
-        return new Macro();
+        return new GWikiUnsecureHtmlMacro(getMacroInfo());
       }
 
+      @Override
       public boolean evalBody()
       {
         return false;
       }
 
+      @Override
       public boolean hasBody()
       {
         return true;
       }
 
+      @Override
       public boolean isRteMacro()
       {
         return false;

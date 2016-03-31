@@ -41,11 +41,25 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
   {
     super.prepareHeader(wikiContext);
 
-    wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
-    wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-min-frame-0.3.js");
-    wikiContext.getRequiredJs().add("/static/js/jstree/jquery.jstree.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-1.2.js");
+    wikiContext.getRequiredJs().add("/static/tinymce/tinymce.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditutils.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditac.js");
+    wikiContext.getRequiredJs().add("/static/wedit/ClipData.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedit-attach-dialog.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditclipboard.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedit-link-manip.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedit.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditplugin.js");
+    wikiContext.getRequiredJs().add("/static/wedit/weditexttoolbarplugin.js");
+
+    wikiContext.getRequiredJs().add("/static/wedit/gwiki-link-dialog.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedittabs.js");
+    wikiContext.getRequiredJs().add("/static/wedit/gweditautocomplete.js");
+    wikiContext.getRequiredJs().add("/static/wedit/tweditmacrodlg.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.4.js");
+    wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
   }
 
   /**
@@ -64,6 +78,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
+  @Override
   public void onSave(final GWikiContext ctx)
   {
     String htmlCode = ctx.getRequestParameter(sectionName + ".htmlText");
@@ -77,6 +92,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#getTabTitle()
    */
+  @Override
   public String getTabTitle()
   {
     return "";
@@ -111,7 +127,7 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
     String script = "<script type=\"text/javascript\">\n"
         + "$(document).ready(function(){\n"
         + "setTimeout(function() {\n"
-        + "gwikiCreateTiny('"
+        + "twedit_create('"
         + textareaId
         + "');\n"
         + " }, 50);\n"
@@ -128,8 +144,10 @@ public class PtWikiRichTextEditor extends PtWikiTextEditorBase // implements GWi
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.
+   * page.GWikiContext)
    */
+  @Override
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub

@@ -65,4 +65,9 @@ public class GWikiFragmentText extends GWikiFragmentHtml
     sb.append(text.toString());
   }
 
+  public StringBuilder getText()
+  {
+    return text;
+  }
+
 }

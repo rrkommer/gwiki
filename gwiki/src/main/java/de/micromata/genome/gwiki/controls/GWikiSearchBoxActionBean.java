@@ -21,10 +21,13 @@ package de.micromata.genome.gwiki.controls;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.eclipsesource.json.JsonArray;
+
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
+import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
@@ -50,16 +53,19 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     return onLinkAutocomplete();
   }
 
-  public void renderSearchOps(String query)
+  public void renderSearchOps(JsonArray ret, String query)
   {
-    StringBuilder sb = new StringBuilder();
-    String searchUrl = wikiContext.localUrl("/edit/Search") + "?method_onSearch=go&se=" + WebUtils.encodeUrlParam(query);
-    sb.append(searchUrl).append("|").append(translate("gwiki.nav.searchbox.localsearch", StringEscapeUtils.escapeHtml(query)) + "\n");
+    String searchUrl = wikiContext.localUrl("/edit/Search") + "?method_onSearch=go&se="
+        + WebUtils.encodeUrlParam(query);
+
+    ret.add(JsonBuilder.map("key", searchUrl, "label",
+        translate("gwiki.nav.searchbox.localsearch")));
     if (StringUtils.isNotBlank(pageId) == true) {
       searchUrl += "&childs=" + pageId;
-      sb.append(searchUrl).append("|").append(translate("gwiki.nav.searchbox.globalsearch", StringEscapeUtils.escapeHtml(query)) + "\n");
+      ret.add(JsonBuilder.map("key", searchUrl,
+          "label", translate("gwiki.nav.searchbox.globalsearch")));
     }
-    wikiContext.append(sb.toString());
+
   }
 
   public Object onLinkAutocomplete()
@@ -67,16 +73,19 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     String q = StringUtils.trim(wikiContext.getRequestParameter("q"));
     String pageType = wikiContext.getRequestParameter("pageType");
     String queryexpr = SearchUtils.createLinkExpression(q, false, pageType);
-
-    renderSearchOps(q);
+    JsonArray jsonarr = JsonBuilder.array();
+    renderSearchOps(jsonarr, q);
 
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
     query.setMaxCount(1000);
     query.setWithSampleText(false);
+
     QueryResult qr = filter(query);
+
     StringBuilder sb = new StringBuilder();
     // int size = qr.getResults().size();
+
     for (SearchResult sr : qr.getResults()) {
       if (sr.getElementInfo().isViewable() == false) {
         continue;
@@ -85,9 +94,10 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
           + "<br/>("
           + StringEscapeUtils.escapeHtml(sr.getPageId())
           + ")";
-      sb.append(wikiContext.localUrl(sr.getPageId())).append("|").append(t).append("\n");
+      jsonarr.add(JsonBuilder.map("key", sr.getPageId(), "label", t));
     }
-    wikiContext.append(sb.toString());
+    String ret = jsonarr.toString();
+    wikiContext.append(ret);
     wikiContext.flush();
     return noForward();
   }

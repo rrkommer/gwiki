@@ -71,8 +71,8 @@ public class GWikiSlideIncrementPatcherFragmentVisitor extends GWikiSimpleFragme
     }
     if (fragment instanceof GWikiFragmentP) {
       GWikiFragmentP p = (GWikiFragmentP) fragment;
-      if (p.getAddClass() == null) {
-        p.setAddClass("incremental");
+      if (p.getStyleClass() == null) {
+        p.setStyleClass("incremental");
       }
     }
     /* already via p */

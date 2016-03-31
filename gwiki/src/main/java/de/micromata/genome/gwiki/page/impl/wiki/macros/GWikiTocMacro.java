@@ -27,6 +27,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
@@ -38,6 +39,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiSimpleFragmentVisi
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "With the macro toc a table of content of the local page headings can be created.",
+    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiTocMacro extends GWikiMacroBean
 {
 
@@ -51,7 +54,7 @@ public class GWikiTocMacro extends GWikiMacroBean
 
   public GWikiTocMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   protected int openCloseLevel(int lastLevel, int curLevel, GWikiContext sb)
@@ -70,7 +73,7 @@ public class GWikiTocMacro extends GWikiMacroBean
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    GWikiArtefakt< ? > af = ctx.getCurrentPart();
+    GWikiArtefakt<?> af = ctx.getCurrentPart();
     if ((af instanceof GWikiWikiPageArtefakt) == false) {
       ctx.append("-- toc only works in Wiki-Parts");
       return true;
@@ -79,8 +82,10 @@ public class GWikiTocMacro extends GWikiMacroBean
     GWikiFragment content = wik.getCompiledObject();
     final List<GWikiFragmentHeading> headings = new ArrayList<GWikiFragmentHeading>();
 
-    GWikiFragmentVisitor colV = new GWikiSimpleFragmentVisitor() {
+    GWikiFragmentVisitor colV = new GWikiSimpleFragmentVisitor()
+    {
 
+      @Override
       public void begin(GWikiFragment fragment)
       {
         if (fragment instanceof GWikiFragmentHeading) {

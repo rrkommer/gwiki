@@ -18,18 +18,17 @@
 
 package de.micromata.genome.gwiki;
 
-import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.config.GWikiBootstrapConfigLoader;
-import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoader;
-import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
+import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 
 public class GWikiLoader
 {
-  public static GWikiWeb loadGWikiWeb()
+
+  public static GWikiStandaloneContext getStandaloneContext()
   {
-    GWikiBootstrapConfigLoader loader = new GWikiCpContextBootstrapConfigLoader();
-    GWikiDAOContext bootStrapConfig = loader.loadConfig(null);
-    GWikiWeb web = new GWikiWeb(bootStrapConfig);
-    return web;
+    GWikiTestBuilder testBuilder = new GWikiTestBuilder();
+    GWikiStandaloneContext ret = new GWikiStandaloneContext();
+    ret.setWikiWeb(testBuilder.getServlet().getWikiWeb());
+    return ret;
   }
+
 }

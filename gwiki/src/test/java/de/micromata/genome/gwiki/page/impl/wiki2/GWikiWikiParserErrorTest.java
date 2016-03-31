@@ -23,7 +23,7 @@ import java.util.Map;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyDivTagMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlDivMacro;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -34,10 +34,10 @@ public class GWikiWikiParserErrorTest extends GWikiWikiParserTestBase
   public void testEvaledBodyTest()
   {
     Map<String, GWikiMacroFactory> macroFactories = new HashMap<String, GWikiMacroFactory>();
-    macroFactories.put("div", new GWikiMacroClassFactory(GWikiHtmlBodyDivTagMacro.class));
+    macroFactories.put("div", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
 
     String wiki = "y\n\nx{div}a\n";
-    String html = "<p>y</p>\n<p>x<color=\"red\">Missing macro end for  div; {div}\n{div}</color>a</p>\n";
+    String html = "<p>y</p>\n<p>x<color=\"red\">Missing macro end for  div; {div}\n{div}\n</color>a</p>\n";
     w2htest(wiki, html, macroFactories);
   }
 

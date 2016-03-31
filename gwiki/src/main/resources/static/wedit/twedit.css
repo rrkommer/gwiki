@@ -1,0 +1,118 @@
+
+.wikiEditRtePanel
+{
+	padding: 0 !important;
+}
+.wautocmp {
+	background: white;
+	border: 1px;
+	border-style: solid;
+}
+
+.wautocmp ul {
+	padding: 5px;
+	margin: 5px;
+}
+
+.wautocmp li {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+.wautocmpsel {
+	color: red !important;
+}
+
+.weditmacroframe{
+	border-color: #000000;
+  border-style: dashed;
+  border-width: 1px;
+  
+}
+  
+.weditmacrohead { //
+	border-color: #000000;
+	border-style: dashed;
+	border-width: 1px;
+	background-color: #F0F0F0;
+	margin-bottom: 0;
+	margin-top: 0;
+	//padding: 0;
+}
+
+.weditmacrobody { //
+	border-color: #000000; //
+	border-style: dashed; //
+	border-width: 1px;
+	background-color: #FFFFFF;
+	 margin-bottom: 0;
+  margin-top: 0;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 3px;
+  padding-bottom: 3px;
+  
+}
+
+.editmacrobd_pre {
+	white-space: pre;
+}
+
+.weditpaglink {
+	
+}
+
+.wedigopbar {
+	position: relative;
+	vertical-align: right;
+	float: right;
+}
+
+.gwikiContent {
+	padding: 2px;
+}
+
+.mce-i-wikichoosenlink {
+	content: "\e011";
+}
+
+.oldmce-i-wikichoosenlink {
+	content: "\e011";
+	font-family: 'tinymce', Arial;
+}
+
+i .mce-i-wikichoosenlink:before { // FONT-AWESOME-CLASSNAME e.g.
+	"icon-youtube" content:"\e011"; // FONT-AWESOME-CONTENT e.g. "\f166"
+	font-family:'tinymce';
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	color: #000;
+	font-size: 1.5em;
+	padding-right: 0.5em;
+	position: absolute;
+	top: 15%;
+	left: 0;
+}
+
+.mce-i-wikichoosenlink:before { // FONT-AWESOME-CLASSNAME e.g.
+	"icon-youtube" content:"\e011"; // FONT-AWESOME-CONTENT e.g. "\f166"
+	font-family:'tinymce';
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	color: #000;
+	font-size: 1.5em;
+	padding-right: 0.5em;
+	position: absolute;
+	top: 15%;
+	left: 0;
+}
+
+.mce-i-wikisaveaction {
+	background: blue;
+	content: "\e023";
+}

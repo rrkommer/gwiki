@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<@include file="inc/htmlHead.gspt" @>
+
+<link href="<gwiki:url value="/inc/mgc/gwiki.css"/>" rel="stylesheet" type="text/css" />
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/split.js" />'></script>
+<script type="text/JavaScript" src='<gwiki:url value="/static/gwiki/gwikiNavTree.js"/>'></script>
+
+<% wikiContext.addContentCss("/inc/mgc/gwiki.css"); %>
+
+<%= wikiContext.getHeaderContent() %>
+</head>
+<body>
+
+<!-- head.gspt END -->

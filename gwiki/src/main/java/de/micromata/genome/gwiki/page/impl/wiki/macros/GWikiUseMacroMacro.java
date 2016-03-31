@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -37,6 +36,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiScriptMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
@@ -48,6 +49,11 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Use a declared Macro in this page",
+    params = { @MacroInfoParam(name = "localName", info = "local macro name", required = true),
+        @MacroInfoParam(name = "pageId", info = "macro is user defined an can be loaded from there."),
+        @MacroInfoParam(name = "macroClass", info = "Macro is a class either Macro or MacroFactory."),
+    })
 public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
 {
   private static final long serialVersionUID = 1423464798547568584L;
@@ -85,7 +91,9 @@ public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWi
     return ret;
   }
 
-  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks, GWikiWikiParserContext ctx)
+  @Override
+  public Collection<GWikiFragment> getFragments(GWikiMacroFragment macroFrag, GWikiWikiTokens tks,
+      GWikiWikiParserContext ctx)
   {
     populate(macroFrag.getAttrs());
 
@@ -120,21 +128,25 @@ public class GWikiUseMacroMacro extends GWikiCompileTimeMacroBase implements GWi
     return l;
   }
 
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  @Override
+  protected GWikiAuthorizationRights requiredRight()
   {
-    ctx.getWikiWeb().getAuthorization().ensureAllowTo(ctx, GWikiAuthorizationRights.GWIKI_DEVELOPER.name());
+    return GWikiAuthorizationRights.GWIKI_DEVELOPER;
   }
 
+  @Override
   public boolean evalBody()
   {
     return false;
   }
 
+  @Override
   public boolean hasBody()
   {
     return false;
   }
 
+  @Override
   public int getRenderModes()
   {
     return 0;

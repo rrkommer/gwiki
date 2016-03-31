@@ -1,7 +1,10 @@
 package de.micromata.genome.gwiki.launcher.config;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.spi.storage.LsFileSystemFactoryBean;
 import de.micromata.genome.util.runtime.config.ALocalSettingsPath;
@@ -20,6 +23,11 @@ public class GWikiFilesystemConfigModel extends AbstractCompositLocalSettingsCon
   public static final String FILESYSTEM = LsFileSystemFactoryBean.LOCAL_FILE_SYSTEM;
   public static final String DATABASE = LsFileSystemFactoryBean.JPA_FILE_SYSTEM;
 
+  @ALocalSettingsPath(key = "gwiki.useContextXml")
+  private String useContextXml;
+  @ALocalSettingsPath(key = "gwiki.contextfile")
+  private String contextXml;
+
   @ALocalSettingsPath(key = "gwiki.storage.type", defaultValue = FILESYSTEM)
   private String storageType;
 
@@ -33,7 +41,41 @@ public class GWikiFilesystemConfigModel extends AbstractCompositLocalSettingsCon
   @Override
   public void validate(ValContext ctx)
   {
-    // TODO RK
+    if (isTrue(useContextXml) == true) {
+      if (StringUtils.isBlank(contextXml) == true) {
+        ctx.directError("contextXml", "Please select a GWikiContext.xml file");
+      } else if (new File(contextXml).exists() == false) {
+        ctx.directError("contextXml", "Please select an existant GWikiContext.xml file");
+      }
+    } else {
+      if (StringUtils.equals(storageType, FILESYSTEM) == false
+          && StringUtils.equals(storageType, FILESYSTEM) == false) {
+        ctx.directError("storageType", "Please select valid Storagetype");
+        return;
+      }
+      if (StringUtils.equals(storageType, FILESYSTEM) == true) {
+        if (StringUtils.isBlank(storageFilePath) == true) {
+          ctx.directError("storageFilePath", "Please select directory where to store wiki files");
+          return;
+        }
+        File dirFile = new File(storageFilePath);
+        if (dirFile.exists() == true) {
+          if (dirFile.isDirectory() == true) {
+            return;
+          } else {
+            ctx.directError("storageFilePath", "Please select a directory where to store wiki files");
+          }
+        } else {
+          boolean suc = dirFile.mkdirs();
+          if (suc == false) {
+            ctx.directError("storageFilePath", "Cannot create storageFilePath");
+          }
+        }
+      } else {
+        jdbcConfigModel.validate(ctx);
+      }
+
+    }
   }
 
   public JdbcLocalSettingsConfigModel getJdbcConfigModel()
@@ -79,6 +121,26 @@ public class GWikiFilesystemConfigModel extends AbstractCompositLocalSettingsCon
   public void setJdbcConfigModel(JdbcLocalSettingsConfigModel jdbcConfigModel)
   {
     this.jdbcConfigModel = jdbcConfigModel;
+  }
+
+  public String getUseContextXml()
+  {
+    return useContextXml;
+  }
+
+  public void setUseContextXml(String useContextXml)
+  {
+    this.useContextXml = useContextXml;
+  }
+
+  public String getContextXml()
+  {
+    return contextXml;
+  }
+
+  public void setContextXml(String contextXml)
+  {
+    this.contextXml = contextXml;
   }
 
 }

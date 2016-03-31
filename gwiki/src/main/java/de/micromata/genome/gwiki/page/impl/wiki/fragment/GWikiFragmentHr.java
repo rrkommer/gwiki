@@ -18,6 +18,8 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+
 public class GWikiFragmentHr extends GWikiFragmentHtml
 {
 
@@ -34,4 +36,9 @@ public class GWikiFragmentHr extends GWikiFragmentHtml
     sb.append("----\n");
   }
 
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd);
+  }
 }

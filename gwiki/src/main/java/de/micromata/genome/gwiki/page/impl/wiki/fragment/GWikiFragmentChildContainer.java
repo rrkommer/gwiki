@@ -47,18 +47,21 @@ public class GWikiFragmentChildContainer extends GWikiFragmentChildsBase
     super(childs);
   }
 
+  @Override
   public boolean render(GWikiContext ctx)
   {
     if (childs == null) {
       return true;
     }
     for (GWikiFragment c : childs) {
-      if (c.render(ctx) == false)
+      if (c.render(ctx) == false) {
         return false;
+      }
     }
     return true;
   }
 
+  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     if (childs == null) {
@@ -69,9 +72,16 @@ public class GWikiFragmentChildContainer extends GWikiFragmentChildsBase
     }
   }
 
+  @Override
   public void getSource(StringBuilder sb)
   {
     getChildSouce(sb);
+  }
+
+  @Override
+  public int getRenderModes()
+  {
+    return 0;
   }
 
 }

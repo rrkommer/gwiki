@@ -22,17 +22,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
-import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.AttributeMatcher;
-import de.micromata.genome.util.matcher.EqualsMatcher;
+import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
+import de.micromata.genome.util.matcher.CommonMatchers;
+import de.micromata.genome.util.matcher.StringMatchers;
 
 /**
  * Render a pageIntro section.
@@ -40,12 +42,23 @@ import de.micromata.genome.util.matcher.EqualsMatcher;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte
+@MacroInfo(
+    info = "The Macro pageintro markes a section of wiki text, which will be used as short abstract of the page.\n" +
+        "This text can also be used to be displayed in children Macros.",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
+        GWikiMacroRenderFlags.TrimTextContent })
+public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro//, GWikiMacroRte
 {
 
   private static final long serialVersionUID = -3030397042733595461L;
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div", "pageintro", GWikiPageIntroMacroBean.class) {
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("div",
+      CommonMatchers.and(SaxElementMatchers.nameMatcher("div"),
+          SaxElementMatchers.attribute("class", StringMatchers.containsString("wikiPageIntro"))),
+      "pageintro",
+      GWikiPageIntroMacroBean.class)
+  {
 
     @Override
     public void handleMacroEnd(String tagname, GWikiMacroFragment lpfm, List<GWikiFragment> children, String body)
@@ -58,30 +71,36 @@ public class GWikiPageIntroMacroBean extends GWikiMacroBean implements GWikiBody
     }
 
   };
-  static {
-    AttributeMatcher am = new AttributeMatcher();
-    am.setName("class");
-    am.setValueMatcher(new EqualsMatcher<String>("wikiPageIntro"));
-    transformInfo.getAttributeMatcher().add(am);
-  }
 
   public GWikiPageIntroMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-    ctx.append("<div class=\"wikiPageIntro\">");
+    ctx.append("<div class=\"wikiPageIntro");
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append(" weditmacrohead");
+    }
+    ctx.append("\"");
+    Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
+    ctx.append(">");
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append("<div class='weditmacrobody'>");
+    }
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
+    }
+    if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == true) {
+      ctx.append("</div>");
     }
     ctx.append("</div>");
     return true;
   }
 
+  //  @Override
   public Html2WikiTransformInfo getTransformInfo()
   {
     return transformInfo;

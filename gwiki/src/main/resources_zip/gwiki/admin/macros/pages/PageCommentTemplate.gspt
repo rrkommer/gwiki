@@ -1,6 +1,7 @@
 <@include file="inc/stdtags.gspt" @>
 <@include file="inc/stdgfuncs.gspt" @>
-<@include file="inc/stdjsvars.gspt" @>
+<!--  overwrite from master -->
+<%-- include file="inc/stdjsvars.gspt"  --%>
 <% 
   def form = wikiContext.pageContext.request.getAttribute('form');
   String pageCommentUrl = wikiContext.localUrl("/admin/macros/pages/PageComment");

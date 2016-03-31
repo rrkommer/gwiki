@@ -27,7 +27,11 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Render Next/Prev link.
@@ -35,6 +39,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Renders Next/Previsous Page link",
+    params = { @MacroInfoParam(name = "prevPage", type = MacroParamType.Boolean,
+        info = "If true, renders a link to previous page, otherwise to next."),
+        @MacroInfoParam(name = "title", info = "Title for the link") },
+    renderFlags = { GWikiMacroRenderFlags.InTextFlow, GWikiMacroRenderFlags.RteSpan })
 public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
 {
 
@@ -46,7 +55,7 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
 
   public GWikiScrollNextPrevPageMacro()
   {
-
+    setRenderModesFromAnnot();
   }
 
   public GWikiScrollNextPrevPageMacro(String title, boolean prevPage)
@@ -65,7 +74,8 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
     return getSilbling(false, wikiContext, comparator);
   }
 
-  public static GWikiElementInfo getSilbling(boolean prevPage, GWikiContext wikiContext, GWikiElementByOrderComparator comparator)
+  public static GWikiElementInfo getSilbling(boolean prevPage, GWikiContext wikiContext,
+      GWikiElementByOrderComparator comparator)
   {
     GWikiElement el = wikiContext.getCurrentElement();
     if (el == null) {
@@ -79,8 +89,9 @@ public class GWikiScrollNextPrevPageMacro extends GWikiMacroBean
     if (comparator != null) {
       Collections.sort(cl, comparator);
     } else {
-      Collections.sort(cl, new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
-          "ORDER", 0))));
+      Collections.sort(cl,
+          new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+              "ORDER", 0))));
     }
     int curIdx = cl.indexOf(el.getElementInfo());
     if (curIdx == -1) {

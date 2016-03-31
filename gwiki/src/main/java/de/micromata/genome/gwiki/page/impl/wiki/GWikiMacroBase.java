@@ -18,31 +18,64 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
+import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 public abstract class GWikiMacroBase implements GWikiMacro
 {
+  private GWikiMacroInfo macroInfo;
   /**
    * combinations of GWikiMacroRenderFlags
    */
   private int renderModes = 0;
 
+  public GWikiMacroBase(GWikiMacroInfo macroInfo)
+  {
+    this.macroInfo = macroInfo;
+  }
+
+  public GWikiMacroBase()
+  {
+  }
+
+  @Override
   public boolean hasBody()
   {
     return this instanceof GWikiBodyMacro;
   }
 
+  @Override
   public boolean evalBody()
   {
     return this instanceof GWikiBodyEvalMacro;
   }
 
+  @Override
+  public boolean isRestricted(MacroAttributes attrs, GWikiContext ctx)
+  {
+    GWikiAuthorizationRights reqr = requiredRight();
+    if (reqr == null) {
+      return false;
+    }
+    return ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, reqr.name()) == false;
+  }
+
+  protected GWikiAuthorizationRights requiredRight()
+  {
+    return null;
+  }
+
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
-
+    if (isRestricted(attrs, ctx)) {
+      throw new AuthorizationFailedException("Forbitten usage of Macro.");
+    }
   }
 
   /**
@@ -69,6 +102,18 @@ public abstract class GWikiMacroBase implements GWikiMacro
 
   }
 
+  @Override
+  public GWikiMacroInfo getMacroInfo()
+  {
+    return macroInfo;
+  }
+
+  public void setMacroInfo(GWikiMacroInfo macroInfo)
+  {
+    this.macroInfo = macroInfo;
+  }
+
+  @Override
   public int getRenderModes()
   {
     return renderModes;
@@ -77,5 +122,22 @@ public abstract class GWikiMacroBase implements GWikiMacro
   public void setRenderModes(int renderModes)
   {
     this.renderModes = renderModes;
+  }
+
+  protected void setRenderModesFromAnnot()
+  {
+    List<MacroInfo> allanots = de.micromata.genome.util.runtime.ClassUtils.findClassAnnotations(getClass(),
+        MacroInfo.class);
+    for (MacroInfo mi : allanots) {
+      if (mi.renderFlags().length > 0) {
+        int flags = 0;
+        for (GWikiMacroRenderFlags rf : mi.renderFlags()) {
+          flags |= rf.getFlag();
+        }
+        setRenderModes(flags);
+        return;
+      }
+    }
+
   }
 }

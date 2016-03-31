@@ -73,6 +73,7 @@ public class MacroAttributes implements Serializable
     parse(text);
   }
 
+  @Override
   public String toString()
   {
     StringBuilder sb = new StringBuilder();
@@ -82,7 +83,7 @@ public class MacroAttributes implements Serializable
 
   public String escapeValue(String value)
   {
-    if (StringUtils.indexOfAny(value, new char[] { '|', '}', '{', '='}) == -1) {
+    if (StringUtils.indexOfAny(value, new char[] { '|', '}', '{', '=' }) == -1) {
       return value;
     }
     return '"' + StringEscapeUtils.escapeJavaScript(value) + '"';
@@ -90,27 +91,35 @@ public class MacroAttributes implements Serializable
 
   public void toString(StringBuilder sb)
   {
-    sb.append("{").append(getCmd());
-    if (getArgs().isEmpty() == false) {
-      String defSt = getDefaultValue();
-      sb.append(":");
-      boolean preBar = false;
-      if (defSt != null) {
-        sb.append(escapeValue(defSt));
-        preBar = true;
-      }
-      for (Map.Entry<String, String> me : getArgs().getMap().entrySet()) {
-        if (MacroAttributes.DEFAULT_VALUE_KEY.equals(me.getKey()) == true) {
-          continue;
-        }
-        if (preBar == true) {
-          sb.append("|");
-        }
-        sb.append(me.getKey()).append("=").append(escapeValue(me.getValue()));
-        preBar = true;
-      }
-    }
+    sb.append("{");
+    toHeadContent(sb);
     sb.append("}");
+  }
+
+  public void toHeadContent(StringBuilder sb)
+  {
+    sb.append(getCmd());
+    if (getArgs().isEmpty() == true) {
+      return;
+    }
+    String defSt = getDefaultValue();
+    sb.append(":");
+    boolean preBar = false;
+    if (defSt != null) {
+      sb.append(escapeValue(defSt));
+      preBar = true;
+    }
+    for (Map.Entry<String, String> me : getArgs().getMap().entrySet()) {
+      if (MacroAttributes.DEFAULT_VALUE_KEY.equals(me.getKey()) == true) {
+        continue;
+      }
+      if (preBar == true) {
+        sb.append("|");
+      }
+      sb.append(me.getKey()).append("=").append(escapeValue(me.getValue()));
+      preBar = true;
+    }
+
   }
 
   public void parse(String text)
@@ -138,13 +147,15 @@ public class MacroAttributes implements Serializable
 
   public static String encode(Map<String, String> map)
   {
-    if (map == null)
+    if (map == null) {
       return "";
+    }
     StringBuilder sb = new StringBuilder();
     boolean isFirst = true;
     for (Map.Entry<String, String> me : map.entrySet()) {
-      if (isFirst == false)
+      if (isFirst == false) {
         sb.append("|");
+      }
       isFirst = false;
       String k = me.getKey();
       k = escape(k);

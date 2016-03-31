@@ -13,6 +13,7 @@ import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
+import de.micromata.genome.gwiki.web.GWikiLogHtmlWindowServlet;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.LocalSettings;
@@ -20,6 +21,7 @@ import de.micromata.mgc.application.jetty.JettyServer;
 import de.micromata.mgc.application.webserver.config.JettyConfigModel;
 
 /**
+ * Jetty server for GWiki.
  * 
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
@@ -37,8 +39,10 @@ public class GWikiJettyServer extends JettyServer
   @Override
   protected ServletContextHandler createContextHandler(JettyConfigModel config)
   {
-
-    String contextFile = LocalSettings.get().get("gwiki.contextfile", "res:/StandaloneGWikiContext.xml");
+    String contextFile = "res:/StandaloneGWikiContext.xml";
+    if (LocalSettings.get().getBooleanValue("gwiki.useContextXml", false) == true) {
+      contextFile = LocalSettings.get().get("gwiki.contextfile", contextFile);
+    }
     GWikiBootstrapConfigLoader cfgLoader;
     if (StringUtils.startsWith(contextFile, "res:") == true) {
       String fileName = contextFile.substring("res:".length());
@@ -62,7 +66,10 @@ public class GWikiJettyServer extends JettyServer
     ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
     wikiServlet.setDAOContext(wikibootcfg);
     context.addServlet(wikiServletHolder, "/*");
-
+    GWikiLogHtmlWindowServlet logHtmlServlet = new GWikiLogHtmlWindowServlet();
+    logHtmlServlet.init();
+    ServletHolder logHtmlServletHolder = new ServletHolder(logHtmlServlet);
+    context.addServlet(logHtmlServletHolder, "/loghtml");
     return context;
   }
 

@@ -1,0 +1,19 @@
+</div> <!--  end  gwikiContent -->
+</div> <!--  end gwikiBodySplit -->
+<div class="gwikifooter">
+<hr/>
+
+<div style="float: left">
+  
+  <small>Last modified <%= wikiContext.getUserDateString(wikiContext.wikiElement.elementInfo.props.getDateValue("MODIFIEDAT")) %>
+    by <%= wikiContext.wikiElement.elementInfo.props.getStringValue("MODIFIEDBY") %>.  
+    ViewCount: <%= de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiUseCounterFilter.getUseCounter(wikiContext, wikiContext.wikiElement.elementInfo.id) %>
+  </small>
+  </div>
+  <div style="float: right">
+    <small>
+      By Roger Rene Kommer <a href="mailto:r.kommer@microm ata.de">r.kommer@micromata.de</a> and <a href="http://www.micromata.de">Micromata</a>
+    </small>
+  </div>
+</div>
+<@include file="inc/mgc/footer.gspt"@>

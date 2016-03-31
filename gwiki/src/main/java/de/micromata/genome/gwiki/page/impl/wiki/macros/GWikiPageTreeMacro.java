@@ -21,12 +21,22 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * @author Christian Claus (c.claus@micromata.de)
  * 
  */
+@MacroInfo(info = "renders a page tree of children.",
+    params = {
+        @MacroInfoParam(name = "rootPageId",
+            info = "Children root. If not set current page", type = MacroParamType.PageId),
+        @MacroInfoParam(name = "height", info = "height in css declaration"),
+        @MacroInfoParam(name = "width", info = "width in css declaration")
+    })
 public class GWikiPageTreeMacro extends GWikiMacroBean
 {
 
@@ -57,7 +67,7 @@ public class GWikiPageTreeMacro extends GWikiMacroBean
     if (StringUtils.isNotBlank(height)) {
       ctx.append("height: " + height + "; ");
     }
-    
+
     final String path = ctx.getServlet().getServletContext().getContextPath() + ctx.getRequest().getServletPath();
 
     ctx.append("'></div>");

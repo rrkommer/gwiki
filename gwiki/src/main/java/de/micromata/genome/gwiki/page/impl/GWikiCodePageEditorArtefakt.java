@@ -37,7 +37,7 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
   private static final long serialVersionUID = 1489327680460828556L;
 
   public GWikiCodePageEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
-      GWikiTextArtefaktBase< ? > textPage)
+      GWikiTextArtefaktBase<?> textPage)
   {
     super(elementToEdit, editBean, partName, textPage);
   }
@@ -68,10 +68,10 @@ public abstract class GWikiCodePageEditorArtefakt extends GWikiTextPageEditorArt
         + ",start_highlight: true\n"
         + ",replace_tab_by_spaces: 2\n"
         + "});\n"
-        + "saveHandlers.push(function(){ "
+        + "saveHandlers.push(function(partName, chain){\n"
         + "editAreaLoader.toggle('"
         + textId
-        + "');});\n"
+        + "'); chain(); });\n"
         + "function "
         + partName
         + "Activate(partName){\n"

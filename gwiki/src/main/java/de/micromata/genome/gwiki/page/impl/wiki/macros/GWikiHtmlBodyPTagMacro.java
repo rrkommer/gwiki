@@ -18,6 +18,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * Like GWikiHtmlBodyTagMacro, but the macro generates a html, which does not allow Wrapped with p.
@@ -25,19 +26,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiHtmlBodyPTagMacro extends GWikiHtmlBodyTagMacro
+@MacroInfo(info = "Paragraph with style information",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.TrimTextContent })
+public class GWikiHtmlBodyPTagMacro extends GWikiHtmlBodyRteTagMacro
 {
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 6120276764387653968L;
-
-  public GWikiHtmlBodyPTagMacro()
-  {
-    super();
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP));
-  }
 
 }

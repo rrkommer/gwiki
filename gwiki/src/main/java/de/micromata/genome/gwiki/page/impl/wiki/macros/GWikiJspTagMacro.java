@@ -35,6 +35,7 @@ import de.micromata.genome.gwiki.page.gspt.ChildPageContext;
 import de.micromata.genome.gwiki.page.gspt.GspPageContext;
 import de.micromata.genome.gwiki.page.gspt.TagSupport;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 
@@ -55,8 +56,9 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
 
   private TagInfo tagInfo;
 
-  public GWikiJspTagMacro(TagInfo tagInfo, JspTag tag)
+  public GWikiJspTagMacro(TagInfo tagInfo, JspTag tag, GWikiMacroInfo macroInfo)
   {
+    super(macroInfo);
     this.tagInfo = tagInfo;
     this.tag = tag;
 
@@ -113,6 +115,7 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
     return true;
   }
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     try {
@@ -152,16 +155,19 @@ public class GWikiJspTagMacro extends GWikiMacroBase implements GWikiRuntimeMacr
 
   }
 
+  @Override
   public boolean evalBody()
   {
     return hasBody();
   }
 
+  @Override
   public int getRenderModes()
   {
     return 0;
   }
 
+  @Override
   public boolean hasBody()
   {
     // TODO Auto-generated method stub

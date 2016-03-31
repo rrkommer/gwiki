@@ -1,0 +1,14 @@
+<@include file="inc/stdtags.gspt" @>
+
+<div	style="z-index: 1000; width: 1200px; min-width: 1000px; overflow: visible;">
+  Image uploader.
+  <div id="uploadappletbody">
+  <div id="imguploadpreview" contenteditable="true" onpaste="return screenshotPasteHandler(event)">Paste here: </div>
+  FileName: <input type="text" id="imguploadfilename"></input> 
+  <button onclick='storeImage()' title="Speichern">Speichern</button>
+</div>
+
+
+
+</div>
+

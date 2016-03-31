@@ -28,9 +28,12 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 /**
  * Editor for a HTML artefakt.
  * 
+ * @deprecated this is broken, becuase tinyMCE doesn't work for core html. Using GWikiPlainHtmlEditorArtefakt instead.
+ * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@Deprecated
 public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> implements GWikiEditorArtefakt<String>
 {
 
@@ -38,12 +41,14 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> imp
 
   private GWikiHtmlArtefakt wikiPage;
 
-  public GWikiHtmlEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName, GWikiHtmlArtefakt wikiPage)
+  public GWikiHtmlEditorArtefakt(GWikiElement elementToEdit, GWikiEditPageActionBean editBean, String partName,
+      GWikiHtmlArtefakt wikiPage)
   {
     super(elementToEdit, editBean, partName);
     this.wikiPage = wikiPage;
   }
 
+  @Override
   public void onSave(GWikiContext ctx)
   {
     ctx.getWikiWeb().getAuthorization().ensureAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name());
@@ -59,10 +64,10 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> imp
     wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
     // wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.4.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
     wikiContext.getRequiredJs().add("/static/tiny_mce/plugins/gwiki/editor_plugin_src.js");
@@ -71,6 +76,7 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> imp
 
   }
 
+  @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
     // GWikiEditPageActionBean editBean = (GWikiEditPageActionBean) ctx.getRequestAttribute("form");
@@ -96,10 +102,11 @@ public class GWikiHtmlEditorArtefakt extends GWikiEditorArtefaktBase<String> imp
     String textareaid = partName + ".htmlText";
 
     String html = //
-    Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), //
-        Xml.text(wikiPage.getStorageData())).toString();
-    String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n" + "setTimeout(function() {\n"
-    // + "alert('now timeout');\n"
+        Html.textarea(Xml.attrs("rows", "40", "cols", "120", "name", partName + ".htmlText", "id", textareaid), //
+            Xml.text(wikiPage.getStorageData())).toString();
+    String script = "<script type=\"text/javascript\">\n" + "$(document).ready(function(){\n"
+        + "setTimeout(function() {\n"
+        // + "alert('now timeout');\n"
         + "gwikiCreateHtmlPageEditor('"
         + textareaid
         + "');\n"

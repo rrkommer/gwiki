@@ -22,11 +22,25 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public abstract class GWikiCompileTimeMacroBase extends GWikiMacroBase implements GWikiCompileTimeMacro
 {
+  public GWikiCompileTimeMacroBase(GWikiMacroInfo macroInfo)
+  {
+    super(macroInfo);
+  }
+
+  public GWikiCompileTimeMacroBase()
+  {
+  }
 
   private static final long serialVersionUID = -8053026294841163346L;
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     if (this instanceof GWikiBodyEvalMacro && attrs.getChildFragment() != null) {

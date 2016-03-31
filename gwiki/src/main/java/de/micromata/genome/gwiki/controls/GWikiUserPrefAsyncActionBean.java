@@ -54,7 +54,7 @@ public class GWikiUserPrefAsyncActionBean extends ActionBeanBase
   public Object onSave()
   {
     wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, key, value,
-        persist == true ? UserPropStorage.Server : UserPropStorage.Transient);
+        persist == true ? UserPropStorage.Client : UserPropStorage.Transient);
     return noForward();
   }
 

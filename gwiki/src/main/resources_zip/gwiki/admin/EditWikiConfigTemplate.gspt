@@ -28,7 +28,7 @@ var saveHandlers = new Array();
 function onSave(event)
 {
   gwikiContentChanged=false;
-    
+    // TODO RK check saveHandlers signature.
   for (var i = 0; i < saveHandlers.length; ++i)
   {
     saveHandlers[i]();
@@ -67,7 +67,8 @@ function onSave(event)
   \$(document).ready(function(){
     var tabs = \$("#tabs").tabs(
           { selected: 0,
-            select: function(event, ui) {
+          	activate: function(event, ui) {
+          		console.debug("edit tab activated");
             /*try {
               eval("" + gwikiCurrentPart + "Deactivate('" + gwikiCurrentPart + "')");
             } catch (ex) {
@@ -82,8 +83,8 @@ function onSave(event)
           });
     
     \$('.wikiPageEditText').autocomplete(
-        '<gwiki:url value="/edit/PageSuggestions"/>', 
     {
+    	source:  '<gwiki:url value="/edit/PageSuggestions"/>', 
       matchContains : true,
       minChars : 0,
       width : 350,
