@@ -72,6 +72,7 @@
                     <exclude name="**/arch/**" />
                     <exclude name="admin/user/**" />
                     <exclude name="home/**" />
+                    <exclude name="**/playzone/**" />
                     <exclude name="admin/plugin/rogmp3*" />
                     <exclude name="admin/plugin/gwiki-style-ProjectForge*" />
                   </fileset>
