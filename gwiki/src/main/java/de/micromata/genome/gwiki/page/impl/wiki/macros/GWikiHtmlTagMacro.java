@@ -32,6 +32,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Base class to implement html macros.
@@ -39,6 +41,12 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(params = {
+    @MacroInfoParam(name = "id", info = "HTML element ID"),
+    @MacroInfoParam(name = "class", info = "CSS class names"),
+    @MacroInfoParam(name = "style", info = "CSS style"),
+
+})
 public class GWikiHtmlTagMacro extends GWikiMacroBean
 {
 
@@ -63,6 +71,7 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
     return new GWikiMacroClassFactory(GWikiHtmlTagMacro.class);
   }
 
+  @Override
   public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
   {
     ensureHtmlAttrRight(attrs, ctx);
@@ -106,7 +115,6 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
-
     ctx.append("<", attrs.getCmd());
     renderAttributes(ctx, attrs.getArgs().getMap());
     ctx.append(">");

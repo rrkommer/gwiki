@@ -23,9 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 
 /**
@@ -104,7 +109,7 @@ public class WikiParserUtils
    * @param html html text.
    * @param supportedHtmlTags known html macros.
    * 
-   * <pre></pre>
+   *          <pre></pre>
    * 
    *          will be translated into {pre}{pre} in wiki.
    * @return "" if html is null.
@@ -115,5 +120,44 @@ public class WikiParserUtils
       return "";
     }
     return Html2WikiFilter.html2Wiki(html, supportedHtmlTags);
+  }
+
+  public static void dumpFragmentTree(List<GWikiFragment> frags, StringBuilder sb, String indent)
+  {
+    for (GWikiFragment frag : frags) {
+      dumpFragmentTree(frag, sb, indent);
+    }
+  }
+
+  public static void dumpFragmentTree(GWikiFragment frag, StringBuilder sb, String indent)
+  {
+    sb.append(indent);
+    sb.append(frag.getClass().getSimpleName());
+    if (frag instanceof GWikiMacroFragment) {
+      GWikiMacroFragment mf = (GWikiMacroFragment) frag;
+      sb.append(": ");
+      mf.getAttrs().toHeadContent(sb);
+      sb.append("\n");
+      if (mf.getAttrs().getChildFragment() != null
+          && mf.getAttrs().getChildFragment().getChilds().isEmpty() == false) {
+        dumpChildFragments(mf.getAttrs().getChildFragment(), sb, indent + "  ");
+      } else if (mf.getMacro().hasBody() && mf.getMacro().evalBody() == false) {
+        sb.append(StringEscapeUtils.escapeJava(mf.getAttrs().getBody()));
+      }
+      return;
+    }
+    if (frag instanceof GWikiFragmentText) {
+      sb.append(": ").append(groovy.json.StringEscapeUtils.escapeJava(((GWikiFragmentText) frag).getHtml()));
+    }
+    sb.append("\n");
+    if (frag instanceof GWikiFragmentChildsBase) {
+      dumpChildFragments((GWikiFragmentChildsBase) frag, sb, indent + " ");
+    }
+
+  }
+
+  protected static void dumpChildFragments(GWikiFragmentChildsBase frag, StringBuilder sb, String ident)
+  {
+    dumpFragmentTree(frag.getChilds(), sb, ident);
   }
 }

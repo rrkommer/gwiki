@@ -17,7 +17,6 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
@@ -26,11 +25,15 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "generates a formLabel",
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NewLineAfterStart,
+        GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.ContainsTextBlock })
 public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
 {
 
@@ -38,13 +41,14 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
 
   public GWikiFormLabelMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent));
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -60,9 +64,10 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable#toSource(de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment,
-   * java.lang.StringBuilder)
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable#toSource(de.micromata.genome.gwiki.page.impl.wiki.
+   * GWikiMacroFragment, java.lang.StringBuilder)
    */
+  @Override
   public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
   {
     if (GWikiFormMacro.evalForm() == false) {
@@ -71,11 +76,9 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
   }
 
   @Override
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  protected GWikiAuthorizationRights requiredRight()
   {
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_EDITHTML.name()) == false) {
-      throw new AuthorizationFailedException("Unsecure usage of form Macro.");
-    }
+    return GWikiAuthorizationRights.GWIKI_EDITHTML;
   }
 
 }

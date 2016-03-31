@@ -21,6 +21,9 @@ package de.micromata.genome.gwiki.page.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
+
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -41,7 +44,8 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
  */
 public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
 {
-
+  private static boolean useDivEditor = false;
+  private static boolean useHtmlImageInserter = false;
   private static final long serialVersionUID = -3208103086581392210L;
 
   private GWikiWikiPageBaseArtefakt wikiPage;
@@ -60,9 +64,19 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/tiny_mce/tiny_mce_src.js");
     wikiContext.getRequiredJs().add("/static/gwiki/textarea-0.1.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-link-dialog-0.3.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-toolbar-0.3.js");
-    wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
+    if (useHtmlImageInserter == true) {
+      wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.4.js");
+    } else {
+      wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-wikiops-0.3.js");
+    }
+    if (useDivEditor == true) {
+      wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.4.js");
+    } else {
+      wikiContext.getRequiredJs().add("/static/gwiki/gwiki-wikitextarea-0.3.js");
+
+    }
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-frame-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwikiedit-0.3.js");
     wikiContext.getRequiredJs().add("/static/gwiki/gwiki-htmledit-0.3.js");
@@ -71,6 +85,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredCss().add("/static/gwikiedit/gwikiedit.css");
   }
 
+  @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
     String thisPageId = null;
@@ -78,10 +93,23 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       thisPageId = editBean.getPageId();
     }
     String pn = partName;
-    String html = Html.textarea(
-        Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name", partName + ".wikiText",
-            "style", "width:100%;height:100%"), //
-        Xml.text(textPage.getStorageData())).toString();
+    String html;
+    if (useDivEditor == true) {
+      String text = textPage.getStorageData();
+      text = StringEscapeUtils.escapeXml(text);
+      text = StringUtils.replace(text, "\n", "<br/>\n");
+      html = Html.div(
+          Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "contenteditable", "true",
+              "style", "width:100%;height:100%"), //
+          Xml.code(text)).toString();
+    } else {
+      html = Html.textarea(
+          Xml.attrs("id", "textarea" + partName, "class", "wikiEditorTextArea", "rows", "30", "cols", "100", "name",
+              partName + ".wikiText",
+              "style", "width:100%;height:100%"), //
+          Xml.text(textPage.getStorageData())).toString();
+
+    }
     String tabs = "<div id=\"gwikiWikiEditorFrame"
         + pn
         + "\" style=\"width: 100%; height: 100%\">"
@@ -115,7 +143,8 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     ctx.append("<script type=\"text/javascript\">\n", "jQuery(document).ready(function(){\n"
         + " jQuery(\"#textarea"
         + pn
-        + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '", partName, "' ");
+        + "\").gwikiedit({\n", "linkAutoCompleteUrl: '", ctx.localUrl("edit/PageSuggestions"), "', partName: '",
+        partName, "' ");
     if (thisPageId != null) {
       ctx.append(", parentPageId: '", thisPageId, "'");
     }
@@ -129,6 +158,7 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
     return true;
   }
 
+  @Override
   public void onSave(GWikiContext ctx)
   {
     super.onSave(ctx);
@@ -136,8 +166,10 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       wikiPage.compileFragements(ctx);
       wikiPage.getCompiledObject().ensureRight(ctx);
       final List<GWikiFragmentParseError> errors = new ArrayList<GWikiFragmentParseError>();
-      GWikiFragmentVisitor findCompileErrorVisitor = new GWikiSimpleFragmentVisitor() {
+      GWikiFragmentVisitor findCompileErrorVisitor = new GWikiSimpleFragmentVisitor()
+      {
 
+        @Override
         public void begin(GWikiFragment fragment)
         {
           if (fragment instanceof GWikiFragmentParseError) {
@@ -160,7 +192,8 @@ public class GWikiWikiPageEditorArtefakt extends GWikiTextPageEditorArtefakt
       ctx.addSimpleValidationError(ex.getMessage());
     } catch (Exception ex) {
       String st = ThrowableUtils.getExceptionStacktraceForHtml(ex);
-      ctx.addSimpleValidationError(ctx.getTranslated("gwiki.edit.EditPage.validate.compile.error") + " " + ex.getMessage() + "\n" + st);
+      ctx.addSimpleValidationError(
+          ctx.getTranslated("gwiki.edit.EditPage.validate.compile.error") + " " + ex.getMessage() + "\n" + st);
     }
 
   }

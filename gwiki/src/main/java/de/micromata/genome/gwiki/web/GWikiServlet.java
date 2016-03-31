@@ -43,6 +43,7 @@ import de.micromata.genome.gwiki.utils.ClassUtils;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.logging.LoggingServiceManager;
+import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
 
@@ -69,10 +70,12 @@ public class GWikiServlet extends HttpServlet
   public String contextPath;
 
   public String servletPath;
+  long etagTimeOut;
 
   public GWikiServlet()
   {
     INSTANCE = this;
+    etagTimeOut = LocalSettings.get().getLongValue("gwiki.etag.timeoutms", TimeInMillis.HOUR);
   }
 
   public GWikiWeb getWikiWeb()
@@ -233,15 +236,18 @@ public class GWikiServlet extends HttpServlet
       resp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-    String etag = wikiContext.getWikiWeb().geteTagWiki();
-    String ifnm = wikiContext.getRequest().getHeader("If-None-Match");
-    if (StringUtils.equals(etag, ifnm) == true) {
-      wikiContext.getResponse().sendError(304, "Not modified");
-      return;
-    }
+    if (etagTimeOut > 1) {
+      String etag = wikiContext.getWikiWeb().geteTagWiki();
+      String ifnm = wikiContext.getRequest().getHeader("If-None-Match");
+      if (StringUtils.equals(etag, ifnm) == true) {
+        wikiContext.getResponse().sendError(304, "Not modified");
+        return;
+      }
 
-    wikiContext.getResponse().addHeader("ETag", etag);
-    long nt = new Date().getTime() + TimeInMillis.HOUR;
+      wikiContext.getResponse().addHeader("ETag", etag);
+      long nt = new Date().getTime() + etagTimeOut;
+    }
+    long nt = new Date().getTime() + etagTimeOut;
     String mime = wikiContext.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(wikiContext, page);
     if (StringUtils.equals(mime, "application/x-shockwave-flash")) {
       resp.setHeader("Cache-Control", "cache, must-revalidate");

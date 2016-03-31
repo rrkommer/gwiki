@@ -20,6 +20,8 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 import java.util.List;
 
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+
 /**
  * list elements inside a list.
  * 
@@ -45,6 +47,7 @@ public class GWikiFragmentLi extends GWikiFragmentDecorator
     this.listfrag = listfrag;
   }
 
+  @Override
   public void getSource(StringBuilder sb)
   {
     sb.append(listfrag.getListTag()).append(" ");
@@ -53,4 +56,11 @@ public class GWikiFragmentLi extends GWikiFragmentDecorator
       sb.append("\n");
     }
   }
+
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP);
+  }
+
 }

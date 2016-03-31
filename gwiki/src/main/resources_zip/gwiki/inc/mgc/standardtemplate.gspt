@@ -1,0 +1,6 @@
+
+<% wikiContext.skinInclude('standardhead'); %>
+<%
+	MainPage.render(wikiContext);
+%>
+<% wikiContext.skinInclude('standardfoot'); %>

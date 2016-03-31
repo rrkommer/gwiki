@@ -23,8 +23,8 @@ import java.util.Map;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyDivTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlDivMacro;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -38,9 +38,10 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   {
     /*
      * macroFactories.put("slide", new GWikiMacroClassFactory(GWikiSlideMacro.class, GWikiMacroRenderFlags.combine(
-     * GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP)));
+     * GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock,
+     * GWikiMacroRenderFlags.NoWrapWithP)));
      */
-    macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyDivTagMacro.class));
+    macroFactories.put("span", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
     macroFactories.put("code", new GWikiMacroClassFactory(GWikiCodeMacro.class));
     macroFactories.put("pageintro", new GWikiMacroClassFactory(GWikiPageIntroMacroBean.class));
   }
@@ -73,7 +74,9 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   {
     w2htest(
         "a\n{code}asdf{code}\ne\n",
-        "<p>a</p>\n<div class=\"preformatted panel\" style=\"border-width: 1px;\"><div class=\"preformattedContent panelContent\">\n\n<span class=\"java_plain\">asdf</span><br />\n</div></div><p>e</p>\n",
+        "<p>a</p>\n" +
+            "<pre><code class='language-java'>asdf</code></pre><p>e</p>\n" +
+            "",
         macroFactories);
   }
 

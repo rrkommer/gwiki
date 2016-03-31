@@ -39,7 +39,8 @@ import de.micromata.genome.util.xml.xmlbuilder.html.Html;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[]> implements GWikiEditorArtefakt<byte[]>
+public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[]>
+    implements GWikiEditorArtefakt<byte[]>
 {
 
   private static final long serialVersionUID = 6020855175438784647L;
@@ -57,6 +58,7 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     this.attachment = attachment;
   }
 
+  @Override
   public void onSave(GWikiContext ctx)
   {
     if (StringUtils.isEmpty(appletTmpFileName) == true) {
@@ -126,6 +128,7 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     return ctx.getWikiWeb().getI18nProvider().translate(ctx, key);
   }
 
+  @Override
   public boolean renderWithParts(GWikiContext ctx)
   {
     String value = "";
@@ -140,45 +143,43 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
     }
     String parentPageId = editBean.getParentPageId();
     StringBuilder html = new StringBuilder();
-    html.append("<input id=\"appletTmpFileName\" type=\"hidden\" name=\"" + partName + ".appletTmpFileName\">");
-    html.append("<script type=\"text/javascript\">") //
+
+    //    html.append("<input id=\"appletTmpFileName\" type=\"hidden\" name=\"" + partName + ".appletTmpFileName\">");
+    html.append("<script type=\"text/javascript\">\n") //
         .append("function swithFileUploadToStd() {\n") //
-        .append("jQuery(\"#gwikiattappfrm\").hide();") //
-        .append("jQuery(\"#gwikiattappexists\").hide();") //
-        .append("jQuery(\"#gwikiattstd\").show();") //
-        .append("}\n") //
-        .append("function swithFileUploadToStd() {\n") //
-        .append("jQuery(\"#gwikiattappfrm\").hide();") //
-        .append("jQuery(\"#gwikiattappexists\").hide();") //
-        .append("jQuery(\"#gwikiattstd\").show();") //
+        .append("jQuery(\"#gwikiattappfrm\").show();\n") //
+        .append("jQuery(\"#gwikiattappexists\").hide();\n") //
+        .append("jQuery(\"#gwikiattstd\").show();\n") //
         .append("}\n") //
         .append("function switchFileExists() {\n") //
-        .append("jQuery(\"#gwikiattappfrm\").hide();") //
-        .append("jQuery(\"#gwikiattstd\").hide();") //
-        .append("jQuery(\"#gwikiattappexists\").show();") //
+        .append("jQuery(\"#gwikiattappfrm\").hide();\n") //
+        .append("jQuery(\"#gwikiattstd\").hide();\n") //
+        .append("jQuery(\"#gwikiattappexists\").show();\n") //
         .append("}\n") //
-
-        .append("function switchFileUploadToApplet(){\n") //
-        .append("jQuery(\"#gwikiattstd\").hide(); \n")//
-        .append("jQuery(\"#gwikiattappexists\").hide();\n")//
-        .append("jQuery(\"#gwikiattappfrm\").show();\n")//
-        .append(
-            "jQuery(\"#gwikiattpapplet\").load(\""
-                + ctx.localUrl("/edit/UploadAppletWindow")
-                + "?storeTmpFile=true"
-                + "&parentPageId="
-                + parentPageId
-                + " #uploadappletbody\")\n") //
-        .append("}\n") //
-        .append("function refreshFromApplet(fileName, tmpFileName) {\n")//
-        .append("alert('")
-        .append(ctx.getTranslated("gwiki.edit.EditPage.attach.message.uploaded"))
-        .append("');\n")//
-        .append("jQuery('#appletTmpFileName').val(tmpFileName);") //
-        .append("jQuery('#editPageTitle').val(fileName);") //
-        // .append("jQuery('gwikiattfilsize').html('
-        .append("switchFileExists();") //
-        .append("}\n")//
+    ;
+    //    html.append("function switchFileUploadToApplet(){\n") //
+    //        .append("jQuery(\"#gwikiattstd\").hide(); \n")//
+    //        .append("jQuery(\"#gwikiattappexists\").hide();\n")//
+    //        .append("jQuery(\"#gwikiattappfrm\").show();\n")//
+    //        .append(
+    //            "jQuery(\"#gwikiattpapplet\").load(\""
+    //                + ctx.localUrl("/edit/UploadAppletWindow")
+    //                + "?storeTmpFile=true"
+    //                + "&parentPageId="
+    //                + parentPageId
+    //                + " #uploadappletbody\")\n") //
+    //        .append("}\n") //
+    //        .append("function refreshFromApplet(fileName, tmpFileName) {\n")//
+    //        .append("alert('")
+    //        .append(ctx.getTranslated("gwiki.edit.EditPage.attach.message.uploaded"))
+    //        .append("');\n")//
+    //        .append("jQuery('#appletTmpFileName').val(tmpFileName);") //
+    //        .append("jQuery('#editPageTitle').val(fileName);") //
+    //        // .append("jQuery('gwikiattfilsize').html('
+    //        .append("switchFileExists();") //
+    //        .append("}\n")//
+    //    ;
+    html
         .append("</script>") //
     ;
     html.append("<div id=\"gwikiattappexists\" >\n")//
@@ -187,29 +188,30 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
       html.append(attachment.getStorageData().length).append(" bytes") //
       ;
     }
-    html.append("</span><br/>") //
+    html.append("</span><br/></div>") //
     ;
 
-    html.append(
-        Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
-            Xml.text(translate(ctx, "Ugwiki.edit.EditPage.attach.message.nouploaddata"))))//
-        .append("<br/>")//
-        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()"))//
-            .nest(Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.uploadviaapplet")))) //
-        .append("</div>") //
-    ;
+    //    html.append(
+    //        Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
+    //            Xml.text(translate(ctx, "Ugwiki.edit.EditPage.attach.message.nouploaddata"))))//
+    //        .append("<br/>")//
+    //        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()"))//
+    //            .nest(Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.uploadviaapplet")))) //
+    //        .append("</div>") //
+    //    ;
     html.append("<div id=\"gwikiattappfrm\" >\n")//
-        .append(
-            Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
-                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
-        .append("<div id=\"gwikiattpapplet\">&nbsp;</div>") //
-        .append("</div>\n") //
+        //        .append(
+        //            Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
+        //                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
+        //        .append("<div id=\"gwikiattpapplet\">&nbsp;</div>") //
+        //        .append("</div>\n") //
         .append("<div id=\"gwikiattstd\">\n") //
         .append(Html.input(Xml.attrs("type", "file", "value", value, "name", partName + ".attachment"))) //
-        .append("<br/>\n") //
-        .append(
-            Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(
-                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
+        //        .append("<br/>\n") //
+        //        .append(
+        //            Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(
+        //                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
+        .append("</div>");
     ;
     if (attmentExists == true) {
       html.append("<script type=\"text/javascript\">switchFileExists();</script>\n");

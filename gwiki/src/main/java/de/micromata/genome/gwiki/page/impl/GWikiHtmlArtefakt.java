@@ -32,11 +32,13 @@ import de.micromata.genome.gwiki.utils.AppendableI;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiHtmlArtefakt extends GWikiTextArtefaktBase<String> implements GWikiExecutableArtefakt<String>, GWikiIndexedArtefakt,
+public class GWikiHtmlArtefakt extends GWikiTextArtefaktBase<String>
+    implements GWikiExecutableArtefakt<String>, GWikiIndexedArtefakt,
     GWikiEditableArtefakt
 {
   private static final long serialVersionUID = 8904411739515655880L;
 
+  @Override
   public String getFileSuffix()
   {
     return ".html";
@@ -50,14 +52,17 @@ public class GWikiHtmlArtefakt extends GWikiTextArtefaktBase<String> implements 
 
   }
 
+  @Override
   public void getPreview(GWikiContext ctx, AppendableI sb)
   {
     sb.append(getStorageData());
   }
 
-  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  @Override
+  public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
-    return new GWikiHtmlEditorArtefakt(elementToEdit, bean, partKey, this);
+    //return new GWikiHtmlEditorArtefakt(elementToEdit, bean, partKey, this);
+    return new GWikiPlainHtmlEditorArtefakt(elementToEdit, bean, partKey, this);
   }
 
 }

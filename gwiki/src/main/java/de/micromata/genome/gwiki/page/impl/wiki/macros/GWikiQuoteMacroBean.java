@@ -19,14 +19,13 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
+import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
 
 /**
  * Render a Quote section.
@@ -34,23 +33,21 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroRte, GWikiMacroSourceable
+@MacroInfo(info = "The macro quote marks a section of wiki text as quoted text.",
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP,
+        GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd })
+public class GWikiQuoteMacroBean extends GWikiHtmlBodyRteTagMacro
+    implements GWikiMacroSourceable
 {
 
   private static final long serialVersionUID = -3030397042733595461L;
 
-  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("blockquote", "quote", GWikiQuoteMacroBean.class);
-  static {
-    // AttributeMatcher am = new AttributeMatcher();
-    // am.setName("class");
-    // am.setValueMatcher(new EqualsMatcher<String>("wikiPageIntro"));
-    // transformInfo.getAttributeMatcher().add(am);
-  }
+  private static Html2WikiTransformInfo transformInfo = new Html2WikiTransformInfo("blockquote",
+      SaxElementMatchers.nameMatcher("blockquote"), "quote", GWikiQuoteMacroBean.class);
 
   public GWikiQuoteMacroBean()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(/* GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd, */
-    GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModesFromAnnot();
   }
 
   @Override
@@ -64,6 +61,7 @@ public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEval
     return true;
   }
 
+  @Override
   public Html2WikiTransformInfo getTransformInfo()
   {
     return transformInfo;
@@ -75,6 +73,7 @@ public class GWikiQuoteMacroBean extends GWikiMacroBean implements GWikiBodyEval
     return true;
   }
 
+  @Override
   public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
   {
     if (macroFragment.getAttrs().getArgs().isEmpty() == true) {

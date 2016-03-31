@@ -89,7 +89,8 @@ public class GWikiWikiParser
       return null;
     }
     GWikiFragmentLi nli = (GWikiFragmentLi) nlc;
-    if (nli.getChilds().isEmpty() == true || (nli.getChilds().get(nli.getChilds().size() - 1) instanceof GWikiFragmentList) == false) {
+    if (nli.getChilds().isEmpty() == true
+        || (nli.getChilds().get(nli.getChilds().size() - 1) instanceof GWikiFragmentList) == false) {
       return null;
     }
     GWikiFragmentList rn = (GWikiFragmentList) nli.getChilds().get(nli.getChilds().size() - 1);
@@ -421,7 +422,7 @@ public class GWikiWikiParser
         ctx.addFragments(nfrags);
       }
       tk = tks.curToken();
-      int tkn = (int) tk;
+      int tkn = tk;
       int startToken = tks.getTokenPos();
       if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
         tk = tks.skipWsNl();
@@ -475,7 +476,8 @@ public class GWikiWikiParser
         if (GWikiMacroRenderFlags.TrimTextContent.isSet(frag.getMacro().getRenderModes()) == true) {
           childs = removeWsTokensFromEnd(childs);
         }
-        if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true && isPAllowedInDom(ctx)) {
+        if (GWikiMacroRenderFlags.ContainsTextBlock.isSet(frag.getMacro().getRenderModes()) == true
+            && isPAllowedInDom(ctx)) {
           // TODO frisst P
           childs = addWrappedP(childs);
         }
@@ -488,7 +490,8 @@ public class GWikiWikiParser
         int endToken = tks.findToken("{", frag.getAttrs().getCmd(), "}");
         if (endToken == -1) {
           List<GWikiFragment> fragl = ctx.popFragList();
-          ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName, tks.getLineNoFromTokenOffset(curTokePos)));
+          ctx.addFragment(new GWikiFragmentParseError("Missing macro end for  " + macroName,
+              tks.getLineNoFromTokenOffset(curTokePos)));
           ctx.addFragments(fragl);
           endToken = tks.getLastToken();
           String body = tks.getTokenString(startToken, endToken);
@@ -974,8 +977,9 @@ public class GWikiWikiParser
         || ff instanceof GWikiFragmentHr
         || ff instanceof GWikiFragmentList
         || ff instanceof GWikiFragmentLi
-        || (ff instanceof GWikiMacroFragment && GWikiMacroRenderFlags.NoWrapWithP.isSet(((GWikiMacroFragment) ff).getMacro()
-            .getRenderModes()));
+        || (ff instanceof GWikiMacroFragment
+            && GWikiMacroRenderFlags.NoWrapWithP.isSet(((GWikiMacroFragment) ff).getMacro()
+                .getRenderModes()));
 
   }
 
@@ -1095,11 +1099,6 @@ public class GWikiWikiParser
     convertPs(ctx);
   }
 
-  public void reworkPs(GWikiWikiParserContext ctx)
-  {
-
-  }
-
   public GWikiWikiTokens createGWikiTokens(String text)
   {
     String delimiter = "\n \t \\-*_|{}=#+^~[]!.:?;,\"";
@@ -1112,6 +1111,6 @@ public class GWikiWikiParser
     ctx.pushFragList();
     GWikiWikiTokens tks = createGWikiTokens(text);
     parseText(tks, ctx);
-    reworkPs(ctx);
+    GWikiWikiParserUtils.reworkPs(ctx);
   }
 }

@@ -1,0 +1,25 @@
+<!-- navMenu.gspt Start -->
+
+<div id="navMenuJsTree" class="navMenuJsTree">
+	<input type="text" id="gwikiNavMenuQsText" >
+	<div id='gwikiNavMenu'> Here nav</div>
+
+<% 
+ String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTree(wikiContext, null);
+%>
+
+	<script type="text/javascript">
+	 var jsonNavJsTree = <%= jsonNavJsTree %>;
+	 var url = '<gwiki:url value="/edit/TreeChildren"/>';
+    jQuery(document).ready(function() {
+    	gwikiBuildNavMenuTree('gwikiNavMenu', 'gwikiNavMenuQsText', jsonNavJsTree, null);
+    	$('#gwikiNavMenuQsText').attr('accesskey', 'N');
+    	$('#gwikiNavMenuQsText').attr('placeholder', 'Navigate (Alt+N)');
+    });
+    
+	</script>
+
+</div>
+<!-- #menu end -->
+
+<!-- navMenu.gspt Start -->

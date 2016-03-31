@@ -61,6 +61,7 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.mpt.GWikiMultipleWikiSelector;
 import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
+import de.micromata.genome.gwiki.page.impl.actionbean.ActionBean;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
 import de.micromata.genome.gwiki.page.impl.actionbean.CommonMultipartRequest;
 import de.micromata.genome.gwiki.page.impl.actionbean.SimpleActionMessage;
@@ -140,6 +141,10 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    * Additionally required html header lines.
    */
   private List<String> requiredHeader = new ArrayList<String>();
+  /**
+   * May set by the controller;
+   */
+  private ActionBean actionBean;
 
   public GWikiContext(GWikiWeb wikiWeb, HttpServlet servlet, HttpServletRequest request, HttpServletResponse response)
   {
@@ -1240,6 +1245,16 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   public void setRequiredHeader(List<String> requiredHeader)
   {
     this.requiredHeader = requiredHeader;
+  }
+
+  public ActionBean getActionBean()
+  {
+    return actionBean;
+  }
+
+  public void setActionBean(ActionBean actionBean)
+  {
+    this.actionBean = actionBean;
   }
 
 }

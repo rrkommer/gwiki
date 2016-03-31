@@ -50,17 +50,17 @@ public class GWikiMimeTypeStandardProvider implements GWikiMimeTypeProvider
    * de.micromata.genome.gwiki.model.GWikiElementInfo)
    */
   @Override
-  public String getMimeType(GWikiContext wikiContext, GWikiElement el)
+  public String getMimeType(GWikiContext wikiContext, GWikiElementInfo ei)
   {
-    String contt = el.getElementInfo().getProps().getStringValue(GWikiPropKeys.CONTENTYPE);
+    String contt = ei.getProps().getStringValue(GWikiPropKeys.CONTENTYPE);
     if (StringUtils.isNotEmpty(contt) == true) {
       return contt;
     }
-    contt = el.getElementInfo().getMetaTemplate().getContentType();
+    contt = ei.getMetaTemplate().getContentType();
     if (StringUtils.isNotEmpty(contt) == true) {
       return contt;
     }
-    return getMimeType(wikiContext, el.getElementInfo().getId());
+    return getMimeType(wikiContext, ei.getId());
   }
 
   /*

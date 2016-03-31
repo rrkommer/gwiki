@@ -18,8 +18,8 @@ See following directory structure:
 
 Under the {{content/gwiki}} directory wiki page elements are stored and will be mounted inside the GWiki.
 The {{WikiLinkConfigMetaTemplate.xml}} contains the description of the configuration options. 
-{code}
-?xml version="1.0" encoding="UTF-8"?>
+{code:lang=xml }
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<!-- Meta Template for ScriptMacros -->

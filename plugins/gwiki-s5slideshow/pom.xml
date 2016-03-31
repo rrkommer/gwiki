@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>gwiki-plugins-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>1.0.4</version><!-- GWIKVERSION -->
+    <version>2.1.0-SNAPSHOT</version><!-- GWIKVERSION -->
   </parent>
   <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-s5slideshow</artifactId>
   <packaging>jar</packaging>
   <name>gwiki-s5slideshow</name>
-  <version>1.0.0</version><!-- PLUGINVERSION -->
+  <version>2.1.0-SNAPSHOT</version><!-- PLUGINVERSION -->
 </project>

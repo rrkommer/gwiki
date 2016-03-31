@@ -2,6 +2,7 @@ package de.micromata.genome.gwiki.launcher.config;
 
 import org.apache.commons.codec.Charsets;
 
+import de.micromata.genome.logging.config.LsLoggingLocalSettingsConfigModel;
 import de.micromata.genome.util.runtime.config.AbstractCompositLocalSettingsConfigModel;
 import de.micromata.genome.util.runtime.config.AbstractTextConfigFileConfigModel;
 import de.micromata.genome.util.runtime.config.HibernateSchemaConfigModel;
@@ -33,6 +34,7 @@ public class GWikiLocalSettingsConfigModel extends AbstractCompositLocalSettings
 
   private MailSessionLocalSettingsConfigModel emailConfig = new MailSessionLocalSettingsConfigModel("gwikimailsession");
 
+  private LsLoggingLocalSettingsConfigModel loggerConfig = new LsLoggingLocalSettingsConfigModel();
   @SuppressWarnings("unused")
   private HibernateSchemaConfigModel hibernateSchemaConfig = new HibernateSchemaConfigModel();
   @SuppressWarnings("unused")

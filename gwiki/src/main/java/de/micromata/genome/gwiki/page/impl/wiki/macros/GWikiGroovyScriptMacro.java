@@ -18,19 +18,18 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-
 import java.util.Map;
 
-import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GenomeTemplateUtils;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 
 /**
  * Implements a macro, which embedds a groovy script.
@@ -40,7 +39,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro
+@MacroInfo(info = "A embedded Groovy script")
+public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRuntimeMacro
 {
 
   private static final long serialVersionUID = 5567718564219668702L;
@@ -64,6 +64,7 @@ public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro
     return binding;
   }
 
+  @Override
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     if (script == null) {
@@ -74,21 +75,25 @@ public class GWikiGroovyScriptMacro implements GWikiMacro, GWikiRuntimeMacro
     return true;
   }
 
-  public void ensureRight(MacroAttributes attrs, GWikiContext ctx) throws AuthorizationFailedException
+  @Override
+  protected GWikiAuthorizationRights requiredRight()
   {
-    ctx.getWikiWeb().getAuthorization().ensureAllowTo(ctx, GWikiAuthorizationRights.GWIKI_DEVELOPER.name());
+    return GWikiAuthorizationRights.GWIKI_DEVELOPER;
   }
 
+  @Override
   public boolean evalBody()
   {
     return false;
   }
 
+  @Override
   public int getRenderModes()
   {
     return 0;
   }
 
+  @Override
   public boolean hasBody()
   {
     return true;

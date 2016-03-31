@@ -22,18 +22,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
-import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.util.matcher.InvalidMatcherGrammar;
 import de.micromata.genome.util.types.Converter;
+import de.micromata.genome.util.xml.xmlbuilder.Xml;
+import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
+import de.micromata.genome.util.xml.xmlbuilder.html.Html;
 
 /**
  * Base implementation of listing elements/pages.
@@ -63,6 +65,7 @@ public class GWikiPageListActionBean extends ActionBeanBase
   private int page;
 
   private int rows;
+  protected QueryResult queryResult;
 
   public String getjqGridSearchExpression()
   {
@@ -185,8 +188,8 @@ public class GWikiPageListActionBean extends ActionBeanBase
   protected QueryResult filter(SearchQuery query)
   {
     query.setFindUnindexed(true);
-    QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
-    return qr;
+    queryResult = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
+    return queryResult;
   }
 
   protected boolean filterBeforeQuery(GWikiElementInfo ei)
@@ -218,13 +221,17 @@ public class GWikiPageListActionBean extends ActionBeanBase
 
   public Object onFilter()
   {
-    SearchQuery query = buildQuery();
-    if (query == null) {
-      return noForward();
+    try {
+      SearchQuery query = buildQuery();
+      if (query == null) {
+        return null;
+      }
+      queryResult = filter(query);
+      return null;
+    } catch (InvalidMatcherGrammar ex) {
+      wikiContext.addSimpleValidationError(ex.getMessage());
+      return null;
     }
-    QueryResult qr = filter(query);
-    writeXmlResult(qr);
-    return noForward();
 
   }
 
@@ -244,46 +251,33 @@ public class GWikiPageListActionBean extends ActionBeanBase
     return StringUtils.defaultString(val);
   }
 
-  public void writeXmlErrorResponse(String message)
+  public String writeTableResult()
   {
-    GWikiContext sb = wikiContext;
-    sb.append(message);
-    sb.flush();
+    return writeTableResult(queryResult);
   }
 
-  public void writeXmlResult(QueryResult qr)
+  public String writeTableResult(QueryResult qr)
   {
-    List<String> fl = Converter.parseStringTokens(fields, "|", false);
-    wikiContext.getResponse().setContentType("text/xml;charset=utf-8");
-    GWikiContext sb = wikiContext;
-    int total = qr.getTotalFoundItems();
-    sb.append("<?xml version='1.0' encoding='utf-8'?>");
-    sb.append("<rows><total>" + ((total / rows) + (total % rows != 0 ? 1 : 0)) + "</total>");
-    sb.append("<records>" + rows + "</records>");
-    sb.append("<page>" + page + "</page>");
-    int id = 0;
-    int startRow = (page - 1) * rows;
-    int endRow = (page) * rows;
-    for (SearchResult sr : qr.getResults()) {
-      if (id < startRow) {
-        ++id;
-        continue;
-      }
-      if (id >= endRow) {
-        break;
-      }
-      sb.append("<row id='" + id + "'>");
-      sb.append("<cell>" + id + "</cell>");
-
-      for (String f : fl) {
-        sb.append("<cell>" + StringEscapeUtils.escapeXml(renderField(f, sr.getElementInfo())) + "</cell>");
-      }
-
-      sb.append("</row>");
-      ++id;
+    if (qr == null) {
+      return "";
     }
-    sb.append("</rows>");
-    sb.flush();
+    XmlElement table = Html.table(Xml.attrs("class", "gwikiTable"));
+    List<String> fieldList = Converter.parseStringTokens(fields, "|", false);
+    XmlElement tr = Html.tr(Xml.attrs("class", "gwikiTable"));
+    for (String fname : fieldList) {
+      tr.add(Html.th(Xml.attrs("class", "gwikith"), Xml.text(fname)));
+    }
+    table.add(tr);
+    for (SearchResult sr : qr.getResults()) {
+      tr = Html.tr(Xml.attrs());
+      for (String fname : fieldList) {
+        String text = renderField(fname, sr.getElementInfo());
+        tr.add(Html.td(Xml.attrs("class", "gwikitd"), Xml.code(text)));
+      }
+      table.add(tr);
+    }
+    String ret = table.toString();
+    return ret;
   }
 
   public String getFilterExpression()

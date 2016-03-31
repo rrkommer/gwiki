@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 
 public class GWikiFragmentHeading extends GWikiFragmentChildsBase
 {
@@ -75,6 +76,7 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
     return linkText;
   }
 
+  @Override
   public boolean render(GWikiContext ctx)
   {
     ctx.append("<h", Integer.toString(level), ">");
@@ -95,9 +97,15 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
         sb.append("\n");
       }
     }
-    sb.append("h").append(level).append(".");
+    sb.append("h").append(level).append(". ");
     getChildSouce(sb);
     sb.append("\n");
+  }
+
+  @Override
+  public int getRenderModes()
+  {
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd);
   }
 
   public int getLevel()

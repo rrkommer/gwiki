@@ -31,7 +31,7 @@ public enum GWikiMacroRenderFlags
    */
   NewLineAfterStart(0x0001), //
   /**
-   * if rendered as source insert new line before end of macro body.
+   * if rendered as source insert new line before end of macro body and after macro closing.
    */
   NewLineBeforeEnd(0x0002), //
   /**
@@ -51,9 +51,13 @@ public enum GWikiMacroRenderFlags
   /**
    * Trim WS after closing tag.
    */
-  TrimWsAfter(0x0080) //
+  TrimWsAfter(0x0080), //
 
-  ;
+  RteSpan(0x0100),
+  /**
+   * Is just in text.
+   */
+  InTextFlow(0x0200);
   private int flag;
 
   private GWikiMacroRenderFlags(int flag)

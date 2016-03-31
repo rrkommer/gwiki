@@ -352,7 +352,7 @@ public class GWikiWeb
         }
       }
 
-      String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el);
+      String mimeType = daoContext.getMimeTypeProvider().getMimeType(ctx, el.getElementInfo());
       if (mimeType != null) {
         ctx.getResponse().setContentType(mimeType);
       }
@@ -383,9 +383,17 @@ public class GWikiWeb
       ctx.getRequest().setAttribute("welcomePageId", welcomePage);
       serveWikiIntern(ctx, el);
     } catch (AuthorizationFailedException ex) {
+      GWikiElement nel = null;
+      if (ctx.getWikiWeb().getDaoContext().getAuthorization().needAuthorization(ctx) == true) {
+        nel = findElement("admin/Login");
+        if (nel != null) {
+          ActionBeanUtils.redirect(ctx, nel.getElementInfo().getId());
+          return;
+        }
+      }
       GWikiLog.warn("Invalid access to page: " + el.getElementInfo().getId(), ex);
       ctx.getRequest().setAttribute("exception", ex);
-      GWikiElement nel = findElement("admin/AccessDenied");
+      nel = findElement("admin/AccessDenied");
       if (nel == null) {
         throw ex;
       }

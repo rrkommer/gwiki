@@ -18,6 +18,9 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface GWikiMacroFactory
 {
   GWikiMacro createInstance();
@@ -32,4 +35,50 @@ public interface GWikiMacroFactory
    * @return
    */
   boolean isRteMacro();
+
+  default GWikiMacroInfo getMacroInfo()
+  {
+    GWikiMacroFactory fac = this;
+    return new GWikiMacroInfoBase()
+    {
+
+      @Override
+      public String getInfo()
+      {
+        return "";
+      }
+
+      @Override
+      public boolean hasBody()
+      {
+        return fac.hasBody();
+      }
+
+      @Override
+      public boolean evalBody()
+      {
+        return fac.evalBody();
+      }
+
+      @Override
+      public boolean isRteMacro()
+      {
+        return fac.isRteMacro();
+      }
+
+      @Override
+      public List<MacroParamInfo> getParamInfos()
+      {
+        return new ArrayList<>();
+      }
+
+      @Override
+      public int getRenderFlags()
+      {
+        // TODO Auto-generated method stub
+        return 0;
+      }
+
+    };
+  }
 }

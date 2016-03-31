@@ -1,3 +1,6 @@
+
+<%@page import="de.micromata.genome.gwiki.page.impl.GWikiI18nElement"%>
+
 <script type="text/javascript">
  //<!--
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
@@ -5,5 +8,71 @@ var gwikiServletPath = '<%= wikiContext.request.servletPath %>';
 var gwikiHomeUrl = '<gwiki:url value="/"/>';
 var gwikiPublicUrl = '<%= wikiContext.getWikiWeb().getWikiConfig().getPublicURL() %>';
 var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
+
+function gwikiLocalUrl(pageId) {
+	return gwikiHomeUrl + pageId;
+}
+
+var gwikiContext = {
+  contextPath: gwikiContextPath,
+  servletPath: gwikiServletPath,
+  homeUrl: gwikiHomeUrl,
+  publicUrl: gwikiPublicUrl,
+  welcomeUrl: gwikiWelcomeUrl,
+  pageId: null,
+  contentLanguage: null
+}
+<% if (wikiContext?.wikiElement?.elementInfo) { %>
+  gwikiContext.pageId = '<%= wikiContext?.wikiElement?.elementInfo?.id %>';
+  gwikiContext.contentLanguage = '<%= wikiContext?.wikiElement?.elementInfo?.getLang(wikiContext)%>';
+<%}%>
+<%--
+ you can localize any string of a registered i18n map starting with 'javascript.' 
+ for example: javascript.this.is.a.test.string
+ by calling the i18n function on it - removing the 'javascript.' prefix. In this case:
+ "this.is.a.test.string".i18n();
+ 
+ output is a little bit obfuscated to minimize traffic overhead
+--%>
+
+var i18n={<%
+    void gwiki_render_i18nmap(wikiContext) {
+  final String lang = wikiContext.getUserStringProp("lang", "en");
+
+    StringBuffer buf = new StringBuffer();
+    
+    for (GWikiI18nElement elem : wikiContext.getI18nMaps()) {
+      for (String s : elem.getKeys(lang)) {
+        if (s.startsWith("javascript.")) {
+          buf.append("\"").append(s).append("\":\"").append(elem.getMessage(lang, s)).append("\",");
+        }
+      }
+    }
+    if (buf.length() > 0) {
+        buf.deleteCharAt(buf.length() - 1);
+    } 
+    wikiContext.append(buf.toString());
+    }
+    gwiki_render_i18nmap(wikiContext);
+%>};
+String.prototype.i18n = function() {
+  var s = i18n["javascript." + this];
+  return (s) ? s : "???" + this + "???";
+};
+
+        function displayHilfeLayer(content, backwardscompparam){
+            Tip(content,
+                    STICKY, true,
+                    CLICKCLOSE, false,
+                    WIDTH, 300,
+                    BGCOLOR,'#EEEEEE',
+                    BORDERCOLOR,'#FFFFFF',
+                    FONTSIZE, "0.8em",
+                    FONTFACE, "Arial, Helvetica, sans-serif",
+                    FONTCOLOR, '#000000',
+                    CLOSEBTNPOP,true,
+                    CLOSEBTNIMG, "<gwiki:url value="/static/img/closetooltips.gif"/>"
+                    );
+        }
  //-->
 </script>

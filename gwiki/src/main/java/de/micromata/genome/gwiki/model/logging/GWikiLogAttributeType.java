@@ -23,6 +23,10 @@ public enum GWikiLogAttributeType implements LogAttributeType
   PageIds,
 
   BranchId,
+  /**
+   * Calling host.
+   */
+  RemoteHost(new GWikiRemoteHostFiller()),
 
   ;
   static {

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+<!--  DEV version of Pub -->
+  <bean id="JettyConfig" class="de.micromata.genome.gwiki.jetty.JettyConfig">
+    <property name="port" value="${gwiki.jetty.port}" />
+
+    <property name="contextRoot" value="./gwikiweb" />
+    <property name="contextPath" value="${gwiki.jetty.contextpath}" />
+  </bean>
+  <bean id="mailSession" class="de.micromata.genome.gwiki.utils.SessionBeanFactory">
+    <constructor-arg>
+      <map>
+        <entry key="mail.smtp.auth" value="${mail.smtp.auth}" />
+        <entry key="mail.smtp.host" value="${mail.smtp.host}" />
+        <entry key="mail.smtp.port" value="${mail.smtp.port}" />
+        <entry key="mail.smtp.user" value="${mail.smtp.user}" />
+        <entry key="mail.smtp.password" value="${mail.smtp.password}" />
+        <entry key="mail.smtp.starttls.enable" value="${mail.smtp.starttls.enable}" />
+        <entry key="mail.smtp.ssl.enable" value="${mail.smtp.ssl.enable}" />
+      </map>
+    </constructor-arg>
+  </bean>
+  <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
+    <property name="mailSession">
+      <ref bean="mailSession" />
+    </property>
+    <property name="enableWebDav" value="${gwiki.enable.webdav}" />
+    <property name="webDavUserName" value="${gwiki.sys.user}" />
+    <property name="webDavPasswordHash" value="${gwiki.sys.passwordhash}" />
+    <property name="staticContentFromClassPath" value="true" />
+    <!--
+    <property name="staticContentFileSystem">
+      <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+        <constructor-arg value="${gwiki.dev.path}/src/main/resources" />
+      </bean>
+    </property>
+
+      <property name="pluginRepository">
+      <bean class="de.micromata.genome.gwiki.plugin.GWikiPluginRepository">
+        <property name="storePluginLocation">
+          <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+            <constructor-arg value="${gwiki.dev.path}/../plugins" />
+          </bean>
+        </property>
+      </bean>
+    </property>
+     -->
+    <!--  before running, do cp -r /home/gwiki/build/trunk/gwiki/src/main/external_resources/gwiki_pub/* ~/run/gwiki-standalone-1.0.0/gwiki/ -->
+    <property name="storage">
+      <bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
+        <constructor-arg>
+          <bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.StdFileSystem">
+                <constructor-arg>
+                  <value>${gwiki.wikifilepath}</value>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+            <constructor-arg>
+              <bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
+                <constructor-arg>
+                  <value>GWikiContent.zip</value>
+                </constructor-arg>
+              </bean>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+      </bean>
+    </property>
+
+
+
+  </bean>
+</beans>

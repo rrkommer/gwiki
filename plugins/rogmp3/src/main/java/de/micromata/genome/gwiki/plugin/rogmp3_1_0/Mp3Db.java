@@ -17,7 +17,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.ZipWriteFileSystem;
-import de.micromata.genome.gwiki.model.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.types.Pair;
 
 public class Mp3Db
@@ -25,8 +27,6 @@ public class Mp3Db
   private static Mp3Db INSTANCE = null;
 
   private Mp3UsageDB usageDb;
-
-  
 
   public static final Mp3Db get(String dbpath, String mp3root)
   {
@@ -244,7 +244,8 @@ public class Mp3Db
         ret.add(nt);
         ++no;
       }
-      Collections.sort(ret, new Comparator<Track>() {
+      Collections.sort(ret, new Comparator<Track>()
+      {
 
         @Override
         public int compare(Track o1, Track o2)
@@ -383,7 +384,8 @@ public class Mp3Db
         String pname = comp.getNameOnFs() + "/" + track.getTitle().getNameOnFs() + "/" + track.getNameOnFs();
         zfs.writeBinaryFile(pname, data, false);
       } catch (IOException ex) {
-        GWikiLog.warn("RogMp3; Error zipping file: " + f.getAbsolutePath() + "; " + ex.getMessage(), ex);
+        GLog.warn(GWikiLogCategory.Wiki, "RogMp3; Error zipping file: " + f.getAbsolutePath() + "; " + ex.getMessage(),
+            new LogExceptionAttribute(ex));
       }
     }
     zfs.close();
@@ -457,6 +459,7 @@ public class Mp3Db
     }
     return ret;
   }
+
   public Mp3UsageDB getUsageDb()
   {
     return usageDb;

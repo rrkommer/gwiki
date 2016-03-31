@@ -23,7 +23,15 @@ function gwikiToggleExplorer()
 		gwikiSaveUserPrev('WITH_NAVBAR', false, true);
 	}
 }
-
+function _gwiki_enable_edit_view_hideExplorer()
+{
+	if ($('#gwikiNavContent').is(':hidden') == false) {
+	$('#gwikiNavContent').hide();
+  $('body').addClass('gwikibodyNoNav');
+  $('#gwikiExplorer').addClass('gwikiExplorerNoNav');
+  $('#gwikiNavExplorerIcon').attr('src', '<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>');
+	}
+}
 //-->
 </script>
 

@@ -22,8 +22,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Defines a chunk of wiki text inside a wiki page.
@@ -31,6 +34,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "the chunk macro marks a named portion of Wiki text. Optional it displays it as fieldset.",
+    params = { @MacroInfoParam(name = "name", required = true, info = "name of the junk"),
+        @MacroInfoParam(name = "noDecoration", info = "If set to true, no field set will be used.",
+            type = MacroParamType.Boolean) },
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiChunkMacro extends GWikiMacroBean implements GWikiBodyEvalMacro
 {
 
@@ -47,21 +55,23 @@ public class GWikiChunkMacro extends GWikiMacroBean implements GWikiBodyEvalMacr
 
   public GWikiChunkMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.TrimTextContent.getFlag());
+    setRenderModesFromAnnot();
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     if (noDecoration == false) {
-      ctx.append("<fieldset class=\"gwikichunk\"><legend class=\"gwikichunklegen\">").append(StringEscapeUtils.escapeHtml(name)).append(
-          "</legend>");
+      ctx.append("<fieldset class=\"gwikichunk\"><legend class=\"gwikichunklegen\">")
+          .append(StringEscapeUtils.escapeHtml(name)).append(
+              "</legend>");
     }
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);

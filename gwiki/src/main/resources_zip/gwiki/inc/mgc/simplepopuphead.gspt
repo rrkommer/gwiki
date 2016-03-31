@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<!-- head.gspt START -->
+<head>
+
+<@include file="/inc/htmlHead.gspt" @>
+<%@ taglib uri="/WEB-INF/tlds/gwiki.tld" prefix="gwiki" %>
+<link href="<gwiki:url value="/inc/gwiki.css"/>" rel="stylesheet" type="text/css" />
+<link href="<gwiki:url value="/inc/gwiki/css/gwiki.css"/>" rel="stylesheet" type="text/css" />
+<link href="<gwiki:url value="/inc/gwiki/css/reset.css"/>" rel="stylesheet" type="text/css" />
+<link href="<gwiki:url value="/inc/gwiki/css/main.css"/>" rel="stylesheet" type="text/css" />
+ <link href="<gwiki:url value="/inc/gwiki/css/typo.css"/>" rel="stylesheet" type="text/css" />  
+<link href="<gwiki:url value="/inc/gwiki/css/menu.css"/>" rel="stylesheet" type="text/css" />
+<% wikiContext.addContentCss("/inc/gwiki/css/gwiki.css");
+	wikiContext.addContentCss("/inc/gwiki/css/reset.css");
+	wikiContext.addContentCss("/inc/gwiki/css/main.css");
+	wikiContext.addContentCss("/inc/gwiki/css/typo.css");
+	
+%>
+</head>
+<body class="gwikibodyNoNav">
+<% wikiContext.getWikiWeb().getFilter().renderSkinGuiElement(wikiContext, "BeginBody"); %>
+<script src='<gwiki:url value="/static/skins/dhl2009/js/wz_tooltip.js"/>' type="text/javascript"></script>
+<!-- head.gspt END -->
+<style>
+<!--
+.gwikibody {
+background:repeat-x scroll 1em -1em #FFFFFF;
+margin:0;
+padding:0 1em 0 14em;
+}
+-->
+</style>
+<div class="gwikiContent">

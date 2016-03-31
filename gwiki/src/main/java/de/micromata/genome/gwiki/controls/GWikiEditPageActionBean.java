@@ -21,10 +21,8 @@ package de.micromata.genome.gwiki.controls;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +35,6 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.model.GWikiSettingsProps;
@@ -53,18 +50,12 @@ import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiEditableArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessage;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroClassFactory;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.parser.WeditWikiUtils;
 import de.micromata.genome.gwiki.utils.CommaListParser;
-import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
-import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
-import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.collections.ArrayMap;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
@@ -81,8 +72,6 @@ import de.micromata.genome.util.types.Pair;
 public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean implements GWikiPropKeys
 {
   public static final String NO_NOTIFICATION_EMAILS = "de.micromata.genome.gwiki.controls.GWikiEditPageActionBean.noNotificationEmails";
-
-  public static final String GWIKI_DEFAULT_EDITOR = "gwikidefeditor";
 
   public static final String GWIKI_EDITOR_FULLSCREEN = "gwikideffullscreeneditor";
 
@@ -404,7 +393,8 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
       }
     }
     initPartEditors();
-    wikiDefaultEditor = wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext, GWIKI_DEFAULT_EDITOR);
+    wikiDefaultEditor = wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext,
+        GWikiWeditServiceActionBean.GWIKI_DEFAULT_EDITOR);
     gwikiEditDefaultFullscreen = StringUtils.equals(
         wikiContext.getWikiWeb().getAuthorization().getUserProp(wikiContext, GWIKI_EDITOR_FULLSCREEN), "true");
     return true;
@@ -757,13 +747,6 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
 
   }
 
-  public Object onAsyncWikiView()
-  {
-    wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "wiki",
-        UserPropStorage.Client);
-    return noForward();
-  }
-
   public Object onAsyncWikiPreview()
   {
     try {
@@ -791,6 +774,7 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     }
   }
 
+  @Deprecated
   public Object onAsyncRteCode()
   {
     try {
@@ -805,18 +789,26 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         wikiContext.append("no part name given");
         return noForward();
       }
-      wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext, GWIKI_DEFAULT_EDITOR, "rte",
+      wikiContext.getWikiWeb().getAuthorization().setUserProp(wikiContext,
+          GWikiWeditServiceActionBean.GWIKI_DEFAULT_EDITOR, "rte",
           UserPropStorage.Client);
       GWikiWikiPageArtefakt wiki = (GWikiWikiPageArtefakt) parts.get(partName);
-      wikiContext.append("<div class=\"gwikiContent\">");
-      wiki.render(wikiContext);
-      wikiContext.append("</div>\n");
-      wikiContext.flush();
+      renderRte(wikiContext, wiki);
       return noForward();
     } catch (Exception ex) {
       GWikiLog.error("Failure onAsyncRteCode: " + ex.getMessage(), ex);
       return sendAsyncValidationError("Failure on Render Preview");
     }
+  }
+
+  @Deprecated
+  public void renderRte(GWikiContext wikiContext, GWikiWikiPageBaseArtefakt wiki)
+  {
+    wikiContext.setRenderMode(RenderModes.combine(RenderModes.ForRichTextEdit));
+    wikiContext.append("<div class=\"gwikiContent\">");
+    wiki.render(wikiContext);
+    wikiContext.append("</div>\n");
+    wikiContext.flush();
   }
 
   public Object onAsyncFullscreen()
@@ -831,53 +823,12 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
     return noForward();
   }
 
-  protected Set<String> getHtmlTagMacros()
-  {
-    Set<String> s = new HashSet<String>();
-    GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
-    Map<String, GWikiMacroFactory> macros = wikiConfig.getWikiMacros(wikiContext);
-    for (Map.Entry<String, GWikiMacroFactory> me : macros.entrySet()) {
-      if ((me.getValue() instanceof GWikiMacroClassFactory) == false) {
-        continue;
-      }
-      GWikiMacroClassFactory cf = (GWikiMacroClassFactory) me.getValue();
-      Class<?> cls = cf.getClazz();
-      if (cls == null) {
-        continue;
-      }
-      if (GWikiHtmlBodyTagMacro.class.isAssignableFrom(cls) || GWikiHtmlTagMacro.class.isAssignableFrom(cls)) {
-        s.add(me.getKey());
-      }
-    }
-    return s;
-  }
-
-  protected List<Html2WikiTransformer> collectHtml2WikiTransformers()
-  {
-    List<Html2WikiTransformer> transformers = new ArrayList<Html2WikiTransformer>();
-    GWikiGlobalConfig wikiConfig = wikiContext.getWikiWeb().getWikiConfig();
-    Map<String, GWikiMacroFactory> macros = wikiConfig.getWikiMacros(wikiContext);
-    for (Map.Entry<String, GWikiMacroFactory> me : macros.entrySet()) {
-      if (me.getValue().isRteMacro() == false) {
-        continue;
-      }
-      GWikiMacroRte rteMacro = (GWikiMacroRte) me.getValue().createInstance();
-      Html2WikiTransformInfo ti = rteMacro.getTransformInfo();
-      if (ti != null) {
-        transformers.add(ti);
-      }
-    }
-    return transformers;
-  }
-
+  @Deprecated
   public Object onRteToWiki()
   {
     try {
       String htmlCode = wikiContext.getRequestParameter("htmlCode");
-      Html2WikiFilter filter = new Html2WikiFilter();
-      filter.setSupportedHtmlTags(getHtmlTagMacros());
-      filter.setMacroTransformer(collectHtml2WikiTransformers());
-      String ret = filter.transform(htmlCode);
+      String ret = WeditWikiUtils.rteToWiki(wikiContext, htmlCode);
       wikiContext.append(ret);
       wikiContext.flush();
       return noForward();

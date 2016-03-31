@@ -22,8 +22,25 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
+@MacroInfo(info = "Render a text which is translated by users current language",
+    params = {
+        //        @MacroInfoParam(name = "module"),
+        @MacroInfoParam(name = "escapeHtml", type = MacroParamType.Boolean),
+        @MacroInfoParam(name = "lang", info = "language in short form (en, de)"),
+        @MacroInfoParam(name = "key", required = true, info = "I18N key"),
+        @MacroInfoParam(name = "defaultValue", info = "if translation not found, use this text to render")
+
+    })
 public class GWikiI18nMacroBean extends GWikiMacroBean
 {
 

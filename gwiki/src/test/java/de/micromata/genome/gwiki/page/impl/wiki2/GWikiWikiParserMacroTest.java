@@ -68,9 +68,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTocMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlSpanMacro;
 
 public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
 {
+  @Override
   protected List<GWikiFragment> unwrapP(List<GWikiFragment> frags)
   {
     if (frags.get(0) instanceof GWikiFragmentP) {
@@ -115,7 +117,6 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
   public void testNestedMacros2()
   {
     Map<String, GWikiMacroFactory> macroFactories = new HashMap<String, GWikiMacroFactory>();
-    macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
     macroFactories.put("span", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
     List<GWikiFragment> frags = parseText("{span:x=y}{span:x=z}asdf{span}{span}", macroFactories);
     frags = unwrapP(frags);
@@ -129,26 +130,10 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
     assertEquals(1, mf.getChilds().size());
   }
 
-  public void testNestedMacros()
-  {
-    Map<String, GWikiMacroFactory> macroFactories = new HashMap<String, GWikiMacroFactory>();
-    macroFactories.put("center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
-    macroFactories.put("span", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
-    List<GWikiFragment> frags = parseText("{center}{span}asdf{span}{center}", macroFactories);
-    frags = unwrapP(frags);
-    assertEquals(1, frags.size());
-    assertTrue(frags.get(0) instanceof GWikiMacroFragment);
-    GWikiMacroFragment mf = (GWikiMacroFragment) frags.get(0);
-    assertTrue(mf.getMacro() instanceof GWikiHtmlTagMacro);
-    assertEquals(1, mf.getChilds().size());
-    frags = mf.getChilds();
-    assertTrue(frags.get(0) instanceof GWikiMacroFragment);
-    assertEquals(1, mf.getChilds().size());
-  }
-
   public void testEvalMacro()
   {
-    List<GWikiFragment> frags = parseText("{center}asdf{center}", "center", new GWikiMacroClassFactory(GWikiHtmlBodyTagMacro.class));
+    List<GWikiFragment> frags = parseText("{span}asdf{span}", "span",
+        new GWikiMacroClassFactory(GWikiHtmlSpanMacro.class));
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiMacroFragment);
@@ -160,8 +145,8 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
 
   public void testEvalMacro2()
   {
-    List<GWikiFragment> frags = parseText("{center}h1.Titel\nText{center}", "center", new GWikiMacroClassFactory(
-        GWikiHtmlBodyTagMacro.class));
+    List<GWikiFragment> frags = parseText("{span}h1.Titel\nText{span}", "span", new GWikiMacroClassFactory(
+        GWikiHtmlSpanMacro.class));
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiMacroFragment);
@@ -202,7 +187,8 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
 
   public void testPlainBody()
   {
-    List<GWikiFragment> frags = parseText("{html}[]{{html}", "html", new GWikiMacroClassFactory(GWikiHtmlBodyMacro.class));
+    List<GWikiFragment> frags = parseText("{html}[]{{html}", "html",
+        new GWikiMacroClassFactory(GWikiHtmlBodyMacro.class));
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
     GWikiMacroFragment mf = (GWikiMacroFragment) frags.get(0);
@@ -212,7 +198,8 @@ public class GWikiWikiParserMacroTest extends GWikiWikiParserTestBase
 
   public void testKeyValueArgs2()
   {
-    List<GWikiFragment> frags = parseText("{toc:minLevel=1|maxLevel=2}", "toc", new GWikiMacroClassFactory(GWikiTocMacro.class));
+    List<GWikiFragment> frags = parseText("{toc:minLevel=1|maxLevel=2}", "toc",
+        new GWikiMacroClassFactory(GWikiTocMacro.class));
     frags = unwrapP(frags);
     assertEquals(1, frags.size());
     assertTrue(frags.get(0) instanceof GWikiMacroFragment);

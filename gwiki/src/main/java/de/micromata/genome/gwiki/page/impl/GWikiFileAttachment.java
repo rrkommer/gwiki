@@ -56,33 +56,38 @@ public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAt
     super(other.getElementInfo());
   }
 
+  @Override
   public String getContentType()
   {
     return getElementInfo().getProps().getStringValue(CONTENTYPE);
   }
 
+  @Override
   public int getSize()
   {
     return data.getStorageData() == null ? 0 : data.getStorageData().length;
   }
 
+  @Override
   public String getType()
   {
     return "attachment";
   }
 
-  public GWikiArtefakt< ? > getMainPart()
+  @Override
+  public GWikiArtefakt<?> getMainPart()
   {
     return data;
   }
 
+  @Override
   public void serve(GWikiContext ctx)
   {
-    String contt = ctx.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(ctx, this);
+    String contt = ctx.getWikiWeb().getDaoContext().getMimeTypeProvider().getMimeType(ctx, this.getElementInfo());
     if (contt != null) {
       ctx.getResponse().setContentType(contt);
     }
-    ctx.getResponse().setContentLength((int) getSize());
+    ctx.getResponse().setContentLength(getSize());
     try {
       byte[] bd = data.getStorageData();
       if (bd != null) {
@@ -99,7 +104,8 @@ public class GWikiFileAttachment extends GWikiAbstractElement implements GWikiAt
     return data;
   }
 
-  public void collectParts(Map<String, GWikiArtefakt< ? >> map)
+  @Override
+  public void collectParts(Map<String, GWikiArtefakt<?>> map)
   {
     map.put("", data);
     super.collectParts(map);

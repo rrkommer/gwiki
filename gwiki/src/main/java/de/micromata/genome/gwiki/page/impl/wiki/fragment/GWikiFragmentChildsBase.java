@@ -23,6 +23,7 @@ import java.util.List;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 
 /**
  * Abstract implementation of a fragment with childs.
@@ -53,12 +54,15 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     childs.addAll(other.childs);
   }
 
+  @Override
   public void iterate(GWikiFragmentVisitor visitor)
   {
     visitor.begin(this);
     List<GWikiFragment> lchilds = getChilds();
     for (int i = 0; i < lchilds.size(); ++i) {
-      lchilds.get(i).iterate(visitor);
+      if (lchilds.size() > i && lchilds.get(i) != null) {
+        lchilds.get(i).iterate(visitor);
+      }
     }
     visitor.end(this);
   }
@@ -66,11 +70,19 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
   public void getChildSouce(StringBuilder sb)
   {
     List<GWikiFragment> lchilds = getChilds();
-    for (GWikiFragment c : lchilds) {
+    for (int i = 0; i < lchilds.size(); ++i) {
+      GWikiFragment c = lchilds.get(i);
+      // avoid double nl
+      if (i > 0 &&
+          GWikiMacroRenderFlags.NewLineAfterStart.isSet(c.getRenderModes()) == true &&
+          GWikiMacroRenderFlags.NewLineBeforeEnd.isSet(lchilds.get(i - 1).getRenderModes()) == true) {
+        sb.setLength(sb.length());
+      }
       c.getSource(sb);
     }
   }
 
+  @Override
   public void renderChilds(GWikiContext ctx)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -85,6 +97,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
    * @param replace
    * @return true if replaced
    */
+  @Override
   public boolean replaceChilds(GWikiFragment search, List<GWikiFragment> replace)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -99,6 +112,7 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     return true;
   }
 
+  @Override
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -107,12 +121,14 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     }
   }
 
+  @Override
   public void addChilds(List<GWikiFragment> childs)
   {
     List<GWikiFragment> lchilds = getChilds();
     lchilds.addAll(childs);
   }
 
+  @Override
   public void addChilds(GWikiFragment child)
   {
     List<GWikiFragment> lchilds = getChilds();
@@ -125,9 +141,16 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
     lchilds.add(child);
   }
 
+  @Override
   public List<GWikiFragment> getChilds()
   {
     return childs;
+  }
+
+  @Override
+  public void setChilds(List<GWikiFragment> childs)
+  {
+    this.childs = childs;
   }
 
 }

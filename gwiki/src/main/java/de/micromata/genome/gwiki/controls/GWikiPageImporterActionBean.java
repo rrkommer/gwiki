@@ -89,11 +89,15 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
 
   private String selIds;
 
+  public GWikiPageImporterActionBean()
+  {
+    setFields("PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|IMPSTATUS");
+  }
+
   @Override
   public Object onInit()
   {
-    // super.onInit();
-    return null;
+    return onFilter();
   }
 
   public Object onUpload()
@@ -125,6 +129,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
     return null;
   }
 
+  @Override
   protected boolean filterBeforeQuery(GWikiElementInfo ei)
   {
     return ei.getId().startsWith(tmpDirName);
@@ -162,52 +167,55 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
         return noForward();
       }
       // TODO gwiki parentIds patchen!
-      wikiContext.getWikiWeb().getStorage().runInTransaction(TimeInMillis.SECOND * 19, new CallableX<Void, RuntimeException>() {
+      wikiContext.getWikiWeb().getStorage().runInTransaction(TimeInMillis.SECOND * 19,
+          new CallableX<Void, RuntimeException>()
+          {
 
-        public Void call() throws RuntimeException
-        {
-          // List<GWikiElementInfo> elements = new ArrayList<GWikiElementInfo>(ids.size());
-          StringBuilder sb = new StringBuilder();
-          sb.append(wikiContext.getTranslated("gwiki.page.PageImporter.imported"));
-          sb.append(":\n<br>");
-          for (String id : ids) {
-            String tid = tmpDirName + "/" + id;
-            GWikiElementInfo ei = wikiContext.getWikiWeb().getStorage().loadElementInfo(tid);
-            if (ei == null) {
-              sb.append("\n<br/>");
-              sb.append(translate("gwiki.page.PageImporter.notfound", tid));
-              continue;
-            }
-            String oei = getPageIdNoTemp(ei);
-            if (StringUtils.isNotBlank(targetDir) == true) {
-              oei = FileNameUtils.join(targetDir, oei);
-            }
-            CompareStatus st = getCompareStatus(wikiContext, ei, oei);
-            switch (st) {
-              case OLDER:
-                // no break
-              case EQUAL:
-                if (OVERWRITEALL.equals(overWriteMode) == false) {
+            @Override
+            public Void call() throws RuntimeException
+            {
+              // List<GWikiElementInfo> elements = new ArrayList<GWikiElementInfo>(ids.size());
+              StringBuilder sb = new StringBuilder();
+              sb.append(wikiContext.getTranslated("gwiki.page.PageImporter.imported"));
+              sb.append(":\n<br>");
+              for (String id : ids) {
+                String tid = tmpDirName + "/" + id;
+                GWikiElementInfo ei = wikiContext.getWikiWeb().getStorage().loadElementInfo(tid);
+                if (ei == null) {
+                  sb.append("\n<br/>");
+                  sb.append(translate("gwiki.page.PageImporter.notfound", tid));
                   continue;
                 }
-                // no break
-              case NEWER:
-                if (ONLYNEW.equals(overWriteMode) == true) {
-                  continue;
+                String oei = getPageIdNoTemp(ei);
+                if (StringUtils.isNotBlank(targetDir) == true) {
+                  oei = FileNameUtils.join(targetDir, oei);
                 }
-                // no break
-              case NEW:
-                copy(wikiContext, ei, oei);
-                sb.append("<li>").append(oei).append("</li>\n");
-                break;
-            }
+                CompareStatus st = getCompareStatus(wikiContext, ei, oei);
+                switch (st) {
+                  case OLDER:
+                    // no break
+                  case EQUAL:
+                    if (OVERWRITEALL.equals(overWriteMode) == false) {
+                      continue;
+                    }
+                    // no break
+                  case NEWER:
+                    if (ONLYNEW.equals(overWriteMode) == true) {
+                      continue;
+                    }
+                    // no break
+                  case NEW:
+                    copy(wikiContext, ei, oei);
+                    sb.append("<li>").append(oei).append("</li>\n");
+                    break;
+                }
 
-          }
-          wikiContext.append(sb.toString()).flush();
-          wikiContext.getWikiWeb().reloadWeb();
-          return null;
-        }
-      });
+              }
+              wikiContext.append(sb.toString()).flush();
+              wikiContext.getWikiWeb().reloadWeb();
+              return null;
+            }
+          });
       return noForward();
 
     } finally {
@@ -219,7 +227,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
   protected QueryResult query()
   {
     if (StringUtils.isBlank(tmpDirName) == true) {
-      writeXmlErrorResponse("No data found");
+      wikiContext.addValidationError("No data found");
       return null;
     }
     String searchExpr = "";
@@ -246,15 +254,14 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
     }
   }
 
+  @Override
   public Object onFilter()
   {
     QueryResult qr = query();
     if (qr == null) {
-      wikiContext.flush();
-      return noForward();
+      return null;
     }
-    writeXmlResult(qr);
-    return noForward();
+    return null;
   }
 
   protected String getPageIdNoTemp(GWikiElementInfo ei)
@@ -292,6 +299,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
     return CompareStatus.EQUAL;
   }
 
+  @Override
   public String renderField(String fieldName, GWikiElementInfo ei)
   {
     // if (fieldName)

@@ -39,10 +39,8 @@ public class GWikiParserCodeMacroTest extends GWikiWikiParserTestBase
 
   public void testPut()
   {
-    w2htest("a\n{code}\nX{code}\nb", "<p>a</p>\n"
-        + "<div class=\"preformatted panel\" style=\"border-width: 1px;\"><div class=\"preformattedContent panelContent\">\n"
-        + "\n"
-        + "<span class=\"java_plain\">X</span><br />\n"
-        + "</div></div><p>b</p>\n", macroFactories);
+    w2htest("a\n{code}\nX{code}\nb", "<p>a</p>\n" +
+        "<pre><code class='language-java'>X</code></pre><p>b</p>\n" +
+        "", macroFactories);
   }
 }

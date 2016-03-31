@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections15.ArrayStack;
+import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
@@ -34,6 +35,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
+import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
 
 /**
  * State hold by the gwiki parser.
@@ -43,6 +45,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
  */
 public class GWikiWikiParserContext
 {
+  private static final Logger LOG = Logger.getLogger(Rte2WikiFilter.class);
   private List<List<GWikiFragment>> frags = new ArrayList<List<GWikiFragment>>();
 
   /**
@@ -68,12 +71,18 @@ public class GWikiWikiParserContext
   {
     final List<GWikiFragment> top = frags.get(frags.size() - 1);
     top.add(frag);
+    if (LOG.isDebugEnabled() == true) {
+      LOG.debug("+ " + frag + ": " + getFragsToString());
+    }
   }
 
   public void addFragments(Collection<GWikiFragment> cfrags)
   {
     final List<GWikiFragment> top = frags.get(frags.size() - 1);
     top.addAll(cfrags);
+    if (LOG.isDebugEnabled() == true) {
+      LOG.debug("+ " + fragListToString(cfrags) + ": " + getFragsToString());
+    }
   }
 
   public GWikiFragment lastDefinedFragment()
@@ -127,17 +136,27 @@ public class GWikiWikiParserContext
   public void pushFragList()
   {
     frags.add(new ArrayList<GWikiFragment>());
+    if (LOG.isDebugEnabled() == true) {
+      LOG.debug("push ;" + getFragsToString());
+    }
   }
 
   public void pushFragList(List<GWikiFragment> l)
   {
     frags.add(l);
+    if (LOG.isDebugEnabled() == true) {
+      LOG.debug("push " + fragListToString(l) + "; " + getFragsToString());
+    }
   }
 
   public List<GWikiFragment> popFragList()
   {
     List<GWikiFragment> ret = frags.get(frags.size() - 1);
     frags.remove(frags.size() - 1);
+    if (LOG.isDebugEnabled() == true) {
+      LOG.debug("poped " + fragListToString(ret) + "; " + getFragsToString());
+    }
+    //    ret.toString();
     return ret;
   }
 
@@ -176,6 +195,14 @@ public class GWikiWikiParserContext
     return fragStack.pop();
   }
 
+  public GWikiFragment peekFragStack()
+  {
+    if (fragStack.isEmpty() == true) {
+      return null;
+    }
+    return fragStack.peek();
+  }
+
   public GWikiMacroFragment createMacro(MacroAttributes ma)
   {
     GWikiMacroFactory mf = macroFactories.get(ma.getCmd());
@@ -202,6 +229,32 @@ public class GWikiWikiParserContext
         }
       }
     }
+  }
+
+  public String fragListToString(Collection<GWikiFragment> frags)
+  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[ ");
+    for (GWikiFragment frag : frags) {
+      sb.append(frag).append(", ");
+    }
+    sb.append(" ]");
+    return sb.toString();
+  }
+
+  public String getFragsToString()
+  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("[ ");
+    for (List<GWikiFragment> fragl : frags) {
+      sb.append("[ ");
+      for (GWikiFragment frag : fragl) {
+        sb.append(frag).append(", ");
+      }
+      sb.append(" ]");
+    }
+    sb.append(" ]");
+    return sb.toString();
   }
 
   public Map<String, GWikiMacroFactory> getMacroFactories()

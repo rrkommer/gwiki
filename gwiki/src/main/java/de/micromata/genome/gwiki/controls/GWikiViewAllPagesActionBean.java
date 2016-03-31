@@ -62,7 +62,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
 
   public GWikiViewAllPagesActionBean()
   {
-
+    setFields("PAGEID|TITLE|TYPE|CREATEDBY|CREATEDAT|MODIFIEDBY|MODIFIEDAT|operations");
   }
 
   public Map<String, String> decode(String search)
@@ -100,11 +100,12 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
   @Override
   public Object onInit()
   {
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+        GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false) {
       withExport = false;
     }
     initHelp();
-    return null;
+    return onFilter();
   }
 
   @Override
@@ -163,7 +164,8 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
         GWikiElement el = wikiContext.getWikiWeb().getElement(sr.getElementInfo());
         zipSt.storeElementImpl(wikiContext, el, true);
         if (withArchive == true) {
-          List<GWikiElementInfo> archive = wikiContext.getWikiWeb().getStorage().getVersions(el.getElementInfo().getId());
+          List<GWikiElementInfo> archive = wikiContext.getWikiWeb().getStorage()
+              .getVersions(el.getElementInfo().getId());
           for (GWikiElementInfo ai : archive) {
             GWikiElement ael = wikiContext.getWikiWeb().getStorage().loadElement(ai);
             zipSt.storeElement(wikiContext, ael, true);
@@ -195,13 +197,16 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
   @Override
   protected boolean filterBeforeQuery(GWikiElementInfo ei)
   {
-    if (canViewNonViewable() == true)
+    if (canViewNonViewable() == true) {
       return true;
-    if (ei.isViewable() == false)
+    }
+    if (ei.isViewable() == false) {
       return false;
+    }
     return true;
   }
 
+  @Override
   public String renderField(String fieldName, GWikiElementInfo ei)
   {
     if (fieldName.equals("operations") == true) {
@@ -222,7 +227,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
           + wikiContext.getTranslated("gwiki.page.AllPages.link.edit")
           + "'>"
           + wikiContext.getTranslated("gwiki.page.AllPages.link.edit")
-          +"</a>";
+          + "</a>";
     }
     if (fieldName.equals("PAGEID") == true) {
 
