@@ -41,13 +41,13 @@ public class GWikiParserNoformatMacroTest extends GWikiWikiParserTestBase
 
   public void testPut()
   {
-    w2htest("{noformat}<{noformat}", "<p>\n&lt;</p>\n", macroFactories);
+    w2htest("{noformat}<{noformat}", "<p>&lt;</p>\n", macroFactories);
   }
 
   public void testNested()
   {
     //parseDumpWiki("{div}a{noformat}b{noformat}{div}", macroFactories);
-    w2htest("{div}a{noformat}b{noformat}{div}", "<div><p>\nab</p>\n</div>",
+    w2htest("{div}a{noformat}b{noformat}{div}", "<div><p>ab</p>\n</div>",
         macroFactories);
   }
 }

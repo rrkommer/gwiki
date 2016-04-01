@@ -50,13 +50,14 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
   {
     w2htest(
         "{pageintro}- a {{m}} b\n- c{pageintro}\n",
-        "<div class=\"wikiPageIntro\"><ul class=\"minus\" type=\"square\"><li>a <span style=\"font-family:courier new,courier,monospace;\">m</span> b</li><li>c</li></ul></div>",
+        "<div class=\"wikiPageIntro\"><ul class=\"minus\" type=\"square\"><li>a <code>m</code> b</li><li>c</li></ul></div>",
         macroFactories);
   }
 
   public void testPageIntroMacros2()
   {
-    w2htest("{pageintro}P{pageintro}\n\nT", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n", macroFactories);
+    w2htest("{pageintro}P{pageintro}\n\nT", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n",
+        macroFactories);
   }
 
   // public void testPageMacros3()
@@ -67,7 +68,8 @@ public class GWikiWikiParserPWithMacroTest extends GWikiWikiParserTestBase
 
   public void testPageIntroMacros1()
   {
-    w2htest("{pageintro}P{pageintro}\nT\n", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n", macroFactories);
+    w2htest("{pageintro}P{pageintro}\nT\n", "<div class=\"wikiPageIntro\"><p>P</p>\n</div><p>T</p>\n",
+        macroFactories);
   }
 
   public void testPageCodeMacros1()
