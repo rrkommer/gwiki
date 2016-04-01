@@ -76,8 +76,9 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
     <gwiki:authorize pageId="edit/SiteMap">
       <li class="gwikiMenuIcon gwikiMenuoneSearchBar">
           <span class="gwikiMenuoneSearchBar" style="background-image: url('<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>';">
-            <a href="<gwiki:url value="/edit/SiteMap"/>"> </a>
-          <img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"/></a>
+            <a href="<gwiki:url value='/edit/SiteMap'/>"> 
+              <img alt="SiteMap" title="SiteMap" class="gwikiSearchBarIcon" src="<gwiki:url value='/inc/gwiki/img/icons/folder16.png'/>"/>
+            </a>
         </span>
       </li> 
     </gwiki:authorize>
