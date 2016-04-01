@@ -119,7 +119,7 @@ var twedit_editors = {
 
 };
 
-function twedit_create(editId,  newPage) {
+function twedit_create(editId, newPage) {
 
 	var ed = tinymce
 	    .init({
@@ -190,10 +190,13 @@ function twedit_create(editId,  newPage) {
 		      }
 		      ed.on('keydown', function(event) {
 			      // all keys because overwerite
-			      if (twedit_check_valid_range_for_del(ed) == false) {
-				      event.stopPropagation();
-				      event.preventDefault();
-				      return;
+			      // console.debug('keydown: ' + event.which);
+			      if (event.which < 33 && event.which > 45) { // no navigation
+				      if (twedit_check_valid_range_for_del(ed) == false) {
+					      event.stopPropagation();
+					      event.preventDefault();
+					      return;
+				      }
 			      }
 			      // }
 			      if (event.ctrlKey == true) {
