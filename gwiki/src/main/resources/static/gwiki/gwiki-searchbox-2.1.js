@@ -6,9 +6,10 @@ function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
 		});
 
 		$(field).autocomplete({
-		  source : function(term, callback) {
+		  source : function(req, callback) {
+		  	console.debug("searchbox: " + linkAutoCompleteUrl + ": " + req.term);
 			  $.ajax({
-			    url : linkAutoCompleteUrl + '?=' + term + '&pageType=gwiki',
+			    url : linkAutoCompleteUrl + '?method_onLinkAutocomplete=true&q=' + escape(req.term) + '&pageType=gwiki',
 			    type : 'GET',
 			    success : function(data) {
 				    var jdata = eval('(' + data + ')');
@@ -22,7 +23,7 @@ function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
 		  matchContains : true,
 		  cacheLength : 2,
 		  matchSubset : false,
-		  minChars : 0,
+		  minChars : 2,
 		  width : 350,
 		  scroll : true,
 		  scrollHeight : 400,

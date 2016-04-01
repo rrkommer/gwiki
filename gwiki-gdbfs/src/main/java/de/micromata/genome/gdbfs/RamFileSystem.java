@@ -65,8 +65,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
   protected String normalizeFileName(String name)
   {
-    if (name.equals("/") == true)
+    if (name.equals("/") == true) {
       return "";
+    }
     if (name.startsWith("/") == true) {
       return name.substring(1);
     }
@@ -77,18 +78,21 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return name;
   }
 
+  @Override
   public boolean delete(String name)
   {
     checkReadOnly();
     name = normalizeFileName(name);
-    if (files.containsKey(name) == false)
+    if (files.containsKey(name) == false) {
       return false;
+    }
     files.remove(name);
     ++modificationCounter;
     addEvent(FileSystemEventType.Deleted, name, System.currentTimeMillis());
     return true;
   }
 
+  @Override
   public void erase()
   {
     checkReadOnly();
@@ -97,12 +101,14 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     files.put("", new FsObjectContainer(new FsDirectoryObject(this, "", System.currentTimeMillis())));
   }
 
+  @Override
   public boolean exists(String name)
   {
     name = normalizeFileName(name);
     return files.containsKey(name);
   }
 
+  @Override
   public FsObject getFileObject(String name)
   {
     name = normalizeFileName(name);
@@ -113,6 +119,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return fc.getFile();
   }
 
+  @Override
   public String getFileSystemName()
   {
     if (fsName == null) {
@@ -121,6 +128,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return fsName;
   }
 
+  @Override
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     name = normalizeFileName(name);
@@ -130,10 +138,12 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
       dirName = name;
     }
     for (Map.Entry<String, FsObjectContainer> me : files.entrySet()) {
-      if (me.getKey().startsWith(dirName) == false)
+      if (me.getKey().startsWith(dirName) == false) {
         continue;
-      if (me.getKey().equals(dirName) == true)
+      }
+      if (me.getKey().equals(dirName) == true) {
         continue;
+      }
       String pf = me.getKey();
       if (name.length() > 0) {
         pf = me.getKey().substring(name.length() + 1);
@@ -147,15 +157,18 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         }
       }
       if (recursive == false) {
-        if (pf.contains("/") == true)
+        if (pf.contains("/") == true) {
           continue;
+        }
       }
       if (matcher != null) {
-        if (matcher.match(pf) == false)
+        if (matcher.match(pf) == false) {
           continue;
+        }
       }
       if (me.getKey().equals(me.getValue().getFile().getName()) == false) {
-        throw new RuntimeException("Inkonsistent fs");
+        throw new FsException(
+            "Inkonsistent fs: RamKey: " + me.getKey() + "; fileName: " + me.getValue().getFile().getName());
       }
       ret.add(me.getValue().getFile());
     }
@@ -167,6 +180,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return true;
   }
 
+  @Override
   public boolean mkdir(String name)
   {
     checkReadOnly();
@@ -184,6 +198,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return true;
   }
 
+  @Override
   public void readBinaryFile(String name, OutputStream os)
   {
     name = normalizeFileName(name);
@@ -196,13 +211,15 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
   }
 
+  @Override
   public boolean rename(String oldName, String newName)
   {
     checkReadOnly();
     oldName = normalizeFileName(oldName);
     newName = normalizeFileName(newName);
-    if (exists(oldName) == false)
+    if (exists(oldName) == false) {
       return false;
+    }
     FsObjectContainer c = files.get(oldName);
     if (existsForWrite(newName) == false) {
       return false;
@@ -221,6 +238,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return true;
   }
 
+  @Override
   public void writeBinaryFile(String name, InputStream is, boolean overWrite)
   {
     checkReadOnly();
@@ -245,12 +263,14 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
       }
       files.put(name, nc);
       ++modificationCounter;
-      addEvent(existed == false ? FileSystemEventType.Created : FileSystemEventType.Modified, name, System.currentTimeMillis());
+      addEvent(existed == false ? FileSystemEventType.Created : FileSystemEventType.Modified, name,
+          System.currentTimeMillis());
     } catch (IOException ex) {
       throw new RuntimeIOException("Error writing file: " + name + "; " + ex.getMessage(), ex);
     }
   }
 
+  @Override
   public long getLastModified(final String name)
   {
     FsObject fsobj = getFileObject(name);
@@ -260,6 +280,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return fsobj.getLastModified();
   }
 
+  @Override
   public long getModificationCounter()
   {
     return modificationCounter;
@@ -270,7 +291,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return callback.call();
   }
 
-  public synchronized <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
+  @Override
+  public synchronized <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs,
+      CallableX<R, RuntimeException> callback)
   {
     try {
       this.wait(timeOut);
@@ -309,11 +332,13 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     this.files = files;
   }
 
+  @Override
   public boolean isReadOnly()
   {
     return readOnly;
   }
 
+  @Override
   public void setReadOnly(boolean readOnly)
   {
     this.readOnly = readOnly;

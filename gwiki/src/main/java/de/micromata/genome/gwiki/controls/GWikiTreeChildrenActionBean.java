@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -29,10 +30,15 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
+import de.micromata.genome.gdbfs.FileSystem;
+import de.micromata.genome.gdbfs.FsDirectoryObject;
+import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.controls.GWikiWeditServiceActionBean.SearchType;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.GWikiStorage;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderComparator;
@@ -40,7 +46,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByI18NPropsCo
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.LogExceptionAttribute;
 import de.micromata.genome.util.matcher.EqualsMatcher;
+import de.micromata.genome.util.matcher.LogicalMatcherFactory;
+import de.micromata.genome.util.matcher.Matcher;
 
 /**
  * 
@@ -184,6 +194,69 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     }
 
     return validRootPages;
+  }
+
+  public Object onGetPhysicalPaths()
+  {
+    JsonArray rootNodes = JsonBuilder.array();
+    try {
+      GWikiStorage storage = wikiContext.getWikiWeb().getDaoContext().getStorage();
+      FileSystem fileSystem = storage.getFileSystem();
+      List<FsObject> dirs = fileSystem.listFiles("", null, 'D', true);
+      // TODO RK restrictions on filesystem.
+
+      JsonObject node = createDirNode("");
+      Map<String, JsonObject> tree = new TreeMap<>();
+      for (FsObject dir : dirs) {
+        String sdir = dir.toString();
+        if (isValidDir(sdir) == false) {
+          continue;
+        }
+        node = createDirNode(sdir);
+        tree.put(sdir, node);
+        FsDirectoryObject parent = dir.getParent();
+        if (parent == null || StringUtils.isBlank(parent.toString()) == true) {
+          rootNodes.add(node);
+        } else {
+          JsonObject pnode = tree.get(parent.toString());
+          if (pnode == null) {
+            continue;
+          }
+          JsonArray childa = (JsonArray) pnode.get("children");
+          childa.add(node);
+        }
+      }
+      return sendResponse(rootNodes);
+    } catch (Exception ex) {
+      GLog.error(GWikiLogCategory.Wiki, "Error building dir tree: " + ex.getMessage(), new LogExceptionAttribute(ex));
+      return sendResponse(rootNodes);
+    }
+  }
+
+  protected JsonObject createDirNode(String path)
+  {
+    JsonObject node = new JsonObject();
+    String title = StringUtils.substringAfterLast(path, "/");
+    if (StringUtils.isEmpty(title) == true) {
+      title = "Root";
+    }
+    String id = StringUtils.replace(path, "/", "_");
+    node.add("id", id);
+    node.add("url", path);
+
+    node.add("text", title);
+    node.add("children", new JsonArray());
+    return node;
+  }
+
+  protected boolean isValidDir(String dir)
+  {
+    Matcher<String> matcher = new LogicalMatcherFactory<String>()
+        .createMatcher("static,*/tmp,*/tmp/*,edit/*,admin,admin/*");
+    if (matcher.match(dir) == true) {
+      return false;
+    }
+    return true;
   }
 
   /**

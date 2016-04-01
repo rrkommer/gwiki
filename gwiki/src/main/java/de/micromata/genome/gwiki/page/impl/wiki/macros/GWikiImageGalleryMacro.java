@@ -48,6 +48,7 @@ import de.micromata.genome.util.matcher.Matcher;
         @MacroInfoParam(name = "pageId", type = MacroParamType.PageId, info = "The parent page for the images.<br>"
             + "If not set uses the current page"),
         @MacroInfoParam(name = "title", info = "Titel"),
+        @MacroInfoParam(name = "size", info = "Size of preview", enumValues = { "small", "medium", "large" }),
         @MacroInfoParam(name = "columns", type = MacroParamType.Integer, defaultValue = "4",
             info = "Number of columns the images should be shown"),
         @MacroInfoParam(name = "sort", info = "Fieldname to sort. ", enumValues = { "title", "date" }),
