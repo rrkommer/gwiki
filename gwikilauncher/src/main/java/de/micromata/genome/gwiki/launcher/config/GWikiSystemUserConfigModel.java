@@ -45,10 +45,10 @@ public class GWikiSystemUserConfigModel extends AbstractLocalSettingsConfigModel
       return;
     }
     if (StringUtils.isBlank(systemUserName) == true) {
-      ctx.error("systemUserName", "Please provide a name for system user");
+      ctx.directError("systemUserName", "Please provide a name for system user");
     }
     if (StringUtils.isBlank(systemUserClearPass) == true && StringUtils.isBlank(systemUserEncPass) == true) {
-      ctx.error("systemUserClearPass", "Please provide password for system user");
+      ctx.directError("systemUserClearPass", "Please provide password for system user");
     }
 
   }

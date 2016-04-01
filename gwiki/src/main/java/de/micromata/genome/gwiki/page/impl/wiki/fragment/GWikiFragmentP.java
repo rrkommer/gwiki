@@ -85,7 +85,7 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
       ctx.append(" style=\"").append(ctx.escape(style)).append("\"");
     }
     if (childs != null && childs.size() > 0) {
-      ctx.append(">\n");
+      ctx.append(">");
       renderChilds(ctx);
       ctx.append("</p>\n");
     } else {

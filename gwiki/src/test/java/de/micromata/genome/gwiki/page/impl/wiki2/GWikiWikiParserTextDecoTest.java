@@ -64,7 +64,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   {
 
     String html = wiki2html("{{a\\}b}}");
-    assertEquals("<p><span style=\"font-family:courier new,courier,monospace;\">a}b</span></p>\n", html);
+    assertEquals("<p><code>a}b</code></p>\n", html);
   }
 
   public void testDeco6()
@@ -102,7 +102,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
   public void testPreFormat()
   {
     String html = wiki2html("{{asdf}}");
-    assertEquals("<p><span style=\"font-family:courier new,courier,monospace;\">asdf</span></p>\n", html);
+    assertEquals("<p><code>asdf</code></p>\n", html);
   }
 
   public void testUnterminatedDecHtml()
@@ -117,6 +117,7 @@ public class GWikiWikiParserTextDecoTest extends GWikiWikiParserTestBase
     assertEquals("<p><b><em>a</em></b></p>\n", html);
   }
 
+  @Override
   protected List<GWikiFragment> unwrapP(List<GWikiFragment> frags)
   {
     if (frags.get(0) instanceof GWikiFragmentP) {

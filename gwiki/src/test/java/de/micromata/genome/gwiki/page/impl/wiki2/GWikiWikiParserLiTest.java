@@ -68,7 +68,8 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testNested2()
   {
-    w2htest("* bla\n** blub\n** b2", "<ul class=\"star\"><li>bla<ul class=\"star\"><li>blub</li><li>b2</li></ul></li></ul>");
+    w2htest("* bla\n** blub\n** b2",
+        "<ul class=\"star\"><li>bla<ul class=\"star\"><li>blub</li><li>b2</li></ul></li></ul>");
   }
 
   public void testNested()
@@ -83,7 +84,8 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testLiCh()
   {
-    w2htest("- bla\n* blub", "<ul class=\"minus\" type=\"square\"><li>bla</li></ul><ul class=\"star\"><li>blub</li></ul>");
+    w2htest("- bla\n* blub",
+        "<ul class=\"minus\" type=\"square\"><li>bla</li></ul><ul class=\"star\"><li>blub</li></ul>");
   }
 
   public void testLi5()
@@ -98,7 +100,7 @@ public class GWikiWikiParserLiTest extends GWikiWikiParserTestBase
 
   public void testLi3()
   {
-    w2htest("* bla\n\n* blub", "<ul class=\"star\"><li>bla</li></ul><p/>\n<ul class=\"star\"><li>blub</li></ul>");
+    w2htest("* bla\n\n* blub", "<ul class=\"star\"><li>bla</li></ul><p/><ul class=\"star\"><li>blub</li></ul>");
   }
 
   public void testLi2()
