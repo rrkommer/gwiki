@@ -48,9 +48,11 @@ body, p, td, table, tr, .bodytext, .stepfield {
 	font-weight: normal;
 	line-height: 1.3;
 }
+
 code {
-  font-family: courier new, courier, monospace;
+	font-family: courier new, courier, monospace;
 }
+
 #main {
 	text-align: left;
 }
@@ -68,19 +70,19 @@ body, p, td, table, tr, .bodytext, .stepfield {
 }
 
 a {
-  color: #07378E;
-  text-decoration: none;
+	color: #07378E;
+	text-decoration: none;
 }
+
 a:visited {
 	color: #2B436D;
 	text-decoration: none;
 }
+
 a:hover {
-  color: #00B1EB;
-  text-decoration: underline;
+	color: #00B1EB;
+	text-decoration: underline;
 }
-
-
 
 #quick-search-query {
 	width: 13em;
@@ -125,94 +127,104 @@ body h1, body .wiki-content h1 {
 }
 
 #gwikiForm {
-  -moz-border-radius:3px 3px 3px 3px;
-  border:1px solid #EEEEEE;
-  padding: 3em 4em;
-  background:none repeat scroll 0 0 #FFFFFF;
-  margin:0 auto 2em auto;
-  margin-top:3em;
-  width:40em;
+	-moz-border-radius: 3px 3px 3px 3px;
+	border: 1px solid #EEEEEE;
+	padding: 3em 4em;
+	background: none repeat scroll 0 0 #FFFFFF;
+	margin: 0 auto 2em auto;
+	margin-top: 3em;
+	width: 40em;
 }
+
 #gwikiForm fieldset {
-  padding-top:1.5em;
-  border:0 none;
-  display:block;
-  margin-bottom:5px;
-  padding-bottom:5px;
-  position:relative;
+	padding-top: 1.5em;
+	border: 0 none;
+	display: block;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	position: relative;
 }
+
 #gwikiForm legend {
-  position: absolute;
-  left: -99999em;
-  top: -99999em;
+	position: absolute;
+	left: -99999em;
+	top: -99999em;
 }
+
 #gwikiForm div.type-text {
-  clear:both;
-  display:block;
-  margin:0;
-  margin-bottom:0.5em;
-  min-height:1.6em;
-  padding:0 0 0.5em 8em;
+	clear: both;
+	display: block;
+	margin: 0;
+	margin-bottom: 0.5em;
+	min-height: 1.6em;
+	padding: 0 0 0.5em 8em;
 }
+
 #gwikiForm div.type-text label {
-  text-align:left;
-  display:block;
-  float:left;
-  left:-8em;
-  line-height:1;
-  margin-right:-13em;
-  padding-top:0.4em;
-  position:relative;
-  width:13em;
-  font-size:1.2em;
-  cursor:pointer;
+	text-align: left;
+	display: block;
+	float: left;
+	left: -8em;
+	line-height: 1;
+	margin-right: -13em;
+	padding-top: 0.4em;
+	position: relative;
+	width: 13em;
+	font-size: 1.2em;
+	cursor: pointer;
 }
+
 #gwikiForm div.type-text input {
-  margin:0;
-  margin-right:5px;
-  padding:2px;
-  width:95%;
+	margin: 0;
+	margin-right: 5px;
+	padding: 2px;
+	width: 95%;
 }
+
 #gwikiForm div.type-button {
-  clear:both;
-  display:block;
-  margin:0;
-  min-height:1.6em;
-  padding:0 0 0 8em;
+	clear: both;
+	display: block;
+	margin: 0;
+	min-height: 1.6em;
+	padding: 0 0 0 8em;
 }
+
 ul.gwikiLoginHelp {
-  float:right;
-  line-height:1.6em;
-  margin:0 10px 0 0;
-  padding:0;
+	float: right;
+	line-height: 1.6em;
+	margin: 0 10px 0 0;
+	padding: 0;
 }
+
 ul.gwikiLoginHelp li {
-  display:inline;
-  padding-left:1em;
+	display: inline;
+	padding-left: 1em;
 }
-ul.error {margin:0; margin-left:6.2em; list-style:none;}
+
+ul.error {
+	margin: 0;
+	margin-left: 6.2em;
+	list-style: none;
+}
 
 .gwikiExpandableFieldSet {
-  border-style: solid;
-  border-width: 3px;
-  border-color: #000000;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #000000;
 }
+
 .gwikiExpandableFieldSet legend {
-  color: #000000;
-  background: #F0F0F0 none repeat scroll 0 0;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #000000;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 16pt;
-  cursor: ns-resize;
+	color: #000000;
+	background: #F0F0F0 none repeat scroll 0 0;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #000000;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	cursor: ns-resize;
 }
 
-
-.panel {
-	-moz-background-clip: border;
-	-moz-background-inline-policy: continuous;
-	-moz-background-origin: padding;
+.panel { //
 	background: #F0F0F0 none repeat scroll 0 0;
 	border-style: solid;
 	border-width: 1px;
@@ -233,32 +245,14 @@ element.style {
 	border-top-width: 1px;
 }
 
-.panel {
-	-moz-background-clip: border;
-	-moz-background-inline-policy: continuous;
-	-moz-background-origin: padding;
-	background: #F0F0F0 none repeat scroll 0 0;
-	border-style: solid;
-	border-width: 1px;
-	color: black;
-	margin: 10px 20px;
-	overflow: hidden;
-	padding: 0;
-}
-
-.codeHeader, .panelHeader, .panelContent {
+.codeHeader {
 	-moz-background-clip: border;
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
 	background: #F0F0F0 none repeat scroll 0 0;
 }
 
-.panel {
-	border-style: solid;
-	color: black;
-}
-
-.panelContent {
+.panelContent { //
 	background-color: #F0F0F0;
 	padding: 5px;
 	font-size: 0.95em;
@@ -267,24 +261,74 @@ element.style {
 	text-align: left;
 }
 
+.panelInfo {
+	background-color: rgb(195, 215, 245);
+}
+
+.panelInfoHeader {
+	background-image: url(../../static/img/icons/16px/269-info.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
+}
+
+.panelWarn {
+	background-color: rgb(245, 195, 209);
+}
+
+.panelWarnHeader {
+	background-image: url(../../static/img/icons/16px/264-warning.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
+}
+
+.panelTip {
+	background-color: rgb(210, 245, 229);
+}
+
+.panelTipHeader {
+	background-image: url(../../static/img/icons/16px/146-wrench.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
+}
+
+.panelTodo {
+	background-color: rgb(210, 239, 245);
+}
+
+.panelTodoHeader {
+	background-image: url(../../static/img/icons/16px/273-checkmark.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
+}
+
+.panelNote {
+	background-color: rgb(255, 244, 247);
+}
+
+.panelNoteHeader {
+	background-image: url(../../static/img/icons/16px/265-notification.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
+}
+
 .panelContent, .panelContent p, .panelContent th, .panelContent td,
 	.panelContent li {
 	text-align: left;
 }
 
-.codeHeader, .panelHeader, .panelContent {
+.codeHeader {
 	-moz-background-clip: border;
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
 	background: #F0F0F0 none repeat scroll 0 0;
 }
 
-.panel {
-	border-style: solid;
-	color: black;
-}
-
-.panelContent {
+.panelContent { //
 	background-color: #F0F0F0;
 	padding: 5px;
 	font-size: 0.95em;
@@ -357,8 +401,7 @@ code, .preformatted {
 .gwikiNavMenu {
 	list-style-type: none;
 	padding-left: 5px;
-  font-size: 12px;
-	
+	font-size: 12px;
 }
 
 .gwikiNavMenu li {

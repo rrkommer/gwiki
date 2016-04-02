@@ -1,23 +1,25 @@
 <@include file="inc/stdgfuncs.gspt" @>
 <% 
- String panelStyle = "border-width: 1px;";
- if (wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle') == null) {
-   panelStyle = wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle');
- }
- String contentStyle ="";
- if (wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle') == null) {
-   contentStyle = wikiContext.getRequestAttribute('wiki.macro.panel.panelContentStyle');
- }
- String rteData = de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo.getMarcroArgsAttributesForRte(wikiContext, GWIKI_MACRO_ATTRIBUTES);
+String panelClass= org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelClass'));
+String panelHeaderClass = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelHeaderClass'));
+String panelBodyClass = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
+String panelHeaderStyle = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle'));
+String panelContentStyle = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
+if (panelHeaderClass.length() == 0 && panelHeaderStyle.length() == 0) {
+  panelHeaderStyle = 'border-width: 1px;';
+}
+String panelTitle = '&nbsp;';
+if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) {
+  panelTitle = esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title'))
+}
 %>
-
-
-
-<div class="panel weditmacrohead" <%= rteData %> style="<%=panelStyle %>">
-<div class="weditmacrobody panelContent style="<%= contentStyle %>">
-<% if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == true) { %>
-<div align="center"><b><%= esc(GWIKI_MACRO_ATTRIBUTES.getArgs().getStringValue('title')) %></b></div><br />
-<% } %>
-<% GWIKI_MACRO_CHILD.render(wikiContext) %>
-</div>
+<div class="panel <%=panelClass %>" style="<%=  panelHeaderStyle%>">
+<div class="panelHeader <%=  panelHeaderClass%>">
+        <div align="center">
+          <b><%= panelTitle %></b>
+        </div>
+  </div>
+  <div class="panelContent <%= panelBodyClass %>" style="<%= panelContentStyle %>">
+				<% GWIKI_MACRO_CHILD.render(wikiContext) %>
+  </div>
 </div>

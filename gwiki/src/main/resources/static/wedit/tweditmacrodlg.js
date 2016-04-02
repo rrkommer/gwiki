@@ -469,6 +469,7 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 	var headId = wedit_genid("mhead_");
 	var bodyid = wedit_genid("mbody_");
 	var templBegin = macroInfo.macroMetaInfo.macroTemplateBegin;
+	var templBegin = templBegin.replace(/\$\{MACROHEAD\}/g, macroInfo.macroHead);
 	var templEnd = macroInfo.macroMetaInfo.macroTemplateEnd;
 	var fuellsel = '';
 	if (macroInfo.macroMetaInfo.hasBody) {
