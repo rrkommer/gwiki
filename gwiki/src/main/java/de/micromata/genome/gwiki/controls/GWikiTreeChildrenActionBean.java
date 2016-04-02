@@ -30,14 +30,10 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-import de.micromata.genome.gdbfs.FileSystem;
-import de.micromata.genome.gdbfs.FsDirectoryObject;
-import de.micromata.genome.gdbfs.FsObject;
 import de.micromata.genome.gwiki.controls.GWikiWeditServiceActionBean.SearchType;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
-import de.micromata.genome.gwiki.model.GWikiStorage;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.model.matcher.GWikiElementPropMatcher;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -45,6 +41,10 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByChildOrderC
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByI18NPropsComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByIntPropComparator;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByOrderComparator;
+import de.micromata.genome.gwiki.page.search.QueryResult;
+import de.micromata.genome.gwiki.page.search.SearchQuery;
+import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.LogExceptionAttribute;
@@ -196,40 +196,81 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     return validRootPages;
   }
 
+  private JsonObject addToNode(Map<String, JsonObject> tree, String dir)
+  {
+    if (tree.containsKey(dir) == true) {
+      return tree.get(dir);
+    }
+    int lidx = dir.lastIndexOf('/');
+    JsonObject pnode;
+    if (lidx != -1) {
+      String pn = dir.substring(0, lidx);
+      pnode = tree.get(pn);
+      if (pnode == null) {
+        pnode = addToNode(tree, pn);
+      }
+    } else {
+      pnode = tree.get("");
+    }
+    JsonObject node = createDirNode(dir);
+    JsonArray children = (JsonArray) pnode.get("children");
+    children.add(node);
+    tree.put(dir, node);
+    return node;
+  }
+
   public Object onGetPhysicalPaths()
   {
-    JsonArray rootNodes = JsonBuilder.array();
+    JsonObject rootNode = createDirNode("");
     try {
-      GWikiStorage storage = wikiContext.getWikiWeb().getDaoContext().getStorage();
-      FileSystem fileSystem = storage.getFileSystem();
-      List<FsObject> dirs = fileSystem.listFiles("", null, 'D', true);
-      // TODO RK restrictions on filesystem.
-
-      JsonObject node = createDirNode("");
+      String queryexpr = SearchUtils.createLinkExpression("", true, null);
+      SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
+      QueryResult qr = wikiContext.getWikiWeb().getContentSearcher().search(wikiContext, query);
       Map<String, JsonObject> tree = new TreeMap<>();
-      for (FsObject dir : dirs) {
-        String sdir = dir.toString();
-        if (isValidDir(sdir) == false) {
+
+      tree.put("", rootNode);
+
+      for (SearchResult sr : qr.getResults()) {
+        String pageid = sr.getPageId();
+        int lidx = pageid.lastIndexOf('/');
+        if (lidx == -1) {
           continue;
         }
-        node = createDirNode(sdir);
-        tree.put(sdir, node);
-        FsDirectoryObject parent = dir.getParent();
-        if (parent == null || StringUtils.isBlank(parent.toString()) == true) {
-          rootNodes.add(node);
-        } else {
-          JsonObject pnode = tree.get(parent.toString());
-          if (pnode == null) {
-            continue;
-          }
-          JsonArray childa = (JsonArray) pnode.get("children");
-          childa.add(node);
-        }
+        String s = pageid.substring(0, lidx);
+        addToNode(tree, s);
       }
-      return sendResponse(rootNodes);
+      return sendResponse(rootNode);
+      //      
+      //      GWikiStorage storage = wikiContext.getWikiWeb().getDaoContext().getStorage();
+      //      FileSystem fileSystem = storage.getFileSystem();
+      //      List<FsObject> dirs = fileSystem.listFiles("", null, 'D', true);
+      //      // TODO RK restrictions on filesystem.
+      //
+      //      JsonObject node = createDirNode("");
+      //      Map<String, JsonObject> tree = new TreeMap<>();
+      //      for (FsObject dir : dirs) {
+      //        String sdir = dir.toString();
+      //        if (isValidDir(sdir) == false) {
+      //          continue;
+      //        }
+      //        node = createDirNode(sdir);
+      //        tree.put(sdir, node);
+      //        FsDirectoryObject parent = dir.getParent();
+      //        if (parent == null || StringUtils.isBlank(parent.toString()) == true) {
+      //          rootNodes.add(node);
+      //        } else {
+      //          JsonObject pnode = tree.get(parent.toString());
+      //          if (pnode == null) {
+      //            continue;
+      //          }
+      //          JsonArray childa = (JsonArray) pnode.get("children");
+      //          childa.add(node);
+      //        }
+      //      }
+
     } catch (Exception ex) {
       GLog.error(GWikiLogCategory.Wiki, "Error building dir tree: " + ex.getMessage(), new LogExceptionAttribute(ex));
-      return sendResponse(rootNodes);
+      return sendResponse(rootNode);
     }
   }
 
@@ -238,7 +279,11 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     JsonObject node = new JsonObject();
     String title = StringUtils.substringAfterLast(path, "/");
     if (StringUtils.isEmpty(title) == true) {
-      title = "Root";
+      if (StringUtils.isEmpty(path) == true) {
+        title = "Root";
+      } else {
+        title = path;
+      }
     }
     String id = StringUtils.replace(path, "/", "_");
     node.add("id", id);
@@ -246,6 +291,9 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 
     node.add("text", title);
     node.add("children", new JsonArray());
+    JsonObject data = new JsonObject();
+    node.add("data", data);
+    data.add("url", path);
     return node;
   }
 

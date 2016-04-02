@@ -85,10 +85,10 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 		if (sv == '') {
 			$('.macrodiv').show();
 		} else {
-			$(".dlgmacrodiv").each(function (index, el) {
-				
+			$(".dlgmacrodiv").each(function(index, el) {
+
 				var texth = $($(el).children()[0]).html();
-				var textb = '';//	$($(el).children()[1]).html();
+				var textb = '';// $($(el).children()[1]).html();
 				if (texth.indexOf(sv) != -1 || textb.indexOf(sv) != -1) {
 					$(el).show();
 				} else {
@@ -139,7 +139,6 @@ function wedit_show_newmacro_dialog_impl(ed, list) {
 	};
 
 	dlghtml = modc.html();
-	console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
 	  width : 500,
 	  modal : true,
@@ -239,6 +238,9 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 				.attr('name', 'wmd_param_' + pmi.name)//
 				.val(curval)//
 				);
+				if (pmi.type == 'PageId') {
+					wedit_ac_link('#wmd_param_' + pmi.name);
+				}
 				if (pmi.info) {
 					fieldset.append($("<br/>"));
 					fieldset.append($("<span>").html(pmi.info));
@@ -508,4 +510,51 @@ function wedit_macro_delete_current(ed, el) {
 	var pnode = divel.parentNode;
 	pnode.removeChild(divel);
 	wedit_hide_contextToollBar(ed);
+}
+
+function wedit_ac_link(selector, wikitype) {
+	setTimeout(function() {
+		var sel = $(selector);
+		var linkAutoCompleteUrl = gwikiLocalUrl("edit/WeditService");
+		sel.autocomplete(
+		    {
+		      source : function(req, callback) {
+			      console.debug("wedit_ac_link ac: " + linkAutoCompleteUrl + ": " + req.term);
+			      $.ajax({
+			        url : linkAutoCompleteUrl,
+			        type : 'GET',
+			        data: {
+			        	method_onPageIdAutocomplete: true,
+			        	pageType : !wikitype || wikitype === undefined ? 'All' : wikitype,	
+			        	q:  req.term
+			        },
+			        success : function(data) {
+//			        	console.debug("receveived: " + data);
+//				        var jdata = eval('(' + data + ')');
+				        callback(data);
+			        },
+			        fail : function(jqXHR, textStatus, errorThrown) {
+				        console.error("got  error: " + textStatus);
+			        }
+			      });
+		      },
+		      matchContains : true,
+		      cacheLength : 2,
+		      matchSubset : false,
+		      minChars : 2,
+		      width : 350,
+		      scroll : true,
+		      scrollHeight : 400,
+		      select : function(even, ui) {
+			      var item = ui.item;
+			      var v = item.key;
+			      $(selector).val(v);
+			      return false
+		      }
+
+		    }).autocomplete("instance")._renderItem = function(ul, item) {
+			return $("<li>" + item.label + "</li>").appendTo(ul);
+
+		};
+	}, 200);
 }
