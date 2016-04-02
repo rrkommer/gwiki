@@ -160,7 +160,7 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
           attrs.getChildFragment().render(ctx);
         }
       } else {
-        ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+        ctx.append("<pre>").append(StringEscapeUtils.escapeHtml(attrs.getBody())).append("</pre>");
       }
       ctx.append(templ.getSecond());
       return true;

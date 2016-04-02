@@ -66,11 +66,18 @@ function wedit_show_editmacro_dialog(ed, el) {
 		return;
 	}
 	wedit_getMacroInfo(macroInfo.macroName, macroInfo.macroHead, function(result) {
-		console.debug("Got macro info: " + JSON.stringify(result));
+		// console.debug("Got macro info: " + JSON.stringify(result));
 		var resmacroInfo = result.macroInfo;
 		if (resmacroInfo) {
 			macroInfo.macroParams = resmacroInfo.macroParams;
 			macroInfo.macroMetaInfo = resmacroInfo.macroMetaInfo;
+			if (macroInfo.macroMetaInfo.hasBody == true && macroInfo.macroMetaInfo.evalBody == false) {
+				var mb = $(macroInfo.macroBody);
+				var mvs = mb[0];
+				if (mvs.nodeName == 'PRE') {
+					macroInfo.macroBody = mb.html();
+				}
+			}
 		}
 		wedit_open_macro_dialog(ed, macroInfo, macroInfo.macroMetaInfo, wedit_updateMacro);
 	});
@@ -384,7 +391,11 @@ function wedit_updateMacro(ed, curMacroInfo, newMacroInfo) {
 	var htext = hdiv.find(".weditmacrn");
 	htext.text(newMacroInfo.macroHead);
 	if (newMacroInfo.macroMetaInfo.hasBody == true && newMacroInfo.macroMetaInfo.evalBody == false) {
-		$(curMacroInfo.macroBodyDiv).html(newMacroInfo.macroBody);
+		if (!newMacroInfo.macroBody) {
+			newMacroInfo.macroBody = '';
+		}
+		var escaped = $('<div/>').text(newMacroInfo.macroBody).html();
+		$(curMacroInfo.macroBodyDiv).html('<pre>' + escaped + '</pre>');
 	}
 }
 
@@ -448,7 +459,7 @@ function wedit_getMacroInfo(macroName, macroHead, callback) {
  * @param item
  */
 function gwedit_insert_macro(ed, item) {
-	console.debug("insert macro");
+//	console.debug("insert macro");
 	wedit_deleteLeftUntil(ed, "{");
 	var macroInfo = new MacroInfo();
 	macroInfo.macroMetaInfo = item.macroMetaInfo;
@@ -459,7 +470,7 @@ function gwedit_insert_macro(ed, item) {
 		gwedit_insert_macro_impl(ed, macroInfo);
 		return;
 	}
-	wedit_open_macro_dialog()
+	wedit_open_macro_dialog();
 }
 
 function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
@@ -478,8 +489,15 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 		if (WEDIT_MACRO_RENDER_FLAG_RteInline & macroInfo.macroMetaInfo.renderFlags) {
 			fuellsel = "&nbsp;";
 		} else if (macroInfo.macroMetaInfo.evalBody == false) {
+			if (!macroInfo.macroBody) {
+				macroInfo.macroBody = '';
+			}
+			var escaped = $('<div/>').text(macroInfo.macroBody).html();
+			fuellsel = escaped;
+		} else {
 			fuellsel = macroInfo.macroBody;
 		}
+
 	}
 	var html = templBegin + fuellsel + templEnd;
 

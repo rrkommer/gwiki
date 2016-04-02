@@ -97,7 +97,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
         ctx.append(" class='language-" + clang + "'");
       }
       ctx.append(" contenteditable='false'>");
-      ctx.append(body);
+      ctx.append(StringEscapeUtils.escapeHtml(body));
       ctx.append("</pre>");
       return true;
 
@@ -125,10 +125,6 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     }
     ctx.append(">").append(body).append("</code></pre>");
 
-    //    ctx.append("<div class=\"preformatted panel\" style=\"border-width: 1px;\">", //
-    //        "<div class=\"preformattedContent panelContent\">\n", //
-    //        preview ? attrs.getBody() : colorize(lang, body), //
-    //        "</div></div>");
     return true;
   }
 
