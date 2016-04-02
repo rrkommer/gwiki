@@ -12,5 +12,5 @@
 <%= wikiContext.getHeaderContent() %>
 </head>
 <body>
-
+<script src='<gwiki:url value="/static/js/wz_tooltip.js"/>' type="text/javascript"></script>
 <!-- head.gspt END -->

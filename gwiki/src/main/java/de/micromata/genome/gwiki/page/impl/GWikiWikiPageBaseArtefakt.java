@@ -67,7 +67,6 @@ public class GWikiWikiPageBaseArtefakt extends GWikiTextArtefaktBase<GWikiConten
   @Override
   public void prepareHeader(GWikiContext wikiContext)
   {
-    wikiContext.getRequiredJs().add("/static/js/tooltip.js");
 
     if (compileFragements(wikiContext) == false || prepareHeaderFragments == null) {
       return;
