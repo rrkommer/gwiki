@@ -43,6 +43,8 @@ public abstract class GWikiMacroInfoBase implements GWikiMacroInfo
     if (evalBody() == false) {
       begin.append(" mceNonEditable editmacrobd_pre'");
       begin.append(" contenteditable='false'>");
+      begin.append("<pre>");
+      end.append("</pre>");
     } else {
       begin.append(" mceEditable'");
       begin.append(" contenteditable='true'>");
