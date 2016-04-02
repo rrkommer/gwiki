@@ -73,7 +73,8 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
           //
           .append(StringEscapeUtils.escapeHtml(matched)).append(": ")
           //
-          .append("<a href='").append(ctx.localUrl(ei.getId())).append("'>").append(ctx.getTranslatedProp(ei.getTitle())).append("</a>")
+          .append("<a href='").append(ctx.localUrl(ei.getId())).append("'>")
+          .append(ctx.getTranslatedProp(ei.getTitle())).append("</a>")
           .append("</li>");
     }
     ts.append("</ul>");
@@ -81,8 +82,8 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
       sb.append(matched);
       return;
     }
-    sb.append("<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('")
-        //
+    sb.append(
+        "<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('")
         .append(StringEscapeUtils.escapeJavaScript(ts.toString())).append("', '").append(ctx.genHtmlId(""))
         .append("')\" onmouseout=\"doNotOpenHilfeLayer();\">") //
         .append(StringEscapeUtils.escapeHtml(matched)).append("</a>");
@@ -125,14 +126,18 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
 
   protected String renderPatched(String html, KeyWordRanges kranges)
   {
-    Collections.sort(kranges, new Comparator<KeyWordRange>() {
+    Collections.sort(kranges, new Comparator<KeyWordRange>()
+    {
 
+      @Override
       public int compare(KeyWordRange o1, KeyWordRange o2)
       {
-        if (o1.start < o2.start)
+        if (o1.start < o2.start) {
           return -1;
-        if (o1.start > o2.start)
+        }
+        if (o1.start > o2.start) {
           return 1;
+        }
         return 0;
       }
     });
