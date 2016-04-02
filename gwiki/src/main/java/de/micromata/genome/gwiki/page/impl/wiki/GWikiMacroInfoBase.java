@@ -29,11 +29,12 @@ public abstract class GWikiMacroInfoBase implements GWikiMacroInfo
     ++htmlIdCounter;
 
     begin.append("<").append(eln).append(" class='mceNonEditable weditmacroframe' contenteditable='false'>")
-        .append("<").append(eln).append(" class='mceNonEditable weditmacrohead' data-macrohead='").append(macroHead)
+        .append("<").append(eln).append(" class='mceNonEditable weditmacrohead' data-macrohead='")
+        .append("${MACROHEAD}")
         .append("' data-macroname='").append(macroName).append("'  contenteditable='false'>");
     //    begin.append(
     //        "<div class='wedigopbar'><span class='weditopbutton weditopedit' >Edit</span> <span class='weditopbutton weditdel'>Delete</span></div>");
-    begin.append("<span class='weditmacrn'>").append(macroHead).append("</span>");
+    begin.append("<span class='weditmacrn'>").append("${MACROHEAD}").append("</span>");
     begin.append("</").append(eln).append(">");
     if (hasBody() == false) {
       return Pair.make(begin.toString(), "</" + eln + ">");

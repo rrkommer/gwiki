@@ -1,10 +1,7 @@
-<% wikiContext.setRequestAttribute(
-      'wiki.macro.panel.panelStyle', 
-      'margin:10px 20px;overflow:hidden;border-width: 1px;background-color:#FFFFCE;');  %>
-<% wikiContext.setRequestAttribute(
-      'wiki.macro.panel.panelContentStyle', 
-      'margin:10px 20px;overflow:hidden;background-color:#FFFFCE;border-width: 0px;');  %>
 <% 
+wikiContext.setRequestAttribute('wiki.macro.panel.panelClass', 'panelTodo');
+wikiContext.setRequestAttribute('wiki.macro.panel.panelHeaderClass', 'panelTodoHeader');
+wikiContext.setRequestAttribute('wiki.macro.panel.panelBodyClass', 'panelTodoBody');
 	if (GWIKI_MACRO_ATTRIBUTES.getArgs().containsKey('title') == false) {
 		GWIKI_MACRO_ATTRIBUTES.getArgs().setStringValue('title', 'TODO');
 	}

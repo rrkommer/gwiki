@@ -1,7 +1,6 @@
-<% wikiContext.setRequestAttribute(
-      'wiki.macro.panel.panelStyle', 
-      'margin:10px 20px;overflow:hidden;border-width: 1px;background-color:#D8E4F1;');  %>
-<% wikiContext.setRequestAttribute(
-      'wiki.macro.panel.panelContentStyle', 
-      'margin:10px 20px;overflow:hidden;background-color:#D8E4F1;border-width: 0px;');  %>
+<% 
+wikiContext.setRequestAttribute('wiki.macro.panel.panelClass', 'panelInfo');
+wikiContext.setRequestAttribute('wiki.macro.panel.panelHeaderClass', 'panelInfoHeader');
+wikiContext.setRequestAttribute('wiki.macro.panel.panelBodyClass', 'panelInfoBody');
+%>
 <@include file="admin/macros/panel" @>

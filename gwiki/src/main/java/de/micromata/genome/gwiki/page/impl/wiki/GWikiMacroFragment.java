@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import com.uwyn.jhighlight.tools.StringUtils;
+
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -150,7 +152,9 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
         macro.getMacroInfo();
       }
       Pair<String, String> templ = macro.getMacroInfo().getRteTemplate(sbsourehead.toString());
-      ctx.append(templ.getFirst());
+      String head = templ.getFirst();
+      head = StringUtils.replace(head, "${MACROHEAD}", sbsourehead.toString());
+      ctx.append(head);
       if (macro.evalBody() == true) {
         if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
           attrs.getChildFragment().render(ctx);
