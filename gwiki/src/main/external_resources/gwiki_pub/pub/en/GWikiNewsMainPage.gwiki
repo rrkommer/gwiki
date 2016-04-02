@@ -7,26 +7,26 @@ News about GWiki
 {section:border=1|cellpadding=5|cellspacing=0}
 {column:width=50%|valign=top}
 h2. News about GWiki
-h3. 2016\-04\-01
+h3. 2016-04-01
 *Release 2.1.0*
 
 This is a mayor release.
 
 h4. New Editor
-The Rich Text Editor using tinyMCE 4 now supports direct macros and links much more better.
+The Rich Text Editor now supports direct macros and links much more better.
 
-The Shortcuts of the wiki syntax is supported. So just type \[ or { or !  to get code completetion.
+The Shortcuts of the wiki syntax is supported. So just type [ or { or !  to get code completetion.
 
-The Edit Dialog for Links, [#|class=wikiSmartTag|#classwikiSmartTag|class=wikiSmartTag] etc. gives you information about valid options.
+The Edit Dialog for Links, [#|#classwikiSmartTag|class=wikiSmartTag] etc. gives you information about valid options.
 
 You can now paste/drag and drop Attachments, Images into the editor. Screenshot in the clipboard are supported (at least on windows, mac I don't know).
 
 The Rich Text editor is now the default editor.
 
 h4. Launcher
-GWiki has now a launcher in a single jar with a Desktop GUI to configure. On Server environments the launcher gui can be suppressed with the {{-nogui}\} option.
+GWiki has now a launcher in a single jar with a Desktop GUI to configure. On Server environments the launcher gui can be suppressed with the {{-nogui}} option.
 
-h3. 2016\-02\-01
+h3. 2016-02-01
 Interim Release 1.0.4
 
 GWiki uses now the MGC Libraries to provide better infrastruktur.
@@ -38,45 +38,45 @@ Published source on GitHub. SourceForge SVN will not be longer used by Gwiki
 [https://github.com/rrkommer/gwiki.git|https://github.com/rrkommer/gwiki.git]
   
 
-h3. 2013\-01\-14
+h3. 2013-01-14
 GWiki version 1.0.1 released.
 
-h3. 2013\-01\-13
+h3. 2013-01-13
 Create a new plugin to enable classic automatic camel case wiki links. See [pub/plugins/gwiki-wikilinks/Index|pub/plugins/gwiki-wikilinks/Index].
   
 
-h3. 2013\-01\-10
+h3. 2013-01-10
 Create anon user template, so that also unregistered user can edit pages. 
  See Special Users in [gwikidocs/help/en/admin/User_Management_Help|gwikidocs/help/en/admin/User_Management_Help].
   
 
-h3. 2013\-01\-09
+h3. 2013-01-09
 Create a sample Application for Google App Engine. 
  See also [gwikidocs/howtos/en/How_to_deploy_GWiki_on_Google_App_Engine_site|gwikidocs/howtos/en/How_to_deploy_GWiki_on_Google_App_Engine_site].
   
  Source is now available via SVN. 
  See also [pub/en/Downloads|pub/en/Downloads].
 
-h3. 2013\-01\-01
+h3. 2013-01-01
 Release 1.0.0.
   
 
-h3. 2012\-12\-30
+h3. 2012-12-30
 Internal Snapshot Release 1.0.0.
   
 
-h3. 2012\-12\-01
+h3. 2012-12-01
 Internal Snapshot Release 0.9.0.
   
 
-h3. 2010\-07\-03
+h3. 2010-07-03
 Release 0.4.1 created.
   
 
 See also [pub/en/Downloads|pub/en/Downloads] and [pub/en/ChangeLog|pub/en/ChangeLog].
   
 
-h3. 2010\-07\-02
+h3. 2010-07-02
 Next mayor step with reorganized many things.
 
 First release von GWiki.

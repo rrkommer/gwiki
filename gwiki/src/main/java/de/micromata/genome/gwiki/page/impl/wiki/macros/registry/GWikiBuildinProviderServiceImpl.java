@@ -30,6 +30,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageIntroMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageTreeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiScrollNextPrevPageMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiSectionMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTocMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseMacroMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlBlockquoteMacro;
@@ -85,7 +86,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     //    ret.put("formlabel", new GWikiMacroClassFactory(GWikiFormLabelMacro.class));
     //    ret.put("input", new GWikiMacroClassFactory(GWikiFormInputMacro.class));
     ret.put("column", new GWikiMacroClassFactory(GWikiColumnMacro.class));
-    ret.put("section", new GWikiMacroClassFactory(GWikiColumnMacro.class));
+    ret.put("section", new GWikiMacroClassFactory(GWikiSectionMacro.class));
     ret.put("gallery", new GWikiMacroClassFactory(GWikiImageGalleryMacro.class));
     ret.put("changecomment", new GWikiMacroClassFactory(GWikiChangeCommentMacroBean.class));
     ret.put("fancybox", new GWikiMacroClassFactory(GWikiFancyBoxMacroBean.class));
