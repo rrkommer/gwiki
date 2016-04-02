@@ -254,6 +254,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
       }
       if (ei != null && isTitleDefined() == false) {
         ttitel = ctx.getTranslatedProp(ei.getTitle());
+        if (StringUtils.isEmpty(ttitel) == true) {
+          ttitel = title;
+        }
       }
       if (StringUtils.isNotEmpty(url) == true) {
         if (ei != null) {
