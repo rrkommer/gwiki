@@ -245,7 +245,7 @@ function twedit_is_link_button_enabled(ed) {
 	return true;
 }
 
-function tweid_collect_containers_between_inParent(start, end, collection){
+function tweid_collect_containers_between_inParent(start, end, collection) {
 	var foundthis = false;
 	for (var cc = start.parentNode.firstChild; cc; cc = cc.nextSibling) {
 		if (foundthis == false) {
@@ -263,7 +263,7 @@ function tweid_collect_containers_between_inParent(start, end, collection){
 	}
 }
 function twedit_collect_containers_between(start, end, collection) {
-	if (collection.indexOf(start) != -1){
+	if (collection.indexOf(start) != -1) {
 		return false;
 	}
 	collection[collection.length] = start;
@@ -279,18 +279,17 @@ function twedit_collect_containers_between(start, end, collection) {
 	}
 	if (start.nextElementSibling) {
 		return twedit_collect_containers_between(start.nextElementSibling, end, collection);
-	} else 	if (start.parentNode) {
+	} else if (start.parentNode) {
 		return tweid_collect_containers_between_inParent(start, end, collection);
 	}
 	return false;
 }
-function twedit_check_valid_range_for_insideOutsideMacros(colels)
-{
+function twedit_check_valid_range_for_insideOutsideMacros(colels) {
 	var wasOutsideBody = false;
 	var wasInsideBody = false;
 	for (var i = 0; i < colels.length; ++i) {
 		var el = colels[i];
-		if (el.getAttribute ) {
+		if (el.getAttribute) {
 			var cl = el.getAttribute('class');
 			if (cl && cl.indexOf('weditmacroframe') != -1) {
 				return true;
@@ -298,23 +297,23 @@ function twedit_check_valid_range_for_insideOutsideMacros(colels)
 		}
 	}
 	return false;
-	
+
 }
 function twedit_check_valid_range_for_del(ed) {
 	var rng = ed.selection.getRng(true);
 	return tweid_check_valid_range_for_del_in_range(ed, rng);
 }
 
-
-function tweid_check_valid_range_for_del_in_range(ed, rng)
-{
+function tweid_check_valid_range_for_del_in_range(ed, rng) {
 	if (rng.startContainer == rng.endContainer) {
 		if (rng.startContainer.getAttribute) {
 			var cls = rng.startContainer.getAttribute('class');
 			if (cls) {
-				if (cls.indexOf('weditmacrohead') != -1 || cls.indexOf('weditmacrobody') != -1 || cls.indexOf('weditmacroframe') != -1) {
+				if (cls.indexOf('weditmacrohead') != -1
+				    || /* cls.indexOf('weditmacrobody') != -1 || */cls.indexOf('weditmacroframe') != -1) {
+					console.debug("Found mod in macro: delete macro");
 					wedit_macro_delete_current(ed, rng.startContainer);
-					return false;
+					return true;
 				}
 			}
 		}
