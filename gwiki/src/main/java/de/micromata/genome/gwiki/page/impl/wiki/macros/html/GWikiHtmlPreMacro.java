@@ -11,6 +11,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyRteTagMacro;
  */
 @MacroInfo(info = "Create an html table pre",
     renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
         GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiHtmlPreMacro extends GWikiHtmlBodyRteTagMacro
 {

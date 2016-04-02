@@ -459,7 +459,7 @@ function wedit_getMacroInfo(macroName, macroHead, callback) {
  * @param item
  */
 function gwedit_insert_macro(ed, item) {
-//	console.debug("insert macro");
+	// console.debug("insert macro");
 	wedit_deleteLeftUntil(ed, "{");
 	var macroInfo = new MacroInfo();
 	macroInfo.macroMetaInfo = item.macroMetaInfo;
@@ -484,7 +484,7 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 	var templEnd = macroInfo.macroMetaInfo.macroTemplateEnd;
 	var fuellsel = '';
 	if (macroInfo.macroMetaInfo.hasBody) {
-		var fuellsel = "<p>&nbsp;</p>";
+		fuellsel = "<p>&nbsp;</p>";
 
 		if (WEDIT_MACRO_RENDER_FLAG_RteInline & macroInfo.macroMetaInfo.renderFlags) {
 			fuellsel = "&nbsp;";
@@ -495,7 +495,7 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 			var escaped = $('<div/>').text(macroInfo.macroBody).html();
 			fuellsel = escaped;
 		} else {
-			fuellsel = macroInfo.macroBody;
+//			nothing here fuellsel = macroInfo.macroBody;
 		}
 
 	}

@@ -85,7 +85,8 @@ public class GWikiWikiParserUtils
           }
         }
         if (startRepl != -1) {
-          nchildList.add(new GWikiFragmentP(childs.subList(startRepl, childs.size())));
+          List<GWikiFragment> slist = childs.subList(startRepl, childs.size());
+          nchildList.add(new GWikiFragmentP(slist));
         }
         nest.setChilds(nchildList);
         //        childs.clear();
