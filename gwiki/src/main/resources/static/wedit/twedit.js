@@ -119,6 +119,24 @@ var twedit_editors = {
 
 };
 
+function tweid_isModKeydown(event) {
+	if (event.which >= 16 && event.which <= 20) {
+		return false;
+	}
+	if (event.which >= 33 && event.which <= 45) { // no navigation
+		return false;
+	}
+	if (event.ctrlKey == true) {
+		if (event.which == 83) { // S
+			return false;
+		}
+	}
+	if (event.altKey == true) {
+		return false;
+	}
+	return true;
+}
+
 function twedit_create(editId, newPage) {
 
 	var ed = tinymce
@@ -190,39 +208,20 @@ function twedit_create(editId, newPage) {
 		      }
 		      ed.on('keydown', function(event) {
 			      // all keys because overwerite
-			      // console.debug('keydown: ' + event.which);
-			      if (event.which < 33 && event.which > 45) { // no navigation
+			      console.debug('keydown: ' + event.which);
+			      if (tweid_isModKeydown(event)) {
 				      if (twedit_check_valid_range_for_del(ed) == false) {
 					      event.stopPropagation();
 					      event.preventDefault();
 					      return;
 				      }
 			      }
-			      // }
 			      if (event.ctrlKey == true) {
 				      if (event.which == 83) { // CTRL+S
 					      onSaveOptRedit(event, false);
 					      event.stopPropagation();
 					      event.preventDefault();
 				      }
-				      // not working
-				      // else if (event.which == 65) { // A
-				      // wedit_tinyCommand_beginLine(ed, event);
-				      // } else if (event.which == 68) { // D
-				      // wedit_tinyCommand_delete(ed, event);
-				      // } else if (event.which == 69) { // E
-				      // wedit_tinyCommand_endLine(ed, event);
-				      // }
-			      } else if (event.altKey == true) { // ALT
-				      // if (event.which == 77) { // M
-				      // if (twedit_is_macro_button_enabled(ed) == true) {
-				      // wedit_show_newmacro_dialog(ed);
-				      // }
-				      // } else if (event.which == 76) { // L
-				      // if (twedit_is_link_button_enabled(ed) == true) {
-				      // wedit_show_link_dialog(ed);
-				      // }
-				      // }
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);

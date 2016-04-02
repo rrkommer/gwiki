@@ -23,7 +23,9 @@ import java.util.Map;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.gspt.GenomeTemplateUtils;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
@@ -39,8 +41,9 @@ import groovy.lang.Script;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-@MacroInfo(info = "A embedded Groovy script")
-public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRuntimeMacro
+@MacroInfo(info = "A embedded Groovy script",
+    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd })
+public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRuntimeMacro, GWikiBodyMacro
 {
 
   private static final long serialVersionUID = 5567718564219668702L;

@@ -38,15 +38,15 @@ public abstract class GWikiMacroInfoBase implements GWikiMacroInfo
     if (hasBody() == false) {
       return Pair.make(begin.toString(), "</" + eln + ">");
     }
-    begin.append("<").append(eln).append(" tabindex='-1' class='mceEditable weditmacrobody");
+    begin.append("<").append(eln).append(" tabindex='-1' class=' weditmacrobody");
     if (evalBody() == false) {
-      begin.append(" editmacrobd_pre");
+      begin.append(" mceNonEditable editmacrobd_pre'");
+      begin.append(" contenteditable='false'>");
+    } else {
+      begin.append(" mceEditable'");
+      begin.append(" contenteditable='true'>");
     }
-    begin.append("' contenteditable='true'>");
-    if (evalBody() == false) {
-      begin.append("<pre style='-moz-tab-size: 2; -o-tab-size: 2; tab-size: 2;'>\n");
-      end.append("</pre>");
-    }
+
     end.append("</").append(eln).append("></").append(eln).append(">");
     return Pair.make(begin.toString(), end.toString());
   }

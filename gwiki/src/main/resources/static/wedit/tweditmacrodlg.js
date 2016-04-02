@@ -81,7 +81,14 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 	modc.html('');
 	var searchText = $("<input>").attr('id', "macrosearchbox").css('width', '100%');
 	searchText.on('keyup', function(event) {
-		var sv = searchText.val();
+		if (event.which == 13) {
+			var el = $(".dlgmacrodiv:visible").first();
+			if (el) {
+				var texth = $($(el).children()[0]);
+				texth.trigger('click');
+			}
+		}
+		var sv = searchText.val().toLowerCase();
 		if (sv == '') {
 			$('.macrodiv').show();
 		} else {
@@ -89,6 +96,8 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 
 				var texth = $($(el).children()[0]).html();
 				var textb = '';// $($(el).children()[1]).html();
+				texth = texth.toLowerCase();
+
 				if (texth.indexOf(sv) != -1 || textb.indexOf(sv) != -1) {
 					$(el).show();
 				} else {
@@ -255,6 +264,14 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 		contentdiv.append(fieldset);
 	}
 	modc.append(contentdiv);
+	if (macroMetaInfo.hasBody && macroMetaInfo.evalBody == false) {
+		var txtdiv = $('<div>').css('display', 'inline-block').css('vertical-align', 'top').css('padding', '5px').css(
+		    'width', 'calc(100% - 5px)');
+		txtdiv.append($('<textarea>').attr('id', 'wm_macro_body').css('width', '100%').css('height', '300').html(
+		    curMacroInfo.macroBody));
+
+		modc.append(txtdiv);
+	}
 }
 function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	var modc = $("#editDialogBox");
@@ -292,7 +309,9 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 			}
 		}
 		macroInfo.macroHead = wedit_renderHead(macroInfo);
-
+		if (macroMetaInfo.hasBody == true && macroMetaInfo.evalBody == false) {
+			macroInfo.macroBody = $('#wm_macro_body').val();
+		}
 		$(dialog).dialog('close');
 		ed.focus();
 		callback(ed, curMacroInfo, macroInfo);
@@ -300,7 +319,8 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	var dlghtml = modc.html();
 	// console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
-	  width : 500,
+	  // height: $(window).height() - 50,
+	  width : $(window).width() - 50,
 	  dialogClass : 'jquiNoDialogTitle',
 	  modal : true,
 	  buttons : buttons,
@@ -363,6 +383,9 @@ function wedit_updateMacro(ed, curMacroInfo, newMacroInfo) {
 	hdiv.attr('data-macroname', newMacroInfo.macroName);
 	var htext = hdiv.find(".weditmacrn");
 	htext.text(newMacroInfo.macroHead);
+	if (newMacroInfo.macroMetaInfo.hasBody == true && newMacroInfo.macroMetaInfo.evalBody == false) {
+		$(curMacroInfo.macroBodyDiv).html(newMacroInfo.macroBody);
+	}
 }
 
 function wedit_getMacroInfos(ed, callback) {
@@ -454,7 +477,7 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 		if (WEDIT_MACRO_RENDER_FLAG_RteInline & macroInfo.macroMetaInfo.renderFlags) {
 			fuellsel = "&nbsp;";
 		} else if (macroInfo.macroMetaInfo.evalBody == false) {
-			fuellsel = "<pre>\n</pre>";
+			fuellsel = macroInfo.macroBody;
 		}
 	}
 	var html = templBegin + fuellsel + templEnd;
@@ -516,43 +539,42 @@ function wedit_ac_link(selector, wikitype) {
 	setTimeout(function() {
 		var sel = $(selector);
 		var linkAutoCompleteUrl = gwikiLocalUrl("edit/WeditService");
-		sel.autocomplete(
-		    {
-		      source : function(req, callback) {
-			      console.debug("wedit_ac_link ac: " + linkAutoCompleteUrl + ": " + req.term);
-			      $.ajax({
-			        url : linkAutoCompleteUrl,
-			        type : 'GET',
-			        data: {
-			        	method_onPageIdAutocomplete: true,
-			        	pageType : !wikitype || wikitype === undefined ? 'All' : wikitype,	
-			        	q:  req.term
-			        },
-			        success : function(data) {
-//			        	console.debug("receveived: " + data);
-//				        var jdata = eval('(' + data + ')');
-				        callback(data);
-			        },
-			        fail : function(jqXHR, textStatus, errorThrown) {
-				        console.error("got  error: " + textStatus);
-			        }
-			      });
-		      },
-		      matchContains : true,
-		      cacheLength : 2,
-		      matchSubset : false,
-		      minChars : 2,
-		      width : 350,
-		      scroll : true,
-		      scrollHeight : 400,
-		      select : function(even, ui) {
-			      var item = ui.item;
-			      var v = item.key;
-			      $(selector).val(v);
-			      return false
-		      }
+		sel.autocomplete({
+		  source : function(req, callback) {
+			  console.debug("wedit_ac_link ac: " + linkAutoCompleteUrl + ": " + req.term);
+			  $.ajax({
+			    url : linkAutoCompleteUrl,
+			    type : 'GET',
+			    data : {
+			      method_onPageIdAutocomplete : true,
+			      pageType : !wikitype || wikitype === undefined ? 'All' : wikitype,
+			      q : req.term
+			    },
+			    success : function(data) {
+				    // console.debug("receveived: " + data);
+				    // var jdata = eval('(' + data + ')');
+				    callback(data);
+			    },
+			    fail : function(jqXHR, textStatus, errorThrown) {
+				    console.error("got  error: " + textStatus);
+			    }
+			  });
+		  },
+		  matchContains : true,
+		  cacheLength : 2,
+		  matchSubset : false,
+		  minChars : 2,
+		  width : 350,
+		  scroll : true,
+		  scrollHeight : 400,
+		  select : function(even, ui) {
+			  var item = ui.item;
+			  var v = item.key;
+			  $(selector).val(v);
+			  return false
+		  }
 
-		    }).autocomplete("instance")._renderItem = function(ul, item) {
+		}).autocomplete("instance")._renderItem = function(ul, item) {
 			return $("<li>" + item.label + "</li>").appendTo(ul);
 
 		};
