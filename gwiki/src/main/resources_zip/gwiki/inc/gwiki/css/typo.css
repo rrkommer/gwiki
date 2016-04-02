@@ -437,34 +437,27 @@ a:hover {
 	margin: 0 0 0 2em;
 }
 
-/* Prettyfy all the code snippets */
+/* Prettyfy all the code snippets 
 #gwikiContent div.panel,#PageComments div.panel, .gwikiContent div.panel {
-	/* margin:0 2.4em 2.4em 0;
-	max-width: 24em;
-	height: 19.6em;
-	 padding: 0 0 2em 0;
-	 */
+
 	background: #f9f9f9;
-	/*-moz-border-radius: 1.6em;
-	-webkit-border-radius: 1.6em;
-	float:left;
-	*/
+
 }
 
 #gwikiContent div.panel h3,#PageComments div.panel h3, .gwikiContent div.panel h3 {
 	border-bottom: 1px solid #CFD7D9;
-	/* font-size:1.3em; */
 	margin: 0;
 	padding: 0.25em 1em 0 1em;
 }
 
 #gwikiContent div.panel pre,#PageComments div.panel pre, .gwikiContent div.panel pre {
-	/* font-size: 0.8em; */
+
 	overflow: auto;
 	margin: 3em;
 	max-height: 22em;
 	border: 1px solid #CFD7D9;
 }
+*/
 
 /* special ul for the sitemaps */
 #gwikiContent .sitemap ul,#PageComments .sitemap ul, .gwikiContent .sitemap ul {

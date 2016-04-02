@@ -87,7 +87,7 @@ myBrowser = new browsererkennung();
 	hilfeStartHtml 		= '<table class="tooltip"; style="border: 5px solid #FFE88A; background:#FFE88A;" cellspacing="0" cellpadding="0" width="203"><tr>';
   	hilfeTextStartHtml 	= '<td width="100%" valign="top"><div class="help_box">';
   	hilfeTextEndeHtml 	= '</div></td>';
-	hilfeEndeHtml 		= '<td valign="top"><div><img src="now/img/closetooltips.gif" width="17" height="17" alt="Info schlie&szlig;en" /></div></td></tr></table>';
+	hilfeEndeHtml 		= '<td valign="top"><div><img src="now/img/closetooltips.png" width="17" height="17" alt="Info schlie&szlig;en" /></div></td></tr></table>';
 
 function getObject(theObject)
 {

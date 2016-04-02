@@ -224,15 +224,7 @@ ul.error {
 	cursor: ns-resize;
 }
 
-.panel { //
-	background: #F0F0F0 none repeat scroll 0 0;
-	border-style: solid;
-	border-width: 1px;
-	color: black;
-	margin: 10px 20px;
-	overflow: hidden;
-	padding: 0;
-}
+
 
 element.style {
 	border-bottom-width: 1px;
@@ -245,102 +237,6 @@ element.style {
 	border-top-width: 1px;
 }
 
-.codeHeader {
-	-moz-background-clip: border;
-	-moz-background-inline-policy: continuous;
-	-moz-background-origin: padding;
-	background: #F0F0F0 none repeat scroll 0 0;
-}
-
-.panelContent { //
-	background-color: #F0F0F0;
-	padding: 5px;
-	font-size: 0.95em;
-	margin: 0;
-	padding: 0 12px;
-	text-align: left;
-}
-
-.panelInfo {
-	background-color: rgb(195, 215, 245);
-}
-
-.panelInfoHeader {
-	background-image: url(../../static/img/icons/16px/269-info.png);
-	background-position: 2px 2px;
-	background-repeat: no-repeat;
-	height: 20px;
-}
-
-.panelWarn {
-	background-color: rgb(245, 195, 209);
-}
-
-.panelWarnHeader {
-	background-image: url(../../static/img/icons/16px/264-warning.png);
-	background-position: 2px 2px;
-	background-repeat: no-repeat;
-	height: 20px;
-}
-
-.panelTip {
-	background-color: rgb(210, 245, 229);
-}
-
-.panelTipHeader {
-	background-image: url(../../static/img/icons/16px/146-wrench.png);
-	background-position: 2px 2px;
-	background-repeat: no-repeat;
-	height: 20px;
-}
-
-.panelTodo {
-	background-color: rgb(210, 239, 245);
-}
-
-.panelTodoHeader {
-	background-image: url(../../static/img/icons/16px/273-checkmark.png);
-	background-position: 2px 2px;
-	background-repeat: no-repeat;
-	height: 20px;
-}
-
-.panelNote {
-	background-color: rgb(255, 244, 247);
-}
-
-.panelNoteHeader {
-	background-image: url(../../static/img/icons/16px/265-notification.png);
-	background-position: 2px 2px;
-	background-repeat: no-repeat;
-	height: 20px;
-}
-
-.panelContent, .panelContent p, .panelContent th, .panelContent td,
-	.panelContent li {
-	text-align: left;
-}
-
-.codeHeader {
-	-moz-background-clip: border;
-	-moz-background-inline-policy: continuous;
-	-moz-background-origin: padding;
-	background: #F0F0F0 none repeat scroll 0 0;
-}
-
-.panelContent { //
-	background-color: #F0F0F0;
-	padding: 5px;
-	font-size: 0.95em;
-	margin: 0;
-	padding: 0 12px;
-	text-align: left;
-}
-
-.panelContent, .panelContent p, .panelContent th, .panelContent td,
-	.panelContent li {
-	text-align: left;
-}
 
 code pre, .preformatted pre {
 	font-family: "Courier New", Courier, monospace;
@@ -721,6 +617,8 @@ input.reset:hover {
 
 .wikiPageIntro {
 	border: 1px solid #BBBBBB;
+	font-size: 1.2em;
+  font-weight: bold;
 	padding-left: 1em;
 	padding-right: 1em;
 	padding-top: 0em;
@@ -729,41 +627,13 @@ input.reset:hover {
 	margin-left: 0em;
 	margin-right: 0em;
 	margin-bottom: 0em;
-	font-size: 1.2em;
-	font-weight: bold;
 }
 
-.wikiSmartTag {
-	list-style: -moz-background-clip:         border !important;
-	-moz-background-inline-policy: continuous !important;
-	-moz-background-origin: padding !important;
-	background: transparent none repeat scroll 0 50% !important;
-	border-bottom: 1px dashed #000000 !important;
-	color: #000000 !important;
-	cursor: pointer !important;
-	display: inline !important;
-	padding-bottom: 1px; //
-	position: static;
-	text-decoration: none !important;
+.wikiPageIntro p {
+  //font-size: 1.2em;
+  font-weight: bold;
 }
 
-table.gwikiTable {
-	border-collapse: collapse;
-}
-
-td.gwikitd, table.gwikiTable td.gwikitd {
-	border: 1px solid #DDDDDD;
-	padding: 5px;
-	vertical-align: top;
-}
-
-th.gwikith, table.gwikiTable th.gwikith {
-	background-color: #F0F0F0;
-	border: 1px solid #DDDDDD;
-	padding: 5px;
-	text-align: left;
-	vertical-align: top;
-}
 
 .gutter {
 	background-color: #eee;
