@@ -244,7 +244,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
       if (macroinst.isRestricted(mat, wikiContext) == true) {
         continue;
       }
-      JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "c", macroName);
+      JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "label", macroName, "c",
+          macroName);
       map.set("onInsert", "gwedit_ac_insert_macro");
       fillMacroInfo(macroName, fac);
       map.set("macroMetaInfo", fillMacroInfo(macroName, fac));

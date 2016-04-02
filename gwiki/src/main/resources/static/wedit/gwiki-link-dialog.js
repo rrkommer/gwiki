@@ -60,7 +60,8 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	// /////////////////////////////////////////////////////////////////////////////
 	// optionals
 
-	dlghtml += "<div  style='display:block;' id='gwikdlglnkdetails'>(+)</div>";
+	dlghtml += "<div  style='display:block;' id='gwikdlglnkdetails'>"
+	    + "<span style='background-color: #DCDCDC;border-style: solid;border-width: 2px;font-weight: bold;'>&nbsp;+&nbsp;</span></div>";
 	dlghtml += "<div id='gwikidlnkdetailsdiv' style='display: none;'>";
 	if (currentLink.type == 'wiki') {
 		dlghtml += "<p><label for='gweditwindowTarget' style='display:block;'>"
@@ -206,7 +207,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		      // console.debug('selected: ' + item);
 		      // });
 		      tree.on("changed.jstree", function(e, data) {
-//			      console.debug('changed: ' + data);
+			      // console.debug('changed: ' + data);
 			      var selNone = data.node.data;
 			      $("#linkpropt").val(selNone.url);
 			      $("#linkprtitle").val(selNone.title);
@@ -267,7 +268,6 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		};
 	});
 }
-
 
 function wedit_show_link_dialog(ed) {
 	var item = wedit_find_current_link(ed);
