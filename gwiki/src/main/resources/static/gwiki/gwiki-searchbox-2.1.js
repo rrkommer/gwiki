@@ -7,7 +7,6 @@ function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
 
 		$(field).autocomplete({
 		  source : function(req, callback) {
-		  	console.debug("searchbox: " + linkAutoCompleteUrl + ": " + req.term);
 			  $.ajax({
 			    url : linkAutoCompleteUrl + '?method_onLinkAutocomplete=true&q=' + escape(req.term) + '&pageType=gwiki',
 			    type : 'GET',

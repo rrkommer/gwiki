@@ -58,7 +58,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
 @MacroInfo(info = "The macro children create a table content of the children pages.",
     params = {
         @MacroInfoParam(name = "page",
-            info = "pageId of the parent element. If not set use the current page.<br/>If page is GWIKI_WELCOME_PAGE it uses the welcome page defined in the GWiki Config."),
+            info = "pageId of the parent element. If not set use the current page.<br/>If page is GWIKI_WELCOME_PAGE it uses the welcome page defined in the GWiki Config.",
+            type = MacroParamType.PageId),
         @MacroInfoParam(name = "depth", info = "Maximal depth. If not set, use all nested pages."),
         @MacroInfoParam(name = "sort",
             info = "One of the Element settings, like TITLE, CREATEDAT, etc. If not given, sort the children after ORDER"),

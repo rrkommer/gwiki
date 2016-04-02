@@ -160,6 +160,36 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
 
   }
 
+  public Object onPageIdAutocomplete()
+  {
+    String querystring = wikiContext.getRequestParameter("q");
+
+    String type = wikiContext.getRequestParameter("pageType");
+    SearchType searchType = SearchType.fromString(type);
+
+    //    JsonObject resp = JsonBuilder.map("ret", 0);
+    JsonArray list = new JsonArray();
+    String queryexpr = SearchUtils.createLinkExpression(querystring, true, searchType.elmentType);
+    SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
+
+    query.setMaxCount(1000);
+    QueryResult qr = filter(query);
+    for (SearchResult sr : qr.getResults()) {
+      String pageid = sr.getPageId();
+      String titel = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
+      list.add(JsonBuilder.map(
+          "url", pageid,
+          "key", pageid,
+          "title", titel,
+          "label",
+          StringEscapeUtils.escapeHtml(titel) + "<br/><small>("
+              + StringEscapeUtils.escapeHtml(pageid) + ")</small>"));
+    }
+
+    //    resp.add("list", list);
+    return sendResponse(list);
+  }
+
   public Object onGetMacroInfos()
   {
     JsonArray array = JsonBuilder.array();
@@ -214,7 +244,7 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
       if (macroinst.isRestricted(mat, wikiContext) == true) {
         continue;
       }
-      JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "label", macroName);
+      JsonObject map = JsonBuilder.map("url", macroName, "key", macroName, "title", macroName, "c", macroName);
       map.set("onInsert", "gwedit_ac_insert_macro");
       fillMacroInfo(macroName, fac);
       map.set("macroMetaInfo", fillMacroInfo(macroName, fac));
@@ -256,6 +286,11 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
   private void fillPageLinks(String querystring, JsonArray array)
   {
     String pageType = "gwiki";
+    fillPageLinks(pageType, querystring, array);
+  }
+
+  private void fillPageLinks(String pageType, String querystring, JsonArray array)
+  {
     String queryexpr = SearchUtils.createLinkExpression(querystring, true, pageType);
     SearchQuery query = new SearchQuery(queryexpr, wikiContext.getWikiWeb());
 
