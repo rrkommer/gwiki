@@ -79,6 +79,25 @@ public class Rte2WikiFilter extends Html2WikiFilter
   }
 
   @Override
+  protected String escapeText(String t)
+  {
+    if (true) {
+      return t;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < t.length(); ++i) {
+      char c = t.charAt(i);
+      if (specialCharacters.indexOf(c) != -1) {
+        sb.append('\\').append(c);
+      } else {
+        sb.append(c);
+      }
+      //if (specialCharacters.)
+    }
+    return sb.toString();
+  }
+
+  @Override
   public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
     String en = element.rawname.toLowerCase();

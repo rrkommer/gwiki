@@ -98,7 +98,7 @@ public class Html2WikiFilter extends DefaultFilter
   /**
    * Character, which has to be escaped.
    */
-  private String specialCharacters = DEFAULT_SPECIAL_CHARACTERS;
+  protected String specialCharacters = DEFAULT_SPECIAL_CHARACTERS;
 
   private boolean ignoreWsNl = true;
 
@@ -878,7 +878,8 @@ public class Html2WikiFilter extends DefaultFilter
 
   protected String escapeText(String t)
   {
-    return escapeWiki(t, specialCharacters);
+    String ret = escapeWiki(t, specialCharacters);
+    return ret;
   }
 
   /**
