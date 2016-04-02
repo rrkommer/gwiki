@@ -71,7 +71,7 @@ String.prototype.i18n = function() {
                     FONTFACE, "Arial, Helvetica, sans-serif",
                     FONTCOLOR, '#000000',
                     CLOSEBTNPOP,true,
-                    CLOSEBTNIMG, "<gwiki:url value="/static/img/closetooltips.gif"/>"
+                    CLOSEBTNIMG, "<gwiki:url value="/static/img/closetooltips.png"/>"
                     );
         }
  //-->
