@@ -299,25 +299,135 @@ function twedit_check_valid_range_for_insideOutsideMacros(colels) {
 	return false;
 
 }
-function twedit_check_valid_range_for_del(ed) {
+function twedit_check_valid_range_for_del(ed, event) {
 	var rng = ed.selection.getRng(true);
-	return tweid_check_valid_range_for_del_in_range(ed, rng);
+	return tweid_check_valid_range_for_del_in_range(ed, rng, event);
 }
 
-function tweid_check_valid_range_for_del_in_range(ed, rng) {
+function tweid_has_element_class(el, clazz) {
+	if (!el.getAttribute) {
+		return false;
+	}
+	var cls = el.getAttribute('class');
+	if (!cls) {
+		return false;
+	}
+	return cls.indexOf(clazz) != -1;
+}
+
+function tweid_is_at_startOfBody(ed, rng) {
+	var sc = rng.startContainer;
+	if (sc.nodeName == 'P' && sc.parentNode.nodeName == 'DIV') {
+		if (tweid_has_element_class(sc.parentNode, 'weditmacrobody') == true) {
+			return true;
+		}
+		return false;
+	}
+	if (sc.nodeName == '#text') {
+		if (rng.startOffset != 0) {
+			return false;
+		}
+		var pnode = sc.parentNode;
+		if (pnode.nodeName == 'P') {
+			pnode = pnode.parentNode;
+		}
+		if (tweid_has_element_class(pnode, 'weditmacrobody') == true) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function tweid_is_at_endOfBody(ed, rng) {
+	var sc = rng.endContainer;
+	if (sc.nodeName == 'P' && sc.parentNode.nodeName == 'DIV') {
+		if (tweid_has_element_class(sc.parentNode, 'weditmacrobody') == true) {
+			return true;
+		}
+		return false;
+	}
+	if (sc.nodeName == '#text') {
+		if (rng.startOffset != sc.nodeValue.length) {
+			return false;
+		}
+		var pnode = sc.parentNode;
+		if (pnode.nodeName == 'P') {
+			pnode = pnode.parentNode;
+		}
+		if (tweid_has_element_class(pnode, 'weditmacrobody') == true) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+function tweid_is_direct_after_Macro(ed, rng) {
+	if (rng.startOffset != 0) {
+		return false;
+	}
+	var sc = rng.startContainer;
+	if (sc.previousSibling && tweid_has_element_class(sc.previousSibling, 'weditmacroframe') == true) {
+		return true;
+	}
+	if (sc.nodeName == '#text' && sc == sc.parentNode.firstChild) {
+		sc = sc.parentNode;
+		if (sc.previousSibling && tweid_has_element_class(sc.previousSibling, 'weditmacroframe') == true) {
+			return true;
+		}
+	}
+	return false;
+}
+function tweid_is_direct_before_Macro(ed, rng) {
+	var sc = rng.endContainer;
+	if (sc.nodeName == '#text' ) {
+		if (sc != sc.parentNode.lastChild) {
+			return false;
+		}
+		if (rng.endOffset != sc.nodeValue.length) {
+			return false;
+		} 
+		sc = sc.parentNode;
+	}
+	if (sc.nextSibling && tweid_has_element_class(sc.nextSibling, 'weditmacroframe') == true) {
+		return true;
+	}
+	return false;
+}
+
+function tweid_check_valid_range_for_del_in_range(ed, rng, event) {
+
 	if (rng.startContainer == rng.endContainer) {
-		if (rng.startContainer.getAttribute) {
-			var cls = rng.startContainer.getAttribute('class');
-			if (cls) {
-				if (cls.indexOf('weditmacrohead') != -1
-				    || /* cls.indexOf('weditmacrobody') != -1 || */cls.indexOf('weditmacroframe') != -1) {
-					console.debug("Found mod in macro: delete macro");
-					wedit_macro_delete_current(ed, rng.startContainer);
-					return true;
-				}
+		var sc = rng.startContainer;
+		if (tweid_has_element_class(sc, 'weditmacrohead') || tweid_has_element_class(sc, 'weditmacroframe')) {
+			console.debug("Found mod in macro: delete macro");
+			// wedit_macro_delete_current(ed, rng.startContainer);
+			return false;
+		}
+		if (tweid_has_element_class(sc, 'weditmacrobody')) {
+			switch (event.keyCode) {
+			case 8:
+			case 46:
+				return false;
 			}
 		}
-		return true;
+	}
+	if (event.keyCode == 8) { // backspace
+		if (tweid_is_at_startOfBody(ed, rng) == true) {
+			return false;
+		}
+		if (tweid_is_direct_after_Macro(ed, rng) == true) {
+			return false;
+		}
+
+	}
+	if (event.keyCode == 46) { // entf
+		if (tweid_is_at_endOfBody(ed, rng) == true) {
+			return false;
+		}
+		if (tweid_is_direct_before_Macro(ed, rng) == true) {
+			return false;
+		}
 	}
 
 	var start = rng.startContainer;
