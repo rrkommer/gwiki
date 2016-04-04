@@ -165,6 +165,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		      var tree = $("#filechooser").jstree({
 		        plugins : [ 'search', 'themes', 'ui' ],
 		        core : {
+		        	animation: false,
 		          themes : {
 		            theme : 'classic',
 		            dots : true,

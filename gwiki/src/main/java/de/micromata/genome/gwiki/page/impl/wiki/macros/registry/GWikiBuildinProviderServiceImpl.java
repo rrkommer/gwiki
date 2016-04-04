@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageTreeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiQuoteMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiScrollNextPrevPageMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiSectionMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiSwitchSpaceMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiTocMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiUseMacroMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.html.GWikiHtmlBlockquoteMacro;
@@ -107,6 +108,7 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("video", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
     ret.put("helplink", new GWikiMacroClassFactory(GWikiHelpLinkMacro.class));
     ret.put("newpage", new GWikiMacroClassFactory(GWikiNewElementMacro.class));
+    ret.put("switchspace", new GWikiMacroClassFactory(GWikiSwitchSpaceMacro.class));
     return ret;
   }
 

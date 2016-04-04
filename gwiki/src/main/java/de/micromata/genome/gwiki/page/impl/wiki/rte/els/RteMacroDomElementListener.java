@@ -44,6 +44,7 @@ public class RteMacroDomElementListener implements DomElementListener
         // todo warn
       }
       parseContext.addFragment(macroFragment);
+      event.walker.skipChildren();
       return false;
     }
     parseContext.addFragment(macroFragment);

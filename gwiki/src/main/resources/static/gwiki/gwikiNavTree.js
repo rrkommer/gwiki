@@ -25,6 +25,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	      dots : false,
 	      icons : false
 	    },
+	    animation: false,
 	    data : treedata
 	  }
 	});

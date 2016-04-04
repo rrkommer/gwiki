@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiI18nElement;
 
@@ -62,7 +63,7 @@ public class GWikiI18nStandardProvider extends GWikiAbstractI18nProvider
   @Override
   public String getI18nValue(GWikiContext ctx, String key, String defaultValue)
   {
-    String lang = ctx.getWikiWeb().getAuthorization().getUserProp(ctx, "lang");
+    String lang = ctx.getWikiWeb().getAuthorization().getUserProp(ctx, GWikiAuthorization.USER_LANG);
     if (StringUtils.isEmpty(lang) == true) {
       lang = "en";
     }

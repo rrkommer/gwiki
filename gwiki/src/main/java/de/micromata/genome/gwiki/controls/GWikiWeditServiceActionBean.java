@@ -1,7 +1,9 @@
 package de.micromata.genome.gwiki.controls;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,7 @@ import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
+import de.micromata.genome.gwiki.utils.ScriptUtils;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -266,7 +269,17 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           "defaultValue", pi.getDefaultValue(),
           "info", pi.getInfo());
       if (pi.getEnumValues().isEmpty() == false) {
-        pmi.add("enumValues", JsonBuilder.array(pi.getEnumValues()));
+        if (pi.getEnumValues().size() == 1 && pi.getEnumValues().get(0).startsWith("${") == true) {
+          String script = pi.getEnumValues().get(0);
+          script = script.substring(2);
+          script = script.substring(0, script.length() - 1);
+          Map<String, Object> gctx = new HashMap<>();
+          gctx.put("gwikiContext", getWikiContext());
+          Object ret = ScriptUtils.executeScriptCode(script, gctx);
+          pmi.add("enumValues", JsonBuilder.array((Collection) ret));
+        } else {
+          pmi.add("enumValues", JsonBuilder.array(pi.getEnumValues()));
+        }
       }
       jp.add(pmi);
 

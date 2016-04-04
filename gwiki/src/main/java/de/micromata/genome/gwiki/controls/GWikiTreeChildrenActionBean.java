@@ -59,6 +59,8 @@ import de.micromata.genome.util.matcher.Matcher;
  */
 public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 {
+  private boolean forNavigation = false;
+
   private String rootPage;
   private String type;
   private Map<String, String> rootCategories;
@@ -81,6 +83,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
         return null;
       }
     };
+    bean.setForNavigation(true);
     bean.setWikiContext(ctx);
     bean.setRootPage(rootPageId);
     bean.setType(searchType);
@@ -91,18 +94,24 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 
   public Object onLoadAsync()
   {
-    GWikiElement el = null;
+    GWikiElementInfo el = null;
     List<GWikiElementInfo> rootElements = null;
     SearchType.fromString(type);
     String superCategory = rootPage;
-    //    String urlField = wikiContext.getRequest().getParameter("urlField");
-    //    String titleField = wikiContext.getRequest().getParameter("titleField");
-    //    String openTarget = wikiContext.getRequest().getParameter("target");
+    if (forNavigation == true && superCategory == null) {
+      superCategory = wikiContext.getWikiWeb().getWelcomePageId(wikiContext);
+    }
     if (StringUtils.isBlank(superCategory) || superCategory.equals("#") == true) {
       rootElements = getRootElements();
     } else {
-      el = wikiContext.getWikiWeb().findElement(superCategory);
-      rootElements = wikiContext.getElementFinder().getAllDirectChilds(el.getElementInfo());
+
+      el = wikiContext.getWikiWeb().findElementInfo(superCategory);
+      if (forNavigation == true && el != null) {
+        rootElements = new ArrayList<>();
+        rootElements.add(el);
+      } else {
+        rootElements = wikiContext.getElementFinder().getAllDirectChilds(el);
+      }
     }
     SearchType searchType = SearchType.fromString(type);
     JsonArray rootNodes = JsonBuilder.array();
@@ -345,6 +354,16 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
   public void setType(String type)
   {
     this.type = type;
+  }
+
+  public boolean isForNavigation()
+  {
+    return forNavigation;
+  }
+
+  public void setForNavigation(boolean forNavigation)
+  {
+    this.forNavigation = forNavigation;
   }
 
 }

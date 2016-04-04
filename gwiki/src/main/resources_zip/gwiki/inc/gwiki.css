@@ -479,6 +479,9 @@ ul.error {
 }
 
 .navMenuJsTree {
-	padding-top: 30px;
+	padding-top: 10px;
 	min-height: 500px;
+}
+.navMenuJsTreeSwithScpaes select {
+	width: 172px;
 }

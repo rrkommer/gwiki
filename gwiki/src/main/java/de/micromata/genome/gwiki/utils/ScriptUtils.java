@@ -18,16 +18,16 @@
 
 package de.micromata.genome.gwiki.utils;
 
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.groovy.runtime.InvokerHelper;
+
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
 import groovy.lang.MetaClass;
 import groovy.lang.MetaMethod;
-
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.groovy.runtime.InvokerHelper;
 
 /**
  * static Utils functions to deal with groovy.
@@ -37,15 +37,15 @@ import org.codehaus.groovy.runtime.InvokerHelper;
  */
 public class ScriptUtils
 {
-  public static void executeScriptCode(String code, Map<String, Object> vars)
+  public static Object executeScriptCode(String code, Map<String, Object> vars)
   {
     if (StringUtils.isBlank(code) == true) {
-      return;
+      return null;
     }
     GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());
     Binding binding = new Binding(vars);
     GroovyShell shell = new GroovyShell(loader, binding);
-    shell.evaluate(code);
+    return shell.evaluate(code);
   }
 
   public static Object invokeScriptFunktion(String code, String method, Object... args)
@@ -57,7 +57,7 @@ public class ScriptUtils
   {
     GroovyClassLoader loader = new GroovyClassLoader(Thread.currentThread().getContextClassLoader());
     try {
-      Class< ? > cls = loader.parseClass(code);
+      Class<?> cls = loader.parseClass(code);
       Object obj = cls.newInstance();
       return obj;
     } catch (Throwable ex) {
