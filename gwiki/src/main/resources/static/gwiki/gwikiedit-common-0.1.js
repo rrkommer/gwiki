@@ -77,7 +77,7 @@ function gwikiEditPagePath(inputField) {
 	      }
 	      to = setTimeout(function() {
 		      var v = $('#pathtextfield').val();
-		      $('#filechooser').jstree(true).search(v);
+		      $('#filechooser').jstree(true).search(v, true, 	true);
 	      }, 250);
       });
 
