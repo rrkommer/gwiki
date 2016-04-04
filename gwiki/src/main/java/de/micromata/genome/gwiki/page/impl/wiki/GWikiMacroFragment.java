@@ -119,8 +119,8 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
     if (macro.hasBody() == false) {
       if (GWikiMacroRenderFlags.NewLineAfterEnd.isSet(macro.getRenderModes()) == true) {
         sb.append("\n");
-        return;
       }
+      return;
     }
     if (GWikiMacroRenderFlags.NewLineAfterStart.isSet(macro.getRenderModes()) == true) {
       sb.append("\n");

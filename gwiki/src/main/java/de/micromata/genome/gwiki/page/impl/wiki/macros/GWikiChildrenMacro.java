@@ -76,7 +76,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentP;
             type = MacroParamType.Boolean),
 
     },
-    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP })
+    renderFlags = { GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeStart,
+        GWikiMacroRenderFlags.NewLineAfterEnd })
 public class GWikiChildrenMacro extends GWikiMacroBean
 {
 

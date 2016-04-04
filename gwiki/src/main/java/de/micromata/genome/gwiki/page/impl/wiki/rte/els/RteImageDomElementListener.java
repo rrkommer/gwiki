@@ -24,21 +24,23 @@ public class RteImageDomElementListener implements DomElementListener
     }
     image.setStyleClass(styleClass);
     event.getParseContext().addFragment(image);
-    return true;
+    return false;
 
   }
 
   protected GWikiFragmentImage parseImage(DomElementEvent event, String pageId)
   {
     String source;
-    if (pageId == null) {
-      source = event.getAttr("src");
-
-      GWikiContext wikiContext = GWikiContext.getCurrent();
-      if (wikiContext != null && source != null) {
-        String ctxpath = wikiContext.getRequest().getContextPath();
-        if (StringUtils.isNotEmpty(ctxpath) && source.startsWith(ctxpath) == true) {
-          source = source.substring(ctxpath.length() + 1);
+    if (StringUtils.isBlank(pageId) == true) {
+      source = event.getAttr("data-wiki-url");
+      if (StringUtils.isBlank(source) == true) {
+        source = event.getAttr("src");
+        GWikiContext wikiContext = GWikiContext.getCurrent();
+        if (wikiContext != null && source != null) {
+          String ctxpath = wikiContext.getRequest().getContextPath();
+          if (StringUtils.isNotEmpty(ctxpath) && source.startsWith(ctxpath) == true) {
+            source = source.substring(ctxpath.length() + 1);
+          }
         }
       }
     } else {
