@@ -60,8 +60,13 @@ public class GWikiSwitchSpaceMacro extends GWikiMacroBean
           + ctx.escape(ctx.localUrl(ctx.getCurrentElement().getElementInfo().getId()))
           + "?" + GWikiSpaceFilter.WIKI_SET_SPACE_PARAM + "=' + this.value\">\n");
       ctx.append("<option value=''></option>\n");
+      String curSpace = spaces.getUserCurrentSpaceId(ctx);
       for (Pair<String, String> p : list) {
-        ctx.append("<option value='" + ctx.escape(p.getSecond()) + "'>").appendEscText(p.getFirst())
+        String selected = "";
+        if (StringUtils.equals(p.getSecond(), curSpace) == true) {
+          selected = " selected='selected '";
+        }
+        ctx.append("<option " + selected + "value='" + ctx.escape(p.getSecond()) + "'>").appendEscText(p.getFirst())
             .append("</option>\n");
       }
       ctx.append("</select>");
