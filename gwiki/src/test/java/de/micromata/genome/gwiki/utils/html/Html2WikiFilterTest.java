@@ -89,25 +89,25 @@ public class Html2WikiFilterTest extends Html2WikiBase
     System.out.println(wiki);
   }
 
-  public void testTable4Nested2()
-  {
-    String html = "<table><tr><td><table><tr><td>x</td></tr></table></td></tr></table>";
-    String wiki = transform(html);
-    System.out.println(wiki);
-    assertEquals(
-        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
-        wiki);
-  }
+  //  public void testTable4Nested2()
+  //  {
+  //    String html = "<table><tr><td><table><tr><td>x</td></tr></table></td></tr></table>";
+  //    String wiki = transform(html);
+  //    System.out.println(wiki);
+  //    assertEquals(
+  //        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
+  //        wiki);
+  //  }
 
-  public void testTable4Nested()
-  {
-    String html = "<table class=\"gwikiTable\"><tr><td class=\"gwikitd\"><table class=\"gwikiTable\"><tr><td class=\"gwikitd\">x</td></tr></table></td></tr></table>";
-    String wiki = transform(html);
-    System.out.println(wiki);
-    assertEquals(
-        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
-        wiki);
-  }
+  //  public void testTable4Nested()
+  //  {
+  //    String html = "<table class=\"gwikiTable\"><tr><td class=\"gwikitd\"><table class=\"gwikiTable\"><tr><td class=\"gwikitd\">x</td></tr></table></td></tr></table>";
+  //    String wiki = transform(html);
+  //    System.out.println(wiki);
+  //    assertEquals(
+  //        "{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\n{table:class=gwikiTable}\n{tr:class=gwikitr}\n{td:class=gwikitd}\nx\n{td}\n{tr}\n{table}\n{td}\n{tr}\n{table}\n",
+  //        wiki);
+  //  }
 
   public void testImage2()
   {
