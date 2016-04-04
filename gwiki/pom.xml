@@ -8,6 +8,9 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>gwiki</artifactId>
+  <properties>
+    <nekohtml.version>1.9.21</nekohtml.version>
+  </properties>
   <profiles>
     <profile>
       <id>genome</id>
@@ -24,7 +27,7 @@
                     P${gwiki.version}_gwiki-gdbfs;reexport:=true,
                     P${mgc.version}_de.micromata.mgc.util.xml;reexport:=true,
                     commons-fileupload-1.2.2;reexport:=true,
-                    nekohtml-1.9.13;reexport:=true,
+                    nekohtml-${nekohtml.version};reexport:=true,
                     milton-api-1.4.2;reexport:=true,
                     milton-servlet-1.4.2;reexport:=true,
                     slf4j-api-164_log4j-164,
@@ -159,7 +162,7 @@
     <dependency>
       <groupId>net.sourceforge.nekohtml</groupId>
       <artifactId>nekohtml</artifactId>
-      <version>1.9.13</version>
+      <version>${nekohtml.version}</version>
     </dependency>
 
 
