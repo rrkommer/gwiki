@@ -118,6 +118,13 @@ public class GWikiSpaces
     return ei;
   }
 
+  public String getUserCurrentSpaceId(GWikiContext ctx)
+  {
+    GWikiAuthorization auth = wikiWeb.getAuthorization();
+    String selpace = auth.getUserProp(ctx, USER_WIKI_SPACE_PROP);
+    return selpace;
+  }
+
   public String switchUserSpace(GWikiContext ctx, String newSpace)
   {
     GWikiProps props = findActiveSpaceConfig();
