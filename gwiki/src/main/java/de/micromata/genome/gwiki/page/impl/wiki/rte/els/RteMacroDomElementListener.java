@@ -44,7 +44,6 @@ public class RteMacroDomElementListener implements DomElementListener
         // todo warn
       }
       parseContext.addFragment(macroFragment);
-      event.walker.skipChildren();
       return false;
     }
     parseContext.addFragment(macroFragment);
@@ -56,6 +55,7 @@ public class RteMacroDomElementListener implements DomElementListener
         macroFragment.addChilds(childs);
         return false;
       } else {
+        event.walker.skipChildren();
         parseContext.resetText();
         event.setCurNode(bodyNode);
         String text = event.walker.walkChildsCollectText();

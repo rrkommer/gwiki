@@ -161,12 +161,14 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
       String head = templ.getFirst();
       head = StringUtils.replace(head, "${MACROHEAD}", sbsourehead.toString());
       ctx.append(head);
-      if (macro.evalBody() == true) {
-        if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
-          attrs.getChildFragment().render(ctx);
+      if (macro.hasBody() == true) {
+        if (macro.evalBody() == true) {
+          if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
+            attrs.getChildFragment().render(ctx);
+          }
+        } else {
+          ctx.append("<pre>").append(StringEscapeUtils.escapeHtml(attrs.getBody())).append("</pre>");
         }
-      } else {
-        ctx.append("<pre>").append(StringEscapeUtils.escapeHtml(attrs.getBody())).append("</pre>");
       }
       ctx.append(templ.getSecond());
       return true;

@@ -88,7 +88,7 @@ public class HtmlDomWalker implements DomWalker
     if (currentNode.hasChildNodes() == false) {
       return;
     }
-    currentNode = currentNode.getLastChild();
+    currentNode = lastLastChild(currentNode);
   }
 
   public void walkChilds(DomVisitor visitor)
