@@ -1,6 +1,9 @@
 <!-- navMenu.gspt Start -->
 
 <div id="navMenuJsTree" class="navMenuJsTree">
+  <div class="navMenuJsTreeSwithScpaes">
+    <gwiki:macro name="switchspace" args=""/>
+  </div>
 	<input type="text" id="gwikiNavMenuQsText" >
 	<div id='gwikiNavMenu'> Here nav</div>
 

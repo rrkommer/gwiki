@@ -102,7 +102,7 @@ public class GWikiWeb
   private String servletPath;
 
   private String eTagWiki;
-
+  private GWikiSpaces spaces = new GWikiSpaces(this);
   /**
    * checked elements for mofications.
    */
@@ -463,19 +463,7 @@ public class GWikiWeb
 
   public String getWelcomePageId(GWikiContext ctx)
   {
-    String pageId = getAuthorization().getUserProp(ctx, "welcomePageId");
-    if (pageId != null) {
-      return pageId;
-    }
-    pageId = getDaoContext().getI18nProvider().translate(ctx, "gwiki.welcomePageId", null);
-    if (pageId != null) {
-      return pageId;
-    }
-    String ret = getWikiConfig().getWelcomePageId();
-    if (StringUtils.isEmpty(ret) == false) {
-      return ret;
-    }
-    return "index";
+    return spaces.getWelcomePageId(ctx);
   }
 
   public GWikiElementInfo getWelcomeElementInfo(GWikiContext ctx)
@@ -920,4 +908,15 @@ public class GWikiWeb
   {
     this.pageCache = pageCache;
   }
+
+  public GWikiSpaces getSpaces()
+  {
+    return spaces;
+  }
+
+  public void setSpaces(GWikiSpaces spaces)
+  {
+    this.spaces = spaces;
+  }
+
 }

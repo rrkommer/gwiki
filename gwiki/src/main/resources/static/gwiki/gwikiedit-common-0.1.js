@@ -54,7 +54,8 @@ function gwikiEditPagePath(inputField) {
       var tree = $("#filechooser").jstree({
         plugins : [ 'search', 'themes', 'ui' ],
         core : {
-          themes : {
+        	animation: false,
+        	themes : {
             theme : 'classic',
             dots : true,
             icons : true

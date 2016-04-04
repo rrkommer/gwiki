@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- Meta Template for ScriptMacros -->
+	<bean id="config"
+		class="de.micromata.genome.gwiki.model.config.GWikiMetaTemplate"
+		singleton="false">
+    <property name="cachable" value="false"/>
+		<property name="noNewPage" value="true" />
+		<property name="requiredEditRight" value="GWIKI_ADMIN" />
+		<property name="elementType" value="gwiki" />
+	<!-- <property name="editHelpPageId" value="gwikidocs/help/en/admin/GWikiConfig" />  -->	
+		<property name="parts">
+			<map>
+				<entry key="">
+					<bean class="de.micromata.genome.gwiki.model.GWikiPropsArtefakt">
+						<property name="propDescriptor">
+							<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
+								singleton="false">
+								<property name="descriptors">
+									<list>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="ENABLE_SPACES" />
+											<property name="label" value="Enable Spaces"/>
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+                      <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiSpaces#ENABLE_SPACES" />
+										</bean>
+										<bean
+											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+											<property name="key" value="ENABLE_LANG_SPACES" />
+											<property name="label" value="Automatic dispatch Language"/>
+											<property name="type" value="BOOLEAN" />
+											<property name="defaultValue" value="false" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiSpaces#ENABLE_LANG_SPACES" />
+										</bean>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="DEFAULT_LANG" />
+                      <property name="label" value="Default Language"/>
+                      <property name="type" value="STRING" />
+                      <property name="defaultValue" value="" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiSpaces#DEFAULT_LANG" />
+                    </bean>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="AVAILABLE_SPACES" />
+                      <property name="label" value="Spaces available"/>
+                      <property name="type" value="STRINGLIST" />
+                      <property name="defaultValue" value="" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiSpaces#AVAILABLE_SPACES" />
+                    </bean>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="NAV_ONLY_CURRENT_SPACE" />
+                      <property name="label" value="Navig. only current space"/>
+                      <property name="type" value="BOOLEAN" />
+                      <property name="defaultValue" value="true" />
+                       <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiSpaces#NAV_ONLY_CURRENT_SPACE" />
+                    </bean>
+									</list>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
