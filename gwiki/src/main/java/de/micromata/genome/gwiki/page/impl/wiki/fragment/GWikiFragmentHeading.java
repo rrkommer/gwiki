@@ -91,12 +91,13 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
   @Override
   public void getSource(StringBuilder sb)
   {
-    if (sb.length() > 0) {
-      char lc = sb.charAt(sb.length() - 1);
-      if (lc != '\n' && lc != '|') {
-        sb.append("\n");
-      }
-    }
+    getSource(sb, null, null, null);
+  }
+
+  @Override
+  public void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
+    appendPrevNlIfNeeded(sb, parent, previous, this);
     sb.append("h").append(level).append(". ");
     getChildSouce(sb);
     sb.append("\n");
@@ -105,7 +106,8 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
   @Override
   public int getRenderModes()
   {
-    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd);
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineAfterEnd,
+        GWikiMacroRenderFlags.NewLineBeforeStart);
   }
 
   public int getLevel()

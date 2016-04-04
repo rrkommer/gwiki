@@ -12,12 +12,10 @@ import org.apache.xerces.xni.XNIException;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBr;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildsBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
@@ -70,6 +68,7 @@ public class Rte2WikiFilter extends Html2WikiFilter
     parseContext.getMacroFactories()
         .putAll(wikiContext.getWikiWeb().getWikiConfig().getWikiMacros(wikiContext));
     listenerRegistry.addListener(new RteCodeHtmlFilterListener());
+    listenerRegistry.addListener(new RteMacroFilterListener());
   }
 
   @Override
@@ -101,17 +100,17 @@ public class Rte2WikiFilter extends Html2WikiFilter
   public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
     String en = element.rawname.toLowerCase();
-    GWikiFragment lastparent = parseContext.peekFragStack();
-    if ((lastparent instanceof RteMacroFragment) == true) {
-      RteMacroFragment lfrag = (RteMacroFragment) lastparent;
-
-      if (lfrag.inBody == true) {
-        if (lfrag.macroFragment != null && lfrag.macroFragment.getMacro().evalBody() == false) {
-          // skip <br/>
-          return;
-        }
-      }
-    }
+    //    GWikiFragment lastparent = parseContext.peekFragStack();
+    //    if ((lastparent instanceof RteMacroFragment) == true) {
+    //      RteMacroFragment lfrag = (RteMacroFragment) lastparent;
+    //
+    //      if (lfrag.inBody == true) {
+    //        if (lfrag.macroFragment != null && lfrag.macroFragment.getMacro().evalBody() == false) {
+    //          // skip <br/>
+    //          return;
+    //        }
+    //      }
+    //    }
 
     if (handleImage(en, element, attributes, augs) == true) {
       return;
@@ -134,9 +133,9 @@ public class Rte2WikiFilter extends Html2WikiFilter
       LOG.debug(sb.toString());
     }
 
-    if (handleMacro(en, element, attributes, augs) == true) {
-      return;
-    }
+    //    if (handleMacro(en, element, attributes, augs) == true) {
+    //      return;
+    //    }
     super.startElement(element, attributes, augs);
   }
 
@@ -274,67 +273,67 @@ public class Rte2WikiFilter extends Html2WikiFilter
     if (LOG.isDebugEnabled() == true) {
       LOG.debug("rte_end: </" + en + ">");
     }
-    GWikiFragment lastparent = parseContext.peekFragStack();
-    if ((lastparent instanceof RteMacroFragment) == false) {
-      super.endElement(element, augs);
-      return;
-    }
-    RteMacroFragment ftf = (RteMacroFragment) lastparent;
-    if (ftf.inBody == true) {
-      --ftf.bodyDivs;
-      if (ftf.bodyDivs <= 0) {
-
-        ftf.inBody = false;
-        if (ftf.macroFragment == null) {
-          flushText();
-          return;
-        }
-        GWikiMacro macro = ftf.macroFragment.getMacro();
-        List<GWikiFragment> childs = parseContext.popFragList();
-        if (macro.hasBody() == true) {
-          if (macro.evalBody() == true) {
-            flushText();
-            ftf.macroFragment.getAttrs().setChildFragment(new GWikiFragmentChildContainer(childs));
-          } else {
-            String text = collectedText.toString();
-            collectedText.setLength(0);
-            ftf.macroFragment.getAttrs().setBody(text);
-          }
-        }
-        //parseContext.popFragStack();
-        //parseContext.addFragment(ftf.macroFragment);
-        return;
-      }
-      if (ftf.macroFragment == null || ftf.macroFragment.getMacro().evalBody() == false) {
-        return;
-      }
-    } else if (ftf.inHead == true) {
-      --ftf.headDivs;
-      if (ftf.headDivs <= 0) {
-        ftf.inHead = false;
-        // now wait until last </div>
-      }
-      return;
-    } else {
-      parseContext.popFragStack();
-      parseContext.addFragment(ftf.macroFragment);
-      return;
-    }
+    //    GWikiFragment lastparent = parseContext.peekFragStack();
+    //    if ((lastparent instanceof RteMacroFragment) == false) {
+    //      super.endElement(element, augs);
+    //      return;
+    //    }
+    //    RteMacroFragment ftf = (RteMacroFragment) lastparent;
+    //    if (ftf.inBody == true) {
+    //      --ftf.bodyDivs;
+    //      if (ftf.bodyDivs <= 0) {
+    //
+    //        ftf.inBody = false;
+    //        if (ftf.macroFragment == null) {
+    //          flushText();
+    //          return;
+    //        }
+    //        GWikiMacro macro = ftf.macroFragment.getMacro();
+    //        List<GWikiFragment> childs = parseContext.popFragList();
+    //        if (macro.hasBody() == true) {
+    //          if (macro.evalBody() == true) {
+    //            flushText();
+    //            ftf.macroFragment.getAttrs().setChildFragment(new GWikiFragmentChildContainer(childs));
+    //          } else {
+    //            String text = collectedText.toString();
+    //            collectedText.setLength(0);
+    //            ftf.macroFragment.getAttrs().setBody(text);
+    //          }
+    //        }
+    //        //parseContext.popFragStack();
+    //        //parseContext.addFragment(ftf.macroFragment);
+    //        return;
+    //      }
+    //      if (ftf.macroFragment == null || ftf.macroFragment.getMacro().evalBody() == false) {
+    //        return;
+    //      }
+    //    } else if (ftf.inHead == true) {
+    //      --ftf.headDivs;
+    //      if (ftf.headDivs <= 0) {
+    //        ftf.inHead = false;
+    //        // now wait until last </div>
+    //      }
+    //      return;
+    //    } else {
+    //      parseContext.popFragStack();
+    //      parseContext.addFragment(ftf.macroFragment);
+    //      return;
+    //    }
     super.endElement(element, augs);
   }
 
   @Override
   public void characters(XMLString text, Augmentations augs) throws XNIException
   {
-    GWikiFragment lastfrag = parseContext.peekFragStack();
-    if ((lastfrag instanceof RteMacroFragment) == false) {
-      super.characters(text, augs);
-      return;
-    }
-    RteMacroFragment rtf = (RteMacroFragment) lastfrag;
-    if (rtf.inBody == false) {
-      return;
-    }
+    //    GWikiFragment lastfrag = parseContext.peekFragStack();
+    //    if ((lastfrag instanceof RteMacroFragment) == false) {
+    //      super.characters(text, augs);
+    //      return;
+    //    }
+    //    RteMacroFragment rtf = (RteMacroFragment) lastfrag;
+    //    if (rtf.inBody == false) {
+    //      return;
+    //    }
     super.characters(text, augs);
   }
 }

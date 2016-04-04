@@ -23,6 +23,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 
 /**
  * 
@@ -75,10 +76,11 @@ public class GWikiFormMacro extends GWikiMacroBean implements GWikiMacroSourceab
    * GWikiMacroFragment, java.lang.StringBuilder)
    */
   @Override
-  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb, GWikiFragment parent, GWikiFragment previous,
+      GWikiFragment next)
   {
     if (GWikiFormMacro.evalForm() == false) {
-      macroFragment.getSource(sb);
+      macroFragment.getSource(sb, parent, previous, next);
     }
   }
 

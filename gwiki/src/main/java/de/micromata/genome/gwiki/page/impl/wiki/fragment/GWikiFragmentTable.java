@@ -103,6 +103,13 @@ public class GWikiFragmentTable extends GWikiFragmentChildsBase
   @Override
   public void getSource(StringBuilder sb)
   {
+    getSource(sb, null, null, null);
+  }
+
+  @Override
+  public void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
+    appendPrevNlIfNeeded(sb, parent, previous, this);
     for (Row row : rows) {
       String lastTdTh = "";
       for (Cell c : row.cells) {

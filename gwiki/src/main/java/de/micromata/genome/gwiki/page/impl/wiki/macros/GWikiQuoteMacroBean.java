@@ -24,6 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
 
@@ -35,7 +36,7 @@ import de.micromata.genome.gwiki.utils.html.SaxElementMatchers;
  */
 @MacroInfo(info = "The macro quote marks a section of wiki text as quoted text.",
     renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP,
-        GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd })
+        GWikiMacroRenderFlags.NewLineBlock })
 public class GWikiQuoteMacroBean extends GWikiHtmlBodyRteTagMacro
     implements GWikiMacroSourceable
 {
@@ -74,12 +75,13 @@ public class GWikiQuoteMacroBean extends GWikiHtmlBodyRteTagMacro
   }
 
   @Override
-  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb, GWikiFragment parent, GWikiFragment previous,
+      GWikiFragment next)
   {
     if (macroFragment.getAttrs().getArgs().isEmpty() == true) {
       macroFragment.getAttrs().getArgs().setBooleanValue("start", true);
     }
-    macroFragment.getMacroSource(sb);
+    macroFragment.getMacroSource(sb, parent, previous, next);
 
   }
 

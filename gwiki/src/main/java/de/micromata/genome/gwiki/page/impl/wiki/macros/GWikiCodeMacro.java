@@ -54,7 +54,7 @@ import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
             enumValues = { "wiki", "markup", "groovy", "java", "xml", "css", "javascript", "json", "c", "cpp",
                 "objectivec", "pascal", "perl", "php", "python", "scala", "sql", "tcl" }) },
     renderFlags = { GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NewLineAfterStart })
+        GWikiMacroRenderFlags.NewLineBlock, GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GWikiRuntimeMacro, GWikiMacroRte
 {
 

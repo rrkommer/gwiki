@@ -6,6 +6,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiCodeMacro;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class RteCodeHtmlFilterListener implements HtmlFilterListener
 {
 

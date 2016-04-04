@@ -42,7 +42,7 @@ import groovy.lang.Script;
  * 
  */
 @MacroInfo(info = "A embedded Groovy script",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd })
+    renderFlags = { GWikiMacroRenderFlags.NewLineBlock })
 public class GWikiGroovyScriptMacro extends GWikiMacroBase implements GWikiRuntimeMacro, GWikiBodyMacro
 {
 

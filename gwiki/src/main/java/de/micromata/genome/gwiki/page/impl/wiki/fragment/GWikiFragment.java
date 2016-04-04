@@ -39,6 +39,11 @@ public interface GWikiFragment extends Serializable
    */
   public String getSource();
 
+  default void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
+    getSource(sb);
+  }
+
   /**
    * Implementation interface of getSource()
    * 
