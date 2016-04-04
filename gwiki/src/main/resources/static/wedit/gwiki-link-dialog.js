@@ -189,7 +189,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 			      }
 			      to = setTimeout(function() {
 				      var v = $('#linkprtitle').val();
-				      $('#filechooser').jstree(true).search(v);
+				      $('#filechooser').jstree(true).search(v, true, true);
 			      }, 250);
 		      });
 		      $('#linkpropt').keyup(function() {
@@ -198,7 +198,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 			      }
 			      to = setTimeout(function() {
 				      var v = $('#linkpropt').val();
-				      $('#filechooser').jstree(true).search(v);
+				      $('#filechooser').jstree(true).search(v, true, true);
 			      }, 250);
 		      });
 		      // tree.on('select_node.jstree', function(event) {

@@ -52,7 +52,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 		}
 		to = setTimeout(function() {
 			var v = $('#' + searchTextId).val();
-			$('#' + menuDivId).jstree(true).search(v);
+			$('#' + menuDivId).jstree(true).search(v, true, true);
 		}, 250);
 	});
 	tree.on('select_node.jstree', function(e, data) {
