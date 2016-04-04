@@ -135,60 +135,59 @@ element.style {
 }
 
 .panelInfo {
-  background-color: rgb(195, 215, 245);
+	background-color: rgb(195, 215, 245);
 }
 
 .panelInfoHeader {
-  background-image: url(../static/img/icons/16px/269-info.png);
-  background-position: 2px 2px;
-  background-repeat: no-repeat;
-  height: 20px;
+	background-image: url(../static/img/icons/16px/269-info.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
 }
 
 .panelWarn {
-  background-color: rgb(245, 195, 209);
+	background-color: rgb(245, 195, 209);
 }
 
 .panelWarnHeader {
-  background-image: url(../static/img/icons/16px/264-warning.png);
-  background-position: 2px 2px;
-  background-repeat: no-repeat;
-  height: 20px;
+	background-image: url(../static/img/icons/16px/264-warning.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
 }
 
 .panelTip {
-  background-color: rgb(210, 245, 229);
+	background-color: rgb(210, 245, 229);
 }
 
 .panelTipHeader {
-  background-image: url(../static/img/icons/16px/146-wrench.png);
-  background-position: 2px 2px;
-  background-repeat: no-repeat;
-  height: 20px;
+	background-image: url(../static/img/icons/16px/146-wrench.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
 }
 
 .panelTodo {
-  background-color: rgb(210, 239, 245);
+	background-color: rgb(210, 239, 245);
 }
 
 .panelTodoHeader {
-  background-image: url(../static/img/icons/16px/273-checkmark.png);
-  background-position: 2px 2px;
-  background-repeat: no-repeat;
-  height: 20px;
+	background-image: url(../static/img/icons/16px/273-checkmark.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
 }
 
 .panelNote {
-  background-color: rgb(255, 244, 247);
+	background-color: rgb(255, 244, 247);
 }
 
 .panelNoteHeader {
-  background-image: url(../static/img/icons/16px/265-notification.png);
-  background-position: 2px 2px;
-  background-repeat: no-repeat;
-  height: 20px;
+	background-image: url(../static/img/icons/16px/265-notification.png);
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	height: 20px;
 }
-
 
 .panelContent, .panelContent p, .panelContent th, .panelContent td,
 	.panelContent li {
@@ -481,7 +480,43 @@ ul.error {
 .navMenuJsTree {
 	padding-top: 10px;
 	min-height: 500px;
+	min-width: 10px;
 }
+
 .navMenuJsTreeSwithScpaes select {
 	width: 172px;
+}
+
+.gutter {
+	background-color: #eee;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	width: 5px;
+	min-width: 5px;
+}
+
+.gutter.gutter-horizontal { //
+	background-image: url('grips/vertical.png');
+	cursor: ew-resize;
+}
+
+.gutter.gutter-vertical { //
+	background-image: url('grips/horizontal.png');
+	cursor: ns-resize;
+}
+
+.gwikiBodySplit {
+	
+}
+
+.gwikiBodySplit div {
+	
+}
+
+.split {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
