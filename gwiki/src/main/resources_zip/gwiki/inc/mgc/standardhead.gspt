@@ -130,8 +130,8 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
   	Split(['#gwikiNavContent', '#gwikiContent' ], {
   		direction: 'horizontal',
   		sizes: [navWidth, 100],
-  		minSize: 100,
-  		gutterSize: 3,
+  		minSize: 10,
+  		gutterSize: 5,
   		onDragEnd: function() {
   			 var ncw = $('#gwikiNavContent').width();
   			 var wcw = $('#gwikiContent').width();
