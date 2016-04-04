@@ -29,7 +29,11 @@ import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 
 /**
  * Render a link or button to create a new link.
@@ -39,6 +43,20 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Render a link or button to create a new link.<br/>" +
+    "The user requires to edit the current page, create new elements and - if set the right for the new element.",
+    params = {
+        @MacroInfoParam(name = "pageId", info = "PageId of the new Page. Optional", type = MacroParamType.PageId),
+        @MacroInfoParam(name = "metaTemplate", info = "Type of the new element. Optional"),
+        @MacroInfoParam(name = "title", info = "Title of the new element. Optional"),
+        @MacroInfoParam(name = "text", info = "Text used for the link. Optional"),
+        @MacroInfoParam(name = "linkClass",
+            info = "CSS Class used for the link. Optiona. if not set uses gwikiButton."),
+        @MacroInfoParam(name = "parentPage",
+            info = " Parent page for the new created element. Optional. if not set uses current page.",
+            type = MacroParamType.PageId),
+    },
+    renderFlags = { GWikiMacroRenderFlags.InTextFlow, GWikiMacroRenderFlags.RteSpan })
 public class GWikiNewElementMacro extends GWikiMacroBean
 {
 
@@ -101,7 +119,8 @@ public class GWikiNewElementMacro extends GWikiMacroBean
       return true;
     }
     GWikiElement el = ctx.getCurrentElement();
-    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == false) {
+    if (ctx.getWikiWeb().getAuthorization().isAllowTo(ctx,
+        GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == false) {
       return true;
     }
     if (ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, el.getElementInfo()) == false) {

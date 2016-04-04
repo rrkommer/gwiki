@@ -27,7 +27,11 @@ import de.micromata.genome.gwiki.model.GWikiGlobalConfig;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 
 /**
@@ -38,6 +42,17 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
+@MacroInfo(info = "Renders an Help link",
+    params = {
+        @MacroInfoParam(name = "helpPageId", info = "Help Page", type = MacroParamType.PageId, required = true),
+        @MacroInfoParam(name = "pageId", info = "Page the help is for. If not set current page.",
+            type = MacroParamType.PageId),
+        @MacroInfoParam(name = "lang",
+            info = "Optional. if not set, language of current page or user language preference."),
+        @MacroInfoParam(name = "title", info = "Optional Title"),
+        @MacroInfoParam(name = "linkClass", info = "Optional class used for the link.")
+
+    }, renderFlags = { GWikiMacroRenderFlags.InTextFlow, GWikiMacroRenderFlags.RteSpan })
 public class GWikiHelpLinkMacro extends GWikiMacroBean
 {
 

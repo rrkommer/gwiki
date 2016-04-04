@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
@@ -38,7 +39,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
     "...\n" +
     "{anchor:ToLocalAnchor} Here is the target.",
     params = { @MacroInfoParam(name = "defaultValue", info = "Link to the anchor defined", required = true,
-        defaultParameter = true) })
+        defaultParameter = true) },
+    renderFlags = { GWikiMacroRenderFlags.InTextFlow, GWikiMacroRenderFlags.RteSpan })
 public class GWikiLocalAnchorMacroBean extends GWikiMacroBean
 {
 

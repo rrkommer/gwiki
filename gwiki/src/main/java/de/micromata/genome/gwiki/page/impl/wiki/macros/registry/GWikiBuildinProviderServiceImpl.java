@@ -16,6 +16,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiColumnMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiFancyBoxMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiGroovyScriptMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHTMLcommentMacro;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHiddenMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHierarchicalBreadcrumbMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyPTagMacro;
@@ -23,6 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIfMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiImageGalleryMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiIncludeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiLocalAnchorMacroBean;
+import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNewElementMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiNoFormatBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageAttachmentsMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiPageCommentMacro;
@@ -103,7 +105,8 @@ public class GWikiBuildinProviderServiceImpl implements GWikiMacroProviderServic
     ret.put("div", new GWikiMacroClassFactory(GWikiHtmlDivMacro.class));
     ret.put("audio", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
     ret.put("video", new GWikiMacroClassFactory(GWikiHtmlVideoMacro.class));
-
+    ret.put("helplink", new GWikiMacroClassFactory(GWikiHelpLinkMacro.class));
+    ret.put("newpage", new GWikiMacroClassFactory(GWikiNewElementMacro.class));
     return ret;
   }
 
