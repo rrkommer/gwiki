@@ -858,6 +858,7 @@ public class GWikiWikiParser
         table.addRow(tb);
         tk = tks.curToken();
         if (tk != '|') {
+          tks.pushBack();
           break;
         }
       } while (tks.eof() == false);
