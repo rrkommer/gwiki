@@ -16,9 +16,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiTokens;
 
 @MacroInfo(info = "The macro html marks a region of text as pure HTML.<br/>"
     + "To save a page containing the html macro the user requires the right GWIKI_EDITHTML.",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd,
-        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock })
+    renderFlags = { GWikiMacroRenderFlags.NewLineBlock,
+        GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.ContainsTextBlock,
+        GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiUnsecureHtmlMacro extends GWikiCompileTimeMacroBase implements GWikiCompileTimeMacro
 {
 

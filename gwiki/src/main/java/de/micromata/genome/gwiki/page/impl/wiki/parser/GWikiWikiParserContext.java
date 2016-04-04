@@ -33,7 +33,9 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
+import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
 
@@ -54,6 +56,14 @@ public class GWikiWikiParserContext
   private ArrayStack<GWikiFragment> fragStack = new ArrayStack<GWikiFragment>();
 
   private Map<String, GWikiMacroFactory> macroFactories = new HashMap<String, GWikiMacroFactory>();
+  public StringBuilder collectedText = new StringBuilder();
+  private boolean ignoreWsNl = true;
+  private static final String DEFAULT_SPECIAL_CHARACTERS = "*-_~^+{}[]!#|\\";
+
+  /**
+   * Character, which has to be escaped.
+   */
+  protected String specialCharacters = DEFAULT_SPECIAL_CHARACTERS;
 
   public GWikiWikiParserContext()
   {
@@ -255,6 +265,90 @@ public class GWikiWikiParserContext
     }
     sb.append(" ]");
     return sb.toString();
+  }
+
+  public void addText(String text)
+  {
+    collectedText.append(text);
+  }
+
+  public void resetText()
+  {
+    collectedText.setLength(0);
+  }
+
+  public void flushText()
+  {
+    if (collectedText.length() == 0) {
+      return;
+    }
+    String t = collectedText.toString();
+    collectedText.setLength(0);
+    GWikiFragment lf = lastFrag();
+
+    if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
+      if (lf instanceof GWikiFragmentTextDeco) {
+        ((GWikiFragmentTextDeco) lf).setRequireMacroSyntax(true);
+      }
+    }
+    if (ignoreWsNl == true) {
+      String s = StringUtils.trim(t);
+      if (StringUtils.isBlank(s) || StringUtils.isNewLine(s)) {
+        return;
+      }
+    }
+    // int cp = Character.codePointAt(t.toCharArray(), 0);
+    if (t.startsWith("<!--") == true) {
+      return;
+    }
+    if (StringUtils.isNewLine(t) == false) {
+      addTextFragement(escapeText(t));
+    }
+  }
+
+  public <T> T findFragInStack(Class<T> cls)
+  {
+    for (int i = 0; i < stackSize(); ++i) {
+      List<GWikiFragment> fl = peek(i);
+      if (fl.size() > 0) {
+        GWikiFragment lr = fl.get(fl.size() - 1);
+        if (cls.isAssignableFrom(lr.getClass()) == true) {
+          return (T) lr;
+        }
+      }
+    }
+    return null;
+  }
+
+  public GWikiFragment findFragsInStack(Class<? extends GWikiFragment>... classes)
+  {
+    for (Class<? extends GWikiFragment> cls : classes) {
+      GWikiFragment f = findFragInStack(cls);
+      if (f != null) {
+        return f;
+      }
+    }
+    return null;
+  }
+
+  protected String escapeText(String t)
+  {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < t.length(); ++i) {
+      char c = t.charAt(i);
+      if (specialCharacters.indexOf(c) != -1) {
+        sb.append('\\').append(c);
+      } else {
+        sb.append(c);
+      }
+    }
+    return sb.toString();
+
+  }
+
+  public String getCollectedText()
+  {
+    return collectedText.toString();
   }
 
   public Map<String, GWikiMacroFactory> getMacroFactories()

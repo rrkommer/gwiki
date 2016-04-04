@@ -41,16 +41,14 @@ public class GWikiHtmlBodyTagMacro extends GWikiHtmlTagMacro implements GWikiBod
 
   public static int getStandardBodyRenderFlags()
   {
-    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd,
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineBlock,
         GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock,
         GWikiMacroRenderFlags.NoWrapWithP);
   }
 
   public static int getStandardNestedBodyRenderFlags()
   {
-    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd,
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineBlock,
         GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.TrimWsAfter);
   }
 

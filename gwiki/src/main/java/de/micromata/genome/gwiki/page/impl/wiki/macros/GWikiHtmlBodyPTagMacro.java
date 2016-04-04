@@ -27,7 +27,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
  * 
  */
 @MacroInfo(info = "Paragraph with style information",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+    renderFlags = { GWikiMacroRenderFlags.NewLineBlock,
         GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiHtmlBodyPTagMacro extends GWikiHtmlBodyRteTagMacro
 {

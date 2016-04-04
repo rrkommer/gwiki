@@ -26,14 +26,21 @@ package de.micromata.genome.gwiki.page.impl.wiki;
  */
 public enum GWikiMacroRenderFlags
 {
+  NewLineBeforeStart(0x1000),
   /**
    * If rendered as source add new line after start of macro body.
    */
   NewLineAfterStart(0x0001), //
+
   /**
    * if rendered as source insert new line before end of macro body and after macro closing.
    */
   NewLineBeforeEnd(0x0002), //
+  NewLineAfterEnd(0x2000), //
+  /**
+   * \n{macro}\nbody\n{macro}\n
+   */
+  NewLineBlock(combine(NewLineBeforeStart, NewLineAfterStart, NewLineBeforeEnd, NewLineAfterEnd)),
   /**
    * Wenn parsing macro body, remove white spaces before tokenize.
    */

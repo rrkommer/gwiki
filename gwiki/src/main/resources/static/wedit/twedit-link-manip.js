@@ -317,7 +317,7 @@ function tweid_has_element_class(el, clazz) {
 
 function tweid_is_at_startOfBody(ed, rng) {
 	var sc = rng.startContainer;
-	if (sc.nodeName == 'P' && sc.parentNode.nodeName == 'DIV') {
+	if (sc.nodeName == 'P' && sc.parentNode.firstChild == sc && sc.parentNode.nodeName == 'DIV') {
 		if (tweid_has_element_class(sc.parentNode, 'weditmacrobody') == true) {
 			return true;
 		}
@@ -327,8 +327,11 @@ function tweid_is_at_startOfBody(ed, rng) {
 		if (rng.startOffset != 0) {
 			return false;
 		}
+		if (sc.parentNode.firstChild != sc) {
+			return false;
+		}
 		var pnode = sc.parentNode;
-		if (pnode.nodeName == 'P') {
+		if (pnode.parentNode.firstChild == pnode) {
 			pnode = pnode.parentNode;
 		}
 		if (tweid_has_element_class(pnode, 'weditmacrobody') == true) {
@@ -340,7 +343,7 @@ function tweid_is_at_startOfBody(ed, rng) {
 
 function tweid_is_at_endOfBody(ed, rng) {
 	var sc = rng.endContainer;
-	if (sc.nodeName == 'P' && sc.parentNode.nodeName == 'DIV') {
+	if (sc.parentNode.lastChild == sc && sc.parentNode.nodeName == 'DIV') {
 		if (tweid_has_element_class(sc.parentNode, 'weditmacrobody') == true) {
 			return true;
 		}
@@ -397,7 +400,7 @@ function tweid_is_direct_before_Macro(ed, rng) {
 
 function tweid_check_valid_range_for_del_in_range(ed, rng, event) {
 
-	if (rng.startContainer == rng.endContainer) {
+	if (rng.startContainer == rng.endContainer && rng.startOffset == 0) {
 		var sc = rng.startContainer;
 		if (tweid_has_element_class(sc, 'weditmacrohead') || tweid_has_element_class(sc, 'weditmacroframe')) {
 			console.debug("Found mod in macro: delete macro");

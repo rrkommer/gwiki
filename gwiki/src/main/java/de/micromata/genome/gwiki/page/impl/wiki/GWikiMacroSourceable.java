@@ -17,6 +17,8 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.page.impl.wiki;
 
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+
 /**
  * Interface to retreive source from macro. Most macros doesnt' implement this.
  * 
@@ -30,5 +32,6 @@ public interface GWikiMacroSourceable
    * 
    * @param sb
    */
-  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb);
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb, GWikiFragment parent, GWikiFragment previous,
+      GWikiFragment next);
 }

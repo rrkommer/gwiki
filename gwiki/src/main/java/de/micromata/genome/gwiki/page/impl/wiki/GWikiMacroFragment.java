@@ -90,7 +90,7 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   public void renderSourceFoot(StringBuilder sb)
   {
     sb.append("{").append(attrs.getCmd()).append("}");
-    if (GWikiMacroRenderFlags.NewLineBeforeEnd.isSet(macro.getRenderModes()) == true) {
+    if (GWikiMacroRenderFlags.NewLineAfterEnd.isSet(macro.getRenderModes()) == true) {
       sb.append("\n");
     }
   }
@@ -98,35 +98,41 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   @Override
   public void getSource(StringBuilder sb)
   {
+    getSource(sb, null, null, null);
+  }
+
+  @Override
+  public void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
     if (macro instanceof GWikiMacroSourceable) {
-      ((GWikiMacroSourceable) macro).toSource(this, sb);
+      ((GWikiMacroSourceable) macro).toSource(this, sb, parent, previous, next);
     } else {
-      getMacroSource(sb);
+      getMacroSource(sb, parent, previous, next);
     }
 
   }
 
-  public void getMacroSource(StringBuilder sb)
+  public void getMacroSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
   {
+    appendPrevNlIfNeeded(sb, parent, previous, this);
     renderSourceHead(sb);
     if (macro.hasBody() == false) {
-      return;
-    }
-
-    StringBuilder nsb = new StringBuilder();
-    if (macro.evalBody() == true) {
-      if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
-        attrs.getChildFragment().getSource(nsb);
+      if (GWikiMacroRenderFlags.NewLineAfterEnd.isSet(macro.getRenderModes()) == true) {
+        sb.append("\n");
+        return;
       }
-    } else {
-      nsb.append(attrs.getBody());
     }
     if (GWikiMacroRenderFlags.NewLineAfterStart.isSet(macro.getRenderModes()) == true) {
-      if (nsb.length() != 0 && nsb.charAt(0) != '\n') {
-        sb.append("\n");
-      }
+      sb.append("\n");
     }
-    sb.append(nsb.toString());
+    if (macro.evalBody() == true) {
+      if (attrs.getChildFragment() != null && attrs.getChildFragment().getChilds().size() > 0) {
+        attrs.getChildFragment().getSource(sb);
+      }
+    } else {
+      sb.append(attrs.getBody());
+    }
+
     if (GWikiMacroRenderFlags.NewLineBeforeEnd.isSet(macro.getRenderModes()) == true) {
       if (sb.charAt(sb.length() - 1) != '\n') {
         sb.append("\n");

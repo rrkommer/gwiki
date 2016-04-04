@@ -10,7 +10,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
  *
  */
 @MacroInfo(info = "Create an html fieldset element.",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+    renderFlags = { GWikiMacroRenderFlags.NewLineBlock,
         GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiHtmlFieldsetMacro extends GWikiHtmlBodyTagMacro
 {

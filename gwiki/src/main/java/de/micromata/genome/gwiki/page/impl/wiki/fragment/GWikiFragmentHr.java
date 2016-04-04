@@ -33,12 +33,20 @@ public class GWikiFragmentHr extends GWikiFragmentHtml
   @Override
   public void getSource(StringBuilder sb)
   {
+    getSource(sb, null, null, null);
+  }
+
+  @Override
+  public void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
+    appendPrevNlIfNeeded(sb, parent, previous, this);
     sb.append("----\n");
   }
 
   @Override
   public int getRenderModes()
   {
-    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeEnd);
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NoWrapWithP, GWikiMacroRenderFlags.NewLineBeforeStart,
+        GWikiMacroRenderFlags.NewLineAfterEnd);
   }
 }

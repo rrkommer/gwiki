@@ -40,7 +40,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
         @MacroInfoParam(name = "class", info = "Optional. CSS class attribute of the Column"),
         @MacroInfoParam(name = "style", info = "Optional. CSS style attribute"),
     },
-    renderFlags = { GWikiMacroRenderFlags.TrimTextContent })
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP,
+        GWikiMacroRenderFlags.NewLineBlock })
 public class GWikiSectionMacro extends GWikiHtmlTagMacro implements GWikiBodyEvalMacro
 {
 

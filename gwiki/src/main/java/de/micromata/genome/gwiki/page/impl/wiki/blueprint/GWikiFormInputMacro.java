@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 
 /**
  * TODO validate form.
@@ -180,10 +181,11 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
    * GWikiMacroFragment, java.lang.StringBuilder)
    */
   @Override
-  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb, GWikiFragment parent, GWikiFragment previous,
+      GWikiFragment next)
   {
     if (getFormSource(sb) == false) {
-      macroFragment.getMacroSource(sb);
+      macroFragment.getMacroSource(sb, parent, previous, next);
     }
   }
 

@@ -53,11 +53,25 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   @Override
   public void getSource(StringBuilder sb)
   {
+    getSource(sb, null, null, null);
+  }
+
+  @Override
+  public void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
+  {
     if (StringUtils.isBlank(style) == true && StringUtils.isBlank(styleClass) == true) {
-      sb.append("\n\n");
+      appendPrevNlIfNeeded(sb, parent, previous, this);
+      //      if (previous instanceof GWikiFragmentP) {
+      //        sb.append("\n");
+      //      }
       getChildSouce(sb);
+      //      if (noNlAfter == false) {
+      sb.append("\n");
+      //      }
       return;
     }
+
+    appendPrevNlIfNeeded(sb, parent, previous, this);
     MacroAttributes mas = new MacroAttributes();
     mas.setCmd("p");
     if (StringUtils.isBlank(style) == false) {
@@ -97,7 +111,8 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
   @Override
   public int getRenderModes()
   {
-    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP);
+    return GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.ContainsTextBlock, GWikiMacroRenderFlags.NoWrapWithP,
+        GWikiMacroRenderFlags.NewLineBeforeStart, GWikiMacroRenderFlags.NewLineAfterEnd);
   }
 
   public String getStyleClass()

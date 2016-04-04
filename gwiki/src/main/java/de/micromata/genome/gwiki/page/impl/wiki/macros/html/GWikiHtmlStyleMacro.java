@@ -10,7 +10,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
  *
  */
 @MacroInfo(info = "Create an html style elemenent",
-    renderFlags = { GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
+    renderFlags = { GWikiMacroRenderFlags.NewLineBlock,
         GWikiMacroRenderFlags.TrimTextContent })
 public class GWikiHtmlStyleMacro extends GWikiHtmlBodyTagMacro
 {

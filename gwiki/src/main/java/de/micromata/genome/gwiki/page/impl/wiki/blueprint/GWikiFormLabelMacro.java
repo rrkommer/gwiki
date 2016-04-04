@@ -26,14 +26,15 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 @MacroInfo(info = "generates a formLabel",
-    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NewLineAfterStart,
-        GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.ContainsTextBlock })
+    renderFlags = { GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.ContainsTextBlock,
+        GWikiMacroRenderFlags.NoWrapWithP })
 public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, GWikiMacroSourceable
 {
 
@@ -68,10 +69,11 @@ public class GWikiFormLabelMacro extends GWikiMacroBean implements GWikiBodyEval
    * GWikiMacroFragment, java.lang.StringBuilder)
    */
   @Override
-  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb)
+  public void toSource(GWikiMacroFragment macroFragment, StringBuilder sb, GWikiFragment parent, GWikiFragment previous,
+      GWikiFragment next)
   {
     if (GWikiFormMacro.evalForm() == false) {
-      macroFragment.getSource(sb);
+      macroFragment.getSource(sb, parent, previous, next);
     }
   }
 

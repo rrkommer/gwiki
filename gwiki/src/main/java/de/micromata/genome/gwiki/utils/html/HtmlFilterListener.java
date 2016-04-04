@@ -37,9 +37,44 @@ public interface HtmlFilterListener
       this.collectedText = collectedText;
     }
 
+    public static void attrsToString(XMLAttributes attributes, StringBuilder sb)
+    {
+      if (attributes == null) {
+        return;
+      }
+      for (int i = 0; i < attributes.getLength(); ++i) {
+        sb.append(" ").append(attributes.getLocalName(i)).append("='").append(attributes.getValue(i)).append("'");
+      }
+    }
+
+    @Override
+    public String toString()
+    {
+      StringBuilder sb = new StringBuilder();
+      if (el != null) {
+        if (attributes != null) {
+          sb.append("<").append(el);
+          attrsToString(attributes, sb);
+          sb.append(">");
+        } else {
+          sb.append("</").append(el);
+          sb.append("/>");
+        }
+      }
+      if (text != null) {
+        sb.append(text);
+      }
+      return sb.toString();
+    }
+
     public String getClassAttr()
     {
-      return attributes.getValue("class");
+      return getAttrVal("class");
+    }
+
+    public String getAttrVal(String key)
+    {
+      return StringUtils.defaultString(attributes.getValue(key));
     }
 
     public boolean containsInStyleClass(String text)
