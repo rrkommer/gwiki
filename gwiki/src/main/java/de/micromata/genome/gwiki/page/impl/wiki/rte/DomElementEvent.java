@@ -3,6 +3,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.rte;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.utils.StringUtils;
 
 public class DomElementEvent extends DomEvent
@@ -90,6 +91,11 @@ public class DomElementEvent extends DomEvent
     }
 
     return (Element) ret;
+  }
+
+  public GWikiContext getWikiContext()
+  {
+    return walker.wikiContext;
   }
 
 }
