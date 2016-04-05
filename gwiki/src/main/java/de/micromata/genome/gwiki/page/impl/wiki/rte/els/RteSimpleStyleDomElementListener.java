@@ -55,7 +55,8 @@ public class RteSimpleStyleDomElementListener implements DomElementListener
     return false;
   }
 
-  private boolean requireTextDecoMacroSyntax(final GWikiFragmentTextDeco fragDeco, GWikiWikiParserContext parseContext)
+  public static boolean requireTextDecoMacroSyntax(final GWikiFragmentTextDeco fragDeco,
+      GWikiWikiParserContext parseContext)
   {
     fragDeco.iterate(new GWikiSimpleFragmentVisitor()
     {
