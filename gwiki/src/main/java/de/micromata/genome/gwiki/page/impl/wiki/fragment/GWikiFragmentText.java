@@ -20,6 +20,11 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class GWikiFragmentText extends GWikiFragmentHtml
 {
 
