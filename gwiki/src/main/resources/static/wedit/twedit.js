@@ -159,7 +159,7 @@ function twedit_create(editId, newPage) {
 	      keep_styles : false,
 
 	      plugins : [
-	          'gwiki tweditac lists',
+	          'gwiki  lists', // tweditac
 	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker codesample',
 	          'hr anchor' ], //
 	      paste_data_images : true,
