@@ -94,10 +94,10 @@ public class GWikiElementFinder
   public List<GWikiElementInfo> getPageAttachments(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//
-    new AndMatcher<GWikiElementInfo>(//
-        new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
-            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)),//
-            new GWikiElementTypeMatcher(wikiContext, "attachment"))));
+        new AndMatcher<GWikiElementInfo>(//
+            new GWikiViewableMatcher(wikiContext), new AndMatcher<GWikiElementInfo>(//
+                new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId)), //
+                new GWikiElementTypeMatcher(wikiContext, "attachment"))));
     return childs;
   }
 
@@ -110,12 +110,12 @@ public class GWikiElementFinder
   public List<GWikiElementInfo> getPageDirectPages(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//
-    new AndMatcher<GWikiElementInfo>(//
-        new GWikiViewableMatcher(wikiContext), //
         new AndMatcher<GWikiElementInfo>(//
-            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
-                new EqualsMatcher<String>(pageId)),//
-            new GWikiElementTypeMatcher(wikiContext, "gwiki"))));
+            new GWikiViewableMatcher(wikiContext), //
+            new AndMatcher<GWikiElementInfo>(//
+                new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, //
+                    new EqualsMatcher<String>(pageId)), //
+                new GWikiElementTypeMatcher(wikiContext, "gwiki"))));
 
     Collections.sort(childs, new GWikiElementByChildOrderComparator(//
         new GWikiElementByOrderComparator(//
@@ -139,10 +139,10 @@ public class GWikiElementFinder
   public List<GWikiElementInfo> getDirectChilds(String pageId)
   {
     List<GWikiElementInfo> childs = getPageInfos(//
-    new AndMatcher<GWikiElementInfo>(// "TITLE"
-        new GWikiViewableMatcher(wikiContext), //
-        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
-    )//
+        new AndMatcher<GWikiElementInfo>(// "TITLE"
+            new GWikiViewableMatcher(wikiContext), //
+            new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
+        )//
     );
 
     return childs;
@@ -150,9 +150,12 @@ public class GWikiElementFinder
 
   public List<GWikiElementInfo> getAllDirectChilds(GWikiElementInfo ei)
   {
+    if (ei == null) {
+      return new ArrayList<>();
+    }
     String pageId = ei.getId();
     List<GWikiElementInfo> childs = getPageInfos(//
-    new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
+        new GWikiElementPropMatcher(wikiContext, GWikiPropKeys.PARENTPAGE, new EqualsMatcher<String>(pageId))//
     );
     return childs;
   }
@@ -166,7 +169,7 @@ public class GWikiElementFinder
 
   public static interface FragmentCallback<T extends GWikiFragment>
   {
-    void callback(GWikiElement element, String partName, GWikiArtefakt< ? > artefakt, T fragment);
+    void callback(GWikiElement element, String partName, GWikiArtefakt<?> artefakt, T fragment);
   }
 
   /**
@@ -199,10 +202,10 @@ public class GWikiElementFinder
     for (GWikiElementInfo ei : webInfos) {
 
       final GWikiElement el = wikiContext.getWikiWeb().getElement(ei);
-      Map<String, GWikiArtefakt< ? >> m = new HashMap<String, GWikiArtefakt< ? >>();
+      Map<String, GWikiArtefakt<?>> m = new HashMap<String, GWikiArtefakt<?>>();
       el.collectParts(m);
-      for (Map.Entry<String, GWikiArtefakt< ? >> me : m.entrySet()) {
-        final GWikiArtefakt< ? > a = me.getValue();
+      for (Map.Entry<String, GWikiArtefakt<?>> me : m.entrySet()) {
+        final GWikiArtefakt<?> a = me.getValue();
         final String partName = me.getKey();
         if (a instanceof GWikiWikiPageArtefakt) {
           GWikiWikiPageArtefakt w = (GWikiWikiPageArtefakt) a;
@@ -212,7 +215,8 @@ public class GWikiElementFinder
           if (w.getCompiledObject() == null) {
             continue;
           }
-          w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
+          w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor()
+          {
 
             @Override
             @SuppressWarnings("unchecked")
@@ -243,7 +247,7 @@ public class GWikiElementFinder
     if (el == null) {
       return new GWikiProps();
     }
-    GWikiArtefakt< ? > art = el.getMainPart();
+    GWikiArtefakt<?> art = el.getMainPart();
     if ((art instanceof GWikiPropsArtefakt) == false) {
       return new GWikiProps();
     }

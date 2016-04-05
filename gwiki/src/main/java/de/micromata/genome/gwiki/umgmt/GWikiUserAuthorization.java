@@ -286,7 +286,7 @@ public class GWikiUserAuthorization extends GWikiSimpleUserAuthorization impleme
         break;
       case Transient:
         if (su != null) {
-          su.getProps().put(value, key);
+          su.getProps().put(key, value);
         }
         break;
     }

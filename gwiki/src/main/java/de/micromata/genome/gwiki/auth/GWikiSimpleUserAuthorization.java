@@ -248,6 +248,11 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
       if (su == null) {
         su = defaultConfig.getUser(GWikiSimpleUser.ANON_USER_NAME);
       }
+      if (su != null) {
+        GWikiSimpleUser anon = new GWikiSimpleUser(su);
+        wikiContext.setSessionAttribute(SINGLEUSER_SESSION_KEY, anon);
+        GWikiUserServeElementFilterEvent.setUser(anon);
+      }
     }
     return su;
   }
