@@ -186,13 +186,13 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     return StringEscapeUtils.escapeHtml(val);
   }
 
-  protected void renderRteAttributes(GWikiContext ctx)
+  protected void renderRteAttributes(GWikiContext ctx, String ttitle)
   {
     if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
       return;
     }
     ctx.append(" data-wiki-url='").append(escAttr(target)).append("'");
-    ctx.append(" data-wiki-title='").append(escAttr(title)).append("'");
+    ctx.append(" data-wiki-title='").append(escAttr(ttitle)).append("'");
     ctx.append(" data-wiki-tip='").append(escAttr(tip)).append("'");
     ctx.append(" data-wiki-titleDefined='").append(escAttr(titleDefined)).append("'");
     ctx.append(" data-wiki-styleClass='").append(escAttr(linkClass)).append("'");
@@ -293,12 +293,12 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
           ctx.append(" class='gwikiMissingLink'");
         }
-        renderRteAttributes(ctx);
+        renderRteAttributes(ctx, ttitel);
         ctx.append(">");
         renderTitle(ctx, ttitel);
         ctx.append("</a>");
       } else {
-        renderRteAttributes(ctx);
+        renderRteAttributes(ctx, ttitel);
         renderTitle(ctx, ttitel);
       }
     } else { // exists
@@ -330,7 +330,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         if (windowTarget != null) {
           ctx.append(" target=\"").append(StringEscapeUtils.escapeXml(windowTarget)).append("\"");
         }
-        renderRteAttributes(ctx);
+        renderRteAttributes(ctx, ttitel);
         ctx.append(">");
         renderTitle(ctx, ttitel);
         ctx.append("</a>");

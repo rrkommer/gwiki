@@ -32,9 +32,16 @@ public class RteLinkDomElementListener implements DomElementListener
     // return;
     // }
     String href = getAttribute(event, "href", "url");
+    //    String stitdefined = event.getAttr("data-wiki-titledefined");
+    //    Boolean titdefined = null;
+    //    if (StringUtils.isNotBlank(stitdefined) == true) {
+    //      titdefined = Boolean.valueOf(stitdefined);
+    //    }
     GWikiContext wikiContext = GWikiContext.getCurrent();
-    String tat = getAttribute(event, "title");
-    String title = tat;
+    String tat;
+    String title = null;
+    tat = getAttribute(event, "title");
+    title = tat;
     String id = href;
     if (href != null && wikiContext != null) {
       String ctxpath = wikiContext.getRequest().getContextPath();
@@ -49,7 +56,7 @@ public class RteLinkDomElementListener implements DomElementListener
         if (ei == null) {
           id = href;
         } else {
-          String origtitle = ei.getTitle();
+          String origtitle = wikiContext.getTranslatedProp(ei.getTitle());
           if (StringUtils.equals(origtitle, title) == true) {
             title = null;
           }

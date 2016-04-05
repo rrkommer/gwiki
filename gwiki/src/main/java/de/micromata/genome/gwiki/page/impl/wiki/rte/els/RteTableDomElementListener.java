@@ -17,6 +17,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementListener;
+import de.micromata.genome.gwiki.utils.StringUtils;
 
 public class RteTableDomElementListener implements DomElementListener
 {
@@ -102,15 +103,22 @@ public class RteTableDomElementListener implements DomElementListener
         GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart,
             GWikiMacroRenderFlags.NewLineBeforeEnd, GWikiMacroRenderFlags.TrimTextContent,
             GWikiMacroRenderFlags.NoWrapWithP));
+    ret.getAttrs().getArgs().setStringValue("class", "gwikiTable");
     for (Row row : table.getRows()) {
       GWikiMacroFragment rowmacro = convertToBodyMacro("tr",
           GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.NewLineAfterStart, GWikiMacroRenderFlags.NewLineBeforeEnd,
               GWikiMacroRenderFlags.TrimTextContent,
               GWikiMacroRenderFlags.NoWrapWithP));
+
       for (Cell cell : row.cells) {
         GWikiMacroFragment cellmacro = convertToBodyMacro(cell.attributes.getCmd(),
             GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent,
                 GWikiMacroRenderFlags.NoWrapWithP));
+        String thdclass = "gwikitd";
+        if (StringUtils.equals(cell.attributes.getCmd(), "th") == true) {
+          thdclass = "gwikith";
+        }
+        cellmacro.getAttrs().getArgs().setStringValue("class", thdclass);
         cellmacro.addChilds(cell.attributes.getChildFragment().getChilds());
         rowmacro.addChild(cellmacro);
       }

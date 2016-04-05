@@ -1,5 +1,9 @@
 (function() {
 
+	var DEACTIVATE = true;
+	if (DEACTIVATE) {
+		return;
+	}
 	var config = {};
 	var DOWN_ARROW_KEY = 40;
 	var UP_ARROW_KEY = 38;
