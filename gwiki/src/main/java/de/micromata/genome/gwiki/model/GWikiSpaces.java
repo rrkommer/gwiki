@@ -70,6 +70,21 @@ public class GWikiSpaces
     return null;
   }
 
+  public GWikiElementInfo findPersonalSpace(GWikiContext ctx, String selpace)
+  {
+    GWikiAuthorization auth = wikiWeb.getAuthorization();
+    if (auth.isCurrentAnonUser(ctx) == false) {
+      String userName = auth.getCurrentUserName(ctx);
+      if (selpace == null || StringUtils.equals(userName, selpace) == true) {
+        GWikiElementInfo ei = findWelcomeIndexVariants(ctx, "home/" + userName);
+        if (ei != null) {
+          return ei;
+        }
+      }
+    }
+    return null;
+  }
+
   public GWikiElementInfo findWelcomeForSpace(GWikiContext ctx, String selpace)
   {
     GWikiProps props = findActiveSpaceConfig();
@@ -94,27 +109,31 @@ public class GWikiSpaces
     if (ei != null) {
       return ei;
     }
-    return findWelcomeIndexVariants(ctx, spacename + "_" + lang);
+    return findWelcomeIndexVariants(ctx, spacename + "-" + lang);
   }
 
   private GWikiElementInfo findWelcomeForSpace(GWikiContext ctx, GWikiAuthorization auth, GWikiProps props,
       String selpace)
   {
+    GWikiElementInfo ei = findPersonalSpace(ctx, selpace);
+    if (ei != null) {
+      return ei;
+    }
     String lang = auth.getUserProp(ctx, GWikiAuthorization.USER_LANG);
     if (StringUtils.isNotBlank(lang) == true) {
-      GWikiElementInfo ei = findWelcomeLangVariants(ctx, lang, selpace);
+      ei = findWelcomeLangVariants(ctx, lang, selpace);
       if (ei != null) {
         return ei;
       }
     }
     String defaultLang = props.getStringValue(DEFAULT_LANG, null);
     if (defaultLang != null && StringUtils.equals(lang, defaultLang) == false) {
-      GWikiElementInfo ei = findWelcomeLangVariants(ctx, defaultLang, selpace);
+      ei = findWelcomeLangVariants(ctx, defaultLang, selpace);
       if (ei != null) {
         return ei;
       }
     }
-    GWikiElementInfo ei = findWelcomeIndexVariants(ctx, selpace);
+    ei = findWelcomeIndexVariants(ctx, selpace);
     return ei;
   }
 
@@ -131,12 +150,15 @@ public class GWikiSpaces
     if (props == null) {
       return null;
     }
-    if (props.getStringList(AVAILABLE_SPACES).contains(newSpace) == false) {
-      return null;
+    GWikiElementInfo ei = findPersonalSpace(ctx, newSpace);
+    if (ei == null) {
+      if (props.getStringList(AVAILABLE_SPACES).contains(newSpace) == false) {
+        return null;
+      }
     }
     GWikiAuthorization auth = wikiWeb.getAuthorization();
-    auth.setUserProp(ctx, USER_WIKI_SPACE_PROP, newSpace, UserPropStorage.Client);
-    GWikiElementInfo ei = findWelcomeForSpace(ctx, auth, props, newSpace);
+    auth.setUserProp(ctx, USER_WIKI_SPACE_PROP, newSpace, UserPropStorage.Transient);
+    ei = findWelcomeForSpace(ctx, auth, props, newSpace);
     if (ei != null) {
       return ei.getId();
     }
@@ -189,6 +211,11 @@ public class GWikiSpaces
       String title = ctx.getTranslatedProp(ei.getTitle());
       ret.add(Pair.make(title, avs));
     }
+    if (auth.isCurrentAnonUser(ctx) == true) {
+      return ret;
+    }
+    String username = auth.getCurrentUserName(ctx);
+    ret.add(Pair.make("Personal", username));
     return ret;
   }
 
