@@ -1,0 +1,34 @@
+h2. Keyboard Bindings
+ 
+ The Wiki Rich Text supports following Keyboards
+||Keys||Where||Explanation||
+|E|Wikipages|Edit the current Wiki page.|
+|Ctrl\+S|Rte\+Code Editor|Save and return the the wikipage|
+| | | |
+|Alt\+L|Rte\+Code Editor|Edit/Insert a Link|
+|Alt\+I|Rte\+Code Editor|Edit/Insert a Image|
+|Alt\+M|Rte\+Code Editor |Insert a new Macro. Use context Toolbar to edit an existant Macro|
+|Alt\+C|Rte Editor|Insert/Edit a codesample|
+|Ctrl\+Alt\+F|Rte Editor|Toggle Fullscreen of the Rte Editor|
+| | | |
+|Ctrl\+Shift\+X|Rte Editor|Clear Format of selected text. |
+|Ctrl\+Shift\+B|Rte Editor|Bold selected text.|
+|Ctrl\+Shift\+i|Rte Editor|Italic selected text.|
+ 
+h2. Macro Autocomplete
+ You have to type the Pattern and after a space or enter.
+{table:class=gwikiTable}
+{tr}
+{th:class=gwikith}Pattern{th}{th:class=gwikith}Format{th}
+{tr}{tr}
+{td:class=gwikitd}{noformat}
+h1. Text<NewLine>
+{noformat}{td}{td:class=gwikitd}Format the line as h1\-h6  {td}
+{tr}{tr}
+{td:class=gwikitd}\_Text\_<space>{td}{td:class=gwikitd}Text Italic{td}
+{tr}{tr}
+{td:class=gwikitd}\*Text\*<space>{td}{td:class=gwikitd}Text Bold{td}
+{tr}{tr}
+{td:class=gwikitd}\{\{Text\}\}<space>{td}{td:class=gwikitd}Text code{td}
+{tr}
+{table}
