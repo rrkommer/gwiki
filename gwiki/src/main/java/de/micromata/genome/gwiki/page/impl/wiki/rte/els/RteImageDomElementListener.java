@@ -1,11 +1,18 @@
 package de.micromata.genome.gwiki.page.impl.wiki.rte.els;
 
+import java.util.Base64;
+
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
+import de.micromata.genome.gwiki.page.impl.GWikiFileAttachment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementListener;
+import de.micromata.genome.logging.GLog;
 
 public class RteImageDomElementListener implements DomElementListener
 {
@@ -14,7 +21,10 @@ public class RteImageDomElementListener implements DomElementListener
   public boolean listen(DomElementEvent event)
   {
     String pageId = event.getAttr("data-pageid");
-
+    if (StringUtils.isBlank(pageId) == true) {
+      pageId = event.getAttr("data-wiki-url");
+    }
+    handleDataImage(event, pageId);
     GWikiFragmentImage image = parseImage(event, pageId);
 
     String styleClass = image.getStyleClass();
@@ -26,6 +36,45 @@ public class RteImageDomElementListener implements DomElementListener
     event.getParseContext().addFragment(image);
     return false;
 
+  }
+
+  protected void handleDataImage(DomElementEvent event, String pageId)
+  {
+    if (StringUtils.isBlank(pageId) == true) {
+      return;
+    }
+    String src = event.getAttr("src");
+    // handle data:image/png;base64,iVBORw...
+    if (StringUtils.startsWith(src, "data:image") == false) {
+      return;
+    }
+    int edix = src.indexOf(';');
+    if (edix == -1) {
+      return;
+    }
+    String mime = src.substring(5, edix);
+    String rest = src.substring(edix + 1);
+    if (rest.startsWith("base64,") == false) {
+      return;
+    }
+    rest = rest.substring("base64,".length());
+    byte[] data;
+    try {
+      data = Base64.getDecoder().decode(rest);
+    } catch (IllegalArgumentException ex) {
+      GLog.warn(GWikiLogCategory.Wiki, "Cannot decode image base64");
+      return;
+    }
+    GWikiElement imageElement = event.getWikiContext().getWikiWeb().findElement(pageId);
+    if ((imageElement instanceof GWikiFileAttachment) == false) {
+      return;
+    }
+    GWikiFileAttachment fat = (GWikiFileAttachment) imageElement;
+
+    GWikiBinaryAttachmentArtefakt mpart = (GWikiBinaryAttachmentArtefakt) imageElement.getMainPart();
+    mpart.setStorageData(data);
+    event.getWikiContext().getWikiWeb().saveElement(event.getWikiContext(), fat, false);
+    mpart.toString();
   }
 
   protected GWikiFragmentImage parseImage(DomElementEvent event, String pageId)
