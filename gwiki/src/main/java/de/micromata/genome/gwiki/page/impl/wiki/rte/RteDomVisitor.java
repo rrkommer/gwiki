@@ -21,6 +21,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteListDomElementListene
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteMacroDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RtePDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteSimpleStyleDomElementListener;
+import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteSmileyDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteSpanDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteTableDomElementListener;
 
@@ -32,6 +33,7 @@ public class RteDomVisitor implements DomVisitor
 
   public RteDomVisitor()
   {
+    registerListener("SPAN", new RteSmileyDomElementListener());
     registerListener("IMG", new RteImageDomElementListener());
     registerListener("A", new RteLinkDomElementListener());
     registerListener("BR", new RteBrDomElementListener());

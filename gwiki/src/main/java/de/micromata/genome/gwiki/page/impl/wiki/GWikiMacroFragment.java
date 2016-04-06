@@ -293,13 +293,13 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
-    visitor.begin(this);
+    visitor.begin(this, parent);
     if (attrs != null && attrs.getChildFragment() != null) {
-      attrs.getChildFragment().iterate(visitor);
+      attrs.getChildFragment().iterate(visitor, this);
     }
-    visitor.end(this);
+    visitor.end(this, parent);
   }
 
 }

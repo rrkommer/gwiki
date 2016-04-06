@@ -127,17 +127,17 @@ public class GWikiContextUtils
     if (el == null) {
       return null;
     }
-    GWikiArtefakt< ? > ma = el.getMainPart();
+    GWikiArtefakt<?> ma = el.getMainPart();
     if (ma instanceof GWikiWikiPageArtefakt) {
       return (GWikiWikiPageArtefakt) ma;
     }
-    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> map = new HashMap<String, GWikiArtefakt<?>>();
     el.collectParts(map);
     ma = map.get("MainPage");
     if (ma instanceof GWikiWikiPageArtefakt) {
       return (GWikiWikiPageArtefakt) ma;
     }
-    for (GWikiArtefakt< ? > a : map.values()) {
+    for (GWikiArtefakt<?> a : map.values()) {
       if (a instanceof GWikiWikiPageArtefakt) {
         return (GWikiWikiPageArtefakt) a;
       }
@@ -158,7 +158,8 @@ public class GWikiContextUtils
      * @param wikiContext
      * @return false, if stop iterating.
      */
-    boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt, GWikiFragment fragment);
+    boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt,
+        GWikiFragment fragment);
   }
 
   /**
@@ -184,7 +185,8 @@ public class GWikiContextUtils
    * @param visitor
    * @return
    */
-  public static boolean doWithMacroFragment(final GWikiContext wikiContext, String pageId, String partName, String macroName,
+  public static boolean doWithMacroFragment(final GWikiContext wikiContext, String pageId, String partName,
+      String macroName,
       Map<String, String> attributeMatcher, final FragmentVisitor visitor)
   {
     GWikiElement element = null;
@@ -201,7 +203,7 @@ public class GWikiContextUtils
     if (StringUtils.isEmpty(partName) == true) {
       wiki = getWikiFromElement(element, wikiContext);
     } else {
-      GWikiArtefakt< ? > art = element.getPart(partName);
+      GWikiArtefakt<?> art = element.getPart(partName);
       if ((art instanceof GWikiWikiPageArtefakt) == false) {
         return false;
       }
@@ -214,7 +216,8 @@ public class GWikiContextUtils
       return false;
     }
 
-    GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor(macroName, attributeMatcher) {
+    GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor(macroName, attributeMatcher)
+    {
 
       @Override
       protected void addFragment(GWikiFragment fragment)
@@ -241,9 +244,12 @@ public class GWikiContextUtils
    */
   public static boolean renderPageIntro(final String pageId, final GWikiContext wikiContext, final String macroName)
   {
-    return doWithMacroFragment(wikiContext, null, null, macroName, null, new FragmentVisitor() {
+    return doWithMacroFragment(wikiContext, null, null, macroName, null, new FragmentVisitor()
+    {
 
-      public boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt, GWikiFragment fragment)
+      @Override
+      public boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt,
+          GWikiFragment fragment)
       {
         GWikiMacroFragment mf = (GWikiMacroFragment) fragment;
         mf.renderChilds(wikiContext);

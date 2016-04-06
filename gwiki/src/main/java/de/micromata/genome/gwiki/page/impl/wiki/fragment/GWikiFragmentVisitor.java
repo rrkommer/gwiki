@@ -20,7 +20,17 @@ package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
 public interface GWikiFragmentVisitor
 {
+  default void begin(GWikiFragment fragment, GWikiFragment parent)
+  {
+    begin(fragment);
+  }
+
   void begin(GWikiFragment fragment);
+
+  default void end(GWikiFragment fragment, GWikiFragment parent)
+  {
+    end(fragment);
+  }
 
   void end(GWikiFragment fragment);
 }

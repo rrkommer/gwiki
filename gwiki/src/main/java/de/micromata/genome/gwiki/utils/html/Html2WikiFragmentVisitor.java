@@ -85,8 +85,10 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
   protected boolean hasChildTable(GWikiFragment fragment)
   {
     final Holder<GWikiFragmentTable> foundTable = new Holder<GWikiFragmentTable>(null);
-    GWikiFragmentVisitor visitor = new GWikiFragmentVisitor() {
+    GWikiFragmentVisitor visitor = new GWikiFragmentVisitor()
+    {
 
+      @Override
       public void begin(GWikiFragment fragment)
       {
         if (fragment instanceof GWikiFragmentTable) {
@@ -94,12 +96,13 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
         }
       }
 
+      @Override
       public void end(GWikiFragment fragment)
       {
 
       }
     };
-    fragment.iterate(visitor);
+    fragment.iterate(visitor, null);
     return foundTable.get() != fragment;
   }
 
@@ -160,6 +163,7 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
     return false;
   }
 
+  @Override
   public void begin(GWikiFragment fragment)
   {
     if (fragment instanceof GWikiFragmentTable) {
@@ -179,6 +183,7 @@ public class Html2WikiFragmentVisitor implements GWikiFragmentVisitor
     stack.push(fragment);
   }
 
+  @Override
   public void end(GWikiFragment fragment)
   {
     stack.pop();

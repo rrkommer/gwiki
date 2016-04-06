@@ -145,7 +145,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		ret.style = $('#gweditstyle').val();
 		callback(ret);
 	}
-
+	var isOnInitialOpen = false;
 	var dialog = $("#editDialogBox").dialog(
 	    {
 	      width : isImage ? 800 : 400,
@@ -165,7 +165,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		      var tree = $("#filechooser").jstree({
 		        plugins : [ 'search', 'themes', 'ui' ],
 		        core : {
-		        	animation: false,
+		          animation : false,
 		          themes : {
 		            theme : 'classic',
 		            dots : true,
@@ -184,15 +184,15 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		        }
 		      });
 		      var to = false;
-		      $('#linkprtitle').keyup(function() {
-			      if (to) {
-				      clearTimeout(to);
-			      }
-			      to = setTimeout(function() {
-				      var v = $('#linkprtitle').val();
-				      $('#filechooser').jstree(true).search(v, true, true);
-			      }, 250);
-		      });
+		      // $('#linkprtitle').keyup(function() {
+		      // if (to) {
+		      // clearTimeout(to);
+		      // }
+		      // to = setTimeout(function() {
+		      // var v = $('#linkprtitle').val();
+		      // $('#filechooser').jstree(true).search(v, true, true);
+		      // }, 250);
+		      // });
 		      $('#linkpropt').keyup(function() {
 			      if (to) {
 				      clearTimeout(to);
@@ -211,7 +211,9 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 			      // console.debug('changed: ' + data);
 			      var selNone = data.node.data;
 			      $("#linkpropt").val(selNone.url);
-			      $("#linkprtitle").val(selNone.title);
+			      if (!isOnInitialOpen) {
+				      $("#linkprtitle").val(selNone.title);
+			      }
 			      if (selNone.type == 'image') {
 				      var img = $("<img>").attr('src', gwedit_buildUrl(selNone.url)).attr('style',
 				          'max-height: 300px; max-width: 300px;')
@@ -224,7 +226,9 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 			      if (currentLink.url) {
 				      var ln = currentLink.url.replace(/\//g, '_');
 				      var st = tree.get_node(ln);
+				      isOnInitialOpen = true;
 				      tree.select_node(ln);
+				      isOnInitialOpen= false;
 			      } else if (gwikiContext.gwikiEditPageId) {
 				      var ln = gwikiContext.gwikiEditPageId.replace(/\//g, '_');
 				      var st = tree.get_node(ln);

@@ -71,7 +71,7 @@ public class RteSimpleStyleDomElementListener implements DomElementListener
           fragDeco.setRequireMacroSyntax(true);
         }
       }
-    });
+    }, null);
     if (fragDeco.isRequireMacroSyntax() == true) {
       return true;
     }

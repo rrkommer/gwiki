@@ -245,7 +245,7 @@ public class GWikiWikiLinkFragment extends GWikiFragmentHtml
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
     // visitor.begin(this);
     // nested.iterate(visitor);

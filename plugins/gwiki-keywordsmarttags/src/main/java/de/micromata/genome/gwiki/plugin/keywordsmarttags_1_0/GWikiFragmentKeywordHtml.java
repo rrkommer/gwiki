@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHtml;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.util.types.Pair;
@@ -46,11 +47,13 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
 
   private static final long serialVersionUID = -8960733154116086458L;
 
-  private GWikiFragmentHtml nested;
+  private GWikiFragmentChildContainer nested = new GWikiFragmentChildContainer();
+  private String html;
 
   public GWikiFragmentKeywordHtml(GWikiFragmentHtml nested)
   {
-    this.nested = nested;
+    this.nested.getChilds().add(nested);
+    this.html = nested.getHtml();
   }
 
   private void createToolTip(StringBuilder sb, String matched, List<GWikiElementInfo> els)
@@ -173,7 +176,6 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
     if (spaceKeyWords == null) {
       return nested.render(ctx);
     }
-    String html = nested.getHtml();
     KeyWordRanges kranges = new KeyWordRanges();
     for (Map.Entry<String, Pair<Pattern, List<GWikiElementInfo>>> me : spaceKeyWords.entrySet()) {
       patch(kranges, html, me);
@@ -215,21 +217,21 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
   @Override
   public String getHtml()
   {
-    return nested.getHtml();
+    return html;
   }
 
   @Override
   public void setHtml(String html)
   {
-    nested.setHtml(html);
+    this.html = html;
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
-    visitor.begin(this);
-    nested.iterate(visitor);
-    visitor.end(this);
+    visitor.begin(this, parent);
+    nested.iterate(visitor, this);
+    visitor.end(this, parent);
   }
 
   @Override

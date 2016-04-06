@@ -54,16 +54,16 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
-    visitor.begin(this);
+    visitor.begin(this, parent);
     List<GWikiFragment> lchilds = getChilds();
     for (int i = 0; i < lchilds.size(); ++i) {
       if (lchilds.size() > i && lchilds.get(i) != null) {
-        lchilds.get(i).iterate(visitor);
+        lchilds.get(i).iterate(visitor, this);
       }
     }
-    visitor.end(this);
+    visitor.end(this, parent);
   }
 
   public void getChildSouce(StringBuilder sb)

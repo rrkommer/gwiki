@@ -13,6 +13,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlInSpanBodyTagMac
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class RteSpanDomElementListener extends RteHtmlTagDomElementListener
 {
   @Override

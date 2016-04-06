@@ -72,6 +72,7 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
     wikiContext.getRequiredJs().add("/static/wedit/twedit-link-manip.js");
     wikiContext.getRequiredJs().add("/static/wedit/twedit.js");
     wikiContext.getRequiredJs().add("/static/wedit/tweditplugin.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedsmileysplugin.js");
     wikiContext.getRequiredJs().add("/static/wedit/weditexttoolbarplugin.js");
 
     wikiContext.getRequiredJs().add("/static/wedit/gwiki-link-dialog.js");

@@ -56,7 +56,7 @@ public interface GWikiFragment extends Serializable
    * 
    * @param sb
    * @param ctx
-   * @return
+   * @return true if continue to render silblings.
    * @throws IOException
    */
   public boolean render(GWikiContext ctx);
@@ -70,7 +70,13 @@ public interface GWikiFragment extends Serializable
 
   public List<GWikiFragment> getChilds();
 
-  public void iterate(GWikiFragmentVisitor visitor);
+  /**
+   * iterate trough a visitor.
+   * 
+   * @param visitor
+   * @param parent may be null.
+   */
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent);
 
   /**
    * return true, if requires to call prepareHeader.

@@ -14,6 +14,11 @@ import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementListener;
 import de.micromata.genome.logging.GLog;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class RteImageDomElementListener implements DomElementListener
 {
 
