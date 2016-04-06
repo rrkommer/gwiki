@@ -35,8 +35,15 @@ public class GWikiSpaceFilter implements GWikiServeElementFilter
           ; // nothing
         }
       }
+    } else {
+      String spaceId = wikiContext.getWikiWeb().getSpaces().findCurrentPageSpaceId(wikiContext);
+      if (spaceId != null && StringUtils.equals(spaceId, setspace) == false) {
+        String redid = wikiContext.getWikiWeb().getSpaces().switchUserSpace(wikiContext, spaceId);
+      }
     }
-    return chain.nextFilter(event);
+    chain.nextFilter(event);
+
+    return null;
   }
 
 }

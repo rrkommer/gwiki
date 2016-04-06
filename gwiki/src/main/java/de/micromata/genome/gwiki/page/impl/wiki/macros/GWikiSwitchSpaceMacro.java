@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiSpaces;
+import de.micromata.genome.gwiki.model.GWikiSpaces.SpaceInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
@@ -13,7 +14,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.filter.GWikiSpaceFilter;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * 
@@ -52,7 +52,7 @@ public class GWikiSwitchSpaceMacro extends GWikiMacroBean
         ctx.append("</a>");
       }
     } else {
-      List<Pair<String, String>> list = ctx.getWikiWeb().getSpaces().getAvailableSpaces(ctx);
+      List<SpaceInfo> list = ctx.getWikiWeb().getSpaces().getAvailableSpaces(ctx);
       if (list.isEmpty() == true) {
         return true;
       }
@@ -61,12 +61,12 @@ public class GWikiSwitchSpaceMacro extends GWikiMacroBean
           + "?" + GWikiSpaceFilter.WIKI_SET_SPACE_PARAM + "=' + this.value\">\n");
       ctx.append("<option value=''></option>\n");
       String curSpace = spaces.getUserCurrentSpaceId(ctx);
-      for (Pair<String, String> p : list) {
+      for (SpaceInfo p : list) {
         String selected = "";
-        if (StringUtils.equals(p.getSecond(), curSpace) == true) {
+        if (StringUtils.equals(p.getSpaceId(), curSpace) == true) {
           selected = " selected='selected '";
         }
-        ctx.append("<option " + selected + "value='" + ctx.escape(p.getSecond()) + "'>").appendEscText(p.getFirst())
+        ctx.append("<option " + selected + "value='" + ctx.escape(p.getSpaceId()) + "'>").appendEscText(p.getTitle())
             .append("</option>\n");
       }
       ctx.append("</select>");
