@@ -253,4 +253,19 @@ public class GWikiElementFinder
     }
     return ((GWikiPropsArtefakt) art).getCompiledObject();
   }
+
+  public boolean isChildOf(GWikiElementInfo child, GWikiElementInfo parent)
+  {
+    if (child.getId().equals(parent.getId()) == true) {
+      return true;
+    }
+    if (StringUtils.isEmpty(child.getParentId()) == true) {
+      return false;
+    }
+    GWikiElementInfo pei = wikiContext.getWikiWeb().findElementInfo(child.getParentId());
+    if (pei == null) {
+      return false;
+    }
+    return isChildOf(pei, child);
+  }
 }

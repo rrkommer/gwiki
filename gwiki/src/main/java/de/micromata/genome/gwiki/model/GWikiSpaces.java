@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.page.GWikiContext;
-import de.micromata.genome.util.types.Pair;
 
 /**
  * 
@@ -186,14 +185,60 @@ public class GWikiSpaces
     return ret;
   }
 
+  public static class SpaceInfo
+  {
+    private String spaceId;
+    private String title;
+    private String pageId;
+
+    public SpaceInfo(String spaceId, String title, String pageId)
+    {
+      super();
+      this.spaceId = spaceId;
+      this.title = title;
+      this.pageId = pageId;
+    }
+
+    public String getSpaceId()
+    {
+      return spaceId;
+    }
+
+    public void setSpaceId(String spaceId)
+    {
+      this.spaceId = spaceId;
+    }
+
+    public String getTitle()
+    {
+      return title;
+    }
+
+    public void setTitle(String title)
+    {
+      this.title = title;
+    }
+
+    public String getPageId()
+    {
+      return pageId;
+    }
+
+    public void setPageId(String pageId)
+    {
+      this.pageId = pageId;
+    }
+
+  }
+
   /**
    * 
    * @param ctx
    * @return List<Pair<Title,SpaceId>>
    */
-  public List<Pair<String, String>> getAvailableSpaces(GWikiContext ctx)
+  public List<SpaceInfo> getAvailableSpaces(GWikiContext ctx)
   {
-    List<Pair<String, String>> ret = new ArrayList<>();
+    List<SpaceInfo> ret = new ArrayList<>();
     GWikiProps props = findActiveSpaceConfig();
     if (props == null) {
       return ret;
@@ -209,13 +254,16 @@ public class GWikiSpaces
         continue;
       }
       String title = ctx.getTranslatedProp(ei.getTitle());
-      ret.add(Pair.make(title, avs));
+      ret.add(new SpaceInfo(avs, title, ei.getId()));
     }
     if (auth.isCurrentAnonUser(ctx) == true) {
       return ret;
     }
     String username = auth.getCurrentUserName(ctx);
-    ret.add(Pair.make("Personal", username));
+    GWikiElementInfo userhome = findPersonalSpace(ctx, null);
+    if (userhome != null) {
+      ret.add(new SpaceInfo(username, "Personal", userhome.getId()));
+    }
     return ret;
   }
 
@@ -230,5 +278,34 @@ public class GWikiSpaces
       return null;
     }
     return props;
+  }
+
+  public boolean isPageInSpace(GWikiContext ctx, GWikiElementInfo ei, String spaceId)
+  {
+    GWikiElementInfo spaceRoot = findWelcomeForSpace(ctx, spaceId);
+    if (spaceRoot == null) {
+      return false;
+    }
+    return ctx.getElementFinder().isChildOf(ei, spaceRoot);
+  }
+
+  public String findCurrentPageSpaceId(GWikiContext ctx)
+  {
+    if (ctx.getCurrentElement() == null) {
+      return null;
+    }
+    GWikiElementInfo curei = ctx.getCurrentElement().getElementInfo();
+    String userSpace = getUserCurrentSpaceId(ctx);
+    if (StringUtils.isNotBlank(userSpace) == true) {
+      if (isPageInSpace(ctx, curei, userSpace) == true) {
+        return userSpace;
+      }
+    }
+    for (SpaceInfo spaceInfo : getAvailableSpaces(ctx)) {
+      if (ctx.getElementFinder().isChildOf(curei, ctx.getWikiWeb().findElementInfo(spaceInfo.getPageId())) == true) {
+        return spaceInfo.getSpaceId();
+      }
+    }
+    return null;
   }
 }
