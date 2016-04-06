@@ -6,6 +6,11 @@ import org.w3c.dom.Node;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public abstract class RteHtmlTagDomElementListener extends RteBrDomElementListener
 {
   //  @Override

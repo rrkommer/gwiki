@@ -170,7 +170,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
           GWikiContent cont = wiki.getCompiledObject();
           if (withPageIntro == true) {
             GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor("pageintro");
-            cont.iterate(col);
+            cont.iterate(col, null);
             if (col.getFound().isEmpty() == false) {
               GWikiMacroFragment mf = (GWikiMacroFragment) col.getFound().get(0);
               ctx.append("<small><br/>");
@@ -186,7 +186,7 @@ public class GWikiChildrenMacro extends GWikiMacroBean
           }
           if (withPageTocs == true) {
             GWikiCollectFragmentTypeVisitor col = new GWikiCollectFragmentTypeVisitor(GWikiFragmentHeading.class);
-            cont.iterate(col);
+            cont.iterate(col, null);
             int lastLevel = 1;
             for (GWikiFragment frag : col.getFound()) {
               GWikiFragmentHeading hf = (GWikiFragmentHeading) frag;

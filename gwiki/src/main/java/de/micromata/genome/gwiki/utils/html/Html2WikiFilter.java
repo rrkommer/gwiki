@@ -165,7 +165,7 @@ public class Html2WikiFilter extends DefaultFilter
       parser.parse(source);
       GWikiFragmentChildContainer cont = new GWikiFragmentChildContainer(parseContext.popFragList());
       GWikiFragmentVisitor visitor = createVisitor();
-      cont.iterate(visitor);
+      cont.iterate(visitor, null);
       return cont.getSource();
       // return nf.resultText.toString();
     } catch (RuntimeException ex) {
@@ -715,7 +715,7 @@ public class Html2WikiFilter extends DefaultFilter
           fragDeco.setRequireMacroSyntax(true);
         }
       }
-    });
+    }, null);
     if (fragDeco.isRequireMacroSyntax() == true) {
       return true;
     }

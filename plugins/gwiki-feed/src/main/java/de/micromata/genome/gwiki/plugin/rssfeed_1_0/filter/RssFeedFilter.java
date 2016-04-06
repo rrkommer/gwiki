@@ -16,24 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////
 package de.micromata.genome.gwiki.plugin.rssfeed_1_0.filter;
 
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.content;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.entry;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.feed;
+import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.*;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.link;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.name;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.subtitle;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.summary;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.Atom.updated;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.author;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.channel;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.copyright;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.description;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.item;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.language;
+import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.*;
 import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.link;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.pubData;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.rss;
-import static de.micromata.genome.gwiki.plugin.rssfeed_1_0.RSS.title;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -71,10 +57,12 @@ public class RssFeedFilter implements GWikiServeElementFilter
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata .genome.gwiki.model.filter.GWikiFilterChain,
-   * de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
+   * @see de.micromata.genome.gwiki.model.filter.GWikiFilter#filter(de.micromata
+   * .genome.gwiki.model.filter.GWikiFilterChain, de.micromata.genome.gwiki.model.filter.GWikiFilterEvent)
    */
-  public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain, GWikiServeElementFilterEvent event)
+  @Override
+  public Void filter(GWikiFilterChain<Void, GWikiServeElementFilterEvent, GWikiServeElementFilter> chain,
+      GWikiServeElementFilterEvent event)
   {
     GWikiContext wikiContext = event.getWikiContext();
     // RequestParameter
@@ -93,7 +81,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     }
     // gucken ob true -> renderChilds=true
 
-    GWikiArtefakt< ? > artefakt = event.getElement().getPart("MainPage");
+    GWikiArtefakt<?> artefakt = event.getElement().getPart("MainPage");
     GWikiElementInfo elementInfo = event.getElement().getElementInfo();
     if (artefakt instanceof GWikiWikiPageArtefakt) {
       GWikiWikiPageArtefakt wikiPage = (GWikiWikiPageArtefakt) artefakt;
@@ -151,7 +139,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     }
     GWikiContent cont = wikiPage.getCompiledObject();
     GWikiCollectMacroFragmentVisitor col = new GWikiCollectMacroFragmentVisitor("pageintro");
-    cont.iterate(col);
+    cont.iterate(col, null);
     if (col.getFound().isEmpty() == true) {
       return null;
     }
@@ -173,20 +161,21 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return wikiPageHtmlContent;
   }
 
-  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String modifiedDate,
+  private void renderAtom(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate,
+      String modifiedDate,
       String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
     XmlElement atom = feed("http://www.w3.org/2005/Atom").nest( //
-        author((name(Xml.text(autor)))),//
-        (title(Xml.text(title))),//
-        (link(wikiContext.getWikiWeb().getWikiConfig().getPublicURL())),//
-        (subtitle(Xml.text(""))),//
-        (updated(Xml.text(modifiedDate))),//
-        (entry((title(Xml.text(title))),//
-            (link(wikiContext.getRequest().getRequestURL().toString())),//
-            (updated(Xml.text(createDate))),//
-            (summary("html").nest(Xml.text(StringUtils.left(wikiPageHtmlContent, 100) + "[...]"))),//
-            (content("html").nest(Xml.text(wikiPageHtmlContent))),//
+        author((name(Xml.text(autor)))), //
+        (title(Xml.text(title))), //
+        (link(wikiContext.getWikiWeb().getWikiConfig().getPublicURL())), //
+        (subtitle(Xml.text(""))), //
+        (updated(Xml.text(modifiedDate))), //
+        (entry((title(Xml.text(title))), //
+            (link(wikiContext.getRequest().getRequestURL().toString())), //
+            (updated(Xml.text(createDate))), //
+            (summary("html").nest(Xml.text(StringUtils.left(wikiPageHtmlContent, 100) + "[...]"))), //
+            (content("html").nest(Xml.text(wikiPageHtmlContent))), //
             author((name(Xml.text(autor))))//
         )));
 
@@ -204,7 +193,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     for (GWikiElementInfo child : children) {
 
       GWikiElement element = wikiContext.getWikiWeb().findElement(child.getId());
-      GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
+      GWikiArtefakt<?> artefakt = element.getPart("MainPage");
 
       if (artefakt instanceof GWikiWikiPageArtefakt) {
         GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
@@ -214,10 +203,11 @@ public class RssFeedFilter implements GWikiServeElementFilter
         String createDate = formatDate(child.getCreatedAt());
         XmlNode c = entry( //
             title(Xml.text(child.getTitle())), //
-            (link(wikiContext.localUrl(child.getId()))),//
-            (updated(Xml.text(createDate))),// TODO falsches Datum
+            (link(wikiContext.localUrl(child.getId()))), //
+            (updated(Xml.text(createDate))), // TODO falsches Datum
             (summary("html").nest(//
-                Xml.text(StringUtils.left(pageContent, 100) + "[...]"))), (content("html").nest(Xml.text(pageContent))), //
+                Xml.text(StringUtils.left(pageContent, 100) + "[...]"))),
+            (content("html").nest(Xml.text(pageContent))), //
             (author(Xml.text(child.getCreatedBy()))));
         childrenNodes.add(c);
       }
@@ -225,7 +215,8 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return childrenNodes;
   }
 
-  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate, String modDate,
+  private void renderRSS(GWikiContext wikiContext, String title, String wikiPageHtmlContent, String createDate,
+      String modDate,
       String autor, List<GWikiElementInfo> children, boolean renderChilds)
   {
     // GWikiElement el = wikiContext.getCurrentElement();
@@ -235,19 +226,19 @@ public class RssFeedFilter implements GWikiServeElementFilter
     //
     // }
     XmlElement rss = rss("2.0").nest(channel(( //
-        title(Xml.text(title))),//
-        (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL()))),//
-        (description(Xml.text("Feed delivered by GWiki!"))),// TODO
-        (copyright(Xml.text(""))),// TODO
-        (language(Xml.text("de-de"))),// TODO
-        (pubData(Xml.text(modDate)))),//
-        (item((title(Xml.text(title))),//
-            (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))),//
-            (pubData(Xml.text(modDate))),//
-            (description(Xml.text(wikiPageHtmlContent))),//
+    title(Xml.text(title))), //
+        (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL()))), //
+        (description(Xml.text("Feed delivered by GWiki!"))), // TODO
+        (copyright(Xml.text(""))), // TODO
+        (language(Xml.text("de-de"))), // TODO
+        (pubData(Xml.text(modDate)))), //
+        (item((title(Xml.text(title))), //
+            (link(Xml.text(wikiContext.getRequest().getRequestURL().toString()))), //
+            (pubData(Xml.text(modDate))), //
+            (description(Xml.text(wikiPageHtmlContent))), //
             (author(Xml.text(autor)))//
-        ))//
-        );
+    ))//
+    );
 
     if (renderChilds == true) {
       rss.getChilds().addAll(renderRSSItems(wikiContext, children));
@@ -262,7 +253,7 @@ public class RssFeedFilter implements GWikiServeElementFilter
     List<XmlNode> childrenNodes = new ArrayList<XmlNode>();
     for (GWikiElementInfo child : children) {
       GWikiElement element = wikiContext.getWikiWeb().findElement(child.getId());
-      GWikiArtefakt< ? > artefakt = element.getPart("MainPage");
+      GWikiArtefakt<?> artefakt = element.getPart("MainPage");
 
       if (artefakt instanceof GWikiWikiPageArtefakt) {
         GWikiWikiPageArtefakt wikiPageArtefakt = (GWikiWikiPageArtefakt) artefakt;
@@ -271,8 +262,8 @@ public class RssFeedFilter implements GWikiServeElementFilter
         String createDate = formatDate(child.getCreatedAt());
         XmlNode c = item(//
             title(Xml.text(child.getTitle())), //
-            (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + "/" + child.getId()))),//
-            (pubData(Xml.text(createDate))),//
+            (link(Xml.text(wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + "/" + child.getId()))), //
+            (pubData(Xml.text(createDate))), //
             (description(Xml.text(summary))), //
             (author(Xml.text(child.getCreatedBy()))));
         childrenNodes.add(c);
@@ -281,7 +272,8 @@ public class RssFeedFilter implements GWikiServeElementFilter
     return childrenNodes;
   }
 
-  public static ThreadLocal<DateFormat> FEED_DATEFORMAT = new ThreadLocal<DateFormat>() {
+  public static ThreadLocal<DateFormat> FEED_DATEFORMAT = new ThreadLocal<DateFormat>()
+  {
 
     @Override
     protected DateFormat initialValue()

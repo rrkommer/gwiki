@@ -392,6 +392,14 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
     return noForward();
   }
 
+  public Object getSmileys()
+  {
+    JsonArray ret = new JsonArray();
+
+    return sendResponse(ret);
+
+  }
+
   public String getTxt()
   {
     return txt;

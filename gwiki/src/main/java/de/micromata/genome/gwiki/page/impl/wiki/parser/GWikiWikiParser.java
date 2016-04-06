@@ -377,7 +377,7 @@ public class GWikiWikiParser
     return childs;
   }
 
-  protected static boolean isPAllowedInDom(GWikiWikiParserContext ctx)
+  public static boolean isPAllowedInDom(GWikiWikiParserContext ctx)
   {
     for (GWikiFragment frag : ctx.getFragStack()) {
       if (isParagraphLike(frag) == false) {
@@ -1006,7 +1006,7 @@ public class GWikiWikiParser
     return l;
   }
 
-  protected List<GWikiFragment> trimBrs(List<GWikiFragment> l)
+  public static List<GWikiFragment> trimBrs(List<GWikiFragment> l)
   {
     if (l.isEmpty() == true) {
       return l;
@@ -1034,7 +1034,7 @@ public class GWikiWikiParser
     return l;
   }
 
-  protected List<GWikiFragment> addWrappedP(List<GWikiFragment> l)
+  public static List<GWikiFragment> addWrappedP(List<GWikiFragment> l)
   {
     List<GWikiFragment> ret = new ArrayList<GWikiFragment>();
     int ls = 0;
@@ -1063,26 +1063,6 @@ public class GWikiWikiParser
     return ret;
   }
 
-  protected void addWrappedP(GWikiWikiParserContext ctx, List<GWikiFragment> l)
-  {
-    List<GWikiFragment> r = addWrappedP(l);
-    ctx.addFragments(r);
-  }
-
-  public void convertPs(GWikiWikiParserContext ctx)
-  {
-    if (isPAllowedInDom(ctx) == false) {
-      return;
-    }
-    List<GWikiFragment> l = ctx.popFragList();
-    if (l.isEmpty() == true) {
-      ctx.pushFragList(l);
-      return;
-    }
-    l = addWrappedP(l);
-    ctx.pushFragList(l);
-  }
-
   public void parseText(GWikiWikiTokens tks, GWikiWikiParserContext ctx)
   {
     // so geht das nicht, da li nicht mehr geht
@@ -1097,7 +1077,9 @@ public class GWikiWikiParser
         ctx.addFragments(l);
       }
     }
-    convertPs(ctx);
+    for (GWikiWikiParsePostprocessor proc : GWikiWikiParsePostprocessorRegistry.get().getProcessors()) {
+      proc.process(ctx);
+    }
   }
 
   public GWikiWikiTokens createGWikiTokens(String text)
@@ -1112,6 +1094,5 @@ public class GWikiWikiParser
     ctx.pushFragList();
     GWikiWikiTokens tks = createGWikiTokens(text);
     parseText(tks, ctx);
-    GWikiWikiParserUtils.reworkPs(ctx);
   }
 }

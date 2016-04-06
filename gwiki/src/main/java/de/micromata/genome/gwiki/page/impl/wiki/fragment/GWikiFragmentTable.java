@@ -131,15 +131,15 @@ public class GWikiFragmentTable extends GWikiFragmentChildsBase
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
-    visitor.begin(this);
+    visitor.begin(this, parent);
     for (Row row : rows) {
       for (Cell c : row.cells) {
-        c.getAttributes().getChildFragment().iterate(visitor);
+        c.getAttributes().getChildFragment().iterate(visitor, this);
       }
     }
-    visitor.end(this);
+    visitor.end(this, parent);
   }
 
   @Override

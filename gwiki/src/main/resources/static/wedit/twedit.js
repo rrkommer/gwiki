@@ -160,15 +160,15 @@ function twedit_create(editId, newPage) {
 
 	      plugins : [
 	          'gwiki  lists', // tweditac
-	          ' imagetools',	
+	          ' imagetools smileys emoticons',
 	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker codesample',
 	          'hr anchor charmap' ], //
 	      paste_data_images : true,
 	      menu : false, // twedit_tinyMenu,
 	      menubar : false,
-	      toolbar1 : "wikisave wikicancel | fullscreen | cut copy paste | undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat bold italic | bullist numlist outdent indent ",
-	      toolbar2 : "formatselect styleselect |  alignleft aligncenter alignright alignjustify | fontselect fontsizeselect forecolor backcolor | hr charmap |  table codesample ",
-	      table_toolbar : "tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
+	      toolbar1 : "wikisave wikicancel | fullscreen | cut copy paste | undo redo | searchreplace | wikilink imagelink attachmentlink  wikinewmacro | removeformat bold italic | bullist numlist outdent indent | table",
+	      toolbar2 : "formatselect styleselect |  alignleft aligncenter alignright alignjustify | fontselect fontsizeselect forecolor backcolor | hr charmap emoticons smileys |  codesample ",
+	      table_toolbar : "tableprops tabledelete rowprops colprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol",
 	      browser_spellcheck : true,
 	      image_advtab : true,
 	      content_css : gwikiContentCssArray,

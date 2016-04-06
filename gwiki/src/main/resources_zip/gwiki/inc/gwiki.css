@@ -520,3 +520,7 @@ ul.error {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+
+.gwikiSmiley {
+	vertical-align: middle;
+}

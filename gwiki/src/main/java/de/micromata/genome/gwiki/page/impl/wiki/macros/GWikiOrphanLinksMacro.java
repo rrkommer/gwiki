@@ -57,7 +57,8 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -86,7 +87,7 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
     for (GWikiElementInfo ei : webInfos) {
 
       GWikiElement el = wikiContext.getWikiWeb().getElement(ei);
-      Map<String, GWikiArtefakt< ? >> m = new HashMap<String, GWikiArtefakt< ? >>();
+      Map<String, GWikiArtefakt<?>> m = new HashMap<String, GWikiArtefakt<?>>();
       final Set<String> mll = new TreeSet<String>();
       if (StringUtils.isNotEmpty(ei.getParentId()) == true) {
         if (wikiContext.getWikiWeb().findElementInfo(ei.getParentId()) == null) {
@@ -95,7 +96,7 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
       }
 
       el.collectParts(m);
-      for (GWikiArtefakt< ? > a : m.values()) {
+      for (GWikiArtefakt<?> a : m.values()) {
         if (a instanceof GWikiWikiPageArtefakt) {
           GWikiWikiPageArtefakt w = (GWikiWikiPageArtefakt) a;
           if (w.compileFragements(wikiContext) == false) {
@@ -105,8 +106,10 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
             continue;
           }
 
-          w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor() {
+          w.getCompiledObject().iterate(new GWikiSimpleFragmentVisitor()
+          {
 
+            @Override
             public void begin(GWikiFragment fragment)
             {
               if (fragment instanceof GWikiFragmentLink) {
@@ -120,7 +123,7 @@ public class GWikiOrphanLinksMacro extends GWikiMacroBean
                 }
               }
             }
-          });
+          }, null);
         }
         if (mll.isEmpty() == false) {
           missingLinks.put(ei.getId(), mll);

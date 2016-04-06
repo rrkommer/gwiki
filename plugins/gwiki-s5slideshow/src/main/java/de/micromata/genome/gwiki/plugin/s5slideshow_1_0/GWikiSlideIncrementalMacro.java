@@ -43,13 +43,15 @@ public class GWikiSlideIncrementalMacro extends GWikiMacroBean implements GWikiB
 
   public GWikiSlideIncrementalMacro()
   {
-    setRenderModes(GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
+    setRenderModes(
+        GWikiMacroRenderFlags.combine(GWikiMacroRenderFlags.TrimTextContent, GWikiMacroRenderFlags.NoWrapWithP));
   }
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -58,7 +60,7 @@ public class GWikiSlideIncrementalMacro extends GWikiMacroBean implements GWikiB
     if (attrs.getChildFragment().getChilds().isEmpty() == false) {
       GWikiFragment cf = attrs.getChildFragment();
       GWikiSlideIncrementPatcherFragmentVisitor visitor = new GWikiSlideIncrementPatcherFragmentVisitor();
-      cf.iterate(visitor);
+      cf.iterate(visitor, null);
     }
     attrs.getChildFragment().render(ctx);
     return true;

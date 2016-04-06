@@ -38,6 +38,7 @@ import de.micromata.genome.util.types.Pair;
  */
 public class GWikiWikiPageRenderKeywordLinkFilter implements GWikiWikiPageCompileFilter
 {
+  @Override
   public Void filter(GWikiFilterChain<Void, GWikiWikiPageCompileFilterEvent, GWikiWikiPageCompileFilter> chain,
       GWikiWikiPageCompileFilterEvent event)
   {
@@ -56,9 +57,10 @@ public class GWikiWikiPageRenderKeywordLinkFilter implements GWikiWikiPageCompil
         return null;
       }
       String space = event.getElement().getElementInfo().getWikiSpace(event.getWikiContext());
-      Map<String, Pair<Pattern, List<GWikiElementInfo>>> spaceKeyWords = fe.getKeywords(event.getWikiContext()).get(space);
+      Map<String, Pair<Pattern, List<GWikiElementInfo>>> spaceKeyWords = fe.getKeywords(event.getWikiContext())
+          .get(space);
       if (spaceKeyWords != null) {
-        content.iterate(new KeyWordReplaceVisitor(spaceKeyWords));
+        content.iterate(new KeyWordReplaceVisitor(spaceKeyWords), null);
       }
     }
     return null;

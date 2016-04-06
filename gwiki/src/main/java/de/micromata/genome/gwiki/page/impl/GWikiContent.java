@@ -28,6 +28,7 @@ import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiChunkMacro;
 
@@ -84,6 +85,7 @@ public class GWikiContent extends GWikiFragmentChildContainer
     return true;
   }
 
+  @Override
   public boolean render(GWikiContext ctx)
   {
     Object chunk = ctx.getRequestParameter(GWikiChunkMacro.REQUESTATTR_GWIKICHUNK);
@@ -94,12 +96,18 @@ public class GWikiContent extends GWikiFragmentChildContainer
       return renderChunk(ctx, (String) chunk);
     }
     for (GWikiFragment f : childs) {
-      if (f.render(ctx) == false)
+      if (f.render(ctx) == false) {
         return false;
+      }
     }
     if (RenderModes.InMem.isSet(ctx.getRenderMode()) == false) {
       ctx.flush();
     }
     return true;
+  }
+
+  public void iterate(GWikiFragmentVisitor col)
+  {
+    iterate(col, null);
   }
 }

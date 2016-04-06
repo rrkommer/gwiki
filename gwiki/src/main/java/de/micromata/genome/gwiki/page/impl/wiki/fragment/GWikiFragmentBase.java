@@ -88,10 +88,10 @@ public abstract class GWikiFragmentBase implements GWikiFragment
   }
 
   @Override
-  public void iterate(GWikiFragmentVisitor visitor)
+  public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent)
   {
-    visitor.begin(this);
-    visitor.end(this);
+    visitor.begin(this, parent);
+    visitor.end(this, parent);
   }
 
   @Override

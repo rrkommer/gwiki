@@ -95,7 +95,7 @@ public class GWikiTocMacro extends GWikiMacroBean
 
     };
 
-    content.iterate(colV);
+    content.iterate(colV, null);
 
     int lastLevel = 0;
     for (GWikiFragmentHeading hf : headings) {

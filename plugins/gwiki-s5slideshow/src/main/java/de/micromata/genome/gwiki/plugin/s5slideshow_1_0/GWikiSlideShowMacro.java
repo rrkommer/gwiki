@@ -111,7 +111,7 @@ public class GWikiSlideShowMacro extends GWikiCompileTimeMacroBase
         return;
       }
       GWikiSlideIncrementPatcherFragmentVisitor visitor = new GWikiSlideIncrementPatcherFragmentVisitor();
-      attrs.getChildFragment().iterate(visitor);
+      attrs.getChildFragment().iterate(visitor, null);
       patchedIncremental = true;
     }
   }
