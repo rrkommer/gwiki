@@ -1,151 +1,187 @@
 {pageintro}
 The GWikiConfig is to configure global settings for the GWiki instance.
 {pageintro}
-
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}GWikiConfig{legend}{div}
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+GWikiConfig
+{legend}
+ 
 h2. Public URL
 {anchor:GWIKI_PUBLIC_URL}
+  
+  
+ 
 
 Public URL for this GWiki.
+  
+  
+ 
 
 Sample: https://www.sample.org/gwiki/
+  
+  
+ 
 
 If you use the GWiki upload applet, this value has to be the point to the Gwiki root, otherwise upload will not work.
- 
-
+  
 h2. Send Email
 {anchor:GWIKI_SEND_EMAIL}
-Sender Email adress used by GWiki when sending system email.
-
+ Sender Email adress used by GWiki when sending system email.
+  
 h2. Show Stacktrace
 {anchor:GWIKI_ERROR_SHOW_STACK_TRACE}
-Display the stack traces on the admin/InternalError. Running GWiki on a production system, you should disable this.
-
+ Display the stack traces on the admin/InternalError. Running GWiki on a production system, you should disable this.
+  
 h2. Check external FS mods
 {anchor:GWIKI_CHECK_EXTERNAL_MODIFICATIONS}
-Check at runtime if external file system modification should reload gwiki.
-
+ Check at runtime if external file system modification should reload gwiki.
+  
 h2. Timeout FS check
 {anchor:GWIKI_CHECK_STORAGE_MODTIMEOUT}
-Timeout after external file system modification should be regarded.
-
-
+ Timeout after external file system modification should be regarded.
+  
+  
 h2. Available Skins
 {anchor:GWIKI_WIKI_USER_SKINS}
-List of comma seperated skins available for users to choose in the users profile.
-
-
+ List of comma seperated skins available for users to choose in the users profile.
+  
+  
 h2. Default Skin
 {anchor:GWIKI_WIKI_DEFAULT_SKIN}
-Default skin for users.
-
+ Default skin for users.
+  
 h2. Languages
 {anchor:GWIKI_WIKI_LANGUAGES}
-Available Languages. Comma seperated list of language codes. 
+ Available Languages. Comma seperated list of language codes.
+  
+  
+ 
 
 Sample: en,de
-
-
+  
+  
 h2. Welcome Page
 {anchor:GWIKI_WELCOME_PAGE}
-Welcome page shown if opened without any page url.
-
-
+ Welcome page shown if opened without any page url.
+  
+  
 h2. Default Help page
 {anchor:GWIKI_COMMON_HELP}
-Define default Help page, if the element doesn't provide own help page.
-
+ Define default Help page, if the element doesn't provide own help page.
+  
 h2. Versioning options
-
 h3. Maximum versions
 {anchor:GWIKI_ARCHIVE_MAX_COUNT}
-Define the maximum stored versions. Empty and -1 is no limit. If 0 no versioning files are stored.
-
+ Define the maximum stored versions. Empty and \-1 is no limit. If 0 no versioning files are stored.
+  
 h3. Maximum days
 {anchor:GWIKI_ARCHIVE_MAX_DAYS}
-Define the maximum stored versions in days. Empty and -1 is no limit. If 0 no versioning files are stored.
-
-
+ Define the maximum stored versions in days. Empty and \-1 is no limit. If 0 no versioning files are stored.
+  
+  
+  
+ 
 
 The URL is without language part.
-The URL {{gwikidocs/help/WikiHelp}} will be resolved as {{gwikidocs/help/en/WikiHelp}} if page or users language is English.
-If  {{gwikidocs/help/en/WikiHelp}} cannot be found as page, it resolves to  {{gwikidocs/help/WikiHelp}}.
-
+ The URL gwikidocs/help/WikiHelp will be resolved as gwikidocs/help/en/WikiHelp if page or users language is English.
+ If gwikidocs/help/en/WikiHelp cannot be found as page, it resolves to gwikidocs/help/WikiHelp.
+  
 h2. Filter
 {anchor:GWIKI_FILTER_CLASSES}
-Comma seperated list of classes, implementing a GWikiFilter. 
-The filter will be called in reverse order (last filter at first).
-
-
+ Comma seperated list of classes, implementing a GWikiFilter. 
+ The filter will be called in reverse order (last filter at first).
+  
+  
 h2. Write AccessRules
 {anchor:GWIKI_FS_WRITE_ACCESSRULES}
-Right rules for accessing the virtual file system.
-
-
+ Right rules for accessing the virtual file system.
+  
+  
 h2. Wiki Macros
 {anchor:GWIKI_WIKI_MACROS}
-Registered GWiki Macro classes.
-A pipe seperated list of key=values. 
-The key is the name of the macro how used in the Wiki text.
-value is the Java class or pageId implementing the Macro.
-
-
+ Registered GWiki Macro classes.
+ A pipe seperated list of key=values. 
+ The key is the name of the macro how used in the Wiki text.
+ value is the Java class or pageId implementing the Macro.
+  
+  
 h2. GWiki Element Factories
 {anchor:GWIKI_WIKI_ELEMENTS}
-A pipe seperated list of key=values. 
-The key is the short name of the element type used in the {{TYPE}} property of Element Settings.
-The value is the Java class implementing either {{GWikiElement}} or  {{GWikiElementFactory}} .
-{div}
+ A pipe seperated list of key=values. 
+ The key is the short name of the element type used in the TYPE property of Element Settings.
+ The value is the Java class implementing either GWikiElement or GWikiElementFactory .
 {fieldset}
 
-
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}CommentConfig{legend}{div}
-
+  
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+CommentConfig
+{legend}
+ 
 h2. Allow anon comments
 {anchor:COMMENT_ALLOW_ANON}
-Allow comments to pages without previous registration or login.
-
+ Allow comments to pages without previous registration or login.
+  
 h2. Allow registered comments
 {anchor:COMMENT_HALF_ALLOW_ANON}
+  
+  
+ 
 
 Allow comments, after user registered themselve with an valid email.
+  
+  
+ 
 
 If neither anon, nor registered comments are allowed, only GWiki loged in user can create/edit comments.
 h2. Show comments by default
 {anchor:COMMENT_DEFAULT_VISIBLE}
-Show the page comments by default unfolded. 
-The user can change this by clicking on show comments. This setting will be stored as cookie and overwrite this default.
- 
-{div}
+ Show the page comments by default unfolded. 
+ The user can change this by clicking on show comments. This setting will be stored as cookie and overwrite this default.
 {fieldset}
 
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}AuthConfig{legend}{div}
+  
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+AuthConfig
+{legend}
+ 
+h2. AUTH\_ALLOW\_PASSWORD\_FORGOTTEN
 
-h2. AUTH_ALLOW_PASSWORD_FORGOTTEN
 Enable Password forgotten functionality on login dialog.
+  
+h2. AUTH\_ALLOW\_REGISTER\_USER
 
-h2. AUTH_ALLOW_REGISTER_USER
 If set to true self registration of user is allowed.
+  
+  
+ 
 
-As template for this new user the user {{registereduser}} will be used.
-You can edit the user to configure default rights for new registered users.
+As template for this new user the user registereduser will be used.
+ You can edit the user to configure default rights for new registered users.
+  
+h2. AUTH\_REGISTER\_USER\_DOUBLE\_OPT\_IN
 
-h2. AUTH_REGISTER_USER_DOUBLE_OPT_IN
 If user can log in, user will receive an email with generated password.
-{div}
 {fieldset}
 
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}LogConfig{legend}{div}
-
+  
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+LogConfig
+{legend}
+ 
 {note}
-This configuration options are only be used, if the gwiki-admintools plugin is activated.
+This configuration options are only be used, if the gwiki\-admintools plugin is activated.
 {note}
 h2. number of cached entries
-The Logging holds a number of logging entries in the cache. These can be viewed in the gwiki-admintools Logging page.
 
+The Logging holds a number of logging entries in the cache. These can be viewed in the gwiki\-admintools Logging page.
+  
 h2. minimum log level to cache
+
 Threshold of the logging. Valid values are:
-{code}
+{code:lang=java}
 /**
    * Debugging only
    */
@@ -171,19 +207,32 @@ Threshold of the logging. Valid values are:
    */
   FATAL(5);
 {code}
+ 
 
+ 
+  
+ 
 
 If neither anon, nor registered comments are allowed, only GWiki loged in user can create/edit comments.
-
-{div}
+  
 {fieldset}
 
+  
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+UserRolesConfig
+{legend}
 
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}UserRolesConfig{legend}{div}
+  
+ 
+
 The UserRoles config defines additionally to the build Rights user defined Rights and Roles.
+  
+  
+ 
 
 Sample:
-{code}
+{code:lang=java}
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
@@ -219,10 +268,15 @@ Sample:
 	</bean>
 </beans>
 {code}
+ 
+
+ 
+  
+ 
 
 From Java Doc:
-{code}
- /**
+{code:lang=java}
+/**
    * the right is a page oriented right
    */
   public static final String RIGHT_CAT_PAGE_RIGHT = "Page";
@@ -262,18 +316,29 @@ From Java Doc:
    */
   private String description;
 {code}
-{div}
 {fieldset}
+ 
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+MimeTypeConfig
+{legend}
 
-{fieldset:class=gwikiExpandableFieldSet}{legend:onclick=$(this).next('div').toggle();}MimeTypeConfig{legend}{div}
+  
+ 
 
-Contains a mapping from file endings to mime types. These will be used in the HTTP header as Content-Type.
+Contains a mapping from file endings to mime types. These will be used in the HTTP header as Content\-Type.
+  
+  
+ 
 
-A default mapping can be found in the class {{MimeUtils}}. 
-The mapping can be overwritten per elements Metatemplate and in the Settings of each individual page.
+A default mapping can be found in the class MimeUtils. 
+ The mapping can be overwritten per elements Metatemplate and in the Settings of each individual page.
+  
+  
+ 
 
 Sample:
-{code}
+{code:lang=java}
 .txt=text/text
 .properties=text/properties
 Settings.properties=text/gwikisettings
@@ -289,5 +354,43 @@ TextIndex.txt=text/gwikitextindex
 .jpg=image/jpeg
 .png=image/png
 {code}
-{div}
 {fieldset}
+ 
+{fieldset:class=gwikiExpandableFieldSet}
+{legend:onclick=$(this).next(}
+SmileysConfig
+{legend}
+ 
+
+The available Smileys or other Icons are configured in following form:
+ ShortName=UrlToIcon\|OptionalShortCut
+  The user can use in the the Text (ShortName) or (ShortCut). 
+ In the Rich Text Editor will replaced after the page was saved.
+ In the Rich Text Editor the user can also use the Menu.
+!gwikidocs/help/en/admin/SmileyMenu.png!
+
+ Sample Configuration:
+{code:lang=java}
+wink=/static/tinymce/plugins/emoticons/img/smiley-wink.gif|;)
+smile=/static/tinymce/plugins/emoticons/img/smiley-smile.gif|:)
+unsure=/static/tinymce/plugins/emoticons/img/smiley-undecided.gif|:/
+frown=/static/tinymce/plugins/emoticons/img/smiley-frown.gif|:(
+grin=/static/tinymce/plugins/emoticons/img/smiley-laughing.gif|:D
+tongue=/static/tinymce/plugins/emoticons/img/smiley-tongue-out.gif|:D
+cry=/static/tinymce/plugins/emoticons/img/smiley-cry.gif|:'(
+gasp=/static/tinymce/plugins/emoticons/img/smiley-surprised.gif|:O
+kisss=/static/tinymce/plugins/emoticons/img/miley-kiss.gif|:*
+info=/static/img/icons/16pxc/information-button.png|i
+ok=/static/img/icons/16pxc/tick-button.png|/
+att=/static/img/icons/16pxc/exclamation-red.png|!
+minus=/static/img/icons/16pxc/minus-button.png|-
+plus=/static/img/icons/16pxc/plus-button.png|+
+cross=/static/img/icons/16pxc/prohibition-button.png|x
+question=/static/img/icons/16pxc/question.png|?
+thumbdown=/static/img/icons/16pxc/thumb.png|n
+thumbup=/static/img/icons/16pxc/thumb-up.png|y
+{code}
+
+ You can add your own Icons simply adressing images inside your Wiki.
+{fieldset}
+ 
