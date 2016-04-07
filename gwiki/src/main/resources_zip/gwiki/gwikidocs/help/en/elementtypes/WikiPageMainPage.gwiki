@@ -1,27 +1,18 @@
 {pageintro}
 A WikiPage is normal Web Page with HTML content, which can be written in a simple wiki syntax or a _Rich What you see is what you get_ editor.
 {pageintro}
-
+See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help] and [gwikidocs/help/en/elementtypes/Wiki_Editor_Keyboard_Shortcuts] for more information.
 h2. Description
 A Wiki Page is the most common used type for web pages in GWiki.
-
 h2. Artefacts
 h3. Wiki Page
-
 h4. Overview
-
 !gwikidocs/help/en/elementtypes/EditWikiOverview.png!
-----
-With tabs you can view the edited content in fowolling ways:
+ With tabs you can view the edited content in fowolling ways:
 - In the standard View the *Wiki* syntax is shown.
 - *Rich Text* provides a _Rich What you see is what you get_ editor for the page.
 - The *Preview* tab shows a quick preview of the page currently edited.
-
 See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help] for more information.
-
- 
-See also: [gwikidocs/help/en/WikiSyntax]
-
+ See also: [gwikidocs/help/en/WikiSyntax]
 h3. Settings
-
-See  [gwikidocs/help/en/ElementSettings]
+See [gwikidocs/help/en/ElementSettings]

@@ -1,49 +1,39 @@
 {pageintro}
 Help about the Wiki Editor.
 {pageintro}
-
+{note:title=New in 2.1}
+With GWiki Version 2.1 The Rich Text Editor is the Main Editor. 
+{note}
 With tabs you can view the edited content in fowolling ways:
-- In the standard View the *Wiki* Syntax Editor. For the Wiki syntax itself please refer to [gwikidocs/help/de/WikiSyntax]
 - *Rich Text* Editor provides a _Rich What you see is what you get_ editor for the page.
+- In the standard View the *Wiki* Syntax Editor. For the Wiki syntax itself please refer to [gwikidocs/help/de/WikiSyntax]
 - The *Preview* tab shows a quick preview of the page currently edited.
-
+ 
+h2. Rich Text Editor
+The Wiki Rich Text Editor gives you a mostly _What you see is what you get_ Editor.
+!gwikidocs/help/en/elementtypes/WikiEditorRTScreenshot.png!
 h2. Wiki Syntax Editor
-!gwikidocs/help/en/elementtypes/WikiEditor1.png!
-
+!gwikidocs/help/en/elementtypes/SourceEditorView.png!
+  
 - !gwikidocs/help/en/elementtypes/WikiEditorSaveBtn.png! Saves page and closes the editor.
 - !gwikidocs/help/en/elementtypes/WikiEditorCloseBtn.png! Closes the Editor without saving the content.
 - !gwikidocs/help/en/elementtypes/WikiEditorFullscreenBtn.png! Switches the Editor to fullscreen. If it is fullscreen toggles back to embedded into the Wiki editor frame. If you closed the editor in fullscreen, the next time starting the editor will opened already in fullscreen mode.
 - !gwikidocs/help/en/elementtypes/WikiEditorH1Btn.png! Insert a H1 Heading into the current position of the Editor.
-- !gwikidocs/help/en/elementtypes/WikiEditorBoldBtn.png! Make the selected text in the Editor *Bold*.
-- !gwikidocs/help/en/elementtypes/WikiEditorItalicBtn.png! Make the selected text in the Editor _Italic_.
-- !gwikidocs/help/en/elementtypes/WikiEditorUnderlinedBtn.png! +Underline+ the selected text in the Editor.
+- !gwikidocs/help/en/elementtypes/WikiEditorBoldBtn.png! Make the selected text in the Editor {*}Bold{*}.
+- !gwikidocs/help/en/elementtypes/WikiEditorItalicBtn.png! Make the selected text in the Editor {_}Italic{_}.
+- !gwikidocs/help/en/elementtypes/WikiEditorUnderlinedBtn.png!+Underline+ the selected text in the Editor.
 - !gwikidocs/help/en/elementtypes/WikiEditorCodeblockBtn.png! Make the selected to a codeblock.
-- !gwikidocs/help/en/elementtypes/WikiEditorInsertLinkBtn.png! Inserts a Link into the current position in the Editor text to another page in the Wiki. \\
-If you start typing in the Link Dialog, it gives you suggestions of for target pages: \\
- !gwikidocs/help/en/elementtypes/WikiEditorInsertLinkDialog.png!
-- !gwikidocs/help/en/elementtypes/WikiEditorBtn.png! Inserts a Image Link into the current position in the Editor text.\\
-If you start typing in the Link Dialog, it gives you suggestions for images.\\
-!gwikidocs/help/en/elementtypes/WikiEditorImageDialog.png!
-- !gwikidocs/help/en/elementtypes/WikiEditorScreenshotBtn.png! Inserts a new Screenshot/Image into the current position in the Editor text. \\
- _*Use need to enable Java Applet in your Browser to make use of this.*_ \\
- !gwikidocs/help/en/elementtypes/WikiEditorInsertScreenshotDialog.png! \\
- If you put a screenshot into your system clipboard (using print key or other utilities), you can past the bitmap into the dialog. Type the file name of the new screenshot into the *File Name* field and choose the desired bitmap format. To insert the new screenshot click *OK* button.
-- !gwikidocs/help/en/elementtypes/WikiEditorAttachmentBtn.png! Inserts a Link to an existant Attachment into the current position in the Editor Text. \\
- If you start typing in the Link Dialog, it gives you suggestions for Attachments. \\
-!gwikidocs/help/en/elementtypes/WikiEditorAttachmentDialog.png!
+- !gwikidocs/help/en/elementtypes/WikiEditorInsertLinkBtn.png! Inserts a Link into the current position in the Editor text to another page in the Wiki.
+If you start typing in the Link Dialog, it gives you suggestions of for target pages:
+  
+- !gwikidocs/help/en/elementtypes/WikiEditorBtn.png! Inserts a Image Link into the current position in the Editor text.
+If you start typing in the Link Dialog, it gives you suggestions for images.
+  
+- !gwikidocs/help/en/elementtypes/WikiEditorAttachmentBtn.png! Inserts a Link to an existant Attachment into the current position in the Editor Text.
+If you start typing in the Link Dialog, it gives you suggestions for Attachments.
+  
 - !gwikidocs/help/en/elementtypes/WikiEditorBlueprintBtn.png! Insert a Text via Template.
 - !gwikidocs/help/en/elementtypes/WikiEditorHelpButton.png! Shows Wiki Syntax help.
-
-h2. Rich Text Editor
-
-The Wiki Rich Text Editor gives you a mostly _What you see is what you get_ Editor.
-
-!gwikidocs/help/en/elementtypes/WikiEditorRTScreenshot.png!
-
-{note}
-Currently the Rich Text Editor is in beta state. 
-{note}
-
 h2. Preview
 The Preview Tab shows the rendered page without the need to safe it. 
-Some dynamic elements, which needs to operate on a safed page, may not be displayed correctly, but most content will be rendered correctly. 
+ Some dynamic elements, which needs to operate on a safed page, may not be displayed correctly, but most content will be rendered correctly.

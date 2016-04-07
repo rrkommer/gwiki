@@ -23,6 +23,7 @@ h2. Macro Autocomplete
 {tr}{tr}
 {td:class=gwikitd}{noformat}
 h1. Text<NewLine>
+
 {noformat}{td}{td:class=gwikitd}Format the line as h1\-h6  {td}
 {tr}{tr}
 {td:class=gwikitd}\_Text\_<space>{td}{td:class=gwikitd}Text Italic{td}
@@ -30,5 +31,9 @@ h1. Text<NewLine>
 {td:class=gwikitd}\*Text\*<space>{td}{td:class=gwikitd}Text Bold{td}
 {tr}{tr}
 {td:class=gwikitd}\{\{Text\}\}<space>{td}{td:class=gwikitd}Text code{td}
+{tr}{tr}
+{td:class=gwikitd}\# Text<NewLine>{td}{td:class=gwikitd}Create a numbered List{td}
+{tr}{tr}
+{td:class=gwikitd}\- Text<NewLine>{td}{td:class=gwikitd}Create a Bullet List{td}
 {tr}
 {table}

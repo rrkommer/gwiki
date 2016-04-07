@@ -6,15 +6,19 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiFragmentSmiley;
-import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiSmileyContentIterator;
+import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiSmileyConfig;
 import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiSmileyInfo;
 
 public class RteSmileyDomElementListener implements DomElementListener
 {
+  GWikiSmileyConfig smileyConfig = null;
 
   @Override
   public boolean listen(DomElementEvent event)
   {
+    if (smileyConfig == null) {
+      smileyConfig = GWikiSmileyConfig.get(event.getWikiContext());
+    }
     String smilyId = event.getAttr("data-wiki-smiley");
     if (StringUtils.isBlank(smilyId) == true) {
       return true;
@@ -22,7 +26,7 @@ public class RteSmileyDomElementListener implements DomElementListener
     GWikiWikiParserContext parseContext = event.getParseContext();
     parseContext.flushText();
     event.walker.skipChildren();
-    GWikiSmileyInfo smi = GWikiSmileyContentIterator.smileAliase.get(smilyId);
+    GWikiSmileyInfo smi = smileyConfig.getSmileysByName().get(smilyId);
     if (smi != null) {
       parseContext.addFragment(new GWikiFragmentSmiley(smi));
     }

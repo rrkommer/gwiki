@@ -22,6 +22,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.WeditWikiUtils;
+import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiSmileyConfig;
+import de.micromata.genome.gwiki.page.impl.wiki.smileys.GWikiSmileyInfo;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
@@ -392,10 +394,17 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
     return noForward();
   }
 
-  public Object getSmileys()
+  public Object onGetSmileys()
   {
     JsonArray ret = new JsonArray();
-
+    GWikiSmileyConfig config = GWikiSmileyConfig.get(wikiContext);
+    for (GWikiSmileyInfo info : config.getSmileysByName().values()) {
+      JsonObject jm = new JsonObject();
+      jm.add("shortName", info.getShortName());
+      jm.add("shortCut", info.getShortCut());
+      jm.add("source", info.getSource());
+      ret.add(jm);
+    }
     return sendResponse(ret);
 
   }

@@ -1,33 +1,27 @@
 package de.micromata.genome.gwiki.page.impl.wiki.smileys;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections15.ArrayStack;
-import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentText;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 
 public class GWikiSmileyContentIterator implements GWikiFragmentVisitor
 {
-  public static final Map<String, GWikiSmileyInfo> smileAliase = new HashMap<>();
 
-  public static void registerSmiley(GWikiSmileyInfo smi)
-  {
-    if (StringUtils.isNotBlank(smi.getShortCut()) == true) {
-      smileAliase.put(smi.getShortCut(), smi);
-    }
-    smileAliase.put(smi.getShortName(), smi);
-  }
-
-  static {
-    registerSmiley(new GWikiSmileyInfo(";)", "wink", "static/tinymce/plugins/emoticons/img/smiley-wink.gif"));
-  }
   private ArrayStack<GWikiFragment> stack = new ArrayStack<GWikiFragment>();
+  private GWikiContext wikiContext;
+  private GWikiSmileyConfig smileyConfig;
+
+  public GWikiSmileyContentIterator(GWikiContext ctx)
+  {
+    wikiContext = ctx;
+    smileyConfig = GWikiSmileyConfig.get(ctx);
+  }
 
   @Override
   public void begin(GWikiFragment fragment, GWikiFragment parent)
@@ -77,7 +71,7 @@ public class GWikiSmileyContentIterator implements GWikiFragmentVisitor
             nfrags.add(new GWikiFragmentText(text.substring(startIdx, i)));
           }
           //          nfrags.add(new GWikiFragmentText("?" + text.substring(i + 1, endIdx) + "?"));
-          GWikiSmileyInfo smi = smileAliase.get(text.substring(i + 1, endIdx));
+          GWikiSmileyInfo smi = smileyConfig.getSmileys().get(text.substring(i + 1, endIdx));
           nfrags.add(new GWikiFragmentSmiley(smi));
           smileyFound = true;
           startIdx = i = endIdx + 1;
@@ -114,7 +108,7 @@ public class GWikiSmileyContentIterator implements GWikiFragmentVisitor
       char c = text.charAt(i);
       if (c == ')') {
         String smtxt = text.substring(startIdx, i);
-        if (smileAliase.containsKey(smtxt) == true) {
+        if (smileyConfig.getSmileys().containsKey(smtxt) == true) {
           return i;
         }
       } else if (Character.isWhitespace(c) == true) {
