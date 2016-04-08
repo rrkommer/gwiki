@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -36,6 +35,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiTextContentArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.utils.PropUtils;
+import de.micromata.genome.util.collections.OrderedProperties;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
@@ -75,37 +75,39 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
 
   private GWikiElement createNewElement()
   {
-    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, ChangeNotificationsPageId, METATEMPLATEID, "Change notfications");
+    GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, ChangeNotificationsPageId, METATEMPLATEID,
+        "Change notfications");
     return el;
   }
 
-  public static Properties getNotificationEmails(GWikiContext wikiContext)
+  public static Map<String, String> getNotificationEmails(GWikiContext wikiContext)
   {
     GWikiElement el = wikiContext.getWikiWeb().findElement(ChangeNotificationsPageId);
     if (el == null) {
-      return new Properties();
+      return new HashMap<>();
     }
     return propertiesFromChangeNotfications(el);
   }
 
-  public static Properties propertiesFromChangeNotfications(GWikiElement el)
+  public static OrderedProperties propertiesFromChangeNotfications(GWikiElement el)
   {
     GWikiTextContentArtefakt art = (GWikiTextContentArtefakt) el.getMainPart();
     String alltext = art.getStorageData();
-    Properties props = PropUtils.toProperties(alltext);
+    OrderedProperties props = PropUtils.toProperties(alltext);
     return props;
   }
 
   public static Map<String, Boolean> getNotificationEmailsForPage(GWikiContext wikiContext, String pageId)
   {
-    Properties props = getNotificationEmails(wikiContext);
+    Map<String, String> props = getNotificationEmails(wikiContext);
 
     return getNotificationEmailsForPage(wikiContext, pageId, props);
   }
 
-  public static Map<String, Boolean> getNotificationEmailsForPage(GWikiContext wikiContext, String pageId, Properties props)
+  public static Map<String, Boolean> getNotificationEmailsForPage(GWikiContext wikiContext, String pageId,
+      Map<String, String> props)
   {
-    String text = props.getProperty(pageId);
+    String text = props.get(pageId);
     if (StringUtils.isEmpty(text) == true) {
       return new HashMap<String, Boolean>();
     }
@@ -135,10 +137,11 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
    * @return PageId -> Title, Recursive
    */
   @SuppressWarnings("unchecked")
-  public static Map<String, Pair<String, Boolean>> getNotificationPagesForEmail(GWikiContext wikiContext, Properties props, String email)
+  public static Map<String, Pair<String, Boolean>> getNotificationPagesForEmail(GWikiContext wikiContext,
+      Map<String, String> props, String email)
   {
     Map<String, Pair<String, Boolean>> ret = new TreeMap<String, Pair<String, Boolean>>();
-    Map<String, String> m = (Map<String, String>) (Map< ? , ? >) props;
+    Map<String, String> m = (Map<String, String>) (Map<?, ?>) props;
     for (Map.Entry<String, String> me : m.entrySet()) {
       SortedMap<String, Boolean> pm = parseNotLine(me.getValue());
       if (pm.containsKey(email) == false) {
@@ -162,9 +165,9 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
       el = createNewElement();
     }
 
-    Properties props = propertiesFromChangeNotfications(el);
+    Map<String, String> props = propertiesFromChangeNotfications(el);
 
-    String text = props.getProperty(pageId);
+    String text = props.get(pageId);
     if (text == null) {
       text = "";
     }
@@ -188,7 +191,7 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
     initFromProps(props);
   }
 
-  protected void initFromProps(Properties props)
+  protected void initFromProps(Map<String, String> props)
   {
     registerdNotifications = getNotificationPagesForEmail(wikiContext, props, userName);
     users = getNotificationEmailsForPage(wikiContext, pageId, props);
@@ -200,18 +203,21 @@ public class GWikiChangeNotificationActionBean extends ActionBeanBase
   {
     userName = wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext);
     if (StringUtils.isBlank(pageId) == true) {
-      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.nopage"));
+      wikiContext
+          .addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.nopage"));
       return false;
     }
     if (StringUtils.isBlank(userName) == true) {
-      wikiContext.addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.noemail"));
+      wikiContext
+          .addSimpleValidationError(wikiContext.getTranslated("gwiki.page.edit.ChangeNotification.error.noemail"));
       return false;
     }
-    Properties props = getNotificationEmails(wikiContext);
+    Map<String, String> props = getNotificationEmails(wikiContext);
     initFromProps(props);
     return true;
   }
 
+  @Override
   public Object onInit()
   {
     if (init() == false) {

@@ -21,7 +21,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.filter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -52,7 +51,7 @@ public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiScheduler
       GWikiLog.warn("ChangeNotfication, pageId not found; " + id);
       return;
     }
-    Properties props = GWikiChangeNotificationActionBean.getNotificationEmails(wikiContext);
+    Map<String, String> props = GWikiChangeNotificationActionBean.getNotificationEmails(wikiContext);
     Set<String> userNames = new HashSet<String>();
     GWikiChangeNotificationFilter.findUser(wikiContext, props, ei, false, userNames);
     if (userNames.isEmpty() == true) {

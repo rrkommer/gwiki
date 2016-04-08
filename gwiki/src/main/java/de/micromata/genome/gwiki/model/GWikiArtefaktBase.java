@@ -36,7 +36,7 @@ public abstract class GWikiArtefaktBase<T extends Serializable> implements GWiki
 {
   private static final long serialVersionUID = 4441119106931189866L;
 
-  protected Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+  protected Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
 
   /**
    * compiled object. should be always reconstructed by storage data.
@@ -47,12 +47,14 @@ public abstract class GWikiArtefaktBase<T extends Serializable> implements GWiki
 
   public void prepareHeader(GWikiContext wikiContext)
   {
-    
+    wikiContext.getRequiredJs().add("/static/gwiki/gwikijqdialog.js");
   }
 
   public boolean render(final GWikiContext ctx)
   {
-    return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>() {
+    return ctx.runWithParts(parts, new CallableX<Boolean, RuntimeException>()
+    {
+      @Override
       public Boolean call()
       {
         return renderWithParts(ctx);
@@ -60,42 +62,47 @@ public abstract class GWikiArtefaktBase<T extends Serializable> implements GWiki
     });
   }
 
-  public void collectArtefakts(List<GWikiArtefakt< ? >> al)
+  public void collectArtefakts(List<GWikiArtefakt<?>> al)
   {
     al.add(this);
-    if (parts == null || parts.isEmpty() == true)
+    if (parts == null || parts.isEmpty() == true) {
       return;
-    for (GWikiArtefakt< ? > a : parts.values()) {
+    }
+    for (GWikiArtefakt<?> a : parts.values()) {
       al.add(a);
     }
   }
 
-  public void collectParts(Map<String, GWikiArtefakt< ? >> map)
+  @Override
+  public void collectParts(Map<String, GWikiArtefakt<?>> map)
   {
-    if (parts == null || parts.isEmpty() == true)
+    if (parts == null || parts.isEmpty() == true) {
       return;
+    }
     map.putAll(parts);
-    for (GWikiArtefakt< ? > a : parts.values()) {
+    for (GWikiArtefakt<?> a : parts.values()) {
       a.collectParts(map);
     }
   }
 
+  @Override
   public T getCompiledObject()
   {
     return compiledObject;
   }
 
+  @Override
   public void setCompiledObject(T compiledObject)
   {
     this.compiledObject = compiledObject;
   }
 
-  public Map<String, GWikiArtefakt< ? >> getParts()
+  public Map<String, GWikiArtefakt<?>> getParts()
   {
     return parts;
   }
 
-  public void setParts(Map<String, GWikiArtefakt< ? >> parts)
+  public void setParts(Map<String, GWikiArtefakt<?>> parts)
   {
     this.parts = parts;
   }

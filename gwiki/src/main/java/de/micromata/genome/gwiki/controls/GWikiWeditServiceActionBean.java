@@ -398,7 +398,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
   {
     JsonArray ret = new JsonArray();
     GWikiSmileyConfig config = GWikiSmileyConfig.get(wikiContext);
-    for (GWikiSmileyInfo info : config.getSmileysByName().values()) {
+    List<GWikiSmileyInfo> smlist = config.getSmileyList();
+    for (GWikiSmileyInfo info : smlist) {
       JsonObject jm = new JsonObject();
       jm.add("shortName", info.getShortName());
       jm.add("shortCut", info.getShortCut());

@@ -21,7 +21,6 @@ package de.micromata.genome.gwiki.page.impl.wiki.filter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
@@ -39,7 +38,8 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 public class GWikiChangeNotificationFilter implements GWikiStorageStoreElementFilter
 {
 
-  public static void findUser(GWikiContext wikiContext, Properties props, GWikiElementInfo ei, boolean recursiveOnly,
+  public static void findUser(GWikiContext wikiContext, Map<String, String> props, GWikiElementInfo ei,
+      boolean recursiveOnly,
       Set<String> ret)
   {
     Map<String, Boolean> m = GWikiChangeNotificationActionBean.getNotificationEmailsForPage(wikiContext, ei.getId(),
@@ -68,7 +68,7 @@ public class GWikiChangeNotificationFilter implements GWikiStorageStoreElementFi
     }
     GWikiElementInfo ei = event.getElement().getElementInfo();
     String id = ei.getId();
-    Properties props = GWikiChangeNotificationActionBean.getNotificationEmails(wikiContext);
+    Map<String, String> props = GWikiChangeNotificationActionBean.getNotificationEmails(wikiContext);
     Set<String> userNames = new HashSet<String>();
     findUser(event.getWikiContext(), props, ei, false, userNames);
     if (userNames.isEmpty() == true) {
