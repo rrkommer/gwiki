@@ -78,7 +78,7 @@ public class WeditWikiUtilsTest
   public void testTable()
   {
     String html = "<table class=\"gwikiTable\"><tr><td class=\"gwikitd\"><table class=\"gwikiTable\"><tr><td class=\"gwikitd\">x</td></tr></table></td></tr></table>";
-    String wiki = "{table}\n{tr}\n{td}|x|\n{td}\n{tr}\n{table}";
+    String wiki = "{table:class=gwikiTable}\n{tr}\n{td:class=gwikitd}|x|\n{td}\n{tr}\n{table}";
     testConvert(html, wiki);
   }
 
