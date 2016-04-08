@@ -2,7 +2,7 @@
 The GWikiConfig is to configure global settings for the GWiki instance.
 {pageintro}
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 GWikiConfig
 {legend}
  
@@ -114,7 +114,7 @@ h2. GWiki Element Factories
 
   
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 CommentConfig
 {legend}
  
@@ -142,7 +142,7 @@ h2. Show comments by default
 
   
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 AuthConfig
 {legend}
  
@@ -167,7 +167,7 @@ If user can log in, user will receive an email with generated password.
 
   
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 LogConfig
 {legend}
  
@@ -219,7 +219,7 @@ If neither anon, nor registered comments are allowed, only GWiki loged in user c
 
   
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 UserRolesConfig
 {legend}
 
@@ -319,7 +319,7 @@ From Java Doc:
 {fieldset}
  
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 MimeTypeConfig
 {legend}
 
@@ -357,7 +357,7 @@ TextIndex.txt=text/gwikitextindex
 {fieldset}
  
 {fieldset:class=gwikiExpandableFieldSet}
-{legend:onclick=$(this).next(}
+{legend:onclick=$(this).next('div').toggle();}
 SmileysConfig
 {legend}
  

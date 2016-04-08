@@ -1,0 +1,10 @@
+{pageintro}
+The standard way to start an GWiki is using the gwikilauncher. By default gwikilauncher starts an GUI Window. On Server enviromnents this is not usable.
+{pageintro}
+The solution is quite simple:
+ Start gwiki with the \-nogui option:
+{code:lang=markup}
+java -jar gwikilauncher-2.1.0-SNAPSHOT.jar -nogui
+{code}
+
+  

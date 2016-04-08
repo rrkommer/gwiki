@@ -1,86 +1,28 @@
 {pageintro}
 How to store the GWiki files in a database instead of local file system.
 {pageintro}
-
-{pageattachments}
-
-{note}
+{pageattachments}{note}
 Currently only Oracle is supported.
-The database layer to the gwiki virtual file system is not very complex, so it should quite simple to create interfaces to other databases.
+ The database layer to the gwiki virtual file system is not very complex, so it should quite simple to create interfaces to other databases.
 {note}
-
+ 
 h2. Introduction
 The standard implementation to store GWiki files is a combination of GWiki files embeded in the Gwiki Jar and 
-local file system.
-The advantage of storing the files on the local file system is, that you are able to modify the files not only via the
-GWiki GUI, but also directly via text editor.
-You can also directly manage your GWiki files with a version control system like CVS or SVN. 
-
-The disadvantage of this solution, you cannot use it in a clustered environment. 
-On some hosting systems you are also not allowed to access local directories.
-
-
-h2. Create database schema
-Please look at the attachments on this page for the sql scripts to create database schema for the gwiki.
-The scripts has no asumptions about database users or table spaces. It is up to you to execute the sql scripts
-with the database user you want to use. 
-
-h2. Create modify the GWikiContext.xml
-To make usage of the database virtual file system you have to create/modify the GWikiContext.xml used by your GWiki instance.
-
-{code:lang=xml}
-      <bean id="jndiLongnames" class="java.lang.Boolean">
-		<constructor-arg value="true" /> <!-- depends on application server -->
-	</bean>
-       <!-- import data source from jndi -->
-	<bean id="dsGWiki" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="resourceRef" ref="jndiLongnames" />
-		<property name="jndiName">
-			<value>pop/jdbc/gwikiDs</value>
-		</property>
-	</bean>
-        <!-- define virtual file system in db -->
-        <bean id="primaryFs" class="de.micromata.genome.gdbfs.db.DbFileSystemImpl">
-		<property name="dbTarget">
-			<bean class="de.micromata.genome.gdbfs.db.DbTarget">
-				<property name="dbDialectName" value="Oracle10" />
-				<property name="dataSource">
-					<ref bean="dsGWiki" />
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-        <bean id="GWikiBootstrapConfig" class="de.micromata.genome.gwiki.model.config.GWikiDAOContext">
-
-		<!--  DB -->
-		<property name="storage">
-			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
-				<constructor-arg>
-					<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
-						<constructor-arg>
-							<ref bean="primaryFs" />
-						</constructor-arg>
-						<constructor-arg>
-							<bean class="de.micromata.genome.gdbfs.ReadWriteCombinedFileSystem">
-								<constructor-arg>
-									<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
-										<constructor-arg>
-											<value>GWikiPopContent.zip</value>
-										</constructor-arg>
-									</bean>
-								</constructor-arg>
-								<constructor-arg>
-									<bean class="de.micromata.genome.gdbfs.CpZipRamFileSystem">
-										<constructor-arg>
-											<value>GWikiContent.zip</value>
-										</constructor-arg>
-									</bean>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</constructor-arg>
-			</bean>
-		</property>
-{code}
+ local file system.
+ The advantage of storing the files on the local file system is, that you are able to modify the files not only via the
+ GWiki GUI, but also directly via text editor.
+ You can also directly manage your GWiki files with a version control system like CVS or SVN.
+ The disadvantage of this solution, you cannot use it in a clustered environment. 
+ On some hosting systems you are also not allowed to access local directories.
+h2. Setting up
+It is very easy to setup Database with the gwikilauncher
+!gwikidocs/howtos/en/GWikiLauncherConfigWikiFSDB.png!
+h2. Using other databases
+If you miss your Database driver in the dropdown, put the driver jar file into the libs subdirectory of your working directory.
+Currently supported are:
+* Derby Embedded
+* Derby In Memory
+* Postgres
+* Oracle
+If you miss your database, please open a ticket in GWikis Jira.
+ 

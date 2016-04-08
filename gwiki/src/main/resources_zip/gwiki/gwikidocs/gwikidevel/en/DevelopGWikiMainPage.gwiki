@@ -1,72 +1,39 @@
 {pageintro}
 How to develop gwiki itself.
 {pageintro}
-
-
+ 
 h2. Requirements
-- JDK 1.6 or higher
-- Ecplipse (recomended)
-- SVN
-- Maven 2
-
+- JDK 1.8 or higher
+- Git
+- Maven
+- VI or notpad (;)). Seriously an IDE like Eclipse or InteliJ  is recommended.
+ 
 h2. Checkout projects
-To develop GWiki you have to checkout the gwiki projects:
+To develop GWiki you have to checkout the gwiki repository:
 {note}
 Please refer to [pub/en/Downloads] to look after source repository.
 {note}
-
-- gwiki-parent\\
-  The parent pom
-- gwiki-genome-dependencies\\
-   As alternative you can also use genome-core. In this case you have ajust the dependencies in following projects.
-- gwiki-gdbfs \\
-  Virtual File System for Wiki storage.
-- gwiki\\
-  The GWiki code.
-- gwiki-webapp\\
-  If you want run GWiki as WAR in a web container (tomcat)\\
-  or
-- gwiki-standalone\\
-  If you want to run GWiki as standandalone
-
+h2. Build the project
+mvn install should do the job.
+ 
 h2. Configuration
-
 Developing GWiki itself containing not only java source, but also GWiki Elements.
-The files can be found inside the gwiki project:
-- {{src/main/resources_zip}}: The core GWiki pages.
-- {{src/main/external_resources/GWikiContext.xml}}: A spring context file, which setup internal interfaces and storage.
-- {{src/main/external_resources/gwiki_dev}}: Elements/Pages used for development not included in the release distribution.\\
-  You may use this to create developer account used when editing GWiki Elements via GWiki itself.
-- {{src/main/resources/static}}: Static content for GWiki like Javascripts and images.\\
-   These files cannot be modified via GWiki itself.
-
-
-
-h3. Setting up WTP (Web Tools Platform) environment
-In the gwiki-webapp you have to ajust the {{gwiki-webapp/src/main/webapp/META-INF/context.xml}}.
-
-{code}
-<Context reloadable="false" debug="0" cookies="true" >
-	<Parameter name="gwiki.dev.path" value="C:/Users/roger/d/dhl/gwiki/gwiki" />
-</Context>
-{code}
-Let the value point to your path, where gwiki project is checked out.
-
-Start the the web project with the eclipse WTP.
-
-
-h3. Setting up Jetty standalone environment
-To start GWiki with Jetty you have to run/Debug the {{GWikiJettyStarter}} Java class.
-In your debug environment you have to define two variables:
-- {{-Dde.micromata.genome.gwiki.contextfile=src/main/resources/GWikiContext.xml}}.
-- {{-Dgwiki.dev.path=../gwiki}}: Point to the project path, where the gwiki project is checked out.
-
+ The files can be found inside the gwiki project:
+- src/main/resources\_zip: The core GWiki pages.
+- src/main/external\_resources/gwiki\_dev: Elements/Pages used for development not included in the release distribution.
+- You may use this to create developer account used when editing GWiki Elements via GWiki itself.
+- src/main/resources/static: Static content for GWiki like Javascripts and images.
+ These files cannot be modified via GWiki itself.
+ 
+h3.  
+h3. Debugging
+You can start the gwikilauncher  by the class de.micromata.genome.gwiki.launcher.GWikiLauncherMain,
+Use the wiki directory to src/main/resources\_zip.
+ 
 h2. Releases
 h3. Patch Versions
 Unfortunatelly in all project files, you have to modify version numbers.
-The gwiki version numbers are tagged inside the gwiki pom.xml via GWIKIVERSION like:
-
-{code}
+ The gwiki version numbers are tagged inside the gwiki pom.xml via GWIKIVERSION like:
+{code:lang=java}
 <version>1.0.1-SNAPSHOT</version><!-- GWIKVERSION -->
 {code}
-
