@@ -1,14 +1,7 @@
+ 
 {pageintro}
-With an {{access.log}} you can use third party Web usage analyzer to create statistics about the visits to your site.
+With an access.log you can use third party Web usage analyzer to create statistics about the visits to your site.
 {pageintro}
-
-To enable writing access logs with the GWiki Standalone (Jetty) installation, you can add
-{{gwiki.jetty.logs=./logs}} in the gwiki.properties or pass this property as system Property to the Java VM.
-The value of this property has to be an existant (and writable) directory. 
-The logs are named 
-{{jetty-2012_12_24.request.log}}
-where {{2012_12_24}} is the date.
-
-If the value for {{gwiki.jetty.logs}} is empty or not defined, no logs are written.
-
-You can use common web analyzer tools - like AWStats or Webalizer - to parse this files to create statistics about visits of your GWiki site.
+Use the gwikilauncher to setup Launcher Dialog:
+!gwikidocs/howtos/en/GWikiLauncherDialogJetty.png!
+ 

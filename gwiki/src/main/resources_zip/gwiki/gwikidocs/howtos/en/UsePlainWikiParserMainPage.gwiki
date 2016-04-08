@@ -1,19 +1,18 @@
 {pageintro}
 If you just want have a parser, which translates Wiki to HTML.
 {pageintro}
-
 h2. Wiki2HTML
-
-See this code example {{wiki2html}} how to use the GWiki just to translate Wiki to HTML.
-
+See this code example wiki2html how to use the GWiki just to translate Wiki to HTML.
+{code:lang=java}
+String html = WikiParserUtils.wiki2html(wikiText);
 {code}
-  String html = WikiParserUtils.wiki2html(wikiText);
-{code}
-
-
+ 
 h2. HTML2Wiki
 To parse HTML back to Wiki you can following method:
-{code}
+{code:lang=java}
 String wiki = WikiParserUtils.html2wiki(html);
 {code}
-
+ 
+h2. Limitations
+Because Macros are written and configured in GWiki, this java calls doesn't support Macros.
+ 
