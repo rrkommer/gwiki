@@ -20,10 +20,21 @@ public class WikiParsePlayzoneTest extends GWikiWikiParserTestBase
     System.out.println("W2H: " + wiki + "\nHTML:\n" + genHtml);
   }
 
-  @Test
+  //  @Test
   public void testParseDivs()
   {
     String wiki = "h2. Title\n{div}\nFirst\nSecond{div}";
+    String genHtml = wiki2html(wiki, macroFactories);
+    System.out.println("W2H: " + wiki + "\nHTML:\n" + genHtml);
+    parseDumpWiki(wiki, macroFactories);
+  }
+
+  @Test
+  public void testParseOnClick()
+  {
+    String wiki = "{fieldset:class=gwikiExpandableFieldSet}\r\n" +
+        "{legend:onclick=$(this).next('div').toggle();}X{legend}Y{fieldset}";
+
     String genHtml = wiki2html(wiki, macroFactories);
     System.out.println("W2H: " + wiki + "\nHTML:\n" + genHtml);
     parseDumpWiki(wiki, macroFactories);

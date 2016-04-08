@@ -1,68 +1,47 @@
 {pageintro}
 How to install GWiki.
-
 {pageintro}
-h2. Installation of GWiki Standalone
-GWiki provides a standalone desktop installation with nearly zero configuration effort.
-
-After downloading the wiki standalone distribution, unzip the archive in a new directory.
-
-{info:title=Mac OS X}
-On a Mac OS X environment, ensure not to unpack archive on a network directory, because mounted file systems on Mac doesn't support locking operations.
-
-{info}
-Inside a shell / command line window, go to unpacked archive directory and type
- gwikiweb.cmd resp. 
- gwikiweb.sh
- .
-
-The shell script assumes, that a Java JRE 8 or higher can be located in the path environment.
-
-Please use an up\-to\-date Java version. You can download Java from: [http://java.sun.com/javase/downloads/widget/jdk6.jsp|http://java.sun.com/javase/downloads/widget/jdk6.jsp].
-
-If java cannot be found or the java in the java in the path has wrong java version, please modify the script for your needs.
-
-h2. First time start
-The first time you start GWiki Standalone version, you will be asked to give some information about your installation.
-
-- HTTP Port: The port the HTTP Server listen.
-- Context Path: Base path GWiki should served. This is the first part of the URL behind the domain and port.
-- Public Url: The URL Gwiki is reached
-- Public Sender Email: The email used as sender, if GWiki itself send emails.
-- Where to store gwiki files. For standard Desktop GWiki installation, doesn't change this value, because some standard GWiki files are already provided on given path.
-- System user\\
- A system user give you initial access to gwiki, if no user are in the user database.\\
- Password will be stored as hash value.
-- Enable User for WebDAV Access
-- Email server: If GWiki should send emails to user configure email SMPT server and port.
-These settings are stored in the file {{gwiki.properties}}, which can also modified later with a text editor.
-
-First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
-
+ 
+h2. Introduction
+With GWiki 2.1 a new Standalone Client was developed, which provides a GUI to configure GWiki base infrastructure.
+  
+h2. Prerequisits
+You need to install the most recent version of Java 8 on your System. Older versions of Java are not supported.
+  
+h2. Installation of GWiki Launcher
+After downloading the gwikilauncher jar double click onto the jar to start the Lauchner.
+ Alternativelly you can start the Launcher by command line:
+{{java \-jar gwikilauncher\-1.2.0.jar }}
+  
+{note}
+The version number may be different. 
+{note}
+ 
+ These settings are stored in the file gwiki.properties, which can also modified later with a text editor.
+ First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
+{todo}
+Continue 
+{todo}
+ 
+h2. Installation GWiki on an server environment
+On an server environment \- where you have no display \- you can start wiki with {{java \-jar gwikilauncher\-1.2.0.jar \-nogui}}.
+ The first start will terminate immediately. You will see error messages in the logs sub directory {{(log/GWiki.log).}}
+ The first start has created an gwiki.properties file.
 h2. Starting
 After starting GWiki open a browser with following URL:
-
-http://localhost:8081/index
-
-The standalone version provides following users:
-
+ http://localhost:8081/index
+ The standalone version provides following users:
 - gwikisu
 - gwikieditor
 - gwikiview.
 All users has the password
  gwiki.
-
- 
-
+  
 {warn:title=Security}
 Before using GWiki with these default users on a server reachable via internet, change the passwords.
-
 {warn}
 See also:
-
-- [gwikidocs/howtos/en/GWiki_Jetty_with_HTTPS|gwikidocs/howtos/en/GWiki_Jetty_with_HTTPS]
+- [gwikidocs/howtos/en/GWiki_Jetty_with_HTTPS]
  
-
 h2. Install GWiki as WAR archive in Java Servlet container
-Please refer to [gwikidocs/howtos/en/UseGwikiWARarchive|gwikidocs/howtos/en/UseGwikiWARarchive].
-
+Please refer to [gwikidocs/howtos/en/UseGwikiWARarchive].
