@@ -125,7 +125,7 @@
 			  });
 			  ed.addShortcut('Alt+C', 'Alt+C', 'codesample');
 			  ed.addShortcut('Ctrl+Shift+X', 'Ctrl+Shift+X', 'removeformat');
-			  ed.addShortcut('Ctrl+Shift+C', 'Ctrl+Shift+C', 'code');
+			  ed.addShortcut('Ctrl+Shift+C', 'Ctrl+Shift+C,', ['mceToggleFormat', false, 'code']);
 			  ed.addShortcut('Ctrl+Shift+I', 'Ctrl+Shift+I', 'italic');
 			  ed.addShortcut('Ctrl+Shift+B', 'Ctrl+Shift+B', 'bold');
 			  ed.addShortcut('Ctrl+Shift+U', 'Ctrl+Shift+U', 'underline');
