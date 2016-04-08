@@ -13,6 +13,7 @@ import org.w3c.dom.Text;
 
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteBrDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteCodeDomElementListener;
+import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteCodeFormatDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteHeadingStyleDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteImageDomElementListener;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.els.RteLiDomentElementListener;
@@ -40,6 +41,7 @@ public class RteDomVisitor implements DomVisitor
     registerListener("P", new RtePDomElementListener());
     registerListener("SPAN", new RteSpanDomElementListener());
     registerListener("PRE", new RteCodeDomElementListener());
+    registerListener("CODE", new RteCodeFormatDomElementListener());
     registerListener("SPAN", new RteMacroDomElementListener());
     registerListener("DIV", new RteMacroDomElementListener());
     RteListDomElementListener listDomListener = new RteListDomElementListener();

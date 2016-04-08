@@ -8,15 +8,17 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParserContext;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementEvent;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.DomElementListener;
 
+/**
+ * 
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ *
+ */
 public class RteCodeDomElementListener implements DomElementListener
 {
 
   @Override
   public boolean listen(DomElementEvent event)
   {
-    if (event.containsInStyleClass("language-") == false) {
-      return true;
-    }
     GWikiWikiParserContext parseContext = event.getParseContext();
     parseContext.flushText();
     String cls = event.getStyleClass();
