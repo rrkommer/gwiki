@@ -73,7 +73,7 @@ public class GWikiWikiParserUtils
             if (startRepl == -1) {
               continue;
             } else {
-              nchildList.add(new GWikiFragmentP(childs.subList(startRepl, i)));
+              nchildList.add(new GWikiFragmentP(new ArrayList<>(childs.subList(startRepl, i))));
               startRepl = -1;
               nchildList.add(cf);
             }
@@ -84,7 +84,7 @@ public class GWikiWikiParserUtils
           }
         }
         if (startRepl != -1) {
-          List<GWikiFragment> slist = childs.subList(startRepl, childs.size());
+          List<GWikiFragment> slist = new ArrayList<>(childs.subList(startRepl, childs.size()));
           nchildList.add(new GWikiFragmentP(slist));
         }
         nest.setChilds(nchildList);

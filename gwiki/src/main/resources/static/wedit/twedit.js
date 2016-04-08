@@ -161,7 +161,7 @@ function twedit_create(editId, newPage) {
 	      plugins : [
 	          'gwiki  lists', // tweditac
 	          ' imagetools smileys ',
-	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker codesample',
+	          'visualblocks noneditable paste textpattern fullscreen searchreplace contextmenu table textcolor colorpicker code codesample',
 	          'hr anchor charmap' ], //
 	      paste_data_images : true,
 	      menu : false, // twedit_tinyMenu,
