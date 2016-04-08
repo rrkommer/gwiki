@@ -21,10 +21,8 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRte;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlBodyTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHtmlTagMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.rte.RteHtmlParser;
-import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformer;
-import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
 
 /**
  * Utilities to convert from edit control to/from wiki
@@ -126,15 +124,6 @@ public class WeditWikiUtils
   public static String rteToWiki(GWikiContext wikiContext, String htmlCode)
   {
     String ttext = RteHtmlParser.convert(wikiContext, htmlCode);
-    if (true) {
-      return ttext;
-    }
-    Html2WikiFilter filter = new Rte2WikiFilter(wikiContext);
-
-    filter.setSupportedHtmlTags(getHtmlTagMacros(wikiContext));
-    filter.setMacroTransformer(collectHtml2WikiTransformers(wikiContext));
-    String ret = filter.transform(htmlCode);
-    LOG.info("RteToWik: \n" + htmlCode + "\nWIKI:\n" + ret);
-    return ret;
+    return ttext;
   }
 }

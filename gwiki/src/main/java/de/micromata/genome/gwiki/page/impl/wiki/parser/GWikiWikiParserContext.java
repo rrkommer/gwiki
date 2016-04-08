@@ -37,7 +37,6 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentTextDeco;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiMacroUnknown;
 import de.micromata.genome.gwiki.utils.StringUtils;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
-import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
 
 /**
  * State hold by the gwiki parser.
@@ -47,7 +46,7 @@ import de.micromata.genome.gwiki.utils.html.Rte2WikiFilter;
  */
 public class GWikiWikiParserContext
 {
-  private static final Logger LOG = Logger.getLogger(Rte2WikiFilter.class);
+  private static final Logger LOG = Logger.getLogger(GWikiWikiParserContext.class);
   private List<List<GWikiFragment>> frags = new ArrayList<List<GWikiFragment>>();
 
   /**
