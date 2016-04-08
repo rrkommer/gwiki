@@ -58,9 +58,9 @@ public abstract class GWikiFragmentChildsBase extends GWikiFragmentBase implemen
   {
     visitor.begin(this, parent);
     List<GWikiFragment> lchilds = getChilds();
-    for (int i = 0; i < lchilds.size(); ++i) {
-      if (lchilds.size() > i && lchilds.get(i) != null) {
-        lchilds.get(i).iterate(visitor, this);
+    for (int i = 0; i < getChilds().size(); ++i) {
+      if (getChilds().size() > i && getChilds().get(i) != null) {
+        getChilds().get(i).iterate(visitor, this);
       }
     }
     visitor.end(this, parent);
