@@ -24,6 +24,8 @@ function WikiLinkItem(linktype) {
 	this.thumbnail = null;
 }
 
+
+
 function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	var modc = $("#editDialogBox");
 	var dlghtml = '';
@@ -121,30 +123,28 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	    + "; vertical-align: top; padding: 5px;'>" + "<div id='gweditdlgpreview'></div>" + "</div></div>";
 	modc.html(dlghtml);
 
-	var buttons = {};
-	buttons["gwiki.common.cancel".i18n()] = function() {
-		$(dialog).dialog('close');
-		parentWindow.focus();
-	}
-	buttons["gwiki.common.ok".i18n()] = function() {
-		var lt = $("#linkpropt").attr('value');
-		$(dialog).dialog('close');
-		parentWindow.focus();
-		var ret = new WikiLinkItem(currentLink.type);
-		ret.url = $("#linkpropt").val();
-		ret.title = $("#linkprtitle").val();
-		if (currentLink.type == 'wiki') {
-			ret.windowTarget = $('#gweditwindowTarget').val();
+	var buttons = gwiki_dlg_create_ok_cancel_buttons('#editDialogBox', {
+		onOk: function() {
+			var lt = $("#linkpropt").attr('value');
+			$(dialog).dialog('close');
+			parentWindow.focus();
+			var ret = new WikiLinkItem(currentLink.type);
+			ret.url = $("#linkpropt").val();
+			ret.title = $("#linkprtitle").val();
+			if (currentLink.type == 'wiki') {
+				ret.windowTarget = $('#gweditwindowTarget').val();
+			}
+			if (currentLink.type == 'image') {
+				ret.width = $('#gweditwidth').val();
+				ret.height = $('#gweditheight').val();
+				ret.thumbnail = $('#gweditthumbnail').val();
+			}
+			ret.styleClass = $('#gweditstyleClass').val();
+			ret.style = $('#gweditstyle').val();
+			callback(ret);
 		}
-		if (currentLink.type == 'image') {
-			ret.width = $('#gweditwidth').val();
-			ret.height = $('#gweditheight').val();
-			ret.thumbnail = $('#gweditthumbnail').val();
-		}
-		ret.styleClass = $('#gweditstyleClass').val();
-		ret.style = $('#gweditstyle').val();
-		callback(ret);
-	}
+	})
+
 	var isOnInitialOpen = false;
 	var dialog = $("#editDialogBox").dialog(
 	    {
@@ -154,14 +154,9 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	      open : function(event, ui) {
 		      $('#gwikdlglnkdetails').on('click', function() {
 			      $('#gwikidlnkdetailsdiv').toggle();
-			      // if ($('#gwikidlnkdetailsdiv').visible()) {
-			      // $('#gwikidlnkdetailsdiv').hide();
-			      // } else {
-			      // $('#gwikidlnkdetailsdiv').show();
-			      // }
 		      });
 		      $("#linkpropt").focus();
-
+		      
 		      var tree = $("#filechooser").jstree({
 		        plugins : [ 'search', 'themes', 'ui' ],
 		        core : {
@@ -184,30 +179,20 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		        }
 		      });
 		      var to = false;
-		      // $('#linkprtitle').keyup(function() {
-		      // if (to) {
-		      // clearTimeout(to);
-		      // }
-		      // to = setTimeout(function() {
-		      // var v = $('#linkprtitle').val();
-		      // $('#filechooser').jstree(true).search(v, true, true);
-		      // }, 250);
-		      // });
 		      $('#linkpropt').keyup(function(event) {
-		      	if (event.keyCode == 13) { // ENTER
-		    			var first = $('.jstree-search').first().attr('id');
-		    			if (!first) {
-		    				return;
-		    			}
-		    			var tree = $('#filechooser').jstree(true);
-		    			var node = tree.get_node(first);
-		    			tree.select_node(node);
-		    			setTimeout(function() {
-		    				var buttons = $("#editDialogBox").dialog("option", "buttons");
-		    				buttons["gwiki.common.ok".i18n()]();
-		    			}, 100);
-		      	}
-		      	if (to) {
+			      if (event.keyCode == 13) { // ENTER
+				      var first = $('.jstree-search').first().attr('id');
+				      if (!first) {
+					      return;
+				      }
+				      var tree = $('#filechooser').jstree(true);
+				      var node = tree.get_node(first);
+				      tree.select_node(node);
+				      setTimeout(function() {
+				      	gwiki_dlg_click_ok();
+				      }, 100);
+			      }
+			      if (to) {
 				      clearTimeout(to);
 			      }
 			      to = setTimeout(function() {
@@ -235,7 +220,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 				      var st = tree.get_node(ln);
 				      isOnInitialOpen = true;
 				      tree.select_node(ln);
-				      isOnInitialOpen= false;
+				      isOnInitialOpen = false;
 			      } else if (gwikiContext.gwikiEditPageId) {
 				      var ln = gwikiContext.gwikiEditPageId.replace(/\//g, '_');
 				      var st = tree.get_node(ln);

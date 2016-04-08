@@ -33,7 +33,7 @@ tinymce.PluginManager
 	          global : false,
 	          success : function(data) {
 		          gwikiEditSmiles = data;
-		          console.debug('got smilies: ' + data);
+//		          console.debug('got smilies: ' + data);
 	          },
 	          fail : function(jqXHR, textStatus, errorThrown) {
 		          console.error("got json error: " + textStatus);
@@ -49,7 +49,7 @@ tinymce.PluginManager
 		        }
 		        emoticonsHtml = '<table role="list" class="mce-grid">';
 
-		        for (var i = 0; i < emoticons.length; ++i) {
+		        for (var i = 0; i < emoticons.length;) {
 			        emoticonsHtml += '<tr>';
 			        var cc = 0;
 			        for (; i < emoticons.length && cc < colCount; ++i) {

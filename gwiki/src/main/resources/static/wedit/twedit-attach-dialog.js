@@ -68,6 +68,9 @@ function gwikiInsertNewAttachmentDialog(ed, clipData) {
 		  $('#linkprtitle').val(fileName);
 
 	  },
+	  close : function(event, ui) {
+		  ed.focus();
+	  },
 	  overlay : {
 	    backgroundColor : '#000',
 	    opacity : 0.5
