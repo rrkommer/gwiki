@@ -186,7 +186,7 @@ public class GWikiWikiParser
       parseLine(tks, ctx);
       List<GWikiFragment> childs = ctx.popFragList();
       if (childs.size() > 0 && childs.get(childs.size() - 1) instanceof GWikiFragmentBr) {
-        childs = childs.subList(0, childs.size() - 1);
+        childs = new ArrayList<>(childs.subList(0, childs.size() - 1));
       }
       if (childs.size() == 1 && childs.get(0) instanceof GWikiFragmentList) {
         listfrag.addChilds(childs);
@@ -1045,7 +1045,7 @@ public class GWikiWikiParser
           List<GWikiFragment> lp = l.subList(ls, i);
           lp = trimBrs(lp);
           // lp = trimEndP(lp);
-          ret.add(new GWikiFragmentP(lp));
+          ret.add(new GWikiFragmentP(new ArrayList<>(lp)));
         }
         if ((f instanceof GWikiFragmentP) == false) {
           ret.add(f);
@@ -1057,7 +1057,7 @@ public class GWikiWikiParser
       List<GWikiFragment> lp = l.subList(ls, l.size());
       lp = trimBrs(lp);
       if (lp.isEmpty() == false) {
-        ret.add(new GWikiFragmentP(lp));
+        ret.add(new GWikiFragmentP(new ArrayList<>(lp)));
       }
     }
     return ret;
