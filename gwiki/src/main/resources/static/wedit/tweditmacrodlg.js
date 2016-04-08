@@ -83,7 +83,6 @@ function wedit_show_editmacro_dialog(ed, el) {
 	});
 
 }
-
 function wedit_render_select_new_macro(ed, dialog, modc, list) {
 	modc.html('');
 	var searchText = $("<input>").attr('id', "macrosearchbox").css('width', '100%');
@@ -129,7 +128,9 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 		p.attr('data-macroName', macroMetaInfo.macroName);
 		p.on('click', function(event) {
 			$(dialog).dialog('close');
-			wedit_switch_to_macro_edit(ed, event.target, list);
+			setTimeout(function() {
+				wedit_switch_to_macro_edit(ed, event.target, list);
+			}, 100);
 		});
 		p.text(macroMetaInfo.macroName);
 		macrodiv.append(p);
@@ -144,10 +145,13 @@ function wedit_render_select_new_macro(ed, dialog, modc, list) {
 function wedit_show_newmacro_dialog(ed) {
 	wedit_getMacroInfos(ed, wedit_show_newmacro_dialog_impl);
 }
+
 function wedit_show_newmacro_dialog_impl(ed, list) {
+	
 	var dialog;
+
 	var modc = $("#editDialogBox");
-	wedit_render_select_new_macro(ed, dialog, modc, list);
+	wedit_render_select_new_macro(ed, modc, modc, list);
 	var buttons = {};
 	buttons["gwiki.common.cancel".i18n()] = function() {
 		$(dialog).dialog('close');
@@ -159,7 +163,10 @@ function wedit_show_newmacro_dialog_impl(ed, list) {
 	  width : 500,
 	  modal : true,
 	  dialogClass : 'jquiNoDialogTitle',
-	  buttons : buttons
+	  buttons : buttons,
+	  close : function(event, ui) {
+		  ed.focus();
+	  }
 	});
 }
 
@@ -233,7 +240,7 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 				.attr('name', 'wmd_param_' + pmi.name) //
 				.attr('class', "select ui-widget-content ui-corner-all");
 				select.change(function() {
-					//console.log('select changed: ' + $(this).val());
+					// console.log('select changed: ' + $(this).val());
 				});
 				for (var j = 0; j < pmi.enumValues.length; ++j) {
 					var ev = pmi.enumValues[j];
@@ -281,52 +288,47 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 	}
 }
 function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
+
 	var modc = $("#editDialogBox");
 
 	wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo);
 
 	var buttons = {};
-	buttons["gwiki.common.cancel".i18n()] = function() {
-		$(dialog).dialog('close');
-		ed.focus();
-	};
-	buttons["gwiki.common.ok".i18n()] = {
-	  id : 'dlg-ok-button',
-	  text : "gwiki.common.ok".i18n(),
-	  click : function() {
-		  var macroInfo = new MacroInfo();
-		  macroInfo.macroName = curMacroInfo.macroName;
-		  macroInfo.macroHeadDiv = curMacroInfo.macroHeadDiv;
-		  macroInfo.macroBodyDiv = curMacroInfo.macroBodyDiv;
-		  macroInfo.macroMetaInfo = macroMetaInfo;
-		  for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
-			  var pmi = macroMetaInfo.macroParams[i];
-			  var val = null;
-			  if (pmi.type == 'Boolean') {
-				  var ceckb = $('#wmd_param_' + pmi.name);
-				  val = ceckb.val();
-			  } else if (pmi.enumValues && pmi.enumValues.length > 0) {
-				  // val = $('#wmd_param_' + pmi.name + ' option:selected').val();
-				  val = $('#wmd_param_' + pmi.name).val();
-			  } else {
-				  val = $('#wmd_param_' + pmi.name).val();
-			  }
-			  if (val && val != '') {
-				  macroInfo.macroParams[macroInfo.macroParams.length] = {
-				    name : pmi.name,
-				    value : val
-				  };
-			  }
-		  }
-		  macroInfo.macroHead = wedit_renderHead(macroInfo);
-		  if (macroMetaInfo.hasBody == true && macroMetaInfo.evalBody == false) {
-			  macroInfo.macroBody = $('#wm_macro_body').val();
-		  }
-		  $(dialog).dialog('close');
-		  ed.focus();
-		  callback(ed, curMacroInfo, macroInfo);
-	  }
-	};
+	buttons = gwiki_dlg_create_ok_cancel_buttons("#editDialogBox", {
+		onOk : function() {
+			var macroInfo = new MacroInfo();
+			macroInfo.macroName = curMacroInfo.macroName;
+			macroInfo.macroHeadDiv = curMacroInfo.macroHeadDiv;
+			macroInfo.macroBodyDiv = curMacroInfo.macroBodyDiv;
+			macroInfo.macroMetaInfo = macroMetaInfo;
+			for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
+				var pmi = macroMetaInfo.macroParams[i];
+				var val = null;
+				if (pmi.type == 'Boolean') {
+					var ceckb = $('#wmd_param_' + pmi.name);
+					val = ceckb.val();
+				} else if (pmi.enumValues && pmi.enumValues.length > 0) {
+					// val = $('#wmd_param_' + pmi.name + ' option:selected').val();
+					val = $('#wmd_param_' + pmi.name).val();
+				} else {
+					val = $('#wmd_param_' + pmi.name).val();
+				}
+				if (val && val != '') {
+					macroInfo.macroParams[macroInfo.macroParams.length] = {
+					  name : pmi.name,
+					  value : val
+					};
+				}
+			}
+			macroInfo.macroHead = wedit_renderHead(macroInfo);
+			if (macroMetaInfo.hasBody == true && macroMetaInfo.evalBody == false) {
+				macroInfo.macroBody = $('#wm_macro_body').val();
+			}
+			modc.dialog('close');
+			ed.focus();
+			callback(ed, curMacroInfo, macroInfo);
+		}
+	});
 
 	var dlghtml = modc.html();
 	// console.debug("dialog: " + dlghtml);
@@ -337,17 +339,14 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	  modal : true,
 	  buttons : buttons,
 	  open : function(event, ui) {
-
+		  console.debug('opened macrodialog');
+		  gwiki_dlg_set_focus_first_input_or_ok(modc);
+		  gwiki_dlg_bind_input_enter_to_ok(modc);
+	  }, 
+	  close : function(event, ui) {
+		  ed.focus();
 	  }
 	});
-	setTimeout(function() {
-		var firstInput = $(dialog).find('select, input, textarea').first();
-		if (firstInput.length == 1) {
-			firstInput.focus();
-		} else {
-			$("#dlg-ok-button").focus();
-		}
-	}, 100);
 }
 
 function wedit_escapemacrohead(k) {

@@ -209,7 +209,7 @@ function twedit_create(editId, newPage) {
 		      }
 		      ed.on('keydown', function(event) {
 			      // all keys because overwerite
-			      console.debug('keydown: ' + event.which);
+//			      console.debug('keydown: ' + event.which);
 			      if (tweid_isModKeydown(event)) {
 				      if (twedit_check_valid_range_for_del(ed, event) == false) {
 					      event.stopPropagation();
