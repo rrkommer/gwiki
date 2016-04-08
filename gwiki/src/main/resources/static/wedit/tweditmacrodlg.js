@@ -233,7 +233,7 @@ function wedit_render_macro_info(ed, modc, curMacroInfo, macroMetaInfo) {
 				.attr('name', 'wmd_param_' + pmi.name) //
 				.attr('class', "select ui-widget-content ui-corner-all");
 				select.change(function() {
-					console.log('select changed: ' + $(this).val());
+					//console.log('select changed: ' + $(this).val());
 				});
 				for (var j = 0; j < pmi.enumValues.length; ++j) {
 					var ev = pmi.enumValues[j];
@@ -290,39 +290,44 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 		$(dialog).dialog('close');
 		ed.focus();
 	};
-	buttons["gwiki.common.ok".i18n()] = function() {
-		var macroInfo = new MacroInfo();
-		macroInfo.macroName = curMacroInfo.macroName;
-		macroInfo.macroHeadDiv = curMacroInfo.macroHeadDiv;
-		macroInfo.macroBodyDiv = curMacroInfo.macroBodyDiv;
-		macroInfo.macroMetaInfo = macroMetaInfo;
-		for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
-			var pmi = macroMetaInfo.macroParams[i];
-			var val = null;
-			if (pmi.type == 'Boolean') {
-				var ceckb = $('#wmd_param_' + pmi.name);
-				val = ceckb.val();
-			} else if (pmi.enumValues && pmi.enumValues.length > 0) {
-				// val = $('#wmd_param_' + pmi.name + ' option:selected').val();
-				val = $('#wmd_param_' + pmi.name).val();
-			} else {
-				val = $('#wmd_param_' + pmi.name).val();
-			}
-			if (val && val != '') {
-				macroInfo.macroParams[macroInfo.macroParams.length] = {
-				  name : pmi.name,
-				  value : val
-				};
-			}
-		}
-		macroInfo.macroHead = wedit_renderHead(macroInfo);
-		if (macroMetaInfo.hasBody == true && macroMetaInfo.evalBody == false) {
-			macroInfo.macroBody = $('#wm_macro_body').val();
-		}
-		$(dialog).dialog('close');
-		ed.focus();
-		callback(ed, curMacroInfo, macroInfo);
+	buttons["gwiki.common.ok".i18n()] = {
+	  id : 'dlg-ok-button',
+	  text : "gwiki.common.ok".i18n(),
+	  click : function() {
+		  var macroInfo = new MacroInfo();
+		  macroInfo.macroName = curMacroInfo.macroName;
+		  macroInfo.macroHeadDiv = curMacroInfo.macroHeadDiv;
+		  macroInfo.macroBodyDiv = curMacroInfo.macroBodyDiv;
+		  macroInfo.macroMetaInfo = macroMetaInfo;
+		  for (var i = 0; i < macroMetaInfo.macroParams.length; ++i) {
+			  var pmi = macroMetaInfo.macroParams[i];
+			  var val = null;
+			  if (pmi.type == 'Boolean') {
+				  var ceckb = $('#wmd_param_' + pmi.name);
+				  val = ceckb.val();
+			  } else if (pmi.enumValues && pmi.enumValues.length > 0) {
+				  // val = $('#wmd_param_' + pmi.name + ' option:selected').val();
+				  val = $('#wmd_param_' + pmi.name).val();
+			  } else {
+				  val = $('#wmd_param_' + pmi.name).val();
+			  }
+			  if (val && val != '') {
+				  macroInfo.macroParams[macroInfo.macroParams.length] = {
+				    name : pmi.name,
+				    value : val
+				  };
+			  }
+		  }
+		  macroInfo.macroHead = wedit_renderHead(macroInfo);
+		  if (macroMetaInfo.hasBody == true && macroMetaInfo.evalBody == false) {
+			  macroInfo.macroBody = $('#wm_macro_body').val();
+		  }
+		  $(dialog).dialog('close');
+		  ed.focus();
+		  callback(ed, curMacroInfo, macroInfo);
+	  }
 	};
+
 	var dlghtml = modc.html();
 	// console.debug("dialog: " + dlghtml);
 	var dialog = modc.dialog({
@@ -332,10 +337,17 @@ function wedit_open_macro_dialog(ed, curMacroInfo, macroMetaInfo, callback) {
 	  modal : true,
 	  buttons : buttons,
 	  open : function(event, ui) {
-		  // $(".quicheck").button();
+
 	  }
 	});
-
+	setTimeout(function() {
+		var firstInput = $(dialog).find('select, input, textarea').first();
+		if (firstInput.length == 1) {
+			firstInput.focus();
+		} else {
+			$("#dlg-ok-button").focus();
+		}
+	}, 100);
 }
 
 function wedit_escapemacrohead(k) {
@@ -495,7 +507,7 @@ function gwedit_insert_macro_impl(ed, macroInfo) // todo here macroInfo
 			var escaped = $('<div/>').text(macroInfo.macroBody).html();
 			fuellsel = escaped;
 		} else {
-//			nothing here fuellsel = macroInfo.macroBody;
+			// nothing here fuellsel = macroInfo.macroBody;
 		}
 
 	}

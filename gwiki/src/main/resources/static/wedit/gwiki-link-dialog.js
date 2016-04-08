@@ -193,8 +193,21 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 		      // $('#filechooser').jstree(true).search(v, true, true);
 		      // }, 250);
 		      // });
-		      $('#linkpropt').keyup(function() {
-			      if (to) {
+		      $('#linkpropt').keyup(function(event) {
+		      	if (event.keyCode == 13) { // ENTER
+		    			var first = $('.jstree-search').first().attr('id');
+		    			if (!first) {
+		    				return;
+		    			}
+		    			var tree = $('#filechooser').jstree(true);
+		    			var node = tree.get_node(first);
+		    			tree.select_node(node);
+		    			setTimeout(function() {
+		    				var buttons = $("#editDialogBox").dialog("option", "buttons");
+		    				buttons["gwiki.common.ok".i18n()]();
+		    			}, 100);
+		      	}
+		      	if (to) {
 				      clearTimeout(to);
 			      }
 			      to = setTimeout(function() {
@@ -202,13 +215,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 				      $('#filechooser').jstree(true).search(v, true, true);
 			      }, 250);
 		      });
-		      // tree.on('select_node.jstree', function(event) {
-		      // var node = event.node;
-		      // var item = event.selected;
-		      // console.debug('selected: ' + item);
-		      // });
 		      tree.on("changed.jstree", function(e, data) {
-			      // console.debug('changed: ' + data);
 			      var selNone = data.node.data;
 			      $("#linkpropt").val(selNone.url);
 			      if (!isOnInitialOpen) {
