@@ -19,7 +19,11 @@
 package de.micromata.genome.gwiki.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import de.micromata.genome.util.collections.OrderedProperties;
 
 /**
  * Map holding I18N keys.
@@ -30,9 +34,27 @@ import java.util.HashMap;
 public class GWikiI18nMap extends HashMap<String, String> implements Serializable
 {
   private static final long serialVersionUID = -5348824646939727080L;
+  List<String> sortedKeys = null;
 
   public GWikiI18nMap()
   {
+  }
+
+  public GWikiI18nMap(OrderedProperties sortedProps)
+  {
+    putAll(sortedProps);
+    sortedKeys = new ArrayList<>();
+    sortedKeys.addAll(sortedProps.keySet());
+  }
+
+  public List<String> getSortedKeys()
+  {
+    return sortedKeys;
+  }
+
+  public void setSortedKeys(List<String> sortedKeys)
+  {
+    this.sortedKeys = sortedKeys;
   }
 
 }

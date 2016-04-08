@@ -26,6 +26,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.StringUtils;
 
+import de.micromata.genome.util.collections.OrderedProperties;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
 /**
@@ -58,9 +59,9 @@ public class PropUtils
 
   public static final String PROPS_ENCODING = "ISO-8859-1";
 
-  public static Properties toProperties(String text)
+  public static OrderedProperties toProperties(String text)
   {
-    Properties props = new Properties();
+    OrderedProperties props = new OrderedProperties();
     if (StringUtils.isEmpty(text) == true) {
       return props;
     }
@@ -90,7 +91,7 @@ public class PropUtils
       return fromProperties((Properties) om);
     }
     Properties props = new Properties();
-    props.putAll((Map< ? , ? >) map);
+    props.putAll(map);
     return fromProperties(props);
   }
 }

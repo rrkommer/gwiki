@@ -18,15 +18,13 @@
 
 package de.micromata.genome.gwiki.model;
 
-import java.util.Map;
-import java.util.Properties;
-
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiEditableArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiTextPageEditorArtefakt;
 import de.micromata.genome.gwiki.utils.PropUtils;
+import de.micromata.genome.util.collections.OrderedProperties;
 
 /**
  * Artefakt holding I18N-Properties.
@@ -45,17 +43,19 @@ public class GWikiI18NArtefakt extends GWikiTextArtefaktBase<GWikiI18nMap> imple
     return false;
   }
 
+  @Override
   public String getFileSuffix()
   {
     return ".properties";
   }
 
-  public GWikiEditorArtefakt< ? > getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
+  @Override
+  public GWikiEditorArtefakt<?> getEditor(GWikiElement elementToEdit, GWikiEditPageActionBean bean, String partKey)
   {
     return new GWikiTextPageEditorArtefakt(elementToEdit, bean, partKey, this);
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes"})
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   public GWikiI18nMap getCompiledObject()
   {
@@ -63,9 +63,8 @@ public class GWikiI18NArtefakt extends GWikiTextArtefaktBase<GWikiI18nMap> imple
       return super.getCompiledObject();
     }
     String data = getStorageData();
-    Properties props = PropUtils.toProperties(data);
-    GWikiI18nMap nm = new GWikiI18nMap();
-    nm.putAll((Map) props);
+    OrderedProperties props = PropUtils.toProperties(data);
+    GWikiI18nMap nm = new GWikiI18nMap(props);
     setCompiledObject(nm);
     return nm;
   }

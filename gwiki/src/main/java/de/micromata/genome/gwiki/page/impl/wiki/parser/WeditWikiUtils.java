@@ -117,7 +117,7 @@ public class WeditWikiUtils
     //    nctx.append("</div>\n");
     nctx.flush();
     String ret = nctx.getOutString();
-    LOG.info("WikiToRte:\n" + wikiText + "\nRte:\n" + ret);
+    LOG.debug("WikiToRte:\n" + wikiText + "\nRte:\n" + ret);
     return ret;
   }
 
