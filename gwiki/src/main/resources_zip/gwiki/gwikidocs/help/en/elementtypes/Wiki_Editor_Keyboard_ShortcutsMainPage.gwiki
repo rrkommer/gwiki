@@ -13,7 +13,8 @@ h2. Keyboard Bindings
 | | | |
 |Ctrl\+Shift\+X|Rte Editor|Clear Format of selected text. |
 |Ctrl\+Shift\+B|Rte Editor|Bold selected text.|
-|Ctrl\+Shift\+i|Rte Editor|Italic selected text.|
+|Ctrl\+Shift\+I|Rte Editor|Italic selected text.|
+|Ctrl\+Sift\+C|Rte Editor|Code selected text.|
  
 h2. Macro Autocomplete
  You have to type the Pattern and after a space or enter.
@@ -23,6 +24,7 @@ h2. Macro Autocomplete
 {tr}{tr}
 {td:class=gwikitd}{noformat}
 h1. Text<NewLine>
+
 
 {noformat}{td}{td:class=gwikitd}Format the line as h1\-h6  {td}
 {tr}{tr}
