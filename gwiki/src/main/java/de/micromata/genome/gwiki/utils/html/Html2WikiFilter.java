@@ -138,7 +138,6 @@ public class Html2WikiFilter extends DefaultFilter
    * collect all characters before parsing it.
    */
   protected StringBuilder collectedText = new StringBuilder();
-  protected HtmlListenerRegistry listenerRegistry = new HtmlListenerRegistry(this);
 
   // protected boolean in
   public static String html2Wiki(String text)
@@ -586,9 +585,6 @@ public class Html2WikiFilter extends DefaultFilter
   @Override
   public void emptyElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
-    if (listenerRegistry.emptyElement(element, attributes, augs) == false) {
-      return;
-    }
     flushText();
     String en = element.rawname.toLowerCase();
     if (en.equals("br") == true) {
@@ -637,9 +633,6 @@ public class Html2WikiFilter extends DefaultFilter
   @Override
   public void startElement(QName element, XMLAttributes attributes, Augmentations augs) throws XNIException
   {
-    if (listenerRegistry.startElement(element, attributes, augs) == false) {
-      return;
-    }
     flushText();
     // todo <span style="font-family: monospace;">sadf</span> {{}}
     String en = element.rawname.toLowerCase();
@@ -741,9 +734,6 @@ public class Html2WikiFilter extends DefaultFilter
   @Override
   public void endElement(QName element, Augmentations augs) throws XNIException
   {
-    if (listenerRegistry.endElement(element, augs) == false) {
-      return;
-    }
     flushText();
     String en = element.rawname.toLowerCase();
     if (handleMacroTransformerEnd(element, augs) == true) {
@@ -974,29 +964,8 @@ public class Html2WikiFilter extends DefaultFilter
       super.characters(text, augs);
       return;
     }
-    if (listenerRegistry.characters(t, collectedText) == false) {
-      return;
-    }
-    collectedText.append(t);
 
-    // if (t.length() > 0 && Character.isWhitespace(t.charAt(0)) == false) {
-    // GWikiFragment lf = parseContext.lastFrag();
-    // if (lf instanceof GWikiFragmentTextDeco) {
-    // ((GWikiFragmentTextDeco) lf).setRequireMacroSyntax(true);
-    // }
-    // }
-    // if (ignoreWsNl == true) {
-    // String s = StringUtils.trim(t);
-    // if (StringUtils.isBlank(s) || StringUtils.isNewLine(s)) {
-    // super.characters(text, augs);
-    // return;
-    // }
-    // }
-    // // int cp = Character.codePointAt(t.toCharArray(), 0);
-    //
-    // if (StringUtils.isNewLine(t) == false) {
-    // parseContext.addTextFragement(escapeText(t));
-    // }
+    collectedText.append(t);
 
     super.characters(text, augs);
   }
@@ -1059,16 +1028,6 @@ public class Html2WikiFilter extends DefaultFilter
   public void setSpecialCharacters(String specialCharacters)
   {
     this.specialCharacters = specialCharacters;
-  }
-
-  public HtmlListenerRegistry getListenerRegistry()
-  {
-    return listenerRegistry;
-  }
-
-  public void setListenerRegistry(HtmlListenerRegistry listenerRegistry)
-  {
-    this.listenerRegistry = listenerRegistry;
   }
 
 }
