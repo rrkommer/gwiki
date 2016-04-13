@@ -98,7 +98,7 @@ function twedit_attach_insertImageLink(ed, item) {
 }
 
 function twedit_attach_storeAttachment(ed, clipData, fileName, title, callback) {
-	console.debug("parentid: " + gwikiContext.gwikiEditPageId);
+//	console.debug("parentid: " + gwikiContext.gwikiEditPageId);
 	$.ajax({
 	  method : 'POST',
 	  url : './UploadAttachment',
