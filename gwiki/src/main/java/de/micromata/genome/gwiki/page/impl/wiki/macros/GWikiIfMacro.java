@@ -41,7 +41,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 @MacroInfo(info = "if macro to test against language (lang) or right.",
     params = {
         @MacroInfoParam(name = "lang", info = "Test if user has given language (de,en)"),
-        @MacroInfoParam(name = "right", info = "Test if user has given right"),
+        @MacroInfoParam(name = "right", info = "Test if user has given right. EDIT is the right to edit current page"),
         @MacroInfoParam(name = "renderMode", info = "Test if Page is render in given RenderMode.<br/>"
             + "See class RenderModes"),
     })
@@ -65,6 +65,9 @@ public class GWikiIfMacro extends GWikiMacroBean implements GWikiBodyEvalMacro, 
       }
       return false;
     } else if (StringUtils.isNotEmpty(right) == true) {
+      if (right.equals("EDIT") == true) {
+        return ctx.getWikiWeb().getAuthorization().isAllowToEdit(ctx, ctx.getCurrentElement().getElementInfo());
+      }
       if (ctx.isAllowTo(right) == true) {
         return true;
       }

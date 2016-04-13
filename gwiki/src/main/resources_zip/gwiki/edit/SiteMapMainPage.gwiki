@@ -1,1 +1,11 @@
-{html}<div class="sitemap">{html}{children:all=true|page=GWIKI_WELCOME_PAGE}{html}</div>{html}
+ 
+{if:right=EDIT}You can [Edit Page hierarchy|edit/PagesTree].{if}
+{html}
+<div class="sitemap">
+{html}
+ 
+{children:all=true|page=GWIKI_WELCOME_PAGE}
+ 
+{html}
+</div>
+{html}
