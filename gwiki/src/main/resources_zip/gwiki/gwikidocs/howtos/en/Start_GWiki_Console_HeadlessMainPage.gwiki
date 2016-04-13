@@ -6,5 +6,9 @@ The solution is quite simple:
 {code:lang=markup}
 java -jar gwikilauncher-2.1.0-SNAPSHOT.jar -nogui
 {code}
-
-  
+ 
+{tip}
+You can overwrite the values inside the {{gwiki.properties}} by passing the key/value by command line.
+Sample
+{{java \-jar gwikilauncher\-2.1.0\-SNAPSHOT.jar \-nogui \-Dgwiki.sys.user.enabled=false}}
+{tip}
