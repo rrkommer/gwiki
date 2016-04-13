@@ -160,6 +160,16 @@ public class GWikiElementFinder
     return childs;
   }
 
+  public List<GWikiElementInfo> getAllDirectChildsSorted(GWikiElementInfo ei)
+  {
+    List<GWikiElementInfo> childs = getAllDirectChilds(ei);
+    Collections.sort(childs, new GWikiElementByChildOrderComparator(//
+        new GWikiElementByOrderComparator(//
+            new GWikiElementByIntPropComparator("ORDER", 0, //
+                new GWikiElementByI18NPropsComparator(wikiContext, GWikiPropKeys.TITLE)))));
+    return childs;
+  }
+
   public List<GWikiElementInfo> getAllDirectChildsByType(GWikiElementInfo ei, final String type)
   {
     return getPageInfos(new AndMatcher<GWikiElementInfo>(//

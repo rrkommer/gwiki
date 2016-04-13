@@ -1,0 +1,104 @@
+
+<% wikiContext.skinInclude('standardhead'); %>
+<@include file="inc/stdtags.gspt" @>
+
+
+
+<div>
+	<%
+String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTree(wikiContext, null)
+%>
+	<gwiki:macro name="info" args="">
+		<fmt:message key="gwiki.page.PagesTree.intro" />
+	</gwiki:macro>
+	<gwiki:errors />
+
+	<div id='pageTreeDiv'></div>
+
+	<script type="text/javascript">
+		var treedata =
+	<%= jsonNavJsTree %>
+		;
+    var jsonNavJsTree =
+	<%= jsonNavJsTree %>
+		;
+    var url = '<gwiki:url value="/edit/TreeChildren"/>';
+    jQuery(document).ready(
+        function() {
+	        var tree = $('#pageTreeDiv').jstree({
+	          plugins : [ 'search', 'themes', 'ui', 'dnd', 'types' ],
+	          core : {
+	            themes : {
+	              theme : 'classic',
+	              dots : false,
+	              icons : false
+	            },
+	            animation : false,
+	            data : treedata,
+	            types : {
+		            '#' : {
+			            valid_children : [ '#' ]
+		            }
+	            },
+	            check_callback : true,
+	            dnd : {
+		            copy : false
+	            /*,
+	            	              is_draggable : function(data) {
+	            		              console.debug('is_draggable: ' + data);
+	            	              },
+	            	              drop_check : function(data) {
+	            		              console.debug('drop_check: ' + data);
+	            		              return true;
+	            	              },
+	            	              drop_finish : function(data) {
+	            		              console.debug('drop_finish: ' + data);
+	            		              return true;
+	            	              },
+	            	              drag_check : function(data) {
+	            		              console.debug('drag_check: ' + data);
+	            		              return {
+	            		                after : true,
+	            		                before : true,
+	            		                inside : true
+	            		              };
+	            	              }*/
+	            }
+	          }
+	        });
+	        // copy_node.jstree
+	        tree.on("move_node.jstree", function(event, data) {
+		        var tree = $('#pageTreeDiv').jstree(true);
+		        var nparent = tree.get_node(data.parent);
+		        var oparent = tree.get_node(data.old_parent);
+		        //node.data.url
+		        console.debug("move_node.jstree; " + data.node + "; parent: " + data.parent + "; position: "
+		            + data.position + "; old_parent: " + data.old_parent + "; old_position: " + data.old_position);
+		        if (!nparent.data.url || !oparent.data.url || !data.node.data.url) {
+			        return;
+		        }
+		        $.ajax({
+		          method : 'POST',
+		          url : './PagesTree',
+		          data : {
+		            method_onAsyncMoveTree : true,
+		            node : data.node.data.url,
+		            parent : nparent.data.url,
+		            parentPageId : gwikiContext.gwikiEditPageId,
+		            old_parent : oparent.data.url,
+		            position : data.position,
+		            old_position : data.old_position
+		          },
+		          success : function(result) {
+
+		          },
+		          error : function(xhr, status, error) {
+			          console.error(status);
+		          }
+		        });
+
+	        });
+        });
+	</script>
+</div>
+<% wikiContext.skinInclude('standardfoot'); %>

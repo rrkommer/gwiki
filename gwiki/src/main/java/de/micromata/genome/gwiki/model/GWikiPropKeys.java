@@ -63,6 +63,7 @@ public interface GWikiPropKeys
   /**
    * List of child elements for ordering.
    */
+  @Deprecated
   public static final String CHILDORDER = "CHILDORDER";
 
   public static final String AUTH_VIEW = "AUTH_VIEW";

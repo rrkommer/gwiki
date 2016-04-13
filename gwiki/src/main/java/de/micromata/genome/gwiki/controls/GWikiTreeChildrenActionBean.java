@@ -144,11 +144,8 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     if (StringUtils.isBlank(title) == true) {
       return null;
     }
-    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChilds(ei);
-    Collections.sort(childs, new GWikiElementByChildOrderComparator(//
-        new GWikiElementByOrderComparator(//
-            new GWikiElementByIntPropComparator("ORDER", 0, //
-                new GWikiElementByI18NPropsComparator(wikiContext, GWikiPropKeys.TITLE)))));
+    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChildsSorted(ei);
+
     JsonArray childNodes = JsonBuilder.array();
     for (GWikiElementInfo sid : childs) {
       JsonObject subnode = buildNodeInfo(sid, searchType);
