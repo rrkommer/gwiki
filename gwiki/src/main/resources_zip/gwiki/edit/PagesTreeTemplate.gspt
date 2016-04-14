@@ -6,7 +6,7 @@
 
 <div>
 	<%
-String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTree(wikiContext, null)
+String jsonNavJsTree = wikiContext.actionBean.renderTree();
 %>
 	<gwiki:macro name="info" args="">
 		<fmt:message key="gwiki.page.PagesTree.intro" />
@@ -26,45 +26,39 @@ String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActio
     jQuery(document).ready(
         function() {
 	        var tree = $('#pageTreeDiv').jstree({
-	          plugins : [ 'search', 'themes', 'ui', 'dnd', 'types' ],
+	          plugins : [ 'search', 'themes', 'ui', 'dnd', 'types', 'state' ],
 	          core : {
 	            themes : {
 	              theme : 'classic',
 	              dots : false,
-	              icons : false
+	              icons : true
 	            },
 	            animation : false,
 	            data : treedata,
-	            types : {
-		            '#' : {
-			            valid_children : [ '#' ]
-		            }
-	            },
 	            check_callback : true,
 	            dnd : {
 		            copy : false
-	            /*,
-	            	              is_draggable : function(data) {
-	            		              console.debug('is_draggable: ' + data);
-	            	              },
-	            	              drop_check : function(data) {
-	            		              console.debug('drop_check: ' + data);
-	            		              return true;
-	            	              },
-	            	              drop_finish : function(data) {
-	            		              console.debug('drop_finish: ' + data);
-	            		              return true;
-	            	              },
-	            	              drag_check : function(data) {
-	            		              console.debug('drag_check: ' + data);
-	            		              return {
-	            		                after : true,
-	            		                before : true,
-	            		                inside : true
-	            		              };
-	            	              }*/
+	            }
+	          },
+	          types : {
+	            'default ' : {
+	              valid_children : [ 'wiki', 'attachment', 'image' ],
+	              icon : gwikiLocalUrl("static/img/icons/16px/039-file-text2.png"),
+	            },
+	            wiki : {
+	              valid_children : [ 'wiki', 'attachment', 'image' ],
+	              icon : gwikiLocalUrl("static/img/icons/16px/039-file-text2.png"),
+	            },
+	            image : {
+	              valid_children : [],
+	              icon : gwikiLocalUrl("static/img/icons/16px/040-file-picture.png"),
+	            },
+	            attachment : {
+	              valid_children : [],
+	              icon : gwikiLocalUrl("static/img/icons/16px/038-files-empty.png"),
 	            }
 	          }
+
 	        });
 	        // copy_node.jstree
 	        tree.on("move_node.jstree", function(event, data) {
@@ -98,6 +92,11 @@ String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActio
 		        });
 
 	        });
+	        tree.on('loaded.jstree', function() {
+		        var tree = $('#pageTreeDiv').jstree(true);
+		        tree.open_all();
+	        });
+
         });
 	</script>
 </div>

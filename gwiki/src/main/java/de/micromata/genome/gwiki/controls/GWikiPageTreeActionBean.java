@@ -22,7 +22,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 
+import de.micromata.genome.gwiki.controls.GWikiWeditServiceActionBean.SearchType;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -140,6 +142,27 @@ public class GWikiPageTreeActionBean extends ActionBeanAjaxBase
       wikiWeb.saveElement(wikiContext, el, true);
     }
     return returnError(0, "");
+  }
+
+  public String renderTree()
+  {
+    StringBuilder res = new StringBuilder();
+    GWikiTreeChildrenActionBean bean = new GWikiTreeChildrenActionBean()
+    {
+
+      @Override
+      protected Object sendResponse(JsonValue obj)
+      {
+        res.append(obj.toString());
+        return null;
+      }
+    };
+    bean.setForNavigation(true);
+    bean.setWikiContext(wikiContext);
+    bean.setRootPage(null);
+    bean.setType(SearchType.All.name());
+    bean.onLoadAsync();
+    return res.toString();
   }
 
   public String getParent()

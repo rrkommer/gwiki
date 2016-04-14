@@ -170,9 +170,9 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     String targetLink = wikiContext.localUrl(ei.getId());
 
     //    data.add("url", targetLink);
-
-    data.add("type", st.getElmentJsonType());
-
+    String eltype = st.getElmentJsonType();
+    data.add("type", eltype);
+    ret.add("type", eltype);
     data.add("matchtype", match);
 
     data.add("title", title);
