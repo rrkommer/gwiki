@@ -1,5 +1,8 @@
 <% wikiContext.skinInclude("standardhead"); %>
-<@include file="inc/stdtags.gspt" @> 
+<@include file="inc/stdtags.gspt" @>
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/datetimeentry-2.0.0/jquery.plugin.js" />'></script>
+<script type="text/JavaScript" src='<gwiki:url value="/static/js/datetimeentry-2.0.0/jquery.datetimeentry.js" />'></script>
+<link href="<gwiki:url value="/static/js/datetimeentry-2.0.0/jquery.datetimeentry.css"/>" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
 <!--
 <%= wikiContext.actionBean.getJavaScript() %>
@@ -13,7 +16,11 @@ var logViewer = new GLogViewer({
   logPollTimeout : 1000
 
 });
-
+$(document).ready(function() {
+	$.datetimeEntry.setDefaults({spinnerImage: '<gwiki:url value="/static/js/datetimeentry-2.0.0/spinnerDefault.png" />'});
+	$('#glogFromDateText').datetimeEntry({datetimeFormat: 'Y-O-D H:M:S'});
+	$('#glogToDateText').datetimeEntry({datetimeFormat: 'Y-O-D H:M:S'});
+});
 //-->
 </script>
 <style>
