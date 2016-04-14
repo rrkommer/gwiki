@@ -1,0 +1,15 @@
+{pageintro}
+GWiki organize the pages in a tree structure. You can reorganize the gwiki tree. 
+{pageintro}
+ 
+h2. Organize the Page Tree
+With the [Page Hierarchy|edit/PagesTree] you can organize the hierarchy of your pages.
+h3. Move Pages in the hierarchy
+You can use drag'n drop to drag an element (page, image or attachment) to another page make the dragged element children of the dropped location.
+ 
+!gwikidocs/help/en/MoveChildToOtherParent.png!
+h3. Sort the order of the Pages
+In the navigation the children pages will be shown in an order. If no explicite order is given, the children pages will be sorted by title. 
+ You can use drag'n drop to reorder the children.
+!gwikidocs/help/en/ReorderChildPagesDropBetween.png!
+ The black triangle will show the new order location of the dragged element.
