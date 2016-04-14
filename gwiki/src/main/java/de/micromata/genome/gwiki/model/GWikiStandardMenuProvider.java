@@ -70,7 +70,7 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     if (menu == null) {
       return null;
     }
-    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(ei.getId());
+    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getAllDirectChildsSorted(ei);
     for (GWikiElementInfo ci : childs) {
       GWikiMenu cm = getMenuWithChildsFromElement(wikiContext, ci);
       if (cm != null) {
@@ -85,11 +85,14 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
    * 
    * @see de.micromata.genome.gwiki.model.GWikiMenuProvider#getAdminMenu()
    */
+  @Override
   @SuppressWarnings("deprecation")
   public GWikiMenu getAdminMenu(GWikiContext wikiContext)
   {
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false
-        && wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_DEVELOPER.name()) == false) {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+        GWikiAuthorizationRights.GWIKI_ADMIN.name()) == false
+        && wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+            GWikiAuthorizationRights.GWIKI_DEVELOPER.name()) == false) {
       return null;
     }
     GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo("admin/Index");
@@ -125,7 +128,8 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     adminMenu.setIconMedium(wikiContext.localUrl("/inc/gwiki/img/icons/heart16.png"));
 
     if (wikiContext.getWikiWeb().getDaoContext().isEnableWebDav() == true
-        && wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_FSWEBDAV.name()) == true) {
+        && wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+            GWikiAuthorizationRights.GWIKI_FSWEBDAV.name()) == true) {
       GWikiMenu menu = new GWikiMenu();
       menu.setLabel(wikiContext.getTranslated("gwiki.page.AllPages.menu.webdav"));
       menu.setUrl(wikiContext.localUrl("/dav/"));
@@ -135,6 +139,7 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     return adminMenu;
   }
 
+  @Override
   public GWikiMenu getUserMenu(GWikiContext wikiContext)
   {
     GWikiMenu menu = new GWikiMenu();
@@ -142,7 +147,8 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
     menu.setIconMedium(wikiContext.localUrl("/inc/gwiki/img/icons/user16.png"));
 
     if (wikiContext.getWikiWeb().getAuthorization().isCurrentAnonUser(wikiContext) == true
-        || wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_VIEWPAGES.name()) == false) {
+        || wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+            GWikiAuthorizationRights.GWIKI_VIEWPAGES.name()) == false) {
       menu.setLabel("Login");
       menu.setUrl(wikiContext.localUrl("/admin/Login"));
       return menu;
@@ -154,10 +160,12 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
       menu.getChildren().add(sm);
     }
 
-    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext, GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == true) {
+    if (wikiContext.getWikiWeb().getAuthorization().isAllowTo(wikiContext,
+        GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == true) {
       GWikiMenu hm = new GWikiMenu();
       hm.setLabel(wikiContext.getTranslated("gwiki.page.headmenu.privatespace.label"));
-      hm.setUrl(wikiContext.localUrl("/home/" + wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext) + "/index"));
+      hm.setUrl(wikiContext
+          .localUrl("/home/" + wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext) + "/index"));
       menu.getChildren().add(hm);
     }
     if (de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization.isOwnUser(wikiContext) == true) {
@@ -177,6 +185,7 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
   /**
    * TODO currently untested.
    */
+  @Override
   public GWikiMenu getNewItemsMenu(GWikiContext wikiContext)
   {
     GWikiMenu menu = new GWikiMenu();
@@ -187,5 +196,42 @@ public class GWikiStandardMenuProvider implements GWikiMenuProvider
       addSubMenuFromElement(menu, wikiContext, p.getSecond());
     }
     return menu;
+  }
+
+  @Override
+  public GWikiMenu getHeadSiteMenu(GWikiContext wikiContext)
+  {
+    GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo("edit/Site");
+    if (ei == null) {
+      return null;
+    }
+    GWikiMenu siteMenu = getMenuWithChildsFromElement(wikiContext, ei);
+    if (siteMenu == null) {
+      return null;
+    }
+    if (siteMenu.getChildren().isEmpty() == true) {
+      return null;
+    }
+    for (GWikiMenu chm : siteMenu.getChildren()) {
+      if (chm.isDivider() == true) {
+        continue;
+      }
+      if (StringUtils.isEmpty(chm.getUrl()) == true) {
+        continue;
+      }
+      if (wikiContext.getCurrentElement() == null) {
+        continue;
+      }
+      String url = chm.getUrl();
+      String appendC = "?";
+      if (url.contains("?") == true) {
+        appendC = "&";
+      }
+      url += appendC + "refPageId=" + URLEncoder.encode(wikiContext.getCurrentElement().getElementInfo().getId());
+      chm.setUrl(url);
+
+    }
+    siteMenu.setIconMedium(wikiContext.localUrl("/static/img/icons/16px/049-folder-open.png"));
+    return siteMenu;
   }
 }
