@@ -49,4 +49,12 @@ public interface GWikiMenuProvider
    * @return
    */
   GWikiMenu getNewItemsMenu(GWikiContext wikiContext);
+
+  /**
+   * Get Menu for site, page hierarchie, keywords.
+   * 
+   * @param wikiContext
+   * @return
+   */
+  GWikiMenu getHeadSiteMenu(GWikiContext wikiContext);
 }

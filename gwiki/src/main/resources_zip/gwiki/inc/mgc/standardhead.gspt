@@ -73,6 +73,8 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
     <ul style="" class="menu gwikiMenuone">
       <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getUserMenu(wikiContext), true); %>
       <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getAdminMenu(wikiContext), true); %>
+      <% renderHeadMenu(wikiContext, wikiContext.wikiWeb.daoContext.menuProvider.getHeadSiteMenu(wikiContext), true); %>
+    <%--
     <gwiki:authorize pageId="edit/SiteMap">
       <li class="gwikiMenuIcon gwikiMenuoneSearchBar">
           <span class="gwikiMenuoneSearchBar" style="background-image: url('<gwiki:url value="/inc/gwiki/img/icons/folder16.png"/>';">
@@ -99,7 +101,7 @@ void renderHeadMenu(wikiContext, menu, toplevel) {
         </span>
      </li>
      </gwiki:authorize>
-      
+      --%>      
     </ul>
 		<form id="quick-search" class="quick-search" action="<gwiki:url value="/edit/Search"/>" method="POST" style="display:inline;">
 		  <input id="quick-search-query" 
