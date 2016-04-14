@@ -159,22 +159,32 @@
                 </fileset>
                 <property name="prop.zipfiles" refid="zipfiles" />
                 <echo>${prop.zipfiles}</echo>       
-                <!-- 
-                <mkdir dir="target" />
-                <delete file="target/${project.artifactId}-${project.version}.zip" />
-                <zip zipfile="target/${project.artifactId}-${project.version}.zip">
-                  <fileset dir="target" includes="classes/**" />
-                  <fileset dir="" includes="content/**" />
-                  <fileset dir="" includes="gwikiplugin.xml" />
-                </zip>
-                 -->
-              </tasks>
+             </tasks>
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
           </execution>
         </executions>
+      </plugin>
+       <plugin>
+        <!-- use license:format or license:update to patch java lisence header -->
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.11</version>
+        <configuration>
+          <header>LICENSE.txt</header>
+          <properties>
+            <owner>Micromata GmbH / Roger Rene Kommer</owner>
+            <email>kommer@artefaktur.com</email>
+          </properties>
+          <mapping>
+            <java>DOUBLESLASH_STYLE</java>
+          </mapping>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -207,11 +217,6 @@
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
-    </repository>
-    <repository>
-      <id>gwiki-deploy</id>
-      <name>gwiki-deploy</name>
-      <url>http://artefaktur.com/maven/</url>
     </repository>
     <!-- you need a account to OTN to use this
          see https://blogs.oracle.com/dev2dev/entry/oracle_maven_repository_instructions_for
