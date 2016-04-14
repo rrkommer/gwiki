@@ -30,7 +30,6 @@ public class GWikiMgcLogViewerActionBean extends ActionBeanBase
   @Override
   public Object onInit()
   {
-
     return super.onInit();
   }
 

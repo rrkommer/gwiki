@@ -83,7 +83,7 @@ public class GWikiJettyServer extends JettyServer
     wikiServlet.setDAOContext(wikibootcfg);
     context.addServlet(wikiServletHolder, "/*");
     GWikiLogHtmlWindowServlet logHtmlServlet = new GWikiLogHtmlWindowServlet();
-    logHtmlServlet.init();
+    //    logHtmlServlet.init();
     ServletHolder logHtmlServletHolder = new ServletHolder(logHtmlServlet);
     context.addServlet(logHtmlServletHolder, "/loghtml");
     return context;
