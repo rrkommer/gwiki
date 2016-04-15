@@ -46,32 +46,71 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 import de.micromata.genome.util.types.TimeInMillis;
 
 /**
- * 
- * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ * The Class JpaFileSystemImpl.
  *
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  */
 public class JpaFileSystemImpl extends AbstractFileSystem
 {
+
+  /**
+   * The Constant FILE.
+   */
   private static final char FILE = 'F';
 
+  /**
+   * The Constant DIRECTORY.
+   */
   private static final char DIRECTORY = 'D';
 
+  /**
+   * The emfac.
+   */
   private GwikiEmgrFactory emfac = GwikiEmgrFactory.get();
 
+  /**
+   * The file system name.
+   */
   private String fileSystemName = "JPAFSYS";
+
+  /**
+   * The Constant entName.
+   */
   private static final String entName = JpaFilesystemDO.class.getName();
+
+  /**
+   * The last event collected.
+   */
   private long lastEventCollected = System.currentTimeMillis();
 
+  /**
+   * The check file system intervall ms.
+   */
   private long checkFileSystemIntervallMs = TimeInMillis.MINUTE;
 
+  /**
+   * The last check system ms.
+   */
   private long lastCheckSystemMs = 0;
+
+  /**
+   * The deleted files.
+   */
   private List<JpaFilesystemDO> deletedFiles = new ArrayList<>();
 
+  /**
+   * Instantiates a new jpa file system impl.
+   */
   public JpaFileSystemImpl()
   {
 
   }
 
+  /**
+   * Instantiates a new jpa file system impl.
+   *
+   * @param fileSystemName the file system name
+   */
   public JpaFileSystemImpl(String fileSystemName)
   {
     this.fileSystemName = fileSystemName;
@@ -84,6 +123,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return fileSystemName;
   }
 
+  /**
+   * Normalize name.
+   *
+   * @param name the name
+   * @return the string
+   */
   private String normalizeName(String name)
   {
     if (name == null) {
@@ -107,6 +152,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return mkdirsInternal(name) != null;
   }
 
+  /**
+   * Mkdirs internal.
+   *
+   * @param name the name
+   * @return the long
+   */
   private Long mkdirsInternal(String name)
   {
     checkReadOnly();
@@ -125,6 +176,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return mkdir(name, pk);
   }
 
+  /**
+   * Find pk.
+   *
+   * @param normName the norm name
+   * @return the long
+   */
   private Long findPk(String normName)
   {
     if (StringUtils.isEmpty(normName) == true) {
@@ -141,6 +198,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return resl.get(0);
   }
 
+  /**
+   * Gets the parent dir string.
+   *
+   * @param name the name
+   * @return the parent dir string
+   */
   public static String getParentDirString(String name)
   {
     int lidx = name.lastIndexOf('/');
@@ -150,6 +213,9 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return name.substring(0, lidx);
   }
 
+  /**
+   * Check root dir.
+   */
   private void checkRootDir()
   {
     if (exists("/") == true) {
@@ -173,6 +239,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return mkdirInternal(name) != null;
   }
 
+  /**
+   * Mkdir internal.
+   *
+   * @param name the name
+   * @return the long
+   */
   public Long mkdirInternal(String name)
   {
     checkReadOnly();
@@ -198,6 +270,13 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     });
   }
 
+  /**
+   * Mkdir.
+   *
+   * @param name the name
+   * @param parentPk the parent pk
+   * @return the long
+   */
   private Long mkdir(String name, Long parentPk)
   {
     JpaFilesystemDO obj = findDbObjectShort(name);
@@ -275,6 +354,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return true;
   }
 
+  /**
+   * Checks for childs.
+   *
+   * @param name the name
+   * @return true, if successful
+   */
   private boolean hasChilds(String name)
   {
     String normname = normalizeName(name);
@@ -287,6 +372,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     });
   }
 
+  /**
+   * Checks for childs.
+   *
+   * @param pk the pk
+   * @return true, if successful
+   */
   private boolean hasChilds(Long pk)
   {
     return emfac.notx()
@@ -315,6 +406,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
         " from " + entName + " e ";
   }
 
+  /**
+   * Find db object short.
+   *
+   * @param name the name
+   * @return the jpa filesystem do
+   */
   private JpaFilesystemDO findDbObjectShort(String name)
   {
     String norname = normalizeName(name);
@@ -329,6 +426,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return dbo.get(0);
   }
 
+  /**
+   * Find db object full.
+   *
+   * @param name the name
+   * @return the jpa filesystem do
+   */
   private JpaFilesystemDO findDbObjectFull(String name)
   {
     String norname = normalizeName(name);
@@ -343,6 +446,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     return dbo.get(0);
   }
 
+  /**
+   * Convert.
+   *
+   * @param fsdo the fsdo
+   * @return the fs object
+   */
   private FsObject convert(JpaFilesystemDO fsdo)
   {
     FsObject ret;
@@ -375,6 +484,12 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     });
   }
 
+  /**
+   * Check create parent dirs.
+   *
+   * @param normName the norm name
+   * @return the long
+   */
   private Long checkCreateParentDirs(String normName)
   {
     String parentDir = getParentDirString(normName);
@@ -520,6 +635,9 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     }
   }
 
+  /**
+   * Check notifications.
+   */
   protected synchronized void checkNotifications()
   {
     Date lmod = new Date(lastEventCollected);

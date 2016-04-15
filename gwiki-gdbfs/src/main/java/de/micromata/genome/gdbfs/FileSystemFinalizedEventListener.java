@@ -26,5 +26,9 @@ package de.micromata.genome.gdbfs;
  */
 public interface FileSystemFinalizedEventListener
 {
+
+  /**
+   * On file system changed finalized.
+   */
   public void onFileSystemChangedFinalized();
 }

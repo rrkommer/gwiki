@@ -24,5 +24,11 @@ package de.micromata.genome.gdbfs;
  */
 public interface FileSystemEventListener
 {
+
+  /**
+   * On file system changed.
+   *
+   * @param event the event
+   */
   public void onFileSystemChanged(FileSystemEvent event);
 }

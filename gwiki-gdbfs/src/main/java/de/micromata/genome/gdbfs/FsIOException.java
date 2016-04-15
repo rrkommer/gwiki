@@ -16,7 +16,6 @@
 
 package de.micromata.genome.gdbfs;
 
-
 /**
  * Exception thrown by FileSystem.
  * 
@@ -26,23 +25,45 @@ package de.micromata.genome.gdbfs;
 public class FsIOException extends FsException
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -3256791863540206821L;
 
+  /**
+   * Instantiates a new fs io exception.
+   */
   public FsIOException()
   {
     super();
   }
 
+  /**
+   * Instantiates a new fs io exception.
+   *
+   * @param cause the cause
+   */
   public FsIOException(Exception cause)
   {
     super(cause);
   }
 
+  /**
+   * Instantiates a new fs io exception.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
   public FsIOException(String message, Exception cause)
   {
     super(message, cause);
   }
 
+  /**
+   * Instantiates a new fs io exception.
+   *
+   * @param message the message
+   */
   public FsIOException(String message)
   {
     super(message);

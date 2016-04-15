@@ -32,25 +32,58 @@ import de.micromata.genome.jpa.StdRecordDO;
 public class FsObject extends StdRecordDO<Long> implements Cloneable
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -6003825859639182662L;
 
+  /**
+   * The file system.
+   */
   protected FileSystem fileSystem;
 
+  /**
+   * The name.
+   */
   protected String name;
 
+  /**
+   * The type.
+   */
   protected char type;
 
+  /**
+   * The mime type.
+   */
   protected String mimeType;
 
+  /**
+   * The attributes.
+   */
   protected String attributes;
 
+  /**
+   * The length.
+   */
   protected int length;
 
+  /**
+   * Instantiates a new fs object.
+   */
   public FsObject()
   {
 
   }
 
+  /**
+   * Instantiates a new fs object.
+   *
+   * @param fileSystem the file system
+   * @param name the name
+   * @param type the type
+   * @param mimeType the mime type
+   * @param lastModified the last modified
+   */
   public FsObject(FileSystem fileSystem, String name, char type, String mimeType, long lastModified)
   {
     this.fileSystem = fileSystem;
@@ -60,6 +93,11 @@ public class FsObject extends StdRecordDO<Long> implements Cloneable
     this.setLastModified(lastModified);
   }
 
+  /**
+   * Instantiates a new fs object.
+   *
+   * @param other the other
+   */
   public FsObject(FsObject other)
   {
     this.modifiedAt = other.modifiedAt;
@@ -126,6 +164,11 @@ public class FsObject extends StdRecordDO<Long> implements Cloneable
     return type == 'D';
   }
 
+  /**
+   * Exists.
+   *
+   * @return true, if successful
+   */
   public boolean exists()
   {
     return type != 0;

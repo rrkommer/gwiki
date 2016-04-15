@@ -41,6 +41,10 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  */
 public class FileSystemUtils
 {
+
+  /**
+   * The Enum CopyFlags.
+   */
   public static enum CopyFlags
   {
     /**
@@ -48,16 +52,24 @@ public class FileSystemUtils
      */
     MergeNew(0x0001), //
     /**
-     * Overwrite existant files
+     * Overwrite existant files.
      */
     OverwriteFiles(0x0002), //
     /**
      * Remove old files in the directory.
      */
-    OverwriteDirectories(0x0004), //
-    ;
-    private int flag;
+    OverwriteDirectories(0x0004),
+    /**
+     * The flag.
+     */
+    //
+    ;private int flag;
 
+    /**
+     * Instantiates a new copy flags.
+     *
+     * @param flag the flag
+     */
     private CopyFlags(int flag)
     {
       this.flag = flag;
@@ -68,11 +80,23 @@ public class FileSystemUtils
       return flag;
     }
 
+    /**
+     * Checks if is sets the.
+     *
+     * @param flags the flags
+     * @return true, if is sets the
+     */
     public boolean isSet(int flags)
     {
       return (flag & flags) == flag;
     }
 
+    /**
+     * Combine.
+     *
+     * @param flags the flags
+     * @return the int
+     */
     public int combine(CopyFlags... flags)
     {
       int ret = 0;
@@ -83,6 +107,12 @@ public class FileSystemUtils
     }
   }
 
+  /**
+   * Copy.
+   *
+   * @param source the source
+   * @param target the target
+   */
   public static void copy(final FsObject source, final FileSystem target)
   {
     copy(source, target, new EveryMatcher<String>());
@@ -90,18 +120,23 @@ public class FileSystemUtils
 
   /**
    * copy a file to - possible - other filesystem.
-   * 
-   * @param source
-   * @param target
+   *
+   * @param source the source
+   * @param target the target
+   * @param matcher the matcher
    */
   public static void copy(final FsObject source, final FileSystem target, final Matcher<String> matcher)
   {
-    source.getFileSystem().runInTransaction(null, 100000, false, new CallableX<Void, RuntimeException>() {
+    source.getFileSystem().runInTransaction(null, 100000, false, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
-        return target.runInTransaction(null, 10000, false, new CallableX<Void, RuntimeException>() {
+        return target.runInTransaction(null, 10000, false, new CallableX<Void, RuntimeException>()
+        {
 
+          @Override
           public Void call() throws RuntimeException
           {
             copySync(source, target, matcher);
@@ -113,6 +148,13 @@ public class FileSystemUtils
     });
   }
 
+  /**
+   * Copy sync.
+   *
+   * @param source the source
+   * @param target the target
+   * @param matcher the matcher
+   */
   protected static void copySync(final FsObject source, final FileSystem target, final Matcher<String> matcher)
   {
     boolean matches = matcher.match(source.getName());
@@ -152,6 +194,12 @@ public class FileSystemUtils
     }
   }
 
+  /**
+   * Copy to zip.
+   *
+   * @param source the source
+   * @param zout the zout
+   */
   public static void copyToZip(FsObject source, ZipOutputStream zout)
   {
     String name = source.getName();
@@ -177,9 +225,9 @@ public class FileSystemUtils
 
   /**
    * Copy files into a zip file.
-   * 
-   * @param source
-   * @param matcher
+   *
+   * @param source the source
+   * @param matcher the matcher
    * @param zipOut will closed this stream after written.
    */
   public static void copyToZip(FsObject source, Matcher<String> matcher, OutputStream zipOut)
@@ -197,11 +245,24 @@ public class FileSystemUtils
     IOUtils.closeQuietly(zipOut);
   }
 
+  /**
+   * Merge dir names.
+   *
+   * @param parent the parent
+   * @param child the child
+   * @return the string
+   */
   public static String mergeDirNames(String parent, String child)
   {
     return FileNameUtils.join(parent, child);
   }
 
+  /**
+   * Normalize zip name.
+   *
+   * @param name the name
+   * @return the string
+   */
   public static String normalizeZipName(String name)
   {
     String s = StringUtils.replace(name, "\\", "/");
@@ -211,6 +272,13 @@ public class FileSystemUtils
     return s;
   }
 
+  /**
+   * Copy from zip.
+   *
+   * @param ze the ze
+   * @param zin the zin
+   * @param target the target
+   */
   public static void copyFromZip(ZipEntry ze, ZipInputStream zin, FsObject target)
   {
     String name = ze.getName();
@@ -233,6 +301,12 @@ public class FileSystemUtils
     }
   }
 
+  /**
+   * Copy from zip.
+   *
+   * @param zipIn the zip in
+   * @param target the target
+   */
   public static void copyFromZip(InputStream zipIn, FsObject target)
   {
     ZipInputStream zin = new ZipInputStream(zipIn);

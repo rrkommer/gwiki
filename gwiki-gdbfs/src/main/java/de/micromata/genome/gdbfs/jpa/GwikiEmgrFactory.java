@@ -23,12 +23,16 @@ import de.micromata.genome.jpa.EmgrFactory;
 import de.micromata.genome.jpa.EmgrTx;
 
 /**
- * 
- * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ * A factory for creating GwikiEmgr objects.
  *
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  */
 public class GwikiEmgrFactory extends EmgrFactory<DefaultEmgr>
 {
+
+  /**
+   * The instance.
+   */
   private static GwikiEmgrFactory INSTANCE;
 
   /**
@@ -45,6 +49,9 @@ public class GwikiEmgrFactory extends EmgrFactory<DefaultEmgr>
     return INSTANCE;
   }
 
+  /**
+   * Instantiates a new gwiki emgr factory.
+   */
   public GwikiEmgrFactory()
   {
     super("de.micromata.genome.gdbfs.jpa");

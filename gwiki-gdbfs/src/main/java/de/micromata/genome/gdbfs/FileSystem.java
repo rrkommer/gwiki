@@ -33,34 +33,49 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 public interface FileSystem
 {
 
+  /**
+   * The Constant TYPE_FILE.
+   */
   public static final char TYPE_FILE = 'F';
 
+  /**
+   * The Constant TYPE_DIR.
+   */
   public static final char TYPE_DIR = 'D';
 
   /**
-   * The data encoding only used for db
+   * The data encoding only used for db.
    */
   public static final char DATAENCODING_BINARY = 'B';
 
+  /**
+   * The Constant DATAENCODING_TEXT.
+   */
   public static final char DATAENCODING_TEXT = 'T';
 
+  /**
+   * The Constant DATAENCODING_LONGVALUE.
+   */
   public static final char DATAENCODING_LONGVALUE = 'L';
 
+  /**
+   * The Constant DATAENCODING_SHORTVALUE.
+   */
   public static final char DATAENCODING_SHORTVALUE = 'S';
 
   /**
    * return this on standard implementation.
-   * 
-   * @param name
-   * @return
+   *
+   * @param name the name
+   * @return the fs for read
    */
   FileSystem getFsForRead(String name);
 
   /**
    * return this on standard implementation.
-   * 
-   * @param name
-   * @return
+   *
+   * @param name the name
+   * @return the fs for write
    */
   FileSystem getFsForWrite(String name);
 
@@ -68,48 +83,49 @@ public interface FileSystem
 
   /**
    * See File.mkdir
-   * 
-   * @param name
-   * @return
+   *
+   * @param name the name
+   * @return true, if successful
    */
   public boolean mkdir(String name);
 
   /**
    * See File.mkdirs.
-   * 
-   * @param name
-   * @return
+   *
+   * @param name the name
+   * @return true, if successful
    */
   public boolean mkdirs(String name);
 
   /**
-   * 
-   * @param name
+   * Exists.
+   *
+   * @param name the name
    * @return true if file exists (read fs)
    */
   boolean exists(String name);
 
   /**
    * same as exists, but on mounted filesystems check if file is on writeable filesystem.
-   * 
-   * @param name
-   * @return
+   *
+   * @param name the name
+   * @return true, if successful
    */
   boolean existsForWrite(String name);
 
   /**
    * See File.rename
-   * 
-   * @param oldName
-   * @param newName
-   * @return
+   *
+   * @param oldName the old name
+   * @param newName the new name
+   * @return true, if successful
    */
   boolean rename(String oldName, String newName);
 
   /**
    * delete this file/directory.
-   * 
-   * @param name
+   *
+   * @param name the name
    * @return false if file cannot be deleted because has childs.
    */
   boolean delete(String name);
@@ -118,14 +134,16 @@ public interface FileSystem
    * In case of file is a FsFileObject equals to delete.
    * 
    * Otherwise delete directory with all nested files an directories.
-   * 
-   * @param name
+   *
+   * @param name the name
    * @return false if file cannot be deleted.
    */
   boolean deleteRecursive(String name);
 
   /**
-   * @param name
+   * Gets the file object.
+   *
+   * @param name the name
    * @return null if not exists.
    */
   public FsObject getFileObject(final String name);
@@ -139,66 +157,79 @@ public interface FileSystem
   public long getLastModified(final String name);
 
   /**
-   * 
-   * @param file
-   * @param is
-   * @param overWrite
+   * Write binary file.
+   *
+   * @param file the file
+   * @param is the is
+   * @param overWrite the over write
    * @throws FsFileExistsException if file exists and overWrite is true
    */
   void writeBinaryFile(String file, InputStream is, boolean overWrite);
 
   /**
-   * 
-   * @param file
-   * @param data
-   * @param overWrite
+   * Write binary file.
+   *
+   * @param file the file
+   * @param data the data
+   * @param overWrite the over write
    * @throws FsFileExistsException if file exists and overWrite is true
    */
   void writeBinaryFile(String file, byte[] data, boolean overWrite);
 
   /**
-   * 
-   * @param file
-   * @param content
-   * @param overWrite
+   * Write text file.
+   *
+   * @param file the file
+   * @param content the content
+   * @param overWrite the over write
    * @throws FsFileExistsException if file exists and overWrite is true
    */
   void writeTextFile(String file, String content, boolean overWrite);
 
   /**
-   * 
-   * @param file
-   * @param data
-   * @param overWrite
+   * Write file.
+   *
+   * @param file the file
+   * @param data the data
+   * @param overWrite the over write
    * @throws FsFileExistsException if file exists and overWrite is true
    */
   void writeFile(String file, byte[] data, boolean overWrite);
 
+  /**
+   * Write file.
+   *
+   * @param file the file
+   * @param is the is
+   * @param overWrite the over write
+   */
   void writeFile(String file, InputStream is, boolean overWrite);
 
   /**
-   * 
-   * @param file
-   * @param os
-   * @return
+   * Read binary file.
+   *
+   * @param file the file
+   * @param os the os
    * @throws RuntimeIOException if any exception on underlying storage
    * @throws FsFileExistsException if file does not exists or is not a file
    */
   void readBinaryFile(String file, OutputStream os);
 
   /**
-   * 
-   * @param file
-   * @return
+   * Read binary file.
+   *
+   * @param file the file
+   * @return the byte[]
    * @throws RuntimeIOException if any exception on underlying storage
    * @throws FsFileExistsException if file does not exists or is not a file
    */
   byte[] readBinaryFile(String file);
 
   /**
-   * 
-   * @param file
-   * @return
+   * Read text file.
+   *
+   * @param file the file
+   * @return the string
    * @throws RuntimeIOException if any exception on underlying storage
    * @throws FsFileExistsException if file does not exists or is not a file
    */
@@ -214,17 +245,18 @@ public interface FileSystem
    * See listFiles with matcher.
    * 
    * Uses BooleanListMatcherFactory to parse rule to matcher.
-   * 
-   * @param name
-   * @param matcherRule
-   * @param searchType
-   * @param recursive
-   * @return
+   *
+   * @param name the name
+   * @param matcherPattern the matcher pattern
+   * @param searchType the search type
+   * @param recursive the recursive
+   * @return the list
    */
   public List<FsObject> listFilesByPattern(String name, String matcherPattern, Character searchType, boolean recursive);
 
   /**
-   * 
+   * List files.
+   *
    * @param name directory name starting with
    * @param matcher may null if all fileobject sould be return. Otherwise matcher will match to the complete file name.
    * @param searchType 'F', 'D' or null if both
@@ -241,22 +273,23 @@ public interface FileSystem
   /**
    * return a counter which increments each time a file in the filesystem changed.
    * 
-   * @todo not implemented
+   * todo not implemented on all interfaces.
    */
   public long getModificationCounter();
 
   /**
-   * Ensure to run this operation in transactional mode. On File system, which does not support DB-Like Transaktions (like StdFileSystem),
-   * at least protect concurent writing with locking.
-   * 
-   * @param <R>
-   * @param timeout waiting for lock
-   * @param file if null the global filesystem lock will be locked.
+   * Ensure to run this operation in transactional mode. On File system, which does not support DB-Like Transaktions
+   * (like StdFileSystem), at least protect concurent writing with locking.
+   *
+   * @param <R> the generic type
+   * @param lockFile the lock file
+   * @param timeOut the time out
    * @param noModFs no modification counter will be increased
-   * @param callback
-   * @return
+   * @param callback the callback
+   * @return the r
    */
-  public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback);
+  public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs,
+      CallableX<R, RuntimeException> callback);
 
   /**
    * 
@@ -272,11 +305,10 @@ public interface FileSystem
 
   /**
    * Create a temporary Directory.
-   * 
+   *
    * @param name simple name wich will be used to build the directory name.
    * @param timeToLive milliseconds to life. After the time elapsed the temp directory may be removed.
-   * 
-   * @return
+   * @return the fs directory object
    */
   FsDirectoryObject createTempDir(String name, long timeToLive);
 
@@ -285,8 +317,20 @@ public interface FileSystem
    */
   void cleanupTempDirs();
 
+  /**
+   * Gets the mime type.
+   *
+   * @param fileName the file name
+   * @return the mime type
+   */
   String getMimeType(String fileName);
 
+  /**
+   * Checks if is text mime type.
+   *
+   * @param mimType the mim type
+   * @return true, if is text mime type
+   */
   boolean isTextMimeType(String mimType);
 
   /**
@@ -298,13 +342,14 @@ public interface FileSystem
    * @param fileNameMatcher may be null if all files will be received.
    * @param listener listener receiving events.
    */
-  void registerListener(FileSystemEventType eventType, Matcher<String> fileNameMatcher, FileSystemEventListener listener);
+  void registerListener(FileSystemEventType eventType, Matcher<String> fileNameMatcher,
+      FileSystemEventListener listener);
 
   /**
    * Check if Events exists and send them.
    * 
-   * @param force if force is true, the events will be send. Otherwise the internal implementation will queue events and send them after a
-   *          timeout
+   * @param force if force is true, the events will be send. Otherwise the internal implementation will queue events and
+   *          send them after a timeout
    */
   void checkEvents(boolean force);
 

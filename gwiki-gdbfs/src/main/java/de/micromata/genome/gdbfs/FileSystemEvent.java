@@ -24,10 +24,20 @@ package de.micromata.genome.gdbfs;
  */
 public class FileSystemEvent
 {
+
+  /**
+   * The event type.
+   */
   private FileSystemEventType eventType;
 
+  /**
+   * The file system.
+   */
   private FileSystem fileSystem;
 
+  /**
+   * The file name.
+   */
   private String fileName;
 
   /**
@@ -36,10 +46,18 @@ public class FileSystemEvent
   private String oldFileName;
 
   /**
-   * Timestamp of the modification/creation/deletion
+   * Timestamp of the modification/creation/deletion.
    */
   private long timeStamp;
 
+  /**
+   * Instantiates a new file system event.
+   *
+   * @param eventType the event type
+   * @param fileSystem the file system
+   * @param fileName the file name
+   * @param timeStamp the time stamp
+   */
   public FileSystemEvent(FileSystemEventType eventType, FileSystem fileSystem, String fileName, long timeStamp)
   {
     this.eventType = eventType;
@@ -48,7 +66,17 @@ public class FileSystemEvent
     this.timeStamp = timeStamp;
   }
 
-  public FileSystemEvent(FileSystemEventType eventType, FileSystem fileSystem, String fileName, long timeStamp, String oldFileName)
+  /**
+   * Instantiates a new file system event.
+   *
+   * @param eventType the event type
+   * @param fileSystem the file system
+   * @param fileName the file name
+   * @param timeStamp the time stamp
+   * @param oldFileName the old file name
+   */
+  public FileSystemEvent(FileSystemEventType eventType, FileSystem fileSystem, String fileName, long timeStamp,
+      String oldFileName)
   {
     this(eventType, fileSystem, fileName, timeStamp);
     this.oldFileName = oldFileName;

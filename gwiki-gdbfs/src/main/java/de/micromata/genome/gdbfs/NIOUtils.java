@@ -29,6 +29,12 @@ import java.nio.channels.Channel;
  */
 public class NIOUtils
 {
+
+  /**
+   * Close quitly.
+   *
+   * @param chanel the chanel
+   */
   public static void closeQuitly(Channel chanel)
   {
     if (chanel == null) {

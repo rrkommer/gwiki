@@ -29,8 +29,17 @@ import java.net.URLStreamHandler;
  */
 public class FsObjectURLStreamHandler extends URLStreamHandler
 {
+
+  /**
+   * The file.
+   */
   private FsObject file;
 
+  /**
+   * Instantiates a new fs object url stream handler.
+   *
+   * @param file the file
+   */
   public FsObjectURLStreamHandler(FsObject file)
   {
     this.file = file;

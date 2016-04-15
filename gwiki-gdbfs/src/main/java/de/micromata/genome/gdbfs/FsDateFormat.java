@@ -31,9 +31,17 @@ import org.apache.commons.lang.StringUtils;
  */
 public class FsDateFormat
 {
+
+  /**
+   * The Constant UTC_TIMEZONE.
+   */
   public static final TimeZone UTC_TIMEZONE = TimeZone.getTimeZone("UTC");
 
-  public static ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>() {
+  /**
+   * The internal timestamp.
+   */
+  public static ThreadLocal<SimpleDateFormat> internalTimestamp = new ThreadLocal<SimpleDateFormat>()
+  {
 
     @Override
     protected SimpleDateFormat initialValue()
@@ -47,9 +55,10 @@ public class FsDateFormat
   /**
    * convert Stringified date to internal Date
    * 
-   * @Todo use utc.
-   * @param date
-   * @return
+   * Todo use utc.
+   *
+   * @param date the date
+   * @return the date
    */
   public static Date string2date(String date)
   {
@@ -65,6 +74,12 @@ public class FsDateFormat
     }
   }
 
+  /**
+   * Date2string.
+   *
+   * @param date the date
+   * @return the string
+   */
   public static String date2string(Date date)
   {
     if (date == null) {

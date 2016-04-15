@@ -27,18 +27,39 @@ import java.io.InputStream;
 public class CpZipRamFileSystem extends ZipRamFileSystem
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -6217635628070031205L;
 
+  /**
+   * Instantiates a new cp zip ram file system.
+   *
+   * @param zipFile the zip file
+   */
   public CpZipRamFileSystem(String zipFile)
   {
     this(zipFile, "embeddedcp(" + zipFile + ")s");
   }
 
+  /**
+   * Instantiates a new cp zip ram file system.
+   *
+   * @param zipFile the zip file
+   * @param fsName the fs name
+   */
   public CpZipRamFileSystem(String zipFile, String fsName)
   {
     this(zipFile, fsName, false);
   }
 
+  /**
+   * Instantiates a new cp zip ram file system.
+   *
+   * @param zipFile the zip file
+   * @param fsName the fs name
+   * @param readOnly the read only
+   */
   public CpZipRamFileSystem(String zipFile, String fsName, boolean readOnly)
   {
     super(fsName);

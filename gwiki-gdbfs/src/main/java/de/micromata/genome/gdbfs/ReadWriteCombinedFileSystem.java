@@ -25,11 +25,20 @@ package de.micromata.genome.gdbfs;
 public class ReadWriteCombinedFileSystem extends CombinedFileSystem
 {
 
+  /**
+   * Instantiates a new read write combined file system.
+   */
   public ReadWriteCombinedFileSystem()
   {
     super();
   }
 
+  /**
+   * Instantiates a new read write combined file system.
+   *
+   * @param primary the primary
+   * @param secondary the secondary
+   */
   public ReadWriteCombinedFileSystem(FileSystem primary, FileSystem secondary)
   {
     super(primary, secondary);
@@ -41,6 +50,7 @@ public class ReadWriteCombinedFileSystem extends CombinedFileSystem
     return "readwrite(" + super.getFileSystemName() + ")";
   }
 
+  @Override
   public FileSystem getFsForRead(String name)
   {
     if (primary.exists(name) == true) {
@@ -52,6 +62,7 @@ public class ReadWriteCombinedFileSystem extends CombinedFileSystem
     return primary;
   }
 
+  @Override
   public FileSystem getFsForWrite(String name)
   {
     return primary;

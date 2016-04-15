@@ -25,12 +25,19 @@ package de.micromata.genome.gdbfs;
 public class SubFileSystem extends MountPointFileSystem
 {
 
+  /**
+   * Instantiates a new sub file system.
+   *
+   * @param parentFileSystem the parent file system
+   * @param path the path
+   */
   public SubFileSystem(FileSystem parentFileSystem, String path)
   {
     super(parentFileSystem, path);
 
   }
 
+  @Override
   protected String getFqName(String name)
   {
     return FileNameUtils.join(path, name);

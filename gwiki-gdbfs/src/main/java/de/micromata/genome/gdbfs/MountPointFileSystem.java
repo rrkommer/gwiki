@@ -34,15 +34,31 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public abstract class MountPointFileSystem extends AbstractFileSystem implements InitializingBean
 {
+
+  /**
+   * The parent file system.
+   */
   protected FileSystem parentFileSystem;
 
+  /**
+   * The path.
+   */
   protected String path;
 
+  /**
+   * Instantiates a new mount point file system.
+   */
   public MountPointFileSystem()
   {
 
   }
 
+  /**
+   * Instantiates a new mount point file system.
+   *
+   * @param parentFileSystem the parent file system
+   * @param path the path
+   */
   public MountPointFileSystem(FileSystem parentFileSystem, String path)
   {
     this.parentFileSystem = parentFileSystem;
@@ -50,8 +66,15 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
     setReadOnly(parentFileSystem.isReadOnly());
   }
 
+  /**
+   * Gets the fq name.
+   *
+   * @param name the name
+   * @return the fq name
+   */
   protected abstract String getFqName(String name);
 
+  @Override
   public void afterPropertiesSet() throws Exception
   {
     // needed, because getFileSystemForWrite
@@ -63,6 +86,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#delete(java.lang.String)
    */
+  @Override
   public boolean delete(String name)
   {
     return parentFileSystem.delete(getFqName(name));
@@ -73,6 +97,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#erase()
    */
+  @Override
   public void erase()
   {
     throw new FsException("Erase not supported on SubFileSystem");
@@ -83,6 +108,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#exists(java.lang.String)
    */
+  @Override
   public boolean exists(String name)
   {
     return parentFileSystem.exists(getFqName(name));
@@ -93,6 +119,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileObject(java.lang.String)
    */
+  @Override
   public FsObject getFileObject(String name)
   {
     FsObject fsobj = parentFileSystem.getFileObject(getFqName(name));
@@ -105,6 +132,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileSystemName()
    */
+  @Override
   public String getFileSystemName()
   {
     return parentFileSystem.getFileSystemName() + "/" + path;
@@ -115,6 +143,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getLastModified(java.lang.String)
    */
+  @Override
   public long getLastModified(String name)
   {
     return parentFileSystem.getLastModified(getFqName(name));
@@ -125,11 +154,17 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getModificationCounter()
    */
+  @Override
   public long getModificationCounter()
   {
     return parentFileSystem.getModificationCounter();
   }
 
+  /**
+   * Parent to this.
+   *
+   * @param f the f
+   */
   protected final void parentToThis(FsObject f)
   {
     if (f == null) {
@@ -160,9 +195,10 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher, java.lang.Character,
-   * boolean)
+   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher,
+   * java.lang.Character, boolean)
    */
+  @Override
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     List<FsObject> lso = parentFileSystem.listFiles(getFqName(name), matcher, searchType, recursive);
@@ -182,6 +218,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#mkdir(java.lang.String)
    */
+  @Override
   public boolean mkdir(String name)
   {
     return parentFileSystem.mkdir(getFqName(name));
@@ -192,6 +229,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#readBinaryFile(java.lang.String, java.io.OutputStream)
    */
+  @Override
   public void readBinaryFile(String file, OutputStream os)
   {
     parentFileSystem.readBinaryFile(getFqName(file), os);
@@ -202,6 +240,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#rename(java.lang.String, java.lang.String)
    */
+  @Override
   public boolean rename(String oldName, String newName)
   {
     String old = getFqName(oldName);
@@ -212,8 +251,10 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean,
+   * de.micromata.genome.util.runtime.CallableX)
    */
+  @Override
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
   {
     if (lockFile == null) {
@@ -227,6 +268,7 @@ public abstract class MountPointFileSystem extends AbstractFileSystem implements
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#writeBinaryFile(java.lang.String, java.io.InputStream, boolean)
    */
+  @Override
   public void writeBinaryFile(String file, InputStream is, boolean overWrite)
   {
     parentFileSystem.writeBinaryFile(getFqName(file), is, overWrite);

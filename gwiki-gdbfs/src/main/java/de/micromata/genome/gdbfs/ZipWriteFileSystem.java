@@ -41,22 +41,38 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  */
 public class ZipWriteFileSystem extends AbstractFileSystem
 {
+
+  /**
+   * The output stream.
+   */
   private OutputStream outputStream;
 
+  /**
+   * The zout.
+   */
   private ZipOutputStream zout;
 
+  /**
+   * Instantiates a new zip write file system.
+   *
+   * @param os the os
+   */
   public ZipWriteFileSystem(OutputStream os)
   {
     this.outputStream = os;
     zout = new ZipOutputStream(outputStream);
   }
 
+  /**
+   * Close.
+   */
   public void close()
   {
     IOUtils.closeQuietly(zout);
     IOUtils.closeQuietly(outputStream);
   }
 
+  @Override
   public void writeBinaryFile(String file, InputStream is, boolean overWrite)
   {
     ZipEntry ze = new ZipEntry(file);
@@ -70,117 +86,140 @@ public class ZipWriteFileSystem extends AbstractFileSystem
     }
   }
 
+  /**
+   * Unsupported op.
+   */
   protected void unsupportedOp()
   {
     StackTraceElement[] els = new Throwable().getStackTrace();
     throw new FsException("Unsupported operation: " + els[1].getMethodName());
   }
 
+  @Override
   public void cleanupTempDirs()
   {
     unsupportedOp();
   }
 
+  @Override
   public FsDirectoryObject createTempDir(String name, long timeToLive)
   {
     unsupportedOp();
     return null;
   }
 
+  @Override
   public boolean delete(String name)
   {
     unsupportedOp();
     return false;
   }
 
+  @Override
   public boolean deleteRecursive(String name)
   {
     unsupportedOp();
     return false;
   }
 
+  @Override
   public void erase()
   {
     unsupportedOp();
   }
 
+  @Override
   public boolean exists(String name)
   {
     return false;
   }
 
+  @Override
   public FsObject getFileObject(String name)
   {
     unsupportedOp();
     return null;
   }
 
+  @Override
   public String getFileSystemName()
   {
     unsupportedOp();
     return "";
   }
 
+  @Override
   public long getModificationCounter()
   {
     unsupportedOp();
     return 0;
   }
 
+  @Override
   public boolean isReadOnly()
   {
     return false;
   }
 
+  @Override
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     unsupportedOp();
     return null;
   }
 
+  @Override
   public boolean mkdir(String name)
   {
     return true;
   }
 
+  @Override
   public boolean mkdirs(String name)
   {
     return true;
   }
 
+  @Override
   public void readBinaryFile(String file, OutputStream os)
   {
     unsupportedOp();
   }
 
+  @Override
   public byte[] readBinaryFile(String file)
   {
     unsupportedOp();
     return null;
   }
 
+  @Override
   public String readTextFile(String file)
   {
     unsupportedOp();
     return null;
   }
 
+  @Override
   public boolean rename(String oldName, String newName)
   {
     unsupportedOp();
     return false;
   }
 
+  @Override
   public long getLastModified(final String name)
   {
     return 0;
   }
 
+  @Override
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
   {
     return callback.call();
   }
 
+  @Override
   public void setReadOnly(boolean readOnly)
   {
     unsupportedOp();

@@ -23,26 +23,47 @@ package de.micromata.genome.gdbfs;
  * 
  */
 public class FsException extends RuntimeException
-
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -3256791863540206821L;
 
+  /**
+   * Instantiates a new fs exception.
+   */
   public FsException()
   {
     super();
   }
 
+  /**
+   * Instantiates a new fs exception.
+   *
+   * @param cause the cause
+   */
   public FsException(Throwable cause)
   {
     super(cause);
   }
 
+  /**
+   * Instantiates a new fs exception.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
   public FsException(String message, Throwable cause)
   {
     super(message, cause);
   }
 
+  /**
+   * Instantiates a new fs exception.
+   *
+   * @param message the message
+   */
   public FsException(String message)
   {
     super(message);

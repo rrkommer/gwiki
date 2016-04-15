@@ -31,10 +31,15 @@ import java.net.URLConnection;
 public class FsObjectURLConnection extends URLConnection
 {
 
+  /**
+   * The file.
+   */
   private FsObject file;
 
   /**
-   * @param url
+   * Instantiates a new fs object url connection.
+   *
+   * @param url the url
    */
   public FsObjectURLConnection(URL url)
   {
@@ -42,6 +47,12 @@ public class FsObjectURLConnection extends URLConnection
     throw new RuntimeException("Constructor FsObjectURLConnection(URL url) not supported");
   }
 
+  /**
+   * Instantiates a new fs object url connection.
+   *
+   * @param url the url
+   * @param file the file
+   */
   public FsObjectURLConnection(URL url, FsObject file)
   {
     super(url);

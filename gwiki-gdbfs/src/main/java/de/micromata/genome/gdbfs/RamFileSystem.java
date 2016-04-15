@@ -42,25 +42,51 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 2761704084927338307L;
 
+  /**
+   * The fs name.
+   */
   protected String fsName;
 
+  /**
+   * The files.
+   */
   protected Map<String, FsObjectContainer> files = new HashMap<String, FsObjectContainer>();
 
+  /**
+   * The modification counter.
+   */
   protected long modificationCounter = 0;
 
+  /**
+   * Instantiates a new ram file system.
+   */
   public RamFileSystem()
   {
     this("ramfs");
   }
 
+  /**
+   * Instantiates a new ram file system.
+   *
+   * @param fsName the fs name
+   */
   public RamFileSystem(String fsName)
   {
     this.fsName = fsName;
     erase();
   }
 
+  /**
+   * Normalize file name.
+   *
+   * @param name the name
+   * @return the string
+   */
   protected String normalizeFileName(String name)
   {
     if (name.equals("/") == true) {
@@ -173,6 +199,13 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return ret;
   }
 
+  /**
+   * Lock file.
+   *
+   * @param lockFile the lock file
+   * @param timeout the timeout
+   * @return true, if successful
+   */
   public boolean lockFile(String lockFile, long timeout)
   {
     return true;
@@ -284,6 +317,14 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     return modificationCounter;
   }
 
+  /**
+   * Run in transaction.
+   *
+   * @param <R> the generic type
+   * @param timeOut the time out
+   * @param callback the callback
+   * @return the r
+   */
   public <R> R runInTransaction(long timeOut, CallableX<R, RuntimeException> callback)
   {
     return callback.call();
@@ -304,6 +345,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
   }
 
+  /**
+   * Adds the file.
+   *
+   * @param file the file
+   */
   public void addFile(FsObject file)
   {
     final String name = normalizeFileName(file.getName());

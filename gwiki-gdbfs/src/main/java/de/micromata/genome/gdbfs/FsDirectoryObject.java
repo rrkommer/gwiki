@@ -27,13 +27,28 @@ import java.util.List;
 public class FsDirectoryObject extends FsObject
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 7503728953607974196L;
 
+  /**
+   * Instantiates a new fs directory object.
+   *
+   * @param fileSystem the file system
+   * @param name the name
+   * @param lastModified the last modified
+   */
   public FsDirectoryObject(FileSystem fileSystem, String name, long lastModified)
   {
     super(fileSystem, name, FileSystem.TYPE_DIR, null, lastModified);
   }
 
+  /**
+   * Instantiates a new fs directory object.
+   *
+   * @param other the other
+   */
   public FsDirectoryObject(FsDirectoryObject other)
   {
     super(other);
@@ -45,6 +60,12 @@ public class FsDirectoryObject extends FsObject
     return new FsDirectoryObject(this);
   }
 
+  /**
+   * Mkdir.
+   *
+   * @param dir the dir
+   * @return the fs directory object
+   */
   public FsDirectoryObject mkdir(String dir)
   {
     String locName = FileNameUtils.join(getName(), dir);
@@ -55,16 +76,29 @@ public class FsDirectoryObject extends FsObject
       }
       return null;
     }
-    if (fileSystem.mkdir(locName) == false)
+    if (fileSystem.mkdir(locName) == false) {
       return null;
+    }
     return (FsDirectoryObject) fileSystem.getFileObject(locName);
   }
 
+  /**
+   * Gets the child.
+   *
+   * @param childName the child name
+   * @return the child
+   */
   public FsObject getChild(String childName)
   {
     return fileSystem.getFileObject(FileNameUtils.join(getName(), childName));
   }
 
+  /**
+   * Gets the childs.
+   *
+   * @param type the type
+   * @return the childs
+   */
   public List<FsObject> getChilds(Character type)
   {
     return fileSystem.listFiles(getName(), null, type, false);

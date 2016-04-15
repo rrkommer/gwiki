@@ -25,16 +25,21 @@ import de.micromata.genome.util.matcher.Matcher;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
- * A file system merged other file systems. Because there is no decent matching, dispatching write access will be work via finding first
- * file system, the parent directory exits.
+ * A file system merged other file systems. Because there is no decent matching, dispatching write access will be work
+ * via finding first file system, the parent directory exits.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class MultiMergeFileSystem extends AbstractFileSystem
 {
+
+  /**
+   * The file systems.
+   */
   private List<FileSystem> fileSystems = new ArrayList<FileSystem>();
 
+  @Override
   public FileSystem getFsForWrite(String name)
   {
     FileSystem fs = getFsForRead(name);
@@ -62,6 +67,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#delete(java.lang.String)
    */
+  @Override
   public boolean delete(String name)
   {
     FileSystem fs = getFsForWrite(name);
@@ -76,6 +82,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#erase()
    */
+  @Override
   public void erase()
   {
 
@@ -86,6 +93,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#exists(java.lang.String)
    */
+  @Override
   public boolean exists(String name)
   {
     return getFsForRead(name) != null;
@@ -96,6 +104,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileObject(java.lang.String)
    */
+  @Override
   public FsObject getFileObject(String name)
   {
     FileSystem fs = getFsForRead(name);
@@ -110,6 +119,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getFileSystemName()
    */
+  @Override
   public String getFileSystemName()
   {
     StringBuilder ret = new StringBuilder();
@@ -132,6 +142,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getLastModified(java.lang.String)
    */
+  @Override
   public long getLastModified(String name)
   {
     FileSystem fs = getFsForRead(name);
@@ -146,6 +157,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#getModificationCounter()
    */
+  @Override
   public long getModificationCounter()
   {
     long ret = 0;
@@ -158,9 +170,10 @@ public class MultiMergeFileSystem extends AbstractFileSystem
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher, java.lang.Character,
-   * boolean)
+   * @see de.micromata.genome.gdbfs.FileSystem#listFiles(java.lang.String, de.micromata.genome.util.matcher.Matcher,
+   * java.lang.Character, boolean)
    */
+  @Override
   public List<FsObject> listFiles(String name, Matcher<String> matcher, Character searchType, boolean recursive)
   {
     List<FsObject> ret = new ArrayList<FsObject>();
@@ -175,6 +188,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#mkdir(java.lang.String)
    */
+  @Override
   public boolean mkdir(String name)
   {
     String pdi = FileNameUtils.getParentDir(name);
@@ -190,6 +204,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#readBinaryFile(java.lang.String, java.io.OutputStream)
    */
+  @Override
   public void readBinaryFile(String file, OutputStream os)
   {
     getFsForRead(file).readBinaryFile(file, os);
@@ -201,6 +216,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#rename(java.lang.String, java.lang.String)
    */
+  @Override
   public boolean rename(String oldName, String newName)
   {
     FileSystem fs = getFsForWrite(oldName);
@@ -215,6 +231,7 @@ public class MultiMergeFileSystem extends AbstractFileSystem
    * 
    * @see de.micromata.genome.gdbfs.FileSystem#writeBinaryFile(java.lang.String, java.io.InputStream, boolean)
    */
+  @Override
   public void writeBinaryFile(String file, InputStream is, boolean overWrite)
   {
     FileSystem fs = getFsForWrite(file);
@@ -227,8 +244,10 @@ public class MultiMergeFileSystem extends AbstractFileSystem
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean, de.micromata.genome.util.runtime.CallableX)
+   * @see de.micromata.genome.gdbfs.FileSystem#runInTransaction(java.lang.String, long, boolean,
+   * de.micromata.genome.util.runtime.CallableX)
    */
+  @Override
   public <R> R runInTransaction(String lockFile, long timeOut, boolean noModFs, CallableX<R, RuntimeException> callback)
   {
     if (fileSystems.isEmpty() == true) {

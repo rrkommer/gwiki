@@ -29,13 +29,29 @@ import java.io.InputStream;
 public class FileZipRamFileSystem extends ZipRamFileSystem
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -7317267244076883488L;
 
+  /**
+   * Instantiates a new file zip ram file system.
+   *
+   * @param zipFile the zip file
+   * @param fsName the fs name
+   */
   public FileZipRamFileSystem(String zipFile, String fsName)
   {
     this(zipFile, fsName, false);
   }
 
+  /**
+   * Instantiates a new file zip ram file system.
+   *
+   * @param zipFile the zip file
+   * @param fsName the fs name
+   * @param readOnly the read only
+   */
   public FileZipRamFileSystem(String zipFile, String fsName, boolean readOnly)
   {
     super(fsName);

@@ -27,13 +27,29 @@ import org.apache.commons.lang.StringUtils;
 public class FsFileObject extends FsObject
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -252297990366094145L;
 
+  /**
+   * Instantiates a new fs file object.
+   *
+   * @param fileSystem the file system
+   * @param name the name
+   * @param mimeType the mime type
+   * @param lastModified the last modified
+   */
   public FsFileObject(FileSystem fileSystem, String name, String mimeType, long lastModified)
   {
     super(fileSystem, name, FileSystem.TYPE_FILE, mimeType, lastModified);
   }
 
+  /**
+   * Instantiates a new fs file object.
+   *
+   * @param other the other
+   */
   public FsFileObject(FsFileObject other)
   {
     super(other);
@@ -64,37 +80,70 @@ public class FsFileObject extends FsObject
     return false;
   }
 
+  /**
+   * Read data.
+   *
+   * @return the byte[]
+   */
   public byte[] readData()
   {
     return fileSystem.readBinaryFile(name);
   }
 
+  /**
+   * Read string.
+   *
+   * @return the string
+   */
   public String readString()
   {
     return fileSystem.readTextFile(name);
   }
 
+  /**
+   * Write new file.
+   *
+   * @param data the data
+   */
   // TODO exception
   public void writeNewFile(byte[] data)
   {
     fileSystem.writeBinaryFile(name, data, false);
   }
 
+  /**
+   * Write file.
+   *
+   * @param data the data
+   */
   public void writeFile(byte[] data)
   {
     fileSystem.writeBinaryFile(name, data, true);
   }
 
+  /**
+   * Write new file.
+   *
+   * @param data the data
+   */
   public void writeNewFile(String data)
   {
     fileSystem.writeTextFile(name, data, false);
   }
 
+  /**
+   * Write file.
+   *
+   * @param data the data
+   */
   public void writeFile(String data)
   {
     fileSystem.writeTextFile(name, data, true);
   }
 
+  /**
+   * Delete.
+   */
   public void delete()
   {
     fileSystem.delete(name);

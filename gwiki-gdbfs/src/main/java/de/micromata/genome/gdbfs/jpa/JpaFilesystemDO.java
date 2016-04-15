@@ -29,6 +29,9 @@ import javax.persistence.Transient;
 
 import de.micromata.genome.jpa.StdRecordDO;
 
+/**
+ * The Class JpaFilesystemDO.
+ */
 @Entity
 @Table(name = "TB_GWIKI_JPAFSYS", indexes = {
     @Index(name = "IX_GWIKI_JPAFSYS_NAME", columnList = "fsName, name", unique = true),
@@ -36,24 +39,71 @@ import de.micromata.genome.jpa.StdRecordDO;
 })
 public class JpaFilesystemDO extends StdRecordDO<Long>
 {
+
+  /**
+   * The fs name.
+   */
   private String fsName;
 
+  /**
+   * The name.
+   */
   private String name;
 
+  /**
+   * The parent.
+   */
   private Long parent;
 
+  /**
+   * The file type.
+   */
   private char fileType;
+
+  /**
+   * The mime type.
+   */
   private String mimeType;
+
+  /**
+   * The data.
+   */
   private byte[] data;
+
+  /**
+   * The length.
+   */
   private int length;
+
+  /**
+   * The attributes.
+   */
   protected String attributes;
 
+  /**
+   * Instantiates a new jpa filesystem do.
+   */
   public JpaFilesystemDO()
   {
     super();
 
   }
 
+  /**
+   * Instantiates a new jpa filesystem do.
+   *
+   * @param pk the pk
+   * @param name the name
+   * @param fileType the file type
+   * @param mimeType the mime type
+   * @param length the length
+   * @param attributes the attributes
+   * @param modifiedAt the modified at
+   * @param modifiedBy the modified by
+   * @param createdAt the created at
+   * @param createdBy the created by
+   * @param updateCounter the update counter
+   */
   public JpaFilesystemDO(Long pk, String name, char fileType, String mimeType, int length, String attributes,
       Date modifiedAt, String modifiedBy, Date createdAt, String createdBy, Integer updateCounter)
   {

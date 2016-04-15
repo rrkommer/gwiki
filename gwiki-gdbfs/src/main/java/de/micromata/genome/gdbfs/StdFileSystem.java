@@ -48,6 +48,10 @@ import de.micromata.genome.util.types.TimeInMillis;
  */
 public class StdFileSystem extends AbstractFileSystem
 {
+
+  /**
+   * The Constant STD_LOCKFILENAME.
+   */
   public static final String STD_LOCKFILENAME = ".fslock";
 
   /**
@@ -55,18 +59,39 @@ public class StdFileSystem extends AbstractFileSystem
    */
   private boolean localSync = true;
 
+  /**
+   * The root.
+   */
   private String root;
 
+  /**
+   * The root file.
+   */
   private File rootFile;
 
+  /**
+   * The canon root.
+   */
   private String canonRoot;
 
+  /**
+   * The global lock file name.
+   */
   private String globalLockFileName = STD_LOCKFILENAME;
 
+  /**
+   * The global lock.
+   */
   private StdFileSystemLock globalLock;
 
+  /**
+   * The local modification count.
+   */
   private int localModificationCount;
 
+  /**
+   * The locked locks.
+   */
   private ThreadLocal<Map<String, StdFileSystemLock>> lockedLocks = new ThreadLocal<Map<String, StdFileSystemLock>>()
   {
 
@@ -77,11 +102,19 @@ public class StdFileSystem extends AbstractFileSystem
     }
   };
 
+  /**
+   * Instantiates a new std file system.
+   */
   public StdFileSystem()
   {
 
   }
 
+  /**
+   * Instantiates a new std file system.
+   *
+   * @param root the root
+   */
   public StdFileSystem(String root)
   {
     setRoot(root);
@@ -93,11 +126,21 @@ public class StdFileSystem extends AbstractFileSystem
     return canonRoot;
   }
 
+  /**
+   * Inc local modification count.
+   *
+   * @return the int
+   */
   public int incLocalModificationCount()
   {
     return ++localModificationCount;
   }
 
+  /**
+   * Erase rec.
+   *
+   * @param name the name
+   */
   public void eraseRec(String name)
   {
     List<FsObject> dirs = listFiles(name, null, 'D', false);
@@ -167,6 +210,11 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  /**
+   * Ensure file in fs.
+   *
+   * @param f the f
+   */
   protected void ensureFileInFs(File f)
   {
     String cn;
@@ -182,6 +230,11 @@ public class StdFileSystem extends AbstractFileSystem
     ensureCanonFileInFs(cn);
   }
 
+  /**
+   * Ensure canon file in fs.
+   *
+   * @param canonPath the canon path
+   */
   protected void ensureCanonFileInFs(String canonPath)
   {
     if (canonPath.startsWith(canonRoot) == false) {
@@ -246,6 +299,11 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  /**
+   * Check unexistant file.
+   *
+   * @param file the file
+   */
   private void checkUnexistantFile(String file)
   {
     File f = new File(rootFile, file);
@@ -254,6 +312,11 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  /**
+   * Creates the parent directories.
+   *
+   * @param f the f
+   */
   protected void createParentDirectories(File f)
   {
     if (isAutoCreateDirectories() == false) {
@@ -316,6 +379,12 @@ public class StdFileSystem extends AbstractFileSystem
     writeBinaryFile(name, data, overWrite);
   }
 
+  /**
+   * Canon path.
+   *
+   * @param f the f
+   * @return the string
+   */
   private String canonPath(File f)
   {
     try {
@@ -325,6 +394,12 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  /**
+   * Gets the rel name.
+   *
+   * @param f the f
+   * @return the rel name
+   */
   protected String getRelName(File f)
   {
     String cn = canonPath(f);
@@ -332,6 +407,12 @@ public class StdFileSystem extends AbstractFileSystem
     return r.replace('\\', '/');
   }
 
+  /**
+   * File to fs object.
+   *
+   * @param f the f
+   * @return the fs object
+   */
   protected FsObject fileToFsObject(File f)
   {
     ensureFileInFs(f);
@@ -370,12 +451,28 @@ public class StdFileSystem extends AbstractFileSystem
     return ret;
   }
 
+  /**
+   * Checks if is system file.
+   *
+   * @param f the f
+   * @return true, if is system file
+   */
   public boolean isSystemFile(File f)
   {
     String name = f.getName();
     return globalLockFileName.equals(name);
   }
 
+  /**
+   * List files.
+   *
+   * @param absRootName the abs root name
+   * @param f the f
+   * @param matcher the matcher
+   * @param searchType the search type
+   * @param ret the ret
+   * @param recursive the recursive
+   */
   protected void listFiles(String absRootName, File f, Matcher<String> matcher, final Character searchType,
       List<FsObject> ret,
       boolean recursive)
@@ -461,6 +558,12 @@ public class StdFileSystem extends AbstractFileSystem
     return globalLock;
   }
 
+  /**
+   * Release lock.
+   *
+   * @param lock the lock
+   * @param noFsMod the no fs mod
+   */
   public void releaseLock(StdFileSystemLock lock, boolean noFsMod)
   {
     String canonf = canonPath(lock.getFile());
@@ -488,6 +591,12 @@ public class StdFileSystem extends AbstractFileSystem
     }
   }
 
+  /**
+   * Gets the lock.
+   *
+   * @param name the name
+   * @return the lock
+   */
   protected StdFileSystemLock getLock(String name)
   {
     if (name == null) {
@@ -499,6 +608,13 @@ public class StdFileSystem extends AbstractFileSystem
     return lock;
   }
 
+  /**
+   * Gets the lock.
+   *
+   * @param name the name
+   * @param timeOutMs the time out ms
+   * @return the lock
+   */
   protected StdFileSystemLock getLock(String name, long timeOutMs)
   {
     if (timeOutMs == -1) {
@@ -529,6 +645,16 @@ public class StdFileSystem extends AbstractFileSystem
     return lock;
   }
 
+  /**
+   * Run in transaction internal.
+   *
+   * @param <R> the generic type
+   * @param lockFile the lock file
+   * @param timeOutMs the time out ms
+   * @param callback the callback
+   * @param noFsMod the no fs mod
+   * @return the r
+   */
   protected <R> R runInTransactionInternal(String lockFile, long timeOutMs, CallableX<R, RuntimeException> callback,
       boolean noFsMod)
   {
