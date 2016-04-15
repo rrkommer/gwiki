@@ -25,22 +25,44 @@ package de.micromata.genome.gdbfs;
 public class FsFileLockException extends FsException
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5030674480778775399L;
 
+  /**
+   * Instantiates a new fs file lock exception.
+   */
   public FsFileLockException()
   {
   }
 
+  /**
+   * Instantiates a new fs file lock exception.
+   *
+   * @param cause the cause
+   */
   public FsFileLockException(Throwable cause)
   {
     super(cause);
   }
 
+  /**
+   * Instantiates a new fs file lock exception.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
   public FsFileLockException(String message, Throwable cause)
   {
     super(message, cause);
   }
 
+  /**
+   * Instantiates a new fs file lock exception.
+   *
+   * @param message the message
+   */
   public FsFileLockException(String message)
   {
     super(message);

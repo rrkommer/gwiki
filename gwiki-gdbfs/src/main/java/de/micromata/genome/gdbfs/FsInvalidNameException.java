@@ -27,23 +27,45 @@ package de.micromata.genome.gdbfs;
 public class FsInvalidNameException extends FsException
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5338331094642365074L;
 
+  /**
+   * Instantiates a new fs invalid name exception.
+   */
   public FsInvalidNameException()
   {
     super();
   }
 
+  /**
+   * Instantiates a new fs invalid name exception.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
   public FsInvalidNameException(String message, Throwable cause)
   {
     super(message, cause);
   }
 
+  /**
+   * Instantiates a new fs invalid name exception.
+   *
+   * @param message the message
+   */
   public FsInvalidNameException(String message)
   {
     super(message);
   }
 
+  /**
+   * Instantiates a new fs invalid name exception.
+   *
+   * @param cause the cause
+   */
   public FsInvalidNameException(Throwable cause)
   {
     super(cause);

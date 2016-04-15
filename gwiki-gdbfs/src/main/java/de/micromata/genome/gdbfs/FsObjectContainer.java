@@ -27,17 +27,34 @@ import java.io.Serializable;
 public class FsObjectContainer implements Serializable
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -6952916904083188777L;
 
+  /**
+   * The file.
+   */
   private FsObject file;
 
+  /**
+   * The byte data.
+   */
   private byte[] byteData;
 
+  /**
+   * Instantiates a new fs object container.
+   */
   public FsObjectContainer()
   {
 
   }
 
+  /**
+   * Instantiates a new fs object container.
+   *
+   * @param file the file
+   */
   public FsObjectContainer(FsObject file)
   {
     this.file = file;

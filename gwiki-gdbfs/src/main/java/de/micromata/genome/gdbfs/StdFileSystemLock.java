@@ -34,29 +34,62 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 public class StdFileSystemLock
 {
 
+  /**
+   * The lock count.
+   */
   private int lockCount;
 
+  /**
+   * The file.
+   */
   private File file;
 
+  /**
+   * The channel.
+   */
   private FileChannel channel;
 
+  /**
+   * The lock.
+   */
   private FileLock lock;
 
+  /**
+   * Instantiates a new std file system lock.
+   *
+   * @param file the file
+   */
   public StdFileSystemLock(File file)
   {
     this.file = file;
   }
 
+  /**
+   * Inc lock count.
+   *
+   * @return the int
+   */
   public int incLockCount()
   {
     return ++lockCount;
   }
 
+  /**
+   * Dec lock count.
+   *
+   * @return the int
+   */
   public int decLockCount()
   {
     return --lockCount;
   }
 
+  /**
+   * Aquire lock.
+   *
+   * @param timeOutMs the time out ms
+   * @return true, if successful
+   */
   public boolean aquireLock(long timeOutMs)
   {
     openLock();
@@ -75,10 +108,14 @@ public class StdFileSystemLock
     return false;
   }
 
+  /**
+   * Open lock.
+   */
   public void openLock()
   {
-    if (channel != null)
+    if (channel != null) {
       return;
+    }
     try {
       channel = new RandomAccessFile(file, "rws").getChannel();
       // System.out.println("channel opened: " + file.getName());
@@ -87,6 +124,11 @@ public class StdFileSystemLock
     }
   }
 
+  /**
+   * Aquire lock.
+   *
+   * @return true, if successful
+   */
   public boolean aquireLock()
   {
     try {
@@ -104,6 +146,9 @@ public class StdFileSystemLock
 
   }
 
+  /**
+   * Release lock.
+   */
   public void releaseLock()
   {
     try {
@@ -116,6 +161,9 @@ public class StdFileSystemLock
     }
   }
 
+  /**
+   * Close lock.
+   */
   public void closeLock()
   {
     if (channel == null) {

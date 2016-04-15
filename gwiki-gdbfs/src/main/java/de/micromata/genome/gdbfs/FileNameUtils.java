@@ -36,6 +36,12 @@ public class FileNameUtils
     return name;
   }
 
+  /**
+   * Gets the name part.
+   *
+   * @param name the name
+   * @return the name part
+   */
   public static String getNamePart(String name)
   {
     if (name == null) {

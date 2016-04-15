@@ -27,10 +27,19 @@ package de.micromata.genome.gdbfs;
 public class SuperFileSystem extends MountPointFileSystem
 {
 
+  /**
+   * Instantiates a new super file system.
+   */
   public SuperFileSystem()
   {
   }
 
+  /**
+   * Instantiates a new super file system.
+   *
+   * @param parentFileSystem the parent file system
+   * @param path the path
+   */
   public SuperFileSystem(FileSystem parentFileSystem, String path)
   {
     super(parentFileSystem, path);

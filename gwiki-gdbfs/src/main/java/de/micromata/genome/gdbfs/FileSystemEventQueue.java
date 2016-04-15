@@ -32,17 +32,35 @@ import de.micromata.genome.util.types.Pair;
  */
 public class FileSystemEventQueue
 {
+
+  /**
+   * The Class Listener.
+   */
   public static class Listener
   {
+
+    /**
+     * The matcher.
+     */
     private final Matcher<String> matcher;
 
+    /**
+     * The listener.
+     */
     private final FileSystemEventListener listener;
 
     /**
-     * may be null
+     * may be null.
      */
     private final FileSystemEventType eventType;
 
+    /**
+     * Instantiates a new listener.
+     *
+     * @param eventType the event type
+     * @param matcher the matcher
+     * @param listener the listener
+     */
     public Listener(FileSystemEventType eventType, Matcher<String> matcher, FileSystemEventListener listener)
     {
       this.matcher = matcher;
@@ -67,24 +85,46 @@ public class FileSystemEventQueue
 
   }
 
+  /**
+   * The file system.
+   */
   private FileSystem fileSystem;
 
+  /**
+   * The listener list.
+   */
   protected List<Listener> listenerList = new ArrayList<Listener>();
 
+  /**
+   * The events.
+   */
   private List<Pair<Listener, FileSystemEvent>> events = new ArrayList<Pair<Listener, FileSystemEvent>>();
 
+  /**
+   * Instantiates a new file system event queue.
+   *
+   * @param fileSystem the file system
+   */
   public FileSystemEventQueue(FileSystem fileSystem)
   {
     this.fileSystem = fileSystem;
   }
 
-  public synchronized void addListener(FileSystemEventType eventType, Matcher<String> matcher, FileSystemEventListener listener)
+  /**
+   * Adds the listener.
+   *
+   * @param eventType the event type
+   * @param matcher the matcher
+   * @param listener the listener
+   */
+  public synchronized void addListener(FileSystemEventType eventType, Matcher<String> matcher,
+      FileSystemEventListener listener)
   {
     listenerList.add(new Listener(eventType, matcher, listener));
   }
 
   /**
-   * send all events
+   * send all events.
    */
   public synchronized void sendEvents()
   {
@@ -103,6 +143,11 @@ public class FileSystemEventQueue
     events.clear();
   }
 
+  /**
+   * Insert event.
+   *
+   * @param event the event
+   */
   protected void insertEvent(FileSystemEvent event)
   {
     for (Listener li : listenerList) {
@@ -116,11 +161,26 @@ public class FileSystemEventQueue
 
   }
 
+  /**
+   * Adds the event.
+   *
+   * @param eventType the event type
+   * @param fileName the file name
+   * @param timeStamp the time stamp
+   */
   public synchronized void addEvent(FileSystemEventType eventType, String fileName, long timeStamp)
   {
     insertEvent(new FileSystemEvent(eventType, fileSystem, fileName, timeStamp));
   }
 
+  /**
+   * Adds the event.
+   *
+   * @param eventType the event type
+   * @param fileName the file name
+   * @param timeStamp the time stamp
+   * @param oldFileName the old file name
+   */
   public synchronized void addEvent(FileSystemEventType eventType, String fileName, long timeStamp, String oldFileName)
   {
     insertEvent(new FileSystemEvent(eventType, fileSystem, fileName, timeStamp, oldFileName));

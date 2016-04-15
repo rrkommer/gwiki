@@ -27,22 +27,44 @@ import java.io.IOException;
 public class FsFileExistsException extends FsIOException
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5030674480778775399L;
 
+  /**
+   * Instantiates a new fs file exists exception.
+   */
   public FsFileExistsException()
   {
   }
 
+  /**
+   * Instantiates a new fs file exists exception.
+   *
+   * @param cause the cause
+   */
   public FsFileExistsException(IOException cause)
   {
     super(cause);
   }
 
+  /**
+   * Instantiates a new fs file exists exception.
+   *
+   * @param message the message
+   * @param cause the cause
+   */
   public FsFileExistsException(String message, Exception cause)
   {
     super(message, cause);
   }
 
+  /**
+   * Instantiates a new fs file exists exception.
+   *
+   * @param message the message
+   */
   public FsFileExistsException(String message)
   {
     super(message);

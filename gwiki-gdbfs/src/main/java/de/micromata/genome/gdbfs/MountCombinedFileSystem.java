@@ -43,32 +43,63 @@ import de.micromata.genome.util.matcher.MatcherFactory;
  */
 public class MountCombinedFileSystem extends CombinedFileSystem implements InitializingBean
 {
+
+  /**
+   * The primary mounts rule.
+   */
   protected String primaryMountsRule = "";
 
+  /**
+   * The prim mount matcher.
+   */
   protected Matcher<String> primMountMatcher = null;// new ArrayList<Matcher<String>>();
 
+  /**
+   * Instantiates a new mount combined file system.
+   */
   public MountCombinedFileSystem()
   {
     super();
   }
 
+  /**
+   * Instantiates a new mount combined file system.
+   *
+   * @param primary the primary
+   * @param secondary the secondary
+   */
   public MountCombinedFileSystem(FileSystem primary, FileSystem secondary)
   {
     super(primary, secondary);
   }
 
+  /**
+   * Instantiates a new mount combined file system.
+   *
+   * @param primary the primary
+   * @param primMountRule the prim mount rule
+   * @param secondary the secondary
+   */
   public MountCombinedFileSystem(FileSystem primary, String primMountRule, FileSystem secondary)
   {
     super(primary, secondary);
     this.primaryMountsRule = primMountRule;
   }
 
+  /**
+   * Instantiates a new mount combined file system.
+   *
+   * @param primary the primary
+   * @param primMountMatcher the prim mount matcher
+   * @param secondary the secondary
+   */
   public MountCombinedFileSystem(FileSystem primary, Matcher<String> primMountMatcher, FileSystem secondary)
   {
     super(primary, secondary);
     this.primMountMatcher = primMountMatcher;
   }
 
+  @Override
   public void afterPropertiesSet() throws Exception
   {
     if (primMountMatcher == null && StringUtils.isNotBlank(primaryMountsRule) == true) {
@@ -84,6 +115,12 @@ public class MountCombinedFileSystem extends CombinedFileSystem implements Initi
     return super.getFileSystemName() + "(mountcombined, primary: " + primaryMountsRule + ")";
   }
 
+  /**
+   * Gets the mount.
+   *
+   * @param name the name
+   * @return the mount
+   */
   protected FileSystem getMount(String name)
   {
     if (name.startsWith("/") == true) {

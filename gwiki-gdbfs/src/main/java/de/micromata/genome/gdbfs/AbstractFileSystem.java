@@ -51,10 +51,12 @@ public abstract class AbstractFileSystem implements FileSystem
   private FileSystemEventQueue eventQueue = new FileSystemEventQueue(this);
 
   /**
-   * file suffix -> mime type.
+   * file suffix maps top mime type.
    */
-  protected Map<String, String> mimeTypes = new TreeMap<String, String>(new Comparator<String>() {
+  protected Map<String, String> mimeTypes = new TreeMap<String, String>(new Comparator<String>()
+  {
 
+    @Override
     public int compare(String o1, String o2)
     {
       return o2.compareTo(o1);
@@ -68,16 +70,19 @@ public abstract class AbstractFileSystem implements FileSystem
    */
   protected boolean autoCreateDirectories = false;
 
+  @Override
   public String toString()
   {
     return getFileSystemName();
   }
 
+  @Override
   public FileSystem getFsForRead(String name)
   {
     return this;
   }
 
+  @Override
   public FileSystem getFsForWrite(String name)
   {
     return this;
@@ -93,6 +98,7 @@ public abstract class AbstractFileSystem implements FileSystem
     this.mimeTypes.putAll(mimeTypes);
   }
 
+  @Override
   public String getMimeType(String fname)
   {
     for (Map.Entry<String, String> me : mimeTypes.entrySet()) {
@@ -103,11 +109,13 @@ public abstract class AbstractFileSystem implements FileSystem
     return defaultMimeType;
   }
 
+  @Override
   public boolean isTextMimeType(String mimeType)
   {
     return StringUtils.startsWith(mimeType, "text/") == true;
   }
 
+  @Override
   public boolean existsForWrite(String name)
   {
     return exists(name);
@@ -115,24 +123,28 @@ public abstract class AbstractFileSystem implements FileSystem
 
   protected void checkReadOnly()
   {
-    if (readOnly == false)
+    if (readOnly == false) {
       return;
+    }
     throw new FsIOException("FileSystem is read only: " + getFileSystemName());
   }
 
   public static String getParentDirString(String name)
   {
     int lidx = name.lastIndexOf('/');
-    if (lidx == -1)
+    if (lidx == -1) {
       return "";
+    }
     return name.substring(0, lidx);
   }
 
+  @Override
   public void writeBinaryFile(String file, byte[] data, boolean overWrite)
   {
     writeBinaryFile(file, new ByteArrayInputStream(data), overWrite);
   }
 
+  @Override
   public byte[] readBinaryFile(String file)
   {
     ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -153,8 +165,9 @@ public abstract class AbstractFileSystem implements FileSystem
 
   protected String byteToString(byte[] data)
   {
-    if (data == null)
+    if (data == null) {
       return null;
+    }
     try {
       return new String(data, STANDARD_STRING_ENCODING);
     } catch (UnsupportedEncodingException ex) {
@@ -164,8 +177,9 @@ public abstract class AbstractFileSystem implements FileSystem
 
   protected byte[] stringToByte(String data)
   {
-    if (data == null)
+    if (data == null) {
       return null;
+    }
     try {
       return data.getBytes(STANDARD_STRING_ENCODING);
     } catch (UnsupportedEncodingException ex) {
@@ -173,6 +187,7 @@ public abstract class AbstractFileSystem implements FileSystem
     }
   }
 
+  @Override
   public String readTextFile(String file)
   {
     ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -191,6 +206,7 @@ public abstract class AbstractFileSystem implements FileSystem
     }
   }
 
+  @Override
   public void writeTextFile(String file, String content, boolean overWrite)
   {
     writeBinaryFile(file, stringToByte(content), overWrite);
@@ -206,18 +222,22 @@ public abstract class AbstractFileSystem implements FileSystem
   // return false;
   // }
 
+  @Override
   public boolean mkdirs(String name)
   {
-    if (existsForWrite(name) == true)
+    if (existsForWrite(name) == true) {
       return false;
+    }
     String p = getParentDirString(name);
     if (existsForWrite(p) == false) {
-      if (mkdirs(p) == false)
+      if (mkdirs(p) == false) {
         return false;
+      }
     }
     return mkdir(name);
   }
 
+  @Override
   public void writeFile(String file, InputStream is, boolean overWrite)
   {
     byte[] data;
@@ -230,6 +250,7 @@ public abstract class AbstractFileSystem implements FileSystem
 
   }
 
+  @Override
   public void writeFile(String file, byte[] data, boolean overWrite)
   {
     String mimeType = getMimeType(file);
@@ -240,6 +261,7 @@ public abstract class AbstractFileSystem implements FileSystem
     }
   }
 
+  @Override
   public List<FsObject> listFilesByPattern(String name, String matcherRule, Character searchType, boolean recursive)
   {
     if (matcherRule == null) {
@@ -249,12 +271,14 @@ public abstract class AbstractFileSystem implements FileSystem
     return listFiles(name, m, searchType, recursive);
   }
 
+  @Override
   public boolean deleteRecursive(String name)
   {
     checkReadOnly();
     FsObject obj = getFileObject(name);
-    if (obj == null)
+    if (obj == null) {
       return false;
+    }
     if (obj.isFile() == true) {
       return delete(name);
     }
@@ -267,6 +291,7 @@ public abstract class AbstractFileSystem implements FileSystem
     return delete(name);
   }
 
+  @Override
   public void cleanupTempDirs()
   {
     FsObject fsobj = getFileObject(tempDirName);
@@ -289,6 +314,7 @@ public abstract class AbstractFileSystem implements FileSystem
     }
   }
 
+  @Override
   public FsDirectoryObject createTempDir(String name, long timeToLive)
   {
     cleanupTempDirs();
@@ -314,21 +340,26 @@ public abstract class AbstractFileSystem implements FileSystem
     eventQueue.addEvent(eventType, fileName, timeStamp, oldFileName);
   }
 
-  public void registerListener(FileSystemEventType eventType, Matcher<String> fileNameMatcher, FileSystemEventListener listener)
+  @Override
+  public void registerListener(FileSystemEventType eventType, Matcher<String> fileNameMatcher,
+      FileSystemEventListener listener)
   {
     eventQueue.addListener(eventType, fileNameMatcher, listener);
   }
 
+  @Override
   public synchronized void checkEvents(boolean force)
   {
     eventQueue.sendEvents();
   }
 
+  @Override
   public boolean isReadOnly()
   {
     return readOnly;
   }
 
+  @Override
   public void setReadOnly(boolean readOnly)
   {
     this.readOnly = readOnly;
@@ -354,11 +385,13 @@ public abstract class AbstractFileSystem implements FileSystem
     this.defaultMimeType = defaultMimeType;
   }
 
+  @Override
   public boolean isAutoCreateDirectories()
   {
     return autoCreateDirectories;
   }
 
+  @Override
   public void setAutoCreateDirectories(boolean autoCreateDirectories)
   {
     this.autoCreateDirectories = autoCreateDirectories;
