@@ -39,48 +39,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * The representation of a typical cron-expression. The expression consists of 5 fields:
- * <ul>
- * <li>minutes</li>
- * <li>hours</li>
- * <li>day in month</li>
- * <li>month</li>
- * <li>day of week</li>
- * </ul>
- * Each field can be in one of the following forms:
- * <ul>
- * <li><em>*</em> - matches all possible values</li>
- * <li><em>n</em> - a number, matches if the dates component is equal to the number</li>
- * <li><em>m-n</em> - a number range, matches if the dates component falls into the range</li>
- * <li><em>*&slash;n</em> - modulo operator, matches if the dates component is divisible by <em>n</em></li>
- * <li><em>m-n/x</em> - a number range, matches if the dates component <em>t</em> falls into the range <em>[m,n]</em> and <em>t-m</em> is
- * divisible by <em>x</em></li>
- * </ul>
- * The day of week field uses the following numbers for the weekdays:
- * <ul>
- * <li>1 : Monday: may be abbreviated as MON
- * <li>
- * <li>2: Tuesday (TUE)
- * <li>
- * <lI>7: Sunday (SUN)</li>
- * </ul>
- * <b>Differences to Unix cron</b> The Unix cron expressions handles the day of week different, example
- * 
- * <pre>
- *             0 0 1 *  MON
- * </pre>
- * 
- * On Unix, this expression fires on the first every month, but also on every Monday. This implementation fires only if the first of the
- * month is also an monday. This enables cron expressions, that fire on the first sunday every month:
- * 
- * <pre>
- *             0 0 1-7 *  SUN
- * </pre>
- * 
- * 
- * 
- */
 public class CronExpression implements Serializable
 {
   /**
@@ -129,7 +87,8 @@ public class CronExpression implements Serializable
   {
     final String components[] = arg.split("(\\s+)");
     if (components.length != 5 && components.length != 4) {
-      throw new IllegalArgumentException("Cron expression must have 4 or 5 components, found only " + components.length + " in " + arg);
+      throw new IllegalArgumentException(
+          "Cron expression must have 4 or 5 components, found only " + components.length + " in " + arg);
     }
     parseSubExpression(this.minutes, components[0], 0, 59, 0);
     parseSubExpression(this.hours, components[1], 0, 23, 0);
@@ -154,7 +113,8 @@ public class CronExpression implements Serializable
     return weekdays;
   }
 
-  private void parseSubExpression(final BitSet bitSet, final String expression, final int min, final int max, final int offset)
+  private void parseSubExpression(final BitSet bitSet, final String expression, final int min, final int max,
+      final int offset)
   {
     // split after ","
     final String[] parts = expression.split(",");
@@ -174,7 +134,8 @@ public class CronExpression implements Serializable
    * @param min
    * @param max
    */
-  private void parseSimpleExpression(final BitSet bitSet, final String expression, final int min, final int max, final int offset)
+  private void parseSimpleExpression(final BitSet bitSet, final String expression, final int min, final int max,
+      final int offset)
   {
     if (expression.equals("*") == true) {
       // all possibilities
@@ -243,7 +204,8 @@ public class CronExpression implements Serializable
    * @param everyExpression
    * @param offset
    */
-  private void handleDivisior(final BitSet bitSet, final String expression, final int min, final int max, final Matcher everyExpression,
+  private void handleDivisior(final BitSet bitSet, final String expression, final int min, final int max,
+      final Matcher everyExpression,
       final int offset)
   {
     int from = min;
@@ -263,7 +225,8 @@ public class CronExpression implements Serializable
    * @param rangeExpression
    * @param offset
    */
-  private void handleRange(final BitSet bitSet, final String expression, final int min, final int max, final Matcher rangeExpression,
+  private void handleRange(final BitSet bitSet, final String expression, final int min, final int max,
+      final Matcher rangeExpression,
       final int offset)
   {
     final int from = Integer.parseInt(rangeExpression.group(1));

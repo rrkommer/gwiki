@@ -32,7 +32,6 @@
 package de.micromata.genome.gwiki.chronos.spi;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +58,7 @@ import de.micromata.genome.util.runtime.HostUtils;
 /**
  * Zentrale Klasse (Singleton) für die Job-Verteilung.
  * <p>
- * Pollt die Datenbank nach neuen {@link Scheduler} und {@link Job} ab und versucht diese zu Starten.
+ * Pollt die Datenbank nach neuen Scheduler und Job ab und versucht diese zu Starten.
  * </p>
  * <p>
  * Hier werden die Runtime-Instanzen von Schedulern und Jobs verwaltet.
@@ -68,51 +67,75 @@ import de.micromata.genome.util.runtime.HostUtils;
  */
 public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
 {
+
+  /**
+   * The Constant LOG.
+   */
   private static final Logger LOG = Logger.getLogger(DispatcherImpl.class);
+
+  /**
+   * The job store.
+   */
   private final JobStore jobStore;
 
   /**
-   * Name of the application
+   * Name of the application.
    */
   private String appName = "";
 
   /**
-   * The virtual host name
+   * The virtual host name.
    */
   private String virtualHost;
 
+  /**
+   * The min refresh in millis.
+   */
   protected long minRefreshInMillis = 10L;
 
+  /**
+   * The start refresh in millis.
+   */
   protected long startRefreshInMillis = 250L;
 
+  /**
+   * The max refresh in millis.
+   */
   protected long maxRefreshInMillis = 4000L;
 
   /**
-   * time in milliseconds whereas minimal node bind (hostname) will be asumed
+   * time in milliseconds whereas minimal node bind (hostname) will be asumed.
    */
   protected long minNodeBindTime = 1000L;
 
+  /**
+   * The last scheduler update.
+   */
   private long lastSchedulerUpdate = 0;
 
+  /**
+   * The scheduler lease time.
+   */
   private long schedulerLeaseTime = 10000; // 10 seconds
 
   /**
-   * Zuordnung der {@link Scheduler} zu ihrem Namen mit <i>und</i> ohne Prefix.
+   * The schedulers.
    */
   protected final Map<String, Scheduler> schedulers = new HashMap<String, Scheduler>();
 
   /**
-   * Zuordnung der {@link TriggerJobDO} zum Namen des entsprechenden {@link Scheduler}.
-   */
-  // private final Map<String, List<TriggerJobDO>> jobs = new HashMap<String,
-  // List<TriggerJobDO>>();
-  /**
-   * Zuordnung der {@link TriggerJobDO} zum Namen des entsprechenden {@link SchedulerImpl}.
+   * Zuordnung der TriggerJobDO zum Namen des entsprechenden .
    */
   private final Map<String, List<TriggerJobDO>> jobs = new HashMap<String, List<TriggerJobDO>>();
 
+  /**
+   * The dispatcher thread group.
+   */
   private ThreadGroup dispatcherThreadGroup;
 
+  /**
+   * The dispatcher thread.
+   */
   private Thread dispatcherThread;
 
   /**
@@ -120,9 +143,8 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
    * <p>
    * Der Cluster-Diskriminator ist Empty!
    * </p>
-   * 
-   * @param jobStore
-   * @param parentLogger
+   *
+   * @param jobStore the job store
    */
   protected DispatcherImpl(final JobStore jobStore)
   {
@@ -133,10 +155,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
 
   /**
    * Erzeugt einen neuen Dispatcher und gibt den virtual host name für den Cluster-Betrieb mit.
-   * 
-   * @param prefix
-   * @param jobStore
-   * @param virtualHost
+   *
+   * @param virtualHost the virtual host
+   * @param jobStore the job store
    */
   public DispatcherImpl(final String virtualHost, final JobStore jobStore)
   {
@@ -157,7 +178,10 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
   }
 
   /**
-   * @param jobStore
+   * Creates the thread.
+   *
+   * @param jobStore the job store
+   * @return the thread
    */
   private Thread createThread(final JobStore jobStore)
   {
@@ -215,12 +239,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     return dispatcherThread != null;
   }
 
-  /**
-   * Hält den Dispatcher-Thread an mit {@link Thread#join()}.
-   * 
-   * @param waitForShutdown
-   * @throws InterruptedException
-   */
   @Override
   public void shutdown(final long waitForShutdown) throws InterruptedException
   {
@@ -269,11 +287,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     GLog.note(GenomeLogCategory.Scheduler, "Shutdown Dispatcher finished");
   }
 
-  /**
-   * Hauptschleife, welche {@link #checkScheduler(Date, Date)} aufruft.
-   * 
-   * @see java.lang.Runnable#run()
-   */
   @Override
   public void run()
   {
@@ -339,6 +352,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
+  /**
+   * Check job store schedulers.
+   */
   protected void checkJobStoreSchedulers()
   {
     long now = System.currentTimeMillis();
@@ -348,6 +364,9 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     forceCheckJobStoreSchedulers();
   }
 
+  /**
+   * Force check job store schedulers.
+   */
   protected void forceCheckJobStoreSchedulers()
   {
     List<SchedulerDO> schedulerDOs = getJobStore().getSchedulers();
@@ -356,13 +375,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
-  /**
-   * Holt sich die {@link Scheduler} von seinem {@link JobStore#getSchedulers()} um von diesen Jobs
-   * {@link Scheduler#getNextJobs(Date, Date)} zu starten.
-   * 
-   * @param fromDate
-   * @param now
-   */
   protected boolean checkScheduler(boolean foreignJobs)
   {
     final List<SchedulerDO> schedulers = jobStore.getSchedulers();
@@ -422,16 +434,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     jobStore.persist(scheduler);
   }
 
-  /**
-   * Startet einen Job über seinen {@link Scheduler} wenn dieser freie Slots besitzt.
-   * <p>
-   * Wird vom Job ein {@link ServiceUnavailableException} geworfen, dann wird {@link Scheduler#pause(int)} mit
-   * {@link Scheduler#getServiceRetryTime()} aufgerufen.
-   * </p>
-   * 
-   * @param scheduler
-   * @param job
-   */
   private boolean checkAndExecuteJob(final Scheduler scheduler, final TriggerJobDO job)
   {
     // NOOP Codeif (scheduler.isAcceptable(job.getJobDefinition(),
@@ -458,11 +460,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     return createOrGetScheduler(schedulerDO);
   }
 
-  /**
-   * Es werden keinen neuen Jobs mehr gestartet.
-   * 
-   * @param name
-   */
   @Override
   public void denyNewJobs(final String schedulerName)
   {
@@ -475,15 +472,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
-  /**
-   * Setzt die Anzahl der vom Scheduler zu verarbeitenden Jobs.
-   * <p>
-   * Dies ist die Anzahl der Thread des zugehörigen Thread-Pools.
-   * </p>
-   * 
-   * @param size
-   * @param name
-   */
   @Override
   public void setJobCount(final int size, final String schedulerName)
   {
@@ -496,31 +484,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
-  // /**
-  // * Sichert den Scheduler Wenn noch nicht vorhanden, erstellt ihn alle
-  // Werte aus schedulerDO werden in die DB geschrieben
-  // */
-  // public void safeScheduler(SchedulerDO schedulerDO)
-  // {
-  // Scheduler sched = createOrGetScheduler(schedulerDO);
-  // sched.setJobMaxRetryCount(schedulerDO.getJobMaxRetryCount());
-  // sched.setJobRetryTime(schedulerDO.getJobRetryTime());
-  // sched.setServiceRetryTime(schedulerDO.getServiceRetryTime());
-  // sched.setNodeBindingTimeout(schedulerDO.getNodeBindingTimeout());
-  // persist(sched);
-  // }
-
-  /**
-   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese
-   * neu.
-   * <p>
-   * Ein neu angelegter Scheduler wird unmittelbar persisitiert und unter dem Namen inklusive Prefix abgespeichert.
-   * </p>
-   * 
-   * @param schedulerDO
-   * @return
-   * @see #schedulers
-   */
   @Override
   public Scheduler createOrGetScheduler(final SchedulerDO schedulerDO)
   {
@@ -569,30 +532,12 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     } // synchronized end
   }
 
-  /**
-   * 
-   * 
-   * @see #submit(String, JobDefinition, Object, Trigger, boolean)
-   * @param schedulerName
-   * @param jobDefinition
-   * @param arg
-   * @param trigger
-   */
   public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
   {
     submit(schedulerName, (String) null, jobDefinition, arg, trigger);
   }
 
-  /**
-   * 
-   * 
-   * @see #submit(String, JobDefinition, Object, Trigger, boolean)
-   * @param schedulerName
-   * @param jobDefinition
-   * @param arg
-   * @param trigger
-   */
   public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
   {
@@ -656,16 +601,6 @@ public class DispatcherImpl implements Runnable, Dispatcher, DispatcherInternal
     }
   }
 
-  /**
-   * Gibt den Scheduler mit dem angegebenen Namen zurück oder <code>null</code>.
-   * <p>
-   * Hier wird <u>nicht</u> auf die Datenbank zugegriffen. Dafür ist {@link #createOrGetScheduler(SchedulerDO)} zu
-   * benutzen.
-   * </p>
-   * 
-   * @param name
-   * @return
-   */
   @Override
   public Scheduler getScheduler(final String name)
   {

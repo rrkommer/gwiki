@@ -36,11 +36,12 @@ import de.micromata.genome.gwiki.chronos.spi.JobRunner;
  */
 public interface SchedulerDAO
 {
+
   /**
-   * Create a Dispatcher instance
-   * 
-   * @param discriminator handle multiple domains
-   * @return
+   * Create a Dispatcher instance.
+   *
+   * @param virtualHostName the virtual host name
+   * @return the dispatcher
    * @throws Exception if any error occurs
    */
   public Dispatcher createDispatcher(String virtualHostName) throws Exception;

@@ -39,7 +39,8 @@ public class PlcUtils
   /**
    * Ensures that all required draftbranch meta files are present. if not they will be created
    */
-  public static void ensureDraftBranchMetaFiles(final GWikiMultipleWikiSelector wikiSelector, final GWikiContext wikiContext)
+  public static void ensureDraftBranchMetaFiles(final GWikiMultipleWikiSelector wikiSelector,
+      final GWikiContext wikiContext)
   {
     ensureBranchMetaFiles(DRAFT_ID, wikiSelector, wikiContext);
   }
@@ -50,7 +51,9 @@ public class PlcUtils
   public static void ensureBranchMetaFiles(final String brachId, final GWikiMultipleWikiSelector wikiSelector,
       final GWikiContext wikiContext)
   {
-    wikiContext.runInTenantContext(brachId, wikiSelector, new CallableX<Void, RuntimeException>() {
+    wikiContext.runInTenantContext(brachId, wikiSelector, new CallableX<Void, RuntimeException>()
+    {
+      @Override
       public Void call() throws RuntimeException
       {
         // ensure filestats present
@@ -58,7 +61,9 @@ public class PlcUtils
         if (fileStats == null) {
           final GWikiElement el = createFileStats(wikiContext);
           // because branchfilestats is located in /admin folder you need to be su to store/update that file
-          wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+          wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+          {
+            @Override
             public Void call() throws RuntimeException
             {
               wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
@@ -72,7 +77,9 @@ public class PlcUtils
         if (infoElement == null) {
           final GWikiElement el = createInfoElement(wikiContext, DRAFT_ID, "Draft branch", "20991291000000000", "");
           // because branchinfo is located in /admin folder you need to be su to store/update that file
-          wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>() {
+          wikiContext.getWikiWeb().getAuthorization().runAsSu(wikiContext, new CallableX<Void, RuntimeException>()
+          {
+            @Override
             public Void call() throws RuntimeException
             {
               wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
@@ -98,8 +105,9 @@ public class PlcUtils
   public static GWikiElement createInfoElement(final GWikiContext wikiContext, final String branchId, final String desc,
       final String releaseDate, final String releaseEndDate)
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, BRANCH_INFO_LOCATION, BRANCH_INFO_TEMPLATE_ID, "BranchInfo");
-    final GWikiArtefakt< ? > artefakt = el.getMainPart();
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, BRANCH_INFO_LOCATION, BRANCH_INFO_TEMPLATE_ID,
+        "BranchInfo");
+    final GWikiArtefakt<?> artefakt = el.getMainPart();
 
     final GWikiPropsArtefakt art = (GWikiPropsArtefakt) artefakt;
     final GWikiProps props = art.getCompiledObject();
@@ -119,14 +127,15 @@ public class PlcUtils
    */
   public static GWikiElement createFileStats(final GWikiContext wikiContext)
   {
-    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID, "Branch File Stats");
+    final GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, FILE_STATS_LOCATION, FILESTATS_TEMPLATE_ID,
+        "Branch File Stats");
     return el;
   }
 
   /**
    * Gets the branchfilestats of current tenant. Caller have to run this code in tenant context of wanted tenant
-   * 
-   * @param wikiContext the context
+   *
+   * @param ctx the ctx
    * @return The current branchfilestats instance, <code>null</code> if not found
    */
   public static BranchFileStats getBranchFileStats(final GWikiContext ctx)
@@ -135,7 +144,7 @@ public class PlcUtils
     if (fileStats == null || fileStats.getMainPart() == null) {
       return null;
     }
-    GWikiArtefakt< ? > artefakt = fileStats.getMainPart();
+    GWikiArtefakt<?> artefakt = fileStats.getMainPart();
     if (artefakt instanceof GWikiBranchFileStatsArtefakt == false) {
       return null;
     }
@@ -144,9 +153,10 @@ public class PlcUtils
   }
 
   /**
-   * Gets the branchinfo compiled artefakt of current tenant. Caller have to run this code in tenant context of wanted tenant
-   * 
-   * @param wikiContext the context
+   * Gets the branchinfo compiled artefakt of current tenant. Caller have to run this code in tenant context of wanted
+   * tenant
+   *
+   * @param ctx the ctx
    * @return The current GwikiProps instance containing branchInfo meta data, <code>null</code> if not found
    */
   public static GWikiProps getBranchInfo(final GWikiContext ctx)
@@ -155,7 +165,7 @@ public class PlcUtils
     if (branchInfoElement == null) {
       return null;
     }
-    GWikiArtefakt< ? > artefakt = branchInfoElement.getMainPart();
+    GWikiArtefakt<?> artefakt = branchInfoElement.getMainPart();
     if (artefakt instanceof GWikiPropsArtefakt == false) {
       return null;
     }

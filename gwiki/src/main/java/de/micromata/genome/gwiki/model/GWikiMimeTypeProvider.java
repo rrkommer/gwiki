@@ -19,26 +19,26 @@ package de.micromata.genome.gwiki.model;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * Provides Mapping of mime type
- * 
+ * Provides Mapping of mime type.
+ *
  * @author roger
- * 
  */
 public interface GWikiMimeTypeProvider
 {
+
   /**
-   * Provides mime type for given element
-   * 
-   * @param wikiContext
-   * @param ei
+   * Provides mime type for given element.
+   *
+   * @param wikiContext the wiki context
+   * @param el the el
    * @return the mime type application/format if found, otherwise null
    */
   public String getMimeType(GWikiContext wikiContext, GWikiElementInfo el);
 
   /**
-   * Provides mime type for given page uri
-   * 
-   * @param wikiContext
+   * Provides mime type for given page uri.
+   *
+   * @param wikiContext the wiki context
    * @param uri page id
    * @return the mime type application/format if found, otherwise null
    */

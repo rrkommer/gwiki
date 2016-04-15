@@ -51,7 +51,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    */
   private List<Map<String, FsObject>> resPaths = new ArrayList<Map<String, FsObject>>();
 
-  private Map<String, Class< ? >> loadedClasses = Collections.synchronizedMap(new HashMap<String, Class< ? >>());
+  private Map<String, Class<?>> loadedClasses = Collections.synchronizedMap(new HashMap<String, Class<?>>());
 
   private boolean enableCacheMissedClasses = true;
 
@@ -104,6 +104,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
     return super.toString();
   }
 
+  @Override
   public URL[] getURLs()
   {
     List<URL> ret = new ArrayList<URL>();
@@ -111,7 +112,8 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
       for (Map<String, FsObject> rsm : resPaths) {
         for (Map.Entry<String, FsObject> me : rsm.entrySet()) {
-          ret.add(new URL("repository", "local", 0, me.getValue().getName(), new FsObjectURLStreamHandler(me.getValue())));
+          ret.add(
+              new URL("repository", "local", 0, me.getValue().getName(), new FsObjectURLStreamHandler(me.getValue())));
         }
       }
     } catch (MalformedURLException ex) {
@@ -161,12 +163,10 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   }
 
   /**
-   * Add all ressources from classpath out of the storage
-   */
-  /**
+   * Add all ressources from classpath out of the storage.
+   *
    * @param storage Wher to find classPath
-   * @param classpath
-   * @throws IOException
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   public void addClassPath(FsObject storage) throws IOException
   {
@@ -193,15 +193,15 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
    * @param content
    * @return
    */
-  public Class< ? > loadDefine(String className, byte[] content)
+  public Class<?> loadDefine(String className, byte[] content)
   {
-    Class< ? > lcls = super.defineClass(className, content, 0, content.length);
+    Class<?> lcls = super.defineClass(className, content, 0, content.length);
     loadedClasses.put(className, lcls);
     return lcls;
   }
 
   @Override
-  public synchronized Class< ? > loadClass(String name, boolean resolve) throws ClassNotFoundException
+  public synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
   {
 
     if (loadedClasses.containsKey(name) == true) {
@@ -222,7 +222,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
 
       // TODO problem. If isolated, this needs the complete class loader.
       // super should not be the complete config repository, but only required.
-      Class< ? > cls = loadDefine(name, data);
+      Class<?> cls = loadDefine(name, data);
       return cls;
 
     }
@@ -230,7 +230,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       throw new ClassNotFoundException("Cannot find class: " + name);
     }
     try {
-      Class< ? > cls = super.loadClass(name, resolve);
+      Class<?> cls = super.loadClass(name, resolve);
       if (enableCacheMissedClasses == true && cls == null) {
         missedClasses.add(name);
       }
@@ -266,8 +266,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       Enumeration<URL> suen = super.getResources(name);
       for (; suen.hasMoreElements();) {
         ressources.add(suen.nextElement());
-        if (onlyFirst == true)
+        if (onlyFirst == true) {
           return ressources;
+        }
       }
       return ressources;
     } catch (MalformedURLException ex) {
@@ -280,8 +281,9 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
   {
     try {
       List<URL> l = getResourceList(name, true);
-      if (l.size() > 0)
+      if (l.size() > 0) {
         return l.get(0);
+      }
       return null;
     } catch (IOException ex) {
       return null;
@@ -302,18 +304,20 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
       byte[] data = rsp.getFileSystem().readBinaryFile(rsp.getName());
       return new ByteArrayInputStream(data);
     }
-    if (isolated == true)
+    if (isolated == true) {
       return null;
+    }
     // if called super, in some case nullpointer occours
     return super.getResourceAsStream(name);
   }
 
   /**
-   * Unfortunatelly this is needed as guard because default implementation of definePackage calls getPackage. Additionally Package
-   * constructors all all private or protected.
+   * Unfortunatelly this is needed as guard because default implementation of definePackage calls getPackage.
+   * Additionally Package constructors all all private or protected.
    */
   private ThreadLocal<Boolean> inDefinePackage = new ThreadLocal<Boolean>();
 
+  @Override
   protected Package getPackage(String name)
   {
     if (inDefinePackage.get() != null) {// don't recursive
@@ -331,7 +335,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
     }
   }
 
-  public void setLoadedClasses(Map<String, Class< ? >> loadedClasses)
+  public void setLoadedClasses(Map<String, Class<?>> loadedClasses)
   {
     this.loadedClasses = loadedClasses;
   }
@@ -346,7 +350,7 @@ public class GWikiPluginJavaClassLoader extends URLClassLoader
     this.isolated = isolated;
   }
 
-  public Map<String, Class< ? >> getLoadedClasses()
+  public Map<String, Class<?>> getLoadedClasses()
   {
     return loadedClasses;
   }

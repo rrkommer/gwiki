@@ -21,7 +21,6 @@
 // Generated on: 2009.12.23 at 06:27:19 PM PST 
 //
 
-
 package com.googlecode.sardine.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,27 +29,28 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{DAV:}lockscope"/>
- *         &lt;element ref="{DAV:}locktype"/>
- *         &lt;element ref="{DAV:}depth"/>
- *         &lt;element ref="{DAV:}owner" minOccurs="0"/>
- *         &lt;element ref="{DAV:}timeout" minOccurs="0"/>
- *         &lt;element ref="{DAV:}locktoken" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref="{DAV:}lockscope"/&gt;
+ *         &lt;element ref="{DAV:}locktype"/&gt;
+ *         &lt;element ref="{DAV:}depth"/&gt;
+ *         &lt;element ref="{DAV:}owner" minOccurs="0"/&gt;
+ *         &lt;element ref="{DAV:}timeout" minOccurs="0"/&gt;
+ *         &lt;element ref="{DAV:}locktoken" minOccurs="0"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -65,160 +65,149 @@ import javax.xml.bind.annotation.XmlType;
     "locktoken"
 })
 @XmlRootElement(name = "activelock")
-public class Activelock {
+public class Activelock
+{
 
-    @XmlElement(required = true)
-    protected Lockscope lockscope;
-    @XmlElement(required = true)
-    protected Locktype locktype;
-    @XmlElement(required = true)
-    protected String depth;
-    protected Owner owner;
-    protected String timeout;
-    protected Locktoken locktoken;
+  @XmlElement(required = true)
+  protected Lockscope lockscope;
+  @XmlElement(required = true)
+  protected Locktype locktype;
+  @XmlElement(required = true)
+  protected String depth;
+  protected Owner owner;
+  protected String timeout;
+  protected Locktoken locktoken;
 
-    /**
-     * Gets the value of the lockscope property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Lockscope }
-     *     
-     */
-    public Lockscope getLockscope() {
-        return lockscope;
-    }
+  /**
+   * Gets the value of the lockscope property.
+   * 
+   * @return possible object is {@link Lockscope }
+   * 
+   */
+  public Lockscope getLockscope()
+  {
+    return lockscope;
+  }
 
-    /**
-     * Sets the value of the lockscope property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Lockscope }
-     *     
-     */
-    public void setLockscope(Lockscope value) {
-        this.lockscope = value;
-    }
+  /**
+   * Sets the value of the lockscope property.
+   * 
+   * @param value allowed object is {@link Lockscope }
+   * 
+   */
+  public void setLockscope(Lockscope value)
+  {
+    this.lockscope = value;
+  }
 
-    /**
-     * Gets the value of the locktype property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Locktype }
-     *     
-     */
-    public Locktype getLocktype() {
-        return locktype;
-    }
+  /**
+   * Gets the value of the locktype property.
+   * 
+   * @return possible object is {@link Locktype }
+   * 
+   */
+  public Locktype getLocktype()
+  {
+    return locktype;
+  }
 
-    /**
-     * Sets the value of the locktype property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Locktype }
-     *     
-     */
-    public void setLocktype(Locktype value) {
-        this.locktype = value;
-    }
+  /**
+   * Sets the value of the locktype property.
+   * 
+   * @param value allowed object is {@link Locktype }
+   * 
+   */
+  public void setLocktype(Locktype value)
+  {
+    this.locktype = value;
+  }
 
-    /**
-     * Gets the value of the depth property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDepth() {
-        return depth;
-    }
+  /**
+   * Gets the value of the depth property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getDepth()
+  {
+    return depth;
+  }
 
-    /**
-     * Sets the value of the depth property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDepth(String value) {
-        this.depth = value;
-    }
+  /**
+   * Sets the value of the depth property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setDepth(String value)
+  {
+    this.depth = value;
+  }
 
-    /**
-     * Gets the value of the owner property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Owner }
-     *     
-     */
-    public Owner getOwner() {
-        return owner;
-    }
+  /**
+   * Gets the value of the owner property.
+   * 
+   * @return possible object is {@link Owner }
+   * 
+   */
+  public Owner getOwner()
+  {
+    return owner;
+  }
 
-    /**
-     * Sets the value of the owner property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Owner }
-     *     
-     */
-    public void setOwner(Owner value) {
-        this.owner = value;
-    }
+  /**
+   * Sets the value of the owner property.
+   * 
+   * @param value allowed object is {@link Owner }
+   * 
+   */
+  public void setOwner(Owner value)
+  {
+    this.owner = value;
+  }
 
-    /**
-     * Gets the value of the timeout property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTimeout() {
-        return timeout;
-    }
+  /**
+   * Gets the value of the timeout property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getTimeout()
+  {
+    return timeout;
+  }
 
-    /**
-     * Sets the value of the timeout property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTimeout(String value) {
-        this.timeout = value;
-    }
+  /**
+   * Sets the value of the timeout property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setTimeout(String value)
+  {
+    this.timeout = value;
+  }
 
-    /**
-     * Gets the value of the locktoken property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Locktoken }
-     *     
-     */
-    public Locktoken getLocktoken() {
-        return locktoken;
-    }
+  /**
+   * Gets the value of the locktoken property.
+   * 
+   * @return possible object is {@link Locktoken }
+   * 
+   */
+  public Locktoken getLocktoken()
+  {
+    return locktoken;
+  }
 
-    /**
-     * Sets the value of the locktoken property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Locktoken }
-     *     
-     */
-    public void setLocktoken(Locktoken value) {
-        this.locktoken = value;
-    }
+  /**
+   * Sets the value of the locktoken property.
+   * 
+   * @param value allowed object is {@link Locktoken }
+   * 
+   */
+  public void setLocktoken(Locktoken value)
+  {
+    this.locktoken = value;
+  }
 
 }

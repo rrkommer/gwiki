@@ -36,21 +36,48 @@ import de.micromata.genome.gwiki.utils.ScriptUtils;
  */
 public class PropsEditContext
 {
+
+  /**
+   * The wiki context.
+   */
   private GWikiContext wikiContext;
 
+  /**
+   * The props artefakt.
+   */
   private GWikiPropsArtefakt propsArtefakt;
 
+  /**
+   * The part name.
+   */
   private String partName;
 
+  /**
+   * The prop descriptor.
+   */
   private GWikiPropsDescriptorValue propDescriptor;
 
+  /**
+   * The controler bean.
+   */
   private Object controlerBean = null;
 
+  /**
+   * Instantiates a new props edit context.
+   */
   public PropsEditContext()
   {
 
   }
 
+  /**
+   * Instantiates a new props edit context.
+   *
+   * @param wikiContext the wiki context
+   * @param propsArtefakt the props artefakt
+   * @param partName the part name
+   * @param propDescriptor the prop descriptor
+   */
   public PropsEditContext(GWikiContext wikiContext, GWikiPropsArtefakt propsArtefakt, String partName,
       GWikiPropsDescriptorValue propDescriptor)
   {
@@ -146,12 +173,24 @@ public class PropsEditContext
     propsArtefakt.getCompiledObject().setStringValue(getPropName(), value);
   }
 
+  /**
+   * Adds the simple validation error.
+   *
+   * @param message the message
+   * @return the props edit context
+   */
   public PropsEditContext addSimpleValidationError(String message)
   {
     wikiContext.addSimpleValidationError(message);
     return this;
   }
 
+  /**
+   * Gets the effective derived right.
+   *
+   * @param right the right
+   * @return the effective derived right
+   */
   public String getEffectiveDerivedRight(String right)
   {
     // Object of = wikiContext.getRequestAttribute("form");
@@ -177,9 +216,11 @@ public class PropsEditContext
   }
 
   /**
-   * 
-   * @param Method
-   * @param args
+   * Invoke controler bean.
+   *
+   * @param <T> the generic type
+   * @param methodName the method name
+   * @param args the args
    * @return null if contoler method cannot be found.
    */
   @SuppressWarnings("unchecked")
@@ -195,6 +236,12 @@ public class PropsEditContext
     return (T) ScriptUtils.invokeScriptFunktion(bean, methodName, args);
   }
 
+  /**
+   * Invoke on controler bean.
+   *
+   * @param methodName the method name
+   * @return true, if successful
+   */
   public boolean invokeOnControlerBean(String methodName)
   {
     Object bean = getControlerBean();
@@ -218,15 +265,27 @@ public class PropsEditContext
     if (o == null) {
       return Collections.emptyMap();
     }
-    return (Map<String, String>) o;
+    return o;
   }
 
+  /**
+   * Append.
+   *
+   * @param data the data
+   * @return the props edit context
+   */
   public PropsEditContext append(Object... data)
   {
     wikiContext.append(data);
     return this;
   }
 
+  /**
+   * Append.
+   *
+   * @param data the data
+   * @return the props edit context
+   */
   public PropsEditContext append(String data)
   {
     wikiContext.append(data);

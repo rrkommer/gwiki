@@ -22,24 +22,26 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
  * Artefakt can display/render to html.
- * 
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
+ * @param <T> the generic type
  */
-public interface GWikiExecutableArtefakt<T extends Serializable> extends GWikiArtefakt<T>
+public interface GWikiExecutableArtefakt<T extends Serializable>extends GWikiArtefakt<T>
 {
+
   /**
    * Will be called before page will be rendered.
    * 
    * Usefull to add required css/or js or set http header.
-   * 
-   * @param wikiContext
+   *
+   * @param wikiContext the wiki context
    */
   public void prepareHeader(GWikiContext wikiContext);
 
   /**
-   * 
-   * @param ctx
+   * Render.
+   *
+   * @param wikiContext the wiki context
    * @return true if continue processing. Otherwise stop processing.
    */
   public boolean render(GWikiContext wikiContext);

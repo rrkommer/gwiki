@@ -44,14 +44,15 @@ public interface Dispatcher
   public void startup();
 
   /**
-   * @see de.micromata.genome.chronos.spi.Dispatcher.shutdown(long)
-   * @throws InterruptedException
+   * Shutdown.
+   *
+   * @throws InterruptedException the interrupted exception
    */
   public void shutdown() throws InterruptedException;
 
   /**
    * 
-   * @param waitForShutdown time to wait for shutdown. <= 0 means wait forever.
+   * @param waitForShutdown time to wait for shutdown. &gt;= 0 means wait forever.
    * @throws InterruptedException
    */
   public void shutdown(final long waitForShutdown) throws InterruptedException;
@@ -65,25 +66,12 @@ public interface Dispatcher
 
   /**
    * Gibt den Scheduler mit dem angegebenen Namen zurück oder <code>null</code>.
-   * <p>
-   * Hier wird <u>nicht</u> auf die Datenbank zugegriffen. Dafür ist {@link #createOrGetScheduler(SchedulerDO)} zu benutzen.
-   * </p>
    * 
    * @param name
    * @return
    */
   public Scheduler getScheduler(final String name);
 
-  /**
-   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese neu.
-   * <p>
-   * Ein neu angelegter Scheduler wird unmittelbar persisitiert und unter dem Namen abgespeichert.
-   * </p>
-   * 
-   * @param schedulerDO
-   * @return
-   * @see #schedulers
-   */
   public Scheduler createOrGetScheduler(final SchedulerDO schedulerDO);
 
   /**
@@ -114,7 +102,8 @@ public interface Dispatcher
    * @return Job reference (pk)
    * @throws SchedulerConfigurationException wenn ein nicht registrierter Scheduler angesprochen wird
    */
-  public long submit(String schedulerName, String jobName, JobDefinition jobDefinition, Object arg, Trigger trigger, String hostName);
+  public long submit(String schedulerName, String jobName, JobDefinition jobDefinition, Object arg, Trigger trigger,
+      String hostName);
 
   /**
    * Persists the given schedulder
@@ -125,23 +114,23 @@ public interface Dispatcher
 
   /**
    * Es werden keinen neuen Jobs mehr gestartet. ThreadCount will be set to 0.
-   * 
-   * @param name
+   *
+   * @param schedulerName the scheduler name
    */
   public void denyNewJobs(final String schedulerName);
 
   /**
    * set the number of paralell threads jobs should be executed on given scheduler.
    * 
-   * @param size >= 0. 0 means no more jobs should be executen on this scheduler
+   * @param size &gt;= 0. 0 means no more jobs should be executen on this scheduler
    * @param schedulerName
    */
   public void setJobCount(final int size, final String schedulerName);
 
   /**
-   * returns the JobStore assigned with this dispatcher
-   * 
-   * @return
+   * returns the JobStore assigned with this dispatcher.
+   *
+   * @return the job store
    */
   public JobStore getJobStore();
 

@@ -32,16 +32,23 @@ import de.micromata.genome.util.types.Pair;
 public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 4593931055929646011L;
 
+  /**
+   * The index file map.
+   */
   private Map<String, String> indexFileMap;
 
   /**
-   * 
-   * @param ctx
-   * @param res
-   * @param normText
-   * @return -1 if not in index, 0 not found, > 0 found with weight.
+   * Gets the found index weight.
+   *
+   * @param ctx the ctx
+   * @param res the res
+   * @param normText the norm text
+   * @return -1 if not in index, 0 not found, &gt; 0 found with weight.
    */
   public int getFoundIndexWeight(GWikiContext ctx, SearchResult res, String normText)
   {
@@ -72,6 +79,13 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
   // return findInIdxText(content, normpt);
   // }
 
+  /**
+   * Find in idx text.
+   *
+   * @param content the content
+   * @param normpt the normpt
+   * @return the pair
+   */
   private Pair<String, Integer> findInIdxText(String content, String normpt)
   {
     String fqnpt = "|" + normpt + "\n";
@@ -96,6 +110,13 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
     return Pair.make(normpt, hit * weight);
   }
 
+  /**
+   * Gets the weight from line.
+   *
+   * @param content the content
+   * @param idx the idx
+   * @return the weight from line
+   */
   private int getWeightFromLine(String content, int idx)
   {
     while (idx >= 0) {
@@ -131,6 +152,9 @@ public class GlobalWordIndexTextArtefakt extends GWikiTextContentArtefakt
     return indexFileMap;
   }
 
+  /**
+   * Parses the index file map.
+   */
   protected void parseIndexFileMap()
   {
     indexFileMap = new HashMap<String, String>();

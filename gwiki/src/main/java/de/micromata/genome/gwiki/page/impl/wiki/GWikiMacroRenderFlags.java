@@ -44,9 +44,7 @@ public enum GWikiMacroRenderFlags
    */
   TrimTextContent(0x0010), //
   /**
-   * This macro should not be wrapped into a paragraph (
-   * <p/>
-   * )
+   * This macro should not be wrapped into a paragraph ( &lt;p/&gt; )
    */
   NoWrapWithP(0x0020), //
   /**

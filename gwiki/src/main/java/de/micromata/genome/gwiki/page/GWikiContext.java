@@ -83,15 +83,18 @@ import de.micromata.genome.util.types.TimeInMillis;
 public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 {
   /**
-   * Request attribute with List<String> of CSS for content.
+   * Request attribute with List&lt;String&gt; of CSS for content.
    */
   public static final String CONTENT_CSS = "de.micromata.genome.gwiki.page.GWikiContext.CONTENT_CSS";
 
   /**
-   * Request attribute with List<String> of CSS for javascript.
+   * Request attribute with List&lt;String&gt; of CSS for javascript.
    */
   public static final String CONTENT_JS = "de.micromata.genome.gwiki.page.GWikiContext.CONTENT_JS";
 
+  /**
+   * The Constant HEADER_STATEMENTS.
+   */
   public static final String HEADER_STATEMENTS = "de.micromata.genome.gwiki.page.GWikiContext.HEADER_STATEMENTS";
 
   /**
@@ -99,20 +102,44 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   protected GWikiWeb wikiWeb;
 
+  /**
+   * The wiki elements.
+   */
   private ArrayStack<GWikiElement> wikiElements = new ArrayStack<GWikiElement>();
 
+  /**
+   * The request.
+   */
   private HttpServletRequest request;
 
+  /**
+   * The response.
+   */
   private HttpServletResponse response;
 
+  /**
+   * The servlet.
+   */
   final HttpServlet servlet;
 
+  /**
+   * The page context.
+   */
   protected PageContext pageContext;
 
+  /**
+   * The validation errors.
+   */
   private ActionMessages validationErrors;
 
+  /**
+   * The parts.
+   */
   private Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
 
+  /**
+   * The current part.
+   */
   private GWikiArtefakt<?> currentPart;
 
   /**
@@ -120,8 +147,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   private Map<String, Object> nativeArgs;
 
+  /**
+   * The i18n maps.
+   */
   private List<GWikiI18nElement> i18nMaps;
 
+  /**
+   * The current instance.
+   */
   private static ThreadLocal<GWikiContext> CURRENT_INSTANCE = new ThreadLocal<GWikiContext>();
 
   /**
@@ -129,21 +162,39 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   private int renderMode = 0;;
 
+  /**
+   * The dom id counter.
+   */
   private int domIdCounter = 1;
 
+  /**
+   * The required css.
+   */
   private Set<String> requiredCss = new ArraySet<String>();
 
+  /**
+   * The required js.
+   */
   private Set<String> requiredJs = new ArraySet<String>();
 
   /**
    * Additionally required html header lines.
    */
   private List<String> requiredHeader = new ArrayList<String>();
+
   /**
-   * May set by the controller;
+   * May set by the controller;.
    */
   private ActionBean actionBean;
 
+  /**
+   * Instantiates a new g wiki context.
+   *
+   * @param wikiWeb the wiki web
+   * @param servlet the servlet
+   * @param request the request
+   * @param response the response
+   */
   public GWikiContext(GWikiWeb wikiWeb, HttpServlet servlet, HttpServletRequest request, HttpServletResponse response)
   {
     this.request = request;
@@ -177,6 +228,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     CURRENT_INSTANCE.set(ctx);
   }
 
+  /**
+   * Gen html id.
+   *
+   * @param suffix the suffix
+   * @return the string
+   */
   public String genHtmlId(String suffix)
   {
     return "gwiki" + (++domIdCounter) + suffix;
@@ -184,15 +241,20 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   /**
    * return the last generated html id.
-   * 
-   * @param suffix
-   * @return
+   *
+   * @param suffix the suffix
+   * @return the last html id
    */
   public String getLastHtmlId(String suffix)
   {
     return "gwiki" + (domIdCounter) + suffix;
   }
 
+  /**
+   * Adds the simple validation error.
+   *
+   * @param message the message
+   */
   public void addSimpleValidationError(String message)
   {
     if (validationErrors == null) {
@@ -201,6 +263,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     validationErrors.put("", new SimpleActionMessage(message));
   }
 
+  /**
+   * Adds the validation error.
+   *
+   * @param msgKey the msg key
+   * @param args the args
+   */
   public void addValidationError(String msgKey, Object... args)
   {
     if (validationErrors == null) {
@@ -210,6 +278,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     validationErrors.put("", new SimpleActionMessage(message));
   }
 
+  /**
+   * Adds the validation field error.
+   *
+   * @param msgKey the msg key
+   * @param field the field
+   * @param args the args
+   */
   public void addValidationFieldError(String msgKey, String field, Object... args)
   {
     if (validationErrors == null) {
@@ -219,11 +294,22 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     validationErrors.put(field, new SimpleActionMessage(message));
   }
 
+  /**
+   * Checks for validation errors.
+   *
+   * @return true, if successful
+   */
   public boolean hasValidationErrors()
   {
     return validationErrors != null && validationErrors.isEmpty() == false;
   }
 
+  /**
+   * Gets the page id from title.
+   *
+   * @param title the title
+   * @return the page id from title
+   */
   public static String getPageIdFromTitle(String title)
   {
     String id = StringUtils.replace(StringUtils.replace(StringUtils.replace(title, "\t", "_"), " ", "_"), "\\", "/");
@@ -231,6 +317,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return id;
   }
 
+  /**
+   * Push native params.
+   *
+   * @param m the m
+   * @return the map
+   */
   public Map<String, Object> pushNativeParams(Map<String, Object> m)
   {
     Map<String, Object> ret = nativeArgs;
@@ -239,9 +331,10 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * 
+   * Gets the parent dir path from page id.
+   *
    * @param pageId a/b
-   * @return a/b -> a/, c -> ""
+   * @return a/b to a/, c to ""
    */
   public static String getParentDirPathFromPageId(String pageId)
   {
@@ -255,6 +348,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return pageId.substring(0, pidx + 1);
   }
 
+  /**
+   * Gets the name part from page id.
+   *
+   * @param pageId the page id
+   * @return the name part from page id
+   */
   public static String getNamePartFromPageId(String pageId)
   {
     if (StringUtils.isEmpty(pageId) == true) {
@@ -267,11 +366,23 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return pageId.substring(pidx + 1);
   }
 
+  /**
+   * Gen id.
+   *
+   * @param newId the new id
+   * @param parentId the parent id
+   * @return the string
+   */
   public static String genId(String newId, String parentId)
   {
     return getParentDirPathFromPageId(parentId) + newId;
   }
 
+  /**
+   * Include.
+   *
+   * @param id the id
+   */
   public void include(String id)
   {
     GWikiElement el = wikiWeb.getElement(id);
@@ -279,11 +390,10 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * Include (render) an artefakt of given pageId
-   * 
-   * @param pageId
+   * Include (render) an artefakt of given pageId.
+   *
+   * @param pageId the page id
    * @param partName if null uses main part
-   * @throws nothing if page is not found.
    */
   public void includeArtefakt(String pageId, String partName)
   {
@@ -304,6 +414,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     exart.render(this);
   }
 
+  /**
+   * Include text.
+   *
+   * @param id the id
+   */
   public void includeText(String id)
   {
     flush();
@@ -320,6 +435,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Global url.
+   *
+   * @param lurl the lurl
+   * @return the string
+   */
   public String globalUrl(String lurl)
   {
     if (wikiWeb.findElement(lurl) == null) {
@@ -339,6 +460,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return url;
   }
 
+  /**
+   * Local url.
+   *
+   * @param lurl the lurl
+   * @return the string
+   */
   public String localUrl(String lurl)
   {
     String url = lurl;
@@ -375,11 +502,25 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return res;
   }
 
+  /**
+   * Render local url.
+   *
+   * @param target the target
+   * @return the string
+   */
   public String renderLocalUrl(String target)
   {
     return renderLocalUrl(target, null, null);
   }
 
+  /**
+   * Gen new page link.
+   *
+   * @param target the target
+   * @param title the title
+   * @param addArgs the add args
+   * @return the string
+   */
   public String genNewPageLink(String target, String title, String addArgs)
   {
     StringBuilder sb = new StringBuilder();
@@ -414,9 +555,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   /**
    * escape html.
-   * 
-   * @param text
-   * @return
+   *
+   * @param text the text
+   * @return the string
    */
   public String escape(String text)
   {
@@ -425,9 +566,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   /**
    * Encodes parameter in UTF-8.
-   * 
-   * @param text
-   * @return
+   *
+   * @param text the text
+   * @return the string
    */
   public String escapeUrlParam(String text)
   {
@@ -440,11 +581,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * 
-   * @param ei
-   * @param title
+   * Render existing link.
+   *
+   * @param ei the ei
+   * @param title the title
    * @param addArgs has to be escaped by itself
-   * @return
+   * @return the string
    */
   public String renderExistingLink(GWikiElementInfo ei, String title, String addArgs)
   {
@@ -469,12 +611,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * 
-   * @param ei
-   * @param title
-   * @param addArgs
+   * Render existing link with attr.
+   *
+   * @param ei the ei
+   * @param title the title
+   * @param addArgs the add args
    * @param attr note caller has to escape the paramers
-   * @return
+   * @return the string
    */
   public String renderExistingLinkWithAttr(GWikiElementInfo ei, String title, String addArgs, String... attr)
   {
@@ -502,22 +645,34 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return sb.toString();
   }
 
+  /**
+   * Checks if is allow to.
+   *
+   * @param right the right
+   * @return true, if is allow to
+   */
   public boolean isAllowTo(String right)
   {
     return wikiWeb.getAuthorization().isAllowTo(this, right);
   }
 
+  /**
+   * Ensure allow to.
+   *
+   * @param right the right
+   */
   public void ensureAllowTo(String right)
   {
     wikiWeb.getAuthorization().ensureAllowTo(this, right);
   }
 
   /**
-   * 
-   * @param target
-   * @param title
+   * Render local url.
+   *
+   * @param target the target
+   * @param title the title
    * @param addArgs must be already escaped.
-   * @return
+   * @return the string
    */
   public String renderLocalUrl(String target, String title, String addArgs)
   {
@@ -529,16 +684,34 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Gets the translated.
+   *
+   * @param key the key
+   * @return the translated
+   */
   public String getTranslated(String key)
   {
     return wikiWeb.getI18nProvider().translate(this, key);
   }
 
+  /**
+   * Gets the translated prop.
+   *
+   * @param key the key
+   * @return the translated prop
+   */
   public String getTranslatedProp(String key)
   {
     return wikiWeb.getI18nProvider().translateProp(this, key);
   }
 
+  /**
+   * Gets the user date string.
+   *
+   * @param date the date
+   * @return the user date string
+   */
   public String getUserDateString(Date date)
   {
     if (date == null) {
@@ -559,6 +732,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return timeZone;
   }
 
+  /**
+   * Parses the user date string.
+   *
+   * @param ds the ds
+   * @return the date
+   */
   public Date parseUserDateString(String ds)
   {
     if (StringUtils.isBlank(ds) == true) {
@@ -571,21 +750,47 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return TimeUtils.parseDate(ds, df, tz);
   }
 
+  /**
+   * Gets the user string prop.
+   *
+   * @param key the key
+   * @return the user string prop
+   */
   public String getUserStringProp(String key)
   {
     return getUserStringProp(key, "");
   }
 
+  /**
+   * Gets the user string prop.
+   *
+   * @param key the key
+   * @param defaultValue the default value
+   * @return the user string prop
+   */
   public String getUserStringProp(String key, String defaultValue)
   {
     return StringUtils.defaultString(getWikiWeb().getAuthorization().getUserProp(this, key), defaultValue);
   }
 
+  /**
+   * Gets the user boolean prop.
+   *
+   * @param key the key
+   * @return the user boolean prop
+   */
   public boolean getUserBooleanProp(String key)
   {
     return getUserBooleanProp(key, false);
   }
 
+  /**
+   * Gets the user boolean prop.
+   *
+   * @param key the key
+   * @param defaultValue the default value
+   * @return the user boolean prop
+   */
   public boolean getUserBooleanProp(String key, boolean defaultValue)
   {
     return StringUtils.equals("true", getUserStringProp(key, defaultValue ? "true" : "false"));
@@ -615,6 +820,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return this;
   }
 
+  /**
+   * Flush.
+   *
+   * @return the g wiki context
+   */
   public GWikiContext flush()
   {
     try {
@@ -630,6 +840,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return this;
   }
 
+  /**
+   * Append esc text.
+   *
+   * @param text the text
+   * @return the g wiki context
+   */
   public GWikiContext appendEscText(String text)
   {
     return append(StringEscapeUtils.escapeHtml(text));
@@ -659,6 +875,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return new GWikiElementFinder(this);
   }
 
+  /**
+   * Run element.
+   *
+   * @param <T> the generic type
+   * @param el the el
+   * @param cb the cb
+   * @return the t
+   */
   public <T> T runElement(GWikiElement el, CallableX<T, RuntimeException> cb)
   {
     try {
@@ -669,6 +893,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Run with parts.
+   *
+   * @param newParts the new parts
+   * @param cb the cb
+   * @return true, if successful
+   */
   public boolean runWithParts(Map<String, GWikiArtefakt<?>> newParts, CallableX<Boolean, RuntimeException> cb)
   {
     Map<String, GWikiArtefakt<?>> pushParts = null;
@@ -692,6 +923,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Run with artefakt.
+   *
+   * @param artefakt the artefakt
+   * @param cb the cb
+   * @return true, if successful
+   */
   public boolean runWithArtefakt(GWikiArtefakt<?> artefakt, CallableX<Boolean, RuntimeException> cb)
   {
     GWikiArtefakt<?> oa = getCurrentPart();
@@ -704,12 +942,14 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * runs the callback code inside specified tenant
-   * 
-   * @param tenantId
-   * @param wikiSelector
-   * @param callBack
-   * @return
+   * runs the callback code inside specified tenant.
+   *
+   * @param <R> the generic type
+   * @param <E> the element type
+   * @param tenantId the tenant id
+   * @param wikiSelector the wiki selector
+   * @param callBack the call back
+   * @return the r
    */
   public <R, E extends RuntimeException> R runInTenantContext(String tenantId, GWikiMultipleWikiSelector wikiSelector,
       CallableX<R, E> callBack)
@@ -753,11 +993,21 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   }
 
+  /**
+   * Push wiki element.
+   *
+   * @param wikiElement the wiki element
+   */
   public void pushWikiElement(GWikiElement wikiElement)
   {
     this.wikiElements.push(wikiElement);
   }
 
+  /**
+   * Pop wiki element.
+   *
+   * @return the g wiki element
+   */
   public GWikiElement popWikiElement()
   {
     return this.wikiElements.pop();
@@ -794,16 +1044,34 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return servlet;
   }
 
+  /**
+   * Gets the request parameter.
+   *
+   * @param key the key
+   * @return the request parameter
+   */
   public String getRequestParameter(String key)
   {
     return request.getParameter(key);
   }
 
+  /**
+   * Gets the request values.
+   *
+   * @param key the key
+   * @return the request values
+   */
   public String[] getRequestValues(String key)
   {
     return request.getParameterValues(key);
   }
 
+  /**
+   * Sets the request attribute.
+   *
+   * @param key the key
+   * @param value the value
+   */
   public void setRequestAttribute(String key, Object value)
   {
     if (value == null) {
@@ -813,6 +1081,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Gets the file item.
+   *
+   * @param key the key
+   * @return the file item
+   */
   public FileItem getFileItem(String key)
   {
     if ((request instanceof CommonMultipartRequest) == false) {
@@ -823,17 +1097,35 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return qr.getFileItems().get(key);
   }
 
+  /**
+   * Gets the request attribute.
+   *
+   * @param key the key
+   * @return the request attribute
+   */
   public Object getRequestAttribute(String key)
   {
     return request.getAttribute(key);
   }
 
+  /**
+   * Gets the boolean request attribute.
+   *
+   * @param key the key
+   * @return the boolean request attribute
+   */
   public boolean getBooleanRequestAttribute(String key)
   {
     return request.getAttribute(key) == Boolean.TRUE;
 
   }
 
+  /**
+   * Gets the string list request attribute.
+   *
+   * @param key the key
+   * @return the string list request attribute
+   */
   @SuppressWarnings("unchecked")
   public List<String> getStringListRequestAttribute(String key)
   {
@@ -847,11 +1139,23 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   }
 
+  /**
+   * Gets the session attribute.
+   *
+   * @param key the key
+   * @return the session attribute
+   */
   public Object getSessionAttribute(String key)
   {
     return wikiWeb.getSessionProvider().getSessionAttribute(this, key);
   }
 
+  /**
+   * Sets the session attribute.
+   *
+   * @param key the key
+   * @param value the value
+   */
   public void setSessionAttribute(String key, Object value)
   {
     if (value != null && (value instanceof Serializable) == false) {
@@ -861,6 +1165,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     wikiWeb.getSessionProvider().setSessionAttribute(this, key, (Serializable) value);
   }
 
+  /**
+   * Removes the session attribute.
+   *
+   * @param key the key
+   */
   public void removeSessionAttribute(String key)
   {
     wikiWeb.getSessionProvider().removeSessionAttribute(this, key);
@@ -871,6 +1180,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     request.setCharacterEncoding(enc);
   }
 
+  /**
+   * Send error silent.
+   *
+   * @param errorCode the error code
+   */
   public void sendErrorSilent(int errorCode)
   {
     try {
@@ -880,6 +1194,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
   }
 
+  /**
+   * Send error.
+   *
+   * @param errorCode the error code
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public void sendError(int errorCode) throws IOException
   {
     response.sendError(errorCode);
@@ -890,6 +1210,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     response.setStatus(status);
   }
 
+  /**
+   * Send error.
+   *
+   * @param errorCode the error code
+   * @param errorMessage the error message
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public void sendError(int errorCode, String errorMessage) throws IOException
   {
     response.sendError(errorCode, errorMessage);
@@ -900,6 +1227,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return response.getOutputStream();
   }
 
+  /**
+   * Creates the session.
+   */
   public void createSession()
   {
     getSession(true);
@@ -910,6 +1240,12 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return getSession(true);
   }
 
+  /**
+   * Gets the session.
+   *
+   * @param create the create
+   * @return the session
+   */
   public HttpSession getSession(boolean create)
   {
     if (create == false && request == null) {
@@ -920,7 +1256,10 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * set a cookie
+   * set a cookie.
+   *
+   * @param key the key
+   * @param value the value
    */
   @SuppressWarnings("deprecation")
   public void setCookie(String key, String value)
@@ -937,6 +1276,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
 
   }
 
+  /**
+   * Clear cookie.
+   *
+   * @param key the key
+   */
   public void clearCookie(String key)
   {
     Cookie tsc = new Cookie(key, "");
@@ -947,8 +1291,9 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
   }
 
   /**
-   * get a named cookie
-   * 
+   * get a named cookie.
+   *
+   * @param key the key
    * @return by default null
    */
   public String getCookie(String key)
@@ -956,6 +1301,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return getCookie(key, null);
   }
 
+  /**
+   * Gets the cookie.
+   *
+   * @param key the key
+   * @param defaultValue the default value
+   * @return the cookie
+   */
   @SuppressWarnings("deprecation")
   public String getCookie(String key, String defaultValue)
   {
@@ -991,6 +1343,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return wikiWeb.getStandardSkin();
   }
 
+  /**
+   * Skin include.
+   *
+   * @param name the name
+   */
   public void skinInclude(String name)
   {
     String skin = getSkin();
@@ -998,6 +1355,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     include(id);
   }
 
+  /**
+   * Adds the cookie.
+   *
+   * @param cookie the cookie
+   */
   public void addCookie(Cookie cookie)
   {
     response.addCookie(cookie);
@@ -1008,6 +1370,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return request.getHeader("user-agent");
   }
 
+  /**
+   * Adds the header content.
+   *
+   * @param content the content
+   */
   public void addHeaderContent(String content)
   {
     Object obj = request.getAttribute(HEADER_STATEMENTS);
@@ -1027,11 +1394,21 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return ObjectUtils.toString(o);
   }
 
+  /**
+   * Adds the content css.
+   *
+   * @param localPath the local path
+   */
   public void addContentCss(String localPath)
   {
     getStringListRequestAttribute(CONTENT_CSS).add(localPath);
   }
 
+  /**
+   * Adds the content js.
+   *
+   * @param localPath the local path
+   */
   public void addContentJs(String localPath)
   {
     getStringListRequestAttribute(CONTENT_JS).add(localPath);

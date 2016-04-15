@@ -33,16 +33,20 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
 public class WordTextExtractor implements TextExtractor
 {
   /**
-   * <19> HYPERLINK "" \l "ShowCouponInfoRequestType" <20> <19> HYPERLINK "" \l "ItemType" <20>sc:ItemType<21>
+   * &lt;19&gt; HYPERLINK "" \l "ShowCouponInfoRequestType" &lt;20&gt; &lt;19&gt; HYPERLINK "" \l "ItemType"
+   * &lt;20&gt;sc:ItemType&lt;21&gt;
    * 
-   * <11>Attribute<13> siehe Abschnitt <19> REF _Ref234057110 \r \h <1><20>2.6.3.2<21>
+   * &lt;11&gt;Attribute&lt;13&gt; siehe Abschnitt &lt;19&gt; REF _Ref234057110 \r \h
+   * &lt;1&gt;&lt;20&gt;2.6.3.2&lt;21&gt;
    * 
-   * <19> REF _Ref234386510 \h <1><20>Element LoadBuyedShoppingCartRequest<21><13>
+   * &lt;19&gt; REF _Ref234386510 \h &lt;1&gt;&lt;20&gt;Element LoadBuyedShoppingCartRequest&lt;21&gt;&lt;13&gt;
    * 
    * 
-   * 3.26 Element LoadBuyedShoppingCartRequest <19> PAGEREF _Toc237087386 \h <1><20>31<21><13>
+   * 3.26 Element LoadBuyedShoppingCartRequest &lt;19&gt; PAGEREF _Toc237087386 \h
+   * &lt;1&gt;&lt;20&gt;31&lt;21&gt;&lt;13&gt;
    * 
-   * <19> HYPERLINK "" \l "ShoppingCartCheckoutViaPaymentResponseT" <20>ws:ShoppingCartCheckoutViaPaymentResponseType<21>
+   * &lt;19&gt; HYPERLINK "" \l "ShoppingCartCheckoutViaPaymentResponseT"
+   * &lt;20&gt;ws:ShoppingCartCheckoutViaPaymentResponseType&lt;21&gt;
    * 
    * @param text
    * @return
@@ -54,7 +58,7 @@ public class WordTextExtractor implements TextExtractor
     for (int i = 0; i < text.length(); ++i) {
       char c = text.charAt(i);
 
-      int ic = (int) c;
+      int ic = c;
       if (ic > 21) {
         sb.append(c);
         lc = c;
@@ -91,6 +95,7 @@ public class WordTextExtractor implements TextExtractor
     return sb.toString();
   }
 
+  @Override
   public String extractText(String fileName, InputStream data)
   {
     try {

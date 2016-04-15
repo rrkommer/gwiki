@@ -38,25 +38,34 @@ import de.micromata.genome.logging.LoggedRuntimeException;
 import de.micromata.genome.util.text.PipeValueList;
 
 /**
- * Argument is a Map<String, String> map
- * 
+ * Argument is a Map
+ *
  * @author roger@micromata.de
- * 
  */
 public abstract class AbstractCommandLineJob extends AbstractFutureJob
 {
+
+  /**
+   * The string arg.
+   */
   transient protected String stringArg;
 
+  /**
+   * The args.
+   */
   transient protected Map<String, String> args;
 
+  /**
+   * The admin user name.
+   */
   transient protected String adminUserName;
 
   /**
-   * Method to be implemented
-   * 
+   * Method to be implemented.
+   *
    * @param args Parsed arguments
-   * @return
-   * @throws Exception
+   * @return the object
+   * @throws Exception the exception
    */
   public abstract Object call(Map<String, String> args) throws Exception;
 
@@ -98,11 +107,22 @@ public abstract class AbstractCommandLineJob extends AbstractFutureJob
 
   }
 
+  /**
+   * Parses the standard values.
+   *
+   * @param args the args
+   */
   protected void parseStandardValues(Map<String, String> args)
   {
 
   }
 
+  /**
+   * Gets the standard args.
+   *
+   * @param obj the obj
+   * @return the standard args
+   */
   public static Map<String, String> getStandardArgs(Object obj)
   {
     if ((obj instanceof String) == false) {

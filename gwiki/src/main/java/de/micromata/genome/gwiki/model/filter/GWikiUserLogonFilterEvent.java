@@ -20,14 +20,27 @@ import de.micromata.genome.gwiki.auth.GWikiSimpleUser;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
+ * The Class GWikiUserLogonFilterEvent.
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class GWikiUserLogonFilterEvent extends GWikiFilterEvent
 {
+
+  /**
+   * The Enum LoginState.
+   */
   public static enum LoginState
   {
-    Login, //
+
+    /**
+     * The Login.
+     */
+    Login,
+    /**
+     * The Logout.
+     */
+    //
     Logout //
     ;
   }
@@ -37,6 +50,9 @@ public class GWikiUserLogonFilterEvent extends GWikiFilterEvent
    */
   private LoginState loginState;
 
+  /**
+   * The user.
+   */
   private GWikiSimpleUser user;
 
   /**
@@ -45,8 +61,11 @@ public class GWikiUserLogonFilterEvent extends GWikiFilterEvent
   private boolean abort = false;
 
   /**
-   * @param wikiContext
-   * @param element
+   * Instantiates a new g wiki user logon filter event.
+   *
+   * @param wikiContext the wiki context
+   * @param loginState the login state
+   * @param user the user
    */
   public GWikiUserLogonFilterEvent(GWikiContext wikiContext, LoginState loginState, GWikiSimpleUser user)
   {

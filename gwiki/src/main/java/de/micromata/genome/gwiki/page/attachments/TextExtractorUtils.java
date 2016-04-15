@@ -29,12 +29,18 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 public class TextExtractorUtils
 {
 
+  /**
+   * Show binary.
+   *
+   * @param text the text
+   * @return the string
+   */
   public static String showBinary(String text)
   {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < text.length(); ++i) {
       char c = text.charAt(i);
-      int ic = (int) c;
+      int ic = c;
       if (ic > 21) {
         sb.append(c);
       } else {
@@ -49,9 +55,10 @@ public class TextExtractorUtils
   }
 
   /**
-   * 
-   * @param fileName
-   * @param is
+   * Gets the text extractor.
+   *
+   * @param ctx the ctx
+   * @param fileName the file name
    * @return null if not found
    */
   public static TextExtractor getTextExtractor(GWikiContext ctx, String fileName)
@@ -65,6 +72,14 @@ public class TextExtractorUtils
     return ctx.getWikiWeb().getFilter().getTextExtractors().get(ext);
   }
 
+  /**
+   * Gets the text extract.
+   *
+   * @param ctx the ctx
+   * @param fileName the file name
+   * @param is the is
+   * @return the text extract
+   */
   public static String getTextExtract(GWikiContext ctx, String fileName, InputStream is)
   {
     TextExtractor ex = getTextExtractor(ctx, fileName);

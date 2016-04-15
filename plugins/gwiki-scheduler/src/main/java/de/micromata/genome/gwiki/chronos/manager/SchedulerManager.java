@@ -253,7 +253,7 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger)}.
+   * Delegate zum internen SchedulerManager.
    */
   public long submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
@@ -262,7 +262,7 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger)}.
+   * Delegate zum internen SchedulerManager#dispatcher.
    */
   public long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
@@ -287,7 +287,7 @@ public class SchedulerManager implements InitializingBean
    * 
    * This uses InterNodeCallDAO.getRunningNodes() to get running nodes.
    * 
-   * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger, String)}.
+   * Delegate zum internen SchedulerManager.dispatche.
    * 
    * @param schedulerName The scheduler must have a high node bind timeout.
    * @param jobDefinition
@@ -306,7 +306,7 @@ public class SchedulerManager implements InitializingBean
    * 
    * This uses InterNodeCallDAO.getRunningNodes() to get running nodes.
    * 
-   * Delegate zum internen {@link SchedulerManager#dispatcher#submit(String, JobDefinition, Object, Trigger, String)}.
+   * Delegate zum internen SchedulerManager.
    * 
    * @param schedulerName The scheduler must have a high node bind timeout.
    * @param jobDefinition
@@ -340,7 +340,7 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegate zu {@link SchedulerManager#dispatcher#persist(SchedulerImpl)} .
+   * Delegate zu chedulerManager .
    * 
    * @param scheduler
    */
@@ -350,9 +350,9 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegate zu {@link SchedulerManager#dispatcher#avoidNewJobs(String)} .
-   * 
-   * @param scheduler
+   * Delegate zu SchedulerManager .
+   *
+   * @param name the name
    */
   public void denyNewJobs(final String name)
   {
@@ -360,9 +360,10 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegate zu {@link SchedulerManager#dispatcher#setJobCount(int, String)}.
-   * 
-   * @param scheduler
+   * Delegate zu SchedulerManager.
+   *
+   * @param size the size
+   * @param schedulerName the scheduler name
    */
   public void setJobCount(final int size, final String schedulerName)
   {
@@ -411,7 +412,7 @@ public class SchedulerManager implements InitializingBean
   }
 
   /**
-   * Delegiert zu {@link DispatcherImpl#shutdown()}.
+   * Delegiert zu DispatcherImpl.
    * 
    * @throws InterruptedException
    */

@@ -86,19 +86,42 @@ import de.micromata.genome.util.types.TimeInMillis;
  */
 public class GWikiFileStorage implements GWikiStorage
 {
+
+  /**
+   * The standard lock timeout.
+   */
   protected long standardLockTimeout = -1;//TimeInMillis.SECOND * 100;
 
+  /**
+   * The storage.
+   */
   protected FileSystem storage;
 
+  /**
+   * The page types.
+   */
   protected Map<String, String> pageTypes = new HashMap<String, String>();
 
-  /** TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist */
+  /**
+   * TODO gwiki pruefen, ob das ueberhaupt noch notwendig ist.
+   */
   protected Map<String, String> artefaktTypes = new HashMap<String, String>();
 
+  /**
+   * The Constant BeanConfigMetaTemplateSettingsFile.
+   */
   private final static String BeanConfigMetaTemplateSettingsFile = "admin/templates/BeanConfigMetaTemplateSettings.properties";
 
+  /**
+   * The wiki web.
+   */
   protected GWikiWeb wikiWeb;
 
+  /**
+   * Instantiates a new g wiki file storage.
+   *
+   * @param storage the storage
+   */
   public GWikiFileStorage(FileSystem storage)
   {
     this.storage = storage;
@@ -127,6 +150,11 @@ public class GWikiFileStorage implements GWikiStorage
     return artefaktTypes.get(type);
   }
 
+  /**
+   * Resolve page infos.
+   *
+   * @param map the map
+   */
   protected void resolvePageInfos(Map<String, GWikiElementInfo> map)
   {
     // currently not used
@@ -138,6 +166,12 @@ public class GWikiFileStorage implements GWikiStorage
     return storage.getModificationCounter();
   }
 
+  /**
+   * Load properties.
+   *
+   * @param name the name
+   * @return the map
+   */
   protected Map<String, String> loadProperties(String name)
   {
     Map<String, String> m = new HashMap<String, String>();
@@ -145,6 +179,12 @@ public class GWikiFileStorage implements GWikiStorage
     return m;
   }
 
+  /**
+   * Load properties.
+   *
+   * @param name the name
+   * @param map the map
+   */
   @SuppressWarnings("unchecked")
   protected void loadProperties(String name, Map<String, String> map)
   {
@@ -164,6 +204,12 @@ public class GWikiFileStorage implements GWikiStorage
     map.putAll((Map<String, String>) (Map<?, ?>) props);
   }
 
+  /**
+   * Store props.
+   *
+   * @param name the name
+   * @param map the map
+   */
   public void storeProps(String name, Map<String, String> map)
   {
     Properties props = new Properties();
@@ -183,6 +229,12 @@ public class GWikiFileStorage implements GWikiStorage
     writeBinaryFile(name, bout.toByteArray(), true);
   }
 
+  /**
+   * Storage2 wiki path.
+   *
+   * @param path the path
+   * @return the string
+   */
   private String storage2WikiPath(String path)
   {
     if (path.startsWith("/") == true) {
@@ -205,12 +257,26 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  /**
+   * After page info load.
+   *
+   * @param fo the fo
+   * @param el the el
+   * @param ret the ret
+   * @return the g wiki element info
+   */
   protected GWikiElementInfo afterPageInfoLoad(FsObject fo, GWikiElementInfo el,
       final Map<String, GWikiElementInfo> ret)
   {
     return el;
   }
 
+  /**
+   * Load page infos impl.
+   *
+   * @param fileSystem the file system
+   * @param ret the ret
+   */
   protected void loadPageInfosImpl(FileSystem fileSystem, final Map<String, GWikiElementInfo> ret)
   {
     Matcher<String> matcher = new BooleanListRulesFactory<String>()
@@ -273,6 +339,12 @@ public class GWikiFileStorage implements GWikiStorage
     return storage;
   }
 
+  /**
+   * Creates the element info.
+   *
+   * @param e the e
+   * @return the g wiki element info
+   */
   protected GWikiElementInfo createElementInfo(FsObject e)
   {
     GWikiProps p = new GWikiProps(loadProperties(e.getName()));
@@ -285,6 +357,12 @@ public class GWikiFileStorage implements GWikiStorage
     return el;
   }
 
+  /**
+   * Load version page infos.
+   *
+   * @param id the id
+   * @return the list
+   */
   public List<GWikiElementInfo> loadVersionPageInfos(String id)
   {
 
@@ -340,16 +418,34 @@ public class GWikiFileStorage implements GWikiStorage
     return ret;
   }
 
+  /**
+   * Gets the head.
+   *
+   * @param id the id
+   * @return the head
+   */
   protected Map<String, String> getHead(String id)
   {
     return loadProperties(id + GWikiStorage.SETTINGS_SUFFIX);
   }
 
+  /**
+   * Gets the string content.
+   *
+   * @param id the id
+   * @param suffix the suffix
+   * @return the string content
+   */
   protected String getStringContent(String id, String suffix)
   {
     return storage.readTextFile(id + suffix);
   }
 
+  /**
+   * Inits the meta template.
+   *
+   * @param ei the ei
+   */
   protected void initMetaTemplate(GWikiElementInfo ei)
   {
     if (ei.getMetaTemplate() != null) {
@@ -368,6 +464,13 @@ public class GWikiFileStorage implements GWikiStorage
     ei.setMetaTemplate(template);
   }
 
+  /**
+   * Creates the hard wired element.
+   *
+   * @param type the type
+   * @param ei the ei
+   * @return the g wiki element
+   */
   @SuppressWarnings("unchecked")
   protected GWikiElement createHardWiredElement(String type, GWikiElementInfo ei)
   {
@@ -409,6 +512,12 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
+  /**
+   * Read binary if exists.
+   *
+   * @param fname the fname
+   * @return the byte[]
+   */
   byte[] readBinaryIfExists(String fname)
   {
     if (storage.exists(fname) == false) {
@@ -417,6 +526,12 @@ public class GWikiFileStorage implements GWikiStorage
     return storage.readBinaryFile(fname);
   }
 
+  /**
+   * Read text if exists.
+   *
+   * @param fname the fname
+   * @return the string
+   */
   String readTextIfExists(String fname)
   {
     if (storage.exists(fname) == false) {
@@ -471,6 +586,12 @@ public class GWikiFileStorage implements GWikiStorage
     return loadElement(elinfo);
   }
 
+  /**
+   * Load element impl.
+   *
+   * @param ei the ei
+   * @return the g wiki element
+   */
   public GWikiElement loadElementImpl(final GWikiElementInfo ei)
   {
     GWikiElement element = createElement(ei);
@@ -514,10 +635,10 @@ public class GWikiFileStorage implements GWikiStorage
   }
 
   /**
-   * first is dir or empty string
-   * 
-   * @param id
-   * @return
+   * first is dir or empty string.
+   *
+   * @param id the id
+   * @return the pair
    */
   protected Pair<String, String> splitId(String id)
   {
@@ -528,6 +649,14 @@ public class GWikiFileStorage implements GWikiStorage
     return Pair.make(id.substring(0, lidx), id.substring(lidx + 1));
   }
 
+  /**
+   * Clean up archived files.
+   *
+   * @param wikiContext the wiki context
+   * @param el the el
+   * @param maxcount the maxcount
+   * @param maxdays the maxdays
+   */
   protected void cleanUpArchivedFiles(final GWikiContext wikiContext, final GWikiElement el, int maxcount, int maxdays)
   {
     if (maxcount == -1 && maxdays == -1) {
@@ -568,6 +697,12 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
+  /**
+   * Archive page.
+   *
+   * @param wikiContext the wiki context
+   * @param el the el
+   */
   protected void archivePage(final GWikiContext wikiContext, final GWikiElement el)
   {
     storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
@@ -637,6 +772,13 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  /**
+   * Persist.
+   *
+   * @param wikiContext the wiki context
+   * @param element the element
+   * @param parts the parts
+   */
   public void persist(final GWikiContext wikiContext, GWikiElement element, Map<String, GWikiArtefakt<?>> parts)
   {
     wikiWeb.getFilter().storeElement(wikiContext, element, parts, new GWikiStorageStoreElementFilter()
@@ -653,6 +795,13 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  /**
+   * Delete impl.
+   *
+   * @param wikiContext the wiki context
+   * @param element the element
+   * @param parts the parts
+   */
   protected void deleteImpl(final GWikiContext wikiContext, final GWikiElement element,
       final Map<String, GWikiArtefakt<?>> parts)
   {
@@ -673,6 +822,13 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  /**
+   * Destroy element.
+   *
+   * @param wikiContext the wiki context
+   * @param element the element
+   * @param parts the parts
+   */
   protected void destroyElement(final GWikiContext wikiContext, final GWikiElement element,
       final Map<String, GWikiArtefakt<?>> parts)
   {
@@ -690,6 +846,12 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
+  /**
+   * Sets the version stamps.
+   *
+   * @param el the el
+   * @param keepModifiedAt the keep modified at
+   */
   protected void setVersionStamps(final GWikiElement el, final boolean keepModifiedAt)
   {
     GWikiProps p = el.getElementInfo().getProps();
@@ -711,6 +873,13 @@ public class GWikiFileStorage implements GWikiStorage
     }
   }
 
+  /**
+   * Store element impl.
+   *
+   * @param wikiContext the wiki context
+   * @param page the page
+   * @param keepModifiedAt the keep modified at
+   */
   public void storeElementImpl(final GWikiContext wikiContext, final GWikiElement page, final boolean keepModifiedAt)
   {
     storage.runInTransaction(null, standardLockTimeout, false, new CallableX<Void, RuntimeException>()
@@ -762,6 +931,12 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
+  /**
+   * Gets the parts.
+   *
+   * @param element the element
+   * @return the parts
+   */
   public static Map<String, GWikiArtefakt<?>> getParts(GWikiElement element)
   {
     Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
@@ -794,6 +969,12 @@ public class GWikiFileStorage implements GWikiStorage
 
   }
 
+  /**
+   * Store impl.
+   *
+   * @param element the element
+   * @param parts the parts
+   */
   public void storeImpl(final GWikiElement element, final Map<String, GWikiArtefakt<?>> parts)
   {
     // TODO gwiki alles in einer transaktion laufen lassen.
@@ -809,6 +990,12 @@ public class GWikiFileStorage implements GWikiStorage
     });
   }
 
+  /**
+   * Gets the fs for write.
+   *
+   * @param fname the fname
+   * @return the fs for write
+   */
   protected FileSystem getFsForWrite(String fname)
   {
     FileSystem fs = storage.getFsForWrite(fname);
@@ -819,18 +1006,38 @@ public class GWikiFileStorage implements GWikiStorage
     return fs;
   }
 
+  /**
+   * Write binary file.
+   *
+   * @param fname the fname
+   * @param data the data
+   * @param overWrite the over write
+   */
   protected void writeBinaryFile(String fname, byte[] data, boolean overWrite)
   {
     FileSystem fs = getFsForWrite(fname);
     fs.writeBinaryFile(fname, data, overWrite);
   }
 
+  /**
+   * Write text file.
+   *
+   * @param fname the fname
+   * @param data the data
+   * @param overWrite the over write
+   */
   protected void writeTextFile(String fname, String data, boolean overWrite)
   {
     FileSystem fs = getFsForWrite(fname);
     fs.writeTextFile(fname, data, overWrite);
   }
 
+  /**
+   * Store impl no trans.
+   *
+   * @param element the element
+   * @param parts the parts
+   */
   public void storeImplNoTrans(final GWikiElement element, final Map<String, GWikiArtefakt<?>> parts)
   {
 
@@ -881,6 +1088,12 @@ public class GWikiFileStorage implements GWikiStorage
     return path.startsWith("arch/") == true || path.contains("/arch/") == true;
   }
 
+  /**
+   * Gets the orginal page id from archive page id.
+   *
+   * @param path the path
+   * @return the orginal page id from archive page id
+   */
   public String getOrginalPageIdFromArchivePageId(String path)
   {
     if (isArchivePageId(path) == false) {
@@ -922,7 +1135,11 @@ public class GWikiFileStorage implements GWikiStorage
   /**
    * TODO NOT persist itself.
    * 
-   * @see de.micromata.genome.gwiki.model.GWikiStorage#rebuildIndex(java.util.Collection)
+   * See de.micromata.genome.gwiki.model.GWikiStorage#rebuildIndex(java.util.Collection)
+   *
+   * @param wikiContext the wiki context
+   * @param eis the eis
+   * @param completeUpdate the complete update
    */
   @Override
   public void rebuildIndex(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis, boolean completeUpdate)

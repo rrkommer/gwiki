@@ -62,11 +62,11 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
 
   private boolean allowWikiSyntax;
 
-  private PtWikiSectionEditorArtefakt< ? > secEditor;
+  private PtWikiSectionEditorArtefakt<?> secEditor;
 
   private GWikiElement element;
 
-  private PtWikiSectionEditorArtefakt< ? > createEditor()
+  private PtWikiSectionEditorArtefakt<?> createEditor()
   {
 
     if (pageId == null) {
@@ -104,6 +104,7 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     }
   }
 
+  @Override
   public Object onInit()
   {
     init();
@@ -123,7 +124,8 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     wikiContext.getWikiWeb().saveElement(wikiContext, element, false);
 
     // returns noForward to close the fancybox!
-    wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
+    wikiContext
+        .append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
     wikiContext.flush();
     return noForward();
   }
@@ -148,7 +150,8 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
      * wikiContext.append("&editor=").append(editor); wikiContext.append("'</script>");
      */
 
-    wikiContext.append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
+    wikiContext
+        .append("<script type='text/javascript'>parent.$.fancybox.close();window.parent.location.reload();</script>");
     wikiContext.flush();
 
     return noForward();
@@ -199,18 +202,20 @@ public class PtPageSectionEditorActionBean extends ActionBeanBase
     this.hint = hint;
   }
 
-  public GWikiEditorArtefakt< ? > getSecEditor()
+  public GWikiEditorArtefakt<?> getSecEditor()
   {
     return secEditor;
   }
 
-  public void setSecEditor(PtWikiSectionEditorArtefakt< ? > secEditor)
+  public void setSecEditor(PtWikiSectionEditorArtefakt<?> secEditor)
   {
     this.secEditor = secEditor;
   }
 
   /**
-   * @param wikiSyntax the wikiSyntax to set
+   * Sets the allow wiki syntax.
+   *
+   * @param allowWikiSyntax the new allow wiki syntax
    */
   public void setAllowWikiSyntax(boolean allowWikiSyntax)
   {

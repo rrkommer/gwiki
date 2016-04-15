@@ -33,11 +33,12 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
  */
 public interface GWikiMptIdSelector
 {
+
   /**
    * return the tenant id for given request.
-   * 
-   * @param servlet
-   * @param req
+   *
+   * @param servlet the servlet
+   * @param req the req
    * @return null if no tenant is given and the root gwiki is used.
    */
 
@@ -45,29 +46,32 @@ public interface GWikiMptIdSelector
 
   /**
    * set given tenant in session or user or similar.
-   * 
-   * @param wikiContext
-   * @param tenantId
+   *
+   * @param wikiContext the wiki context
+   * @param tenantId the tenant id
    */
   void setTenant(GWikiContext wikiContext, String tenantId);
 
   /**
-   * 
-   * @param servlet
+   * Gets the tenants.
+   *
+   * @param rootWiki the root wiki
    * @return a list of available tenants.
    */
   List<String> getTenants(GWikiWeb rootWiki);
 
   /**
-   * 
-   * @param servlet
-   * @param pageId
+   * Id is part of tenant.
+   *
+   * @param rootWiki the root wiki
+   * @param pageId the page id
    * @return null if non
    */
   String idIsPartOfTenant(GWikiWeb rootWiki, String pageId);
 
   /**
-   * 
+   * Gets the tenant file system.
+   *
    * @param rootWiki the root wiki
    * @param tenantId id of the wiki
    * @return null, if no file system for this wiki exists.

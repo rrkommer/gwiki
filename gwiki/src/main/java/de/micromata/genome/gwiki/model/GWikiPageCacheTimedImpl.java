@@ -46,31 +46,67 @@ import de.micromata.genome.util.types.TimeInMillis;
  */
 public class GWikiPageCacheTimedImpl implements GWikiPageCache
 {
+
+  /**
+   * The standard life time.
+   */
   private long standardLifeTime = TimeInMillis.MINUTE;
 
+  /**
+   * The cached pages.
+   */
   private Map<String, Pair<Long, GWikiElement>> cachedPages = newCachePagesMap();
 
+  /**
+   * The page info map.
+   */
   private Map<String, GWikiElementInfo> pageInfoMap = Collections.emptyMap();
 
+  /**
+   * The log node.
+   */
   private boolean logNode = false;
 
+  /**
+   * The wiki web.
+   */
   private GWikiWeb wikiWeb;
 
+  /**
+   * The no cache pages.
+   */
   private Matcher<String> noCachePages;
 
+  /**
+   * The no cache page ids.
+   */
   private Matcher<String> noCachePageIds;
 
+  /**
+   * Instantiates a new g wiki page cache timed impl.
+   */
   public GWikiPageCacheTimedImpl()
   {
     noCachePageIds = new BooleanListRulesFactory<String>().createMatcher("tmp/*,arch/*,*/arch/*");
     noCachePages = noCachePageIds;
   }
 
+  /**
+   * New cache pages map.
+   *
+   * @return the map
+   */
   protected Map<String, Pair<Long, GWikiElement>> newCachePagesMap()
   {
     return new HashMap<String, Pair<Long, GWikiElement>>();
   }
 
+  /**
+   * New cache pages map.
+   *
+   * @param oldMap the old map
+   * @return the map
+   */
   protected Map<String, Pair<Long, GWikiElement>> newCachePagesMap(Map<String, Pair<Long, GWikiElement>> oldMap)
   {
     Map<String, Pair<Long, GWikiElement>> nm = new HashMap<String, Pair<Long, GWikiElement>>(oldMap.size());
@@ -78,6 +114,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return nm;
   }
 
+  /**
+   * New page info map.
+   *
+   * @param oldMap the old map
+   * @return the map
+   */
   protected Map<String, GWikiElementInfo> newPageInfoMap(Map<String, GWikiElementInfo> oldMap)
   {
     Map<String, GWikiElementInfo> nm = new HashMap<String, GWikiElementInfo>(oldMap.size());
@@ -97,6 +139,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     putPageInfo(ei, true);
   }
 
+  /**
+   * Put page info.
+   *
+   * @param ei the ei
+   * @param notify the notify
+   */
   public void putPageInfo(GWikiElementInfo ei, boolean notify)
   {
     if (noCachePageIds.match(ei.getId()) == true) {
@@ -158,6 +206,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     }
   }
 
+  /**
+   * Gets the life time.
+   *
+   * @param element the element
+   * @return the life time
+   */
   private long getLifeTime(GWikiElement element)
   {
     final GWikiMetaTemplate metaTemplate = element.getElementInfo().getMetaTemplate();
@@ -219,6 +273,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     removePageInfo(pageId, true);
   }
 
+  /**
+   * Removes the page info.
+   *
+   * @param pageId the page id
+   * @param notify the notify
+   */
   public void removePageInfo(String pageId, boolean notify)
   {
     if (logNode == true) {
@@ -242,6 +302,12 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     return pageInfoMap.containsKey(pageId);
   }
 
+  /**
+   * Clear old items.
+   *
+   * @param nm the nm
+   * @param now the now
+   */
   protected void clearOldItems(Map<String, Pair<Long, GWikiElement>> nm, long now)
   {
     Collection<String> toRemove = null;
@@ -297,6 +363,9 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
     initListener();
   }
 
+  /**
+   * Inits the listener.
+   */
   protected void initListener()
   {
     final GWikiStorage storage = wikiWeb.getStorage();
@@ -374,10 +443,6 @@ public class GWikiPageCacheTimedImpl implements GWikiPageCache
         });
   }
 
-  /**
-   * 
-   * @see de.micromata.genome.gwiki.model.GWikiPageCache#getPageInfoMap()
-   */
   public Map<String, GWikiElementInfo> getPageInfoMap()
   {
     if (logNode == true) {

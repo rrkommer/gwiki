@@ -56,11 +56,14 @@ public abstract class AbstractJobStore implements JobStore
 {
   private DispatcherInternal dispatcher;
 
-  public TriggerJobDO buildTriggerJob(final Scheduler scheduler, String jobName, final JobDefinition jobDefinition, final Object info,
+  @Override
+  public TriggerJobDO buildTriggerJob(final Scheduler scheduler, String jobName, final JobDefinition jobDefinition,
+      final Object info,
       final Trigger trigger, final String hostName, State state)
   {
     final long schedulerId = scheduler.getId();
-    Validate.isTrue(schedulerId != SchedulerDO.UNSAVED_SCHEDULER_ID, "Es wurde submit auf einen nicht persistenten Scheduler versucht.");
+    Validate.isTrue(schedulerId != SchedulerDO.UNSAVED_SCHEDULER_ID,
+        "Es wurde submit auf einen nicht persistenten Scheduler versucht.");
     long jobId = getNextJobId();
     TriggerJobDO job = new TriggerJobDO();
     job.setTrigger(trigger);
@@ -71,8 +74,9 @@ public abstract class AbstractJobStore implements JobStore
     job.setJobStore(this);
     job.setPk(jobId);
     job.setHostName(hostName);
-    if (state == null)
+    if (state == null) {
       state = State.WAIT;
+    }
     job.setState(state);
 
     job.setScheduler(scheduler.getId());
@@ -80,6 +84,7 @@ public abstract class AbstractJobStore implements JobStore
     return job;
   }
 
+  @Override
   public TriggerJobDO buildTriggerJob(final Scheduler scheduler, final JobDefinition jobDefinition, final Object info,
       final Trigger trigger, final String hostName, State state)
   {
@@ -90,10 +95,11 @@ public abstract class AbstractJobStore implements JobStore
   /**
    * Fügt den einen neuen Job für den Scheduler ein und persistiert ihn.
    * 
-   * @see de.micromata.jchronos.JobStore#submit(de.micromata.jchronos.spi.Scheduler de.micromata.jchronos.JobDefinition, java.lang.Object,
-   *      de.micromata.jchronos.Trigger)
+   * 
    */
-  public TriggerJobDO submit(final Scheduler scheduler, final JobDefinition jobDefinition, final Object info, final Trigger trigger,
+  @Override
+  public TriggerJobDO submit(final Scheduler scheduler, final JobDefinition jobDefinition, final Object info,
+      final Trigger trigger,
       final String hostName, State state)
   {
 
@@ -103,10 +109,11 @@ public abstract class AbstractJobStore implements JobStore
   /**
    * Fügt den einen neuen Job für den Scheduler ein und persistiert ihn.
    * 
-   * @see de.micromata.jchronos.JobStore#submit(de.micromata.jchronos.spi. Scheduler de.micromata.jchronos.JobDefinition, java.lang.Object,
-   *      de.micromata.jchronos.Trigger)
+   * 
    */
-  public TriggerJobDO submit(final Scheduler scheduler, String jobName, final JobDefinition jobDefinition, final Object info,
+  @Override
+  public TriggerJobDO submit(final Scheduler scheduler, String jobName, final JobDefinition jobDefinition,
+      final Object info,
       final Trigger trigger, final String hostName, State state)
   {
     TriggerJobDO job = buildTriggerJob(scheduler, jobName, jobDefinition, info, trigger, hostName, state);
@@ -114,10 +121,13 @@ public abstract class AbstractJobStore implements JobStore
     return job;
   }
 
+  @Override
   public void serviceRetry(final TriggerJobDO job, final JobResultDO jobResult, final ServiceUnavailableException ex,
       final Scheduler scheduler)
   {
-    withinTransaction(new Runnable() {
+    withinTransaction(new Runnable()
+    {
+      @Override
       public void run()
       {
         job.setState(State.WAIT);
@@ -129,11 +139,14 @@ public abstract class AbstractJobStore implements JobStore
     });
   }
 
+  @Override
   public JobResultDO jobStarted(final TriggerJobDO job, final Scheduler scheduler)
   {
     final Holder<JobResultDO> ret = new Holder<JobResultDO>();
 
-    withinTransaction(new Runnable() {
+    withinTransaction(new Runnable()
+    {
+      @Override
       public void run()
       {
 
@@ -152,9 +165,13 @@ public abstract class AbstractJobStore implements JobStore
     return ret.get();
   }
 
-  public void jobAborted(final TriggerJobDO job, final JobResultDO jobResult, final Throwable ex, final Scheduler scheduler)
+  @Override
+  public void jobAborted(final TriggerJobDO job, final JobResultDO jobResult, final Throwable ex,
+      final Scheduler scheduler)
   {
-    withinTransaction(new Runnable() {
+    withinTransaction(new Runnable()
+    {
+      @Override
       public void run()
       {
         job.setState(State.STOP);
@@ -167,11 +184,15 @@ public abstract class AbstractJobStore implements JobStore
     });
   }
 
-  public void jobCompleted(final TriggerJobDO job, final JobResultDO jobResult, final Object result, final Scheduler scheduler,
+  @Override
+  public void jobCompleted(final TriggerJobDO job, final JobResultDO jobResult, final Object result,
+      final Scheduler scheduler,
       final Date nextRun)
   {
 
-    withinTransaction(new Runnable() {
+    withinTransaction(new Runnable()
+    {
+      @Override
       public void run()
       {
         if (nextRun != null) {
@@ -199,13 +220,14 @@ public abstract class AbstractJobStore implements JobStore
   /**
    * Setzt die Daten für einem neuen Versuch und speichert den Job ab.
    * 
-   * @see de.micromata.genome.gwiki.chronos.JobStore#jobRetry(de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO,
-   *      de.micromata.genome.gwiki.chronos.spi.jdbc.JobResultDO, de.micromata.genome.chronos.RetryException,
-   *      de.micromata.genome.chronos.spi.Scheduler)
    */
-  public void jobRetry(final TriggerJobDO job, final JobResultDO jobResult, final Exception ex, final Scheduler scheduler)
+  @Override
+  public void jobRetry(final TriggerJobDO job, final JobResultDO jobResult, final Exception ex,
+      final Scheduler scheduler)
   {
-    withinTransaction(new Runnable() {
+    withinTransaction(new Runnable()
+    {
+      @Override
       public void run()
       {
         job.setState(State.WAIT);
@@ -221,6 +243,7 @@ public abstract class AbstractJobStore implements JobStore
   /**
    * Speichert den Job ab und, wenn ungleich <code>null</code>, auch das {@link JobResultDO}.
    */
+  @Override
   public void updateJobWithResult(final TriggerJobDO job)
   {
     if (job.getResult() != null) {
@@ -228,30 +251,35 @@ public abstract class AbstractJobStore implements JobStore
       job.getResult().setPk(resultPk);
       job.getResult().setJobPk(job.getPk());
       // job.getResult().setJobName(job.getJobName());
-      if (job.getResult().getState() == null)
+      if (job.getResult().getState() == null) {
         job.getResult().setState(job.getState());
+      }
       insertResult(job.getResult());
       job.setCurrentResultPk(resultPk);
     }
     updateJob(job);
   }
 
+  @Override
   public DispatcherInternal getDispatcher()
   {
     return dispatcher;
   }
 
+  @Override
   public void setDispatcher(DispatcherInternal dispatcher)
   {
     this.dispatcher = dispatcher;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public List<TriggerJobDisplayDO> getAdminJobs(String hostName, String state, String schedulerName, int resultCount)
   {
     return getAdminJobs(hostName, null, state, schedulerName, resultCount);
   }
 
+  @Override
   public List<String> getUniqueJobNames()
   {
     Set<String> jobNames = new HashSet<String>(getJobNames());

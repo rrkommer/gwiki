@@ -45,15 +45,6 @@ public class PeriodicalTrigger implements Trigger
 
   private final Integer breakInSeconds;
 
-  /**
-   * A job triggered by this trigger will be repeated every x seconds untill it's status is set to "STOP", "FINISHED" or
-   * "CLOSED" manually in the genome console.
-   * 
-   * @param arg: 'p' plus an integer, represents the number of seconds that the scheduler is supposed to wait till the
-   *          next run is started. </br>
-   *          </br>
-   *          Example: "p3600" => 1 hour delay between the different runs
-   */
   public PeriodicalTrigger(final String arg)
   {
     if (arg.startsWith("p") == false) {

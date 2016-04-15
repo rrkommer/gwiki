@@ -29,45 +29,62 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public interface GWikiAuthorizationExt extends GWikiAuthorization
 {
+
+  /**
+   * The Constant USER_PROP_PASSWORD.
+   */
   public static final String USER_PROP_PASSWORD = "password";
 
+  /**
+   * The Constant USER_PROP_EMAIL.
+   */
   public static final String USER_PROP_EMAIL = "email";
 
+  /**
+   * The Constant USER_PROP_DEACTIVATED.
+   */
   public static final String USER_PROP_DEACTIVATED = "deactivated";
 
+  /**
+   * The Constant USER_PROP_RIGHTSRULE.
+   */
   public static final String USER_PROP_RIGHTSRULE = "rightsrule";
 
   /**
-   * 
-   * @param wikiContext
-   * @param userName
+   * Checks for user.
+   *
+   * @param wikiContext the wiki context
+   * @param userName the user name
    * @return true if user is known.
    */
   public boolean hasUser(GWikiContext wikiContext, String userName);
 
   /**
    * Create a new user.
-   * 
-   * @param wikiContext
+   *
+   * @param wikiContext the wiki context
+   * @param userName the user name
    * @param props see USER_PROP_* constants.
-   * @return
+   * @return true, if successful
    */
   public boolean createUser(GWikiContext wikiContext, String userName, GWikiProps props);
 
   /**
    * give a list of known rights in the system.
-   * 
-   * @param wikiContext
-   * @return
+   *
+   * @param wikiContext the wiki context
+   * @return the system rights
    */
   public SortedMap<String, GWikiRight> getSystemRights(GWikiContext wikiContext);
 
   /**
    * Give the rights of the given user.
-   * 
-   * @param wikiContext
-   * @param userName
-   * @return
+   *
+   * @param wikiContext the wiki context
+   * @param systemRights the system rights
+   * @param roleString the role string
+   * @return the user right
    */
-  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights, String roleString);
+  public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights,
+      String roleString);
 }

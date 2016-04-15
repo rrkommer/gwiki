@@ -16,7 +16,6 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,64 +30,78 @@ import de.micromata.genome.gwiki.page.GWikiContext;
  */
 public interface GWikiFragment extends Serializable
 {
+
   /**
-   * 
+   * Gets the source.
+   *
    * @return wiki source
    */
   public String getSource();
 
+  /**
+   * Gets the source.
+   *
+   * @param sb the sb
+   * @param parent the parent
+   * @param previous the previous
+   * @param next the next
+   */
   default void getSource(StringBuilder sb, GWikiFragment parent, GWikiFragment previous, GWikiFragment next)
   {
     getSource(sb);
   }
 
   /**
-   * Implementation interface of getSource()
-   * 
-   * @param sb
+   * Implementation interface of getSource.
+   *
+   * @param sb the sb
    */
   public void getSource(StringBuilder sb);
 
   /**
    * if return false, stop processing.
-   * 
-   * @param sb
-   * @param ctx
+   *
+   * @param ctx the ctx
    * @return true if continue to render silblings.
-   * @throws IOException
    */
   public boolean render(GWikiContext ctx);
 
   /**
-   * Check before save if current user has right to store a Wiki Fragment
-   * 
-   * @param ctx @throws
+   * Check before save if current user has right to store a Wiki Fragment.
+   *
+   * @param ctx the ctx
+   * @throws AuthorizationFailedException the authorization failed exception
    */
   public void ensureRight(GWikiContext ctx) throws AuthorizationFailedException;
 
+  /**
+   * Gets the childs.
+   *
+   * @return the childs
+   */
   public List<GWikiFragment> getChilds();
 
   /**
    * iterate trough a visitor.
-   * 
-   * @param visitor
+   *
+   * @param visitor the visitor
    * @param parent may be null.
    */
   public void iterate(GWikiFragmentVisitor visitor, GWikiFragment parent);
 
   /**
    * return true, if requires to call prepareHeader.
-   * 
-   * @param ctx
-   * @return
+   *
+   * @param ctx the ctx
+   * @return true, if successful
    */
   boolean requirePrepareHeader(GWikiContext ctx);
 
   /**
    * Will be called before rendering page to add html header informations. simply provide empty implementaiton, if
    * requirePrepareHeader(ctx) doesn't return true;
-   * 
-   * @param ctx
+   *
+   * @param ctx the ctx
    */
   void prepareHeader(GWikiContext ctx);
 
