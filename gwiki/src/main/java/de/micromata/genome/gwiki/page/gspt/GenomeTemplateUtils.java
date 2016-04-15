@@ -16,9 +16,6 @@
 
 package de.micromata.genome.gwiki.page.gspt;
 
-import groovy.lang.Script;
-import groovy.text.Template;
-
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
@@ -45,6 +42,8 @@ import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.util.runtime.RuntimeIOException;
+import groovy.lang.Script;
+import groovy.text.Template;
 
 /**
  * Internal implementation for jsp/GSPT-Parsing.
@@ -54,14 +53,33 @@ import de.micromata.genome.util.runtime.RuntimeIOException;
  */
 public class GenomeTemplateUtils
 {
+
+  /**
+   * The servlet api24.
+   */
   private static boolean servletApi24 = true;
 
+  /**
+   * The save gsp.
+   */
   private static boolean saveGsp = false;
 
+  /**
+   * The save groovy.
+   */
   private static boolean saveGroovy = false;
 
+  /**
+   * The in unitest.
+   */
   public static boolean IN_UNITEST = false;
 
+  /**
+   * Inits the page context.
+   *
+   * @param ctx the ctx
+   * @return the page context
+   */
   public static PageContext initPageContext(GWikiContext ctx)
   {
     if (IN_UNITEST == false) {
@@ -76,11 +94,11 @@ public class GenomeTemplateUtils
   }
 
   /**
-   * for GWAR2
-   * 
-   * @param ctx
-   * @param factosry
-   * @return
+   * for GWAR2.
+   *
+   * @param ctx the ctx
+   * @param factory the factory
+   * @return the page context
    */
   public static PageContext initPageContext2(GWikiContext ctx, JspFactory factory)
   {
@@ -103,15 +121,22 @@ public class GenomeTemplateUtils
     pageContext.setAttribute("pageContext", pageContext);
     pageContext.setAttribute("gspPageContext", pageContext);
     if (pageContext instanceof GspPageContext) {
-      ChildPageContext gsptContext = (ChildPageContext) pageContext;
+      ChildPageContext gsptContext = pageContext;
       gsptContext.setEvaluateTagAttributes(true);
     }
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : ctx.getParts().entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : ctx.getParts().entrySet()) {
       pageContext.setAttribute(me.getKey(), me.getValue());
     }
     return pageContext;
   }
 
+  /**
+   * Inits the page context.
+   *
+   * @param ctx the ctx
+   * @param factory the factory
+   * @return the page context
+   */
   public static PageContext initPageContext(GWikiContext ctx, JspFactory factory)
   {
     ServletContext servletContext = null;// this.getServletContext();
@@ -127,8 +152,9 @@ public class GenomeTemplateUtils
 
     PageContext pageContext = rpageContext;
     ServletConfig servletConfig = ctx.getServlet().getServletConfig();
-    if (servletContext == null)
+    if (servletContext == null) {
       servletContext = (ServletContext) ctx.getRequestAttribute(PageContext.APPLICATION);
+    }
 
     pageContext.setAttribute(PageContext.APPLICATION, servletContext);
     pageContext.setAttribute(PageContext.CONFIG, servletConfig);
@@ -139,17 +165,23 @@ public class GenomeTemplateUtils
       ChildPageContext gsptContext = (ChildPageContext) pageContext;
       gsptContext.setEvaluateTagAttributes(true);
     }
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : ctx.getParts().entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : ctx.getParts().entrySet()) {
       pageContext.setAttribute(me.getKey(), me.getValue());
     }
     return pageContext;
   }
 
+  /**
+   * Creates the binding.
+   *
+   * @param ctx the ctx
+   * @return the map
+   */
   public static Map<String, Object> createBinding(GWikiContext ctx)
   {
     Map<String, Object> context = new HashMap<String, Object>();
     if (ctx.getParts() != null) {
-      for (Map.Entry<String, GWikiArtefakt< ? >> me : ctx.getParts().entrySet()) {
+      for (Map.Entry<String, GWikiArtefakt<?>> me : ctx.getParts().entrySet()) {
         context.put(me.getKey(), me.getValue());
       }
     }
@@ -159,6 +191,13 @@ public class GenomeTemplateUtils
     return context;
   }
 
+  /**
+   * Compile.
+   *
+   * @param ctx the ctx
+   * @param text the text
+   * @return the template
+   */
   public static Template compile(GWikiContext ctx, String text)
   {
     boolean store = false;
@@ -189,7 +228,7 @@ public class GenomeTemplateUtils
 
       final List<Integer> errorLineNumbers = new ArrayList<Integer>();
       if (ex instanceof MultipleCompilationErrorsException) {
-        List< ? > errorMessages = ((MultipleCompilationErrorsException) ex).getErrorCollector().getErrors();
+        List<?> errorMessages = ((MultipleCompilationErrorsException) ex).getErrorCollector().getErrors();
         for (Object m : errorMessages) {
           if (m instanceof SyntaxErrorMessage) {
             errorLineNumbers.add(((SyntaxErrorMessage) m).getCause().getLine());
@@ -211,6 +250,13 @@ public class GenomeTemplateUtils
     }
   }
 
+  /**
+   * Process page.
+   *
+   * @param templ the templ
+   * @param ctx the ctx
+   * @param parentScript the parent script
+   */
   public static void processPage(Template templ, GWikiContext ctx, Script parentScript)
   {
     // ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -222,7 +268,7 @@ public class GenomeTemplateUtils
     ExtendedTemplate template = (ExtendedTemplate) templ;
     if (template == null) {
       try {
-        ((HttpServletResponse) ctx.getResponse()).sendError(HttpServletResponse.SC_NOT_FOUND);
+        ctx.getResponse().sendError(HttpServletResponse.SC_NOT_FOUND);
       } catch (IOException ex) {
         throw new RuntimeIOException(ex);
       }
@@ -234,7 +280,7 @@ public class GenomeTemplateUtils
       ctx.setPageContext(pageContext);
     }
     Map<String, Object> m = new HashMap<String, Object>();
-    for (Map.Entry<String, GWikiArtefakt< ? >> me : ctx.getParts().entrySet()) {
+    for (Map.Entry<String, GWikiArtefakt<?>> me : ctx.getParts().entrySet()) {
       m.put(me.getKey(), me.getValue());
     }
     JspWriter orgOut = pageContext.getOut();
@@ -275,20 +321,32 @@ public class GenomeTemplateUtils
       if (GWikiServlet.isIgnorableAppServeIOException(ex) == true) {
         throw ex;
       }
-      throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
-          .getElementInfo().getId()
-          + "; "
-          + ex.getMessage(), ex);
+      throw new RuntimeException(
+          "Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
+              .getElementInfo().getId()
+              + "; "
+              + ex.getMessage(),
+          ex);
 
     } catch (Exception e) {
-      throw new RuntimeException("Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
-          .getElementInfo().getId()
-          + "; "
-          + e.getMessage(), e);
+      throw new RuntimeException(
+          "Gspt; Exception in gspt. id: " + ctx.getCurrentElement() == null ? "null" : ctx.getCurrentElement()
+              .getElementInfo().getId()
+              + "; "
+              + e.getMessage(),
+          e);
 
     }
   }
 
+  /**
+   * Gets the lines with context.
+   *
+   * @param text the text
+   * @param errorLineNumbers the error line numbers
+   * @param contextRadius the context radius
+   * @return the lines with context
+   */
   private static String getLinesWithContext(String text, List<Integer> errorLineNumbers, int contextRadius)
   {
     StringWriter sw = new StringWriter();

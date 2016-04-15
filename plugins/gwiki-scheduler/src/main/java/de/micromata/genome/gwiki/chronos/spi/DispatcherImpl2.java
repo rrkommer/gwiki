@@ -55,19 +55,6 @@ import de.micromata.genome.logging.GLog;
 import de.micromata.genome.logging.GenomeLogCategory;
 import de.micromata.genome.logging.LogExceptionAttribute;
 
-/**
- * Zentrale Klasse (Singleton) für die Job-Verteilung.
- * <p>
- * Pollt die Datenbank nach neuen {@link Scheduler} und {@link Job} ab und versucht diese zu Starten.
- * <p/>
- * Diese Implementierung geht davon aus, dass es eine implizite minimale Nodebindtimeout gibt, so dass ein lokaler Cache
- * der zu startenden Jobs verwaltet werden kann und damit die Anzahl der selects reduziert werden kann.
- * </p>
- * <p>
- * Hier werden die Runtime-Instanzen von Schedulern und Jobs verwaltet.
- * </p>
- * TODO minRefreshInMillis, minRefreshInMillis, maxRefreshInMillis not used
- */
 public class DispatcherImpl2 extends DispatcherImpl
 {
   private static Logger LOG = Logger.getLogger(DispatcherImpl2.class);
@@ -78,13 +65,6 @@ public class DispatcherImpl2 extends DispatcherImpl
    */
   private long lastJobStoreRefreshTimestamp = 0;
 
-  /**
-   * Erzeugt einen neuen Dispatcher
-   * 
-   * @param prefix
-   * @param jobStore
-   * @param parentLogger
-   */
   public DispatcherImpl2(final String virtualHost, final JobStore jobStore)
   {
     super(virtualHost, jobStore);
@@ -164,11 +144,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     reservedJobs.setReservedJobs(nextJobs);
   }
 
-  /**
-   * Main loop of the dispatcher
-   * 
-   * @see java.lang.Runnable#run()
-   */
   @Override
   public void run()
   {
@@ -244,16 +219,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     }
   }
 
-  /**
-   * TODO rrk wird nicht benutzt Startet einen Job über seinen {@link Scheduler} wenn dieser freie Slots besitzt.
-   * <p>
-   * Wird vom Job ein {@link ServiceUnavailableException} geworfen, dann wird {@link Scheduler#pause(int)} mit
-   * {@link Scheduler#getServiceRetryTime()} aufgerufen.
-   * </p>
-   * 
-   * @param scheduler
-   * @param job
-   */
   private boolean checkAndExecuteJob(final Scheduler scheduler, final TriggerJobDO job)
   {
     // NOOP Codeif (scheduler.isAcceptable(job.getJobDefinition(),
@@ -273,17 +238,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     return false;
   }
 
-  /**
-   * Gibt zu einem {@link SchedulerDO} die entspechende reinitialisierte {@link Scheduler} zurück, oder erzeugt diese
-   * neu.
-   * <p>
-   * Ein neu angelegter Scheduler wird unmittelbar persisitiert und unter dem Namen inklusive Prefix abgespeichert.
-   * </p>
-   * 
-   * @param schedulerDO
-   * @return
-   * @see #schedulers
-   */
   @Override
   public Scheduler createOrGetScheduler(final SchedulerDO schedulerDO)
   {
@@ -333,15 +287,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     } // synchronized end
   }
 
-  /**
-   * 
-   * 
-   * @see #submit(String, JobDefinition, Object, Trigger, boolean)
-   * @param schedulerName
-   * @param jobDefinition
-   * @param arg
-   * @param trigger
-   */
   @Override
   public void submit(final String schedulerName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
@@ -349,15 +294,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     submit(schedulerName, (String) null, jobDefinition, arg, trigger, getVirtualHostName());
   }
 
-  /**
-   * 
-   * 
-   * @see #submit(String, JobDefinition, Object, Trigger, boolean)
-   * @param schedulerName
-   * @param jobDefinition
-   * @param arg
-   * @param trigger
-   */
   @Override
   public void submit(final String schedulerName, String jobName, final JobDefinition jobDefinition, final Object arg,
       final Trigger trigger)
@@ -365,16 +301,6 @@ public class DispatcherImpl2 extends DispatcherImpl
     submit(schedulerName, jobName, jobDefinition, arg, trigger, getVirtualHostName());
   }
 
-  /**
-   * 
-   * @param schedulerName
-   * @param jobDefinition
-   * @param arg
-   * @param trigger
-   * @return Job reference (pk)
-   * @throws SchedulerConfigurationException wenn ein nicht registrierter Scheduler angesprochen wird
-   * @throws SchedulerException wenn der Job im JobStore nicht angelegt werden kann.
-   */
   @Override
   public synchronized long submit(final String schedulerName, String jobName, final JobDefinition jobDefinition,
       final Object arg,

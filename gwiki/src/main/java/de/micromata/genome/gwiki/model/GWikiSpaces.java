@@ -25,26 +25,64 @@ import de.micromata.genome.gwiki.model.GWikiAuthorization.UserPropStorage;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * 
- * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
+ * The Class GWikiSpaces.
  *
+ * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  */
 public class GWikiSpaces
 {
+
+  /**
+   * The Constant ENABLE_SPACES.
+   */
   public static final String ENABLE_SPACES = "ENABLE_SPACES";
+
+  /**
+   * The Constant ENABLE_LANG_SPACES.
+   */
   public static final String ENABLE_LANG_SPACES = "ENABLE_LANG_SPACES";
+
+  /**
+   * The Constant DEFAULT_LANG.
+   */
   public static final String DEFAULT_LANG = "DEFAULT_LANG";
+
+  /**
+   * The Constant AVAILABLE_SPACES.
+   */
   public static final String AVAILABLE_SPACES = "AVAILABLE_SPACES";
+
+  /**
+   * The Constant NAV_ONLY_CURRENT_SPACE.
+   */
   public static final String NAV_ONLY_CURRENT_SPACE = "NAV_ONLY_CURRENT_SPACE";
+
+  /**
+   * The Constant USER_WIKI_SPACE_PROP.
+   */
   public static final String USER_WIKI_SPACE_PROP = "WIKISPACE";
 
+  /**
+   * The wiki web.
+   */
   private GWikiWeb wikiWeb;
 
+  /**
+   * Instantiates a new g wiki spaces.
+   *
+   * @param wikiWeb the wiki web
+   */
   public GWikiSpaces(GWikiWeb wikiWeb)
   {
     this.wikiWeb = wikiWeb;
   }
 
+  /**
+   * Gets the welcome page id.
+   *
+   * @param ctx the ctx
+   * @return the welcome page id
+   */
   public String getWelcomePageId(GWikiContext ctx)
   {
     String pageId = findUserSpaceWelcome(ctx);
@@ -66,6 +104,12 @@ public class GWikiSpaces
     return "index";
   }
 
+  /**
+   * Find user space welcome.
+   *
+   * @param ctx the ctx
+   * @return the string
+   */
   public String findUserSpaceWelcome(GWikiContext ctx)
   {
     GWikiProps props = findActiveSpaceConfig();
@@ -85,6 +129,13 @@ public class GWikiSpaces
     return null;
   }
 
+  /**
+   * Find personal space.
+   *
+   * @param ctx the ctx
+   * @param selpace the selpace
+   * @return the g wiki element info
+   */
   public GWikiElementInfo findPersonalSpace(GWikiContext ctx, String selpace)
   {
     GWikiAuthorization auth = wikiWeb.getAuthorization();
@@ -100,6 +151,13 @@ public class GWikiSpaces
     return null;
   }
 
+  /**
+   * Find welcome for space.
+   *
+   * @param ctx the ctx
+   * @param selpace the selpace
+   * @return the g wiki element info
+   */
   public GWikiElementInfo findWelcomeForSpace(GWikiContext ctx, String selpace)
   {
     GWikiProps props = findActiveSpaceConfig();
@@ -109,6 +167,13 @@ public class GWikiSpaces
     return findWelcomeForSpace(ctx, ctx.getWikiWeb().getAuthorization(), props, selpace);
   }
 
+  /**
+   * Find welcome index variants.
+   *
+   * @param ctx the ctx
+   * @param spacepath the spacepath
+   * @return the g wiki element info
+   */
   private GWikiElementInfo findWelcomeIndexVariants(GWikiContext ctx, String spacepath)
   {
     GWikiElementInfo ei = wikiWeb.findElementInfo(spacepath + "/Index");
@@ -118,6 +183,14 @@ public class GWikiSpaces
     return wikiWeb.findElementInfo(spacepath + "/index");
   }
 
+  /**
+   * Find welcome lang variants.
+   *
+   * @param ctx the ctx
+   * @param lang the lang
+   * @param spacename the spacename
+   * @return the g wiki element info
+   */
   private GWikiElementInfo findWelcomeLangVariants(GWikiContext ctx, String lang, String spacename)
   {
     GWikiElementInfo ei = findWelcomeIndexVariants(ctx, spacename + "/" + lang);
@@ -127,6 +200,15 @@ public class GWikiSpaces
     return findWelcomeIndexVariants(ctx, spacename + "-" + lang);
   }
 
+  /**
+   * Find welcome for space.
+   *
+   * @param ctx the ctx
+   * @param auth the auth
+   * @param props the props
+   * @param selpace the selpace
+   * @return the g wiki element info
+   */
   private GWikiElementInfo findWelcomeForSpace(GWikiContext ctx, GWikiAuthorization auth, GWikiProps props,
       String selpace)
   {
@@ -152,6 +234,12 @@ public class GWikiSpaces
     return ei;
   }
 
+  /**
+   * Gets the user current space id.
+   *
+   * @param ctx the ctx
+   * @return the user current space id
+   */
   public String getUserCurrentSpaceId(GWikiContext ctx)
   {
     GWikiAuthorization auth = wikiWeb.getAuthorization();
@@ -159,6 +247,13 @@ public class GWikiSpaces
     return selpace;
   }
 
+  /**
+   * Switch user space.
+   *
+   * @param ctx the ctx
+   * @param newSpace the new space
+   * @return the string
+   */
   public String switchUserSpace(GWikiContext ctx, String newSpace)
   {
     GWikiProps props = findActiveSpaceConfig();
@@ -180,6 +275,11 @@ public class GWikiSpaces
     return null;
   }
 
+  /**
+   * Show only current space in navigation.
+   *
+   * @return true, if successful
+   */
   public boolean showOnlyCurrentSpaceInNavigation()
   {
     GWikiProps props = findActiveSpaceConfig();
@@ -189,6 +289,12 @@ public class GWikiSpaces
     return props.getBooleanValue(NAV_ONLY_CURRENT_SPACE);
   }
 
+  /**
+   * Gets the space ids.
+   *
+   * @param ctx the ctx
+   * @return the space ids
+   */
   public List<String> getSpaceIds(GWikiContext ctx)
   {
     List<String> ret = new ArrayList<>();
@@ -201,12 +307,34 @@ public class GWikiSpaces
     return ret;
   }
 
+  /**
+   * The Class SpaceInfo.
+   */
   public static class SpaceInfo
   {
+
+    /**
+     * The space id.
+     */
     private String spaceId;
+
+    /**
+     * The title.
+     */
     private String title;
+
+    /**
+     * The page id.
+     */
     private String pageId;
 
+    /**
+     * Instantiates a new space info.
+     *
+     * @param spaceId the space id
+     * @param title the title
+     * @param pageId the page id
+     */
     public SpaceInfo(String spaceId, String title, String pageId)
     {
       super();
@@ -248,9 +376,10 @@ public class GWikiSpaces
   }
 
   /**
-   * 
-   * @param ctx
-   * @return List<Pair<Title,SpaceId>>
+   * Gets the available spaces.
+   *
+   * @param ctx the ctx
+   * @return the available spaces
    */
   public List<SpaceInfo> getAvailableSpaces(GWikiContext ctx)
   {
@@ -283,6 +412,11 @@ public class GWikiSpaces
     return ret;
   }
 
+  /**
+   * Find active space config.
+   *
+   * @return the g wiki props
+   */
   private GWikiProps findActiveSpaceConfig()
   {
     GWikiElement el = wikiWeb.findElement("admin/config/SpacesConfig");
@@ -296,6 +430,14 @@ public class GWikiSpaces
     return props;
   }
 
+  /**
+   * Checks if is page in space.
+   *
+   * @param ctx the ctx
+   * @param ei the ei
+   * @param spaceId the space id
+   * @return true, if is page in space
+   */
   public boolean isPageInSpace(GWikiContext ctx, GWikiElementInfo ei, String spaceId)
   {
     GWikiElementInfo spaceRoot = findWelcomeForSpace(ctx, spaceId);
@@ -305,6 +447,12 @@ public class GWikiSpaces
     return ctx.getElementFinder().isChildOf(ei, spaceRoot);
   }
 
+  /**
+   * Find current page space id.
+   *
+   * @param ctx the ctx
+   * @return the string
+   */
   public String findCurrentPageSpaceId(GWikiContext ctx)
   {
     if (ctx.getCurrentElement() == null) {

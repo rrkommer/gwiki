@@ -17,38 +17,24 @@
 package de.micromata.genome.gwiki.web.tags;
 
 /**
- * <html:hidden parameter="name"/>
- * 
+ * html:hidden parameter="name".
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class GWikiHtmlHiddenTag extends GWikiBaseFieldInputTag
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5284813398719407445L;
 
+  /**
+   * Instantiates a new g wiki html hidden tag.
+   */
   public GWikiHtmlHiddenTag()
   {
     super("hidden");
   }
-  //  
-  // public int doStartTag() throws JspException
-  // {
-  // prepare();
-  // StringBuilder sb = new StringBuilder();
-  // GWikiTagRenderUtils.renderSimpleHtmlTag(this, "input", sb);
-  // GWikiTagRenderUtils.write(pageContext, sb.toString());
-  // return BodyTag.EVAL_BODY_BUFFERED;
-  // }
-
-  // public String getType()
-  // {
-  // return type;
-  // }
-  //
-  // public void setType(String type)
-  // {
-  // this.type = type;
-  // }
 
 }

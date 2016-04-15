@@ -35,50 +35,71 @@ import org.apache.commons.lang.StringUtils;
  * 
  * A following \ or " has to be quoted with \. All \ with other character following are simple \.
  * 
- * 'a\' => "a\\".
+ * 'a\' =&gt; "a\\".
  * 
- * '\a' => "\a"
+ * '\a' =&gt; "\a"
  * 
- * '"' => "\"".
+ * '"' =&gt; "\"".
  * 
  * 
  * a single
  * 
- * A, b => [[A],[b]].
+ * A, b =&gt; [[A],[b]].
  * 
- * A,b => [[A],[b]].
+ * A,b =&gt; [[A],[b]].
  * 
- * a\b,c => [[a\b],[c]].
+ * a\b,c =&gt; [[a\b],[c]].
  * 
- * "a,b",c => [[a,b],c].
+ * "a,b",c =&gt; [[a,b],c].
  * 
- * "\"a,b" => ["a,b]
- * 
- * @see CommaListParserTest
- * 
+ * "\"a,b" =&gt; ["a,b]
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
+ *         See CommaListParserTest
  */
 public class CommaListParser
 {
+
+  /**
+   * Parses the comma list.
+   *
+   * @param input the input
+   * @return the list
+   */
   public static List<String> parseCommaList(String input)
   {
     return parseCommaList(input, true);
   }
 
+  /**
+   * The Enum State.
+   */
   private static enum State
   {
-    StartField, //
-    InField, //
+
+    /**
+     * The Start field.
+     */
+    StartField,
+    /**
+     * The In field.
+     */
+    //
+    InField,
+    /**
+     * The In quoted field.
+     */
+    //
     InQuotedField
   }
 
   /**
    * return behind the last nonwhitespace character.
-   * 
-   * @param input
-   * @param position
-   * @return
+   *
+   * @param input the input
+   * @param position the position
+   * @return the int
    */
   private static int seekNonWsBack(String input, int position)
   {
@@ -91,11 +112,11 @@ public class CommaListParser
   }
 
   /**
-   * return index on non whitespace
-   * 
-   * @param input
-   * @param position
-   * @return
+   * return index on non whitespace.
+   *
+   * @param input the input
+   * @param position the position
+   * @return the int
    */
   private static int skeepWs(String input, int position)
   {
@@ -107,6 +128,12 @@ public class CommaListParser
     return input.length();
   }
 
+  /**
+   * Unquote.
+   *
+   * @param text the text
+   * @return the string
+   */
   private static String unquote(String text)
   {
     StringBuilder sb = new StringBuilder();
@@ -131,6 +158,13 @@ public class CommaListParser
     return sb.toString();
   }
 
+  /**
+   * Parses the comma list.
+   *
+   * @param input the input
+   * @param trimValues the trim values
+   * @return the list
+   */
   public static List<String> parseCommaList(String input, boolean trimValues)
   {
     if (input == null || input.length() == 0) {
@@ -229,6 +263,12 @@ public class CommaListParser
     return ret;
   }
 
+  /**
+   * Quote.
+   *
+   * @param s the s
+   * @return the string
+   */
   public static String quote(String s)
   {
     s = StringUtils.replace(s, "\\", "\\\\");
@@ -236,6 +276,12 @@ public class CommaListParser
     return "\"" + s + "\"";
   }
 
+  /**
+   * Encode.
+   *
+   * @param args the args
+   * @return the string
+   */
   public static String encode(List<String> args)
   {
     if (args == null || args.size() == 0) {

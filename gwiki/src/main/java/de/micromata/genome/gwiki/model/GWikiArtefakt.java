@@ -24,12 +24,13 @@ import java.util.Map;
  * 
  * T is the compiled representation of the artefakt.
  * 
- * An artefakt can contain itself more artefakt. So a controler artefakt often contains a gspt-Template or a wiki page as nested artefakt.
- * 
+ * An artefakt can contain itself more artefakt. So a controler artefakt often contains a gspt-Template or a wiki page
+ * as nested artefakt.
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
+ * @param <T> the generic type
  */
-public interface GWikiArtefakt<T extends Serializable> extends Serializable
+public interface GWikiArtefakt<T extends Serializable>extends Serializable
 {
   /**
    * Getter for the compiled object.
@@ -46,9 +47,9 @@ public interface GWikiArtefakt<T extends Serializable> extends Serializable
   void setCompiledObject(T compiledObject);
 
   /**
-   * Collect all artefakts, including this
-   * 
-   * @param al
+   * Collect all artefakts, including this.
+   *
+   * @param map the map
    */
-  void collectParts(Map<String, GWikiArtefakt< ? >> map);
+  void collectParts(Map<String, GWikiArtefakt<?>> map);
 }

@@ -28,10 +28,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.dts.spell.SpellChecker;
 import org.dts.spell.dictionary.OpenOfficeSpellDictionary;
@@ -40,6 +36,9 @@ import org.dts.spell.dictionary.SpellDictionary;
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -66,6 +65,7 @@ public class ScRteCheckerAjaxActionBean extends ActionBeanBase
     checkWords, getSuggestions
   }
 
+  @Override
   public Object onInit()
   {
     setResponeHeaders();
@@ -144,7 +144,7 @@ public class ScRteCheckerAjaxActionBean extends ActionBeanBase
 
   protected List<String> findMisspelledWords(Iterator<String> checkedWordsIterator, String lang) throws ScSpellException
   {
-    SpellChecker checker = (SpellChecker) getChecker(lang);
+    SpellChecker checker = getChecker(lang);
 
     List<String> misspelledWordsList = new ArrayList<String>();
     while (checkedWordsIterator.hasNext()) {
@@ -164,14 +164,13 @@ public class ScRteCheckerAjaxActionBean extends ActionBeanBase
   }
 
   /**
-   * This method look for the already created SpellChecker object in the cache, if it is not present in the cache then it try to load it and
-   * put newly created object in the cache. SpellChecker loading is quite expensive operation to do it for every spell-checking request, so
-   * in-memory-caching here is almost a "MUST to have"
-   * 
+   * This method look for the already created SpellChecker object in the cache, if it is not present in the cache then
+   * it try to load it and put newly created object in the cache. SpellChecker loading is quite expensive operation to
+   * do it for every spell-checking request, so in-memory-caching here is almost a "MUST to have"
+   *
    * @param lang the language code like "en" or "en-us"
    * @return instance of jazzy SpellChecker
-   * @throws SpellCheckException if method failed to load the SpellChecker for lang (it happens if there is no dictionaries for that
-   *           language was found in the classpath
+   * @throws ScSpellException the sc spell exception
    */
   protected SpellChecker getChecker(String lang) throws ScSpellException
   {

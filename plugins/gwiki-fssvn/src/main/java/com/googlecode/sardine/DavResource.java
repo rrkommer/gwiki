@@ -22,142 +22,189 @@ import java.util.Map;
 import com.googlecode.sardine.util.SardineUtil;
 
 /**
- * Describes a resource on a remote server. This could be a directory
- * or an actual file.
+ * Describes a resource on a remote server. This could be a directory or an actual file.
  *
  * @author jonstevens
  */
 public class DavResource
 {
-	private String baseUrl;
-	private String name;
-	private Date creation;
-	private Date modified;
-	private String contentType;
-	private Long contentLength;
-	private boolean currentDirectory;
-	private Map<String, String> customProps;
 
-	private String url;
-	private String nameDecoded;
+  /**
+   * The base url.
+   */
+  private String baseUrl;
 
-	/**
-	 * Represents a webdav response block.
-	 *
-	 * @param name the name of the resource, with all /'s removed
-	 */
-	public DavResource(String baseUrl, String name, Date creation, Date modified, String contentType, Long contentLength, boolean currentDirectory, Map<String,String> customProps)
-	{
-		this.baseUrl = baseUrl;
-		this.name = name;
-		this.creation = creation;
-		this.modified = modified;
-		this.contentType = contentType;
-		this.contentLength = contentLength;
-		this.currentDirectory = currentDirectory;
-		this.customProps = customProps;
-	}
+  /**
+   * The name.
+   */
+  private String name;
 
-	/** */
-	public String getBaseUrl()
-	{
-		return this.baseUrl;
-	}
+  /**
+   * The creation.
+   */
+  private Date creation;
 
-	/**
-	 * A URLEncoded version of the name as returned by the server.
-	 */
-	public String getName()
-	{
-		return this.name;
-	}
+  /**
+   * The modified.
+   */
+  private Date modified;
 
-	/**
-	 * A URLDecoded version of the name.
-	 */
-	public String getNameDecoded()
-	{
-		if (this.nameDecoded == null)
-			this.nameDecoded = SardineUtil.decode(this.name);
-		return this.nameDecoded;
-	}
+  /**
+   * The content type.
+   */
+  private String contentType;
 
-	/** */
-	public Date getCreation()
-	{
-		return this.creation;
-	}
+  /**
+   * The content length.
+   */
+  private Long contentLength;
 
-	/** */
-	public Date getModified()
-	{
-		return this.modified;
-	}
+  /**
+   * The current directory.
+   */
+  private boolean currentDirectory;
 
-	/** */
-	public String getContentType()
-	{
-		return this.contentType;
-	}
+  /**
+   * The custom props.
+   */
+  private Map<String, String> customProps;
 
-	/** */
-	public Long getContentLength()
-	{
-		return this.contentLength;
-	}
+  /**
+   * The url.
+   */
+  private String url;
 
-	/**
-	 * Absolute url to the resource.
-	 */
-	public String getAbsoluteUrl()
-	{
-		if (this.url == null)
-		{
-			String result = null;
-			if (this.baseUrl.endsWith("/"))
-				result = this.baseUrl + this.name;
-			else
-				result = this.baseUrl + "/" + this.name;
+  /**
+   * The name decoded.
+   */
+  private String nameDecoded;
 
-			if (this.contentType != null && this.isDirectory() && this.name != null && this.name.length() > 0)
-				result = result + "/";
+  /**
+   * Represents a webdav response block.
+   *
+   * @param baseUrl the base url
+   * @param name the name of the resource, with all /'s removed
+   * @param creation the creation
+   * @param modified the modified
+   * @param contentType the content type
+   * @param contentLength the content length
+   * @param currentDirectory the current directory
+   * @param customProps the custom props
+   */
+  public DavResource(String baseUrl, String name, Date creation, Date modified, String contentType, Long contentLength,
+      boolean currentDirectory, Map<String, String> customProps)
+  {
+    this.baseUrl = baseUrl;
+    this.name = name;
+    this.creation = creation;
+    this.modified = modified;
+    this.contentType = contentType;
+    this.contentLength = contentLength;
+    this.currentDirectory = currentDirectory;
+    this.customProps = customProps;
+  }
 
-			this.url = result;
-		}
-		return this.url;
-	}
+  /** */
+  public String getBaseUrl()
+  {
+    return this.baseUrl;
+  }
 
-	/**
-	 * Does this resource have a contentType of httpd/unix-directory?
-	 */
-	public boolean isDirectory()
-	{
-		return (this.contentType != null && this.contentType.equals("httpd/unix-directory"));
-	}
+  /**
+   * A URLEncoded version of the name as returned by the server.
+   */
+  public String getName()
+  {
+    return this.name;
+  }
 
-	/**
-	 * Is this the current directory for the path we requested?
-	 * ie: if we requested: http://foo.com/bar/dir/, is this the
-	 * DavResource for that directory?
-	 */
-	public boolean isCurrentDirectory()
-	{
-		return this.currentDirectory;
-	}
+  /**
+   * A URLDecoded version of the name.
+   */
+  public String getNameDecoded()
+  {
+    if (this.nameDecoded == null) {
+      this.nameDecoded = SardineUtil.decode(this.name);
+    }
+    return this.nameDecoded;
+  }
 
-	/** */
-	public Map<String,String> getCustomProps()
-	{
-	    return this.customProps;
-	}
+  /** */
+  public Date getCreation()
+  {
+    return this.creation;
+  }
 
-	/** */
-	@Override
-	public String toString()
-	{
-		return "DavResource [baseUrl=" + this.baseUrl + ", contentLength=" + this.contentLength + ", contentType="
-				+ this.contentType + ", creation=" + this.creation + ", modified=" + this.modified + ", name="
-				+ this.name + ", nameDecoded=" + this.getNameDecoded() + ", getAbsoluteUrl()="
-				+ this.getAbsoluteUrl() + ", isDirectory()=" + this.isDirectory() + "]";
-	}
+  /** */
+  public Date getModified()
+  {
+    return this.modified;
+  }
+
+  /** */
+  public String getContentType()
+  {
+    return this.contentType;
+  }
+
+  /** */
+  public Long getContentLength()
+  {
+    return this.contentLength;
+  }
+
+  /**
+   * Absolute url to the resource.
+   */
+  public String getAbsoluteUrl()
+  {
+    if (this.url == null) {
+      String result = null;
+      if (this.baseUrl.endsWith("/")) {
+        result = this.baseUrl + this.name;
+      } else {
+        result = this.baseUrl + "/" + this.name;
+      }
+
+      if (this.contentType != null && this.isDirectory() && this.name != null && this.name.length() > 0) {
+        result = result + "/";
+      }
+
+      this.url = result;
+    }
+    return this.url;
+  }
+
+  /**
+   * Does this resource have a contentType of httpd/unix-directory?
+   */
+  public boolean isDirectory()
+  {
+    return (this.contentType != null && this.contentType.equals("httpd/unix-directory"));
+  }
+
+  /**
+   * Is this the current directory for the path we requested? ie: if we requested: http://foo.com/bar/dir/, is this the
+   * DavResource for that directory?
+   */
+  public boolean isCurrentDirectory()
+  {
+    return this.currentDirectory;
+  }
+
+  /** */
+  public Map<String, String> getCustomProps()
+  {
+    return this.customProps;
+  }
+
+  /** */
+  @Override
+  public String toString()
+  {
+    return "DavResource [baseUrl=" + this.baseUrl + ", contentLength=" + this.contentLength + ", contentType="
+        + this.contentType + ", creation=" + this.creation + ", modified=" + this.modified + ", name="
+        + this.name + ", nameDecoded=" + this.getNameDecoded() + ", getAbsoluteUrl()="
+        + this.getAbsoluteUrl() + ", isDirectory()=" + this.isDirectory() + "]";
+  }
 }

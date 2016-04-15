@@ -21,17 +21,17 @@ import java.util.Collection;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
 /**
- * Trivial grep'er
- * 
+ * Trivial grep'er.
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public interface ContentSearcher
 {
+
   /**
    * Start rebuilding index.
-   * 
-   * @param wikiContext
+   *
+   * @param wikiContext the wiki context
    * @param pageId may null if all pages should be reindexed
    * @param full if false indexer reindex only changed documents.
    */
@@ -39,23 +39,25 @@ public interface ContentSearcher
 
   /**
    * return a collection of searchmacros, like parentpageid:id, etc.
-   * 
-   * @return
+   *
+   * @return the search macros
    */
   Collection<String> getSearchMacros();
 
   /**
-   * 
-   * @param searchExpression
+   * Search.
+   *
+   * @param ctx the ctx
+   * @param query the query
    * @return pageId's
    */
   QueryResult search(GWikiContext ctx, SearchQuery query);
 
   /**
    * Give a HTML fragment for the preview of given pageId.
-   * 
-   * @param ctx
-   * @param pageId
+   *
+   * @param ctx the ctx
+   * @param pageId the page id
    * @return null if no preview
    */
   String getHtmlPreview(GWikiContext ctx, String pageId);

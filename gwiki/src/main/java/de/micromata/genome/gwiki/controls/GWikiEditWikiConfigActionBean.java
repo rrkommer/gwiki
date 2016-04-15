@@ -47,7 +47,7 @@ import de.micromata.genome.util.types.Pair;
 public class GWikiEditWikiConfigActionBean extends ActionBeanBase
 {
   /**
-   * pageId -> config to edit.
+   * pageId to config to edit.
    */
   protected Map<String, Pair<GWikiElement, GWikiArtefakt<?>>> configs = new TreeMap<String, Pair<GWikiElement, GWikiArtefakt<?>>>();
 

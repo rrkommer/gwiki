@@ -16,13 +16,8 @@
 
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.a;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.img;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.*;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -45,34 +40,45 @@ import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
+ * The Class PtWikiTextEditorBase.
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 {
-  private static final long serialVersionUID = -6191445352617140361L;
-  
+
   /**
-   * content of whole page
+   * The Constant serialVersionUID.
+   */
+  private static final long serialVersionUID = -6191445352617140361L;
+
+  /**
+   * content of whole page.
    */
   protected String wikiText;
 
   /**
-   * start idx of section
+   * start idx of section.
    */
   protected int startSec = -1;
 
   /**
-   * end idx of section
+   * end idx of section.
    */
   protected int endSec = -1;
 
+  /**
+   * The wiki artefakt.
+   */
   private GWikiWikiPageArtefakt wikiArtefakt;
 
   /**
-   * @param element
-   * @param sectionName
-   * @param editor
+   * Instantiates a new pt wiki text editor base.
+   *
+   * @param element the element
+   * @param sectionName the section name
+   * @param editor the editor
+   * @param hint the hint
    */
   public PtWikiTextEditorBase(GWikiElement element, String sectionName, String editor, String hint)
   {
@@ -80,6 +86,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     extractContent();
   }
 
+  @Override
   public boolean render(final GWikiContext ctx)
   {
     showHint(ctx);
@@ -90,10 +97,10 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
 
   private GWikiWikiPageArtefakt getPageArtefakt()
   {
-    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> map = new HashMap<String, GWikiArtefakt<?>>();
     element.collectParts(map);
     GWikiWikiPageArtefakt wiki = null;
-    for (GWikiArtefakt< ? > art : map.values()) {
+    for (GWikiArtefakt<?> art : map.values()) {
       if ((art instanceof GWikiWikiPageArtefakt) == true) {
         wiki = (GWikiWikiPageArtefakt) art;
         break;
@@ -102,6 +109,11 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     return wiki;
   }
 
+  /**
+   * Show hint.
+   *
+   * @param ctx the ctx
+   */
   private void showHint(final GWikiContext ctx)
   {
     if (hint != null && hint.length() > 0) {
@@ -111,12 +123,12 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   }
 
   /**
-   * returns a pageId to for deletion
-   * 
-   * @param ctx
-   * @param newContent
-   * @param fieldNumber
-   * @return
+   * returns a pageId to for deletion.
+   *
+   * @param ctx the ctx
+   * @param newContent the new content
+   * @param fieldNumber the field number
+   * @return the string
    */
   protected String updateSection(final GWikiContext ctx, String newContent, String fieldNumber)
   {
@@ -185,11 +197,12 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   }
 
   /**
-   * @param ctx
-   * @param fieldPageId
-   * @param index
-   * @param contentArray
-   * @return
+   * Gets the link for field.
+   *
+   * @param ctx the ctx
+   * @param index the index
+   * @param contentArray the content array
+   * @return the link for field
    */
   protected GWikiFragmentLink getLinkForField(final GWikiContext ctx, int index, String[] contentArray)
   {
@@ -207,6 +220,12 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     return link;
   }
 
+  /**
+   * Update section.
+   *
+   * @param ctx the ctx
+   * @param newContent the new content
+   */
   protected void updateSection(final GWikiContext ctx, String newContent)
   {
     if (StringUtils.isEmpty(newContent)) {
@@ -222,11 +241,21 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
     wikiArtefakt.setStorageData(nc);
   }
 
+  /**
+   * Render attr.
+   *
+   * @param ctx the ctx
+   * @param key the key
+   * @param value the value
+   */
   protected void renderAttr(final GWikiContext ctx, String key, String value)
   {
     ctx.append(" " + key + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
   }
 
+  /**
+   * Extract content.
+   */
   private void extractContent()
   {
     String start = "{pteditsection:name=" + sectionName;
@@ -265,17 +294,20 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
   }
 
   /**
-   * @param ctx
-   * @return
+   * Generate display table.
+   *
+   * @param ctx the ctx
+   * @return the xml element
    */
   protected XmlElement generateDisplayTable(final GWikiContext ctx)
   {
     String title = "";
 
-    XmlElement displayTable = table(attrs("border", "0", "cellspacing", "0", "cellpadding", "2", "style", "margin-bottom:20px"));
+    XmlElement displayTable = table(
+        attrs("border", "0", "cellspacing", "0", "cellpadding", "2", "style", "margin-bottom:20px"));
     displayTable.nest(tr(//
         td(attrs("width", "400px"), text("Titel")), td(attrs("width", "200px"), text("Aktion"))) //
-        );
+    );
 
     String[] contentArray = getEditContent().split(",");
 
@@ -309,11 +341,14 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
         final String path = ctx.getWikiWeb().getContextPath() + ctx.getWikiWeb().getServletPath();
         XmlElement editImage = img("src", path + "/inc/gwiki/img/icons/linedpaperpencil32.png", "border", "0");
         XmlElement minusImage = img("src", path + "/inc/gwiki/img/icons/linedpaperminus32.png", "border", "0");
-        
-        XmlElement editUrl = a(attrs("id", URLEncoder.encode(sectionName + i, "UTF-8"), "title", edit, "href", (url + "&edit=true")),
+
+        XmlElement editUrl = a(
+            attrs("id", URLEncoder.encode(sectionName + i, "UTF-8"), "title", edit, "href", (url + "&edit=true")),
             editImage);
         XmlElement deleteUrl = a(
-            attrs("title", delete, "href", (url + "&method_onDelete=true"), "onclick", "return confirm('" + confirmMsg + "');"), minusImage);
+            attrs("title", delete, "href", (url + "&method_onDelete=true"), "onclick",
+                "return confirm('" + confirmMsg + "');"),
+            minusImage);
 
         displayTable.nest(tr(td(text(title)), td(editUrl, deleteUrl)));
       } catch (UnsupportedEncodingException ex) {

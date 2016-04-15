@@ -31,13 +31,23 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectMacroFragme
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.web.GWikiServlet;
 
-/* with GWikiContext.
+/**
+ * The Class GWikiContextUtils.
+ */
+/*
+ * with GWikiContext.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GWikiContextUtils
 {
+
+  /**
+   * Render required html headers.
+   *
+   * @param wikiContext the wiki context
+   */
   public static void renderRequiredHtmlHeaders(GWikiContext wikiContext)
   {
     for (String s : wikiContext.getRequiredHeader()) {
@@ -45,6 +55,11 @@ public class GWikiContextUtils
     }
   }
 
+  /**
+   * Render required js.
+   *
+   * @param wikiContext the wiki context
+   */
   public static void renderRequiredJs(GWikiContext wikiContext)
   {
     for (String s : wikiContext.getRequiredJs()) {
@@ -52,6 +67,11 @@ public class GWikiContextUtils
     }
   }
 
+  /**
+   * Render required css.
+   *
+   * @param wikiContext the wiki context
+   */
   public static void renderRequiredCss(GWikiContext wikiContext)
   {
     for (String s : wikiContext.getRequiredCss()) {
@@ -60,9 +80,10 @@ public class GWikiContextUtils
   }
 
   /**
-   * 
+   * Resolve skin link.
+   *
    * @param path pageId or static
-   * @return
+   * @return the string
    */
   public static String resolveSkinLink(String path)
   {
@@ -74,6 +95,13 @@ public class GWikiContextUtils
 
   }
 
+  /**
+   * Resolve skin link.
+   *
+   * @param wikiContext the wiki context
+   * @param path the path
+   * @return the string
+   */
   public static String resolveSkinLink(GWikiContext wikiContext, String path)
   {
     int idx = path.indexOf("{SKIN}/");
@@ -103,6 +131,13 @@ public class GWikiContextUtils
     }
   }
 
+  /**
+   * Gets the wiki from element.
+   *
+   * @param ei the ei
+   * @param ctx the ctx
+   * @return the wiki from element
+   */
   public static GWikiWikiPageArtefakt getWikiFromElement(GWikiElementInfo ei, GWikiContext ctx)
   {
     GWikiElement el = ctx.getWikiWeb().findElement(ei.getId());
@@ -114,9 +149,9 @@ public class GWikiContextUtils
 
   /**
    * Find a wiki artefakt from given element.
-   * 
-   * @param ci
-   * @param ctx
+   *
+   * @param el the el
+   * @param ctx the ctx
    * @return null if non found.
    */
 
@@ -151,9 +186,14 @@ public class GWikiContextUtils
    */
   public static interface FragmentVisitor
   {
+
     /**
-     * 
-     * @param wikiContext
+     * Visit.
+     *
+     * @param wikiContext the wiki context
+     * @param element the element
+     * @param wikiArtefakt the wiki artefakt
+     * @param fragment the fragment
      * @return false, if stop iterating.
      */
     boolean visit(GWikiContext wikiContext, GWikiElement element, GWikiWikiPageArtefakt wikiArtefakt,
@@ -169,19 +209,23 @@ public class GWikiContextUtils
   public static class StopSearchException extends RuntimeException
   {
 
+    /**
+     * The Constant serialVersionUID.
+     */
     private static final long serialVersionUID = -8125005225862685066L;
 
   }
 
   /**
-   * 
+   * Do with macro fragment.
+   *
    * @param wikiContext required
    * @param pageId if null, uses current page
    * @param partName if null, try to figure out part with wiki.
    * @param macroName Macro to find.
    * @param attributeMatcher can be null.
-   * @param visitor
-   * @return
+   * @param visitor the visitor
+   * @return true, if successful
    */
   public static boolean doWithMacroFragment(final GWikiContext wikiContext, String pageId, String partName,
       String macroName,
@@ -236,8 +280,10 @@ public class GWikiContextUtils
 
   /**
    * render first macro body of given name of given page.
-   * 
-   * @param wikiContext
+   *
+   * @param pageId the page id
+   * @param wikiContext the wiki context
+   * @param macroName the macro name
    * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
    */
   public static boolean renderPageIntro(final String pageId, final GWikiContext wikiContext, final String macroName)
@@ -258,8 +304,9 @@ public class GWikiContextUtils
 
   /**
    * render first macro body of given name of current page.
-   * 
-   * @param wikiContext
+   *
+   * @param wikiContext the wiki context
+   * @param macroName the macro name
    * @return false, if current page is not compatible or does not have a pageintro inside wiki artefakt.
    */
   public static boolean renderCurrentMacroContent(GWikiContext wikiContext, String macroName)

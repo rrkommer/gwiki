@@ -33,99 +33,102 @@ import de.micromata.genome.gwiki.web.GWikiServlet;
  */
 public interface GWikiWikiSelector
 {
-//  String DRAFT_ID = "_DRAFT";
 
   /**
    * Initializes GWiki with given request.
    * 
    * The implementation should store selected GWikiWeb in Thread local or similar.
-   * 
-   * @param servlet
-   * @param req
-   * @param resp
+   *
+   * @param servlet the servlet
+   * @param req the req
+   * @param resp the resp
    */
   void initWiki(GWikiServlet servlet, HttpServletRequest req, HttpServletResponse resp);
 
   /**
    * Deinitialize GWiki per request.
-   * 
-   * @param servlet
-   * @param req
-   * @param resp
+   *
+   * @param servlet the servlet
+   * @param req the req
+   * @param resp the resp
    */
   void deinitWiki(GWikiServlet servlet, HttpServletRequest req, HttpServletResponse resp);
 
   /**
    * Check if initialized. If not initialize it.
-   * 
-   * @param servlet
-   * @param daoContext
+   *
+   * @param servlet the servlet
+   * @param daoContext the dao context
    */
   void initWiki(GWikiServlet servlet, GWikiDAOContext daoContext);
 
   /**
    * return the current GWikiWeb.
-   * 
-   * @param servlet
-   * @return
+   *
+   * @param servlet the servlet
+   * @return the wiki web
    */
   GWikiWeb getWikiWeb(GWikiServlet servlet);
 
   /**
-   * 
-   * @param servlet
+   * Gets the root wiki web.
+   *
+   * @param servlet the servlet
    * @return the root wiki web.
    */
   GWikiWeb getRootWikiWeb(GWikiServlet servlet);
 
   /**
    * return the wikiweb for the tenant.
-   * 
-   * @param servlet
-   * @param tenant
+   *
+   * @param servlet the servlet
+   * @param tenant the tenant
    * @return null, if tenant is not known.
    */
   GWikiWeb getTenantWikiWeb(GWikiServlet servlet, String tenant);
 
   /**
    * Checks if GWikiWeb is already initialized.
-   * 
-   * @param servlet
-   * @return
+   *
+   * @param servlet the servlet
+   * @return true, if successful
    */
   boolean hasWikiWeb(GWikiServlet servlet);
 
   /**
-   * Switch to given tenant
+   * Switch to given tenant.
+   *
+   * @param wikiContext the wiki context
+   * @param tenantId the tenant id
    * 
-   * @param wikiContext
-   * @param tenantId
-   * @throw RuntimeException if tenants are not supported or given tenant does not exists
+   *          Throw RuntimeException if tenants are not supported or given tenant does not exists
    */
   void enterTenant(GWikiContext wikiContext, String tenantId);
 
   /**
-   * Switch to root wiki
+   * Switch to root wiki.
+   *
+   * @param wikiContext the wiki context
    * 
-   * @param wikiContext
-   * @throw RuntimeException if tenants are not supported or given tenant does not exists
+   * @throws RuntimeException if tenants are not supported or given tenant does not exists
    */
-  void leaveTenant(GWikiContext wikiContext);
+  void leaveTenant(GWikiContext wikiContext) throws RuntimeException;
 
   /**
    * Clear tenant (cache etc.)
-   * 
-   * @param wikiContext
-   * @param tenantId
+   *
+   * @param wikiContext the wiki context
+   * @param tenantId the tenant id
    */
   void clearTenant(GWikiContext wikiContext, String tenantId);
-  
+
   /**
-   * Creates a tenant with the spefified name withoout switching the context to that tenant
-   * @param wikiContext
-   * @param tenantId
-   * @throw RuntimeException if tenants are not supported
+   * Creates a tenant with the spefified name withoout switching the context to that tenant.
+   *
+   * @param wikiContext the wiki context
+   * @param tenantId the tenant id
+   * @throws RuntimeException if tenants are not supported
    */
-  void createTenant(GWikiContext wikiContext, String tenantId);
+  void createTenant(GWikiContext wikiContext, String tenantId) throws RuntimeException;
 
 }

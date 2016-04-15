@@ -24,18 +24,31 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.util.runtime.CallableX;
 
 /**
+ * The Class GWikiAuthorizationWrapper.
+ *
  * @author Christian Claus (c.claus@micromata.de)
- * 
  */
 public class GWikiAuthorizationWrapper implements GWikiAuthorization
 {
+
+  /**
+   * The parent.
+   */
   protected GWikiAuthorization parent;
 
+  /**
+   * Instantiates a new g wiki authorization wrapper.
+   */
   public GWikiAuthorizationWrapper()
   {
 
   }
 
+  /**
+   * Instantiates a new g wiki authorization wrapper.
+   *
+   * @param parent the parent
+   */
   public GWikiAuthorizationWrapper(GWikiAuthorization parent)
   {
     this.parent = parent;
@@ -208,118 +221,54 @@ public class GWikiAuthorizationWrapper implements GWikiAuthorization
     return parent.getUserProp(ctx, key);
   }
 
-  /**
-   * @param ctx
-   * @param key
-   * @param value
-   * @param persist
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#setUserProp(de.micromata.genome.gwiki.page.GWikiContext,
-   *      java.lang.String, java.lang.String, boolean)
-   */
   @Override
   public void setUserProp(GWikiContext ctx, String key, String value, UserPropStorage storage)
   {
     parent.setUserProp(ctx, key, value, storage);
   }
 
-  /**
-   * @param ctx
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#getCurrentUserLocale(de.micromata.genome.gwiki.page.GWikiContext)
-   */
   @Override
   public Locale getCurrentUserLocale(GWikiContext ctx)
   {
     return parent.getCurrentUserLocale(ctx);
   }
 
-  /**
-   * @param <T>
-   * @param wikiContext
-   * @param addRight
-   * @param callback
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRight(de.micromata.genome.gwiki.page.GWikiContext,
-   *      java.lang.String, de.micromata.genome.util.runtime.CallableX)
-   */
   @Override
   public <T> T runWithRight(GWikiContext wikiContext, String addRight, CallableX<T, RuntimeException> callback)
   {
     return parent.runWithRight(wikiContext, addRight, callback);
   }
 
-  /**
-   * @param <T>
-   * @param wikiContext
-   * @param addRights
-   * @param callback
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runWithRights(de.micromata.genome.gwiki.page.GWikiContext,
-   *      java.lang.String[], de.micromata.genome.util.runtime.CallableX)
-   */
   @Override
   public <T> T runWithRights(GWikiContext wikiContext, String[] addRights, CallableX<T, RuntimeException> callback)
   {
     return parent.runWithRights(wikiContext, addRights, callback);
   }
 
-  /**
-   * @param <T>
-   * @param wikiContext
-   * @param callback
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsSu(de.micromata.genome.gwiki.page.GWikiContext,
-   *      de.micromata.genome.util.runtime.CallableX)
-   */
   @Override
   public <T> T runAsSu(GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
     return parent.runAsSu(wikiContext, callback);
   }
 
-  /**
-   * @param <T>
-   * @param user
-   * @param wikiContext
-   * @param callback
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runAsUser(java.lang.String,
-   *      de.micromata.genome.gwiki.page.GWikiContext, de.micromata.genome.util.runtime.CallableX)
-   */
   @Override
   public <T> T runAsUser(String user, GWikiContext wikiContext, CallableX<T, RuntimeException> callback)
   {
     return parent.runAsUser(user, wikiContext, callback);
   }
 
-  /**
-   * @param wikiContext
-   * @param callback
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#runIfAuthentificated(de.micromata.genome.gwiki.page.GWikiContext,
-   *      de.micromata.genome.util.runtime.CallableX)
-   */
   @Override
   public boolean runIfAuthentificated(GWikiContext wikiContext, CallableX<Void, RuntimeException> callback)
   {
     return parent.runIfAuthentificated(wikiContext, callback);
   }
 
-  /**
-   * @param wikiContext
-   * @return
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#initThread(de.micromata.genome.gwiki.page.GWikiContext)
-   */
   @Override
   public boolean initThread(GWikiContext wikiContext)
   {
     return parent.initThread(wikiContext);
   }
 
-  /**
-   * @param wikiContext
-   * @see de.micromata.genome.gwiki.model.GWikiAuthorization#clearThread(de.micromata.genome.gwiki.page.GWikiContext)
-   */
   @Override
   public void clearThread(GWikiContext wikiContext)
   {

@@ -27,7 +27,12 @@ import java.util.regex.Pattern;
  */
 public class NormalizeUtils
 {
-  private static ThreadLocal<Pattern> NON_ALPHANUM_PATTERN = new ThreadLocal<Pattern>() {
+
+  /**
+   * The non alphanum pattern.
+   */
+  private static ThreadLocal<Pattern> NON_ALPHANUM_PATTERN = new ThreadLocal<Pattern>()
+  {
     @Override
     protected Pattern initialValue()
     {
@@ -35,6 +40,12 @@ public class NormalizeUtils
     }
   };
 
+  /**
+   * Clean string.
+   *
+   * @param string the string
+   * @return the string
+   */
   public static String cleanString(final String string)
   {
     if (string == null) {
@@ -74,15 +85,23 @@ public class NormalizeUtils
   }
 
   /**
-   * @see normalize(name, true);
-   * @param Name
-   * @return
+   * See normalize(name, true);.
+   *
+   * @param Name the name
+   * @return the string
    */
   public static String normalize(final String Name)
   {
     return normalize(Name, true);
   }
 
+  /**
+   * Normalize.
+   *
+   * @param Name the name
+   * @param uppercase the uppercase
+   * @return the string
+   */
   public static String normalize(final String Name, boolean uppercase)
   {
     if (Name == null) {
@@ -98,7 +117,11 @@ public class NormalizeUtils
     return ret;
   }
 
-  private static ThreadLocal<Pattern> STANDARD_FILENAME = new ThreadLocal<Pattern>() {
+  /**
+   * The standard filename.
+   */
+  private static ThreadLocal<Pattern> STANDARD_FILENAME = new ThreadLocal<Pattern>()
+  {
     @Override
     protected Pattern initialValue()
     {
@@ -106,6 +129,12 @@ public class NormalizeUtils
     }
   };
 
+  /**
+   * Normalize to path.
+   *
+   * @param Name the name
+   * @return the string
+   */
   public static String normalizeToPath(final String Name)
   {
     if (Name == null) {
@@ -118,7 +147,11 @@ public class NormalizeUtils
     return ret;
   }
 
-  private static ThreadLocal<Pattern> LINK_TARGET = new ThreadLocal<Pattern>() {
+  /**
+   * The link target.
+   */
+  private static ThreadLocal<Pattern> LINK_TARGET = new ThreadLocal<Pattern>()
+  {
     @Override
     protected Pattern initialValue()
     {
@@ -126,6 +159,12 @@ public class NormalizeUtils
     }
   };
 
+  /**
+   * Normalize to target.
+   *
+   * @param Name the name
+   * @return the string
+   */
   public static String normalizeToTarget(final String Name)
   {
     if (Name == null) {

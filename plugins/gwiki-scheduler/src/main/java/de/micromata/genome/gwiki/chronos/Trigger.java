@@ -41,10 +41,9 @@ public interface Trigger
 
   /**
    * Vorbereitung auf den nächsten Auslösezeitpunkt.
-   * 
-   * @param scheduler
-   * @param cause
-   * @param logging
+   *
+   * @param scheduler the scheduler
+   * @param cause the cause
    * @return nextFireTime null wenn nicht mehr ausgefuehrt werden soll
    */
 

@@ -16,11 +16,6 @@
 
 package de.micromata.genome.gwiki.page.gspt;
 
-import groovy.lang.Binding;
-import groovy.lang.Script;
-import groovy.lang.Writable;
-import groovy.text.Template;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,63 +31,93 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.gspt.ExtendedTemplate.ParseElement.Type;
+import groovy.lang.Binding;
+import groovy.lang.Script;
+import groovy.lang.Writable;
+import groovy.text.Template;
 
 /**
- * Internal for parsing gspt
- * 
+ * Internal for parsing gspt.
+ *
  * @author Roger Rene Kommer (r.kommer@micromata.de)
- * 
  */
 public class ExtendedTemplate implements Template
 {
+  
   /**
-   * The script executed
+   * The script executed.
    */
   private Script script;
 
+  /**
+   * The Enum Flags.
+   */
   public static enum Flags
   {
+    
     /**
-     * Wirft von ConstantString die fuehrenden Ws weg
+     * Wirft von ConstantString die fuehrenden Ws weg.
      */
     StripLeadingWs(0x0001), //
     /**
-     * Fasst mehrere ConstantString-Elemente in eines
-     */
+  * Fasst mehrere ConstantString-Elemente in eines.
+  */
     CompressOutWriter(0x0002), //
     /**
-     * Innerhalb ConstantString-Elemente werden mehrer ' ' als eines zusammengefasst
-     */
+  * Innerhalb ConstantString-Elemente werden mehrer ' ' als eines zusammengefasst.
+  */
     CompressWs(0x0004), //
     /**
-     * Statt escaping von String-Literalen wird groovy ''' ''' Strings verwendet
-     */
+  * Statt escaping von String-Literalen wird groovy ''' ''' Strings verwendet.
+  */
     UseHereConstString(0x0008), //
     /**
      * Statt escaping von String-Literalen wird groovy """ """ Strings verwendet. $-Ausdruecke werden ausgewertet
      */
     UseHereExprString(0x0010),
+    
     /**
-     * ${} expression are evaluated as El-Expressions not as rt-Expressions
+     * ${} expression are evaluated as El-Expressions not as rt-Expressions.
      */
     UseElInlineExpressions(0x0020), //
     /**
-     * Generate GsptPageBase base class
-     */
-    GenGsptPageBase(0x0040), //
+  * Generate GsptPageBase base class.
+  */
+    GenGsptPageBase(0x0040), 
+ /**
+  * The flags.
+  */
+ //
     ;
     int flags;
 
+    /**
+     * Instantiates a new flags.
+     *
+     * @param flags the flags
+     */
     private Flags(int flags)
     {
       this.flags = flags;
     }
 
+    /**
+     * Checks if is flag set.
+     *
+     * @param combFlags the comb flags
+     * @return true, if is flag set
+     */
     boolean isFlagSet(int combFlags)
     {
       return (combFlags & flags) == flags;
     }
 
+    /**
+     * Combine flags.
+     *
+     * @param flags the flags
+     * @return the int
+     */
     public static int combineFlags(Flags... flags)
     {
       int compflags = 0;
@@ -108,12 +133,18 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * The flags.
+   */
   private int flags = Flags.combineFlags(//
       Flags.StripLeadingWs, //
       Flags.CompressOutWriter, //
       Flags.UseHereConstString, //
       Flags.UseElInlineExpressions/* , Flags.CompressWs */);
 
+  /**
+   * Instantiates a new extended template.
+   */
   public ExtendedTemplate()
   {
 
@@ -136,6 +167,12 @@ public class ExtendedTemplate implements Template
     return make(map == null ? new Binding() : new Binding(map));
   }
 
+  /**
+   * Make.
+   *
+   * @param binding the binding
+   * @return the writable
+   */
   public Writable make(final Binding binding)
   {
     return new Writable() {
@@ -173,31 +210,71 @@ public class ExtendedTemplate implements Template
     };
   }
 
+  /**
+   * The Class ParseElement.
+   */
   public static class ParseElement
   {
+    
+    /**
+     * The Enum Type.
+     */
     public static enum Type
     {
+      
+      /**
+       * The Const string.
+       */
       // constant template
       ConstString, //
 
-      Statement,
       /**
-       * <%= ... %> becomes ${...}
+  * The Statement.
+  */
+ Statement,
+      /**
+       * &lt;%= ... %&gt; becomes ${...}
        */
       AssignExpr, //
 
-      Comment, //
+      /**
+  * The Comment.
+  */
+ Comment, /**
+  * The Code.
+  */
+ //
       Code,
+      
+      /**
+       * The Class code.
+       */
       /* <%! ... %> */
       ClassCode,
+      
+      /**
+       * The Global code.
+       */
       /* <%!! ... %> */
       GlobalCode,
     }
 
+    /**
+     * The type.
+     */
     public Type type;
 
+    /**
+     * The text.
+     */
     public StringBuilder text;
 
+    /**
+     * Instantiates a new parses the element.
+     *
+     * @param type the type
+     * @param text the text
+     */
     public ParseElement(Type type, String text)
     {
       this.type = type;
@@ -205,6 +282,11 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * Strip leading ws.
+   *
+   * @param elements the elements
+   */
   private void stripLeadingWs(List<ParseElement> elements)
   {
     for (int i = 0; i < elements.size(); ++i) {
@@ -227,6 +309,11 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * Compress out writer.
+   *
+   * @param elements the elements
+   */
   private void compressOutWriter(List<ParseElement> elements)
   {
     ParseElement lout = null;
@@ -246,6 +333,12 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * Escape literal.
+   *
+   * @param text the text
+   * @return the string
+   */
   private String escapeLiteral(String text)
   {
     StringWriter ret = new StringWriter();
@@ -272,6 +365,13 @@ public class ExtendedTemplate implements Template
     return ret.toString();
   }
 
+  /**
+   * Escape quote.
+   *
+   * @param text the text
+   * @param quoteChar the quote char
+   * @return the string
+   */
   public static String escapeQuote(String text, char quoteChar)
   {
     StringWriter ret = new StringWriter();
@@ -285,6 +385,12 @@ public class ExtendedTemplate implements Template
     return ret.toString();
   }
 
+  /**
+   * Patch statement.
+   *
+   * @param s the s
+   * @return the string
+   */
   private String patchStatement(String s)
   {
     String t = s.trim();
@@ -293,6 +399,12 @@ public class ExtendedTemplate implements Template
     return s;
   }
 
+  /**
+   * Element to code.
+   *
+   * @param elements the elements
+   * @return the string
+   */
   private String elementToCode(List<ParseElement> elements)
   {
     StringWriter sw = new StringWriter();
@@ -363,6 +475,11 @@ public class ExtendedTemplate implements Template
     return sw.toString();
   }
 
+  /**
+   * Compress ws string.
+   *
+   * @param text the text
+   */
   private void compressWsString(StringBuilder text)
   {
     char lastChar = 0;
@@ -377,6 +494,11 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * Compress ws in constant string.
+   *
+   * @param elements the elements
+   */
   private void compressWsInConstantString(List<ParseElement> elements)
   {
     for (ParseElement el : elements) {
@@ -386,6 +508,13 @@ public class ExtendedTemplate implements Template
     }
   }
 
+  /**
+   * Replace el inline expressions.
+   *
+   * @param elements the elements
+   * @param elIdx the el idx
+   * @return the int
+   */
   private int replaceElInlineExpressions(List<ParseElement> elements, int elIdx)
   {
     if (elements.get(elIdx).text.indexOf("${") == -1)
@@ -424,6 +553,11 @@ public class ExtendedTemplate implements Template
     return elIdx;
   }
 
+  /**
+   * Process el inline expressions.
+   *
+   * @param elements the elements
+   */
   private void processElInlineExpressions(List<ParseElement> elements)
   {
     for (int i = 0; i < elements.size(); ++i) {
@@ -433,14 +567,14 @@ public class ExtendedTemplate implements Template
       i = replaceElInlineExpressions(elements, i);
     }
   }
-
+ 
   /**
-   * Parse the text document looking for <% or <%= and then call out to the appropriate handler, otherwise copy the text directly into the
+   * Parse the text document looking for &lt;% or &lt;%= and then call out to the appropriate handler, otherwise copy the text directly into the
    * script while escaping quotes.
-   * 
-   * @param reader
-   * @return
-   * @throws IOException
+   *
+   * @param reader the reader
+   * @return the string
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   protected String parse(Reader reader) throws IOException
   {
@@ -457,6 +591,13 @@ public class ExtendedTemplate implements Template
     return result;
   }
 
+  /**
+   * Parses the to elements.
+   *
+   * @param reader the reader
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   protected List<ParseElement> parseToElements(Reader reader) throws IOException
   {
     if (!reader.markSupported()) {
@@ -513,6 +654,11 @@ public class ExtendedTemplate implements Template
     return elements;
   }
 
+  /**
+   * Start script.
+   *
+   * @param el the el
+   */
   private void startScript(List<ParseElement> el)
   {
     el.add(new ParseElement(Type.Comment, "Generated by Genome GsptTemplate"));
@@ -521,10 +667,10 @@ public class ExtendedTemplate implements Template
 
   /**
    * Closes the currently open write and writes out the following text as a GString expression until it reaches an end %>.
-   * 
-   * @param reader
-   * @param sw
-   * @throws IOException
+   *
+   * @param reader the reader
+   * @param elements the elements
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   private void groovyExpression(Reader reader, List<ParseElement> elements) throws IOException
   {
@@ -551,10 +697,11 @@ public class ExtendedTemplate implements Template
 
   /**
    * Closes the currently open write and writes the following text as normal Groovy script code until it reaches an end %>.
-   * 
-   * @param reader
-   * @param sw
-   * @throws IOException
+   *
+   * @param global the global
+   * @param reader the reader
+   * @param elements the elements
+   * @throws IOException Signals that an I/O exception has occurred.
    */
   private void groovySection(Type global, Reader reader, List<ParseElement> elements) throws IOException
   {
@@ -581,6 +728,13 @@ public class ExtendedTemplate implements Template
     // sw.write(";\nout.print(\"");
   }
 
+  /**
+   * Groovy comment.
+   *
+   * @param reader the reader
+   * @param elements the elements
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   private void groovyComment(Reader reader, List<ParseElement> elements) throws IOException
   {
     StringBuilder sw = new StringBuilder();

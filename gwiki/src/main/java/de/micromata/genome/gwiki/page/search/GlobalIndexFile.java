@@ -36,17 +36,30 @@ import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.Pair;
 
 /**
- * Format. <id1\n LocalIndex entries >id1\n <id2 LocalIndex entries >id1\n
+ * Format. &lt;id1\n LocalIndex entries &gt;id1\n &lt;id2 LocalIndex entries &gt;id1\n
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
 public class GlobalIndexFile implements GWikiPropKeys
 {
+
+  /**
+   * The Constant GLOBAL_INDEX_PAGEID.
+   */
   public static final String GLOBAL_INDEX_PAGEID = "admin/GlobalTextIndex";
 
+  /**
+   * The Constant GLOBAL_INDEX_METAFILE_TEMPLATE.
+   */
   public static final String GLOBAL_INDEX_METAFILE_TEMPLATE = "admin/templates/intern/GlobalTextIndexMetaTemplate";
 
+  /**
+   * Creates the element.
+   *
+   * @param ctx the ctx
+   * @return the g wiki element
+   */
   public static GWikiElement createElement(GWikiContext ctx)
   {
     GWikiMetaTemplate metaTemplate = ctx.getWikiWeb().findMetaTemplate(GLOBAL_INDEX_METAFILE_TEMPLATE);
@@ -64,6 +77,12 @@ public class GlobalIndexFile implements GWikiPropKeys
     return elementToEdit;
   }
 
+  /**
+   * Write global index files.
+   *
+   * @param ctx the ctx
+   * @param map the map
+   */
   public static void writeGlobalIndexFiles(GWikiContext ctx, Map<String, WordIndexTextArtefakt> map)
   {
     GWikiElement el = ctx.getWikiWeb().findElement(GLOBAL_INDEX_PAGEID);
@@ -84,6 +103,12 @@ public class GlobalIndexFile implements GWikiPropKeys
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
 
+  /**
+   * Write global index files.
+   *
+   * @param ctx the ctx
+   * @param elements the elements
+   */
   public static void writeGlobalIndexFiles(GWikiContext ctx, Collection<GWikiElementInfo> elements)
   {
     GWikiElement el = ctx.getWikiWeb().findElement(GLOBAL_INDEX_PAGEID);
@@ -106,6 +131,12 @@ public class GlobalIndexFile implements GWikiPropKeys
     ctx.getWikiWeb().saveElement(ctx, el, false);
   }
 
+  /**
+   * Update segments.
+   *
+   * @param storage the storage
+   * @param elmL the elm l
+   */
   public static void updateSegments(GWikiStorage storage, List<Pair<GWikiElement, String>> elmL)
   {
     final GWikiContext ctx = GWikiContext.getCurrent();
@@ -132,7 +163,8 @@ public class GlobalIndexFile implements GWikiPropKeys
           // oops
           ncont = cont + startTag + elmp.getSecond() + endTag;
         } else {
-          ncont = cont.substring(0, idx) + startTag + elmp.getSecond() + endTag + cont.substring(eidx + endTag.length());
+          ncont = cont.substring(0, idx) + startTag + elmp.getSecond() + endTag
+              + cont.substring(eidx + endTag.length());
         }
       }
       cont = ncont;
@@ -143,8 +175,10 @@ public class GlobalIndexFile implements GWikiPropKeys
     art.setStorageData(cont);
 
     final GWikiElement fel = el;
-    ctx.getWikiWeb().getAuthorization().runAsSu(ctx, new CallableX<Void, RuntimeException>() {
+    ctx.getWikiWeb().getAuthorization().runAsSu(ctx, new CallableX<Void, RuntimeException>()
+    {
 
+      @Override
       public Void call() throws RuntimeException
       {
         ctx.getWikiWeb().getStorage().storeElement(ctx, fel, false);
@@ -153,6 +187,13 @@ public class GlobalIndexFile implements GWikiPropKeys
     });
   }
 
+  /**
+   * Update segment.
+   *
+   * @param storage the storage
+   * @param elm the elm
+   * @param indexContent the index content
+   */
   public static void updateSegment(GWikiStorage storage, GWikiElement elm, String indexContent)
   {
 

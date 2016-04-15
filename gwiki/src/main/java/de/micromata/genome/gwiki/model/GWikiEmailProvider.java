@@ -26,6 +26,7 @@ import java.util.Map;
  */
 public interface GWikiEmailProvider
 {
+
   /**
    * Context contains following keys:
    * 
@@ -40,19 +41,33 @@ public interface GWikiEmailProvider
    * SUBJECT (max 100 chars) TEXT (max 500 chars)
    * 
    * custom fields.
-   * 
-   * @param mailContext
+   *
    */
   public static final String TO = "TO";
 
+  /**
+   * The Constant FROM.
+   */
   public static final String FROM = "FROM";
 
+  /**
+   * The Constant CC.
+   */
   public static final String CC = "CC";
 
+  /**
+   * The Constant BCC.
+   */
   public static final String BCC = "BCC";
 
+  /**
+   * The Constant SUBJECT.
+   */
   public static final String SUBJECT = "SUBJECT";
 
+  /**
+   * The Constant TEXT.
+   */
   public static final String TEXT = "TEXT";
 
   /**
@@ -65,6 +80,11 @@ public interface GWikiEmailProvider
    */
   public static final String SENDEMAILFAILED = "SENDEMAILFAILED";
 
+  /**
+   * Send email.
+   *
+   * @param mailContext the mail context
+   */
   void sendEmail(Map<String, String> mailContext);
 
 }

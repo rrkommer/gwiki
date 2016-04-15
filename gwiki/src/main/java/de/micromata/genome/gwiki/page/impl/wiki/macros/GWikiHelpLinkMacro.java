@@ -36,7 +36,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 /**
  * Render a help link.
  * 
- * gwikidocs/help/HelpPage -> lang de gwikicos/help/de/HelpPage gwikicos/help/HelpPage gwikicos/help/en/HelpPage
+ * gwikidocs/help/HelpPage to lang de gwikicos/help/de/HelpPage gwikicos/help/HelpPage gwikicos/help/en/HelpPage
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
@@ -55,8 +55,14 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 public class GWikiHelpLinkMacro extends GWikiMacroBean
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = -5790766666703611334L;
 
+  /**
+   * The Constant REQATTR_HELPPAGE.
+   */
   public static final String REQATTR_HELPPAGE = "de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro.REQATTR_HELPPAGE";
 
   /**
@@ -82,7 +88,7 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
   private boolean noCommonHelp = false;
 
   /**
-   * Optional Title
+   * Optional Title.
    */
   private String title;
 
@@ -91,6 +97,13 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
    */
   private String linkClass;
 
+  /**
+   * Gets the core help page.
+   *
+   * @param ctx the ctx
+   * @param ei the ei
+   * @return the core help page
+   */
   public String getCoreHelpPage(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (helpPageId != null) {
@@ -122,6 +135,13 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     return localHelpPageId;
   }
 
+  /**
+   * Gets the lang.
+   *
+   * @param ctx the ctx
+   * @param ei the ei
+   * @return the lang
+   */
   public String getLang(GWikiContext ctx, GWikiElementInfo ei)
   {
     if (lang != null) {
@@ -138,6 +158,13 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     return null;
   }
 
+  /**
+   * Gets the lang help page.
+   *
+   * @param ctx the ctx
+   * @param ei the ei
+   * @return the lang help page
+   */
   public String getLangHelpPage(GWikiContext ctx, GWikiElementInfo ei)
   {
     helpPageId = getCoreHelpPage(ctx, ei);
@@ -154,6 +181,14 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     return getHelpPage(helpPageId, lang, ctx);
   }
 
+  /**
+   * Gets the help page.
+   *
+   * @param helpPageId the help page id
+   * @param lang the lang
+   * @param ctx the ctx
+   * @return the help page
+   */
   public static String getHelpPage(String helpPageId, String lang, GWikiContext ctx)
   {
     String hp = FileNameUtils.getParentDir(helpPageId);
@@ -175,6 +210,12 @@ public class GWikiHelpLinkMacro extends GWikiMacroBean
     return null;
   }
 
+  /**
+   * Gets the link.
+   *
+   * @param ctx the ctx
+   * @return the link
+   */
   public String getLink(GWikiContext ctx)
   {
     if (pageId == null) {

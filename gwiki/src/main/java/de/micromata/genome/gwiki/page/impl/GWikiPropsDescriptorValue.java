@@ -32,8 +32,15 @@ import de.micromata.genome.gwiki.model.GWikiProps;
  */
 public class GWikiPropsDescriptorValue implements Serializable
 {
+
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 5787594707201861142L;
 
+  /**
+   * The key.
+   */
   private String key;
 
   /**
@@ -41,6 +48,9 @@ public class GWikiPropsDescriptorValue implements Serializable
    */
   private String label;
 
+  /**
+   * The description.
+   */
   private String description;
 
   /**
@@ -48,6 +58,9 @@ public class GWikiPropsDescriptorValue implements Serializable
    */
   private String helpLink;
 
+  /**
+   * The type.
+   */
   /*
    * <ul> <li>STRING: No restriction</li>
    * 
@@ -73,12 +86,24 @@ public class GWikiPropsDescriptorValue implements Serializable
    */
   private String type = "STRING";
 
+  /**
+   * The read only.
+   */
   private boolean readOnly = false;
 
+  /**
+   * The requires value.
+   */
   private boolean requiresValue = false;
 
+  /**
+   * The required view right.
+   */
   private String requiredViewRight;
 
+  /**
+   * The required edit right.
+   */
   private String requiredEditRight;
 
   /**
@@ -96,17 +121,28 @@ public class GWikiPropsDescriptorValue implements Serializable
   private String defaultValue;
 
   /**
-   * -> either a Map with key/values. key-> is internal name, value is used to display.
+   * either a Map with key/values. key-&gt; is internal name, value is used to display.
    * 
-   * or a groovy function with following signature: Map getOptionCollection(GWikiContext wikiContext, GWikiPropsDescriptorValue
-   * wikiPropDescriptor, String name, String value);
+   * or a groovy function with following signature: Map getOptionCollection(GWikiContext wikiContext,
+   * GWikiPropsDescriptorValue wikiPropDescriptor, String name, String value);
    */
   private Map<String, String> optionValues;
 
+  /**
+   * The controler script.
+   */
   private String controlerScript;
 
+  /**
+   * The group.
+   */
   private String group;
 
+  /**
+   * Parses the request.
+   *
+   * @param pct the pct
+   */
   public void parseRequest(PropsEditContext pct)
   {
     if (pct.invokeOnControlerBean("onParseRequest") == true) {
@@ -125,6 +161,11 @@ public class GWikiPropsDescriptorValue implements Serializable
     pct.setPropsValue(value);
   }
 
+  /**
+   * Validate.
+   *
+   * @param pct the pct
+   */
   public void validate(PropsEditContext pct)
   {
     if (pct.invokeOnControlerBean("onValidate") == true) {
@@ -141,7 +182,14 @@ public class GWikiPropsDescriptorValue implements Serializable
     }
   }
 
-  public String render(GWikiPropsEditorArtefakt< ? > editor, PropsEditContext pct)
+  /**
+   * Render.
+   *
+   * @param editor the editor
+   * @param pct the pct
+   * @return the string
+   */
+  public String render(GWikiPropsEditorArtefakt<?> editor, PropsEditContext pct)
   {
     StringWriter sout = new StringWriter();
     pct.getWikiContext().getCreatePageContext().pushBody(sout);

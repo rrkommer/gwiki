@@ -32,8 +32,12 @@ import de.micromata.genome.util.runtime.CallableX;
  */
 public interface GWikiStorage
 {
+
+  /**
+   * The Constant SETTINGS_SUFFIX.
+   */
   public static final String SETTINGS_SUFFIX = "Settings.properties";
-  
+
   /**
    * Boolean flag storage should not create archive.
    * 
@@ -57,9 +61,9 @@ public interface GWikiStorage
 
   /**
    * Atomar incrementation of gwiki version counter.
-   * 
-   * @param lastModification
-   * @return
+   *
+   * @param ei the ei
+   * @return the g wiki element
    */
   // public int incrementModification(int lastModification);
 
@@ -67,38 +71,39 @@ public interface GWikiStorage
 
   /**
    * Load all pageinfos.
-   * 
-   * @param map
+   *
+   * @param map the map
    */
   void loadPageInfos(Map<String, GWikiElementInfo> map);
 
   /**
-   * 
-   * @param path
+   * Load element info.
+   *
+   * @param path the path
    * @return null if not found.
    */
   GWikiElementInfo loadElementInfo(String path);
 
   /**
    * Used in debug mode, if artefacts are changed outside.
-   * 
-   * @param ei
+   *
+   * @param ei the ei
    * @return null if element is clean otherwise fresh loaded element
    */
   GWikiElement hasModifiedArtefakts(GWikiElementInfo ei);
 
   /**
-   * Loads element
-   * 
-   * @param pageId
+   * Loads element.
+   *
+   * @param pageId the page id
    * @return null if not found
    */
   GWikiElement loadElement(String pageId);
 
   /**
-   * Loads element
-   * 
-   * @param pageId
+   * Loads element.
+   *
+   * @param id the id
    * @return null if not found
    */
   GWikiElement loadElement(GWikiElementInfo id);
@@ -107,54 +112,90 @@ public interface GWikiStorage
    * Store element.
    * 
    * In most cases you have GWikiWeb.saveElement() instead of calling this method directly.
-   * 
-   * @param wikiContext
-   * @param elm
-   * @param keepModifiedAt
+   *
+   * @param wikiContext the wiki context
+   * @param elm the elm
+   * @param keepModifiedAt the keep modified at
    * @return stored element.
    */
   GWikiElement storeElement(GWikiContext wikiContext, GWikiElement elm, boolean keepModifiedAt);
 
   /**
    * load page infos from storage.
-   * 
+   *
    * @param path directory
-   * @return
+   * @return the list
    */
   List<GWikiElementInfo> loadPageInfos(String path);
 
+  /**
+   * Gets the versions.
+   *
+   * @param id the id
+   * @return the versions
+   */
   List<GWikiElementInfo> getVersions(String id);
 
+  /**
+   * Find deleted pages.
+   *
+   * @param filter the filter
+   * @return the list
+   */
   List<String> findDeletedPages(Matcher<String> filter);
 
   /**
-   * deletes an elements
-   * 
-   * @param elm
+   * deletes an elements.
+   *
+   * @param wikiContext the wiki context
+   * @param elm the elm
    */
   void deleteElement(GWikiContext wikiContext, GWikiElement elm);
 
   /**
    * This element has to be a archive element.
-   * 
-   * @param elm
+   *
+   * @param wikiContext the wiki context
+   * @param elm the elm
    * @return restored elementInfo
    */
   GWikiElementInfo restoreElement(GWikiContext wikiContext, GWikiElement elm);
 
   /**
-   * 
-   * @param type
+   * Gets the artefakt class name from type.
+   *
+   * @param type the type
    * @return null if not found
    */
   String getArtefaktClassNameFromType(String type);
 
+  /**
+   * Checks if is archive page id.
+   *
+   * @param path the path
+   * @return true, if is archive page id
+   */
   public boolean isArchivePageId(String path);
 
+  /**
+   * Rebuild index.
+   *
+   * @param wikiContext the wiki context
+   * @param eis the eis
+   * @param completeUpdate the complete update
+   */
   public void rebuildIndex(GWikiContext wikiContext, Iterable<GWikiElementInfo> eis, boolean completeUpdate);
 
   public void setWikiWeb(GWikiWeb wikiWeb);
 
+  /**
+   * Run in transaction.
+   *
+   * @param <R> the generic type
+   * @param lockWaitTime the lock wait time
+   * @param callback the callback
+   * @return the r
+   */
   public <R> R runInTransaction(long lockWaitTime, CallableX<R, RuntimeException> callback);
 
   /**

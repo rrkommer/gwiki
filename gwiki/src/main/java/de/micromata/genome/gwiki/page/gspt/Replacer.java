@@ -23,9 +23,14 @@ import java.util.Map;
  */
 public interface Replacer
 {
+
   /**
+   * Replace.
+   *
+   * @param ctx the ctx
    * @param attr Attribute
-   * @param isClosed wenn end == ">" && isClosed == true, dann "/>"
+   * @param isClosed wenn end == "&lt;" and isClosed == true, dann "/&lt;"
+   * @return the string
    */
   public String replace(ReplacerContext ctx, Map<String, String> attr, boolean isClosed);
 

@@ -224,18 +224,6 @@ public class TriggerJobDO extends ChronosBaseDO // implements /* Trigger,
     this.triggerDefintionString = null;
   }
 
-  /**
-   * An Hand des übergebenen String werden verschiedene Definitionen kreiert.
-   * <p>
-   * <ul>
-   * <li>'+' {@link DelayTrigger}</li>
-   * <li>'<' Deserialisieren des Triggers mittels {@link JdbcJobStore#deserialize(String, Class)}</li>
-   * <li>Sonst wird ein {@link CronTrigger} angelegt.</li>
-   * </ul>
-   * </p>
-   * 
-   * @param definition
-   */
   public static Trigger parseTrigger(final String definition)
   {
     if (definition.startsWith("+")) {
@@ -277,14 +265,6 @@ public class TriggerJobDO extends ChronosBaseDO // implements /* Trigger,
     return triggerDefintionString;
   }
 
-  /**
-   * Hier wird das eigentliche Runtime-Objekt erzeugt.
-   * <p>
-   * <code>This</code> wird als {@link TriggerJobDO} gesetzt.
-   * </p>
-   * 
-   * @see de.micromata.genome.jchronos.Job#getExecutor()
-   */
   public FutureJob getExecutor()
   {
     final FutureJob job = getJobDefinition().getInstance();

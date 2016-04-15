@@ -55,9 +55,6 @@ import de.micromata.genome.logging.LogExceptionAttribute;
 
 /**
  * Gruppiert Jobs bezüglich eines technischen Sachverhalts, z.B. einem Dienst wie Mail.
- * <p>
- * Repräsentiert im Gegensatz zum {@link SchedulerDO} die Runtime-Sicht auf einen {@link Scheduler}.
- * </p>
  */
 public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
 {
@@ -109,12 +106,6 @@ public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
     super();
   }
 
-  /**
-   * Ruft {@link #initThreadPool(int)} und {@link #initProperties(SchedulerDO)} auf.
-   * 
-   * @param schedulerDO
-   * @param logging
-   */
   public SchedulerImpl(final SchedulerDO schedulerDO, final DispatcherInternal dispatcher)
   {
     Validate.notNull(schedulerDO, "schedulerDO is null");
@@ -126,15 +117,6 @@ public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
     initProperties(schedulerDO);
   }
 
-  /**
-   * Kopiert die Properties von DB-Objekt außer {@link SchedulerDO#getThreadPoolSize()} und einer schon gesetzten Id
-   * oder Namen.
-   * <p>
-   * Also wird eine Id nie reinitialisiert.
-   * </p>
-   * 
-   * @param schedulerDO
-   */
   private void initProperties(final SchedulerDO schedulerDO)
   {
     if (this.schedulerId == SchedulerDO.UNSAVED_SCHEDULER_ID) {
@@ -233,17 +215,6 @@ public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
     nextRuntime = lastRuntime;
   }
 
-  /**
-   * Führ einen Job aus.
-   * <p>
-   * <ul>
-   * <li>Versucht den Job in der Datenbank für sich zu reservieren {@link JobStore#reserveJob(Long)} und</li>
-   * <li>führt ihn dann mit dem {@link ThreadPoolExecutor#execute(Runnable)} aus.</li>
-   * </ul>
-   * 
-   * @see de.micromata.genome.gwiki.chronos.Scheduler#executeJob(java.lang.Long,
-   *      de.micromata.genome.gwiki.chronos.JobStore)
-   */
   @Override
   public synchronized boolean executeJob(final TriggerJobDO job, JobStore jobStore)
   {
@@ -443,11 +414,6 @@ public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
     return executor.getCorePoolSize() - executor.getActiveCount();
   }
 
-  /**
-   * Ruft {@link JobStore#getNextJobs(SchedulerImpl, Date)} auf.
-   * 
-   * @see de.micromata.genome.gwiki.chronos.Scheduler#getNextJobs(de.micromata.genome.gwiki.chronos.JobStore, boolean)
-   */
   @Override
   @SuppressWarnings("unchecked")
   public List<TriggerJobDO> getNextJobs(final JobStore jobStore, boolean foreignJobs)
@@ -456,10 +422,6 @@ public class SchedulerImpl implements Scheduler, RejectedExecutionHandler
     return nextJobs;
   }
 
-  /**
-   * @fromDate wird nicht ausgewertet
-   * @untilDate NextFireTime
-   */
   @Override
   @Deprecated
   public List<TriggerJobDO> getJobs(final Date fromDate, final Date untilDate, final State state)

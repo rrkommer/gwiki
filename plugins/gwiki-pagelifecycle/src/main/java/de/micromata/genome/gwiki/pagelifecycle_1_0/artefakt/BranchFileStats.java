@@ -34,26 +34,30 @@ public class BranchFileStats implements Serializable
   private static final long serialVersionUID = 2445215324804619206L;
 
   /**
-   * Page-Id -> Filestats for page
+   * Page-Id to Filestats for page
    */
   private Map<String, FileStatsDO> contentMap = new HashMap<String, FileStatsDO>();
-  
-  public void addFileStats(FileStatsDO statsDO) {
-    getContentMap().put(statsDO.getPageId(), statsDO);
-  }
-  
-  /**
-   * Returns filestats for given id. returns an empty object if id is not present
-   * @param id
-   */
-  public FileStatsDO getFileStatsForId(String id)
+
+  public void addFileStats(FileStatsDO statsDO)
   {
-	  return contentMap.get(id);
+    getContentMap().put(statsDO.getPageId(), statsDO);
   }
 
   /**
    * Returns filestats for given id. returns an empty object if id is not present
+   * 
    * @param id
+   */
+  public FileStatsDO getFileStatsForId(String id)
+  {
+    return contentMap.get(id);
+  }
+
+  /**
+   * Returns filestats for given id. returns an empty object if id is not present
+   *
+   * @param pageIds the page ids
+   * @return the file stats for ids
    */
   public List<FileStatsDO> getFileStatsForIds(List<String> pageIds)
   {
@@ -65,11 +69,12 @@ public class BranchFileStats implements Serializable
     }
     return fileStats;
   }
-  
-  public boolean isPagePresent(final String pageId) {
-	  return contentMap.get(pageId) == null ? false : true;
+
+  public boolean isPagePresent(final String pageId)
+  {
+    return contentMap.get(pageId) == null ? false : true;
   }
-  
+
   /**
    * @param id
    */
@@ -77,7 +82,7 @@ public class BranchFileStats implements Serializable
   {
     getContentMap().remove(id);
   }
-  
+
   /**
    * @param contentMap the contentMap to set
    */
@@ -94,7 +99,9 @@ public class BranchFileStats implements Serializable
     return contentMap;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see java.lang.Object#toString()
    */
   @Override

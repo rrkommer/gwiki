@@ -24,19 +24,35 @@ import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
 
+/**
+ * The Class GWikiMacroBase.
+ */
 public abstract class GWikiMacroBase implements GWikiMacro
 {
-  private GWikiMacroInfo macroInfo;
+
   /**
-   * combinations of GWikiMacroRenderFlags
+   * The macro info.
+   */
+  private GWikiMacroInfo macroInfo;
+
+  /**
+   * combinations of GWikiMacroRenderFlags.
    */
   private int renderModes = 0;
 
+  /**
+   * Instantiates a new g wiki macro base.
+   *
+   * @param macroInfo the macro info
+   */
   public GWikiMacroBase(GWikiMacroInfo macroInfo)
   {
     this.macroInfo = macroInfo;
   }
 
+  /**
+   * Instantiates a new g wiki macro base.
+   */
   public GWikiMacroBase()
   {
   }
@@ -63,6 +79,11 @@ public abstract class GWikiMacroBase implements GWikiMacro
     return ctx.getWikiWeb().getAuthorization().isAllowTo(ctx, reqr.name()) == false;
   }
 
+  /**
+   * Required right.
+   *
+   * @return the g wiki authorization rights
+   */
   protected GWikiAuthorizationRights requiredRight()
   {
     return null;
@@ -77,24 +98,34 @@ public abstract class GWikiMacroBase implements GWikiMacro
   }
 
   /**
-   * For normal wiki errors, use GWikiFragmentError
-   * 
-   * @param ctx
-   * @param message
-   * @param attrs
-   * @Deprecated
+   * For normal wiki errors, use GWikiFragmentError.
+   *
+   * @param ctx the ctx
+   * @param message the message
+   * @param attrs the attrs
    */
 
-  static public void renderErrorMessage(GWikiContext ctx, String message, MacroAttributes attrs)
+  public static void renderErrorMessage(GWikiContext ctx, String message, MacroAttributes attrs)
   {
     ctx.append("<span style=\"color=red\">").append(StringEscapeUtils.escapeHtml(message)).append("</span>");
   }
 
+  /**
+   * Require prepare header.
+   *
+   * @param ctx the ctx
+   * @return true, if successful
+   */
   public boolean requirePrepareHeader(GWikiContext ctx)
   {
     return false;
   }
 
+  /**
+   * Prepare header.
+   *
+   * @param ctx the ctx
+   */
   public void prepareHeader(GWikiContext ctx)
   {
 
@@ -122,6 +153,9 @@ public abstract class GWikiMacroBase implements GWikiMacro
     this.renderModes = renderModes;
   }
 
+  /**
+   * Sets the render modes from annot.
+   */
   protected void setRenderModesFromAnnot()
   {
     List<MacroInfo> allanots = de.micromata.genome.util.runtime.ClassUtils.findClassAnnotations(getClass(),

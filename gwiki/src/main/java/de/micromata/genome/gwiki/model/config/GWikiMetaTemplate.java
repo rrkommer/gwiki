@@ -38,10 +38,13 @@ import de.micromata.genome.util.types.TimeInMillis;
 public class GWikiMetaTemplate implements Serializable, InitializingBean
 {
 
+  /**
+   * The Constant serialVersionUID.
+   */
   private static final long serialVersionUID = 7116843033071027993L;
 
   /**
-   * This page id
+   * This page id.
    */
   private String pageId;
 
@@ -55,6 +58,9 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    */
   private String requiredViewRight;
 
+  /**
+   * The required edit right.
+   */
   private String requiredEditRight;
 
   /**
@@ -68,13 +74,19 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   private boolean noToc = false;
 
   /**
-   * if false, do not cache
+   * if false, do not cache.
    */
   private boolean cachable = true;
 
+  /**
+   * The no search index.
+   */
   private boolean noSearchIndex = false;
 
-  private Map<String, GWikiArtefakt< ? >> parts = new HashMap<String, GWikiArtefakt< ? >>();
+  /**
+   * The parts.
+   */
+  private Map<String, GWikiArtefakt<?>> parts = new HashMap<String, GWikiArtefakt<?>>();
 
   /**
    * Welche Seite soll als Template verwendet werden.
@@ -92,7 +104,7 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   private boolean noArchiv = false;
 
   /**
-   * Standard cache time for this element type
+   * Standard cache time for this element type.
    */
   private long elementLifeTime = TimeInMillis.HOUR;
 
@@ -106,6 +118,9 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    */
   private String editHelpPageId = null;
 
+  /**
+   * The allowed new child meta templates rule.
+   */
   private String allowedNewChildMetaTemplatesRule = null;
 
   /**
@@ -120,6 +135,9 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    */
   private Matcher<String> allowedNewParentMetaTemplates = null;
 
+  /**
+   * The allowed new parent meta templates rule.
+   */
   private String allowedNewParentMetaTemplatesRule = null;
 
   /**
@@ -130,20 +148,28 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
   /**
    * Flag to display contained editors tab wise or row wise.
    * 
-   * @todo not used yet.
+   * Todo not used yet.
    */
   private boolean tabbedEditor = true;
 
   /**
-   * The Mime Type of the element
+   * The Mime Type of the element.
    */
   private String contentType = null;
 
+  /**
+   * Instantiates a new g wiki meta template.
+   */
   public GWikiMetaTemplate()
   {
 
   }
 
+  /**
+   * Instantiates a new g wiki meta template.
+   *
+   * @param pageId the page id
+   */
   public GWikiMetaTemplate(String pageId)
   {
     this.pageId = pageId;
@@ -154,23 +180,26 @@ public class GWikiMetaTemplate implements Serializable, InitializingBean
    * 
    * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
    */
+  @Override
   public void afterPropertiesSet() throws Exception
   {
 
     if (StringUtils.isNotBlank(allowedNewChildMetaTemplatesRule) == true) {
-      allowedNewChildMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(allowedNewChildMetaTemplatesRule);
+      allowedNewChildMetaTemplates = new BooleanListRulesFactory<String>()
+          .createMatcher(allowedNewChildMetaTemplatesRule);
     }
     if (StringUtils.isNotBlank(allowedNewParentMetaTemplatesRule) == true) {
-      allowedNewParentMetaTemplates = new BooleanListRulesFactory<String>().createMatcher(allowedNewParentMetaTemplatesRule);
+      allowedNewParentMetaTemplates = new BooleanListRulesFactory<String>()
+          .createMatcher(allowedNewParentMetaTemplatesRule);
     }
   }
 
-  public Map<String, GWikiArtefakt< ? >> getParts()
+  public Map<String, GWikiArtefakt<?>> getParts()
   {
     return parts;
   }
 
-  public void setParts(Map<String, GWikiArtefakt< ? >> parts)
+  public void setParts(Map<String, GWikiArtefakt<?>> parts)
   {
     this.parts = parts;
   }

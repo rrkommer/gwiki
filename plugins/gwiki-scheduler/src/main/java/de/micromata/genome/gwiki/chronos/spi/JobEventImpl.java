@@ -51,14 +51,16 @@ public class JobEventImpl implements JobEvent
   private Scheduler scheduler;
 
   /**
-   * @param job
-   * @param jobDefinition
-   * @param jobResult
-   * @param jobStatus
-   * @param runner
-   * @param scheduler
+   * Instantiates a new job event impl.
+   *
+   * @param job the job
+   * @param jobDefinition the job definition
+   * @param jobResult the job result
+   * @param jobStatus the job status
+   * @param scheduler the scheduler
    */
-  public JobEventImpl(final TriggerJobDO job, final JobDefinition jobDefinition, final JobResultDO jobResult, final State jobStatus,
+  public JobEventImpl(final TriggerJobDO job, final JobDefinition jobDefinition, final JobResultDO jobResult,
+      final State jobStatus,
       final Scheduler scheduler)
   {
     this.job = job;
@@ -69,26 +71,31 @@ public class JobEventImpl implements JobEvent
     this.scheduler = scheduler;
   }
 
+  @Override
   public TriggerJobDO getJob()
   {
     return job;
   }
 
+  @Override
   public JobDefinition getJobDefinition()
   {
     return jobDefinition;
   }
 
+  @Override
   public JobResultDO getJobResult()
   {
     return jobResult;
   }
 
+  @Override
   public State getJobStatus()
   {
     return jobStatus;
   }
 
+  @Override
   public Scheduler getScheduler()
   {
     return scheduler;
