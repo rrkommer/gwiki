@@ -54,6 +54,7 @@ import de.micromata.genome.util.matcher.string.SimpleWildcardMatcherFactory;
  */
 public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements GWikiPropKeys
 {
+  public static final String CalcCaptchaSessionKey = "gwiki.Comment.CalcC";
   public static final String PROP_REPLY_TO = "PAGECOMMENT_REPLYTO";
 
   public static final String GWIKI_ANON_USERNAME_KEY = "gwiki.anonUserName";
@@ -121,7 +122,8 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   protected void collectComments()
   {
     List<GWikiElementInfo> l = getCommentsForPage(wikiContext, pageId);
-    Collections.sort(l, new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator(GWikiPropKeys.CREATEDAT)));
+    Collections.sort(l,
+        new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator(GWikiPropKeys.CREATEDAT)));
     fullList = l;
     // TODO find reply/to which are deleted.
     if (hierarchicThreadView == true) {
@@ -152,6 +154,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     showComments = wikiContext.getUserBooleanProp("WITH_COMMENTS", commentsVisibleDefault);
   }
 
+  @Override
   public Object onInit()
   {
     init();
@@ -162,7 +165,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   {
     collectComments();
     if (needCatcha() == true) {
-      catchaText = GWikiRegisterUserActionBean.calcCaptcha(wikiContext);
+      catchaText = GWikiRegisterUserActionBean.calcCaptcha(wikiContext, CalcCaptchaSessionKey);
       if (StringUtils.isBlank(userName) == true) {
         userName = wikiContext.getCookie(GWIKI_ANON_USERNAME_KEY);
       }
@@ -179,8 +182,9 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public static String getViewRightFromParent(GWikiContext wikiContext, String partOf)
   {
     GWikiElementInfo ei = wikiContext.getWikiWeb().findElementInfo(partOf);
-    if (ei == null)
+    if (ei == null) {
       return null;
+    }
     return ei.getProps().getStringValue(AUTH_VIEW);
   }
 
@@ -203,7 +207,8 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     }
 
     props.setStringValue(AUTH_EDIT, GWikiAuthorizationRights.GWIKI_PRIVATE.name());
-    GWikiElementInfo ei = new GWikiElementInfo(props, wikiContext.getWikiWeb().findMetaTemplate(GWikiDefaultFileNames.COMMENT_METATEMPLATE));
+    GWikiElementInfo ei = new GWikiElementInfo(props,
+        wikiContext.getWikiWeb().findMetaTemplate(GWikiDefaultFileNames.COMMENT_METATEMPLATE));
 
     GWikiElement elementToEdit = getWikiContext().getWikiWeb().getStorage().createElement(ei);
     return elementToEdit;
@@ -222,7 +227,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
       return onInitImpl();
     }
     if (needCatcha() == true) {
-      if (GWikiRegisterUserActionBean.checkCatcha(wikiContext, catchaInput) == false) {
+      if (GWikiRegisterUserActionBean.checkCatcha(wikiContext, catchaInput, CalcCaptchaSessionKey) == false) {
         wikiContext.addValidationFieldError("gwiki.page.admin.RegisterUser.message.wrongcatcha", "catchaInput");
         return onInitImpl();
       }
@@ -245,7 +250,7 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
     if (StringUtils.isNotEmpty(replyTo) == true) {
       cel.getElementInfo().getProps().setStringValue(PROP_REPLY_TO, replyTo);
     }
-    Map<String, GWikiArtefakt< ? >> map = new HashMap<String, GWikiArtefakt< ? >>();
+    Map<String, GWikiArtefakt<?>> map = new HashMap<String, GWikiArtefakt<?>>();
     cel.collectParts(map);
     String partName = "MainPage";
     GWikiWikiPageArtefakt wka = (GWikiWikiPageArtefakt) map.get(partName);
@@ -281,9 +286,9 @@ public class GWikiPageCommentMacroActionBean extends ActionBeanBase implements G
   public void renderCommentBody(GWikiElementInfo ei)
   {
     GWikiElement el = wikiContext.getWikiWeb().getElement(ei.getId());
-    GWikiArtefakt< ? > art = el.getPart("MainPage");
-    if (art instanceof GWikiExecutableArtefakt< ? >) {
-      ((GWikiExecutableArtefakt< ? >) art).render(wikiContext);
+    GWikiArtefakt<?> art = el.getPart("MainPage");
+    if (art instanceof GWikiExecutableArtefakt<?>) {
+      ((GWikiExecutableArtefakt<?>) art).render(wikiContext);
     } else {
       wikiContext.getWikiWeb().serveWiki(wikiContext, el);
     }

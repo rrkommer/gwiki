@@ -77,6 +77,7 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
     }
   }
 
+  @Override
   public Object onInit()
   {
     init();
@@ -87,22 +88,22 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
     return null;
   }
 
-  public static String calcCaptcha(GWikiContext wikiContext)
+  public static String calcCaptcha(GWikiContext wikiContext, String sessionKey)
   {
     MathCaptcha mc = new MathCaptcha();
-    wikiContext.setSessionAttribute(CalcCaptchaSessionKey, mc);
-    return "" + mc.getFirstVal() + " " + mc.getOperation() + " " + mc.getSecondVal();
-
+    wikiContext.setSessionAttribute(sessionKey, mc);
+    String ret = "" + mc.getFirstVal() + " " + mc.getOperation() + " " + mc.getSecondVal();
+    return ret;
   }
 
   public void calcCaptcha()
   {
-    catchaText = calcCaptcha(wikiContext);
+    catchaText = calcCaptcha(wikiContext, CalcCaptchaSessionKey);
   }
 
-  public static boolean checkCatcha(GWikiContext wikiContext, String catchaInput)
+  public static boolean checkCatcha(GWikiContext wikiContext, String catchaInput, String sessionKey)
   {
-    Object o = wikiContext.getSessionAttribute(CalcCaptchaSessionKey);
+    Object o = wikiContext.getSessionAttribute(sessionKey);
     if ((o instanceof MathCaptcha) == false) {
 
       return false;
@@ -122,7 +123,7 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
 
   protected boolean checkCatcha()
   {
-    boolean success = checkCatcha(wikiContext, catchaInput);
+    boolean success = checkCatcha(wikiContext, catchaInput, CalcCaptchaSessionKey);
     if (success == false) {
       calcCaptcha();
     }
@@ -267,7 +268,8 @@ public class GWikiRegisterUserActionBean extends ActionBeanBase
       }
       showForm = false;
     } else {
-      boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user), StringUtils.trim(pass));
+      boolean success = wikiContext.getWikiWeb().getAuthorization().login(wikiContext, StringUtils.trim(user),
+          StringUtils.trim(pass));
       if (success == false) {
         return false;
       }
