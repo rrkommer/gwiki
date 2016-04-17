@@ -16,11 +16,7 @@
 
 package de.micromata.genome.gwiki.scheduler_1_0.chronos.spi;
 
-import de.micromata.genome.gwiki.chronos.StaticDaoManager;
-import de.micromata.genome.gwiki.chronos.manager.SchedulerManager;
-import de.micromata.genome.gwiki.chronos.util.SchedulerFactory;
 import de.micromata.genome.gwiki.model.GWikiWeb;
-import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.plugin.GWikiAbstractPluginLifecycleListener;
 import de.micromata.genome.gwiki.plugin.GWikiPlugin;
@@ -28,6 +24,8 @@ import de.micromata.genome.logging.GLog;
 
 /**
  * Life cycle.
+ * 
+ * TODO provide ServiceLoader class to initialize
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
@@ -38,25 +36,18 @@ public class GWikiSchedInitializer extends GWikiAbstractPluginLifecycleListener
   public void webLoaded(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
     GLog.info(GWikiLogCategory.Wiki, "GWikiSchedInitializer:webLoaded");
-    StaticDaoManager.get().setSchedulerDAO(new GWikiSchedulerDAOImpl());
-    SchedulerManager schedm = SchedulerManager.get();
-    SchedulerFactory ssf = new SchedulerFactory();
-    ssf.setSchedulerName("standard");
-    schedm.getScheduleFactories().add(ssf);
-    schedm.startup();
+    // TODO genome/gwiki
+    //    SchedulerManager schedm = SchedulerManager.get();
+    //    SchedulerFactory ssf = new SchedulerFactory();
+    //    ssf.setSchedulerName("standard");
+    //    schedm.getScheduleFactories().add(ssf);
+    //    schedm.startup();
   }
 
   @Override
   public void deactivate(GWikiWeb wikiWeb, GWikiPlugin plugin)
   {
-    GLog.info(GWikiLogCategory.Wiki, "GWikiSchedInitializer:deactivate");
-    SchedulerManager schedm = SchedulerManager.get();
-    try {
-      schedm.shutdown();
-    } catch (InterruptedException ex) {
-      GWikiLog.warn("Scheduler; shutdown interupted: " + ex.getMessage(), ex);
-    }
-    schedm.getScheduleFactories().clear();
+
   }
 
 }

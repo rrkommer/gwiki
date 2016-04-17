@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.scheduler_1_0.jobs;
 
 import java.util.Map;
 
-import de.micromata.genome.gwiki.chronos.manager.AbstractCommandLineJob;
+import de.micromata.genome.chronos.manager.AbstractMgcCommandLineJob;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.util.runtime.CallableX;
 
@@ -28,7 +28,7 @@ import de.micromata.genome.util.runtime.CallableX;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public abstract class GWikiSchedBaseJob extends AbstractCommandLineJob
+public abstract class GWikiSchedBaseJob extends AbstractMgcCommandLineJob
 {
   public abstract Object execute(Map<String, String> args) throws Exception;
 
@@ -41,8 +41,10 @@ public abstract class GWikiSchedBaseJob extends AbstractCommandLineJob
   public Object call(final Map<String, String> args) throws Exception
   {
     GWikiWeb wiki = GWikiWeb.get();
-    return wiki.runInPluginContext(new CallableX<Object, Exception>() {
+    return wiki.runInPluginContext(new CallableX<Object, Exception>()
+    {
 
+      @Override
       public Object call() throws Exception
       {
         return execute(args);

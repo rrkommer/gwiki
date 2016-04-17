@@ -15,7 +15,7 @@
    <children>
       <ScrollPane maxHeight="400.0" maxWidth="1.7976931348623157E308" prefWidth="780.0">
          <content>
-            <VBox maxHeight="400.0" maxWidth="1.7976931348623157E308" prefWidth="750.0">
+            <VBox>
                <children>
                   <HBox>
                      <VBox.margin>

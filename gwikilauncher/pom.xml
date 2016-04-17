@@ -2,15 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <!-- README Before use the install_to_local_rep.sh to install the required libraries to your local repository -->
   <modelVersion>4.0.0</modelVersion>
- <parent>
+  <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
     <version>2.1.0-SNAPSHOT</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
-  
+
   <artifactId>gwikilauncher</artifactId>
-  
+
   <properties>
     <!-- The final name for the JAR that you can find in target directory -->
     <jar.final.name>${project.artifactId}-${project.version}</jar.final.name>
@@ -45,12 +45,12 @@
       <artifactId>de.micromata.mgc.javafx.launcher</artifactId>
       <version>${mgc.version}</version>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>de.micromata.mgc</groupId>
       <artifactId>de.micromata.mgc.application.jetty</artifactId>
       <version>${mgc.version}</version>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>de.micromata.mgc</groupId>
       <artifactId>de.micromata.mgc.jpa.logging</artifactId>
       <version>${mgc.version}</version>
@@ -92,7 +92,7 @@
               <MgcDescription>GWiki Content Management System</MgcDescription>
               <MgcHomeUrl>http://labs.micromata.de</MgcHomeUrl>
               <MgcLargLogoPath>/style/gwikiLogo.png</MgcLargLogoPath>
-               <mainClass>${start-class}</mainClass>
+              <mainClass>${start-class}</mainClass>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifestEntries>
           </archive>
@@ -101,13 +101,21 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <mainClass>${start-class}</mainClass>
           <layout>ZIP</layout>
-           <executable>true</executable>
+          <executable>true</executable>
         </configuration>
       </plugin>
-        <!-- Support our own plugin -->
+      <!-- Support our own plugin 
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -123,6 +131,7 @@
           <mainClass>${start-class}</mainClass>
         </configuration>
       </plugin>
+      -->
     </plugins>
   </build>
 </project>
