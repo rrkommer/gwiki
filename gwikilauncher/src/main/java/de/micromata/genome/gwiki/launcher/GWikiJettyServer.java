@@ -16,6 +16,9 @@
 
 package de.micromata.genome.gwiki.launcher;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -26,11 +29,13 @@ import de.micromata.genome.gwiki.model.config.GWikiCpContextBootstrapConfigLoade
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GwikiFileContextBootstrapConfigLoader;
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
+import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.search.expr.SearchExpressionIndexerCallback;
 import de.micromata.genome.gwiki.web.GWikiLogHtmlWindowServlet;
 import de.micromata.genome.gwiki.web.GWikiServlet;
+import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.mgc.application.jetty.JettyServer;
@@ -46,6 +51,7 @@ public class GWikiJettyServer extends JettyServer
 {
   private GWikiDAOContext wikibootcfg;
   private GWikiServlet wikiServlet;
+  private String contextPath;
 
   public GWikiJettyServer()
   {
@@ -55,6 +61,7 @@ public class GWikiJettyServer extends JettyServer
   @Override
   protected ServletContextHandler createContextHandler(JettyConfigModel config)
   {
+    contextPath = config.getContextpath();
     String contextFile = "res:/StandaloneGWikiContext.xml";
     if (LocalSettings.get().getBooleanValue("gwiki.useContextXml", false) == true) {
       contextFile = LocalSettings.get().get("gwiki.contextfile", contextFile);
@@ -81,7 +88,13 @@ public class GWikiJettyServer extends JettyServer
     wikiServlet = new GWikiServlet();
     ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
     wikiServlet.setDAOContext(wikibootcfg);
+    wikiServlet.setContextPath(config.getContextpath());
+    wikiServlet.setServletPath("/");
+    wikiServletHolder.setInitParameter("servletPath", "/");
+    wikiServletHolder.setInitParameter("contextPath", config.getContextpath());
+
     context.addServlet(wikiServletHolder, "/*");
+
     GWikiLogHtmlWindowServlet logHtmlServlet = new GWikiLogHtmlWindowServlet();
     //    logHtmlServlet.init();
     ServletHolder logHtmlServletHolder = new ServletHolder(logHtmlServlet);
@@ -89,17 +102,41 @@ public class GWikiJettyServer extends JettyServer
     return context;
   }
 
-  public void buildIndex(GWikiServlet wikiServlet, String contextPath)
+  public void buildIndex()
   {
-    final GWikiWeb nwiki = new GWikiWeb(wikiServlet.getDAOContext());
-    String servletPath = "";
-    nwiki.setContextPath(contextPath);
-    nwiki.setServletPath(servletPath);
+
+    ExecutorService executor = Executors.newFixedThreadPool(1);
+    executor.execute(() -> {
+      try {
+        Thread.sleep(3000);
+        wikibootcfg.getWikiSelector().initWiki(wikiServlet, wikibootcfg);
+        int maxWait = 20;
+        for (int i = 0; i < maxWait; ++i) {
+          Thread.sleep(1000);
+          GWikiWeb web = GWikiWeb.get();
+          if (web != null) {
+            buildIndexInThread();
+            break;
+          }
+        }
+      } catch (InterruptedException ex) {
+
+      }
+
+    });
+  }
+
+  public void buildIndexInThread()
+  {
     try {
-      final GWikiStandaloneContext ctx = new GWikiStandaloneContext(nwiki, wikiServlet, contextPath,
-          servletPath);
+      GWikiWeb nwiki = GWikiWeb.get();
+      GWikiStandaloneContext ctx = GWikiStandaloneContext.create();
       GWikiContext.setCurrent(ctx);
-      nwiki.loadWeb();
+
+      if (nwiki.findElementInfo("admin/GlobalTextIndex") != null) {
+        return;
+      }
+      GLog.note(GWikiLogCategory.Wiki, "Start indexing GWiki");
       nwiki.runInPluginContext(new CallableX<Void, RuntimeException>()
       {
 
@@ -111,6 +148,8 @@ public class GWikiJettyServer extends JettyServer
           return null;
         }
       });
+      GLog.note(GWikiLogCategory.Wiki, "Finished indexing GWiki");
+
     } catch (Exception ex) {
       GWikiLog.error("Failed to build index: " + ex.getMessage(), ex);
     } finally {
