@@ -305,7 +305,7 @@ code, .preformatted {
 }
 
 #gwikiTopNav {
-	z-index: 10;
+	z-index: 1;
 	position: absolute;
 	top: 0px;
 	height: 40px;
@@ -321,7 +321,7 @@ code, .preformatted {
 	position: absolute;
 	top: 0px;
 	right: 1px;
-	width: 300px;
+	width: 260px;
 }
 
 .gwikiSearchBox {

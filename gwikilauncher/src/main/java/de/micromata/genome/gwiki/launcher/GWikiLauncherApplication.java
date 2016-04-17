@@ -30,6 +30,7 @@ import de.micromata.genome.util.runtime.InitWithCopyFromCpLocalSettingsClassLoad
 import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
 import de.micromata.genome.util.runtime.config.ExtLocalSettingsLoader;
+import de.micromata.mgc.application.MgcApplicationStartStopStatus;
 import de.micromata.mgc.application.jetty.JettyServer;
 import de.micromata.mgc.application.jetty.MgcApplicationWithJettyApplication;
 import de.micromata.mgc.application.webserver.config.JettyConfigModel;
@@ -57,6 +58,16 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
             new ChainedResourceBundleTranslationResolver("gwikilauncher", "mgclauncher", "mgcapp", "mgcjetty"))));
 
     setTranslateService(provider);
+  }
+
+  @Override
+  public MgcApplicationStartStopStatus startImpl(String[] args) throws Exception
+  {
+    MgcApplicationStartStopStatus ret = super.startImpl(args);
+    if (ret == MgcApplicationStartStopStatus.StartSuccess) {
+      ((GWikiJettyServer) jettyServer).buildIndex();
+    }
+    return ret;
   }
 
   @Override
