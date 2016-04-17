@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.scheduler_1_0.jobs;
 
 import java.util.Map;
 
-import de.micromata.genome.gwiki.chronos.manager.AbstractCommandLineJob;
+import de.micromata.genome.chronos.manager.AbstractMgcCommandLineJob;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJob;
 
 /**
@@ -27,7 +27,7 @@ import de.micromata.genome.gwiki.model.GWikiSchedulerJob;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GWikiSchedJobAdapter extends AbstractCommandLineJob
+public class GWikiSchedJobAdapter extends AbstractMgcCommandLineJob
 {
   private GWikiSchedulerJob nested;
 

@@ -23,8 +23,11 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.chronos.spi.jdbc.SchedulerDO;
-import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDO;
+import de.micromata.genome.chronos.ChronosServiceManager;
+import de.micromata.genome.chronos.Scheduler;
+import de.micromata.genome.chronos.manager.SchedulerDAO;
+import de.micromata.genome.chronos.spi.jdbc.SchedulerDO;
+import de.micromata.genome.chronos.spi.jdbc.TriggerJobDO;
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.scheduler_1_0.api.GWikiScheduler;
@@ -50,7 +53,7 @@ public class GWikiSchedulerCreateJobActionBean extends ActionBeanBase
 
   private void init()
   {
-    List<SchedulerDO> scheds = GWikiScheduler.getJobStore().getSchedulers();
+    List<SchedulerDO> scheds = ChronosServiceManager.get().getSchedulerDAO().getSchedulers();
     for (SchedulerDO sched : scheds) {
       schedulers.put(sched.getName(), sched.getName());
     }
@@ -58,15 +61,18 @@ public class GWikiSchedulerCreateJobActionBean extends ActionBeanBase
 
   private void cloneJob(long jobId)
   {
-    TriggerJobDO tj = GWikiScheduler.getJobStore().getAdminJobByPk(jobId);
+    SchedulerDAO scheddao = ChronosServiceManager.get().getSchedulerDAO();
+    TriggerJobDO tj = scheddao.getAdminJobByPk(jobId);
+    Scheduler sched = scheddao.getSchedulerByPk(tj.getScheduler());
     if (tj != null) {
-      scheduler = tj.getSchedulerName();
+      scheduler = sched.getName();
       jobDefinition = tj.getJobDefinitionString();
       jobArguments = tj.getJobArgumentString();
       triggerDefinition = tj.getTriggerDefinition();
     }
   }
 
+  @Override
   public Object onInit()
   {
     init();

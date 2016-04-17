@@ -20,11 +20,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.chronos.JobDefinition;
-import de.micromata.genome.gwiki.chronos.JobStore;
-import de.micromata.genome.gwiki.chronos.StaticDaoManager;
-import de.micromata.genome.gwiki.chronos.Trigger;
-import de.micromata.genome.gwiki.chronos.util.TriggerJobUtils;
+import de.micromata.genome.chronos.ChronosServiceManager;
+import de.micromata.genome.chronos.JobDefinition;
+import de.micromata.genome.chronos.Trigger;
+import de.micromata.genome.chronos.util.TriggerJobUtils;
 import de.micromata.genome.gwiki.scheduler_1_0.chronos.spi.GWikiSchedClassJobDefinition;
 import de.micromata.genome.util.text.PipeValueList;
 
@@ -41,11 +40,7 @@ public class GWikiScheduler
     }
     JobDefinition jobDefinition = new GWikiSchedClassJobDefinition(className, null);
     Trigger trigger = TriggerJobUtils.createTriggerDefinition(triggerDefintion);
-    StaticDaoManager.get().getSchedulerManager().submit(scheduler, jobDefinition, PipeValueList.encode(args), trigger);
+    ChronosServiceManager.get().getSchedulerDAO().submit(scheduler, jobDefinition, PipeValueList.encode(args), trigger);
   }
 
-  public static JobStore getJobStore()
-  {
-    return StaticDaoManager.get().getJobStore();
-  }
 }

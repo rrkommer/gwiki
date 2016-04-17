@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 
-import de.micromata.genome.gwiki.chronos.FutureJob;
-import de.micromata.genome.gwiki.chronos.JobDefinition;
+import de.micromata.genome.chronos.FutureJob;
+import de.micromata.genome.chronos.JobDefinition;
 import de.micromata.genome.gwiki.model.GWikiSchedulerJob;
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.scheduler_1_0.jobs.GWikiSchedJobAdapter;
@@ -51,10 +51,13 @@ public class GWikiSchedClassJobDefinition implements JobDefinition
     }
   }
 
+  @Override
   public FutureJob getInstance()
   {
-    return GWikiWeb.get().runInPluginContext(new CallableX<FutureJob, RuntimeException>() {
+    return GWikiWeb.get().runInPluginContext(new CallableX<FutureJob, RuntimeException>()
+    {
 
+      @Override
       public FutureJob call() throws RuntimeException
       {
 

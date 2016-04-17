@@ -21,11 +21,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.micromata.genome.gwiki.chronos.JobStore;
-import de.micromata.genome.gwiki.chronos.StaticDaoManager;
-import de.micromata.genome.gwiki.chronos.spi.jdbc.TriggerJobDisplayDO;
+import de.micromata.genome.chronos.ChronosServiceManager;
+import de.micromata.genome.chronos.manager.SchedulerDAO;
+import de.micromata.genome.chronos.spi.jdbc.TriggerJobDisplayDO;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
-import de.micromata.genome.gwiki.scheduler_1_0.api.GWikiScheduler;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -53,8 +52,9 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
 
   private void initJobList()
   {
-    JobStore js = StaticDaoManager.get().getJobStore();
-    jobs = js.getAdminJobs(null, filterJobName, filterState, filterScheduler, 10000);
+    SchedulerDAO scheddao = ChronosServiceManager.get().getSchedulerDAO();
+
+    jobs = scheddao.getAdminJobs(null, filterJobName, filterState, filterScheduler, 10000);
     TriggerJobDisplayDO tdj = null;
   }
 
@@ -74,7 +74,8 @@ public class GWikiSchedulerJobsActionBean extends ActionBeanBase
     if (StringUtils.isBlank(newState) == true) {
       return null;
     }
-    if (GWikiScheduler.getJobStore().setJobState(selectedJob, newState, oldState) == 0) {
+    SchedulerDAO scheddao = ChronosServiceManager.get().getSchedulerDAO();
+    if (scheddao.setJobState(selectedJob, newState, oldState) == 0) {
       wikiContext.addSimpleValidationError("Could not update Job");
     }
 
