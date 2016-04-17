@@ -88,9 +88,10 @@ public class GWikiJettyServer extends JettyServer
     wikiServlet = new GWikiServlet();
     ServletHolder wikiServletHolder = new ServletHolder(wikiServlet);
     wikiServlet.setDAOContext(wikibootcfg);
+
     wikiServlet.setContextPath(config.getContextpath());
-    wikiServlet.setServletPath("/");
-    wikiServletHolder.setInitParameter("servletPath", "/");
+    wikiServlet.setServletPath("");
+    wikiServletHolder.setInitParameter("servletPath", "");
     wikiServletHolder.setInitParameter("contextPath", config.getContextpath());
 
     context.addServlet(wikiServletHolder, "/*");
@@ -99,6 +100,7 @@ public class GWikiJettyServer extends JettyServer
     //    logHtmlServlet.init();
     ServletHolder logHtmlServletHolder = new ServletHolder(logHtmlServlet);
     context.addServlet(logHtmlServletHolder, "/loghtml");
+    context.setContextPath(config.getContextpath());
     return context;
   }
 
