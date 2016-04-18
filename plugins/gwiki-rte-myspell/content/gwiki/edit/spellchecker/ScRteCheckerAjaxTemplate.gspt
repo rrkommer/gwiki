@@ -1,6 +1,0 @@
-<% wikiContext.skinInclude("standardhead"); %>
-<@include file="inc/stdtags.gspt" @> 
-
-This page should be used via Ajax only.
-
-<% wikiContext.skinInclude("standardfoot"); %>
