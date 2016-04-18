@@ -24,7 +24,7 @@ h2. Calculate page cache sizes.
 This operation prints out the size of the page cache.
 
 Sample output is:
-{{pageInfoCache: GWikiPageCacheInfo: GWikiPageCache.GWikiPageCacheInfo[elementInfosCount=549,elementInfosSize=435590,pageCount=196,pageSize=29590261]; wikiWeb: 30133921 }}.
+pageInfoCache: GWikiPageCacheInfo: GWikiPageCache.GWikiPageCacheInfo\[elementInfosCount=549,elementInfosSize=435590,pageCount=196,pageSize=29590261]; wikiWeb: 30133921.
 
 h1. Index Management
 h2. Reindex the Current page
