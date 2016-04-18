@@ -1,0 +1,5 @@
+{pageintro}
+Some concept papers about future GWiki Features.
+{pageintro}
+
+{children:depth=2|sort=title|withPageIntro=true}

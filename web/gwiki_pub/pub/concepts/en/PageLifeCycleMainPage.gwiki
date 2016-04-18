@@ -1,0 +1,88 @@
+{pageintro}
+Concept for managing future versions of pages with release mechanism.
+{pageintro}
+
+h2. Current situation
+The Wiki itself has no workflow mechanism for release mechanism for new page versions. 
+A wiki page, which will be safed, instantly will be visible.
+For new pages the editor can give the page an private right, so the page will not be visible until finished.
+
+h2. Workflow Concepts
+The worflow concept uses mechanism and processes from version control systems like CVS or SVN.
+
+Before starting an workflow the editor has to decide to create a new branch, select an existant branch or edit the page in the head, so after save the page it will be visible immediatelly.
+
+The branch will have a short name and a description and a right required to view and to edit the branch.
+
+Inside the wiki a new branch will be started and will only be visible for people, which has the rights for this branch. 
+The branch is visible including all existant pages - modified inside the branch or not.
+
+The branch can be reviewed and edited. Automatically if an existant page will be modified, a copy will be created inside the branch. 
+
+After creating the branch, it will be reviewed.
+Each element inside the branch may be reviewed. The review itself will be stored in the properties of the element (who, when, version).
+
+After review the branch has to be planed for going life.
+A branch may have a time stamp, when brach should be merged into the head.
+
+
+h2. Technical solution
+Some catchwords
+- Implement as plugin, so normal Wiki instant editing still is working
+- How to store it in the Virtual File System.
+- Patch internal view per session for branch. Performance versus memory.
+- How to deal with conflicts of editing pages in branch, other branch and head?
+- merging branch in head (going life) may fail, so some parts of the branched are mergen and other not.
+
+h3. Items
+h4. Rights
+- General right to view branches
+- Right specific to given branch
+
+h4. Internal Item
+Branch description is a special element type holds information.
+- Name
+- Rights
+-- Right View (used automatically as initial right of created/modified elements). By default equal to branch name.
+-- Right Edit (dito)
+-- Right Version
+- Creator, etc.
+- Start time
+- End time
+- List of items with modification dates before branch
+- List of Items with modification dates after branch (only if branch is merged into head)
+
+
+h4. Masks
+h5. Select Branch
+- List of Branches sorted/filtered by
+- Publish state (unpublished by default)
+- Name
+- Release Date
+- Termination Date
+
+h5. Create Branch
+Create Branch with name and rights.
+
+h5. View/Review Branch
+List of all items modified inside the branch.
+
+h4. Jobs
+-Publish/Depublish Job.
+
+h4. File layout
+/dir/File: Original file
+/_branches/branchname/dir/File: Version of the file in Branch
+/_branches/branchname/BranchDescription: Meta information about the branch
+
+Alternativelly branches are outside the known file system, because this is only secure way not be confused branches and head.
+
+h4. Modified process
+
+- Safe process for Editing normal files. Intercect, if no branch is set. Check if File is part of an unterminated branch.
+- Rendering process to deliver branch version, if any is set via session. - similar to preview version.
+
+h4. Other Aspects
+- Import and exports should be transparent. If branch is active, all access should be related to the branch.
+- Search. Entering a Branch gives user branch view right, so new elements are visible.
+
