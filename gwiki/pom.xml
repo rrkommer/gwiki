@@ -10,7 +10,7 @@
   </parent>
   <artifactId>gwiki</artifactId>
   <properties>
-    <nekohtml.version>1.9.21</nekohtml.version>
+    <nekohtml.version>1.9.22</nekohtml.version>
   </properties>
   <profiles>
     <profile>
