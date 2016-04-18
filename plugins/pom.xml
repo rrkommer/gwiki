@@ -26,7 +26,6 @@
 		<module>gwiki-pagelifecycle</module>
 		<module>gwiki-pagetemplates</module>
 		<module>gwiki-pdftextextractor</module>
-		<module>gwiki-rte-myspell</module>
 		<module>gwiki-s5slideshow</module>
 		<module>gwiki-sampleplugin</module>
 		<module>gwiki-scheduler</module>
