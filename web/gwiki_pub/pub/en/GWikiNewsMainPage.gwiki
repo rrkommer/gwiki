@@ -1,0 +1,64 @@
+{pageintro}
+News about GWiki
+{pageintro}
+ 
+{section:border=1|cellpadding=5|cellspacing=0}
+.
+{column:width=50%|valign=top}
+h2. News about GWiki
+h3. 2016\-04\-18
+Implemented support for Smileys.
+h3. 2016\-03\-15
+Started to reimplement the Rich Text editor in GWiki.
+ 
+h3. 2016\-03\-10
+Release 2.1.0\-SNAPSHOT
+h3. 2016\-02\-01
+Interim Release 1.0.4
+GWiki uses now the MGC Libraries to provide better infrastruktur.
+* Basic Configuration is done by LocalSettings Framework with an optional Desktop GUI.
+* Storage in a Database is done by JPA, so more Databases can be supported.
+ 
+h3. 2013\-08\-01
+Published source on SourceForge. 
+ SVN Link is [https://svn.code.sf.net/p/genomewiki/code/trunk/|https://svn.code.sf.net/p/genomewiki/code/trunk/].
+ Discusson forum is here [https://sourceforge.net/p/genomewiki/discussion/|https://sourceforge.net/p/genomewiki/discussion/].
+h3. 2013\-01\-14
+GWiki version 1.0.1 released.
+h3. 2013\-01\-13
+Create a new plugin to enable classic automatic camel case wiki links. See [pub/plugins/gwiki-wikilinks/Index|pub/plugins/gwiki-wikilinks/Index].
+h3. 2013\-01\-10
+Create anon user template, so that also unregistered user can edit pages. 
+ See Special Users in [gwikidocs/help/en/admin/User_Management_Help|gwikidocs/help/en/admin/User_Management_Help].
+h3. 2013\-01\-09
+Create a sample Application for Google App Engine. 
+ See also [gwikidocs/howtos/en/How_to_deploy_GWiki_on_Google_App_Engine_site|gwikidocs/howtos/en/How_to_deploy_GWiki_on_Google_App_Engine_site].
+Source is now available via SVN. 
+ See also [pub/en/Downloads|pub/en/Downloads].
+h3. 2013\-01\-01
+Release 1.0.0.
+  
+h3. 2012\-12\-30
+Internal Snapshot Release 1.0.0.
+h3. 2012\-12\-01
+Internal Snapshot Release 0.9.0.
+h3. 2010\-07\-03
+Release 0.4.1 created.
+See also [pub/en/Downloads|pub/en/Downloads] and [pub/en/ChangeLog|pub/en/ChangeLog].
+h3. 2010\-07\-02
+Next mayor step with reorganized many things.
+- Introduce GWiki Plugins.
+- Login with self registration mechanism.
+ 
+h3. 2010\-05\-21
+First release von GWiki.
+  
+h2. Change Log
+See [pub/en/ChangeLog|pub/en/ChangeLog]
+{column}
+
+{column:width=50%|valign=top}
+h2. Recently changed pages
+{recently:maxitems=50}
+{column}
+{section}

@@ -1,0 +1,13 @@
+{pageintro}
+Plugins extends the functionality of GWiki.
+{pageintro}
+
+For information see [gwikidocs/help/en/admin/Plugins].
+
+{note}
+Not all Plugins are in stable state. Please see *State* in the Plugin descriptions.
+- Final: Plugin is final and should work as expected.
+- Beta: Plugin may have bugs or missing features.
+- Alpha: Plugin probably has bugs and may damage GWiki overall functionality.
+- Experimental: Work in progress. Plugin has bugs and may damage GWiki overall functionality. Plugin may be removed later.
+{note}

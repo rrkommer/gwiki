@@ -1,0 +1,44 @@
+{pageintro}
+Download GWiki application and developer libraries.
+{pageintro}
+ 
+{toc}
+ 
+h2. Standalone Desktop Installation
+Take a look at the GWiki desktop installation.
+After downloading GWiki standalone distribution, please refer to [pub/en/Installation] to launch
+ the GWiki server.
+h3. Releases
+{todo}
+Insert Links to repo. 
+{todo}
+h4.  
+h4. Plugins
+For GWiki Plugins please refer to [pub/en/plugins/PluginDownloads].
+h3. Snapshots
+Snapshot of the Standalone Desktop binary: [gwiki-standalone-1.0.2-SNAPSHOT.zip|http://labs.micromata.de/nexus/content/repositories/snapshots/de/micromata/genome/gwiki/gwiki-standalone/1.0.2-SNAPSHOT/gwiki-standalone-1.0.2-SNAPSHOT.zip]
+h2. Support
+Bugs, Support requests and feature requests can be found and submitted at: 
+*[https://labs.micromata.de/jira/browse/GWIKI|https://labs.micromata.de/jira/browse/GWIKI]*
+h2. Developer of GWiki
+h3. Source code repository
+The source code for GWiki is availabe via Git here:
+*[ https://github.com/rrkommer/gwiki.git| https://github.com/rrkommer/gwiki.git]*
+ You can checkout the sources as anonymous user.
+h3. Maven repository
+If you use maven, please check our nexus repository at:
+[http://labs.micromata.de/nexus/content/repositories/releases/|http://labs.micromata.de/nexus/content/repositories/releases/]
+If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
+Following artefakts are provided:
+* gwiki\-parent: Parent pom only
+* gwiki: gwiki library
+* gwiki\-standalone: Desktop gwiki with jetty (deprecated)
+* gwikilauncher: Launcher of the GWiki.
+* gwiki\-webapp: War archive to deploy in tomcat or other servlet container.
+* plugins: Plugin Projects.
+See also [gwikidocs/howtos/en/UseGwikiWARarchive|gwikidocs/howtos/en/UseGwikiWARarchive].
+for gwiki related snapshots or browse/download file directly:
+Releases
+[https://labs.micromata.de/nexus/content/repositories/GWIKI/|https://labs.micromata.de/nexus/content/repositories/GWIKI/]
+Snapshots:
+[https://labs.micromata.de/nexus/content/repositories/GWIKI-snapshot/|https://labs.micromata.de/nexus/content/repositories/GWIKI-snapshot/]
