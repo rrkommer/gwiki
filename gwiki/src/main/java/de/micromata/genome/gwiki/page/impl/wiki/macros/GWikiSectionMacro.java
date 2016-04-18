@@ -73,7 +73,7 @@ public class GWikiSectionMacro extends GWikiHtmlTagMacro implements GWikiBodyEva
       attrs.getChildFragment().render(ctx);
     }
     ctx.append("\n</tr></table>");
-    return false;
+    return true;
   }
 
 }
