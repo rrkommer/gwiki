@@ -1,42 +1,28 @@
 {pageintro}
 Frequently asked Questions
 {pageintro}
-
 {toc}
-
 h2. Common
 h3. What does the name GWiki stands for?
-
 GWiki was originally invented as a plugin for an enterprise application 
-management system called Genome, which was developed by Micromata. 
-See [http://www.micromata.de/produkte/genome.jsp] for more details.
-We shortened the name from Genome Wiki  to GWiki.
-
+ management system called Genome, which was developed by Micromata. 
+ See [http://www.micromata.de/produkte/genome.jsp|http://www.micromata.de/produkte/genome.jsp] for more details.
+ We shortened the name from Genome Wiki to GWiki.
 h2. Edit Pages
-h3. How to rename a page-Id
-The function to rename a page-Id can be found on the *Info* page.
-Renaming a page-Id also fixes all parent page-Id references 
-on the child pages.
-
+h3. How to rename a page\-Id
+The function to rename a page\-Id can be found on the *Info* page.
+ Renaming a page\-Id also fixes all parent page\-Id references 
+ on the child pages.
 h3. How to import Word into Wiki Page?
 The best way to import Word documents is to use the Rich Text editor.
-First, open the source document in Word and copy the content text into the clipboard.
-Open an existing or a new Wiki page and switch to Rich Text view. 
-
-!gwikidocs/faq/en/PasteFromWordIcon.png!
-
-In the dialog box use Ctrl+V (or its equivalent on your operation system) 
-to paste the content text from the clipboard.
-
+ First, open the source document in Word and copy the content text into the clipboard.
+ Open an existing or a new Wiki page and switch to Rich Text view.
+In the dialog box use Ctrl\+V (or its equivalent on your operation system) 
+ to paste the content text from the clipboard.
 Finally, select the 'Insert' button to insert the text into your Wiki page.
-
-h3. Image uploader applet will not work
-In the case the image/screenshot/file upload applet will not work correctly there are several reasons:
-1. You need Java 1.6 or younger.
-2. Your Public GWiki Url has to be correct, not only host and port, but also the subpath, if the GWiki Servlet is deployed not in the root context.. Check this in the Admin GWiki Config.
-
+h3.  
 h2. Macros
 h3. Why is there no Macro known?
 Although documented within a wiki page, GWiki reports the Macro as unknown? 
-Maybe the macro is not registered in the GWiki configuration. 
-In this case please refer to [gwikidocs/howtos/en/CreateaMacro] or contact the GWiki administrator.
+ Maybe the macro is not registered in the GWiki configuration. 
+ In this case please refer to [gwikidocs/howtos/en/CreateaMacro] or contact the GWiki administrator.
