@@ -16,6 +16,7 @@
 
 package de.micromata.genome.gwiki.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -332,6 +333,12 @@ public class GWikiWeb
       // ctx.getRequest().setAttribute("welcomePageId", welcomePage);
       if (StringUtils.isEmpty(pageId) == true) {
         pageId = welcomePage;
+        try {
+          ctx.getResponse().sendRedirect(ctx.localUrl(pageId));
+          return;
+        } catch (IOException ex) {
+          return;
+        }
       }
       GWikiElement el = findElement(pageId);
       if (el == null) {
