@@ -20,6 +20,7 @@ The version number may be different. 
 {note}
  
 *See about the Launcher Step by Step: [pub/en/installation/Installation_with_GWikiLauncher].*
+{children:withPageIntro=true|type=gwiki}
 h2. Storage of the configuration
 These settings are stored in the file gwiki.properties, which can also modified later with a text editor.
  First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
