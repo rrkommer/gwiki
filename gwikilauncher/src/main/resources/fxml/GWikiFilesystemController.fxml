@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="400.0" prefHeight="400.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.micromata.genome.gwiki.launcher.config.GWikiFilesystemController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.micromata.genome.gwiki.launcher.config.GWikiFilesystemController">
    <children>
-      <ScrollPane maxHeight="400.0" maxWidth="1.7976931348623157E308" prefWidth="780.0">
+      <ScrollPane>
          <content>
             <VBox>
                <children>
