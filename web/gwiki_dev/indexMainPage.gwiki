@@ -1,0 +1,4 @@
+h1. About GWiki
+
+h2. Content
+{children:withPageIntro=true|depth=2} 
