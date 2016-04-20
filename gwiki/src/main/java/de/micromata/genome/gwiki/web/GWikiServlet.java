@@ -140,6 +140,11 @@ public class GWikiServlet extends HttpServlet
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
   {
+    if (GLog.isTraceEnabled() == true) {
+      String lopi = "Req: ctpath: " + req.getContextPath() + "; spath: " + req.getServletPath() + "; pi: "
+          + req.getPathInfo();
+      GLog.note(GWikiLogCategory.Wiki, lopi);
+    }
     initWiki(req, resp);
     long start = System.currentTimeMillis();
     GWikiWeb wiki = getWikiWeb();

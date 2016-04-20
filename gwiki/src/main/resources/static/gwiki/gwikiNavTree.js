@@ -2,20 +2,21 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	if (!currentPageId) {
 		currentPageId = gwikiContext.pageId;
 	}
+	var ignoreSelectOnLoad = false;
 	var treedata;
 	if (typeof treeChildrenServiceUrl == 'object') {
 		treedata = treeChildrenServiceUrl;
 	} else {
 		treedata = {
-			  url : treeChildrenServiceUrl + '?type=wiki',
-			  dataType : 'json',
-			  data : function(n) {
-				  return {
-				    method_onLoadAsync : 'true',
-				    id : n.id
-				  }
+		  url : treeChildrenServiceUrl + '?type=wiki',
+		  dataType : 'json',
+		  data : function(n) {
+			  return {
+			    method_onLoadAsync : 'true',
+			    id : n.id
 			  }
-			};
+		  }
+		};
 	}
 	var tree = $('#' + menuDivId).jstree({
 	  plugins : [ 'search', 'themes', 'ui' ],
@@ -25,7 +26,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 	      dots : false,
 	      icons : false
 	    },
-	    animation: false,
+	    animation : false,
 	    data : treedata
 	  }
 	});
@@ -57,12 +58,16 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 		}, 250);
 	});
 	tree.on('select_node.jstree', function(e, data) {
-
-		var selNone = data.node.data;
-		var nurl = gwikiLocalUrl(selNone.url);
-		if (window.location.pathname != nurl) {
-			window.location = nurl;
+		if (ignoreSelectOnLoad == false) {
+			var selNone = data.node.data;
+			var nurl = gwikiLocalUrl(selNone.url);
+			if (window.location.pathname != nurl) {
+				window.location = nurl;
+			}
+		} else {
+			//console.debug("ingnored first call");
 		}
+		
 	});
 	// tree.on('check_node.jstree',
 	tree.on("changed.jstree", function(e, data) {
@@ -70,6 +75,7 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 		window.localation = selNone.url;
 	});
 	tree.on('ready.jstree', function(event) {
+		ignoreSelectOnLoad = true;
 		var tree = $('#' + menuDivId).jstree(true);
 		if (currentPageId) {
 			var ln = currentPageId.replace(/\//g, '_');
@@ -77,5 +83,6 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 			tree.select_node(ln);
 			tree.open_node(ln);
 		}
+		ignoreSelectOnLoad = false;
 	});
 }

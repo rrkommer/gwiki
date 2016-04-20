@@ -6,11 +6,20 @@
 var gwikiContextPath = '<%= wikiContext.request.contextPath %>';
 var gwikiServletPath = '<%= wikiContext.request.servletPath %>';
 var gwikiHomeUrl = '<gwiki:url value="/"/>';
+var gwikiSessionAppendix = '';
 var gwikiPublicUrl = '<%= wikiContext.getWikiWeb().getWikiConfig().getPublicURL() %>';
 var gwikiWelcomeUrl = '<gwiki:url value="/${welcomePageId}"/>';
-
+function gwikiPrepareLocalUrl()
+{
+	var idx = gwikiHomeUrl.indexOf(';');
+	if (idx != -1) {
+		gwikiSessionAppendix = gwikiHomeUrl.substring(idx);
+		gwikiHomeUrl = gwikiHomeUrl.substring(0, idx);
+	}
+}
+gwikiPrepareLocalUrl();
 function gwikiLocalUrl(pageId) {
-	return gwikiHomeUrl + pageId;
+	return gwikiHomeUrl + pageId + gwikiSessionAppendix;
 }
 
 var gwikiContext = {
