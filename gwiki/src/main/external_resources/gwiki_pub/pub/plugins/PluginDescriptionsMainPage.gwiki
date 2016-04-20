@@ -1,5 +1,0 @@
-{pageintro}
-Following Plugins are available for GWiki.
-{pageintro}
-
-{children:depth=1|sort=title|withPageIntro=true}
