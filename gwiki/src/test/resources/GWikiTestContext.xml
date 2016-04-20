@@ -63,14 +63,14 @@
 								<entry key="+pub/*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
-											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+											<value>${gwiki.dev.path}/../web/gwiki_pub</value>
 										</constructor-arg>
 									</bean>
 								</entry>
 								<entry key="*">
 									<bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
-											<value>${gwiki.dev.path}/src/main/external_resources/gwiki_dev</value>
+											<value>${gwiki.dev.path}/../web/gwiki_dev</value>
 										</constructor-arg>
 									</bean>
 								</entry>
