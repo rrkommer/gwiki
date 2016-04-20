@@ -1,0 +1,43 @@
+{pageintro}
+GWiki 2.1.0 is a mayor release 
+{pageintro}
+ 
+h2. Launcher
+GWiki now has an optional desktop Launcher, where you can configure basic infrastructure settings for GWiki.
+You can directly edit 
+* Storage of your pages
+* Storing pages in a database is just a few clicks.
+* Configure Webservice, inkl. HTTPS and request logging.
+* Logging configuration including a logview.
+* Mail configuration.
+h2. Complete Rewritten Rich Text Editor
+The rich text editor now uses tinyMCE. Many enhancement for Supporting GWiki Features like links, macros, etc. are done.
+ The Rich Text Editor is now the default editor for Wiki pages.
+ The Editor supports direct copy paste of HTML, images and attachments. The old Java Applet to paste Screenshots is no longer needed.
+ Editor Support many keyboard shortcuts (see [gwikidocs/help/en/elementtypes/Wiki_Editor_Keyboard_Shortcuts]) for fast working write pages.
+ Support for Smileys and other Icons. You can configure GWiki to make usage of own Icons.
+  
+h2. Reworked HTML Parser
+For Parsing HTML a new Parser is written. 
+h2. Better Render and RTE Support for Macros
+Information for attributes and render behaviour is now attached as Java Annotation ({{@MacroInfo}}).
+ This provides information for the RTE Macro dialogs and better HTML render options as well.
+h2. New Default Skin MGC
+Created a new Skin mgc, which much more leaner than the gwiki skin.
+ The Focus of the skin is the content of the page, and not the decoration around the content.
+ Provides a fast acessable side navigation.
+h2. Reorganize Pages with dragn'drop 
+Relink pages and order pages is now very simple with the new  [Page Hierarchy|edit/PagesTree] function.
+h2. MGC
+GWiki uses MGC Libraries for Infrastructure.
+* Commons: Configuration Framework, JNDI, MailSession, Datasources
+* JPA: Persistence for Storage, Logging, Chronos
+* Chronos: Scheduler to execute background jobs
+* Launcher: GUI to start GWiki
+See also [https://labs.micromata.de/mgc/mgc/en/Index|https://labs.micromata.de/mgc/mgc/en/Index].
+h2. Updated libraries
+Updated used java and javascript libraries to current stable versions.
+ Usage of jGrid was removed.
+h2. Java 8
+GWiki requires Java 8 as runtime. 
+  
