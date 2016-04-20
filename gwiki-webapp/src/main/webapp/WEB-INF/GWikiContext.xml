@@ -25,7 +25,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
-		<property name="enableWebDav" value="true" />
+		<property name="enableWebDav" value="false" />
 		<property name="webDavUserName" value="${gwiki.davadmin.user}" />
 		<property name="webDavPasswordHash" value="${gwiki.davadmin.pass}" />
 	</bean>

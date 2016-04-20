@@ -10,6 +10,7 @@
     <module>plugins</module>
     <!-- <module>gwiki-standalone</module> -->
     <module>gwikilauncher</module>
+    <module>gwiki-webapp</module>
   </modules>
   <organization>
 		<name>Micromata GmbH + artefaktur</name>
