@@ -1,53 +1,63 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	 <parent>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
     <version>2.1.0-SNAPSHOT</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.micromata.genome.gwiki</groupId>
-	<artifactId>gwiki-webapp</artifactId>
-	<packaging>war</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>gwiki-webapp</artifactId>
+  <packaging>war</packaging>
 
-	<profiles>
-		<profile>
-			<id>prod</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.1-beta-1</version>
-						<configuration>
-							<warName>gwiki</warName>
-							<webXml>${basedir}/src/main/config/production/web.xml</webXml>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	
-	<scm>
-		<connection>
-			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp
-		</connection>
-		<developerConnection>
-			scm:svn:https://svn.micromata.de/svn/gwiki/trunk/gwiki-webapp
-		</developerConnection>
-	</scm>
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.1-beta-1</version>
+            <configuration>
+              <warName>gwiki</warName>
+              <webXml>${basedir}/src/main/config/production/web.xml</webXml>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <properties>
+    <webXmlPath>src/main/webapp/WEB-INF/web.xml</webXmlPath>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>de.micromata.genome.gwiki</groupId>
-			<artifactId>gwiki</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
-	
+  <build>
+    <directory>target</directory>
+    <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+    <!-- <outputDirectory>dev/web/vls/WEB-INF/classes</outputDirectory> -->
+    <testOutputDirectory>target/test-classes</testOutputDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <webXml>${webXmlPath}</webXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.micromata.genome.gwiki</groupId>
+      <artifactId>gwiki</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

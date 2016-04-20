@@ -21,6 +21,7 @@ The version number may be different. 
  
 *See about the Launcher Step by Step: [pub/en/installation/Installation_with_GWikiLauncher].*
 {children:withPageIntro=true|type=gwiki}
+ 
 h2. Storage of the configuration
 These settings are stored in the file gwiki.properties, which can also modified later with a text editor.
  First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
@@ -31,16 +32,7 @@ Continue 
 h2. Installation GWiki on an server environment
 On an server environment \- where you have no display \- you can start wiki with {{java \-jar gwikilauncher\-1.2.0.jar \-nogui}}.
  The first start will terminate immediately. You will see error messages in the logs sub directory {{(log/GWiki.log).}}
- The first start has created an gwiki.properties file.
-h2. Starting
-After starting GWiki open a browser with following URL:
- http://localhost:8081/index
- The standalone version provides following users:
-- gwikisu
-- gwikieditor
-- gwikiview.
-All users has the password
- gwiki.
+ The first start has created an gwiki.properties file. 
   
 {warn:title=Security}
 Before using GWiki with these default users on a server reachable via internet, change the passwords.
