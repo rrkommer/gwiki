@@ -1,3 +1,6 @@
+{pageintro}
+GWiki provide an optional GUI to configure and start the application. 
+{pageintro}
 h2. First Start of GWiki
 After starting the GWiki Launcher the main window should be shown:
 !pub/en/installation/GWikiLauncherMainWindow.png|width=784|height=478!
@@ -35,8 +38,8 @@ Although the System User has all available rights, this user has some limitation
 * No personal space
 * No Information can be attached in the profile, like email, language, skin, timezone, etc.
 Just for editing pages the system user may also a little bit confusing, because you see many menu items, you may not need for the every day work.
- 
-Because this it is recommended to create an own user inside gwiki (see Admin Menu {*}User Management{*}). 
- 
- 
+  
+ Because this it is recommended to create an own user inside gwiki (see Admin Menu {*}User Management{*}). 
+  
+  
   
