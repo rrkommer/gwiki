@@ -13,11 +13,11 @@ GWiki Features from editors view.
 
 {slide:title=Introduction to the GWiki architecture}
 
-{center}!gwikidocs/slideshows/en/sourcetalk_2010.png!
+!gwikidocs/slideshows/en/sourcetalk_2010.png!
 
 Roger René Kommer, Micromata GmbH 
 2. September 2010
-{center}
+
 {slide}
 
 {slide:title=What is GWiki}
@@ -30,7 +30,7 @@ Multipurpose Wiki.
 - Application Framework
 {slide}
 {slide:title=Audience}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!
 {slide}
 
 {slide:title=GWiki Motivation}
@@ -142,7 +142,7 @@ Multipurpose Wiki.
 {slide:title=Integrate for Internationalization}
 - Use Standard Java I18N properties in common Frameworks
 - Example, JSP: <fmt:message key="my.key"/>
-{center}!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=80%!{center}
+!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=80%!
 {slide}
 {slide:title=Integrate for GUI parts}
 - Dynamic Pages with logic (developers part) and text (business part)
@@ -182,7 +182,7 @@ Multipurpose Wiki.
 {slide}
 
 {slide:title=Macro Hierarchie}
-{center}!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png|width=18%!{center}
+!gwikidocs/slideshows/de/kernarchitektur/MacroHierarchie.png|width=18%!
 {slide}
 
 
@@ -321,7 +321,7 @@ Comming soon:
 \\
 \\
 
-{center}Thank you for your interest!{center}
+Thank you for your interest!
 {slide}
 
 {slide:title=Wiki Verlinkung}
@@ -342,7 +342,7 @@ Kern relativ klein, Rest sind Macros.
 {slide}
 
 {slide:title=Wiki DOM 1}
-{center}!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png|width=70%!{center}
+!gwikidocs/slideshows/de/kernarchitektur/FragmentHierarchie.png|width=70%!
 {slide}
 
 

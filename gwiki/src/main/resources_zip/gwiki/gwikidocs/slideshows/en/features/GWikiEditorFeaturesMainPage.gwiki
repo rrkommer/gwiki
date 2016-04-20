@@ -33,7 +33,7 @@ Besseres Bild. Ggf. von Energiefrosch, etc.
 Insert different content types, page layouts and templates.
 - Templates can be created itself inside GWiki
 - Different rights for Element types
-{center}!gwikidocs/slideshows/en/features/NewElement.png!{center}
+!gwikidocs/slideshows/en/features/NewElement.png!
 {slide}
 
 {slide:title=GWiki Wiki Syntax}
@@ -47,40 +47,40 @@ Insert different content types, page layouts and templates.
 
 {slide:title=Wiki Edit Wiki}
 
-{center}!gwikidocs/slideshows/en/features/WikiEditWiki.png!{center}
+!gwikidocs/slideshows/en/features/WikiEditWiki.png!
 {slide}
 
 {slide:title=Wiki Edit Richtext}
 
-{center}!gwikidocs/slideshows/en/features/WikiEditRichText.png!{center}
+!gwikidocs/slideshows/en/features/WikiEditRichText.png!
 {slide}
 
 {slide:title=Wiki and Rich Text Edit Links and Images}
 Autocomple functions for inserting links and images in the wiki and rich text editor.
 
-{center}!gwikidocs/slideshows/en/features/WikiEditInsertLinkWithAutocomple.png!{center}
+!gwikidocs/slideshows/en/features/WikiEditInsertLinkWithAutocomple.png!
 {slide}
 
 {slide:title=Wiki Edit Preview}
 
-{center}!gwikidocs/slideshows/en/features/GWikiEditInternalPreview.png!{center}
+!gwikidocs/slideshows/en/features/GWikiEditInternalPreview.png!
 {slide}
 
 {slide:title=Attachments and Screenshots}
 - Use Drag'n Drop to upload files
 - Directly copy paste from clipboard to insert screenshots into text:
 
-{center}!gwikidocs/slideshows/en/features/ScreenshotDialog.png!{center}
+!gwikidocs/slideshows/en/features/ScreenshotDialog.png!
 {slide}
 
 {slide:title=Versioning}
 - Versions of pages and files
-{center}!gwikidocs/slideshows/en/features/PageInfoWithVersions.png!{center}
+!gwikidocs/slideshows/en/features/PageInfoWithVersions.png!
 {slide}
 
 {slide:title=Compare Versions}
 - Compare all artefakts of a Page/Element: 
-{center}!gwikidocs/slideshows/en/features/Compare Versions.png!{center}
+!gwikidocs/slideshows/en/features/Compare Versions.png!
 {slide}
 {slide:title=Element Properties}
 Each Element has a collection of properties.
@@ -93,7 +93,7 @@ Each property is defined by
 
 {slide:title=Element Standard Properties}
 
-{center}!gwikidocs/slideshows/en/features/SettingsProperties.png!{center}
+!gwikidocs/slideshows/en/features/SettingsProperties.png!
 {slide}
 
 {slide:title=GWiki Rights}
@@ -112,7 +112,7 @@ The underlying Metatemplate can also restrict, which rights are required to crea
 
 {slide:title=Search Content}
 
-{center}!gwikidocs/slideshows/en/features/SearchResult.png!{center}
+!gwikidocs/slideshows/en/features/SearchResult.png!
 {slide}
 
 {slide:title=Full text Search}
@@ -128,29 +128,29 @@ Support Search for
 {slide:title=Keywords}
 - Define Keywords for whole GWiki or Space
 - Automatic linking in Pages, containing the Keyword
-{center}!gwikidocs/slideshows/en/features/KeywordsSmartTags.png!{center}
+!gwikidocs/slideshows/en/features/KeywordsSmartTags.png!
 {slide}
 
 {slide:title=Table of Keywords}
 
-{center}!gwikidocs/slideshows/en/features/TableOfKeywords.png!{center}
+!gwikidocs/slideshows/en/features/TableOfKeywords.png!
 {slide}
 
 {slide:title=Site Map}
 
-{center}!gwikidocs/slideshows/en/features/SiteMap.png!{center}
+!gwikidocs/slideshows/en/features/SiteMap.png!
 {slide}
 
 {slide:title=Comments}
 Create Comments for a page.
 
-{center}!gwikidocs/slideshows/en/features/PageComments.png!{center}
+!gwikidocs/slideshows/en/features/PageComments.png!
 {slide}
 
 {slide:title=Change Notifications}
 Receive automatic Change Notifications for pages including recursive childs.
 
-{center}!gwikidocs/slideshows/en/features/ChangeNotifications.png!{center}
+!gwikidocs/slideshows/en/features/ChangeNotifications.png!
 {slide}
 
 {slide:title=User Management}
@@ -166,12 +166,12 @@ Receive automatic Change Notifications for pages including recursive childs.
 
 {slide:title=List Users}
 
-{center}!gwikidocs/slideshows/en/features/ListUsers.png!{center}
+!gwikidocs/slideshows/en/features/ListUsers.png!
 {slide}
 
 {slide:title=Edit Users Settings}
 
-{center}!gwikidocs/slideshows/en/features/EditUserSettings.png!{center}
+!gwikidocs/slideshows/en/features/EditUserSettings.png!
 {slide}
 
 {slide:title=Skinable GUI}
@@ -186,28 +186,28 @@ Easy to create own skins for pages
 
 {slide:title=Skin Sample GWiki}
 
-{center}!gwikidocs/slideshows/en/features/SkinSampleGWiki.png!{center}
+!gwikidocs/slideshows/en/features/SkinSampleGWiki.png!
 {slide}
 
 {slide:title=Skin Sample Naked}
 
-{center}!gwikidocs/slideshows/en/features/SkinSampleNaked.png!{center}
+!gwikidocs/slideshows/en/features/SkinSampleNaked.png!
 {slide}
 
 {slide:title=Skin Sample DHL}
 
-{center}!gwikidocs/slideshows/en/features/SkinSampleDHL.png!{center}
+!gwikidocs/slideshows/en/features/SkinSampleDHL.png!
 {slide}
 
 {slide:title=Skin Sample Deutsche Post}
 
-{center}!gwikidocs/slideshows/en/features/SkinSampleDeutschePost2009.png!{center}
+!gwikidocs/slideshows/en/features/SkinSampleDeutschePost2009.png!
 {slide}
 
 {slide:title=All Elements}
 View and edit all Elements - including non-viewable.
 
-{center}!gwikidocs/slideshows/en/features/AllElements.png!{center}
+!gwikidocs/slideshows/en/features/AllElements.png!
 {slide}
 
 {slide:title=Admin Pages}
@@ -222,7 +222,7 @@ View and edit all Elements - including non-viewable.
 {slide:title=WebDAV Access}
 For admistrational purposes a WEB-DAV Access to the underlying virtual file system is available.
 
-{center}!gwikidocs/slideshows/en/features/WebDAVListing.png!{center}
+!gwikidocs/slideshows/en/features/WebDAVListing.png!
 {slide}
 
 {slide:title=Runtime}

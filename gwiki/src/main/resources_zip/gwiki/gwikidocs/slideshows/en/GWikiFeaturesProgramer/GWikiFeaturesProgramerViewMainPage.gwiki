@@ -19,7 +19,7 @@ GWiki is not only an wiki application, but also an plattform to develop web base
 Introduction to GWiki Features.
 {slide}
 {slide:title=Audience}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/UserDeveloperAudience.png|width=80%!
 {slide}
 {slide:title=Customizing Goals}
 {incremental}
@@ -71,14 +71,14 @@ A Textarea:
 {code}
 {slide}
 {slide:title=Blueprint insert}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintEditMask.png|width=40%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintEditMask.png|width=40%!
 {hr}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintSelectBluprint.png|width=20%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintSelectBluprint.png|width=20%!
 {hr}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/Blueprintmask.png|width=35%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/Blueprintmask.png|width=35%!
 {slide}
 {slide:title=Blueprint result}
-{center}!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintResult.png|width=50%!{center}
+!gwikidocs/slideshows/en/GWikiFeaturesProgramer/BlueprintResult.png|width=50%!
 {slide}
 {slide:title=Extending Sample: Slide shows 1}
 Defining a new Meta template.
@@ -238,7 +238,7 @@ Access to:
 {slide:title=Integrate for Internationalization}
 - Use Standard Java I18N properties in common Frameworks.
 - Example, JSP: <fmt:message key="my.key"/>
-{center}!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=60%!{center}
+!gwikidocs/howtos/en/UseGWikiI18NEditDialog.png|width=60%!
 {slide}
 {slide:title=Integrate for GUI parts}
 - Dynamic Pages with logic (developers part) and text (business part).
