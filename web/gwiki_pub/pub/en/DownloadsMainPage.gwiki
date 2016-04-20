@@ -6,12 +6,13 @@ Download GWiki application and developer libraries.
  
 h2. Standalone Desktop Installation
 Take a look at the GWiki desktop installation.
-After downloading GWiki standalone distribution, please refer to [pub/en/Installation] to launch
+ After downloading GWiki standalone distribution, please refer to [pub/en/Installation] to launch
  the GWiki server.
 h3. Releases
 {todo}
 Insert Links to repo. 
 {todo}
+ 
 h4.  
 h4. Plugins
 For GWiki Plugins please refer to [pub/en/plugins/PluginDownloads].
@@ -28,17 +29,17 @@ The source code for GWiki is availabe via Git here:
 h3. Maven repository
 If you use maven, please check our nexus repository at:
 [http://labs.micromata.de/nexus/content/repositories/releases/|http://labs.micromata.de/nexus/content/repositories/releases/]
-If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
-Following artefakts are provided:
+ If you want to deploy GWiki on an servlet container or integrate GWiki in your own web project.
+ Following artefakts are provided:
 * gwiki\-parent: Parent pom only
 * gwiki: gwiki library
 * gwiki\-standalone: Desktop gwiki with jetty (deprecated)
 * gwikilauncher: Launcher of the GWiki.
 * gwiki\-webapp: War archive to deploy in tomcat or other servlet container.
 * plugins: Plugin Projects.
-See also [gwikidocs/howtos/en/UseGwikiWARarchive|gwikidocs/howtos/en/UseGwikiWARarchive].
-for gwiki related snapshots or browse/download file directly:
-Releases
+See also [gwikidocs/howtos/en/UseGwikiWARarchive].
+ for gwiki related snapshots or browse/download file directly:
+ Releases
 [https://labs.micromata.de/nexus/content/repositories/GWIKI/|https://labs.micromata.de/nexus/content/repositories/GWIKI/]
-Snapshots:
+ Snapshots:
 [https://labs.micromata.de/nexus/content/repositories/GWIKI-snapshot/|https://labs.micromata.de/nexus/content/repositories/GWIKI-snapshot/]
