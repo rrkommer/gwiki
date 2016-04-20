@@ -115,7 +115,7 @@
                 <entry key="+*,-pub/plugins/gwiki\-admintools/*,-pub/plugins/gwiki\-admintools/*,-pub/plugins/gwiki\-s5slideshow/*,-pub/plugins/gwiki\-rte\-myspell/*,-pub/plugins/gwiki\-feed/*,-pub/plugins/gwiki\-msotextextractor/*,-pub/plugins/gwiki\-pdftextextractor/*,-pub/plugins/gwiki\-vfolder/*,-pub/plugins/gwiki\-fssvn/*">
                   <bean class="de.micromata.genome.gdbfs.StdFileSystem">
                     <constructor-arg>
-                      <value>${gwiki.dev.path}/src/main/external_resources/gwiki_pub</value>
+                      <value>${gwiki.dev.path}/../web/gwiki_pub</value>
                     </constructor-arg>
                   </bean>
                 </entry>
