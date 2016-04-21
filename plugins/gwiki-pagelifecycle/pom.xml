@@ -8,16 +8,14 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-pagelifecycle</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+		<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>de.micromata.genome.gwiki</groupId>
 			<artifactId>gwiki-scheduler</artifactId>
-			<version>1.0.0</version>
+			<version>${gwiki.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
