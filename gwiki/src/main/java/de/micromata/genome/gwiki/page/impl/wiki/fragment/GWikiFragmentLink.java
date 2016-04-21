@@ -233,6 +233,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     }
     boolean globalUrl = isGlobalUrl(url);
     if (globalUrl == false) {
+      if (url == null) {
+        url = "";
+      }
       int li = url.indexOf('#');
       if (li != -1) {
         localAnchor = url.substring(li);
