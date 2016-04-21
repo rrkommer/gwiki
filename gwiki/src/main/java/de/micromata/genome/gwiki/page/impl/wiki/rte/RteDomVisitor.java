@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Comment;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -127,6 +128,8 @@ public class RteDomVisitor implements DomVisitor
           return;
         }
       }
+    } else if (node instanceof Comment) {
+      ; // nothing
     } else if (node instanceof DocumentFragment) {
       ; // nothing
     } else {
