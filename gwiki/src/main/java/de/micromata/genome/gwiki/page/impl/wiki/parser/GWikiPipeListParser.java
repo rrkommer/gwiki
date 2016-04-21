@@ -40,7 +40,7 @@ public class GWikiPipeListParser
       char c = text.charAt(i);
       switch (c) {
         case '\\':
-          if (tl > i) {
+          if (tl > i + 1) {
             ++i;
             buf.append(text.charAt(i));
             continue;
