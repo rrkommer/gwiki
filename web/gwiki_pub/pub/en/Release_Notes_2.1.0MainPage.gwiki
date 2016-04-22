@@ -4,7 +4,7 @@ GWiki 2.1.0 is a mayor release 
  
 h2. Launcher
 GWiki now has an optional desktop Launcher, where you can configure basic infrastructure settings for GWiki.
-You can directly edit 
+ You can directly edit 
 * Storage of your pages
 * Storing pages in a database is just a few clicks.
 * Configure Webservice, inkl. HTTPS and request logging.
@@ -41,3 +41,7 @@ Updated used java and javascript libraries to current stable versions.
 h2. Java 8
 GWiki requires Java 8 as runtime. 
   
+h2. Support for Spaces
+Add a support for multiple spaces, which has it own page tree and navigation.
+Space Support currently only implemented for the mgc skin.
+ 
