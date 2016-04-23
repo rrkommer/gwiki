@@ -129,7 +129,7 @@ public class GWikiInitialSetup extends CmdLineInput
       props.put("mail.session.gwiki.smtp.ssl.enable", "true");
     }
 
-    props.put("jndi.bind.gwikimailsession.target", "java:/comp/env/genome/mail/Session");
+    props.put("jndi.bind.gwikimailsession.target", "java:comp/env/genome/mail/Session");
     props.put("jndi.bind.gwikimailsession.type", "MailSession");
     props.put("jndi.bind.gwikimailsession.source", "GWikiMailSession");
 
@@ -408,7 +408,7 @@ public class GWikiInitialSetup extends CmdLineInput
         props.put("db.ds.gwikdb.password", dbpass);
         props.put("genomeds", "gwikidb");
 
-        props.put("jndi.bind.standard.target", "java:/comp/env/genome/jdbc/dsWeb");
+        props.put("jndi.bind.standard.target", "java:comp/env/genome/jdbc/dsWeb");
         props.put("jndi.bind.standard.type", "DataSource");
         props.put("jndi.bind.standard.source", "gwikidb");
 
