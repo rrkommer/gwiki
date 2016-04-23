@@ -421,7 +421,9 @@ function gwikiRestoreFromRte(partName) {
 		type : 'POST',
 		dataType : "html",
 		data : {
-			htmlCode : content
+			htmlCode : content,
+			editPageId: gwikiContext.gwikiEditPageId
+		
 		},
 		complete : function(res, status) {
 			// alert(' html2wiki: ' + res.responseText);

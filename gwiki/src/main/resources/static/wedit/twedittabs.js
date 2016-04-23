@@ -177,7 +177,8 @@ function gwikiUpdateWikiFromRte(partName, chain) {
 	  url : gwedit_buildUrl("edit/WeditService") + '?method_onRteToWiki=true',
 	  type : 'POST',
 	  data : {
-		  txt : text
+		  txt : text,
+		  editPageId: gwikiContext.gwikiEditPageId
 	  },
 	  success : function(data) {
 		  $("#textarea" + partName).val(data);
@@ -201,7 +202,8 @@ function gwikiUpdateRteFromWiki(partName, chain) {
 	  url : gwedit_buildUrl("edit/WeditService") + '?method_onWikiToRte=true',
 	  type : 'POST',
 	  data : {
-		  txt : text
+		  txt : text,
+		  editPageId: gwikiContext.gwikiEditPageId
 	  },
 	  success : function(data) {
 

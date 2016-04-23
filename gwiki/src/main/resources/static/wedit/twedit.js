@@ -226,15 +226,6 @@ function twedit_create(editId, newPage) {
 			      }
 		      }, true);
 		      twedit_bind_native_paste(ed, '#' + editId);
-		      // jQuery('.mce-edit-area').on('keydown keyup keypress',
-		      // function(event) {
-		      // var rng = document.getSelection();
-		      // if (tweid_check_valid_range_for_del_in_range(rng) == false) {
-		      // event.stopPropagation();
-		      // event.preventDefault();
-		      // }
-		      // });
-
 	      }
 
 	    });

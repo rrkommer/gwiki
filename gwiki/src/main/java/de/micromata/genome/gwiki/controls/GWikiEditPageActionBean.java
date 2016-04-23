@@ -52,7 +52,6 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageBaseArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessage;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionMessages;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiHelpLinkMacro;
-import de.micromata.genome.gwiki.page.impl.wiki.parser.WeditWikiUtils;
 import de.micromata.genome.gwiki.utils.CommaListParser;
 import de.micromata.genome.logging.GLog;
 import de.micromata.genome.util.collections.ArrayMap;
@@ -819,21 +818,6 @@ public class GWikiEditPageActionBean extends GWikiEditElementBaseActionBean impl
         UserPropStorage.Client);
     // GLog.note(GWikiLogCategory.Wiki, "Stored editmaximize: " + value);
     return noForward();
-  }
-
-  @Deprecated
-  public Object onRteToWiki()
-  {
-    try {
-      String htmlCode = wikiContext.getRequestParameter("htmlCode");
-      String ret = WeditWikiUtils.rteToWiki(wikiContext, htmlCode);
-      wikiContext.append(ret);
-      wikiContext.flush();
-      return noForward();
-    } catch (Exception ex) {
-      GWikiLog.error("Failure onRteToWiki: " + ex.getMessage(), ex);
-      return sendAsyncValidationError("Failure on Render Preview");
-    }
   }
 
   public Object onReorderChildsAsync()

@@ -33,15 +33,17 @@ public class HtmlDomWalker implements DomWalker
   Node currentNode;
   Node startNode;
   GWikiContext wikiContext;
+
   protected GWikiWikiParserContext parseContext = new GWikiWikiParserContext();
   List<Node> nodeStack = new ArrayList<>();
 
-  public HtmlDomWalker(DocumentFragment document, GWikiContext wikiContext)
+  public HtmlDomWalker(DocumentFragment document, String currentPageId, GWikiContext wikiContext)
   {
     this.document = document;
     this.wikiContext = wikiContext;
     currentNode = document;
     startNode = currentNode;
+    parseContext.setCurrentPageId(currentPageId);
     parseContext.getMacroFactories()
         .putAll(wikiContext.getWikiWeb().getWikiConfig().getWikiMacros(wikiContext));
 

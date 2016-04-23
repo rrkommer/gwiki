@@ -61,15 +61,25 @@ public class GWikiWikiParserContext
    * Character, which has to be escaped.
    */
   protected String specialCharacters = DEFAULT_SPECIAL_CHARACTERS;
+  /**
+   * Element id of current paresed page. may be null;
+   */
+  protected String currentPageId;
 
   public GWikiWikiParserContext()
   {
     macroFactories.putAll(Html2WikiFilter.TextDecoMacroFactories);
   }
 
+  public GWikiWikiParserContext(String currentPageId)
+  {
+    this.currentPageId = currentPageId;
+    macroFactories.putAll(Html2WikiFilter.TextDecoMacroFactories);
+  }
+
   public GWikiWikiParserContext createChildParseContext()
   {
-    GWikiWikiParserContext ret = new GWikiWikiParserContext();
+    GWikiWikiParserContext ret = new GWikiWikiParserContext(getCurrentPageId());
     ret.getMacroFactories().putAll(macroFactories);
     return ret;
   }
@@ -377,4 +387,15 @@ public class GWikiWikiParserContext
   {
     this.frags = frags;
   }
+
+  public String getCurrentPageId()
+  {
+    return currentPageId;
+  }
+
+  public void setCurrentPageId(String currentPageId)
+  {
+    this.currentPageId = currentPageId;
+  }
+
 }

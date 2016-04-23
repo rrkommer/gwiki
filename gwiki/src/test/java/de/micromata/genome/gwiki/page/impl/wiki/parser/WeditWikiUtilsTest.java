@@ -25,6 +25,12 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 
 public class WeditWikiUtilsTest
 {
+  public static String rteToWiki(GWikiContext ctx, String html)
+  {
+    String ret = WeditWikiUtils.rteToWiki(ctx, null, html);
+    return ret;
+  }
+
   //  @Test
   public void testRte2Wiki()
   {
@@ -40,7 +46,7 @@ public class WeditWikiUtilsTest
     GWikiTestBuilder tb = new GWikiTestBuilder();
     GWikiContext ctx = tb.createWikiContext();
     //    GWikiStandaloneContext ctx = GWikiLoader.getStandaloneContext();
-    String ret = WeditWikiUtils.rteToWiki(ctx, html);
+    String ret = rteToWiki(ctx, html);
     System.out.println("wiki:\n" + ret);
     ;
   }
@@ -50,7 +56,7 @@ public class WeditWikiUtilsTest
     GWikiTestBuilder tb = new GWikiTestBuilder();
     GWikiContext ctx = tb.createWikiContext();
     try {
-      String ret = WeditWikiUtils.rteToWiki(ctx, html);
+      String ret = rteToWiki(ctx, html);
       System.out.println("html:\n" + html + "\nwiki:\n[" + ret + "]");
       if (StringUtils.equals(wiki, ret) == false) {
         System.out.println("expect wiki:\n[" + wiki + "]");
@@ -118,7 +124,7 @@ public class WeditWikiUtilsTest
     GWikiTestBuilder tb = new GWikiTestBuilder();
     GWikiContext ctx = tb.createWikiContext();
     try {
-      String ret = WeditWikiUtils.rteToWiki(ctx, html);
+      String ret = rteToWiki(ctx, html);
       System.out.println("wiki:\n" + ret);
     } catch (RuntimeException ex) {
       ex.printStackTrace();
