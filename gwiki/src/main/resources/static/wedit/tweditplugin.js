@@ -62,7 +62,7 @@
 		    text : 'Cancel',
 		    // shortcut : 'Ctrl+S',
 		    onClick : function() {
-		    	t._cancelAction();
+			    t._cancelAction();
 		    }
 		  });
 		  var macroButton;
@@ -99,6 +99,9 @@
 			    imageButton = this;
 		    }
 		  });
+		  ed.addCommand('mceImage', function() {
+			  t._insertImage(t.editor);
+		  });
 		  var attachmentButton;
 		  ed.addButton('attachmentlink', {
 		    title : "Insert Attachment",
@@ -125,11 +128,11 @@
 			  });
 			  ed.addShortcut('Alt+C', 'Alt+C', 'codesample');
 			  ed.addShortcut('Ctrl+Shift+X', 'Ctrl+Shift+X', 'removeformat');
-			  ed.addShortcut('Ctrl+Shift+C', 'Ctrl+Shift+C,', ['mceToggleFormat', false, 'code']);
+			  ed.addShortcut('Ctrl+Shift+C', 'Ctrl+Shift+C,', [ 'mceToggleFormat', false, 'code' ]);
 			  ed.addShortcut('Ctrl+Shift+I', 'Ctrl+Shift+I', 'italic');
 			  ed.addShortcut('Ctrl+Shift+B', 'Ctrl+Shift+B', 'bold');
 			  ed.addShortcut('Ctrl+Shift+U', 'Ctrl+Shift+U', 'underline');
-			  
+
 		  });
 		  ed.on('NodeChange', function(event) {
 			  if (macroButton) {
