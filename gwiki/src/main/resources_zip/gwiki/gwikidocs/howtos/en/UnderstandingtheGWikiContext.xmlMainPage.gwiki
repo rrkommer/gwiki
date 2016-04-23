@@ -1,13 +1,16 @@
 {pageintro}
-The GWikiContext.xml defines the basic configuration for the GWiki. For setting up GWiki for your needs, you probably have to edit/understand this file.
+The GWikiContext.xml defines the basic implementation for the core services and other configuration for the GWiki. For setting up GWiki for your needs, you probably have to edit/understand this file.
 {pageintro}
 The GWikiContext.xml is a xml file using Spring Application Context format. The implemention of internal interfaces of the GWiki are directly refereing to the implementation classes.
-General information about Spring Application Context XML files can be found [here|http://static.springsource.org/spring/docs/2.5.x/reference/beans.html].
+ General information about Spring Application Context XML files can be found [here|http://static.springsource.org/spring/docs/2.5.x/reference/beans.html].
+{note:title=Developer only}
+In most cases you don't have to use to use this configuration file. In GWiki 2.1 the most important settings can be configured by the Launcher and stored in a simple {{gwiki.properties}} file. 
+{note}
  
 h2. Beans/Interfaces.
 The main purpose of the GWikiContext is to setup the de.micromata.genome.gwiki.model.config.GWikiDAOContext class, which contains all service interface used by gwiki.
-For many services default/standard implementation can be used. If you don't want use other implementation, they should not be defined in the GWikiContext.
-Some service \- like storage service \- must be initialized via the GWikiContext.
+ For many services default/standard implementation can be used. If you don't want use other implementation, they should not be defined in the GWikiContext.
+ Some service \- like storage service \- must be initialized via the GWikiContext.
 h2. Sample 1
 Here a full sample:
 {code:lang=java}
@@ -65,7 +68,7 @@ Here a full sample:
 </beans>
 {code}
 On top level two beans are defined: GWikiBootstrapConfig and GwikiMimeTypes.
-The GWikiBootstrapConfig key defines a bean of the GWikiDAOContext class:
+ The GWikiBootstrapConfig key defines a bean of the GWikiDAOContext class:
  Simple variables:
 ||Bean attribute||Default||Description||
 |boolean staticContentFromClassPath|false|GWiki read the static content from classpath static/\* instead of the <gwikiservletpath>/static from the Web content directory.|
@@ -107,9 +110,10 @@ Service interfaces.
  Normally you don't need to define this in the GWikiContext{td}
 {tr}
 {table}
+ 
 h3. Storage
 The GWikiStorage storage is a container for all GWiki content based on a virtual file system.
-GWiki provides different implementation of a virtual file system:
+ GWiki provides different implementation of a virtual file system:
 *de.micromata.genome.gdbfs.StdFileSystem*
  The StdFileSystem mounts a local directory. It needs a root attribute with a directory name, which will be used as root directory for the file system.
 {code:lang=java}
@@ -166,7 +170,7 @@ GWiki provides different implementation of a virtual file system:
  This file system also combine two file system, but both will be used for read and write access.
  The file system has not only a primary and a secondary file system, but also a rule set, which files should be read/write from the primary file system.
  Different to traditionally mounts, this rule sets can declare also single files, directories or files identified by file extensions.
-Sample:
+ Sample:
 {code:lang=java}
 <bean class="de.micromata.genome.gdbfs.MountCombinedFileSystem">
 								<constructor-arg>
@@ -189,7 +193,7 @@ Sample:
 {code}
 all elements (pageIds) matching to admin/\*, but not admin/user/\* and all matching edit/\*, gwikidocs/\* or inc/\* will be read and write from/to the primary file system,
  all other files from/to the secondary file system.
-Another sample fro the primaryMountRule:
+ Another sample fro the primaryMountRule:
 {code:lang=java}
 <property name="primaryMountsRule" value="+*,-tmp/*,-arch/*,-*/arch/*,-*TextExtract.txt,-*TextIndex.txt,-admin/GlobalTextIndexSettings.properties" />
 {code}
@@ -197,7 +201,7 @@ This rule will read/write all file from primary (\+\*) but all temporary files, 
 h2. Using placeholder in the GWikiContext.xml
 Initializing GWiki with a GWikiContext.xml with f.e. a StdFileSystem needs an path as argument. This can differ for every machine \- either developer, test or production.
  This variable parts of the GWikiContext.xml can be managed outside the GWikiContext.xml using $\{\}\}\-Expression.
-Example:
+ Example:
 {code:lang=java}
 bean class="de.micromata.genome.gdbfs.StdFileSystem">
 										<constructor-arg>
@@ -220,4 +224,4 @@ While evaluating the XML all Expressions marked with $\{\}\} \- in the example $
 Alternativelly the context variables can be defined in the web.xml via context\-param elements.
 *ServletConfig*
  Variables defined in the web.xml as init\-param.
-The variables can also be used to define user names, password hashes, database connection parameter and so on.
+ The variables can also be used to define user names, password hashes, database connection parameter and so on.
