@@ -1,9 +1,10 @@
-function ClipData(clipEvent) {
+function ClipData(clipEvent, dataTransfer) {
 	this.event = clipEvent;
-	this.types = findTypes(clipEvent);
-	this.hasAttachment = containsAttachment(clipEvent);
+	this.dataTransfer = dataTransfer;
+	this.types = findTypes(dataTransfer);
+	this.hasAttachment = containsAttachment(dataTransfer);
 	this.isImage = findImage(this.types);
-	this.fileName = findFileName(clipEvent);
+	this.fileName = findFileName(dataTransfer);
 
 	this.byteData = null;
 	this.base64Data = null;
@@ -37,7 +38,7 @@ function ClipData(clipEvent) {
 		return "";
 	}
 	this.waitForBinaryData = function(callback) {
-		findBinaryData(clipEvent, function(file, data, url) {
+		findBinaryData(dataTransfer, function(file, data, url) {
 //			console.debug("bindata found: " + url + "; " + data);
 			if (url) {
 				_this.dataUrl = url;
@@ -113,8 +114,7 @@ function ClipData(clipEvent) {
 			reader.readAsArrayBuffer(file);
 		}
 	}
-	function containsAttachment(event) {
-		var cd = event.clipboardData;
+	function containsAttachment(cd) {
 		if (cd.files && cd.files.length > 0) {
 			return true;
 		}
@@ -139,8 +139,8 @@ function ClipData(clipEvent) {
 		return false;
 	}
 
-	function findFileName(event) {
-		var cd = event.clipboardData;
+	function findFileName(cd) {
+
 		if (cd.files && cd.files.length > 0) {
 			for (var i = 0; i < cd.files.length; ++i) {
 				var file = cd.files[i];
@@ -161,8 +161,7 @@ function ClipData(clipEvent) {
 		}
 		return null;
 	}
-	function findTypes(event) {
-		var cd = event.clipboardData;
+	function findTypes(cd) {
 		var types = [];
 
 		if (cd.items) {
@@ -181,8 +180,7 @@ function ClipData(clipEvent) {
 		}
 		return types;
 	}
-	function findBinaryData(event, callback) {
-		var cd = event.clipboardData;
+	function findBinaryData(cd, callback) {
 		if (cd.files) {
 			for (var i = 0; i < cd.files.length; ++i) {
 				var file = cd.files[i];

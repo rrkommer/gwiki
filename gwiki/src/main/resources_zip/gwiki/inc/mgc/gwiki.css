@@ -528,30 +528,7 @@ ul.gwikiMenuone li ul li a:hover {
 	cursor: pointer;
 }
 
-.gwikiButton {
-	color: #000000;
-	background: #F0F0F0 none repeat scroll 0 0;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #000000;
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 12pt;
-}
 
-a.gwikiButton {
-	color: #000000;
-	background-color: #F1F1F1;
-	padding: 2px 6px 3px;
-	margin: 2px;
-}
-
-a.gwikiButton:hover {
-	color: #8994A0;
-	background-color: #CFD7D9;
-	border-color: #8994A0;
-	text-decoration: none;
-	cursor: pointer;
-}
 
 input
 .gwikiButton {

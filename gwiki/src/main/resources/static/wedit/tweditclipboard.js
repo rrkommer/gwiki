@@ -4,13 +4,23 @@ function twedit_bind_native_paste(ed, selector) {
 	// var el = frame[0];
 	window.addEventListener("paste", function(event) {
 //		console.debug("twedit_bind_native_paste");
-		var cp = new ClipData(event);
+		var cp = new ClipData(event, event.clipboardData);
 //		cp.dumpEvent();
 		// twedit_dump_pasteEvent(event);
 	});
 }
+function twedit_drop(ed, event) {
+	console.debug('twedit_drop');
+	var cp = new ClipData(event, event.dataTransfer);
+	if (cp.hasAttachment == true) {
+		cp.waitForBinaryData(function(clipData) {
+			gwikiInsertNewAttachmentDialog(ed, clipData);
+		});
+	}
+}
 function twedit_paste(ed, event) {
-	var cp = new ClipData(event);
+	console.debug('twedit_paste');
+	var cp = new ClipData(event, event.clipboardData);
 	if (cp.hasAttachment == true) {
 		cp.waitForBinaryData(function(clipData) {
 			gwikiInsertNewAttachmentDialog(ed, clipData);
@@ -20,7 +30,7 @@ function twedit_paste(ed, event) {
 }
 
 function twedit_preprocess(self, args) {
-//	console.debug("twedit_preprocess: " + args.content);
+	console.debug("twedit_preprocess: " + args.content);
 	var typ = wedit_get_selection_el_type(args.target);
 	if (typ == 'PRE' && args.content) {
 		var nc = args.content.replace(/<br\/>/g, '\n');
@@ -30,7 +40,7 @@ function twedit_preprocess(self, args) {
 }
 
 function twedit_postprocess(ed, args) {
-//	console.debug("twedit_postprocess: " + args.content);
+	console.debug("twedit_postprocess: " + args.content);
 }
 
 // http://joelb.me/blog/2011/code-snippet-accessing-clipboard-images-with-javascript/
