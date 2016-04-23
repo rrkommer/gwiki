@@ -60,7 +60,7 @@ public class GWikiLocalSettingsConfigModel extends AbstractCompositLocalSettings
   public GWikiLocalSettingsConfigModel()
   {
     emailConfig.setDefaultEmailSender("gwiki@locahost");
-    emailConfig.setJndiName("java:/comp/env/gwiki/mail/mailSession");
+    emailConfig.setJndiName("java:comp/env/gwiki/mail/mailSession");
   }
 
   @Override

@@ -52,7 +52,7 @@ public class GWikiFilesystemConfigModel extends AbstractCompositLocalSettingsCon
 
   private JdbcLocalSettingsConfigModel jdbcConfigModel = new JdbcLocalSettingsConfigModel("gwiki",
       "jdbc for gwiki", new JndiLocalSettingsConfigModel("gwiki", JndiLocalSettingsConfigModel.DataType.DataSource,
-          "java:/comp/env/genome/jdbc/dsWeb"));
+          "java:comp/env/genome/jdbc/dsWeb"));
 
   @Override
   public void validate(ValContext ctx)
