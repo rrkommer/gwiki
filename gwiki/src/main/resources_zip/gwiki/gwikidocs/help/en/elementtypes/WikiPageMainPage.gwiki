@@ -7,10 +7,10 @@ A Wiki Page is the most common used type for web pages in GWiki.
 h2. Artefacts
 h3. Wiki Page
 h4. Overview
-!gwikidocs/help/en/elementtypes/EditWikiOverview.png!
- With tabs you can view the edited content in fowolling ways:
-- In the standard View the *Wiki* syntax is shown.
+
+ With tabs you can view the edited content in following ways:
 - *Rich Text* provides a _Rich What you see is what you get_ editor for the page.
+- In the Source tab the {*}Wiki{*} syntax is shown.
 - The *Preview* tab shows a quick preview of the page currently edited.
 See [gwikidocs/help/en/elementtypes/Wiki_Editor_Help] for more information.
  See also: [gwikidocs/help/en/WikiSyntax]
