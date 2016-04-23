@@ -57,6 +57,16 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
   }
 
   @Override
+  public void prepareHeader(GWikiContext wikiContext)
+  {
+    super.prepareHeader(wikiContext);
+    wikiContext.getRequiredJs().add("/static/wedit/ClipData.js");
+    wikiContext.getRequiredJs().add("/static/wedit/teditattach.js");
+    wikiContext.getRequiredJs().add("/static/wedit/twedit-attach-dialog.js");
+
+  }
+
+  @Override
   public void onSave(GWikiContext ctx)
   {
     if (StringUtils.isEmpty(appletTmpFileName) == true) {
@@ -155,60 +165,34 @@ public class GWikiAttachmentEditorArtefakt extends GWikiEditorArtefaktBase<byte[
         .append("jQuery(\"#gwikiattappexists\").show();\n") //
         .append("}\n") //
     ;
-    //    html.append("function switchFileUploadToApplet(){\n") //
-    //        .append("jQuery(\"#gwikiattstd\").hide(); \n")//
-    //        .append("jQuery(\"#gwikiattappexists\").hide();\n")//
-    //        .append("jQuery(\"#gwikiattappfrm\").show();\n")//
-    //        .append(
-    //            "jQuery(\"#gwikiattpapplet\").load(\""
-    //                + ctx.localUrl("/edit/UploadAppletWindow")
-    //                + "?storeTmpFile=true"
-    //                + "&parentPageId="
-    //                + parentPageId
-    //                + " #uploadappletbody\")\n") //
-    //        .append("}\n") //
-    //        .append("function refreshFromApplet(fileName, tmpFileName) {\n")//
-    //        .append("alert('")
-    //        .append(ctx.getTranslated("gwiki.edit.EditPage.attach.message.uploaded"))
-    //        .append("');\n")//
-    //        .append("jQuery('#appletTmpFileName').val(tmpFileName);") //
-    //        .append("jQuery('#editPageTitle').val(fileName);") //
-    //        // .append("jQuery('gwikiattfilsize').html('
-    //        .append("switchFileExists();") //
-    //        .append("}\n")//
-    //    ;
+    if (StringUtils.isNotBlank(parentPageId) == true) {
+      html.append("var gwikiAttachmentParentPageId = '" + ctx.escape(parentPageId) + "';\n");
+    }
     html
         .append("</script>") //
     ;
     html.append("<div id=\"gwikiattappexists\" >\n")//
         .append("<span id=\"gwikiattfilsize\">");
     if (attmentExists == true) {
-      html.append(attachment.getStorageData().length).append(" bytes") //
+      html.append("Size: " + attachment.getStorageData().length).append(" bytes") //
       ;
     }
     html.append("</span><br/></div>") //
     ;
 
-    //    html.append(
-    //        Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
-    //            Xml.text(translate(ctx, "Ugwiki.edit.EditPage.attach.message.nouploaddata"))))//
-    //        .append("<br/>")//
-    //        .append(Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()"))//
-    //            .nest(Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.uploadviaapplet")))) //
-    //        .append("</div>") //
-    //    ;
-    html.append("<div id=\"gwikiattappfrm\" >\n")//
-        //        .append(
-        //            Html.a(Xml.attrs("href", "javascript:swithFileUploadToStd()")).nest(
-        //                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
-        //        .append("<div id=\"gwikiattpapplet\">&nbsp;</div>") //
-        //        .append("</div>\n") //
+    html.append("<div id=\"gwikiattappfrm\">\n")//
+        .append("<div class='gwikiattachement_introtext'>\n")
+        .append(ctx.escape(ctx.getTranslated("gwiki.edit.EditPage.attach.message.introtext")))
+        .append("</div>")
         .append("<div id=\"gwikiattstd\">\n") //
+        .append("<div class='gwikiattachment_uploadfile'>\n")
         .append(Html.input(Xml.attrs("type", "file", "value", value, "name", partName + ".attachment"))) //
-        //        .append("<br/>\n") //
-        //        .append(
-        //            Html.a(Xml.attrs("href", "javascript:switchFileUploadToApplet()")).nest(
-        //                Xml.text(translate(ctx, "gwiki.edit.EditPage.attach.label.switchtostandard")))) //
+        .append("</div>\n")
+        .append("<div class='gwikiattachment_dropfile'>\n")
+        .append("<span class='gwikiattachment_dropfile_text'>\n")
+        .append(ctx.escape(ctx.getTranslated("gwiki.edit.EditPage.attach.message.dropHere")))
+        .append("</span>\n")
+        .append("</div>\n")
         .append("</div>");
     ;
     if (attmentExists == true) {

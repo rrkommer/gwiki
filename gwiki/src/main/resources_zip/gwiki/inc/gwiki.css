@@ -294,9 +294,42 @@ ul.gwikiNavMenu {
 	font-size: 12pt;
 }
 
-a.gwikiButton:hover {
+a.gwikiButton {
 	color: #000000;
 	background-color: #F1F1F1;
+	padding: 2px 6px 3px;
+	margin: 2px;
+	line-height: 28px;
+}
+
+a.gwikiButton:hover {
+	color: #8994A0;
+	background-color: #CFD7D9;
+	border-color: #8994A0;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.gwikiButtonMain {
+	background: #51AE30 none repeat scroll 0 0;
+}
+
+a.gwikiButtonMain:hover {
+	background-color: #B9C900;
+	color: #005D4D;
+	border-color: #005D4D;
+}
+
+a.gwikiButtonReset {
+	background-color: #F5AD9F;
+	color: #E63110;
+	border-color: #E63110;
+}
+
+a.gwikiButtonReset:hover {
+	background-color: #EA4F44;
+	color: #730019;
+	border-color: #730019;
 }
 
 .gwikiWikiEditorFrame {
@@ -522,5 +555,30 @@ ul.error {
 }
 
 .gwikiSmiley {
+	vertical-align: middle;
+}
+
+.gwikiattachement_introtext {
+	line-height: 50px;
+}
+
+.gwikiattachment_uploadfile {
+	height: 75px;
+	vertical-align: middle;
+	line-height: 50px;
+}
+
+.gwikiattachment_dropfile {
+	height: 300px;
+	width: 100%;
+	border: solid;
+	border-color: gray;
+	border-width: 3px;
+	text-align: center;
+	line-height: 300px;
+	vertical-align: middle;
+}
+
+.gwikiattachment_dropfile_text {
 	vertical-align: middle;
 }

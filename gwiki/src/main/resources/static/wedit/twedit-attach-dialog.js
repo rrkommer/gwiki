@@ -40,7 +40,7 @@ function gwikiInsertNewAttachmentDialog(ed, clipData) {
 	buttons["gwiki.common.ok".i18n()] = function() {
 		var fileName = $("#linkpropt").val();
 		var title = $("#linkprtitle").val();
-		twedit_attach_storeAttachment(ed, clipData, fileName, title, function(resobj) {
+		twedit_attach_storeAttachment(ed, clipData, fileName, title, gwikiContext.gwikiEditPageId, function(resobj) {
 			if (resobj.rc != 0) {
 				$("#editDlgInserImageMsg").html(resobj.rm);
 				if (resobj.alternativeFileName) {
@@ -97,7 +97,7 @@ function twedit_attach_insertImageLink(ed, item) {
 
 }
 
-function twedit_attach_storeAttachment(ed, clipData, fileName, title, callback) {
+function twedit_attach_storeAttachment(ed, clipData, fileName, title, parentPageId, callback) {
 //	console.debug("parentid: " + gwikiContext.gwikiEditPageId);
 	$.ajax({
 	  method : 'POST',
@@ -105,12 +105,13 @@ function twedit_attach_storeAttachment(ed, clipData, fileName, title, callback) 
 	  data : {
 	    method_onUploadImage : true,
 	    storeTmpFile : false,
-	    parentPageId : gwikiContext.gwikiEditPageId,
+	    parentPageId : parentPageId,
 	    json : true,
 	    fileName : fileName,
 	    title : title, // TODO not yet used in uplaod
 	    encData : clipData.base64Data
 	  },
+	  dataType : "json",
 	  success : function(result) {
 		  callback(result);
 	  },

@@ -43,6 +43,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.impl.GWikiChangeCommentArtefakt;
 import de.micromata.genome.gwiki.page.impl.GWikiContent;
+import de.micromata.genome.gwiki.page.impl.GWikiDefaultFileNames;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
@@ -196,7 +197,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     XmlNode addNode = nbsp();
     if (wikiContext.getWikiWeb().getAuthorization().isAllowToCreate(wikiContext, elementInfo) == true) {
       addNode = a(
-          attrs("href", wikiContext.localUrl("/edit/EditPage")
+          attrs("class", "gwikiButton gwikiButtonMain", "href", wikiContext.localUrl("/edit/EditPage")
               + "?newPage=true&parentPageId="
               + elementInfo.getId()
               + "&metaTemplatePageId=admin/templates/FileWikiPageMetaTemplate"),
@@ -211,7 +212,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
             th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.name"))), //
             th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.size"))), //
             th(text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.version"))), //
-            Logic.If(isEditable, (text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.action")))) //
+            th(Logic.If(isEditable, (text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.action"))))) //
         )//
     );
 
@@ -228,11 +229,11 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
               Logic.If(
                   isEditable,
                   td(//
-                      a(attrs("href",
+                      a(attrs("class", "gwikiButton gwikiButtonMain", "href",
                           wikiContext.localUrl("/edit/EditPage") + "?pageId=" + ce.getId() + "&" + backUrlParam),
                           text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.edit"))), //
                       // br(), //
-                      a(attrs("onclick",
+                      a(attrs("class", "gwikiButton gwikiButtonReset", "onclick",
                           "return confirm('"
                               + translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.message.deleteconfirm")
                               + "');",
@@ -240,7 +241,8 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
                               + "&method_onDelete=true&" + backUrlParam),
                           text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.delete")), //
                           // br(), //
-                          a(attrs("href", wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
+                          a(attrs("class", "gwikiButton", "href",
+                              wikiContext.localUrl("/edit/PageInfo") + "?pageId=" + ce.getId()),
                               text(translate(wikiContext, "gwiki.page.edit.PageInfo.attachment.label.info")))) //
                   ))//
           ) //
@@ -313,7 +315,7 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     ta.nest(//
         tr(//
             th(text(translate("gwiki.page.edit.PageInfo.op.edit.label"))), //
-            td(a(attrs("href",
+            td(a(attrs("class", "gwikiButton gwikiButtonMain", "href",
                 wikiContext.localUrl("edit/EditPage") + "?pageId=" + wikiContext.escapeUrlParam(elementInfo.getId())),
                 text(translate("gwiki.page.edit.PageInfo.op.edit.link")))) //
         ), //
@@ -364,11 +366,11 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
               td(text(StringUtils.defaultString(ei.getProps().getStringValue(MODIFIEDBY), "Unknown"))), //
               td(text(getDisplayDate(ei.getProps().getDateValue(MODIFIEDAT)))), //
               td(//
-                  a(attrs("href", wikiContext.localUrl(ei.getId())),
+                  a(attrs("class", "gwikiButton", "href", wikiContext.localUrl(ei.getId())),
                       text(translate("gwiki.page.edit.PageInfo.version.button.view"))), //
                   ei == elementInfo ? nbsp() : Logic.If(
                       editAble,
-                      a(attrs("href", wikiContext.localUrl("edit/PageInfo")
+                      a(attrs("class", "gwikiButton gwikiButtonMain", "href", wikiContext.localUrl("edit/PageInfo")
                           + "?restoreId="
                           + ei.getId()
                           + "&pageId="
@@ -437,8 +439,10 @@ public class GWikiPageInfoActionBean extends ActionBeanBase implements GWikiProp
     if (showInfo("OutLinks") == true) {
       infoBoxen.put("OutLinks", buildOutgoingLinks());
     }
-    if (showInfo("Attachments") == true) {
-      infoBoxen.put("Attachments", buildAttachmentsBox());
+    if (GWikiDefaultFileNames.ATTACHMENT_METATEMPLATE.equals(elementInfo.getMetaTemplate().getPageId()) == false) {
+      if (showInfo("Attachments") == true) {
+        infoBoxen.put("Attachments", buildAttachmentsBox());
+      }
     }
     if (showInfo("ChangeComments") == true) {
       String cl = buildChangeComments();

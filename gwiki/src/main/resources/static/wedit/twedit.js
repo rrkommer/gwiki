@@ -152,6 +152,7 @@ function twedit_create(editId, newPage) {
 	      paste_data_images : true,
 	      paste_preprocess : twedit_preprocess,
 	      paste_postprocess : twedit_postprocess,
+	      paste_filter_drop : false,
 	      textpattern_patterns : wiki_textpattern_patterns,
 	      auto_focus : editId,
 	      language : "locale".i18n(),
@@ -193,6 +194,11 @@ function twedit_create(editId, newPage) {
 		      ed.on('paste', function(e) {
 			      twedit_paste(this, e);
 		      });
+		      ed.on('drop', function(e) {
+			      twedit_drop(this, e);
+			      e.stopPropagation();
+			      e.preventDefault();
+		      });
 		      ed.on('FullscreenStateChanged', function(e) {
 			      var nstate = e.state;
 			      gwikiSetCookie('wikirtefullscreen', "" + nstate, 30);
@@ -209,7 +215,7 @@ function twedit_create(editId, newPage) {
 		      }
 		      ed.on('keydown', function(event) {
 			      // all keys because overwerite
-//			      console.debug('keydown: ' + event.which);
+			      // console.debug('keydown: ' + event.which);
 			      if (tweid_isModKeydown(event)) {
 				      if (twedit_check_valid_range_for_del(ed, event) == false) {
 					      event.stopPropagation();
