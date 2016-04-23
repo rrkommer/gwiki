@@ -117,7 +117,7 @@ public class WeditWikiUtils
     return transformers;
   }
 
-  public static String wikiToRte(GWikiContext wikiContext, String wikiText)
+  public static String wikiToRte(GWikiContext wikiContext, String currentPageId, String wikiText)
   {
     GWikiWikiPageArtefakt wiki = new GWikiWikiPageArtefakt();
 
@@ -137,9 +137,9 @@ public class WeditWikiUtils
     return ret;
   }
 
-  public static String rteToWiki(GWikiContext wikiContext, String htmlCode)
+  public static String rteToWiki(GWikiContext wikiContext, String currentPageId, String htmlCode)
   {
-    String ttext = RteHtmlParser.convert(wikiContext, htmlCode);
+    String ttext = RteHtmlParser.convert(wikiContext, currentPageId, htmlCode);
     return ttext;
   }
 }

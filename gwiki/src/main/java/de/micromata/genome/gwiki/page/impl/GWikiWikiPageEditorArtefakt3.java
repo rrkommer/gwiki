@@ -104,7 +104,11 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
             partName + ".wikiText",
             "style", "width:100%;height:100%"), //
         Xml.text(text)).toString();
-    String rtetext = WeditWikiUtils.wikiToRte(ctx, text);
+    String editPageId = null;
+    if (elementToEdit != null) {
+      editPageId = elementToEdit.getElementInfo().getId();
+    }
+    String rtetext = WeditWikiUtils.wikiToRte(ctx, editPageId, text);
 
     String rtetextarea = Html.textarea(Xml.attrs("id", "gwikihtmledit" + partName, "name", "gwikihtmledit" + partName),
         Xml.text(rtetext)).toString();
@@ -163,13 +167,17 @@ public class GWikiWikiPageEditorArtefakt3 extends GWikiTextPageEditorArtefakt
   @Override
   public void onSave(GWikiContext ctx)
   {
+    String thisPageId = null;
+    if (editBean.isNewPage() == false) {
+      thisPageId = editBean.getPageId();
+    }
     String htmlCode = ctx.getRequestParameter("gwikihtmledit" + partName);
 
     String lastactivetabviewid = "lastactiveview" + partName;
     String lastactive = ctx.getRequestParameter(lastactivetabviewid);
     // sourceditor or rteeditor
     if (StringUtils.equals(lastactive, "wiki") == false) {
-      String ret = WeditWikiUtils.rteToWiki(ctx, htmlCode);
+      String ret = WeditWikiUtils.rteToWiki(ctx, thisPageId, htmlCode);
       wikiPage.setStorageData(ret);
     } else {
       super.onSave(ctx);

@@ -21,6 +21,8 @@ import java.util.Base64;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
+import de.micromata.genome.gwiki.model.GWikiPropKeys;
+import de.micromata.genome.gwiki.model.GWikiWebUtils;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.GWikiBinaryAttachmentArtefakt;
@@ -45,7 +47,7 @@ public class RteImageDomElementListener implements DomElementListener
     if (StringUtils.isBlank(pageId) == true) {
       pageId = event.getAttr("data-wiki-url");
     }
-    handleDataImage(event, pageId);
+    pageId = handleDataImage(event, pageId);
     GWikiFragmentImage image = parseImage(event, pageId);
 
     String styleClass = image.getStyleClass();
@@ -59,24 +61,43 @@ public class RteImageDomElementListener implements DomElementListener
 
   }
 
-  protected void handleDataImage(DomElementEvent event, String pageId)
+  public String getAutoImgPageId(DomElementEvent event, String curPageId, String suffix)
+  {
+    for (int i = 0; i < 100; ++i) {
+      String nid = curPageId + "_Img" + i;
+      if (StringUtils.isNotBlank(suffix) == true) {
+        nid += "." + suffix;
+      }
+      if (event.getWikiContext().getWikiWeb().findElementInfo(nid) == null) {
+        return nid;
+      }
+    }
+    return null;
+  }
+
+  protected String handleDataImage(DomElementEvent event, String pageId)
   {
     if (StringUtils.isBlank(pageId) == true) {
-      return;
+      return pageId;
     }
     String src = event.getAttr("src");
     // handle data:image/png;base64,iVBORw...
     if (StringUtils.startsWith(src, "data:image") == false) {
-      return;
+      return pageId;
     }
     int edix = src.indexOf(';');
     if (edix == -1) {
-      return;
+      return pageId;
     }
     String mime = src.substring(5, edix);
+    int suffixidx = mime.indexOf('/');
+    String suffix = null;
+    if (suffixidx != -1) {
+      suffix = mime.substring(suffixidx + 1);
+    }
     String rest = src.substring(edix + 1);
     if (rest.startsWith("base64,") == false) {
-      return;
+      return pageId;
     }
     rest = rest.substring("base64,".length());
     byte[] data;
@@ -84,18 +105,38 @@ public class RteImageDomElementListener implements DomElementListener
       data = Base64.getDecoder().decode(rest);
     } catch (IllegalArgumentException ex) {
       GLog.warn(GWikiLogCategory.Wiki, "Cannot decode image base64");
-      return;
+      return pageId;
+    }
+    String cpid = event.getParseContext().getCurrentPageId();
+    if (src.equals(pageId) == true) {
+
+      if (cpid == null) {
+        GLog.warn(GWikiLogCategory.Wiki, "Non editPageId set. Cannot convert base64 image");
+        return pageId;
+      }
+      pageId = getAutoImgPageId(event, cpid, suffix);
+      if (pageId == null) {
+        GLog.warn(GWikiLogCategory.Wiki, "Cannot create new image page id for base64image");
+        return pageId;
+      }
     }
     GWikiElement imageElement = event.getWikiContext().getWikiWeb().findElement(pageId);
     if ((imageElement instanceof GWikiFileAttachment) == false) {
-      return;
+      if (imageElement != null) {
+        GLog.warn(GWikiLogCategory.Wiki, "Cannot overwrite non attachment with image: " + pageId);
+        return pageId;
+      }
+      String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
+      imageElement = GWikiWebUtils.createNewElement(event.getWikiContext(), pageId, metaTemplateId, null);
+      imageElement.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, cpid);
     }
     GWikiFileAttachment fat = (GWikiFileAttachment) imageElement;
 
     GWikiBinaryAttachmentArtefakt mpart = (GWikiBinaryAttachmentArtefakt) imageElement.getMainPart();
     mpart.setStorageData(data);
     event.getWikiContext().getWikiWeb().saveElement(event.getWikiContext(), fat, false);
-    mpart.toString();
+
+    return pageId;
   }
 
   protected GWikiFragmentImage parseImage(DomElementEvent event, String pageId)

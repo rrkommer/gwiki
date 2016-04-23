@@ -39,10 +39,10 @@ import de.micromata.genome.logging.LoggableRuntimeException;
 
 public class RteHtmlParser
 {
-  public static String convert(GWikiContext wikiContext, String htmlCode)
+  public static String convert(GWikiContext wikiContext, String currentPageId, String htmlCode)
   {
     DocumentFragment document = toDom(wikiContext, htmlCode);
-    HtmlDomWalker walker = new HtmlDomWalker(document, wikiContext);
+    HtmlDomWalker walker = new HtmlDomWalker(document, currentPageId, wikiContext);
     walker.parseContext.pushFragList();
     //    walker.walk(new DumpDomVisitor());
     walker.walk(new RteDomVisitor());

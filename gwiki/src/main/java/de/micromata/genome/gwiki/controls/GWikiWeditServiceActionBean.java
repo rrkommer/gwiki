@@ -142,6 +142,10 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
   private String macro;
   private String macroHead;
   private String macroBody;
+  /**
+   * The page currently is edited.
+   */
+  private String editPageId;
 
   public Object onWeditAutocomplete()
   {
@@ -391,13 +395,14 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
 
   public Object onWikiToRte()
   {
-    String rte = WeditWikiUtils.wikiToRte(wikiContext, txt);
+
+    String rte = WeditWikiUtils.wikiToRte(wikiContext, editPageId, txt);
     return sendStringResponse(rte);
   }
 
   public Object onRteToWiki()
   {
-    String wiki = WeditWikiUtils.rteToWiki(wikiContext, txt);
+    String wiki = WeditWikiUtils.rteToWiki(wikiContext, editPageId, txt);
     return sendStringResponse(wiki);
   }
 
@@ -464,6 +469,16 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
   public void setMacroBody(String macroBody)
   {
     this.macroBody = macroBody;
+  }
+
+  public String getEditPageId()
+  {
+    return editPageId;
+  }
+
+  public void setEditPageId(String editPageId)
+  {
+    this.editPageId = editPageId;
   }
 
 }
