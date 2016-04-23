@@ -65,9 +65,24 @@ function gwikiBuildNavMenuTree(menuDivId, searchTextId, treeChildrenServiceUrl, 
 				window.location = nurl;
 			}
 		} else {
-			//console.debug("ingnored first call");
+			
+			// console.debug("ingnored first call");
 		}
-		
+
+	});
+	tree.on('mousedown', function(e, data) {
+		if (e.which == 2) { // middle mouse butotn
+			var tree = $('#' + menuDivId).jstree(true);
+			var targetNode = e.target;
+			var id = targetNode.id;
+			var node = tree.get_node(id);
+			var nurl = gwikiLocalUrl(node.data.url);
+			window.open(nurl, '_blank');
+//			console.debug('mousedown');
+			e.stopPropagation();
+			e.preventDefault();
+			return false;
+		}
 	});
 	// tree.on('check_node.jstree',
 	tree.on("changed.jstree", function(e, data) {
