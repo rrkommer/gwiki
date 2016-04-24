@@ -36,12 +36,13 @@
     </bean>
   </property>
   
-		<!--  FILE -->
-    <property name="staticContentFileSystem">
+    <!--  for debugging -->
+    <!--  <property name="staticContentFileSystem">
       <bean class="de.micromata.genome.gdbfs.StdFileSystem">
       <constructor-arg value="../gwiki/src/main/resources"/>
       </bean>
     </property>
+     -->
 		<property name="storage">
 			<bean class="de.micromata.genome.gwiki.spi.storage.GWikiFileStorage">
 				<constructor-arg>
