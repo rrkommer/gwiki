@@ -59,10 +59,18 @@ import de.micromata.genome.util.matcher.Matcher;
 public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
 {
   private boolean forNavigation = false;
-
+  /**
+   * Create addititional root branch for current page.
+   */
+  private boolean includeCurrentPageBranch = false;
   private String rootPage;
   private String type;
   private Map<String, String> rootCategories;
+
+  public static String renderTreeForNav(GWikiContext ctx)
+  {
+    return renderTree(ctx, null, "gwiki");
+  }
 
   public static String renderTree(GWikiContext ctx, String rootPageId)
   {
@@ -83,6 +91,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
       }
     };
     bean.setForNavigation(true);
+    bean.setIncludeCurrentPageBranch(true);
     bean.setWikiContext(ctx);
     bean.setRootPage(rootPageId);
     bean.setType(searchType);
@@ -100,6 +109,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
     if (forNavigation == true && superCategory == null) {
       superCategory = wikiContext.getWikiWeb().getWelcomePageId(wikiContext);
     }
+
     if (StringUtils.isBlank(superCategory) || superCategory.equals("#") == true) {
       rootElements = getRootElements();
     } else {
@@ -111,6 +121,7 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
       } else {
         rootElements = wikiContext.getElementFinder().getAllDirectChilds(el);
       }
+      addCurrentPageBranch(rootElements);
     }
     SearchType searchType = SearchType.fromString(type);
     JsonArray rootNodes = JsonBuilder.array();
@@ -197,8 +208,26 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
         validRootPages.add(elem.getElementInfo());
       }
     }
-
+    addCurrentPageBranch(validRootPages);
     return validRootPages;
+  }
+
+  private void addCurrentPageBranch(List<GWikiElementInfo> validRootPages)
+  {
+    if (includeCurrentPageBranch == false) {
+      return;
+    }
+    if (wikiContext.getCurrentElement() == null) {
+      return;
+    }
+    GWikiElementInfo cei = wikiContext.getCurrentElement().getElementInfo();
+    for (GWikiElementInfo rr : validRootPages) {
+      if (wikiContext.getElementFinder().isChildOf(cei, rr) == true) {
+        return;
+      }
+    }
+    GWikiElementInfo cpi = wikiContext.getElementFinder().getAncestor(cei);
+    validRootPages.add(cpi);
   }
 
   private JsonObject addToNode(Map<String, JsonObject> tree, String dir)
@@ -360,6 +389,16 @@ public class GWikiTreeChildrenActionBean extends ActionBeanAjaxBase
   public void setForNavigation(boolean forNavigation)
   {
     this.forNavigation = forNavigation;
+  }
+
+  public boolean isIncludeCurrentPageBranch()
+  {
+    return includeCurrentPageBranch;
+  }
+
+  public void setIncludeCurrentPageBranch(boolean includeCurrentPageBranch)
+  {
+    this.includeCurrentPageBranch = includeCurrentPageBranch;
   }
 
 }

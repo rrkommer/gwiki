@@ -8,7 +8,7 @@
 	<div id='gwikiNavMenu'> Here nav</div>
 
 <% 
- String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTree(wikiContext, null);
+ String jsonNavJsTree = de.micromata.genome.gwiki.controls.GWikiTreeChildrenActionBean.renderTreeForNav(wikiContext);
 %>
 
 	<script type="text/javascript">

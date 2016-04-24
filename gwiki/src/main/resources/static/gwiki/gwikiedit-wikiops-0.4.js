@@ -120,9 +120,9 @@ var imageBlob;
 /* Handle paste events */
 function screenshotPasteHandler(e) {
    // We need to check if event.clipboardData is supported (Chrome)
-	console.debug('screenshotPasteHandler' + e);
+//	console.debug('screenshotPasteHandler' + e);
    if (e.clipboardData) {
-	   console.debug('screenshotPasteHandler has data' + e);
+//	   console.debug('screenshotPasteHandler has data' + e);
       // Get the items from the clipboard
       var items = e.clipboardData.items;
       if (items) {
@@ -141,7 +141,7 @@ function screenshotPasteHandler(e) {
                 
                // The URL can then be used as the source of an image
                createImage(source);
-               console.debug('screenshotPasteHandler image created: ' + source);
+//               console.debug('screenshotPasteHandler image created: ' + source);
             }
          }
       }
@@ -178,7 +178,7 @@ function createImage(source) {
 }
 
 function storeImage() {
-	console.debug("storeImage");
+//	console.debug("storeImage");
 	if (imageSource === undefined) {
 		checkInput();
 	}
@@ -186,7 +186,7 @@ function storeImage() {
 		alert('No image found');
 		return;
 	}
-	console.debug("image found: " + imageSource);
+//	console.debug("image found: " + imageSource);
 	var fnameel = document.getElementById("imguploadfilename");
 	var fname = fnameel.value;
 	var blankRE=/^[\s]+$/;
@@ -206,14 +206,14 @@ function storeImage() {
 			encData: imageSource
 		},
 		success: function(result){
-			console.debug("image uploaded: " + result);
+//			console.debug("image uploaded: " + result);
 			 var resobj = eval('(' +result + ')');
 //			if (result.rc === 0) {
 				gwikieditInsertImageCb(fname, resobj.tmpFileName);
 //			}
         },
         error: function(xhr,status,error) {
-        	console.debug("Upload failed");
+        	console.error("Upload failed");
         }
         });
 	

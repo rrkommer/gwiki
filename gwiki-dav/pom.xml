@@ -56,6 +56,11 @@
       </exclusions>
       
     </dependency>
+        
+    <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-console</artifactId> <version>1.4.2</version> </dependency> -->
+    <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-filesystem</artifactId> <version>1.4.2</version> 
+      </dependency> <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-ftp</artifactId> <version>1.4.2</version> </dependency> 
+      <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-json</artifactId> <version>1.4.2</version> </dependency> -->
   </dependencies>
 
 </project>

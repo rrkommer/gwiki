@@ -14,7 +14,7 @@ function gwiki_dlg_create_ok_cancel_buttons(dialogid, options) {
 	var onCancel = defaultCancel;
 	if (typeof options.onCancel != 'undefined') {
 		onCancel = options.onCancel;
-		console.debug('custom onCancel');
+//		console.debug('custom onCancel');
 	}
 
 	buttons["gwiki.common.cancel".i18n()] = {
