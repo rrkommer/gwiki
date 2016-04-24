@@ -61,8 +61,6 @@ public class GWikiServlet extends HttpServlet
    */
   private GWikiDAOContext daoContext;
 
-  private GWikiDavServer davServer;
-
   public static GWikiServlet INSTANCE;
 
   public String contextPath;
@@ -153,10 +151,6 @@ public class GWikiServlet extends HttpServlet
       GWikiContext.setCurrent(ctx);
       String page = getWikiPage(ctx);
 
-      if (page.equals("dav") == true || page.startsWith("dav/") == true) {
-        serveWebDav(ctx);
-        return;
-      }
       final String method = req.getMethod();
       if (StringUtils.equals(method, "GET") == false && StringUtils.equals(method, "POST") == false) {
         resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Gwiki Method " + method + " not supported");
@@ -269,20 +263,6 @@ public class GWikiServlet extends HttpServlet
     IOUtils.closeQuietly(is);
     resp.setContentLength(data.length);
     IOUtils.write(data, resp.getOutputStream());
-  }
-
-  protected void serveWebDav(GWikiContext ctx) throws ServletException, IOException
-  {
-    if (daoContext.isEnableWebDav() == false) {
-      ctx.getResponse().sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "GWiki webdav not enabled");
-      return;
-    }
-    if (davServer == null) {
-      davServer = new GWikiDavServer();
-    }
-    if (davServer != null) {
-      davServer.serve(getWikiWeb(), daoContext, ctx);
-    }
   }
 
   public GWikiDAOContext getDAOContext()

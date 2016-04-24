@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package de.micromata.genome.gwiki.web;
+package de.micromata.genome.gwiki.web.dav;
 
 import java.util.Date;
 
