@@ -52,8 +52,8 @@ public class GWikiLauncherMain
 
   public static void runCli(String[] args)
   {
-    Log4JInitializer.initializeLog4J();
     GWikiLauncherApplication sapplication = new GWikiLauncherApplication();
+    Log4JInitializer.initializeLog4J();
     if (sapplication.checkConfiguration() == false) {
       throw new RuntimeException("Configuration is invalid; Check logs");
     }
