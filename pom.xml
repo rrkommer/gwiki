@@ -196,6 +196,12 @@
 			<name>MGC</name>
 			<url>https://labs.micromata.de/nexus/content/repositories/MGC/</url>
 		</repository>
+    <!-- used for external libs -->
+    <repository>
+			<id>GWIKI</id>
+			<name>GWIKI</name>
+			<url>https://labs.micromata.de/nexus/content/repositories/GWIKI/</url>
+		</repository>
 		<repository>
 			<id>MGC-snapshot</id>
 			<name>MGC-snapshot</name>
