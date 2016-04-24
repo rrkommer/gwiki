@@ -223,51 +223,23 @@
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
     </dependency>
-
     <dependency>
-      <groupId>com.ettrema</groupId>
-      <artifactId>milton-api</artifactId>
-      <version>1.4.2</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-codec</groupId>
-          <artifactId>commons-codec</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
     </dependency>
+    <!-- 
     <dependency>
-      <groupId>com.ettrema</groupId>
-      <artifactId>milton-servlet</artifactId>
-      <version>1.4.2</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-webmvc</artifactId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-log4j12</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jcl-over-slf4j</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-expression</artifactId>
+      <version>${spring.version}</version>
     </dependency>
-    <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-console</artifactId> <version>1.4.2</version> </dependency> -->
-    <!-- <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-filesystem</artifactId> <version>1.4.2</version> 
-      </dependency> <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-ftp</artifactId> <version>1.4.2</version> </dependency> 
-      <dependency> <groupId>com.ettrema</groupId> <artifactId>milton-json</artifactId> <version>1.4.2</version> </dependency> -->
-
-
+     -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -280,10 +252,7 @@
       <version>2.1</version>
       <scope>provided</scope>
     </dependency>
-    <!-- <dependency> <groupId>struts</groupId> <artifactId>struts-el</artifactId> <version>1.2.9</version> <exclusions> 
-      <exclusion> <groupId>struts</groupId> <artifactId>struts</artifactId> </exclusion> </exclusions> </dependency> <dependency> 
-      <groupId>struts</groupId> <artifactId>struts</artifactId> <version>1.2.9</version> <exclusions> <exclusion> <artifactId>oro</artifactId> 
-      <groupId>oro</groupId> </exclusion> </exclusions> </dependency> -->
+  
     <dependency>
       <groupId>antlr</groupId>
       <artifactId>antlr</artifactId>

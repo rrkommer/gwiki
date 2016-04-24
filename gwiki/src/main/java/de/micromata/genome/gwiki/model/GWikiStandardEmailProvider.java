@@ -25,7 +25,6 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
@@ -110,13 +109,11 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
       return;
     }
     MimeMessage message = new MimeMessage(emailSession);
-    boolean multipart = false;
     String encoding = DEFAULT_MAIL_ENCODING;
-    MimeMessageHelper mh = new MimeMessageHelper(message, multipart, encoding);
+    GWikiMailHelper mh = new GWikiMailHelper(message, false, encoding);
     setHeaders(mh, headers);
-    mh.setText(ctx.get(TEXT));
-    MimeMessage m = mh.getMimeMessage();
-    Transport.send(m);
+    mh.setBody(ctx.get(TEXT));
+    Transport.send(message);
   }
 
   protected Session getEmailSession()
@@ -126,7 +123,7 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
 
   }
 
-  private void setHeaders(MimeMessageHelper helper, Map<String, String> mth) throws MessagingException
+  private void setHeaders(GWikiMailHelper helper, Map<String, String> mth) throws MessagingException
   {
 
     String to = mth.get(TO);
@@ -134,7 +131,7 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
       throw new MessagingException("No recipient given");
     }
 
-    helper.setTo(StringUtils.split(to, ","));
+    helper.setTo(to);
 
     if (mth.containsKey(FROM)) {
       helper.setFrom(mth.get(FROM));
@@ -146,12 +143,12 @@ public class GWikiStandardEmailProvider implements GWikiEmailProvider
 
     String cc = mth.get(CC);
     if (cc != null) {
-      helper.setCc(StringUtils.split(cc, ","));
+      helper.setCc(cc);
     }
 
     String bcc = mth.get(BCC);
     if (bcc != null) {
-      helper.setBcc(StringUtils.split(bcc, ","));
+      helper.setBcc(bcc);
     }
   }
 

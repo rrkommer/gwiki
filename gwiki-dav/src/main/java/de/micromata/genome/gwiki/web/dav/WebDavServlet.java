@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package de.micromata.genome.gwiki.web;
+package de.micromata.genome.gwiki.web.dav;
 
 import java.io.IOException;
 
@@ -35,9 +35,10 @@ import com.bradmcevoy.http.ServletRequest;
 
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiStorage;
+import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
-import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
 
 /**
@@ -46,11 +47,13 @@ import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
  * @deprecated the static content will also be provided by the GWikiServlet.
  * 
  */
+
+@Deprecated
 public class WebDavServlet extends HttpServlet
 {
 
   private static final long serialVersionUID = -4638285765444826145L;
-
+  private GWikiDavServer davServer;
   private HttpManager httpManager;
 
   private boolean wordHtmlEdit = false;
@@ -61,8 +64,9 @@ public class WebDavServlet extends HttpServlet
 
   public synchronized HttpManager getHttpManager(HttpServletRequest req)
   {
-    if (httpManager != null)
+    if (httpManager != null) {
       return httpManager;
+    }
 
     GWikiStorage wkStorage = GWikiServlet.INSTANCE.getDAOContext().getStorage();
     FileSystem storage = null;
@@ -81,7 +85,8 @@ public class WebDavServlet extends HttpServlet
     fsfac.setInternalPass(internalPass);
     fsfac.setWordHtmlEdit(wordHtmlEdit);
     if (wordHtmlEdit == true) {
-      httpManager = new HttpManager(new FsDavOfficeResourceFactory(GWikiServlet.INSTANCE.getWikiWeb(), fsfac), responseHandler);
+      httpManager = new HttpManager(new FsDavOfficeResourceFactory(GWikiServlet.INSTANCE.getWikiWeb(), fsfac),
+          responseHandler);
     } else {
       httpManager = new HttpManager(fsfac, responseHandler);
     }
@@ -90,19 +95,35 @@ public class WebDavServlet extends HttpServlet
 
   private void logRequest(HttpServletRequest req)
   {
-    if (true)
+    if (true) {
       return;
-    // StringBuilder sb = new StringBuilder();
-    // sb.append(req.getMethod()).append(" ").append(req.getRequestURI()).append("\n");
-    // for (Enumeration en = req.getHeaderNames(); en.hasMoreElements();) {
-    // String name = (String) en.nextElement();
-    // String val = req.getHeader(name);
-    // sb.append(name).append(": ").append(val).append("\n");
-    // }
-    // sb.append("\n");
-    // GWikiContext ctx = GWikiContext.getCurrent();
-    // // ctx.getWikiWeb().getLogging().note("WebDav; " + req.getMethod() + " " + req.getRequestURI(), ctx);
-    // System.out.print(sb.toString());
+      // StringBuilder sb = new StringBuilder();
+      // sb.append(req.getMethod()).append(" ").append(req.getRequestURI()).append("\n");
+      // for (Enumeration en = req.getHeaderNames(); en.hasMoreElements();) {
+      // String name = (String) en.nextElement();
+      // String val = req.getHeader(name);
+      // sb.append(name).append(": ").append(val).append("\n");
+      // }
+      // sb.append("\n");
+      // GWikiContext ctx = GWikiContext.getCurrent();
+      // // ctx.getWikiWeb().getLogging().note("WebDav; " + req.getMethod() + " " + req.getRequestURI(), ctx);
+      // System.out.print(sb.toString());
+    }
+  }
+
+  protected void serveWebDav(GWikiContext ctx) throws ServletException, IOException
+  {
+    GWikiDAOContext daoContext = ctx.getWikiWeb().getDaoContext();
+    if (daoContext.isEnableWebDav() == false) {
+      ctx.getResponse().sendError(HttpServletResponse.SC_NOT_IMPLEMENTED, "GWiki webdav not enabled");
+      return;
+    }
+    if (davServer == null) {
+      davServer = new GWikiDavServer();
+    }
+    if (davServer != null) {
+      davServer.serve(ctx.getWikiWeb(), daoContext, ctx);
+    }
   }
 
   @Override

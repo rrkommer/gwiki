@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-package de.micromata.genome.gwiki.web;
+package de.micromata.genome.gwiki.web.dav;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
-import de.micromata.genome.gwiki.web.dav.FsDavResourceFactory;
+import de.micromata.genome.gwiki.web.GWikiServlet;
 import de.micromata.genome.gwiki.web.dav.office.FsDavOfficeResourceFactory;
 
 /**
@@ -50,8 +50,9 @@ public class GWikiDavServer
 
   public synchronized HttpManager getHttpManager(GWikiWeb wikiWeb, GWikiDAOContext daoContext, HttpServletRequest req)
   {
-    if (httpManager != null)
+    if (httpManager != null) {
       return httpManager;
+    }
 
     GWikiStorage wkStorage = GWikiServlet.INSTANCE.getDAOContext().getStorage();
     FileSystem storage = null;
