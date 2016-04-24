@@ -72,9 +72,9 @@ On top level two beans are defined: GWikiBootstrapConfig and GwikiMimeTypes.
  Simple variables:
 ||Bean attribute||Default||Description||
 |boolean staticContentFromClassPath|false|GWiki read the static content from classpath static/\* instead of the <gwikiservletpath>/static from the Web content directory.|
-|boolean enableWebDav|false|Enable Webdav access|
-|String webDavUserName|null|The user name for the web dav user. This user can also be used as system administrator for GWiki|
-|String webDavPasswordHash|null|Hash value of the web dav user password.|
+|boolean enableWebDav|false|Enable Webdav access (!) Deprecated since 2.1|
+|String webDavUserName|null|The user name for the web dav user. This user can also be used as system administrator for GWiki (!) Deprecated since 2.1|
+|String webDavPasswordHash|null|Hash value of the web dav user password. (!) Deprecated since 2.1|
 Service interfaces.
 {table:class=gwikiTable}
 {tr}
