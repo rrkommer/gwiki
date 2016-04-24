@@ -16,26 +16,59 @@
 
 package de.micromata.genome.gwiki.launcher;
 
-import de.micromata.genome.gwiki.launcher.config.GWikiLocalSettingsConfigModel;
-import de.micromata.mgc.javafx.launcher.MgcLauncher;
-import de.micromata.mgc.javafx.launcher.gui.generic.GenericMainWindow;
+import de.micromata.genome.util.bean.PrivateBeanUtils;
+import de.micromata.genome.util.runtime.Log4JInitializer;
+import de.micromata.mgc.application.MgcApplicationStartStopStatus;
 
 /**
  * 
  * @author Roger Rene Kommer (r.kommer.extern@micromata.de)
  *
  */
-public class GWikiLauncherMain extends MgcLauncher<GWikiLocalSettingsConfigModel>
+public class GWikiLauncherMain
 {
+  private static boolean noWindow(String[] args)
+  {
+    for (String arg : args) {
+      if (arg.equals("-nogui") == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static void main(String[] args)
   {
-
-    GWikiLauncherMain el = new GWikiLauncherMain();
-    el.launch(args);
+    try {
+      if (noWindow(args) == true) {
+        runCli(args);
+      } else {
+        runGui(args);
+      }
+    } catch (Throwable ex) {
+      ex.printStackTrace();
+    }
   }
 
-  public GWikiLauncherMain()
+  public static void runCli(String[] args)
   {
-    super(new GWikiLauncherApplication(), (Class) GenericMainWindow.class);
+    Log4JInitializer.initializeLog4J();
+    GWikiLauncherApplication sapplication = new GWikiLauncherApplication();
+    if (sapplication.checkConfiguration() == false) {
+      throw new RuntimeException("Configuration is invalid; Check logs");
+    }
+    if (sapplication.initWithConfig() == false) {
+      throw new RuntimeException("Failure intializing config; Check logs");
+    }
+    if (sapplication.start(args) != MgcApplicationStartStopStatus.StartSuccess) {
+      throw new RuntimeException("Failure starting application; Check logs");
+    }
   }
+
+  public static void runGui(String[] args) throws Exception
+  {
+    Class<?> guilclas = Class.forName("de.micromata.genome.gwiki.launcher.GWikiWithGuiLauncher");
+    PrivateBeanUtils.invokeStaticMethod(guilclas, "main", new Object[] { args });
+  }
+
 }
