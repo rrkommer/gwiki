@@ -260,7 +260,7 @@ function viewBackupDiff()
 
 
 	<script type="text/javascript">
-console.debug("page loaded");
+
 function restoreBackup()
 {
   var form = jQuery('#editForm');
@@ -286,13 +286,11 @@ var saveAsync =   function () {
 }   
 
 \$(document).ready(function() {
-	console.debug("create tabs");
   \$("#EditorSettings").hide();
    
     var tabs = \$("#tabs").tabs(
           { selected: 0,
           	activate : function(event, ui) {
-            	console.debug("selected tab");
             try {
               eval("" + gwikiCurrrentPart + "Deactivate('" + gwikiCurrentPart + "')");
             } catch (ex) {

@@ -70,7 +70,7 @@ function gwikiSaveRte(partName, chain) {
 	if (edit) {
 		var content = edit.getContent();
 		var cleancontent = wedit_cleanuphtml(content);
-		console.debug("store content: " + cleancontent);
+//		console.debug("store content: " + cleancontent);
 		$('#gwikihtmledit' + partName).val(cleancontent);
 		var nc = $('#gwikihtmledit' + partName).val();
 

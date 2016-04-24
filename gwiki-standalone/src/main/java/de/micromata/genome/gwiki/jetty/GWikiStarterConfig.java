@@ -47,7 +47,7 @@ public class GWikiStarterConfig implements CastableConfigModel
 
   private JettyConfigModel jettyConfig = new JettyConfigModel();
 
-  @ALocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "true")
+  @ALocalSettingsPath(key = "gwiki.sys.user.enabled", defaultValue = "false")
   private String systemUserEnabled;
 
   @ALocalSettingsPath(key = "gwiki.sys.user", defaultValue = "gwikisys")

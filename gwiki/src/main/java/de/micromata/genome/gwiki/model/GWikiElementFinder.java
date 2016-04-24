@@ -274,6 +274,18 @@ public class GWikiElementFinder
     if (pei == null) {
       return false;
     }
-    return isChildOf(pei, child);
+    return isChildOf(pei, parent);
+  }
+
+  public GWikiElementInfo getAncestor(GWikiElementInfo ei)
+  {
+    if (StringUtils.isEmpty(ei.getParentId()) == true) {
+      return ei;
+    }
+    GWikiElementInfo pei = wikiContext.getWikiWeb().findElementInfo(ei.getParentId());
+    if (pei == null) {
+      return ei;
+    }
+    return getAncestor(pei);
   }
 }
