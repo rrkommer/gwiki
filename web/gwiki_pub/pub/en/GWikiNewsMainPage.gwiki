@@ -6,9 +6,11 @@ News about GWiki
 .
 {column:width=50%|valign=top}
 h2. News about GWiki
+h3. 2016\-04\-27
+GWiki 2.1.0 is released.
 h3. 2016\-04\-24
 Removed DAV\-Support from {{gwiki}} core jar and put into separate library {{gwiki\-dav}}.
-This library will not be automatically build because of trouble having a public maven repo providing {{milton}} libraries.
+ This library will not be automatically build because of trouble having a public maven repo providing {{milton}} libraries.
 h3. 2016\-04\-20
 Start Beta Phase on GWiki 2.1.0.
 h3. 2016\-04\-18
@@ -62,7 +64,9 @@ First release von GWiki.
 h2. Change Log
 See [pub/en/ChangeLog]
 {column}
+ 
 
+ 
   
  
 
