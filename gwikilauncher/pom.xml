@@ -5,7 +5,7 @@
   <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>2.1.0-SNAPSHOT</version><!-- GWIKVERSION -->
+    <version>2.2.0-SNAPSHOT</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -22,7 +22,7 @@
     <jdk.home>C:\Program Files\Java\jdk1.8.0_60</jdk.home>
     <javafx.version>2.2</javafx.version>
     <gwiki.version>${project.version}</gwiki.version>
-    <mgc.version>2.1.0-SNAPSHOT</mgc.version><!-- MGCVERSION -->
+    <mgc.version>2.2.0-SNAPSHOT</mgc.version><!-- MGCVERSION -->
     <org.apache.derby.version>10.12.1.1</org.apache.derby.version>
     <hsqldb.version>2.3.3</hsqldb.version>
     <com.oracle.ojdbc6.version>11.2.0.2.0</com.oracle.ojdbc6.version>
