@@ -3,7 +3,7 @@
   <groupId>de.micromata.genome.gwiki</groupId>
    <artifactId>gwiki-root</artifactId>
    <packaging>pom</packaging>
-   <version>2.1.0-SNAPSHOT</version><!-- GWIKVERSION -->
+   <version>2.1.0</version><!-- GWIKVERSION -->
     <modules>
     <module>gwiki-gdbfs</module>
     <module>gwiki</module>
@@ -53,9 +53,9 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gwiki.version>2.1.0-SNAPSHOT</gwiki.version><!-- GWIKVERSION -->
+    <gwiki.version>2.1.0</gwiki.version><!-- GWIKVERSION -->
     <gwiki-gdbfs.version>${gwiki.version}</gwiki-gdbfs.version>
-    <mgc.version>2.1.0-SNAPSHOT</mgc.version><!--  MGCVERSION -->
+    <mgc.version>2.1.0</mgc.version><!--  MGCVERSION -->
     <org.apache.derby.version>10.12.1.1</org.apache.derby.version>
     <hsqldb.version>2.3.3</hsqldb.version>
 		<com.oracle.ojdbc6.version>11.2.0.2.0</com.oracle.ojdbc6.version>
@@ -259,13 +259,16 @@
 		</snapshotRepository>
 	</distributionManagement>
   <scm>
-    <connection>
-     scm:git:git://github.com/rrkommer/gwiki
-    </connection>
-    <developerConnection>
-      scm:git:git://github.com/rrkommer/gwiki
-    </developerConnection>
+    <url>https://github.com/rrkommer/gwiki.git</url>
+    <developerConnection>Roger Kommer</developerConnection>
   </scm>
   
   
+  <name>GWiki</name>
+  <url>http://labs.micromata.de/gwiki/</url>
+  <description>Wiki/Content Management System</description>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>https://labs.micromata.de/jira/projects/GWIKI</url>
+  </issueManagement>
 </project>
