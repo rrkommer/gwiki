@@ -9,10 +9,12 @@
    <artifactId>gwiki-plugins-root</artifactId>
    <packaging>pom</packaging>
   <modules>
+    <!-- has only to build once 
     <module>dom4j</module>
     <module>org.apache.pdfbox</module>
     <module>org.apache.poi</module>
     <module>org.apache.httpcomponents</module>
+    -->
     
 		<module>gwiki-admintools</module>
 		<module>gwiki-blog</module>
