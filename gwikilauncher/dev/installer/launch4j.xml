@@ -15,12 +15,12 @@
   <manifest></manifest>
   <icon>C:\Users\roger\d\dhl\gwiki\gwikilauncher\dev\installer\favicon32.ico</icon>
   <jre>
-    <path></path>
-    <bundledJre64Bit>false</bundledJre64Bit>
+    <path>C:\Program Files\Java\jre1.8.0_91</path>
+    <bundledJre64Bit>true</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <minVersion>1.8.0_77</minVersion>
     <maxVersion></maxVersion>
-    <jdkPreference>preferJdk</jdkPreference>
+    <jdkPreference>jdkOnly</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
     <initialHeapSize>250</initialHeapSize>
     <maxHeapSize>2000</maxHeapSize>
