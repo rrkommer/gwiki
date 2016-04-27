@@ -25,10 +25,6 @@ The version number may be different. 
 h2. Storage of the configuration
 These settings are stored in the file gwiki.properties, which can also modified later with a text editor.
  First time starting, the GWiki standalone version also create an full text index of all wiki files. Normally this only takes a few seconds.
-{todo}
-Continue 
-{todo}
- 
 h2. Installation GWiki on an server environment
 On an server environment \- where you have no display \- you can start wiki with {{java \-jar gwikilauncher\-1.2.0.jar \-nogui}}.
  The first start will terminate immediately. You will see error messages in the logs sub directory {{(log/GWiki.log).}}
