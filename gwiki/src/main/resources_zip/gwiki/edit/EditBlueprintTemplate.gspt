@@ -35,7 +35,7 @@ Render Template
 <% pageContext.getRequest().getAttribute("MainPage").render(wikiContext); %> 
 <input class="gwikiButton main" type="submit" name="method_onEvaluate" value="Insert"/>
 <input onclick="self.close()" class="gwikiButton reset" type="submit" value="Close"/>
-<p/>
+<p></p>
 </c:otherwise>
 </c:choose>
 </form>

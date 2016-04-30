@@ -26,7 +26,7 @@
 
   <c:if test="${form.pageId != null}">
      <p class="description"><gwiki:include part="MainPage" chunk="reload.reloadpagedescription"/></p>
-     <input class="gwikiButton" type="submit" name="method_onReloadPage" value="<gwiki:include part="MainPage" chunk="reload.reloadpagebutton"/>"/><p/>
+     <input class="gwikiButton" type="submit" name="method_onReloadPage" value="<gwiki:include part="MainPage" chunk="reload.reloadpagebutton"/>"/><p></p>
      <div class="clearAll">&nbsp;</div>
   </c:if>
 
