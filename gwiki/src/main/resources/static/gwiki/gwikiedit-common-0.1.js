@@ -38,7 +38,7 @@ function gwikiEditPagePath(inputField) {
 		$(dialog).dialog('close');
 	}
 	buttons["gwiki.common.ok".i18n()] = function() {
-		var value = $("#pathtextfield").attr('value');
+		var value = $("#pathtextfield").val();
 		$(dialog).dialog('close');
 		inputField.val(value);
 	}
