@@ -40,7 +40,6 @@ public class GWikiFragmentP extends GWikiFragmentChildsBase
 
   public GWikiFragmentP()
   {
-    // super("<p/>\n");
   }
 
   public GWikiFragmentP(List<GWikiFragment> childs)
