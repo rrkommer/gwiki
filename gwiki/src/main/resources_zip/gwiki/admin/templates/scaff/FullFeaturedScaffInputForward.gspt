@@ -10,7 +10,7 @@ Hallo
 <form method="post">
 
 <gwiki:text property="input"/>
-<input type="submit" name="method_onOk" value="OK"><p/>
+<input type="submit" name="method_onOk" value="OK"><p></p>
 
 <%	MainPage.render(wikiContext); %>
 <% wikiContext.skinInclude('standardfoot'); %>

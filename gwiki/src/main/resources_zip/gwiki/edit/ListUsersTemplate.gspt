@@ -1,7 +1,7 @@
 <% wikiContext.skinInclude('standardhead'); %>
 <@include file="inc/stdtags.gspt" @> 
 <form method="post">
-  <a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers"><fmt:message key="gwiki.page.edit.ListUsers.link.createnewuser"/></a><p/>
+  <a href="<gwiki:url value="/edit/UserProfile"/>?metaTemplatePageId=admin/templates/intern/WikiUserMetaTemplate&newPage=true&storePath=admin/user/&backUrl=edit/ListUsers"><fmt:message key="gwiki.page.edit.ListUsers.link.createnewuser"/></a><p></p>
   <gwiki:text size="80" property="filterExpression"/>
   <input class="gwikiButton main" type="submit" name="method_onInit" value="<fmt:message key="gwiki.page.edit.ListUsers.link.filter"/>"/>
 </form>
