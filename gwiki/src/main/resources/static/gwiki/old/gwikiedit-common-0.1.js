@@ -184,7 +184,7 @@ $(document).ready(function() {
 	  width : 350,
 	  scroll : true,
 	  scrollHeight : 400,
-	  appendTo : ".ui-dialog",
+//	  appendTo : ".ui-dialog",
 	  select : function(even, ui) {
 		  var item = ui.item;
 		  var v = item.key;
