@@ -16,6 +16,8 @@
 
 package de.micromata.genome.gwiki.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -87,4 +89,23 @@ public interface GWikiAuthorizationExt extends GWikiAuthorization
    */
   public SortedMap<String, GWikiRight> getUserRight(GWikiContext wikiContext, Map<String, GWikiRight> systemRights,
       String roleString);
+
+  /**
+   * Get the rights current user has.
+   * 
+   * @param wikiContext
+   * @return
+   */
+  public default List<String> getAllUserRights(GWikiContext wikiContext)
+  {
+    SortedMap<String, GWikiRight> systemRights = getSystemRights(wikiContext);
+    List<String> ret = new ArrayList<>();
+    for (String r : systemRights.keySet()) {
+      if (isAllowTo(wikiContext, r) == true) {
+        ret.add(r);
+      }
+    }
+    return ret;
+  }
+
 }
