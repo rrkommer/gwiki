@@ -3,11 +3,11 @@
 <b><large>Welcome to GWiki</large></b><br/>
 </center>
 {html}
-
-{html}<table border="0"><tr><td valign="top">{html}
+ 
+ You started a new GWiki.
+  
+To Start your own GWiki Web page please refer to [gwikidocs/howtos/en/Create_Own_Wiki].
 h4. Content
 {children:depth=2|sort=title}
-{html}</td><td  valign="top">{html}
-h4. Recently changed
-{recently}
-{html}</td></tr></table>{html}
+ 
+  
