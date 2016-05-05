@@ -81,17 +81,7 @@ function onSave(event)
             */
           }      
           });
-    
-    \$('.wikiPageEditText').autocomplete(
-    {
-    	source:  '<gwiki:url value="/edit/PageSuggestions"/>', 
-      matchContains : true,
-      minChars : 0,
-      width : 350,
-      formatItem : function(row) {
-        return row[1] + "<br><i>(" + row[0] + ")</i>";
-      }
-    });
+ 
  });
   
 </script>
