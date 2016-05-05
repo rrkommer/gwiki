@@ -1,4 +1,5 @@
 function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
+
 	$(document).ready(function() {
 		var _currVal = "";
 		$(field).keyup(function() {
@@ -32,17 +33,23 @@ function gwikiSearchBox(field, curPageId, linkAutoCompleteUrl) {
 		  select : function(even, ui) {
 			  var item = ui.item;
 			  if (item.key.trim().startsWith("/edit/Search")) {
-			  	location.href = item.key.replace(/se=.*$/,"se=" + _currVal);;
-				  //location.href = gwikiLocalUrl(item.key);
+				  location.href = item.key.replace(/se=.*$/, "se=" + _currVal);
+				  ;
+				  // location.href = gwikiLocalUrl(item.key);
 			  } else {
 				  location.href = gwikiLocalUrl(item.key);
 			  }
 			  return false
+		  },
+		  focus : function(event, ui) {
+			  $(this).val(ui.item.key);
+			  return false;
+		  },
+		  create : function() {
+			  $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
+				  return $("<li>" + item.label + "</li>").appendTo(ul);
+			  }
 		  }
-
-		}).autocomplete("instance")._renderItem = function(ul, item) {
-			return $("<li>" + item.label + "</li>").appendTo(ul);
-			
-		};
+		});
 	});
 }

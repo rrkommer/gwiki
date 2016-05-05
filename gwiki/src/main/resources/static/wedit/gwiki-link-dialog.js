@@ -24,8 +24,6 @@ function WikiLinkItem(linktype) {
 	this.thumbnail = null;
 }
 
-
-
 function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	var modc = $("#editDialogBox");
 	var dlghtml = '';
@@ -124,7 +122,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 	modc.html(dlghtml);
 
 	var buttons = gwiki_dlg_create_ok_cancel_buttons('#editDialogBox', {
-		onOk: function() {
+		onOk : function() {
 			var lt = $("#linkpropt").attr('value');
 			$(dialog).dialog('close');
 			parentWindow.focus();
@@ -156,7 +154,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 			      $('#gwikidlnkdetailsdiv').toggle();
 		      });
 		      $("#linkpropt").focus();
-		      
+
 		      var tree = $("#filechooser").jstree({
 		        plugins : [ 'search', 'themes', 'ui' ],
 		        core : {
@@ -189,7 +187,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 				      var node = tree.get_node(first);
 				      tree.select_node(node);
 				      setTimeout(function() {
-				      	gwiki_dlg_click_ok();
+					      gwiki_dlg_click_ok();
 				      }, 100);
 			      }
 			      if (to) {
@@ -245,25 +243,7 @@ function gwikiEditShowLink(parentWindow, currentLink, callback) {
 
 	      }
 	    });
-	$('#linkpropt').focus(function() {
-		// TODO replace
-		$('#linkpropt').autocomplete({
-		  source : "./PageSuggestions?pageType=" + gwikiEscapeUrlParam(currentLink.type),
-		  matchContains : true,
-		  minChars : 0,
-		  width : 460,
-		  cacheLength : 1,
-		  max : 1000,
-		  formatItem : function(row) {
-			  return row[1] + "<br><i>(" + row[0] + ")</i>";
-		  },
-		  select : function(event, ui) {
-			  $("#linkprtitle").val(item[1]);
-		  }
-		})._renderItem = function(ul, row) {
-			return row[1] + "<br><i>(" + row[0] + ")</i>";
-		};
-	});
+
 }
 
 function wedit_show_link_dialog(ed) {

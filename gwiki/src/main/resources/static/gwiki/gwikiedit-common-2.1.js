@@ -146,18 +146,16 @@ function gwikiEditSettings() {
 	  buttons : buttons
 	});
 }
-
-$(document).ready(function() {
+function gwikiAutocompletePageId(selector, wikiType) {
 	var linkAutoCompleteUrl = gwikiLocalUrl("edit/WeditService");
-
-	$('.wikiPageEditText').autocomplete({
+	$(selector).autocomplete({
 	  source : function(req, callback) {
 		  $.ajax({
 		    url : linkAutoCompleteUrl,
 		    type : 'GET',
 		    data : {
 		      method_onPageIdAutocomplete : true,
-		      pageType : 'wiki',
+		      pageType : wikiType,
 		      q : req.term
 		    },
 		    success : function(data) {
@@ -168,6 +166,16 @@ $(document).ready(function() {
 		    }
 		  });
 	  },
+	  select : function(even, ui) {
+		  var item = ui.item;
+		  var v = item.key;
+		  $(this).val(v);
+		  return false;
+	  },
+	  focus : function(event, ui) {
+		  $(this).val(ui.item.key);
+		  return false;
+	  },
 	  open : function(event, ui) {
 		  var elem = $(event.target);
 		  var onTopElem = elem.closest('.ui-front');
@@ -176,7 +184,7 @@ $(document).ready(function() {
 			  widget.zIndex(onTopElem.zIndex() + 1);
 		  }
 	  },
-	  autoFocus : true,
+	  // autoFocus : true,
 	  matchContains : true,
 	  cacheLength : 2,
 	  matchSubset : false,
@@ -184,13 +192,6 @@ $(document).ready(function() {
 	  width : 350,
 	  scroll : true,
 	  scrollHeight : 400,
-	  appendTo : ".ui-dialog",
-	  select : function(even, ui) {
-		  var item = ui.item;
-		  var v = item.key;
-		  $(this).val(v);
-		  return false;
-	  },
 	  create : function() {
 		  $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
 			  return $("<li>" + item.label + "</li>").appendTo(ul);
@@ -198,4 +199,8 @@ $(document).ready(function() {
 	  }
 	});
 
+}
+
+$(document).ready(function() {
+	gwikiAutocompletePageId(".wikiPageEditText", "wiki");
 });
