@@ -311,6 +311,7 @@ def onRender(pct)
 					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 					<property name="key" value="HELP_PAGE" />
 					<property name="group" value="LINKS"/>
+          <property name="type" value="PAGEID" />
 					<property name="label" value="I{gwiki.settings.HELP_PAGE.label}" />
 					<!--
 						<property name="description"

@@ -302,17 +302,7 @@ var saveAsync =   function () {
             }
           }      
           });
-    
-    \$('.wikiPageEditText').autocomplete(
-    {
-    	 source: '<gwiki:url value="/edit/PageSuggestions"/>',
-      matchContains : true,
-      minChars : 0,
-      width : 350,
-      formatItem : function(row) {
-        return row[1] + "<br><i>(" + row[0] + ")</i>";
-      }
-    });
+
 <% if (form.disableBackup == false) { %>
     \$.jheartbeat.set({
         delay: 60000,
