@@ -1,54 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="config"
-		class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor"
-		singleton="false">
-		<property name="groups">
-		<list>
-			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
-				<property name="key" value="VERSION"/>
-				<property name="title" value="Version"/>
-				<property name="closed" value="true"/>
-			</bean>
-			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
-				<property name="key" value="AUTH"/>
-				<property name="title" value="Authorization"/>
-				<property name="closed" value="true"/>
-			</bean>
-			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
-				<property name="key" value="LINKS"/>
-				<property name="title" value="Linking"/>
-				<property name="closed" value="true"/>
-			</bean>
-			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
-				<property name="key" value="CONTENT"/>
-				<property name="title" value="Content"/>
-				<property name="closed" value="true"/>
-			</bean>
-			<bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
-				<property name="key" value="ELTYPE"/>
-				<property name="title" value="Elementtype"/>
-				<property name="closed" value="true"/>
-			</bean>
-		</list>
-		</property>
-		<property name="descriptors">
-			<list>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="CREATEDAT" />
-					<property name="group" value="VERSION"/>
-					<property name="label" value="I{gwiki.settings.CREATEDAT.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.CREATEDAT.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDAT" />
-					<property name="requiredEditRight" value="GWIKI_ADMIN" />
-					<property name="type" value="DATE" />
-					<property name="controlerScript">
-						<value><![CDATA[
+  <bean id="config" class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptor" singleton="false">
+    <property name="groups">
+      <list>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+          <property name="key" value="VERSION" />
+          <property name="title" value="Version" />
+          <property name="closed" value="true" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+          <property name="key" value="AUTH" />
+          <property name="title" value="Authorization" />
+          <property name="closed" value="true" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+          <property name="key" value="LINKS" />
+          <property name="title" value="Linking" />
+          <property name="closed" value="true" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+          <property name="key" value="CONTENT" />
+          <property name="title" value="Content" />
+          <property name="closed" value="true" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsGroupDescriptor">
+          <property name="key" value="ELTYPE" />
+          <property name="title" value="Elementtype" />
+          <property name="closed" value="true" />
+        </bean>
+      </list>
+    </property>
+    <property name="descriptors">
+      <list>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="CREATEDAT" />
+          <property name="group" value="VERSION" />
+          <property name="label" value="I{gwiki.settings.CREATEDAT.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.CREATEDAT.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDAT" />
+          <property name="requiredEditRight" value="GWIKI_ADMIN" />
+          <property name="type" value="DATE" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
@@ -59,21 +53,17 @@ def onValidate(pec)
 	}
 }
 							]]></value>
-					</property>
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="CREATEDBY" />
-					<property name="group" value="VERSION"/>
-					<property name="label" value="I{gwiki.settings.CREATEDBY.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.CREATEDBY.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDBY" />
-					<property name="requiredEditRight" value="GWIKI_ADMIN" />
-					<property name="controlerScript">
-						<value><![CDATA[
+          </property>
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="CREATEDBY" />
+          <property name="group" value="VERSION" />
+          <property name="label" value="I{gwiki.settings.CREATEDBY.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.CREATEDBY.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#CREATEDBY" />
+          <property name="requiredEditRight" value="GWIKI_ADMIN" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
@@ -82,75 +72,62 @@ def onValidate(pec)
 	} 
 }
 						]]></value>
-					</property>
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MODIFIEDAT" />
-					<property name="group" value="VERSION"/>
-					<property name="label" value="I{gwiki.settings.MODIFIEDAT.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.MODIFIEDAT.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDAT" />
-					<property name="requiredEditRight" value="GWIKI_ADMIN" />
-					<property name="type" value="DATE" />
-					<property name="controlerScript">
-						<value><![CDATA[
+          </property>
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="MODIFIEDAT" />
+          <property name="group" value="VERSION" />
+          <property name="label" value="I{gwiki.settings.MODIFIEDAT.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.MODIFIEDAT.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDAT" />
+          <property name="requiredEditRight" value="GWIKI_ADMIN" />
+          <property name="type" value="DATE" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
 		pec.setValue(GWikiProps.formatTimeStamp(new java.util.Date()));
 }
 							]]>
-						</value>
-					</property>
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="MODIFIEDBY" />
-					<property name="group" value="VERSION"/>
-					<property name="label" value="I{gwiki.settings.MODIFIEDBY.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.MODIFIEDBY.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDBY" />
-					<property name="requiredEditRight" value="GWIKI_ADMIN" />
-					<property name="controlerScript">
-						<value><![CDATA[
+            </value>
+          </property>
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="MODIFIEDBY" />
+          <property name="group" value="VERSION" />
+          <property name="label" value="I{gwiki.settings.MODIFIEDBY.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.MODIFIEDBY.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#MODIFIEDBY" />
+          <property name="requiredEditRight" value="GWIKI_ADMIN" />
+          <property name="controlerScript">
+            <value><![CDATA[
 def onValidate(pec) 
 {
 		pec.setValue(pec.wikiContext.wikiWeb.authorization.getCurrentUserName(pec.wikiContext));
 }
 								]]>
-						</value>
-					</property>
-				</bean>
-		
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="VERSION" />
-					<property name="group" value="VERSION"/>
-					<property name="label" value="I{gwiki.settings.VERSION.label}" />
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#VERSION" />
-					<property name="readOnly" value="true" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="PARENTPAGE" />
-					<property name="group" value="LINKS"/>
-					<property name="label" value="I{gwiki.settings.PARENTPAGE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.PARENTPAGE.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#PARENTPAGE" />
-					<property name="readOnly" value="false" />
-					<property name="type" value="PAGEID" />
-					<property name="controlerScript">
-						<value><![CDATA[
+            </value>
+          </property>
+        </bean>
+
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="VERSION" />
+          <property name="group" value="VERSION" />
+          <property name="label" value="I{gwiki.settings.VERSION.label}" />
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#VERSION" />
+          <property name="readOnly" value="true" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="PARENTPAGE" />
+          <property name="group" value="LINKS" />
+          <property name="label" value="I{gwiki.settings.PARENTPAGE.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.PARENTPAGE.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#PARENTPAGE" />
+          <property name="readOnly" value="false" />
+          <property name="type" value="PAGEID" />
+          <property name="controlerScript">
+            <value><![CDATA[
 def onValidate(pec) 
 {
 	
@@ -177,40 +154,35 @@ def onValidate(pec)
 	}
 }
 								]]>
-						</value>
-					</property>
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="NOINDEX" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="I{gwiki.settings.NOINDEX.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.NOINDEX.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#NOINDEX" />
-					<property name="readOnly" value="false" />
-					<property name="type" value="BOOLEAN" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="AUTH_VIEW" />
-					<property name="group" value="AUTH"/>
-					<property name="label" value="I{gwiki.settings.AUTH_VIEW.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.AUTH_VIEW.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_VIEW" />
-					<property name="readOnly" value="false" />
-					<property name="controlerScript">
-						<value><![CDATA[
+            </value>
+          </property>
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="NOINDEX" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="I{gwiki.settings.NOINDEX.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.NOINDEX.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#NOINDEX" />
+          <property name="readOnly" value="false" />
+          <property name="type" value="BOOLEAN" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="AUTH_VIEW" />
+          <property name="group" value="AUTH" />
+          <property name="label" value="I{gwiki.settings.AUTH_VIEW.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.AUTH_VIEW.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_VIEW" />
+          <property name="readOnly" value="false" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import org.apache.commons.lang.*;
 import de.micromata.genome.gwiki.auth.*;
+import de.micromata.genome.gwiki.model.*;
+
 def onRender(pct)
 {
-	String reqk = pct.getRequestKey();
+	//String reqk = pct.getRequestKey();
+  String reqk = pct.getWikiContext().genHtmlId("gwikirightl");
 	String pval = pct.propsValue;
 	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
 	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
@@ -234,28 +206,35 @@ def onRender(pct)
 		pct.append(' checked'); 
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
-	pct.append('<input type="text" id="' + reqk + '" name="' + pct.requestKey + '" value="' + pct.propsValue + '">');
+	pct.append("<input type='text' id='" + reqk + "' name='" + pct.requestKey + "' value='" + pct.propsValue + "' list='" + reqk + "list'>");
+  
+    GWikiAuthorization auth = pct.getWikiContext().getWikiWeb().getAuthorization();
+    if ((auth instanceof GWikiAuthorizationExt) == true) {
+      GWikiAuthorizationExt authx = (GWikiAuthorizationExt) auth;
+      pct.append("<datalist id='" +  reqk + "list'>\n");
+          for (String rs : authx.getAllUserRights(pct.getWikiContext())) {
+        pct.append("<option value='" + rs + "'>" + rs + "</option>");
+      }
+      pct.append("</datalist>\n");
+    }
 }
 
 ]]></value>
-					</property>
+          </property>
 
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="AUTH_EDIT" />
-					<property name="group" value="AUTH"/>
-					<property name="label" value="I{gwiki.settings.AUTH_EDIT.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.AUTH_EDIT.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_EDIT" />
-					<property name="readOnly" value="false" />
-					<property name="controlerScript">
-						<value><![CDATA[
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="AUTH_EDIT" />
+          <property name="group" value="AUTH" />
+          <property name="label" value="I{gwiki.settings.AUTH_EDIT.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.AUTH_EDIT.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#AUTH_EDIT" />
+          <property name="readOnly" value="false" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import org.apache.commons.lang.*;
 import de.micromata.genome.gwiki.auth.*;
+import de.micromata.genome.gwiki.model.*;
 def onRender(pct)
 {
 	String reqk = pct.getRequestKey();
@@ -276,184 +255,136 @@ def onRender(pct)
 		pct.append(' checked'); 
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
-	pct.append('<input type="text" id="' + reqk + '" name="' + pct.requestKey + '" value="' + pct.propsValue + '">');
+	pct.append('<input type="text" id="' + reqk + '" name="' + pct.requestKey + '" value="' + pct.propsValue + '" list="' + reqk +  'list">');
+  GWikiAuthorization auth = pct.getWikiContext().getWikiWeb().getAuthorization();
+    if ((auth instanceof GWikiAuthorizationExt) == true) {
+      GWikiAuthorizationExt authx = (GWikiAuthorizationExt) auth;
+      pct.append("<datalist id='" +  reqk + "list'>\n");
+      for (String rs : authx.getAllUserRights(pct.getWikiContext())) {
+        pct.append("<option value='" + rs + "'>" + rs + "</option>");
+      }
+      pct.append("</datalist>\n");
+    }
 }
 
 ]]></value>
-					</property>
-				</bean>
+          </property>
+        </bean>
 
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="CONTENTYPE" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="I{gwiki.settings.CONTENTYPE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.CONTENTYPE.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CONTENTYPE" />
-					<property name="readOnly" value="false" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="LANG" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="I{gwiki.settings.LANG.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.LANG.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#LANG" />
-					<property name="readOnly" value="false" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="HELP_PAGE" />
-					<property name="group" value="LINKS"/>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="CONTENTYPE" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="I{gwiki.settings.CONTENTYPE.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.CONTENTYPE.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#CONTENTYPE" />
+          <property name="readOnly" value="false" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="LANG" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="I{gwiki.settings.LANG.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.LANG.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#LANG" />
+          <property name="readOnly" value="false" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="HELP_PAGE" />
+          <property name="group" value="LINKS" />
           <property name="type" value="PAGEID" />
-					<property name="label" value="I{gwiki.settings.HELP_PAGE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.HELP_PAGE.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#HELP_PAGE" />
-					<property name="readOnly" value="false" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="ORDER" />
-					<property name="group" value="LINKS"/>
-					<property name="label" value="I{gwiki.settings.ORDER.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.ORDER.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#ORDER" />
-					<property name="readOnly" value="false" />
-					<property name="type" value="INTEGER" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="CHILDORDER" />
-					<property name="group" value="LINKS"/>
-					<property name="label" value="I{gwiki.settings.CHILDORDER.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.CHILDORDER.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#CHILDORDER" />
-					<property name="readOnly" value="false" />
-					<property name="type" value="STRINGLIST" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="WIKIMETATEMPLATE" />
-					<property name="group" value="ELTYPE"/>
-					<property name="label" value="I{gwiki.settings.WIKIMETATEMPLATE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.WIKIMETATEMPLATE.description}" />
-					-->
-					<property name="helpLink"
-						value="gwikidocs/help/en/ElementSettings#WIKIMETATEMPLATE" />
-					<property name="readOnly" value="true" />
-					<property name="type" value="STRING" />
-				</bean>
-        <!--  
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="WIKICONTROLERCLASS" />
-					<property name="group" value="ELTYPE"/>
-					<property name="label"
-						value="I{gwiki.settings.WIKICONTROLERCLASS.label}" />
-					<property name="helpLink"
-						value="gwikidocs/help/en/ElementSettings#WIKICONTROLERCLASS" />
-					<property name="readOnly" value="false" />
-					<property name="requiredMetaTemplateId"
-						value="admin/templates/FullFeaturedMetaTemplate,admin/templates/StdProgMetaTemplate,StdProgMetaTemplate" />
-				</bean>
-         -->
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="WIKISPACE" />
-					<property name="group" value="LINKS"/>
-					<property name="label" value="I{gwiki.settings.WIKISPACE.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.WIKISPACE.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKISPACE" />
-					<property name="readOnly" value="false" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="KEYWORDS" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="I{gwiki.settings.KEYWORDS.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.KEYWORDS.description}" />
-					-->
-					<property name="helpLink" value="gwikidocs/help/en/ElementSettings#KEYWORDS" />
-					<property name="type" value="STRINGLIST" />
-					<property name="controlerScript">
-						<value><![CDATA[
+          <property name="label" value="I{gwiki.settings.HELP_PAGE.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.HELP_PAGE.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#HELP_PAGE" />
+          <property name="readOnly" value="false" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="ORDER" />
+          <property name="group" value="LINKS" />
+          <property name="label" value="I{gwiki.settings.ORDER.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.ORDER.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#ORDER" />
+          <property name="readOnly" value="false" />
+          <property name="type" value="INTEGER" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="CHILDORDER" />
+          <property name="group" value="LINKS" />
+          <property name="label" value="I{gwiki.settings.CHILDORDER.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.CHILDORDER.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#CHILDORDER" />
+          <property name="readOnly" value="false" />
+          <property name="type" value="STRINGLIST" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="WIKIMETATEMPLATE" />
+          <property name="group" value="ELTYPE" />
+          <property name="label" value="I{gwiki.settings.WIKIMETATEMPLATE.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.WIKIMETATEMPLATE.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKIMETATEMPLATE" />
+          <property name="readOnly" value="true" />
+          <property name="type" value="STRING" />
+        </bean>
+        <!-- <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue"> <property name="key" value="WIKICONTROLERCLASS" 
+          /> <property name="group" value="ELTYPE"/> <property name="label" value="I{gwiki.settings.WIKICONTROLERCLASS.label}" /> <property 
+          name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKICONTROLERCLASS" /> <property name="readOnly" value="false" /> 
+          <property name="requiredMetaTemplateId" value="admin/templates/FullFeaturedMetaTemplate,admin/templates/StdProgMetaTemplate,StdProgMetaTemplate" 
+          /> </bean> -->
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="WIKISPACE" />
+          <property name="group" value="LINKS" />
+          <property name="label" value="I{gwiki.settings.WIKISPACE.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.WIKISPACE.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#WIKISPACE" />
+          <property name="readOnly" value="false" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="KEYWORDS" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="I{gwiki.settings.KEYWORDS.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.KEYWORDS.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#KEYWORDS" />
+          <property name="type" value="STRINGLIST" />
+          <property name="controlerScript">
+            <value><![CDATA[
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 def onValidate(pec) 
 {
 	GWikiEditPageActionBean.checkKeywordProperties(pec.wikiContext, pec.getPropsValue());
 }
 							]]>
-						</value>
-					</property>
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="I18NMODULES" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="I{gwiki.settings.I18NMODULES.label}" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.I18NMODULES.description}" />
-					-->
-					<property name="helpLink"
-						value="gwikidocs/help/en/ElementSettings#I18NMODULES" />
-					<property name="type" value="PAGEIDLIST" />
-					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
-					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="PARTOF" />
-					<property name="group" value="LINKS"/>
-					<property name="label" value="PartOf" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.I18NMODULES.description}" />
-					-->
-					<property name="helpLink"
-						value="gwikidocs/help/en/ElementSettings#PARTOF" />
-					<property name="type" value="PAGEID" />
-					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
-					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
-				</bean>
-				<bean
-					class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
-					<property name="key" value="SKIN" />
-					<property name="group" value="CONTENT"/>
-					<property name="label" value="Skin" />
-					<!--
-						<property name="description"
-						value="I{gwiki.settings.I18NMODULES.description}" />
-					-->
-					<property name="type" value="STRING" />
-					<property name="helpLink"
-						value="gwikidocs/help/en/ElementSettings#SKIN" />
-					<property name="requiredViewRight" value="GWIKI_DEVELOPER" />
-					<property name="requiredEditRight" value="GWIKI_DEVELOPER" />
-				</bean>
-			</list>
-		</property>
-	</bean>
+            </value>
+          </property>
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="I18NMODULES" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="I{gwiki.settings.I18NMODULES.label}" />
+          <!-- <property name="description" value="I{gwiki.settings.I18NMODULES.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#I18NMODULES" />
+          <property name="type" value="PAGEIDLIST" />
+          <property name="requiredViewRight" value="GWIKI_DEVELOPER" />
+          <property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="PARTOF" />
+          <property name="group" value="LINKS" />
+          <property name="label" value="PartOf" />
+          <!-- <property name="description" value="I{gwiki.settings.I18NMODULES.description}" /> -->
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#PARTOF" />
+          <property name="type" value="PAGEID" />
+          <property name="requiredViewRight" value="GWIKI_DEVELOPER" />
+          <property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+        </bean>
+        <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+          <property name="key" value="SKIN" />
+          <property name="group" value="CONTENT" />
+          <property name="label" value="Skin" />
+          <!-- <property name="description" value="I{gwiki.settings.I18NMODULES.description}" /> -->
+          <property name="type" value="STRING" />
+          <property name="helpLink" value="gwikidocs/help/en/ElementSettings#SKIN" />
+          <property name="requiredViewRight" value="GWIKI_DEVELOPER" />
+          <property name="requiredEditRight" value="GWIKI_DEVELOPER" />
+        </bean>
+      </list>
+    </property>
+  </bean>
 </beans>
