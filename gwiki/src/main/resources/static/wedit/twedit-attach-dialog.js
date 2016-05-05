@@ -65,7 +65,7 @@ function gwikiInsertNewAttachmentDialog(ed, clipData) {
 	  width : 600,
 	  open : function(event, ui) {
 		  $('#linkpropt').val(fileName);
-		  $('#linkprtitle').val(fileName);
+		  //$('#linkprtitle').val(fileName);
 
 	  },
 	  close : function(event, ui) {
