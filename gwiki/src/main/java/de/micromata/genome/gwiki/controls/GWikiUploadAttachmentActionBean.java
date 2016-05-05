@@ -44,7 +44,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
   private String userName;
 
   private String passWord;
-
+  private String title;
   private String pageId;
 
   private String parentPageId;
@@ -175,9 +175,11 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
         res.set("rc", 0);
         JsonObject item = new JsonObject();
         res.set("item", item);
-
+        if (StringUtils.isBlank(title) == true) {
+          title = fileName;
+        }
         String metaTemplateId = "admin/templates/FileWikiPageMetaTemplate";
-        GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, fileName);
+        GWikiElement el = GWikiWebUtils.createNewElement(wikiContext, pageId, metaTemplateId, title);
         el.getElementInfo().getProps().setStringValue(GWikiPropKeys.PARENTPAGE, parentPageId);
         GWikiArtefakt<?> art = el.getMainPart();
         GWikiBinaryAttachmentArtefakt att = (GWikiBinaryAttachmentArtefakt) art;
@@ -185,6 +187,7 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
         if (data != null) {
           el.getElementInfo().getProps().setIntValue(GWikiPropKeys.SIZE, data.length);
         }
+
         wikiContext.getWikiWeb().saveElement(wikiContext, el, false);
         item.set("url", el.getElementInfo().getId());
         item.set("title", el.getElementInfo().getTitle());
@@ -279,6 +282,16 @@ public class GWikiUploadAttachmentActionBean extends ActionBeanAjaxBase
   public void setStoreTmpFile(boolean storeTmpFile)
   {
     this.storeTmpFile = storeTmpFile;
+  }
+
+  public String getTitle()
+  {
+    return title;
+  }
+
+  public void setTitle(String title)
+  {
+    this.title = title;
   }
 
 }
