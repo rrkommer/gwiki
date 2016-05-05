@@ -80,7 +80,8 @@ public class GWikiSmileyContentIterator implements GWikiFragmentVisitor
     boolean smileyFound = false;
     int i;
     for (i = 0; i < text.length(); ++i) {
-      if (text.charAt(i) == '(') {
+      char c = text.charAt(i);
+      if (c == '(') {
         int endIdx = scanForSmiley(i + 1, text);
         if (endIdx != -1) {
           if (startIdx != i) {
@@ -92,12 +93,16 @@ public class GWikiSmileyContentIterator implements GWikiFragmentVisitor
           smileyFound = true;
           startIdx = i = endIdx + 1;
         } else {
-          if (i + 1 < text.length()) {
+          if (i + 1 > text.length()) {
             break;
           }
           startIdx = i + 1;
           i = text.indexOf('(', startIdx);
-
+          if (i == -1) {
+            break;
+          } else {
+            --i;
+          }
           continue;
         }
       }
