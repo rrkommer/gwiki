@@ -1,0 +1,15 @@
+{pageintro}
+How to create your own Wiki after successful install and start GWiki.
+{pageintro}
+ 
+h2. Before
+You have installed GWiki and create user, which can be used to create your own content. If not please see [pub/en/installation/Installation_with_GWikiLauncher].
+  
+h2. Define your own Welcome page
+On The start page of GWiki create a new Wiki page.
+!gwikidocs/howtos/en/NewWikiPage.png! 
+ 
+Write some content.
+ 
+Save the page. The new Page will be children of the current home page.
+In the Browser navigation bar you can see the path of the page.
