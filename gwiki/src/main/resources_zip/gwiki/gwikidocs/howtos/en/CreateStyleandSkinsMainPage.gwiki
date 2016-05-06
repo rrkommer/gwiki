@@ -1,28 +1,43 @@
 {pageintro}
 GWiki defines two skins: {{gwiki}} and {{naked}}. GWiki allows to use the wiki itself to define own skins.
 {pageintro}
-
+ 
+{toc}
+ 
 h2. What is skin?
 Skins are templates, which do not only define colors or the layout of a page but also functions like navigation or the menu to common functions.
-So a skin is not only a collections of CSS, images and a layout definition but also can contain functionality written in jsp.
-
+ So a skin is not only a collections of CSS, images and a layout definition but also can contain functionality written in jsp.
 h2. Choose Skin
 A skin can be choosen at different locations:
 - [GWiki Global Configuration|gwikidocs/help/en/admin/GWikiConfig]: Select available skins and default skin
 - [User Profile Settings|gwikidocs/help/en/Profile]
 - Page: Set a Skin for the current page and al its children.
-
+h2. Modifify a Skin
+You can use an existant Skin like {{mgc}} or {{gwiki}}. The current user has have all rights including {{GWIKI\_DEVELOPER, GWIKI\_EDITHTML}} and {{GWIKI\_ADMIN}}.
+ In the Admin Menu use *All Elements* to show all elements (including non wiki elements).
+ Filter the list f.e. {{inc/mgc}} to show all elements used by the mgc Skin.
+!gwikidocs/howtos/en/EditSkinFilterAllElements.png!
+  
+ You can edit the elements. 
+{tip:title=Rollback}
+The standard style are included in an embedded storage (like a ROM). Don't forget: GWiki itself is written with GWiki (;)). If you edit such an element a copy will made to your gwiki storage.
+ If you just want to "rollback" your changes, you can delete the elements and the element will be served again from embedded storage.
+{tip}
+ 
 h2. Steps to create a new skin named {{myskin}}
 The files for a skin are GWiki elements in with a path prefix {{inc/myskin/}}.
-Use one of the existant styles directories and copy all files in the new directory {{inc/myskin}}.
-Via GWiki open the WikiConfig dialog. Add the skin to the comma seperated list of 'Available Skins'.
-Open your profile and select the myskin.
-Until now you only have made a copy of another skin, so the web pages should not have changed.
-Now take a look at following elements inside your new skin folder:
-
+ Use one of the existant styles directories and copy all files in the new directory {{inc/myskin}}.
+ Via GWiki open the WikiConfig dialog. Add the skin to the comma seperated list of 'Available Skins'.
+ Open your profile and select the myskin.
+ Until now you only have made a copy of another skin, so the web pages should not have changed.
+ Now take a look at following elements inside your new skin folder:
+{tip:title=Tip}
+To make it more easy check out the sources of GWiki and use an existent Skin like {{mgc}} and copy the folder to a new folder.  
+{tip}
+ 
 h3. standardtemplate.gspt
 This template will be used for normal pages with navigation and menu.
-{code}
+{code:lang=java}
 <@include file="inc/naked/standardhead.gspt"@>
 <%
 	MainPage.render(wikiContext);
@@ -30,12 +45,9 @@ This template will be used for normal pages with navigation and menu.
 <@include file="inc/naked/standardfoot.gspt"@>
 {code}
 Normally you only need to adjust the included pathes.
-
 h3. standardhead.gspt
 This is the standard head section of a page. It defines the layout and includes some other utility gspt, like {{inc/headMenu.gspt}} or {{inc/navMenu}}.
-
 h3. standardfoot.gspt
 This include is used just to close the page and put functionality on the bottom of the page.
-
-h2. Overwrite CSS
+h3. Overwrite CSS
 A skin should include the standard {{inc/gwiki.css}} but include also an own CSS to overwrite the standard CSS definitions.

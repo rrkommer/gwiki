@@ -9,7 +9,7 @@ h2. Define your own Welcome page
 h3. Create Page
 On The start page of GWiki create a new Wiki page.
  You receive help from the autocomplete feature.
-!gwikidocs/howtos/en/NewWikiPage.png!  
+!gwikidocs/howtos/en/NewWikiPage.png!   
   
  Write some content.
   
@@ -33,10 +33,12 @@ After saving the GWiki configuration, the navigation will only show your page. T
   
 h2. Create own Skin
 A Skin is the frame around the gwiki pages and containing header, footer, navigation, comment section, menu etc.
-If you just want to change minor stuff \- like logo or footer \- you may edit an existent Skin. 
-You can create also a very basic skin, which contains much less functions (edit button, etc.). In this case you have configure a default GWiki skin in your own profile, so you are still enable to edit pages.
-See more at [gwikidocs/howtos/en/CreateStyleandSkins].
-
-
+ If you just want to change minor stuff \- like logo or footer \- you may edit an existent Skin. 
+ You can create also a very basic skin, which contains much less functions (edit button, etc.). In this case you have configure a default GWiki skin in your own profile, so you are still enable to edit pages.
+ See more at [gwikidocs/howtos/en/CreateStyleandSkins].
+ 
 h3. Hide GWiki pages from search index
 Although the standard GWiki documentation pages doesn't be shown in the navigation if you define your own welcome page, the pages still can be found by full text search. If you don't want this, you can change the access right of the root page of the GWiki pages. 
+Edit the root page of the help pages and edit it. In the Settings dialog you can change the right of the root node.
+!gwikidocs/howtos/en/EditDialogSettingsRight.png!
+All pages below the root page normally derives the rights from parent page, so all pages are invisible for anonymous users.
