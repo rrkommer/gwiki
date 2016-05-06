@@ -19,8 +19,7 @@ package de.micromata.genome.gwiki.model;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Interface for caching pages.
@@ -46,9 +45,15 @@ public interface GWikiPageCache
 
     private long pageSize = -1;
 
+    @Override
     public String toString()
     {
-      return "GWikiPageCacheInfo: " + ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+      StringBuilder sb = new StringBuilder();
+      sb.append("Element count: ").append(elementInfosCount)
+          .append("; elementInfoSize: ").append(FileUtils.byteCountToDisplaySize(elementInfosSize))
+          .append("; pageCount: ").append(pageCount)
+          .append("; pageSize: ").append(FileUtils.byteCountToDisplaySize(pageSize));
+      return sb.toString();
     }
 
     public int getElementInfosCount()
@@ -135,5 +140,5 @@ public interface GWikiPageCache
    * 
    * @param toClear
    */
-  public void clearCompiledFragments(Class< ? extends GWikiArtefakt< ? extends Serializable>> toClear);
+  public void clearCompiledFragments(Class<? extends GWikiArtefakt<? extends Serializable>> toClear);
 }

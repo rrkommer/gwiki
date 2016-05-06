@@ -2,6 +2,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.*;
 import de.micromata.genome.gwiki.model.*;
 import de.micromata.genome.gwiki.auth.*;
 import javax.servlet.http.Cookie;
+import org.apache.commons.io.FileUtils
 
 class WikiControlActionBean extends ActionBeanBase
 {
@@ -100,7 +101,7 @@ class WikiControlActionBean extends ActionBeanBase
     StringBuilder sb =new StringBuilder();
     sb.append("pageInfoCache: ")
        .append(wikiContext.getWikiWeb().getPageCache().getPageCacheInfo())
-    .append("; wikiWeb: " + Integer.toString(de.micromata.genome.util.bean.PrivateBeanUtils.getBeanSize(wikiContext.getWikiWeb())))
+    .append("; wikiWeb: ").append(FileUtils.byteCountToDisplaySize(de.micromata.genome.util.bean.PrivateBeanUtils.getBeanSize(wikiContext.getWikiWeb())))
     ;
     cacheSizes = sb.toString();
     return null;
