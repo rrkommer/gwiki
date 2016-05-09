@@ -90,40 +90,6 @@ function gwikiRestoreFromRte(partName, chain) {
 		return;
 	}
 	gwikiUpdateWikiFromRte(partName, chain);
-	//	
-	// var edit = tinyMCE.get('gwikihtmledit' + partName);
-	// console.debug(' gwikiRestoreFromRte: ' + edit + "; " + edit.isDirty());
-	// if (!edit) {
-	// return callback();
-	// }
-	// // var firefox = false;
-	// if (edit.isDirty() == false && htmlIsNotDirty == true) {
-	// return callback();
-	// }
-	// var content = edit.getContent();
-	//
-	// content = wedit_cleanuphtml(content);
-	// jQuery.ajax({
-	// cache : false,
-	// url : './EditPage?method_onRteToWiki=true',
-	// type : 'POST',
-	// dataType : "html",
-	// data : {
-	// htmlCode : content
-	// },
-	// complete : function(res, status) {
-	// console.debug(' html2wiki: ' + res.responseText);
-	// if (status == "success" || status == "notmodified") {
-	// if (res.status == 200) {
-	// $("#textarea" + partName).val(res.responseText);
-	// callback();
-	// } else {
-	// alert(res.responseText);
-	// }
-	// }
-	// }
-	// });
-
 }
 
 function gwikiRelaodPreviewFrame() {
@@ -269,7 +235,7 @@ function gwikicreateEditTab(partName, newPage) {
 								  var html = res.responseText
 								  document.getElementById('WikiPreview' + pn).innerHTML = html;
 							  } else {
-								  alert("Failure rendering Preview: " + res.responseText);
+							  	gwiki_alert("Failure rendering Preview: " + res.responseText, 'Error');
 							  }
 						  }
 					  }
@@ -309,7 +275,6 @@ window.onresize = function(event) {
 
 function gwikiFullscreen(framId) {
 	var pn = gwikiCurrentPart;
-	// alert("framId: " + framId);
 	if ($("#" + framId + pn).hasClass("fullscreen") == false) {
 		gwikimaximizeWindow(framId + pn, pn);
 	} else {
@@ -341,7 +306,6 @@ function gwikimaximizeWindow(framId, partName) {
 	var pn = partName;
 	var ie6 = false; //jQuery.browser.version == '6.0' && jQuery.browser.msie == true;
 	var position = 'fixed';//(ie6 || (jQuery.browser.msie && !jQuery.support.boxModel)) ? 'absolute' : 'fixed';
-	// alert("framId: " + framId);
 	$("#" + framId).addClass('fullscreen');
 	$("#" + framId).css({
 	  'position' : position,

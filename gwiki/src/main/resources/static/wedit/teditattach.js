@@ -27,10 +27,12 @@ function storeAttachments(clipData) {
 	}
 	twedit_attach_storeAttachment(null, clipData, clipData.fileName, '', gwikiAttachmentParentPageId, function(result) {
 		if (result.rc != 0) {
-			alert(result.rm);
+			gwiki_alert(result.rm, 'Error');
 		} else {
-			alert("gwiki.attachment.fileuploaded".i18n())
-			$("#gwikieditcancelbutton").click();
+			gwiki_alert("gwiki.attachment.fileuploaded".i18n(), '', function() {
+				$("#gwikieditcancelbutton").click();
+			});
+
 		}
 	});
 }

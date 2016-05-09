@@ -575,7 +575,7 @@ function tt_ReadCmds(a)
 	}
 	tt_Err("Incorrect call of Tip() or TagToTip().\n"
 			+ "Each command must be followed by a value.", true);
-	alert("lado");
+	
 	return false;
 }
 function tt_AdaptConfig1()

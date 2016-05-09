@@ -9,7 +9,6 @@ function gwikiEditInsertTemplate(templateText) {
 (function($) {
 	$.fn.gwikiedit = function(settings) {
 		var field = this;
-		// alert("field: " + $(field).attr('id'));
 		gwikiEditField = field;
 		var currentSearchType = '';
 		var maximized = false;
@@ -425,10 +424,8 @@ function gwikiEditInsertTemplate(templateText) {
 						evt.stopPropagation();
 						return false;
 					}
-					// alert("ctr:" + evt.keyCode);
 				}
 				if (evt.altKey == true && evt.keyCode != 18) {
-					// alert("alt: " + evt.keyCode);
 					if (altKeyMap[evt.keyCode] != undefined) {
 						var button = altKeyMap[evt.keyCode];
 						tag(button);
@@ -437,8 +434,6 @@ function gwikiEditInsertTemplate(templateText) {
 					}
 				}
 				if (evt.ctrlKey == true && evt.keyCode != 17) {
-					// alert('press: ' + evt.keyCode + " " + evt.ctrlKey + " " +
-					// evt.altKey);
 					return;
 				}
 			}

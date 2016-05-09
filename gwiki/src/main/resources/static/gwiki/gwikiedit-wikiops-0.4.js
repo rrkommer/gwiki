@@ -85,7 +85,7 @@ function storeImage() {
 		checkInput();
 	}
 	if (imageSource === undefined) {
-		alert('No image found');
+		gwiki_alert('No image found', 'Warning');
 		return;
 	}
 //	console.debug("image found: " + imageSource);
@@ -93,7 +93,7 @@ function storeImage() {
 	var fname = fnameel.value;
 	var blankRE=/^[\s]+$/;
 	if (!fname || fname == "" || blankRE.test(fname)) {
-		alert("Please give a file name");
+		gwiki_alert("Please give a file name", 'Missing file name');
 		return;
 	}
 	
