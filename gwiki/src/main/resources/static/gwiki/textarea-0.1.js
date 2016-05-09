@@ -17,7 +17,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		var insText = range.text;
 
 		if (!insText && eTag)
-			return alert("gwiki.editor.textarea.message.notselected".i18n());
+			return gwiki_alert("gwiki.editor.textarea.message.notselected".i18n(), '');
 
 		range.text = aTag + insText + eTag;
 
@@ -40,7 +40,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		var insText = input.value.substring(start, end);
 
 		if (!insText && eTag)
-			return alert("gwiki.editor.textarea.message.notselected".i18n());
+			return gwiki_alert("gwiki.editor.textarea.message.notselected".i18n(), '');
 
 		input.value = input.value.substr(0, start) + aTag + insText + eTag
 				+ input.value.substr(end);
@@ -58,7 +58,7 @@ function insertIntoTextArea(input, aTag, eTag) {
 		input.selectionEnd = pos;
 
 	} else {
-		alert("gwiki.editor.textarea.message.browser".i18n());
+		gwiki_alert("gwiki.editor.textarea.message.browser".i18n(), '');
 
 	}
 }

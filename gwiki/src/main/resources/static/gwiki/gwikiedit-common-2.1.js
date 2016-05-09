@@ -7,28 +7,8 @@ function gwikiEditPagePath(inputField) {
 
 	dlghtml += "<div id='filechooser' style='width:350px; height:200px; margin-top: 20px; font-family: verdana; font-size: 10px;'></div>";
 
-	//
-	// dlghtml += "<script type='text/javascript'>";
-	// dlghtml += "$(function () {";
-	// dlghtml += " $(\"#filechooser\").jstree({";
-	// dlghtml += " \"themes\" : { \"theme\" : \"classic\", \"dots\" : true,
-	// \"icons\" : true },";
-	// dlghtml += " \"plugins\" : [ \"themes\", \"html_data\", \"ui\" ],";
-	// dlghtml += " \"html_data\" : {\n";
-	// dlghtml += " \"ajax\" : {";
-	// dlghtml += " \"url\" : \"./TreeChildren\",\n";
-	// dlghtml += " \"data\" : function(n) { return { \"method_onLoadAsync\" :
-	// \"true\", "
-	// + "\"id\" : n.attr ? n.attr(\"id\") : \"\","
-	// + "\"urlField\" : \"pathtextfield\" }; }\n";
-	// dlghtml += " }";
-	// dlghtml += " }\n";
-	// dlghtml += " });\n";
-	// dlghtml += "});\n";
-	// dlghtml += "</script>";
 
 	modc.html(dlghtml);
-	// alert(dlghtml)
 
 	var buttons = {};
 	buttons["gwiki.common.cancel".i18n()] = function() {

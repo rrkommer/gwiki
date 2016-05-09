@@ -18,7 +18,7 @@ var gwikiInsertNewAttachmentDialog_html =
 function gwikiInsertNewAttachmentDialog(ed, clipData) {
 
 	if (gwikiContext.pageId == null) {
-		alert('Page to insert has saved initially.');
+		gwiki_alert('Page to insert has saved initially.', '');
 		return;
 	}
 	var modc = $("#editDialogBox");
@@ -108,7 +108,7 @@ function twedit_attach_storeAttachment(ed, clipData, fileName, title, parentPage
 	    parentPageId : parentPageId,
 	    json : true,
 	    fileName : fileName,
-	    title : title, // TODO not yet used in uplaod
+	    title : title, 
 	    encData : clipData.base64Data
 	  },
 	  dataType : "json",

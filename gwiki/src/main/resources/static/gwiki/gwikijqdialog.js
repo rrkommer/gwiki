@@ -1,5 +1,3 @@
-
-
 function gwiki_dlg_create_ok_cancel_buttons(dialogid, options) {
 	var buttons = {};
 	buttons["gwiki.common.ok".i18n()] = {
@@ -14,7 +12,7 @@ function gwiki_dlg_create_ok_cancel_buttons(dialogid, options) {
 	var onCancel = defaultCancel;
 	if (typeof options.onCancel != 'undefined') {
 		onCancel = options.onCancel;
-//		console.debug('custom onCancel');
+		// console.debug('custom onCancel');
 	}
 
 	buttons["gwiki.common.cancel".i18n()] = {
@@ -25,25 +23,47 @@ function gwiki_dlg_create_ok_cancel_buttons(dialogid, options) {
 	return buttons;
 }
 
-function gwiki_dlg_set_focus_first_input_or_ok(dialogid)
-{
+function gwiki_dlg_set_focus_first_input_or_ok(dialogid) {
 	var firstInput = $(dialogid).find('select, input, textarea').first();
 	if (firstInput.length == 1) {
 		firstInput.focus();
 	} else {
 		$("#dlg-ok-button").focus();
-	}	
+	}
 }
 
-function gwiki_dlg_bind_input_enter_to_ok(dialogid, callback)
-{
-	$(dialogid).find('select, input').on('keydown', function(event){
-		if (event.keyCode == 13) { //enter
+function gwiki_dlg_bind_input_enter_to_ok(dialogid, callback) {
+	$(dialogid).find('select, input').on('keydown', function(event) {
+		if (event.keyCode == 13) { // enter
 			$('#dlg-ok-button').click();
 		}
 	});
 }
-function gwiki_dlg_click_ok()
-{
+function gwiki_dlg_click_ok() {
 	$('#dlg-ok-button').click();
+}
+
+$.extend({
+	alert : function(message, title, callback) {
+		$("<div></div>").dialog({
+		  buttons : {
+			  "Ok" : function() {
+				  $(this).dialog("close");
+			  }
+		  },
+		  close : function(event, ui) {
+			  $(this).remove();
+			  if (callback != undefined) {
+				  callback();
+			  }
+		  },
+		  resizable : false,
+		  title : title,
+		  modal : true
+		}).text(message);
+	}
+});
+
+function gwiki_alert(message, title, callback) {
+	$.alert(message, title, callback);
 }
