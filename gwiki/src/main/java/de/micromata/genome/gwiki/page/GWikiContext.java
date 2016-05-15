@@ -706,6 +706,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     return wikiWeb.getI18nProvider().translateProp(this, key);
   }
 
+  public String translate(String key, Object... args)
+  {
+    return getWikiWeb().getI18nProvider().translate(this, key, null, args);
+  }
+
   /**
    * Gets the user date string.
    *

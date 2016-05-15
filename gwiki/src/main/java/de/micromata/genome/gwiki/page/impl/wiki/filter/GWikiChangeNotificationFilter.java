@@ -74,6 +74,7 @@ public class GWikiChangeNotificationFilter implements GWikiStorageStoreElementFi
     }
     Map<String, String> args = new HashMap<String, String>();
     args.put("pageId", id);
+    args.put("user", wikiContext.getWikiWeb().getAuthorization().getCurrentUserName(wikiContext));
     wikiContext.getWikiWeb().getSchedulerProvider()
         .execAsyncMultiple(wikiContext, GWikichangeNotificationEmailSendSchedulerJob.class, args);
     return null;
