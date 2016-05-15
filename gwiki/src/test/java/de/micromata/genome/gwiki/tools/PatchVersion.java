@@ -52,7 +52,7 @@ public class PatchVersion
     this.version = version;
     String parentPomPattern = "(.+<artifactId>gwiki-parent</artifactId>.+?<groupId>de.micromata.genome.gwiki</groupId>.+?<version>)(.*?)(</version>.+)";
     String currPomPattern = "(.+<groupId>de.micromata.genome.gwiki</groupId>.+?<artifactId>gwiki</artifactId>.+?<version>)(.*?)(</version>.+)";
-    
+
     files.add(Pair.make("../gwiki-parent/pom.xml", "(.+?<name>gwiki</name>.+?<version>)(.+?)(</version>.+)"));
     files.add(Pair.make("pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-genome-dependencies/pom.xml", parentPomPattern));
@@ -60,7 +60,7 @@ public class PatchVersion
     files.add(Pair.make("../gwiki-webapp/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-wicket/pom.xml", parentPomPattern));
     files.add(Pair.make("../gwiki-wicket-examples/pom.xml", parentPomPattern));
-    
+
     // plugins
     files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-admintools/pom.xml", currPomPattern));
@@ -78,8 +78,6 @@ public class PatchVersion
     files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/gwiki-pagetemplates/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-pdfextractor/pom.xml", currPomPattern));
-    files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", parentPomPattern));
-    files.add(Pair.make("../plugins/gwiki-rte-myspell/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-s5slideshow/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-sampleplugin/pom.xml", currPomPattern));
     files.add(Pair.make("../plugins/gwiki-scheduler/pom.xml", currPomPattern));
@@ -89,9 +87,10 @@ public class PatchVersion
     files.add(Pair.make("../plugins/org.apache.httpcomponents/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/org.apache.pdfbox/pom.xml", parentPomPattern));
     files.add(Pair.make("../plugins/org.apache.poi/pom.xml", parentPomPattern));
-    
+
     // internals
-    files.add(Pair.make("src/main/java/de/micromata/genome/gwiki/model/GWikiVersion.java", "(.*?VERSION = \")(.+?)(\".+)"));
+    files.add(
+        Pair.make("src/main/java/de/micromata/genome/gwiki/model/GWikiVersion.java", "(.*?VERSION = \")(.+?)(\".+)"));
     files.add(Pair.make("../gwiki-standalone/src/main/external_resources/gwikistandalone/gwikiweb.cmd",
         "(.+?java -jar gwiki-standalone-)(.+?)(\\.jar.+)"));
     files.add(Pair.make("../gwiki-standalone/src/main/external_resources/gwikistandalone/gwikiweb.sh",
