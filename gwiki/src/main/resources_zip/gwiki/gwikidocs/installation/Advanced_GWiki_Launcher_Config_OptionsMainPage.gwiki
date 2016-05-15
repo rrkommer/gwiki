@@ -1,0 +1,33 @@
+{pageintro}
+With the Launcher Configuration dialog many aspects of the GWiki infrastructure can be configured. 
+{pageintro}
+ 
+{toc}{tip:title=Server environments}
+All configuration of the GWiki will be stored in the {{gwiki.properties}} file. For Server environments \- where no display (except of a text only terminal) is available the property file can edited directly.
+ It may also be usefull to prepare a gwiki.properties file using the Configuration Dialog and copy this file to the server environment.
+{tip}
+ 
+h2. Wiki Filesystem
+By default all created/modified files will be stored in a subdirectory {{./gwiki}}. 
+ You may change this directory to another location.
+ You can also use a Database to store the files. In this case you have *Database* as {*}Storage Type{*}. 
+ You need to configure a JDBC connection to you database.
+ For more Information about configure a JDBC Database connection please refer to: [https://labs.micromata.de/mgc/mgc/en/help/launcher/JDBC_Connection_Dialog|https://labs.micromata.de/mgc/mgc/en/help/launcher/JDBC_Connection_Dialog]
+ 
+{tip:title=Import and export Wiki Files}
+If you use a Database you still can export the files. Select menu {*}All Elements{*}, which shows not only Pages and Attachments, but also all Wiki elements. With the *Export* Button you can export the files as a zip. 
+ With the Menu {*}Import Elements{*} you also can import normal Wiki files into the database.
+{tip}
+h2. Launcher
+Please look at [https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Launcher|https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Launcher]
+h2. Jetty Webserver
+Please look at [https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver|https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver]
+h2. Email Server
+GWiki can send notification emails, if a page is changed. To activate this feature, you need to configure a SMPT Server. 
+For configuration look at: [https://labs.micromata.de/mgc/mgc/en/help/launcher/Dialog_Email_Server|https://labs.micromata.de/mgc/mgc/en/help/launcher/Dialog_Email_Server]
+h2. Logging
+GWiki uses the MGC Logging. To configure the Logging feature please look at [https://labs.micromata.de/mgc/mgc/en/help/launcher/Dialog_Logging|https://labs.micromata.de/mgc/mgc/en/help/launcher/Dialog_Logging].
+h2. Hibernate Persistence
+You initial want to use a database you need to create tables, indice etc. in the target database schema. Luckily there is no need to handle SQL files. In the configuration Tab Hibernate Persistence select Update in the Schema *update* to create GWikis tables. Later you set the dropdown to validate or empty.
+
+  
