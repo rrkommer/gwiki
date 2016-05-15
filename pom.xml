@@ -53,9 +53,9 @@
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gwiki.version>2.2.0-SNAPSHOT</gwiki.version><!-- GWIKVERSION -->
+    <gwiki.version>${project.version}</gwiki.version><!-- GWIKVERSION -->
     <gwiki-gdbfs.version>${gwiki.version}</gwiki-gdbfs.version>
-    <mgc.version>2.2.0-SNAPSHOT</mgc.version><!--  MGCVERSION -->
+    <mgc.version>2.1.0</mgc.version><!--  MGCVERSION -->
     <org.apache.derby.version>10.12.1.1</org.apache.derby.version>
     <hsqldb.version>2.3.3</hsqldb.version>
 		<com.oracle.ojdbc6.version>11.2.0.2.0</com.oracle.ojdbc6.version>
