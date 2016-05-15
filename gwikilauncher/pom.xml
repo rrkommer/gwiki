@@ -91,7 +91,7 @@
               <MgcLicense>Apache 2.0</MgcLicense>
               <MgcDescription>GWiki Content Management System</MgcDescription>
               <MgcHomeUrl>http://labs.micromata.de/gwiki</MgcHomeUrl>
-              <MgcHelpUrl>https://labs.micromata.de/gwiki/pub/en/installation/Installation_with_GWikiLauncher</MgcHelpUrl>
+              <MgcHelpUrl>https://labs.micromata.de/gwiki/gwikidocs/installation/Installation_with_GWikiLauncher</MgcHelpUrl>
               <MgcLargLogoPath>/style/gwikiLogo.png</MgcLargLogoPath>
               <mainClass>${start-class}</mainClass>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>

@@ -4,10 +4,14 @@ Run GWiki with Jetty and HTTPS
  
 h2. Introduction
 If you run {*}GWiki {*}as Server using Jetty and use GWiki user authentification (the Login page) over the internet, it is strongly recommended the GWiki is only used via HTTPS and not HTTP, otherwise the password will be passed in plain text.
+{note}
+ See also at at MGC Documentation page for embedded Jetty configuration:
+[https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver|https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver].
+{note}
 h2. Keystore
 For the HTTPS connector you need a ssl certificate.
-You can create a self signed certificate in the configuration dialog.
-Alternativelly you can create it by your own using following command line tool:
+ You can create a self signed certificate in the configuration dialog.
+ Alternativelly you can create it by your own using following command line tool:
 {{keytool \-keystore keystore \-alias jetty \-genkey \-keyalg RSA}}
   
  Sample dialog (in German...)
@@ -32,7 +36,9 @@ Alternativelly you can create it by your own using following command line tool:
   
  Answer the questions. For simplicity use the same password for for keystore and certificate.
   
- 
+  
 h2. Configure HTTPs
 !gwikidocs/howtos/en/GWikiLauncherDialogJettyWithSSL.png!
-h2.  
+  
+ See more at at MGC Documentation page [https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver|https://labs.micromata.de/mgc/mgc/en/help/launcher/Launcher_Configuration_Dialog_Jetty_Webserver].
+  
