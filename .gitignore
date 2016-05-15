@@ -30,3 +30,7 @@ gwiki/src/main/resources_zip/gwiki/pub/en/playzone
 */genomelog-derby
 **/_PageViewCounter.properties
 web/**/arch
+gwikilauncher/*.log
+gwikilauncher/gwiki.properties
+gwikilauncher/log4j.properties
+gwikilauncher/keystore
