@@ -1,0 +1,20 @@
+{pageintro}
+How to run GWiki on Raspberry Pi. 
+{pageintro}
+ 
+h2. Requirements
+You only need Raspberry Pi 2 (with 1GB RAM) and some storage (at least about 200 MB).
+  
+ Because GWiki 2 needs Java 8 to run, you have download and install Java 8.
+ I have used jdk\-8u91\-linux\-arm32\-vfp\-hflt.tar.gz from Oracle.
+ See also [http://www.rpiblog.com/2014/03/installing-oracle-jdk-8-on-raspberry-pi.html|http://www.rpiblog.com/2014/03/installing-oracle-jdk-8-on-raspberry-pi.html].
+  
+h2. GWiki
+Copy the GWiki Launcher jar to the raspberry machine and start it with f.e.
+{{nohup java \-jar gwikilauncher\-2.2.0.jar \-nogui nohup2.out 2>&1&.}}
+{note}
+At the time I'm writing this, there was no working JavaFX libraries for Raspberry Pi. So you have to run gwiki always with {{\-nogui}} otherwise you may receive error messages regarding missing JavaFX classes.
+{note}
+ 
+The Raspberry Pi is not a high performance platform, so be patient when starting GWiki. 
+ 
