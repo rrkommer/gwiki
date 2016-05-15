@@ -1,9 +1,10 @@
 {pageintro}
 GWiki provide an optional GUI to configure and start the application. 
 {pageintro}
+ 
 h2. First Start of GWiki
 After starting the GWiki Launcher the main window should be shown:
-!pub/en/installation/GWikiLauncherMainWindow.png|width=784|height=478!
+!gwikidocs/installation/GWikiLauncherMainWindow.png|width=784|height=478!
   
  You can start the GWiki Server by the *Start Server* button.
  Wait a few seconds and you will see messages in the Log Window. 
@@ -13,7 +14,7 @@ After starting the GWiki Launcher the main window should be shown:
   
  In the Browser the initial start page will be shown.
   
-!pub/en/installation/InitialWikiStartPage.png!
+!gwikidocs/installation/InitialWikiStartPage.png!
   
   
  What you see is the public viewable pages. 
@@ -23,16 +24,16 @@ Go back to the GWiki Launcher and open the configuration dialog under the Menu {
  Go to tab System User.
  The System User is administration 'super' user. 
  Click enable and choose user name and password for this user.
-!pub/en/installation/DialogGWikiSystemUser.png!
+!gwikidocs/installation/DialogGWikiSystemUser.png!
   
  Close the dialog with the *Save* button.
  In the Main Window of the GWiki Launcher *Stop Server* the server and *Start Server* again.
   
 h2. Login as System User
 Go back to the browser and log in clicking this icon:
-!pub/en/installation/LoginIcon.png!
+!gwikidocs/installation/LoginIcon.png!
  Now you see some more Icons/Buttons/Menu in the page:
-!pub/en/installation/GWikiMenuAndButtonsAsSystemUser.png!
+!gwikidocs/installation/GWikiMenuAndButtonsAsSystemUser.png!
 h2. Create an GWiki User
 Although the System User has all available rights, this user has some limitations:
 * No personal space
