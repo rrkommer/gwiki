@@ -15,6 +15,7 @@ h3. GWiki as CMS/Wiki
 - From simple Wiki to CMS with release management
 - Extensible with plugins.
 {column}
+ 
 
  
 {column:width=30%|valign=top}
@@ -24,7 +25,7 @@ h3. GWiki as Rapid Development Framework
 - Supports JSP with tag libraries
 - Write Macros and Plugins
 {column}
-
+ 
 {column:width=30%|valign=top}
 h3. GWiki as Content centric Java Development Framework
 - Online management of Java internationalization files
@@ -38,6 +39,6 @@ h2. More information
 See [pub/en/GWikiFeatures] for more informations.
  You can view some [Slide shows|gwikidocs/slideshows/en/Slideshows] with screenshots of GWiki.
 h1. Get and Try out
-To try out GWiki, download the standalone version in [pub/en/Downloads] section.
+To try out GWiki, download the standalone version in [pub/en/Downloads] section and [install|gwikidocs/installation/Installation] GWiki on your local machine.
 h1. Content
 {children:withPageIntro=true|depth=2}
