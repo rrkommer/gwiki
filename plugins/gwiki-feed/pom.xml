@@ -2,12 +2,12 @@
 	<parent>
 		<artifactId>gwiki-plugins-root</artifactId>
 		<groupId>de.micromata.genome.gwiki</groupId>
-		<version>2.2.0-SNAPSHOT</version><!-- GWIKVERSION -->
+		<version>2.2.0</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.micromata.genome.gwiki</groupId>
 	<artifactId>gwiki-feed</artifactId>
-	<version>2.2.0-SNAPSHOT</version><!-- PLUGINVERSION -->
+	<version>2.2.0</version><!-- PLUGINVERSION -->
 	<packaging>jar</packaging>
 </project>
