@@ -64,13 +64,10 @@ public class GWikiPageTreeActionBean extends ActionBeanAjaxBase
 
     }
     if (parent.equals(old_parent) == true) {
-      reorder();
+      return reorder();
     } else {
-      relink();
+      return relink();
     }
-    JsonObject res = new JsonObject();
-    res.add("rc", 0);
-    return sendResponse(res);
   }
 
   private Object returnError(int code, String message)

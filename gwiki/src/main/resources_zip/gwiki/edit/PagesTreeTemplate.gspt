@@ -65,15 +65,16 @@ String jsonNavJsTree = wikiContext.actionBean.renderTree();
 		        var tree = $('#pageTreeDiv').jstree(true);
 		        var nparent = tree.get_node(data.parent);
 		        var oparent = tree.get_node(data.old_parent);
-		        //node.data.url
-		        console.debug("move_node.jstree; " + data.node + "; parent: " + data.parent + "; position: "
-		            + data.position + "; old_parent: " + data.old_parent + "; old_position: " + data.old_position);
+
+		        //console.debug("move_node.jstree; " + data.node + "; parent: " + data.parent + "; position: "
+		            //+ data.position + "; old_parent: " + data.old_parent + "; old_position: " + data.old_position);
 		        if (!nparent.data.url || !oparent.data.url || !data.node.data.url) {
 			        return;
 		        }
 		        $.ajax({
 		          method : 'POST',
 		          url : './PagesTree',
+		          dataType : "json",
 		          data : {
 		            method_onAsyncMoveTree : true,
 		            node : data.node.data.url,
@@ -84,10 +85,13 @@ String jsonNavJsTree = wikiContext.actionBean.renderTree();
 		            old_position : data.old_position
 		          },
 		          success : function(result) {
-
+		            if (result.rc != 0) {
+		            	gwiki_alert(result.message);
+		            }
 		          },
 		          error : function(xhr, status, error) {
 			          console.error(status);
+			          gwiki_alert(status);
 		          }
 		        });
 
