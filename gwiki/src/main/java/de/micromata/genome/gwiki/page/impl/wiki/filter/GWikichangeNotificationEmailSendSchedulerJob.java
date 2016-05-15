@@ -55,13 +55,16 @@ public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiScheduler
     if (userNames.isEmpty() == true) {
       return;
     }
-    String title = wikiContext.getTranslatedProp(ei.getTitle());
+
     final Map<String, String> ctx = new HashMap<String, String>();
-    ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
-    ctx.put(GWikiEmailProvider.SUBJECT, "GWiki; Page changed: " + title);
     String url = wikiContext.globalUrl(id);
-    String body = "The Page " + title + " (" + url + ") has beend changed";
-    ctx.put(GWikiEmailProvider.TEXT, body);
+    String cuser = args.get("user");
+    if (StringUtils.isBlank(cuser) == true) {
+      cuser = "Unknown";
+    }
+    String changeUser = cuser;
+    ctx.put(GWikiEmailProvider.FROM, wikiContext.getWikiWeb().getWikiConfig().getSendEmail());
+
     for (String userName : userNames) {
       try {
         wikiContext.getWikiWeb().getAuthorization().runAsUser(userName, wikiContext,
@@ -71,6 +74,13 @@ public class GWikichangeNotificationEmailSendSchedulerJob extends GWikiScheduler
               @Override
               public Void call() throws RuntimeException
               {
+                String title = wikiContext.getTranslatedProp(ei.getTitle());
+
+                ctx.put(GWikiEmailProvider.SUBJECT,
+                    wikiContext.translate("gwiki.page.edit.ChangeNotification.email.subject", title, url, changeUser));
+                ctx.put(GWikiEmailProvider.TEXT,
+                    wikiContext.translate("gwiki.page.edit.ChangeNotification.email.body", title, url, changeUser));
+
                 String email = wikiContext.getWikiWeb().getAuthorization().getCurrentUserEmail(wikiContext);
                 if (StringUtils.isEmpty(email) == true) {
                   return null;
