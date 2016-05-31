@@ -90,7 +90,8 @@ public class GWikiFileStorage implements GWikiStorage
   /**
    * The standard lock timeout.
    */
-  protected long standardLockTimeout = -1;//TimeInMillis.SECOND * 100;
+  protected long standardLockTimeout = 10;
+
 
   /**
    * The storage.
