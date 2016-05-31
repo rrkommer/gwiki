@@ -2,6 +2,10 @@
 target/
 classes/
 
+# intellij files
+*.iml
+.idea
+
 #eclipse files
 **/*.project
 **/*.classpath
