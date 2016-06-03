@@ -16,6 +16,11 @@
 
 package de.micromata.genome.gdbfs;
 
+import de.micromata.genome.util.matcher.Matcher;
+import de.micromata.genome.util.runtime.CallableX;
+import de.micromata.genome.util.runtime.RuntimeIOException;
+import org.apache.commons.io.IOUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,12 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
-
-import de.micromata.genome.util.matcher.Matcher;
-import de.micromata.genome.util.runtime.CallableX;
-import de.micromata.genome.util.runtime.RuntimeIOException;
 
 /**
  * FileSystem implementation holds all in RAM.
@@ -190,10 +189,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
           continue;
         }
       }
-      if (me.getKey().equals(me.getValue().getFile().getName()) == false) {
+      /*if (me.getKey().equals(me.getValue().getFile().getName()) == false) {
         throw new FsException(
             "Inkonsistent fs: RamKey: " + me.getKey() + "; fileName: " + me.getValue().getFile().getName());
-      }
+      } */
       ret.add(me.getValue().getFile());
     }
     return ret;
