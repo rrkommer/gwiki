@@ -53,8 +53,11 @@ public class GWikiLauncherMain
   public static void runCli(String[] args)
   {
     GWikiLauncherApplication sapplication = new GWikiLauncherApplication();
+    Log4JInitializer.copyLogConfigFileFromCp();
     Log4JInitializer.initializeLog4J();
-    if (sapplication.checkConfiguration() == false) {
+    StringBuilder errBuff = new StringBuilder();
+    if (sapplication.checkConfiguration(errBuff) == false) {
+      System.err.println(errBuff.toString());
       throw new RuntimeException("Configuration is invalid; Check logs");
     }
     if (sapplication.initWithConfig() == false) {
