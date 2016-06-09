@@ -17,6 +17,8 @@
 package de.micromata.genome.gwiki.launcher;
 
 import de.micromata.genome.gwiki.launcher.config.GWikiLocalSettingsConfigModel;
+import de.micromata.genome.logging.GLog;
+import de.micromata.genome.logging.GenomeLogCategory;
 import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.logging.config.LsLoggingImpl;
 import de.micromata.genome.util.i18n.ChainedResourceBundleTranslationResolver;
@@ -30,6 +32,9 @@ import de.micromata.genome.util.runtime.InitWithCopyFromCpLocalSettingsClassLoad
 import de.micromata.genome.util.runtime.LocalSettings;
 import de.micromata.genome.util.runtime.LocalSettingsEnv;
 import de.micromata.genome.util.runtime.config.ExtLocalSettingsLoader;
+import de.micromata.genome.util.runtime.config.LocalSettingsConfigModel;
+import de.micromata.genome.util.validation.ValContext;
+import de.micromata.genome.util.validation.ValMessage;
 import de.micromata.mgc.application.MgcApplicationStartStopStatus;
 import de.micromata.mgc.application.jetty.JettyServer;
 import de.micromata.mgc.application.jetty.MgcApplicationWithJettyApplication;
@@ -68,6 +73,23 @@ public class GWikiLauncherApplication extends MgcApplicationWithJettyApplication
       ((GWikiJettyServer) jettyServer).buildIndex();
     }
     return ret;
+  }
+
+  public boolean checkConfiguration(StringBuilder errorBuffer)
+  {
+    LocalSettingsConfigModel configuraiton = getConfigModel();
+    ValContext ctx = new ValContext();
+    configuraiton.validate(ctx);
+    ctx.translateMessages(getTranslateService());
+    for (ValMessage msg : ctx.getMessages()) {
+      GLog.logValMessage(GenomeLogCategory.System, msg);
+      String message = msg.getMessage();
+      if (message == null) {
+        message = "???" + msg.getI18nkey() + "???";
+      }
+      errorBuffer.append(message).append("\n");
+    }
+    return ctx.hasErrors() == false;
   }
 
   @Override
