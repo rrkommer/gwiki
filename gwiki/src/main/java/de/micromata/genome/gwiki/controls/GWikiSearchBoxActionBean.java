@@ -95,6 +95,7 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
       jsonarr.add(JsonBuilder.map("key", sr.getPageId(), "label", t));
     }
     String ret = jsonarr.toString();
+    wikiContext.getResponse().setContentType("application/json");
     wikiContext.append(ret);
     wikiContext.flush();
     return noForward();
