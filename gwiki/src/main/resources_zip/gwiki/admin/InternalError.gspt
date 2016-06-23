@@ -3,14 +3,18 @@
 
 <gwiki:errors />
 
+
 <p><fmt:message key="gwiki.page.admin.InternalError.text.main"/></p>
+
+<% if(wikiContext.getRequest().getAttribute("printStackTraceOnInternalError") == true) { %>
+
 <% if (wikiContext.wikiWeb.wikiConfig.showErrorStackTrace() == true) {
 		Throwable ex = wikiContext.getRequest().getAttribute("exception");
-		
 %>
 <h2><fmt:message key="gwiki.page.admin.InternalError.label.stacktrace"/></h2>
 <pre>
 	<%= de.micromata.genome.gwiki.utils.ThrowableUtils.getExceptionStacktraceForHtml(ex) %>
 </pre>
 <%  } %>
+<% } %>
 <% wikiContext.skinInclude("standardfoot"); %>

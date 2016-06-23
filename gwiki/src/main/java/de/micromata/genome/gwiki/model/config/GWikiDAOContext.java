@@ -16,15 +16,6 @@
 
 package de.micromata.genome.gwiki.model.config;
 
-import javax.mail.Session;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.lang.ObjectUtils;
-import org.springframework.beans.factory.BeanFactory;
-
 import de.micromata.genome.gdbfs.FileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.model.GWikiEmailProvider;
@@ -52,6 +43,14 @@ import de.micromata.genome.gwiki.page.search.expr.SearchExpressionContentSearche
 import de.micromata.genome.gwiki.plugin.GWikiPluginRepository;
 import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.util.bean.PrivateBeanUtils;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.lang.ObjectUtils;
+import org.springframework.beans.factory.BeanFactory;
+
+import javax.mail.Session;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Wiki Bootstrapping Config.
@@ -91,6 +90,8 @@ public class GWikiDAOContext
   private String webDavUserName;
 
   private String webDavPasswordHash;
+
+  private boolean printStackTraceOnInternalError = true;
 
   /**
    * if true, read the static/ from class path and not from web context path.
@@ -371,4 +372,13 @@ public class GWikiDAOContext
     this.fileItemFactory = fileItemFactory;
   }
 
+  public boolean isPrintStackTraceOnInternalError()
+  {
+    return printStackTraceOnInternalError;
+  }
+
+  public void setPrintStackTraceOnInternalError(boolean printStackTraceOnInternalError)
+  {
+    this.printStackTraceOnInternalError = printStackTraceOnInternalError;
+  }
 }
