@@ -100,15 +100,15 @@ function onSaveComment()
       <c:if test="${form.allowPost}">
         <% if (wikiContext.wikiWeb.authorization.isAllowToEdit(wikiContext, el)== true) { %>
         <a title="<fmt:message key='gwiki.page.PageComment.label.edit' />" 
-          href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&backUrl=<c:out value="${form.pageId}"/>">
+          href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= de.micromata.genome.gwiki.utils.WebUtils.encodeUrlParam(el.id) %>&backUrl=<c:out value="${form.pageId}"/>">
           <img src="<gwiki:url value='/inc/gwiki/img/icons/notepencil16.png'/>" alt="EDIT COMMENT"/>
         </a>
         <a title="<fmt:message key='gwiki.page.PageComment.label.delete' />"
-          href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= el.id %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
+          href="<gwiki:url value="/edit/EditPage"/>?pageId=<%= de.micromata.genome.gwiki.utils.WebUtils.encodeUrlParam(el.id) %>&method_onDelete&backUrl=<c:out value="${form.pageId}"/>">
           <img src="<gwiki:url value='/inc/gwiki/img/icons/minus16.png'/>" alt="DELETE COMMENT"/>
         </a>
       <% } %>
-      <a href="javascript:gwikiReplyComment('<%= el.id %>')" title="<fmt:message key='gwiki.page.PageComment.label.reply' />">
+      <a href="javascript:gwikiReplyComment('<%= de.micromata.genome.gwiki.utils.WebUtils.encodeUrlParam(el.id) %>')" title="<fmt:message key='gwiki.page.PageComment.label.reply' />">
         <fmt:message key='gwiki.page.PageComment.label.reply' />
       </a>
       </c:if>
