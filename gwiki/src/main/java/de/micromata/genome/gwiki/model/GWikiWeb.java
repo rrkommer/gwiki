@@ -16,17 +16,6 @@
 
 package de.micromata.genome.gwiki.model;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-
 import de.micromata.genome.gwiki.model.config.GWikiDAOContext;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;
@@ -50,6 +39,16 @@ import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
+import org.apache.commons.lang.StringUtils;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Central instance of a wiki.
@@ -99,6 +98,7 @@ public class GWikiWeb
   private String contextPath;
 
   private String servletPath;
+
 
   private String eTagWiki;
   private GWikiSpaces spaces = new GWikiSpaces(this);
@@ -411,6 +411,7 @@ public class GWikiWeb
         GWikiLog.warn("Error rendering page: " + el.getElementInfo().getId() + "; " + ex.getMessage(), ex);
       }
       ctx.getRequest().setAttribute("exception", ex);
+      ctx.getRequest().setAttribute("printStackTraceOnInternalError",getDaoContext().isPrintStackTraceOnInternalError());
       GWikiElement nel = findElement("admin/InternalError");
       if (nel == null) {
         throw ex;
@@ -923,5 +924,4 @@ public class GWikiWeb
   {
     this.spaces = spaces;
   }
-
 }
