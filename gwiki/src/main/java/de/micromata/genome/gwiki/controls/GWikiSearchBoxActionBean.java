@@ -59,7 +59,7 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
     ret.add(JsonBuilder.map("key", searchUrl, "label",
         translate("gwiki.nav.searchbox.localsearch")));
     if (StringUtils.isNotBlank(pageId) == true) {
-      searchUrl += "&childs=" + pageId;
+      searchUrl += "&childs=" + WebUtils.encodeUrlParam(pageId);
       ret.add(JsonBuilder.map("key", searchUrl,
           "label", translate("gwiki.nav.searchbox.globalsearch")));
     }
