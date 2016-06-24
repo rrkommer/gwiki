@@ -21,6 +21,8 @@ gwikilauncher/log
 **/playzone/**
 **/*TextIndex.txt
 **/*TextExtract.txt
+*TextIndex.txt
+*TextExtract.txt
 **/tmp/**
 **/GlobalTextIndexSettings.properties
 **/_PageViewCounter.properties
@@ -34,3 +36,4 @@ gwikilauncher/*.log
 gwikilauncher/gwiki.properties
 gwikilauncher/log4j.properties
 gwikilauncher/keystore
+web/gwiki_pub/.fslock
