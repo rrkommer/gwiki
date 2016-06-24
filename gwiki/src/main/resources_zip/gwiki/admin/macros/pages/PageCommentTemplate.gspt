@@ -90,7 +90,6 @@ function onSaveComment()
       <gwiki:textarea styleClass="gwikiTextarea" errorStyleClass="error gwikiTextarea" rows="10" cols="100" property="commentText"/><br/>
       <input class="gwikiButton main" onclick="onSaveComment()" type="button" value="Save">
       <input  class="gwikiButton reset" onclick="createNewCommentHide()" type="button" value="Cancel">
-<%--      <a href="<gwiki:url value="/edit/EditComment"/><c:out value="?replyTo=${form.replyTo}&pageId=${form.pageId}"/>">Fullscreen edit</a>  --%>
       <div class="clearAll">&nbsp;</div>
   </div>
 <%  void renderComments(wikiContext, form, el) { %>
