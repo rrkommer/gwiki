@@ -7,7 +7,7 @@ News about GWiki
 {column:width=50%|valign=top}
 h2. News about GWiki
 h3. 2016\-06\-24
-GWiki 2.3.0 is released. [pub/en/Release_Notes_2.2.0]
+GWiki 2.3.0 is released. [pub/en/Release_Notes_2.3.0]
 h3. 2016\-05\-15
 GWiki 2.2.0 is released. [pub/en/Release_Notes_2.2.0]
 h3. 2016\-04\-27
@@ -68,9 +68,10 @@ First release von GWiki.
 h2. Change Log
 See [pub/en/ChangeLog]
 {column}
-
-  
  
+
+ 
+  
 {column:width=50%|valign=top}
 h2. Recently changed pages
 {recently:maxitems=50}
