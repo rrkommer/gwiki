@@ -1,10 +1,10 @@
 h1. About GWiki
 GWiki is a wiki style content managment plattform and rapid develop environment for content based java application.
  Because GWiki is released under the [Apache License|pub/en/GWikiLicense], you can use it also in commercial projects and combine it with closed source Java J2E applications.
-{info:title=Release 2.2.0}
-Release 2.2.0 is published.
+{info:title=Release 2.3.0}
+Release 2.3.0 is published.
  See [pub/en/Downloads] to download GWiki.
- See [pub/en/Release_Notes_2.2.0] about the changes 
+ See [pub/en/Release_Notes_2.3.0] about the changes 
 {info}
  
 {section:border=1|cellpadding=5|cellspacing=0}
@@ -15,7 +15,8 @@ h3. GWiki as CMS/Wiki
 - From simple Wiki to CMS with release management
 - Extensible with plugins.
 {column}
- 
+
+  
 {column:width=30%|valign=top}
 h3. GWiki as Rapid Development Framework
 - Online Editing of dynamic pages, including MVC
@@ -23,7 +24,8 @@ h3. GWiki as Rapid Development Framework
 - Supports JSP with tag libraries
 - Write Macros and Plugins
 {column}
- 
+
+  
 {column:width=30%|valign=top}
 h3. GWiki as Content centric Java Development Framework
 - Online management of Java internationalization files
