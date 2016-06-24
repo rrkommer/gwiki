@@ -11,10 +11,11 @@ Take a look at the GWiki desktop installation.
 h3. Releases
  
  You can download GWIki here
-[https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.2.0/gwikilauncher-2.2.0.jar|https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.2.0/gwikilauncher-2.2.0.jar]
+[https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.3.0/gwikilauncher-2.3.0.jar|https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.3.0/gwikilauncher-2.3.0.jar]
+
  Alternative
-[https://sourceforge.net/projects/genomewiki/files/gwikilauncher-2.1.0.jar/download|https://sourceforge.net/projects/genomewiki/files/latest/download]
-  
+[https://sourceforge.net/projects/genomewiki/files|https://sourceforge.net/projects/genomewiki/files]
+ 
  In most cases simply double click on the jar file to start.
  See to [gwikidocs/installation/Installation] for more.
 h4.  
