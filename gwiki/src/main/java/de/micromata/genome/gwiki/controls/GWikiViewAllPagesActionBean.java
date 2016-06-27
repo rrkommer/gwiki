@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.ZipWriteFileSystem;
@@ -230,7 +231,8 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     if (fieldName.equals("PAGEID") == true) {
 
       if (ei.isViewable() == true) {
-        return "<a href='" + wikiContext.localUrl(ei.getId()) + "'>" + ei.getId() + "</a>";
+        return "<a href='" + wikiContext.localUrl(ei.getId()) + "'>" + StringEscapeUtils.escapeHtml(ei.getId())
+            + "</a>";
       }
     }
 

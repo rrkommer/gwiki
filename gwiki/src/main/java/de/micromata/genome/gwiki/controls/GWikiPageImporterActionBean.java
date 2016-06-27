@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
@@ -302,7 +303,7 @@ public class GWikiPageImporterActionBean extends GWikiPageListActionBean
   {
     // if (fieldName)
     if (fieldName.equals("PAGEID") == true) {
-      String sf = getPageIdNoTemp(ei);
+      String sf = StringEscapeUtils.escapeHtml(getPageIdNoTemp(ei));
       return sf;
       // } else if (fieldName.equals("IMPSTATUS") == true) {
       // String sf = getPageIdNoTemp(ei);
