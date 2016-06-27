@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -236,17 +237,17 @@ public class GWikiPageListActionBean extends ActionBeanBase
   public String renderField(String fieldName, GWikiElementInfo elementInfo)
   {
     if (StringUtils.equals(fieldName, "PAGEID") == true) {
-      return elementInfo.getId();
+      return StringEscapeUtils.escapeHtml(elementInfo.getId());
     }
     if (StringUtils.equals(fieldName, GWikiPropKeys.TITLE) == true) {
-      return elementInfo.getTitle();
+      return StringEscapeUtils.escapeHtml(elementInfo.getTitle());
     }
     String val = elementInfo.getProps().getStringValue(fieldName);
 
     if (GWikiPropKeys.CREATEDAT.equals(fieldName) == true || GWikiPropKeys.MODIFIEDAT.equals(fieldName) == true) {
-      val = wikiContext.getUserDateString(GWikiProps.parseTimeStamp(val));
+      val = StringEscapeUtils.escapeHtml(wikiContext.getUserDateString(GWikiProps.parseTimeStamp(val)));
     }
-    return StringUtils.defaultString(val);
+    return StringEscapeUtils.escapeHtml(StringUtils.defaultString(val));
   }
 
   public String writeTableResult()

@@ -68,6 +68,7 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
 
   protected List<GWikiElementInfo> shownBlogEntries = new ArrayList<GWikiElementInfo>();
 
+  @Override
   protected boolean init()
   {
     if (super.init() == false) {
@@ -152,7 +153,8 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     wikiContext.getResponse().setContentType("text/xml");
     wikiContext.append("<?xml version=\"1.0\"?>\n<rss version=\"2.0\">\n").append("<channel>\n") //
         .append("<title>" + StringEscapeUtils.escapeXml(blogPage.getTitle()) + "</title>\n") //
-        .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + blogPage.getId() + "</link>\n") //
+        .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL()
+            + StringEscapeUtils.escapeXml(blogPage.getId()) + "</link>\n") //
 
     ;
     // <description>Liftoff to Space Exploration.</description>
@@ -167,7 +169,8 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     for (GWikiElementInfo ei : blogEntries) {
       wikiContext.append("<item>\n")//
           .append("<title>" + StringEscapeUtils.escapeXml(ei.getTitle()) + "</title>\n") //
-          .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL() + ei.getId() + "</link>\n") //
+          .append("<link>" + wikiContext.getWikiWeb().getWikiConfig().getPublicURL()
+              + StringEscapeUtils.escapeXml(ei.getId()) + "</link>\n") //
           .append("</item>\n") //
       ;
     }
@@ -189,7 +192,7 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     return super.onInit();
   }
 
-  protected void renderBlockEntry(GWikiElement el, GWikiExecutableArtefakt< ? > exec)
+  protected void renderBlockEntry(GWikiElement el, GWikiExecutableArtefakt<?> exec)
   {
     wikiContext//
         .append("<hr><table width=\"100%\" border=\"0\"><tr><td valign=\"top\">\n") //
@@ -230,7 +233,8 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
     wikiContext.append("<div class=\"blogPageScroll\">");
     if (pageOffset > 0) {
       int prevPO = Math.min(pageOffset - pageSize, 0);
-      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + prevPO + "\">").append(esc(translate("gwiki.blog.page.prevPage")))
+      wikiContext.append("<a href=\"" + thisPl + "?pageOffset=" + prevPO + "\">")
+          .append(esc(translate("gwiki.blog.page.prevPage")))
           .append("</a>&nbsp;");
     }
     if (pageOffset + pageSize < shownBlogEntries.size()) {
@@ -249,13 +253,13 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
       if (ei.isViewable() == false) {
         continue;
       }
-      GWikiArtefakt< ? > art = null;
+      GWikiArtefakt<?> art = null;
       if (StringUtils.isNotEmpty(part) == true) {
         art = el.getPart(part);
       } else {
         art = el.getMainPart();
       }
-      if ((art instanceof GWikiExecutableArtefakt< ? >) == false || art instanceof GWikiAttachment) {
+      if ((art instanceof GWikiExecutableArtefakt<?>) == false || art instanceof GWikiAttachment) {
         continue;
       }
       Date cday = CalendarControl.toFullDay(el.getElementInfo().getCreatedAt(), userTimeZone);
@@ -264,7 +268,7 @@ public class GWikiBlogActionBean extends GWikiBlogBaseActionBean
         wikiContext.append("<h1 class=\"BlogDayHead\">").append(esc(dayFormat.format(cday))).append("</h1>");
       }
       lastDay = cday;
-      GWikiExecutableArtefakt< ? > exec = (GWikiExecutableArtefakt< ? >) art;
+      GWikiExecutableArtefakt<?> exec = (GWikiExecutableArtefakt<?>) art;
       renderBlockEntry(el, exec);
       GWikiContext.setCurrent(wikiContext);
     }
