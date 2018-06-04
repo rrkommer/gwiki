@@ -16,8 +16,6 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
@@ -26,6 +24,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Defines a chunk of wiki text inside a wiki page.
@@ -69,7 +68,7 @@ public class GWikiChunkMacro extends GWikiMacroBean implements GWikiBodyEvalMacr
   {
     if (noDecoration == false) {
       ctx.append("<fieldset class=\"gwikichunk\"><legend class=\"gwikichunklegen\">")
-          .append(StringEscapeUtils.escapeHtml(name)).append(
+          .append(WebUtils.escapeHtml(name)).append(
               "</legend>");
     }
     if (attrs.getChildFragment() != null) {

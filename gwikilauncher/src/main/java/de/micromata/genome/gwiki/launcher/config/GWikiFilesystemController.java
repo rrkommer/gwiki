@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.launcher.config;
 
 import java.io.File;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.util.types.Pair;
 import de.micromata.mgc.application.MgcApplicationInfo;

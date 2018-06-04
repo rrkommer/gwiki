@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FsFileObject;
 import de.micromata.genome.gdbfs.FsObject;
@@ -33,6 +32,7 @@ import de.micromata.genome.gwiki.page.search.NormalizeUtils;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.types.Pair;
 
@@ -57,7 +57,8 @@ public class SearchUtils
         sb.append(" or ");
       }
       first = false;
-      sb.append("(").append("prop:PAGEID ~ " + escapeSearchLiteral(tk) + " or prop:TITLE ~ " + escapeSearchLiteral(tk) + ")");
+      sb.append("(")
+          .append("prop:PAGEID ~ " + escapeSearchLiteral(tk) + " or prop:TITLE ~ " + escapeSearchLiteral(tk) + ")");
     }
     String queryexpr = sb.toString();
     if (includeNoIndex == false) {
@@ -104,10 +105,12 @@ public class SearchUtils
   {
     GWikiFileStorage gstore = (GWikiFileStorage) ctx.getWikiWeb().getStorage();
     FsObject obj = gstore.getStorage().getFileObject(indexFile);
-    if (obj == null)
+    if (obj == null) {
       return null;
-    if ((obj instanceof FsFileObject) == false)
+    }
+    if ((obj instanceof FsFileObject) == false) {
       return null;
+    }
     FsFileObject file = (FsFileObject) obj;
     String content = file.readString();
     return content;
@@ -128,8 +131,9 @@ public class SearchUtils
       String nsex = sex.toUpperCase();
       String nt = rawText.toUpperCase();
       idx = nt.indexOf(nsex);
-      if (idx != -1)
+      if (idx != -1) {
         break;
+      }
     }
     if (idx == -1) {
       return null;
@@ -160,8 +164,9 @@ public class SearchUtils
       String nsex = sex.toUpperCase();
       String nt = rawText.toUpperCase();
       idx = nt.indexOf(nsex);
-      if (idx != -1)
+      if (idx != -1) {
         break;
+      }
     }
     if (idx == -1) {
       return null;
@@ -187,8 +192,9 @@ public class SearchUtils
 
   private static char nextChar(String text, int idx)
   {
-    if (idx >= text.length())
+    if (idx >= text.length()) {
       return 0;
+    }
     return text.charAt(idx);
   }
 
@@ -202,8 +208,9 @@ public class SearchUtils
       }
       sb.append(c);
     }
-    if (sb.length() == 0)
+    if (sb.length() == 0) {
       return Pair.make(1, idx + 1);
+    }
     return Pair.make(Integer.parseInt(sb.toString()), idx);
   }
 
@@ -231,7 +238,7 @@ public class SearchUtils
 
   private static String enrich(String text, List<String> words)
   {
-    text = StringEscapeUtils.escapeHtml(text);
+    text = WebUtils.escapeHtml(text);
     text = StringUtils.replace(text, "\n", "<br/>\n");
     for (String w : words) {
       text = enrichFoundWord(text, w);
@@ -283,11 +290,11 @@ public class SearchUtils
       String ns = NormalizeUtils.normalize(s);
       for (String w : nswords) {
         if (ns.contains(w) == true) {
-          sb.append(before).append(StringEscapeUtils.escapeHtml(s)).append(after);
+          sb.append(before).append(WebUtils.escapeHtml(s)).append(after);
           continue nextToken;
         }
       }
-      sb.append(StringEscapeUtils.escapeHtml(s));
+      sb.append(WebUtils.escapeHtml(s));
     }
     return sb.toString();
   }
@@ -302,8 +309,9 @@ public class SearchUtils
     int i;
     for (i = 0; i < text.length(); ++i) {
       char c = text.charAt(i);
-      if (c != '<')
+      if (c != '<') {
         continue;
+      }
       char c1 = nextChar(text, i + 1);
       char c2 = nextChar(text, i + 2);
 
@@ -343,7 +351,8 @@ public class SearchUtils
     return ret;
   }
 
-  public static SearchResult findResultFallback(GWikiContext ctx, SearchQuery query, SearchResult sr, String normExpress)
+  public static SearchResult findResultFallback(GWikiContext ctx, SearchQuery query, SearchResult sr,
+      String normExpress)
   {
     String pageId = sr.getPageId();
     String nt = NormalizeUtils.normalize(pageId);
@@ -386,12 +395,14 @@ public class SearchUtils
 
     String indexFile = pageId + "TextIndex.txt";
     String content = readFileContent(ctx, indexFile);
-    if (content == null)
+    if (content == null) {
       return null;
+    }
     String normExpress = NormalizeUtils.normalize(query.getSearchExpression());
 
-    if (content.indexOf(normExpress) == -1)
+    if (content.indexOf(normExpress) == -1) {
       return null;
+    }
     SearchResult sr = new SearchResult(ctx.getWikiWeb().findElementInfo(pageId));
     // if (query.isWithSampleText() == true) {
     // getTextSample(ctx, sr, query.getSearchExpression(), pageId);

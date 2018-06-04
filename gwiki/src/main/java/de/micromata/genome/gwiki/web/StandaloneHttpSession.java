@@ -56,7 +56,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
-import org.apache.commons.collections15.iterators.IteratorEnumeration;
+import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
 /**
  * Simulation of a HttpSession.

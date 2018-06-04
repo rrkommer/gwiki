@@ -19,9 +19,8 @@ package de.micromata.genome.gwiki.web.tags;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTag;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.utils.StringUtils;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -54,7 +53,7 @@ public class GWikiHtmlTextareaTag extends GWikiBasePropertyHtmlTag
     StringBuilder sb = new StringBuilder();
     GWikiTagRenderUtils.renderOpenHtmlTag(this, "textarea", sb);
     GWikiTagRenderUtils.write(pageContext, sb.toString());
-    GWikiTagRenderUtils.write(pageContext, StringEscapeUtils.escapeHtml(StringUtils.defaultString(value)));
+    GWikiTagRenderUtils.write(pageContext, WebUtils.escapeHtml(StringUtils.defaultString(value)));
     GWikiTagRenderUtils.write(pageContext, "</textarea>");
     return BodyTag.EVAL_BODY_BUFFERED;
   }

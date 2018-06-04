@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.scheduler_1_0.api;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.chronos.ChronosServiceManager;
 import de.micromata.genome.chronos.JobDefinition;

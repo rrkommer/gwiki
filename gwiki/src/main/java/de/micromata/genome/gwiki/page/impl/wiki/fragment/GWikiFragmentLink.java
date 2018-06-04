@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiWeb;
@@ -181,7 +180,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
     if (val == null) {
       return "";
     }
-    return StringEscapeUtils.escapeHtml(val);
+    return WebUtils.escapeHtml(val);
   }
 
   protected void renderRteAttributes(GWikiContext ctx, String ttitle)
@@ -203,9 +202,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
 
     if (RenderModes.NoLinks.isSet(ctx.getRenderMode()) == true) {
       if (StringUtils.isNotBlank(title) == true) {
-        ctx.append(StringEscapeUtils.escapeHtml(title));
+        ctx.append(WebUtils.escapeHtml(title));
       } else if (isGlobalUrl(target) == true) {
-        ctx.append(StringEscapeUtils.escapeHtml(target));
+        ctx.append(WebUtils.escapeHtml(target));
       } else {
         String url = target;
         if (url.indexOf('#') != -1) {
@@ -214,9 +213,9 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         }
         GWikiElementInfo ei = ctx.getWikiWeb().findElementInfo(url);
         if (ei != null) {
-          ctx.append(StringEscapeUtils.escapeHtml(ctx.getTranslatedProp(ei.getTitle())));
+          ctx.append(WebUtils.escapeHtml(ctx.getTranslatedProp(ei.getTitle())));
         } else {
-          ctx.append(StringEscapeUtils.escapeHtml(url));
+          ctx.append(WebUtils.escapeHtml(url));
         }
       }
       return true;
@@ -289,7 +288,7 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
             .append(WebUtils.encodeUrlParam(ttitel))//
             .append("'");
         if (StringUtils.isNotEmpty(tip) == true) {
-          ctx.append(" title='", StringEscapeUtils.escapeHtml(tip), "'");
+          ctx.append(" title='", WebUtils.escapeHtml(tip), "'");
         }
         if (RenderModes.ForRichTextEdit.isSet(ctx.getRenderMode()) == false) {
           ctx.append(" class='gwikiMissingLink'");
@@ -320,16 +319,16 @@ public class GWikiFragmentLink extends GWikiFragmentChildsBase
         }
         ctx.append("<a href=\"", turl, "\"");
         if (StringUtils.isNotEmpty(tip) == true) {
-          ctx.append(" title='", StringEscapeUtils.escapeHtml(tip), "'");
+          ctx.append(" title='", WebUtils.escapeHtml(tip), "'");
         } else {
-          ctx.append(" title='", StringEscapeUtils.escapeHtml(ttitel), "'");
+          ctx.append(" title='", WebUtils.escapeHtml(ttitel), "'");
         }
 
         if (tlinkClass != null) {
-          ctx.append(" class=\"").append(StringEscapeUtils.escapeXml(tlinkClass)).append("\"");
+          ctx.append(" class=\"").append(WebUtils.escapeXml(tlinkClass)).append("\"");
         }
         if (windowTarget != null) {
-          ctx.append(" target=\"").append(StringEscapeUtils.escapeXml(windowTarget)).append("\"");
+          ctx.append(" target=\"").append(WebUtils.escapeXml(windowTarget)).append("\"");
         }
         renderRteAttributes(ctx, ttitel);
         ctx.append(">");

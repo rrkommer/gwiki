@@ -16,14 +16,13 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroInfoBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Macro place holder for unknown macro.
@@ -64,9 +63,9 @@ public class GWikiMacroUnknown extends GWikiMacroBase implements GWikiRuntimeMac
   {
     String msg = message;
     if (msg == null) {
-      msg = ctx.getTranslated("gwiki.macro.unknown.error") + StringEscapeUtils.escapeHtml(attrs.getCmd());
+      msg = ctx.getTranslated("gwiki.macro.unknown.error") + WebUtils.escapeHtml(attrs.getCmd());
     }
-    ctx.append("<font color=\"red\">").append(StringEscapeUtils.escapeHtml(msg)).append("</font>");
+    ctx.append("<font color=\"red\">").append(WebUtils.escapeHtml(msg)).append("</font>");
     return true;
   }
 

@@ -19,8 +19,8 @@ package de.micromata.genome.gwiki.plugin.wikilink_1_0;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -234,7 +234,7 @@ public class GWikiWikiLinkFragment extends GWikiFragmentHtml
   @Override
   public String getHtml()
   {
-    return StringEscapeUtils.escapeHtml(text.toString());
+    return WebUtils.escapeHtml(text.toString());
   }
 
   @Override

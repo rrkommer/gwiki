@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.pagelifecycle_1_0.auth;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.auth.GWikiAuthorizationExtWrapper;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationExt;

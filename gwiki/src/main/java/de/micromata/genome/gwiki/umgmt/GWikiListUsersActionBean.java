@@ -18,13 +18,12 @@ package de.micromata.genome.gwiki.umgmt;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.controls.GWikiPageListActionBean;
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Action for users.
@@ -61,10 +60,10 @@ public class GWikiListUsersActionBean extends GWikiPageListActionBean
     GWikiProps props = (GWikiProps) ser;
 
     if ("USER".equals(fieldName) == true) {
-      return StringEscapeUtils.escapeHtml(GWikiContext.getNamePartFromPageId(elementInfo.getId()));
+      return WebUtils.escapeHtml(GWikiContext.getNamePartFromPageId(elementInfo.getId()));
     }
     if ("EMAIL".equals(fieldName) == true) {
-      return StringEscapeUtils.escapeHtml(props.getStringValue("email"));
+      return WebUtils.escapeHtml(props.getStringValue("email"));
     }
     if ("operations".equals(fieldName) == true) {
       return "<a href='"

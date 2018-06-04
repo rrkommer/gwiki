@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;

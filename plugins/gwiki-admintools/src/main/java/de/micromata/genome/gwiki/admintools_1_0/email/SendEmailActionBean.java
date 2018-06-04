@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.admintools_1_0.email;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;

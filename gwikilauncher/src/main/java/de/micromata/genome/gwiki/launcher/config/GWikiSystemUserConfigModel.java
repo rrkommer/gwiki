@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.launcher.config;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.auth.PasswordUtils;
 import de.micromata.genome.util.runtime.config.ALocalSettingsPath;

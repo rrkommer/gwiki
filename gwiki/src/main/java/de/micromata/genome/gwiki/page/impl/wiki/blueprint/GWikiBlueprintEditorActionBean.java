@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -30,6 +29,7 @@ import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.matcher.MatcherBase;
 import de.micromata.genome.util.types.Pair;
 
@@ -51,17 +51,20 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
 
   protected void buildTemplateList()
   {
-    List<GWikiElementInfo> elems = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>() {
+    List<GWikiElementInfo> elems = wikiContext.getElementFinder().getPageInfos(new MatcherBase<GWikiElementInfo>()
+    {
 
       private static final long serialVersionUID = 6581136045310016723L;
 
+      @Override
       public boolean match(GWikiElementInfo ei)
       {
         if (ei.getId().startsWith("admin/blueprints/") == false) {
           return false;
         }
         if (StringUtils
-            .equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE), "admin/templates/StandardWikiPageMetaTemplate") == false) {
+            .equals(ei.getProps().getStringValue(GWikiPropKeys.WIKIMETATEMPLATE),
+                "admin/templates/StandardWikiPageMetaTemplate") == false) {
           return false;
         }
         return true;
@@ -80,7 +83,7 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
       wikiContext.addSimpleValidationError("Cannot find template: " + templateId);
       return;
     }
-    GWikiArtefakt< ? > art = el.getPart("MainPage");
+    GWikiArtefakt<?> art = el.getPart("MainPage");
     if (art == null) {
       wikiContext.addSimpleValidationError("Cannot find part 'MainPage' in template: " + templateId);
       return;
@@ -93,6 +96,7 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
     wikiContext.setRequestAttribute("MainPage", wikiTemplate);
   }
 
+  @Override
   public Object onInit()
   {
     if (StringUtils.isBlank(templateId) == true) {
@@ -162,6 +166,6 @@ public class GWikiBlueprintEditorActionBean extends ActionBeanBase
 
   public String getEscapedEvaluatedWiki()
   {
-    return StringEscapeUtils.escapeJavaScript(evaluatedWiki);
+    return WebUtils.escapeJavaScript(evaluatedWiki);
   }
 }

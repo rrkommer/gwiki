@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.util.collections.OrderedProperties;
 import de.micromata.genome.util.runtime.RuntimeIOException;

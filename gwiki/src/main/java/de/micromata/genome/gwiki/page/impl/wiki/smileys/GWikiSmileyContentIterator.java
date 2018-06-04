@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.smileys;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;

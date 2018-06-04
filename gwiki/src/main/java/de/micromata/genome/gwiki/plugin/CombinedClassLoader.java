@@ -25,7 +25,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections15.iterators.IteratorEnumeration;
+import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)

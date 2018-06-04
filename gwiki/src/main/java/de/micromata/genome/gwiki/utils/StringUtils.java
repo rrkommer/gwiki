@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import de.micromata.genome.util.runtime.CallableX1;
 import de.micromata.genome.util.types.Pair;
@@ -32,7 +32,7 @@ import de.micromata.genome.util.types.Pair;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class StringUtils extends org.apache.commons.lang.StringUtils
+public class StringUtils extends org.apache.commons.lang3.StringUtils
 {
   public static final Pair<Integer, String> INDEX_OF_ANY_NOT_FOUND_PAIR = new Pair<Integer, String>(-1, null);
 

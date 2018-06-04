@@ -18,8 +18,8 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.uwyn.jhighlight.renderer.GroovyXhtmlRenderer;
 import com.uwyn.jhighlight.renderer.JavaXhtmlRenderer;
@@ -38,6 +38,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.utils.html.Html2WikiTransformInfo;
 
 /**
@@ -83,7 +84,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
     if (RenderModes.ForIndex.isSet(ctx.getRenderMode()) == true) {
-      ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+      ctx.append(WebUtils.escapeHtml(attrs.getBody()));
       return true;
     }
     String body = attrs.getBody();
@@ -95,7 +96,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
         ctx.append(" class='language-" + clang + "'");
       }
       ctx.append(" contenteditable='false'>");
-      ctx.append(StringEscapeUtils.escapeHtml(body));
+      ctx.append(WebUtils.escapeHtml(body));
       ctx.append("</pre>");
       return true;
 
@@ -103,7 +104,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     //      // TODO attributes rendering
     //      String body = attrs.getBody();
     //
-    //      body = StringEscapeUtils.escapeHtml(body);
+    //      body = WebUtils.escapeHtml(body);
     //
     //      ctx.append("<pre class=\"wikiCode\"");
     //      Html2WikiTransformInfo.renderMacroArgs(ctx, attrs);
@@ -166,7 +167,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
       String ccode = renderer.highlight(title, code, "UTF-8", true);
 
       if (StringUtils.isEmpty(ccode)) {
-        return "<pre>\n" + StringEscapeUtils.escapeHtml(code) + "</pre>\n";
+        return "<pre>\n" + WebUtils.escapeHtml(code) + "</pre>\n";
       }
       int idx = ccode.indexOf("-->");
       if (idx != -1) {
@@ -176,7 +177,7 @@ public class GWikiCodeMacro extends GWikiMacroBean implements GWikiBodyMacro, GW
     } catch (IOException ex) {
       // throw new RuntimeIOException(ex);
     }
-    return "<pre>\n" + StringEscapeUtils.escapeHtml(code) + "</pre>\n";
+    return "<pre>\n" + WebUtils.escapeHtml(code) + "</pre>\n";
   }
 
   //  @Override

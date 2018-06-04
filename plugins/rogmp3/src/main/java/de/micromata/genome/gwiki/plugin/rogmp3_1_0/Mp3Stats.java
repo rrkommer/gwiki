@@ -23,8 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 import de.micromata.genome.util.xml.xmlbuilder.html.Html;

@@ -19,11 +19,11 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * parse and Held command args
@@ -84,7 +84,7 @@ public class MacroAttributes implements Serializable
     if (StringUtils.indexOfAny(value, new char[] { '|', '}', '{', '=' }) == -1) {
       return value;
     }
-    return '"' + StringEscapeUtils.escapeJavaScript(value) + '"';
+    return '"' + WebUtils.escapeJavaScript(value) + '"';
   }
 
   public void toString(StringBuilder sb)

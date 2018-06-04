@@ -26,9 +26,9 @@ import java.util.StringTokenizer;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.matcher.BooleanListRulesFactory;
 import de.micromata.genome.util.matcher.EveryMatcher;
 import de.micromata.genome.util.matcher.Matcher;
@@ -124,9 +124,9 @@ public class GWikiErrorsTag extends TagSupport
       }
       for (ActionMessage amm : me.getValue()) {
         if (amm instanceof SimpleActionMessage) {
-          sb.append(this.prefix).append(StringEscapeUtils.escapeHtml(amm.getMessage(loc))).append(this.suffix);
+          sb.append(this.prefix).append(WebUtils.escapeHtml(amm.getMessage(loc))).append(this.suffix);
         } else {
-          sb.append(this.prefix).append(StringEscapeUtils.escapeHtml(amm.getMessage(loc))).append(this.suffix);
+          sb.append(this.prefix).append(WebUtils.escapeHtml(amm.getMessage(loc))).append(this.suffix);
         }
       }
     }

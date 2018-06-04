@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.utils;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.groovy.runtime.InvokerHelper;
 
 import groovy.lang.Binding;

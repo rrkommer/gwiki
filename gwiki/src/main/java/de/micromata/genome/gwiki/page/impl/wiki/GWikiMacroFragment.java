@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.uwyn.jhighlight.tools.StringUtils;
 
@@ -31,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentBase;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiNestableFragment;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -165,7 +166,7 @@ public class GWikiMacroFragment extends GWikiFragmentBase implements GWikiNestab
             attrs.getChildFragment().render(ctx);
           }
         } else {
-          ctx.append("<pre>").append(StringEscapeUtils.escapeHtml(attrs.getBody())).append("</pre>");
+          ctx.append("<pre>").append(WebUtils.escapeHtml(attrs.getBody())).append("</pre>");
         }
       }
       ctx.append(templ.getSecond());

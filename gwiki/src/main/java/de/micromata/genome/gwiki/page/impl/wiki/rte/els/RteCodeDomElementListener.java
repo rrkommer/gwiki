@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.rte.els;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;

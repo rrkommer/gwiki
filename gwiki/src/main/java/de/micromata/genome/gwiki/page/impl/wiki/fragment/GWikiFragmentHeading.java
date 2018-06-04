@@ -16,13 +16,13 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.GWikiStandaloneContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 public class GWikiFragmentHeading extends GWikiFragmentChildsBase
 {
@@ -51,7 +51,7 @@ public class GWikiFragmentHeading extends GWikiFragmentChildsBase
   public void renderBody(GWikiContext ctx)
   {
     if (StringUtils.isNotBlank(text) == true) {
-      ctx.append(StringEscapeUtils.escapeHtml(text));
+      ctx.append(WebUtils.escapeHtml(text));
     } else {
       renderChilds(ctx);
     }

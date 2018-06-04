@@ -41,8 +41,8 @@ import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.VariableResolver;
 import javax.servlet.jsp.tagext.BodyContent;
 
-import org.apache.commons.collections15.MapUtils;
-import org.apache.commons.collections15.iterators.IteratorEnumeration;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.iterators.IteratorEnumeration;
 import org.apache.log4j.Logger;
 
 /**

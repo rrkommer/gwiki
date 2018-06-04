@@ -16,8 +16,8 @@
 
 package de.micromata.genome.gwiki.page.search;
 
-import org.apache.commons.collections15.ArrayStack;
-import org.apache.commons.collections15.Buffer;
+import org.apache.commons.collections4.ArrayStack;
+import org.apache.commons.collections4.Buffer;
 
 /**
  * Internal class to collect words.o

@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.plugin.s5slideshow_1_0;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;

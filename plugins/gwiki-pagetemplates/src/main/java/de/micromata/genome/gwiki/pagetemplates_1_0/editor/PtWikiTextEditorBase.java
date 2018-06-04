@@ -24,8 +24,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiArtefakt;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -37,6 +36,7 @@ import de.micromata.genome.gwiki.page.impl.GWikiWikiPageArtefakt;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTypeVisitor;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -250,7 +250,7 @@ public abstract class PtWikiTextEditorBase extends PtSectionEditorBase
    */
   protected void renderAttr(final GWikiContext ctx, String key, String value)
   {
-    ctx.append(" " + key + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
+    ctx.append(" " + key + "=\"").append(WebUtils.escapeHtml(value)).append("\"");
   }
 
   /**

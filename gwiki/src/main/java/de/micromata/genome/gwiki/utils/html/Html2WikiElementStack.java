@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.utils.html;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 
 /**
  * Internal class for the Html2WikiFilter.

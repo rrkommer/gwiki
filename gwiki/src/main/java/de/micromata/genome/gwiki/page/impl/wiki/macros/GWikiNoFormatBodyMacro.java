@@ -16,8 +16,6 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBase;
@@ -25,6 +23,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * GWiki macro to implement the noformat macro.
@@ -55,7 +54,7 @@ public class GWikiNoFormatBodyMacro extends GWikiMacroBase implements GWikiBodyM
   public boolean render(MacroAttributes attrs, GWikiContext ctx)
   {
     //ctx.append("<pre style=\"border=1;\">");
-    ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+    ctx.append(WebUtils.escapeHtml(attrs.getBody()));
     //    ctx.append("</pre>");
     return true;
   }

@@ -16,8 +16,8 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElement;
@@ -33,6 +33,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroRenderFlags;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Render a link or button to create a new link.
@@ -149,7 +150,7 @@ public class GWikiNewElementMacro extends GWikiMacroBean
     if (StringUtils.isEmpty(text) == true) {
       text = ctx.getTranslated("gwiki.macro.newelement.title");
     }
-    ctx.append(StringEscapeUtils.escapeHtml(text));
+    ctx.append(WebUtils.escapeHtml(text));
     ctx.append("</a>");
     return true;
   }

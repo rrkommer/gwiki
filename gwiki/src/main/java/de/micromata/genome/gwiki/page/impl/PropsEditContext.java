@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.page.impl;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;

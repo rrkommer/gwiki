@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.plugin.keywordsmarttags_1_0;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
 import de.micromata.genome.gwiki.model.filter.GWikiFilterChain;

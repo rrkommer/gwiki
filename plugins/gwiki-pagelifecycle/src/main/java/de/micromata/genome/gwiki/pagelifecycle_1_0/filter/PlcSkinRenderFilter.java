@@ -26,7 +26,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.html.Html.ul;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiWeb;

@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.smileys;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.page.GWikiContext;

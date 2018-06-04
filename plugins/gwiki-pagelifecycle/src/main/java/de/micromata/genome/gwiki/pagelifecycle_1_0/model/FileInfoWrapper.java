@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.pagelifecycle_1_0.model;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiProps;

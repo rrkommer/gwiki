@@ -18,8 +18,8 @@ package de.micromata.genome.gwiki.utils.html;
 
 import java.util.List;
 
-import org.apache.commons.collections15.ArrayStack;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.ArrayStack;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;

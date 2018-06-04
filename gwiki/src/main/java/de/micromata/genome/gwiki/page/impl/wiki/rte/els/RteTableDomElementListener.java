@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.rte.els;
 
 import java.util.List;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 import org.apache.log4j.Logger;
 import org.w3c.dom.NamedNodeMap;
 

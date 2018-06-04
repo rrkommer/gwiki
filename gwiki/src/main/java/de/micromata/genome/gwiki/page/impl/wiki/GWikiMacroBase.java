@@ -18,11 +18,10 @@ package de.micromata.genome.gwiki.page.impl.wiki;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * The Class GWikiMacroBase.
@@ -107,7 +106,7 @@ public abstract class GWikiMacroBase implements GWikiMacro
 
   public static void renderErrorMessage(GWikiContext ctx, String message, MacroAttributes attrs)
   {
-    ctx.append("<span style=\"color=red\">").append(StringEscapeUtils.escapeHtml(message)).append("</span>");
+    ctx.append("<span style=\"color=red\">").append(WebUtils.escapeHtml(message)).append("</span>");
   }
 
   /**

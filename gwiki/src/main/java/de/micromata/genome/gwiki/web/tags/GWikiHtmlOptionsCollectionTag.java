@@ -25,8 +25,9 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections15.iterators.EnumerationIterator;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.collections4.iterators.EnumerationIterator;
+
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -62,34 +63,36 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
   @TagProperty
   private String styleId = null;
 
-  @SuppressWarnings({ "unchecked", "rawtypes"})
-  protected Iterator< ? > getIterator(Object collection) throws JspException
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  protected Iterator<?> getIterator(Object collection) throws JspException
   {
-    Class< ? > clcls = collection.getClass();
+    Class<?> clcls = collection.getClass();
     if (clcls.isArray()) {
       collection = Arrays.asList((Object[]) collection);
     }
 
     if (collection instanceof Collection) {
-      return (((Collection< ? >) collection).iterator());
+      return (((Collection<?>) collection).iterator());
 
     } else if (collection instanceof Iterator) {
-      return ((Iterator< ? >) collection);
+      return ((Iterator<?>) collection);
 
     } else if (collection instanceof Map) {
-      return (((Map< ? , ? >) collection).entrySet().iterator());
+      return (((Map<?, ?>) collection).entrySet().iterator());
 
     } else if (collection instanceof Enumeration) {
-      return new EnumerationIterator((Enumeration< ? >) collection);
+      return new EnumerationIterator((Enumeration<?>) collection);
 
     } else {
       throw new JspException("form." + property + " does not return a valid collection");
     }
   }
 
+  @Override
   public int doStartTag() throws JspException
   {
-    GWikiHtmlSelectTag selTag = (GWikiHtmlSelectTag) pageContext.getAttribute(GWikiHtmlSelectTag.GWikiHtmlSelectTag_KEY);
+    GWikiHtmlSelectTag selTag = (GWikiHtmlSelectTag) pageContext
+        .getAttribute(GWikiHtmlSelectTag.GWikiHtmlSelectTag_KEY);
     if (selTag == null) {
       throw new JspException("cann use optionsCollection only inside a select tag");
     }
@@ -98,7 +101,7 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
       throw new JspException("Jsp: form." + property + " is a null value");
     }
 
-    Iterator< ? > iter = getIterator(collection);
+    Iterator<?> iter = getIterator(collection);
 
     StringBuilder sb = new StringBuilder();
 
@@ -115,7 +118,8 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
           beanLabel = "";
         }
       } catch (Exception ex) {
-        throw new JspException("Cannot access label ' " + label + " from collection form." + property + ": " + ex.getMessage(), ex);
+        throw new JspException(
+            "Cannot access label ' " + label + " from collection form." + property + ": " + ex.getMessage(), ex);
       }
 
       // Get the value for this option
@@ -125,17 +129,18 @@ public class GWikiHtmlOptionsCollectionTag extends GWikiBaseTag
           beanValue = "";
         }
       } catch (Exception ex) {
-        throw new JspException("Cannot access value ' " + value + " from collection form." + property + ": " + ex.getMessage(), ex);
+        throw new JspException(
+            "Cannot access value ' " + value + " from collection form." + property + ": " + ex.getMessage(), ex);
       }
       String stringLabel = beanLabel.toString();
       String stringValue = beanValue.toString();
-      sb.append("<option value=\"").append(escapeHtml ? StringEscapeUtils.escapeHtml(stringValue) : stringValue).append("\"");
+      sb.append("<option value=\"").append(escapeHtml ? WebUtils.escapeHtml(stringValue) : stringValue).append("\"");
       if (selTag.hasValue(stringValue) == true) {
         sb.append(" selected=\"selected\"");
       }
       sb.append(" ");
       GWikiTagRenderUtils.renderTagAttributes(this, sb);
-      sb.append(">").append(escapeHtml ? StringEscapeUtils.escapeHtml(stringLabel) : stringLabel);
+      sb.append(">").append(escapeHtml ? WebUtils.escapeHtml(stringLabel) : stringLabel);
       sb.append("</option>");
     }
     GWikiTagRenderUtils.write(pageContext, sb.toString());

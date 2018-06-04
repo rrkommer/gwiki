@@ -21,7 +21,7 @@ import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
 import static de.micromata.genome.util.xml.xmlbuilder.html.Html.p;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;

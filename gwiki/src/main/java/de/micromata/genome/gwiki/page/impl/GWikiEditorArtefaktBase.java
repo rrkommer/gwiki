@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.page.impl;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 import de.micromata.genome.gwiki.model.GWikiArtefaktBase;

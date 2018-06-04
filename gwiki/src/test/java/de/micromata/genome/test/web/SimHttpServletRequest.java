@@ -40,7 +40,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections15.iterators.IteratorEnumeration;
+import org.apache.commons.collections4.iterators.IteratorEnumeration;
 
 import de.micromata.genome.gwiki.web.StandaloneRequestDispatcher;
 
