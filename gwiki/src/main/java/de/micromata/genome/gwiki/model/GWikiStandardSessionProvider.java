@@ -34,6 +34,7 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
 {
   public static String SESSKEYS = "de.micromata.genome.gwiki.model.GWikiStandardSessionProvider.SESSKEYS";
 
+  @Override
   public Object getSessionAttribute(GWikiContext wikiContext, String key)
   {
     HttpSession session = wikiContext.getSession(false);
@@ -43,10 +44,12 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     return session.getAttribute(key);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void setSessionAttribute(GWikiContext wikiContext, String key, Serializable object)
   {
-    HttpSession session = wikiContext.getSession(true);
+
+    HttpSession session = wikiContext.getSession(false);
     if (session == null) {
       return;
     }
@@ -61,10 +64,14 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     session.setAttribute(key, object);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void removeSessionAttribute(GWikiContext wikiContext, String key)
   {
-    HttpSession session = wikiContext.getSession(true);
+    HttpSession session = wikiContext.getSession(false);
+    if (session == null) {
+      return;
+    }
     Set<String> keys = (Set<String>) session.getAttribute(SESSKEYS);
     if (keys != null && keys.contains(key) == true) {
       keys.remove(key);
@@ -73,10 +80,15 @@ public class GWikiStandardSessionProvider implements GWikiSessionProvider
     session.removeAttribute(key);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void clearSessionAttributes(GWikiContext wikiContext)
   {
-    HttpSession session = wikiContext.getSession(true);
+
+    HttpSession session = wikiContext.getSession(false);
+    if (session == null) {
+      return;
+    }
     Set<String> keys = (Set<String>) session.getAttribute(SESSKEYS);
     if (keys == null) {
       return;
