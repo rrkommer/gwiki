@@ -39,12 +39,11 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.taglibs.standard.tag.el.core.UrlTag;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
@@ -528,7 +527,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     boolean allow = wikiWeb.getAuthorization().isAllowToCreate(this, getCurrentElement().getElementInfo());
     if (allow == false) {
 
-      sb.append("<i>").append(StringEscapeUtils.escapeHtml(title)).append("</i>");
+      sb.append("<i>").append(WebUtils.escapeHtml(title)).append("</i>");
     } else {
       if (StringUtils.isBlank(title) == true) {
         title = target;
@@ -548,7 +547,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
           .append(WebUtils.encodeUrlParam(tid))//
           .append("&title=")//
           .append(WebUtils.encodeUrlParam(title))//
-          .append("'>").append(StringEscapeUtils.escapeHtml(title)).append("</a>");
+          .append("'>").append(WebUtils.escapeHtml(title)).append("</a>");
     }
     return sb.toString();
   }
@@ -561,7 +560,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   public String escape(String text)
   {
-    return StringEscapeUtils.escapeHtml(text);
+    return WebUtils.escapeHtml(text);
   }
 
   /**
@@ -599,13 +598,13 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     StringBuilder sb = new StringBuilder();
     boolean allow = wikiWeb.getAuthorization().isAllowToView(this, ei);
     if (allow == false) {
-      sb.append("<i>").append(StringEscapeUtils.escapeHtml(title)).append("</i>");
+      sb.append("<i>").append(WebUtils.escapeHtml(title)).append("</i>");
     } else {
       String url = localUrl("/" + ei.getId());
       if (addArgs != null) {
         url += addArgs;
       }
-      sb.append("<a href='").append(url).append("'>").append(StringEscapeUtils.escapeHtml(title)).append("</a>");
+      sb.append("<a href='").append(url).append("'>").append(WebUtils.escapeHtml(title)).append("</a>");
     }
     return sb.toString();
   }
@@ -630,7 +629,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     StringBuilder sb = new StringBuilder();
     boolean allow = wikiWeb.getAuthorization().isAllowToView(this, ei);
     if (allow == false) {
-      sb.append("<i>").append(StringEscapeUtils.escapeHtml(title)).append("</i>");
+      sb.append("<i>").append(WebUtils.escapeHtml(title)).append("</i>");
     } else {
       String url = localUrl("/" + ei.getId());
       if (addArgs != null) {
@@ -640,7 +639,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
       for (int i = 0; i < attr.length; i += 2) {
         sb.append(" ").append(attr[i]).append("='").append(attr[i + 1]).append("' ");
       }
-      sb.append(">").append(StringEscapeUtils.escapeHtml(title)).append("</a>");
+      sb.append(">").append(WebUtils.escapeHtml(title)).append("</a>");
     }
     return sb.toString();
   }
@@ -853,7 +852,7 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
    */
   public GWikiContext appendEscText(String text)
   {
-    return append(StringEscapeUtils.escapeHtml(text));
+    return append(WebUtils.escapeHtml(text));
   }
 
   @Override
@@ -1256,7 +1255,11 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     if (create == false && request == null) {
       return null;
     }
+
     Validate.notNull(request, "request not set");
+    if (create == true) {
+      System.out.println("createsession");
+    }
     return request.getSession(create);
   }
 
