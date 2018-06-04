@@ -16,8 +16,8 @@
 
 package de.micromata.genome.launcher.config;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import de.micromata.genome.gwiki.jetty.ValidationContext;
 import de.micromata.genome.util.runtime.config.ALocalSettingsPath;

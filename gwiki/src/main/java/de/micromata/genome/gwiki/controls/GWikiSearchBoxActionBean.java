@@ -16,8 +16,7 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.eclipsesource.json.JsonArray;
 
@@ -88,9 +87,9 @@ public class GWikiSearchBoxActionBean extends GWikiPageListActionBean
       if (sr.getElementInfo().isViewable() == false) {
         continue;
       }
-      String t = wikiContext.getTranslatedProp(StringEscapeUtils.escapeHtml(sr.getElementInfo().getTitle()))
+      String t = wikiContext.getTranslatedProp(WebUtils.escapeHtml(sr.getElementInfo().getTitle()))
           + "<br/>("
-          + StringEscapeUtils.escapeHtml(sr.getPageId())
+          + WebUtils.escapeHtml(sr.getPageId())
           + ")";
       jsonarr.add(JsonBuilder.map("key", sr.getPageId(), "label", t));
     }

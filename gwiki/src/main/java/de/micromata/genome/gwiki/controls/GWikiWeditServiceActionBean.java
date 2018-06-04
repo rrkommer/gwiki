@@ -23,8 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
@@ -46,6 +45,7 @@ import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.page.search.expr.SearchUtils;
 import de.micromata.genome.gwiki.utils.JsonBuilder;
 import de.micromata.genome.gwiki.utils.ScriptUtils;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -207,8 +207,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           "key", pageid,
           "title", titel,
           "label",
-          StringEscapeUtils.escapeHtml(titel) + "<br/><small>("
-              + StringEscapeUtils.escapeHtml(pageid) + ")</small>"));
+          WebUtils.escapeHtml(titel) + "<br/><small>("
+              + WebUtils.escapeHtml(pageid) + ")</small>"));
     }
 
     //    resp.add("list", list);
@@ -340,8 +340,8 @@ public class GWikiWeditServiceActionBean extends ActionBeanAjaxBase
           "key", pageid,
           "title", titel,
           "label",
-          StringEscapeUtils.escapeHtml(titel) + "<br/><small>("
-              + StringEscapeUtils.escapeHtml(pageid) + ")</small>",
+          WebUtils.escapeHtml(titel) + "<br/><small>("
+              + WebUtils.escapeHtml(pageid) + ")</small>",
           "onInsert", "gwedit_ac_insert_acpagelink"));
     }
 

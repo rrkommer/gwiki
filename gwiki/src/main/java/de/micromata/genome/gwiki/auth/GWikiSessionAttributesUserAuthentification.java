@@ -21,7 +21,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -41,9 +41,12 @@ public class GWikiSessionAttributesUserAuthentification extends GWikiAuthorizati
 
   protected Map<String, Object> getSession(GWikiContext ctx)
   {
-    Object attrs = ctx.getSession(true).getAttribute(GWIKI_SESSION_ATTRIBUTE);
-    if (attrs instanceof Map) {
-      return (Map<String, Object>) attrs;
+    HttpSession sess = ctx.getSession(false);
+    if (sess != null) {
+      Object attrs = ctx.getSession(true).getAttribute(GWIKI_SESSION_ATTRIBUTE);
+      if (attrs instanceof Map) {
+        return (Map<String, Object>) attrs;
+      }
     }
     return new HashMap<String, Object>();
   }

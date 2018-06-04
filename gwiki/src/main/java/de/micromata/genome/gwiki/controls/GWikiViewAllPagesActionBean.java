@@ -23,8 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.ZipWriteFileSystem;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
@@ -36,6 +35,7 @@ import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.runtime.RuntimeIOException;
 
 /**
@@ -231,7 +231,7 @@ public class GWikiViewAllPagesActionBean extends GWikiPageListActionBean
     if (fieldName.equals("PAGEID") == true) {
 
       if (ei.isViewable() == true) {
-        return "<a href='" + wikiContext.localUrl(ei.getId()) + "'>" + StringEscapeUtils.escapeHtml(ei.getId())
+        return "<a href='" + wikiContext.localUrl(ei.getId()) + "'>" + WebUtils.escapeHtml(ei.getId())
             + "</a>";
       }
     }

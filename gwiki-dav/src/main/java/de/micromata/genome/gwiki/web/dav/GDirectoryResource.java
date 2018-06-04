@@ -24,9 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-
 import com.bradmcevoy.http.Auth;
 import com.bradmcevoy.http.CollectionResource;
 import com.bradmcevoy.http.CopyableResource;
@@ -52,7 +49,8 @@ import de.micromata.genome.gdbfs.FsObject;
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
  */
-public class GDirectoryResource extends GFsResource implements MakeCollectionableResource, PutableResource, CopyableResource,
+public class GDirectoryResource extends GFsResource
+    implements MakeCollectionableResource, PutableResource, CopyableResource,
     DeletableResource, MoveableResource, PropFindableResource, GetableResource
 {
   private FsDirectoryObject dirObject;
@@ -63,11 +61,13 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
     this.dirObject = dirObject;
   }
 
+  @Override
   public void delete()
   {
     dirObject.getFileSystem().delete(dirObject.getName());
   }
 
+  @Override
   public CollectionResource createCollection(String newName) throws NotAuthorizedException, ConflictException
   {
     FsDirectoryObject newDir = dirObject.mkdir(newName);
@@ -77,28 +77,33 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
     return new GDirectoryResource(resourceFactory, newDir);
   }
 
+  @Override
   public void copyTo(CollectionResource toCollection, String name)
   {
     // TODO Auto-generated method stub
 
   }
 
+  @Override
   public void moveTo(CollectionResource rDest, String name) throws ConflictException
   {
     // TODO Auto-generated method stub
 
   }
 
+  @Override
   public Long getContentLength()
   {
     return null;
   }
 
+  @Override
   public String getContentType(String accepts)
   {
     return "text/html";
   }
 
+  @Override
   public Long getMaxAgeSeconds(Auth auth)
   {
     return null;
@@ -113,19 +118,21 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
 
   }
 
-  public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType) throws IOException,
+  @Override
+  public void sendContent(OutputStream out, Range range, Map<String, String> params, String contentType)
+      throws IOException,
       NotAuthorizedException
   {
 
     StringBuilder sb = new StringBuilder();
     XmlWriter w = new XmlWriter(out);
-    sb.append("<html>\n<body>\n<h1>").append(StringEscapeUtils.escapeHtml(this.getName())).append("</h1>\n");
+    sb.append("<html>\n<body>\n<h1>").append(WebUtils.escapeHtml(this.getName())).append("</h1>\n");
     sb.append("<table border='1'>\n");
     for (FsObject r : dirObject.getChilds(null)) {
       sb.append("<tr><td>") //
           .append("<a href='").append(resourceFactory.getReqPrefix()).append(r.getName()).append("'>") //
-          .append(StringEscapeUtils.escapeHtml(r.getNamePart())).append("</a></td>") //
-          .append("<td>").append(StringEscapeUtils.escapeHtml(ObjectUtils.toString(r.getModifiedAt()))).append("</td>") //
+          .append(WebUtils.escapeHtml(r.getNamePart())).append("</a></td>") //
+          .append("<td>").append(WebUtils.escapeHtml(ObjectUtils.toString(r.getModifiedAt()))).append("</td>") //
           .append("</tr>\n");
       ;
     }
@@ -134,6 +141,7 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
 
   }
 
+  @Override
   public Resource createNew(String newName, InputStream inputStream, Long length, String contentType) throws IOException
   {
     String localName = FileNameUtils.join(dirObject.getName(), newName);
@@ -146,12 +154,14 @@ public class GDirectoryResource extends GFsResource implements MakeCollectionabl
     return res;
   }
 
+  @Override
   public Resource child(String childName)
   {
     return resourceFactory.convertRes(resourceFactory, dirObject.getChild(childName));
   }
 
-  public List< ? extends Resource> getChildren()
+  @Override
+  public List<? extends Resource> getChildren()
   {
     List<FsObject> fsl = dirObject.getChilds(null);
     List<Resource> res = new ArrayList<Resource>();
