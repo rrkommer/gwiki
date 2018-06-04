@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;
@@ -30,6 +29,7 @@ import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.matcher.InvalidMatcherGrammar;
 import de.micromata.genome.util.types.Converter;
 import de.micromata.genome.util.xml.xmlbuilder.Xml;
@@ -237,17 +237,17 @@ public class GWikiPageListActionBean extends ActionBeanBase
   public String renderField(String fieldName, GWikiElementInfo elementInfo)
   {
     if (StringUtils.equals(fieldName, "PAGEID") == true) {
-      return StringEscapeUtils.escapeHtml(elementInfo.getId());
+      return WebUtils.escapeHtml(elementInfo.getId());
     }
     if (StringUtils.equals(fieldName, GWikiPropKeys.TITLE) == true) {
-      return StringEscapeUtils.escapeHtml(elementInfo.getTitle());
+      return WebUtils.escapeHtml(elementInfo.getTitle());
     }
     String val = elementInfo.getProps().getStringValue(fieldName);
 
     if (GWikiPropKeys.CREATEDAT.equals(fieldName) == true || GWikiPropKeys.MODIFIEDAT.equals(fieldName) == true) {
-      val = StringEscapeUtils.escapeHtml(wikiContext.getUserDateString(GWikiProps.parseTimeStamp(val)));
+      val = WebUtils.escapeHtml(wikiContext.getUserDateString(GWikiProps.parseTimeStamp(val)));
     }
-    return StringEscapeUtils.escapeHtml(StringUtils.defaultString(val));
+    return WebUtils.escapeHtml(StringUtils.defaultString(val));
   }
 
   public String writeTableResult()

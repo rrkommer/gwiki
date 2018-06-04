@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.web.dav;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.bradmcevoy.http.Auth;
 import com.bradmcevoy.http.PropFindableResource;

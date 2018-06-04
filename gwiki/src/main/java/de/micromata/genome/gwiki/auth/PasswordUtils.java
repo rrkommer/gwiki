@@ -21,9 +21,9 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.CharEncoding;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.Validate;
 
 import de.micromata.genome.logging.GenomeLogCategory;
 import de.micromata.genome.logging.LogLevel;

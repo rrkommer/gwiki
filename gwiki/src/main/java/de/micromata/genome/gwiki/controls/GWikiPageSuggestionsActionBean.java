@@ -16,8 +16,8 @@
 
 package de.micromata.genome.gwiki.controls;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
@@ -73,7 +73,7 @@ public class GWikiPageSuggestionsActionBean extends GWikiPageListActionBean
         }
         String tti = wikiContext.getTranslatedProp(sr.getElementInfo().getTitle());
         sb.append("{ pageId: '").append(sr.getPageId()).append("', title: '")
-            .append(StringEscapeUtils.unescapeJavaScript(tti)).append("'}");
+            .append(StringEscapeUtils.unescapeEcmaScript(tti)).append("'}");
         //        sb.append("'").append(sr.getPageId()).append("'");
       }
       sb.append("]");

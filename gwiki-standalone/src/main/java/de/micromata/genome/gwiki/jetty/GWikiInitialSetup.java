@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.auth.GWikiSysUserAuthorization;
 import de.micromata.genome.gwiki.auth.PasswordUtils;

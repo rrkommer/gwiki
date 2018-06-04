@@ -22,7 +22,7 @@ package de.micromata.genome.gdbfs;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Hold mime mapping.

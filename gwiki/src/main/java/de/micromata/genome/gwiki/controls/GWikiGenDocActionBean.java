@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FileSystem;
@@ -308,7 +308,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     }
     if (offset != 0) {
       wikiContext.append("<h").append(offset).append(">") //
-          .append(StringEscapeUtils.escapeHtml(wikiContext.getTranslatedProp(el.getElementInfo().getTitle())))//
+          .append(StringEscapeUtils.escapeHtml4(wikiContext.getTranslatedProp(el.getElementInfo().getTitle())))//
           .append("</h").append(offset).append(">\n");
     }
     wikiContext.pushWikiElement(el);
@@ -326,7 +326,7 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);
     for (GWikiElementInfo ei : childs) {
       GWikiElement ce = wikiContext.getWikiWeb().getElement(ei);
-      // wikiContext.append("<h1>").append(StringEscapeUtils.escapeHtml(wikiContext.getTranlatedProp(ei.getTitle()))).append("</h1>\n");
+      // wikiContext.append("<h1>").append(WebUtils.escapeHtml(wikiContext.getTranlatedProp(ei.getTitle()))).append("</h1>\n");
 
       renderPages(wikiContext, ce, offset + 1);
       wikiContext.flush();

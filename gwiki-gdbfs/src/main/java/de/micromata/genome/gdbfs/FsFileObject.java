@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gdbfs;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Representing a File (not a directory) in the file system.

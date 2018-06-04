@@ -20,8 +20,8 @@ import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Random;
 
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
@@ -79,8 +79,26 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     }
   }
 
+  public boolean canStoreCookie(GWikiContext ctx)
+  {
+    if (ctx.getWikiWeb().getAuthorization().isCurrentAnonUser(ctx) == false) {
+      return true;
+    }
+    if (ctx.getWikiWeb().getWikiConfig().allowAnonCookies() == true) {
+      return true;
+    }
+    if ("true".equals(ctx.getCookie("gwikiAllowStoreCookies", "false")) == true) {
+      return true;
+    }
+    return false;
+  }
+
   protected void setUserPropInCookie(GWikiContext ctx, String key, String value)
   {
+    if (canStoreCookie(ctx) == false) {
+      return;
+    }
+
     ctx.setCookie(key, value);
   }
 
@@ -173,7 +191,7 @@ public abstract class GWikiAuthorizationBase implements GWikiAuthorization, GWik
     if (isAllowTo(ctx, GWikiAuthorizationRights.GWIKI_CREATEPAGES.name()) == false) {
       return false;
     }
-    // TODO gwiki check if parent has right to edit.
+    // TODO gwiki ch)eck if parent has right to edit.
     return true;
   }
 
