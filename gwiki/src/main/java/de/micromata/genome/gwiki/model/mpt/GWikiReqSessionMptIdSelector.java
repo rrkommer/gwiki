@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.model.mpt;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.web.GWikiServlet;

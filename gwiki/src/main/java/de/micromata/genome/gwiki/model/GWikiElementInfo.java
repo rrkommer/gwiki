@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.model.config.GWikiMetaTemplate;
