@@ -271,6 +271,7 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
 
   public static void setSingleUser(GWikiContext ctx, GWikiSimpleUser su)
   {
+    ctx.createSession();
     ctx.setSessionAttribute(SINGLEUSER_SESSION_KEY, su);
   }
 
