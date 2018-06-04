@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FileSystem;

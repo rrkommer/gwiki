@@ -28,15 +28,15 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeSet;
 
-import org.apache.commons.collections15.comparators.ReverseComparator;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.comparators.ReverseComparator;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.actionbean.ActionBeanBase;
 import de.micromata.genome.gwiki.page.impl.wiki.macros.GWikiElementByPropComparator;
 import de.micromata.genome.gwiki.utils.CalendarControl;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
 
 /**
@@ -49,7 +49,8 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
 
   public static final String monthHeadFormatPattern = "yyyy-MM";
 
-  public static final ThreadLocal<SimpleDateFormat> dayHeadReqFormat = new ThreadLocal<SimpleDateFormat>() {
+  public static final ThreadLocal<SimpleDateFormat> dayHeadReqFormat = new ThreadLocal<SimpleDateFormat>()
+  {
 
     @Override
     protected SimpleDateFormat initialValue()
@@ -84,7 +85,8 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
       return false;
     }
     blogEntries = wikiContext.getElementFinder().getPageDirectPages(blogPageId);
-    Collections.sort(blogEntries, new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator("CREATEDAT")));
+    Collections.sort(blogEntries,
+        new ReverseComparator<GWikiElementInfo>(new GWikiElementByPropComparator("CREATEDAT")));
     return true;
   }
 
@@ -136,7 +138,8 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
     if (cats.isEmpty() == false) {
       String thisPl = wikiContext.localUrl(this.blogPageId);
       wikiContext.append("<div class=\"blogNavCats\">");
-      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">").append(esc(translate("gwiki.blog.page.allCats"))).append("</a>");
+      wikiContext.append("<a href=\"" + thisPl + "?blogCategory=\">").append(esc(translate("gwiki.blog.page.allCats")))
+          .append("</a>");
       for (String cat : cats) {
         wikiContext.append("&nbsp;|&nbsp;");
         wikiContext.append("<a href=\""
@@ -144,7 +147,7 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
             + "?blogCategory="
             + Converter.encodeUrlParam(cat)
             + "\">"
-            + StringEscapeUtils.escapeHtml(cat)
+            + WebUtils.escapeHtml(cat)
             + "</a>");
       }
       wikiContext.append("</div>\n");
@@ -158,7 +161,8 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
       dates.add(ei.getCreatedAt());
     }
 
-    CalendarControl cc = new CalendarControl(wikiContext.getUserTimeZone(), selectedMonthDate, dates) {
+    CalendarControl cc = new CalendarControl(wikiContext.getUserTimeZone(), selectedMonthDate, dates)
+    {
 
       @Override
       public void renderMatchedDay(StringBuilder sb, GWikiContext wikiContext, Date date, int monthDay)
@@ -174,18 +178,21 @@ public class GWikiBlogBaseActionBean extends ActionBeanBase
         String mds = new SimpleDateFormat(monthHeadFormatPattern, userLocale).format(monthDate);
         String thism = dayHeadReqFormat.get().format(CalendarControl.toFullDay(new Date(), userTimeZone));
         String pid = wikiContext.localUrl(blogPageId);
-        sb.append("<a href=\"").append(pid).append("\">").append(translateEsc("gwiki.blog.page.allDays")).append("</a><br/>\n");
+        sb.append("<a href=\"").append(pid).append("\">").append(translateEsc("gwiki.blog.page.allDays"))
+            .append("</a><br/>\n");
         sb.append("<a href=\"").append(pid)//
             .append("?selectedMonth=")//
             .append(thism).append("\">").append(translateEsc("gwiki.blog.page.thisMonth")).append("</a>");
         sb.append("<tr><td colspan=\"2\">") //
             .append("<a href=\"").append(pid).append("?selectedMonth=").append(
-                dayHeadReqFormat.get().format(CalendarControl.toPrevMonth(monthDate, userTimeZone))).append("\">&lt;&lt;</a>")//
+                dayHeadReqFormat.get().format(CalendarControl.toPrevMonth(monthDate, userTimeZone)))
+            .append("\">&lt;&lt;</a>")//
             .append("</td><th colspan=\"3\"><b>") //
             .append(mds).append("</b>")//
             .append("</th><td colspan=\"2\" align=\"right\">") //
             .append("<a href=\"").append(pid).append("?selectedMonth=").append(
-                dayHeadReqFormat.get().format(CalendarControl.toNextMonth(monthDate, userTimeZone))).append("\">&gt;&gt;</a>")//
+                dayHeadReqFormat.get().format(CalendarControl.toNextMonth(monthDate, userTimeZone)))
+            .append("\">&gt;&gt;</a>")//
             .append("</td></tr>\n");
         super.renderTableHead(sb, wikiContext, monthDate);
       }

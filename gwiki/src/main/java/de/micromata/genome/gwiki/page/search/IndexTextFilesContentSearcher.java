@@ -26,8 +26,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FsFileObject;
 import de.micromata.genome.gdbfs.FsObject;
@@ -35,6 +34,7 @@ import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.spi.storage.GWikiFileStorage;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.matcher.AndMatcher;
 import de.micromata.genome.util.matcher.EqualsMatcher;
 import de.micromata.genome.util.matcher.LeftRightMatcherBase;
@@ -53,6 +53,7 @@ import de.micromata.genome.util.types.Pair;
 public class IndexTextFilesContentSearcher implements ContentSearcher
 {
 
+  @Override
   public Collection<String> getSearchMacros()
   {
     return Collections.emptyList();
@@ -62,10 +63,12 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   {
     GWikiFileStorage gstore = (GWikiFileStorage) ctx.getWikiWeb().getStorage();
     FsObject obj = gstore.getStorage().getFileObject(indexFile);
-    if (obj == null)
+    if (obj == null) {
       return null;
-    if ((obj instanceof FsFileObject) == false)
+    }
+    if ((obj instanceof FsFileObject) == false) {
       return null;
+    }
     FsFileObject file = (FsFileObject) obj;
     String content = file.readString();
     return content;
@@ -101,12 +104,14 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
 
     String indexFile = pageId + "TextIndex.txt";
     String content = readFileContent(ctx, indexFile);
-    if (content == null)
+    if (content == null) {
       return null;
+    }
     String normExpress = NormalizeUtils.normalize(searchExpression);
 
-    if (content.indexOf(normExpress) == -1)
+    if (content.indexOf(normExpress) == -1) {
       return null;
+    }
     SearchResult sr = new SearchResult(ctx.getWikiWeb().findElementInfo(pageId));
     getTextSample(ctx, sr, searchExpression, pageId);
     return sr;
@@ -122,6 +127,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   private static class SearchResultIdComparator implements Comparator<SearchResult>
   {
 
+    @Override
     public int compare(SearchResult o1, SearchResult o2)
     {
       return o1.getPageId().compareTo(o2.getPageId());
@@ -158,8 +164,9 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   private int getWeightFromLine(String content, int idx)
   {
     while (idx >= 0) {
-      if (content.charAt(idx) == '|')
+      if (content.charAt(idx) == '|') {
         break;
+      }
       --idx;
     }
     int eidx = idx;
@@ -225,8 +232,9 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
       }
     }
     int hit = 0;
-    if (exactMatch == true)
+    if (exactMatch == true) {
       hit = 3;
+    }
     int weight = getWeightFromLine(content, idx);
     if (exactMatch == true) {
       return Pair.make(normpt, hit * weight);
@@ -246,11 +254,13 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
   {
     String indexFile = res.getPageId() + "TextIndex.txt";
     String content = readFileContent(ctx, indexFile);
-    if (content == null)
+    if (content == null) {
       return 0;
+    }
     Pair<String, Integer> p = findInIdxText(content, matcher);
-    if (p == null)
+    if (p == null) {
       return 0;
+    }
 
     return p.getSecond();
   }
@@ -281,7 +291,8 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return gfa.getFoundIndexWeight(ctx, res, normpt);
   }
 
-  private Collection<SearchResult> filterByContent(GWikiContext ctx, Collection<SearchResult> infos, Matcher<String> matcher)
+  private Collection<SearchResult> filterByContent(GWikiContext ctx, Collection<SearchResult> infos,
+      Matcher<String> matcher)
   {
     List<SearchResult> ret = new ArrayList<SearchResult>();
     for (SearchResult sr : infos) {
@@ -315,6 +326,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
 
   public static class SearchResultByRelevanceComparator implements Comparator<SearchResult>
   {
+    @Override
     public int compare(SearchResult o1, SearchResult o2)
     {
       return o2.getRelevance() - o1.getRelevance();
@@ -365,12 +377,14 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
 
   }
 
+  @Override
   public QueryResult search(GWikiContext ctx, SearchQuery query)
   {
     List<SearchResult> lres = search(ctx, query.getSearchExpression(), query.getMaxCount());
     return new QueryResult(lres, lres.size());
   }
 
+  @Override
   public void rebuildIndex(GWikiContext wikiContext, String pageId, boolean full)
   {
     throw new RuntimeException("rebuildIndex not supported");
@@ -378,7 +392,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
 
   public static String reworkRawTextForPreview(String str)
   {
-    str = StringEscapeUtils.escapeHtml(str);
+    str = WebUtils.escapeHtml(str);
     str = StringUtils.replace(str, "\n", "<br/>\n");
     return str;
   }
@@ -393,6 +407,7 @@ public class IndexTextFilesContentSearcher implements ContentSearcher
     return reworkRawTextForPreview(ret);
   }
 
+  @Override
   public String getHtmlPreview(GWikiContext ctx, String pageId)
   {
     return getHtmlPreviewS(ctx, pageId);

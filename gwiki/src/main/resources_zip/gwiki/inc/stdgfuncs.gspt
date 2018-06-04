@@ -1,13 +1,13 @@
 <%
 public String esc(String text)
 {
-	return org.apache.commons.lang.StringEscapeUtils.escapeHtml(text); 
+	return de.micromata.genome.gwiki.utils.WebUtils.escapeHtml(text); 
 }
 public String esc(Object text)
 {
 	if (text == null)
 		return "";
-	return org.apache.commons.lang.StringEscapeUtils.escapeHtml(text.toString()); 
+	return de.micromata.genome.gwiki.utils.WebUtils.escapeHtml(text.toString()); 
 }
 
 %>

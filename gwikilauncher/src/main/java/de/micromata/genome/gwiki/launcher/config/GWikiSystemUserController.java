@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.launcher.config;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.mgc.javafx.launcher.gui.AbstractConfigTabController;
 import javafx.fxml.FXML;

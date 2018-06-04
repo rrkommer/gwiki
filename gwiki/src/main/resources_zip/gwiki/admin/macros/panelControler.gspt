@@ -1,10 +1,10 @@
 <@include file="inc/stdgfuncs.gspt" @>
 <% 
-String panelClass= org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelClass'));
-String panelHeaderClass = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelHeaderClass'));
-String panelBodyClass = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
-String panelHeaderStyle = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle'));
-String panelContentStyle = org.apache.commons.lang.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
+String panelClass= org.apache.commons.lang3.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelClass'));
+String panelHeaderClass = org.apache.commons.lang3.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelHeaderClass'));
+String panelBodyClass = org.apache.commons.lang3.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
+String panelHeaderStyle = org.apache.commons.lang3.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelStyle'));
+String panelContentStyle = org.apache.commons.lang3.StringUtils.defaultString(wikiContext.getRequestAttribute('wiki.macro.panel.panelBodyClass'));
 if (panelHeaderClass.length() == 0 && panelHeaderStyle.length() == 0) {
   panelHeaderStyle = 'border-width: 1px;';
 }

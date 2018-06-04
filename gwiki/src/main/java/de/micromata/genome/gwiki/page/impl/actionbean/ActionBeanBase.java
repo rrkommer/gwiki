@@ -16,10 +16,10 @@
 
 package de.micromata.genome.gwiki.page.impl.actionbean;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 public class ActionBeanBase implements ActionBean
 {
@@ -30,21 +30,25 @@ public class ActionBeanBase implements ActionBean
    * 
    * @return
    */
+  @Override
   public String getRequestPrefix()
   {
     return "";
   }
 
+  @Override
   public Object onInit()
   {
     return null;
   }
 
+  @Override
   public GWikiContext getWikiContext()
   {
     return wikiContext;
   }
 
+  @Override
   public void setWikiContext(GWikiContext wikiContext)
   {
     this.wikiContext = wikiContext;
@@ -82,7 +86,7 @@ public class ActionBeanBase implements ActionBean
     if (text == null) {
       return "";
     }
-    return StringEscapeUtils.escapeHtml(text);
+    return WebUtils.escapeHtml(text);
   }
 
   protected final String translateEsc(String key, Object... args)

@@ -50,6 +50,16 @@
 											<property name="type" value="BOOLEAN" />
 											<property name="defaultValue" value="false" />
 										</bean>
+                    <bean
+                      class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
+                      <property name="key" value="GWIKI_ALLOW_ANON_COOKIES" />
+                      <property name="label" value="Allow setting cookies for anonymous users" />
+                      <property name="helpLink"
+                        value="gwikidocs/help/en/admin/GWikiConfig#GWIKI_ALLOW_ANON_COOKIES" />
+                      <property name="readOnly" value="false" />
+                      <property name="type" value="BOOLEAN" />
+                      <property name="defaultValue" value="false" />
+                    </bean>
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_CHECK_EXTERNAL_MODIFICATIONS" />
@@ -158,7 +168,7 @@ def onValidate(pec)
 											<property name="type" value="INTEGER" />
 											<property name="defaultValue" value="-1" />
 										</bean>
-										
+						
 										<bean
 											class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
 											<property name="key" value="GWIKI_FILTER_CLASSES" />

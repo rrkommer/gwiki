@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections15.comparators.ReverseComparator;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections4.comparators.ReverseComparator;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.controls.GWikiLoginActionBean;

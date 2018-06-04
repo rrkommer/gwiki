@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.page.impl.i18n;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorization;
 import de.micromata.genome.gwiki.page.GWikiContext;

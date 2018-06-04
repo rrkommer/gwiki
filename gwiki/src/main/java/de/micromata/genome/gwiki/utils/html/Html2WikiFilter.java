@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections15.ArrayStack;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.collections4.ArrayStack;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.xerces.xni.Augmentations;
 import org.apache.xerces.xni.QName;
 import org.apache.xerces.xni.XMLAttributes;

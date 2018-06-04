@@ -24,8 +24,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
@@ -35,6 +34,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentChildContainer;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHtml;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Pair;
 
 /**
@@ -73,7 +73,7 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
 
       ts.append("<li>")
           //
-          .append(StringEscapeUtils.escapeHtml(matched)).append(": ")
+          .append(WebUtils.escapeHtml(matched)).append(": ")
           //
           .append("<a href='").append(ctx.localUrl(ei.getId())).append("'>")
           .append(ctx.getTranslatedProp(ei.getTitle())).append("</a>")
@@ -86,9 +86,9 @@ public class GWikiFragmentKeywordHtml extends GWikiFragmentHtml
     }
     sb.append(
         "<a class=\"wikiSmartTag\" href='#' onclick='return false;' onmouseover=\"displayHilfeLayer('")
-        .append(StringEscapeUtils.escapeJavaScript(ts.toString())).append("', '").append(ctx.genHtmlId(""))
+        .append(WebUtils.escapeJavaScript(ts.toString())).append("', '").append(ctx.genHtmlId(""))
         .append("')\" onmouseout=\"doNotOpenHilfeLayer();\">") //
-        .append(StringEscapeUtils.escapeHtml(matched)).append("</a>");
+        .append(WebUtils.escapeHtml(matched)).append("</a>");
     sb.append("");
   }
 

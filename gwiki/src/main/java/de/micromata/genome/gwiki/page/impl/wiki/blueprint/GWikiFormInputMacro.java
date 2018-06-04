@@ -18,8 +18,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.blueprint;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
 import de.micromata.genome.gwiki.page.GWikiContext;
@@ -28,6 +27,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroSourceable;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * TODO validate form.
@@ -58,13 +58,13 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
 
   protected void renderAttr(GWikiContext ctx, String name, String value)
   {
-    ctx.append(" " + name + "=\"").append(StringEscapeUtils.escapeHtml(value)).append("\"");
+    ctx.append(" " + name + "=\"").append(WebUtils.escapeHtml(value)).append("\"");
   }
 
   protected void renderStandardAttr(String attr, GWikiContext ctx, MacroAttributes attrs)
   {
     if (StringUtils.isNotBlank(attrs.getArgs().getStringValue(attr)) == true) {
-      ctx.append(" " + attr + "=\"").append(StringEscapeUtils.escapeHtml(attrs.getArgs().getStringValue(attr)))
+      ctx.append(" " + attr + "=\"").append(WebUtils.escapeHtml(attrs.getArgs().getStringValue(attr)))
           .append("\"");
     }
   }
@@ -93,7 +93,7 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
       inputType = attrs.getDefaultValue();
     }
     if (StringUtils.equals(inputType, "text") == true) {
-      ctx.append("<input type=\"text\" name=\"" + name + "\" value=\"" + StringEscapeUtils.escapeHtml(value) + "\"");
+      ctx.append("<input type=\"text\" name=\"" + name + "\" value=\"" + WebUtils.escapeHtml(value) + "\"");
       renderStandardAttr(ctx, attrs);
       renderStandardAttr("size", ctx, attrs);
       renderStandardAttr("maxlength", ctx, attrs);
@@ -105,7 +105,7 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
       renderStandardAttr("rows", ctx, attrs);
       renderStandardAttr("wrap", ctx, attrs);
       String v = value;
-      ctx.append(">" + StringEscapeUtils.escapeHtml(v) + "</textarea>");
+      ctx.append(">" + WebUtils.escapeHtml(v) + "</textarea>");
     } else if (StringUtils.equals(inputType, "checkbox") == true) {
       ctx.append("<input type=\"checkbox\" name=\"" + name + "\"");
       renderStandardAttr(ctx, attrs);
@@ -127,7 +127,7 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
       List<String> values = attrs.getArgs().getStringList("values");
 
       for (String v : values) {
-        v = StringEscapeUtils.escapeHtml(v);
+        v = WebUtils.escapeHtml(v);
         String st = "";
         if (StringUtils.equals(v, value) == true) {
           st = " selected=\"selected\"";
@@ -138,7 +138,7 @@ public class GWikiFormInputMacro extends GWikiMacroBean implements GWikiMacroSou
 
       ctx.append("</select>");
     } else if (StringUtils.equals(inputType, "label") == true) {
-      ctx.append(StringEscapeUtils.escapeHtml(value));
+      ctx.append(WebUtils.escapeHtml(value));
     } else {
       // TODO general method to report error for macros.
       ctx.append("Unkown inputType");

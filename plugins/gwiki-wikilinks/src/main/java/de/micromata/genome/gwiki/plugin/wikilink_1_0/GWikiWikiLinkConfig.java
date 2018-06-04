@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.plugin.wikilink_1_0;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiProps;

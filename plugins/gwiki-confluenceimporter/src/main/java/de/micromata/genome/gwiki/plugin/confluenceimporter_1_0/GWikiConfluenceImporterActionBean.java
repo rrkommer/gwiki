@@ -21,8 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gwiki.controls.GWikiPageListActionBean;
@@ -32,6 +31,7 @@ import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.QueryResult;
 import de.micromata.genome.gwiki.page.search.SearchQuery;
 import de.micromata.genome.gwiki.page.search.SearchResult;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
 
 /**
@@ -251,7 +251,7 @@ public class GWikiConfluenceImporterActionBean extends GWikiPageListActionBean
     // if (fieldName)
     if (fieldName.equals("PAGEID") == true) {
       String sf = getPageIdNoTemp(ei);
-      return StringEscapeUtils.escapeHtml(sf);
+      return WebUtils.escapeHtml(sf);
       // } else if (fieldName.equals("IMPSTATUS") == true) {
       // String sf = getPageIdNoTemp(ei);
       // CompareStatus st = getCompareStatus(wikiContext, ei, sf);

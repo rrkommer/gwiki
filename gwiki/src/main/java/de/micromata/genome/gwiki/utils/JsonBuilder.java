@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.utils;
 
 import java.util.Collection;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonArray;

@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.page.gspt;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 

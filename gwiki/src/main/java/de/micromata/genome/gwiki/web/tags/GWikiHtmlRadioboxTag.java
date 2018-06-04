@@ -19,7 +19,7 @@ package de.micromata.genome.gwiki.web.tags;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTag;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)

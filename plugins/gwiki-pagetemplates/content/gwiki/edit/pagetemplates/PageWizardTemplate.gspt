@@ -2,7 +2,7 @@
 <% 
 import de.micromata.genome.gwiki.page.impl.wiki.macros.*;
 import de.micromata.genome.gwiki.page.impl.wiki.*;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 %>
 <% wikiContext.skinInclude("simplepopuphead"); %>
 

@@ -30,7 +30,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gdbfs.ZipWriteFileSystem;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;

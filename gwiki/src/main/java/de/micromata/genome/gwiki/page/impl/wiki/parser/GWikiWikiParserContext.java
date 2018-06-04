@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections15.ArrayStack;
+import org.apache.commons.collections4.ArrayStack;
 import org.apache.log4j.Logger;
 
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacro;

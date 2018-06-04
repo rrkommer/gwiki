@@ -18,9 +18,8 @@ package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
@@ -30,6 +29,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -101,7 +101,7 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
       url = ctx.localUrl(href);
     }
     ctx.append("<a id=\"").append(id).append("\" href=\"").append(url).append("\" title=\"")
-        .append(StringEscapeUtils.escapeHtml(title))
+        .append(WebUtils.escapeHtml(title))
         .append("\">");
 
     attrs.getChildFragment().render(ctx);
@@ -118,11 +118,11 @@ public class GWikiFancyBoxMacroBean extends GWikiMacroBean implements GWikiBodyE
         ctx.append(",\n");
       }
 
-      ctx.append(StringEscapeUtils.escapeJavaScript(me.getKey())).append(": ");
+      ctx.append(WebUtils.escapeJavaScript(me.getKey())).append(": ");
       if (isFancyIntArg(me.getKey()) == true) {
-        ctx.append(StringEscapeUtils.escapeJavaScript(me.getValue()));
+        ctx.append(WebUtils.escapeJavaScript(me.getValue()));
       } else {
-        ctx.append("'").append(StringEscapeUtils.escapeJavaScript(me.getValue())).append("'");
+        ctx.append("'").append(WebUtils.escapeJavaScript(me.getValue())).append("'");
       }
       first = false;
     }

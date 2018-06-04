@@ -16,19 +16,13 @@
 
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.text;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.table;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.td;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.tr;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.*;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.*;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
-import org.apache.commons.lang.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
@@ -38,6 +32,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiCollectFragmentTyp
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentImage;
 import de.micromata.genome.gwiki.page.impl.wiki.parser.GWikiWikiParser;
 import de.micromata.genome.gwiki.utils.StringUtils;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
 /**
@@ -52,7 +47,8 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
 
   private String maxWidth;
 
-  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor, String hint, String maxWidth, String maxFileSize)
+  public PtWikiImageEditor(GWikiElement element, String sectionName, String editor, String hint, String maxWidth,
+      String maxFileSize)
   {
     super(element, sectionName, editor, hint, maxFileSize);
     this.maxWidth = maxWidth;
@@ -71,14 +67,14 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     final String browse = ctx.getTranslated("gwiki.editor.image.browse");
 
     XmlElement input = input( //
-    attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
+        attrs("name", sectionName, "type", "file", "size", "50", "accept", "image/*"));
 
     XmlElement table = table( //
         attrs("style", "margin:20px 0")).nest( //
-        tr( //
-        td(text(browse)), //
-        td(input) //
-        ));
+            tr( //
+                td(text(browse)), //
+                td(input) //
+            ));
 
     ctx.append(table.toString());
     return true;
@@ -89,7 +85,7 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
    */
   private void parseImageConfig(final GWikiContext ctx, boolean render)
   {
-    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    String content = WebUtils.escapeHtml(getEditContent());
     GWikiWikiParser wkparse = new GWikiWikiParser();
     GWikiContent gwikiContent = wkparse.parse(ctx, content);
 
@@ -115,6 +111,7 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
     }
   }
 
+  @Override
   public void onSave(final GWikiContext ctx)
   {
     parseImageConfig(ctx, false);
@@ -130,8 +127,8 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
         int maxWidthInPx = Integer.parseInt(cleaned);
 
         /*
-         * On some GIF files, the ImageIO.read operation runs into an IOException while reading an unexpected block type. This bug is
-         * already known since 2004 and will be fixed up in JDK 7
+         * On some GIF files, the ImageIO.read operation runs into an IOException while reading an unexpected block
+         * type. This bug is already known since 2004 and will be fixed up in JDK 7
          * 
          * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6358674
          */
@@ -139,9 +136,10 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
         int width = img.getWidth();
 
         if (width > maxWidthInPx) {
-          ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed", ctx.getTranslated("gwiki.editor.image.tooBig")
-              + maxWidthInPx
-              + " px");
+          ctx.addValidationError("gwiki.edit.EditPage.attach.message.uploadfailed",
+              ctx.getTranslated("gwiki.editor.image.tooBig")
+                  + maxWidthInPx
+                  + " px");
           return;
         }
       } catch (IOException ex) {
@@ -175,8 +173,10 @@ public class PtWikiImageEditor extends PtWikiUploadEditor
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.
+   * page.GWikiContext)
    */
+  @Override
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub

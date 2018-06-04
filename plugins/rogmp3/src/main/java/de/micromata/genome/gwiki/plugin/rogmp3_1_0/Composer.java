@@ -18,8 +18,8 @@ package de.micromata.genome.gwiki.plugin.rogmp3_1_0;
 
 import java.io.File;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 public class Composer extends RecBase
 {

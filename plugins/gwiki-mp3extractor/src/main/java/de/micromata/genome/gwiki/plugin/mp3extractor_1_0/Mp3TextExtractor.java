@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.plugin.mp3extractor_1_0;
 
 import java.io.InputStream;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.Mp3File;

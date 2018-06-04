@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.fragment;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class GWikiFragmentText extends GWikiFragmentHtml
   public String getHtml()
   {
     if (html == null) {
-      html = StringEscapeUtils.escapeHtml(text.toString());
+      html = WebUtils.escapeHtml(text.toString());
     }
     return html;
   }

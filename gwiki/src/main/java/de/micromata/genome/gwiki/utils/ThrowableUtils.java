@@ -19,8 +19,6 @@ package de.micromata.genome.gwiki.utils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 /**
  * Utils for handling throwables.
  * 
@@ -32,11 +30,11 @@ public class ThrowableUtils
   public static String getExceptionStacktraceForHtml(Throwable ex)
   {
     if (ex == null) {
-      return StringEscapeUtils.escapeHtml("<no exception set>");
+      return WebUtils.escapeHtml("<no exception set>");
     }
     StringWriter sout = new StringWriter();
     PrintWriter pout = new PrintWriter(sout);
     ex.printStackTrace(pout);
-    return StringEscapeUtils.escapeHtml(sout.getBuffer().toString());
+    return WebUtils.escapeHtml(sout.getBuffer().toString());
   }
 }

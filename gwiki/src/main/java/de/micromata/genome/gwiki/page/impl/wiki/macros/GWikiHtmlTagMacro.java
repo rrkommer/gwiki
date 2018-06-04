@@ -20,8 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.AuthorizationFailedException;
 import de.micromata.genome.gwiki.model.GWikiAuthorizationRights;
@@ -32,6 +31,7 @@ import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroFactory;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * Base class to implement html macros.
@@ -100,7 +100,7 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
 
   private static String esc(String t)
   {
-    return StringEscapeUtils.escapeHtml(t);
+    return WebUtils.escapeHtml(t);
   }
 
   protected void renderAttributes(GWikiContext ctx, Map<String, String> attrs)
@@ -119,7 +119,7 @@ public class GWikiHtmlTagMacro extends GWikiMacroBean
     if (attrs.getChildFragment() != null) {
       attrs.getChildFragment().render(ctx);
     } else if (attrs.getBody() != null) {
-      ctx.append(StringEscapeUtils.escapeHtml(attrs.getBody()));
+      ctx.append(WebUtils.escapeHtml(attrs.getBody()));
     }
     ctx.append("</").append(attrs.getCmd()).append(">");
     return true;

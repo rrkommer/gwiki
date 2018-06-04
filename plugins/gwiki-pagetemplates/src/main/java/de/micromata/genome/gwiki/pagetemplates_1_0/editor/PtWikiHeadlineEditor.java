@@ -16,13 +16,12 @@
 
 package de.micromata.genome.gwiki.pagetemplates_1_0.editor;
 
-import static de.micromata.genome.util.xml.xmlbuilder.Xml.attrs;
-import static de.micromata.genome.util.xml.xmlbuilder.html.Html.input;
-
-import org.apache.commons.lang.StringEscapeUtils;
+import static de.micromata.genome.util.xml.xmlbuilder.Xml.*;
+import static de.micromata.genome.util.xml.xmlbuilder.html.Html.*;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.page.GWikiContext;
+import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.gwiki.utils.html.Html2WikiFilter;
 import de.micromata.genome.util.xml.xmlbuilder.XmlElement;
 
@@ -47,14 +46,14 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
   @Override
   public boolean renderWithParts(final GWikiContext ctx)
   {
-    String content = StringEscapeUtils.escapeHtml(getEditContent());
+    String content = WebUtils.escapeHtml(getEditContent());
     content = Html2WikiFilter.unescapeWiki(content);
 
     XmlElement input = input( //
-    attrs("name", sectionName,//
-        "value", content, //
-        "style", "margin:10px 0 25px 0;", //
-        "size", "50"));
+        attrs("name", sectionName, //
+            "value", content, //
+            "style", "margin:10px 0 25px 0;", //
+            "size", "50"));
 
     final String headline = ctx.getTranslated("gwiki.editor.headline.headline");
 
@@ -69,6 +68,7 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#onSave(de.micromata.genome.gwiki.page.GWikiContext)
    */
+  @Override
   public void onSave(final GWikiContext ctx)
   {
     String newContent = ctx.getRequestParameter(sectionName);
@@ -83,6 +83,7 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
    * 
    * @see de.micromata.genome.gwiki.page.impl.GWikiEditorArtefakt#getTabTitle()
    */
+  @Override
   public String getTabTitle()
   {
     return "";
@@ -92,8 +93,10 @@ public class PtWikiHeadlineEditor extends PtWikiTextEditorBase
    * (non-Javadoc)
    * 
    * @see
-   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.page.GWikiContext)
+   * de.micromata.genome.gwiki.pagetemplates_1_0.editor.GWikiSectionEditorArtefakt#onDelete(de.micromata.genome.gwiki.
+   * page.GWikiContext)
    */
+  @Override
   public void onDelete(GWikiContext ctx)
   {
     // TODO Auto-generated method stub

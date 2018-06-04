@@ -16,13 +16,12 @@
 
 package de.micromata.genome.gwiki.plugin.s5slideshow_1_0;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiBodyEvalMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiRuntimeMacro;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * @author Roger Rene Kommer (r.kommer@micromata.de)
@@ -38,7 +37,8 @@ public class GWikiSlideMacro extends GWikiMacroBean implements GWikiBodyEvalMacr
   /*
    * (non-Javadoc)
    * 
-   * @see de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
+   * @see
+   * de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean#renderImpl(de.micromata.genome.gwiki.page.GWikiContext,
    * de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes)
    */
   @Override
@@ -49,7 +49,7 @@ public class GWikiSlideMacro extends GWikiMacroBean implements GWikiBodyEvalMacr
     if (asSlide == true) {
       ctx.append("<div class=\"slide\">");
     }
-    ctx.append("<h1>").append(StringEscapeUtils.escapeHtml(title)).append("</h1>\n");
+    ctx.append("<h1>").append(WebUtils.escapeHtml(title)).append("</h1>\n");
     if (asSlide == true) {
       ctx.append("<div class=\"slidecontent\">");
     }

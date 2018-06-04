@@ -21,8 +21,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 public class RecBase
 {
@@ -32,6 +33,7 @@ public class RecBase
 
   protected File mp3path;
 
+  @Override
   public String toString()
   {
     return getClass().getSimpleName() + ": " + rec;
@@ -56,7 +58,8 @@ public class RecBase
   public static <T extends RecBase> void sortByIdx(List<T> list, final int idx, boolean desc)
   {
     if (desc == true) {
-      Collections.sort(list, new Comparator<T>() {
+      Collections.sort(list, new Comparator<T>()
+      {
 
         @Override
         public int compare(T o1, T o2)
@@ -65,7 +68,8 @@ public class RecBase
         }
       });
     } else {
-      Collections.sort(list, new Comparator<T>() {
+      Collections.sort(list, new Comparator<T>()
+      {
 
         @Override
         public int compare(T o1, T o2)
@@ -81,7 +85,7 @@ public class RecBase
     if (data == null) {
       return "";
     }
-    return StringEscapeUtils.escapeHtml(data);
+    return WebUtils.escapeHtml(data);
   }
 
   public static boolean isRecFilled(String[] rec, int idx)

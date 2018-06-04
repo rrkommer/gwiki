@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.page.impl.wiki.rte.els;
 
 import java.util.Base64;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiElement;
 import de.micromata.genome.gwiki.model.GWikiPropKeys;

@@ -22,8 +22,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.utils.WebUtils;
 import de.micromata.genome.util.types.Converter;
@@ -182,7 +182,7 @@ public class Title extends RecBase implements EntityWithTracks
       sb.append("Interpreten: ");
       for (Interpret ip : interpretList) {
         sb.append("<a href=\"" + localUrl + "?interpretPk=" + ip.getPk() + "\">")
-            .append(StringEscapeUtils.escapeHtml(ip.getName() + ": " + ip.getInstrument())).append("</a> ");
+            .append(WebUtils.escapeHtml(ip.getName() + ": " + ip.getInstrument())).append("</a> ");
       }
       sb.append("<br/>");
     } else {
@@ -192,7 +192,7 @@ public class Title extends RecBase implements EntityWithTracks
     if (orchlist.isEmpty() == false) {
       sb.append("Orchester: ");
       for (Orchester orch : orchlist) {
-        sb.append("<a href=\"" + localUrl + "?orchesterPk=" + orch.getPk() + "\">").append(StringEscapeUtils.escapeHtml(orch.getName()))
+        sb.append("<a href=\"" + localUrl + "?orchesterPk=" + orch.getPk() + "\">").append(WebUtils.escapeHtml(orch.getName()))
             .append("</a> ");
       }
       sb.append("<br/>");
@@ -205,7 +205,7 @@ public class Title extends RecBase implements EntityWithTracks
       if (dirig.isEmpty() == false) {
         sb.append("Dirigent: ");
         for (String[] sa : dirig) {
-          sb.append("<a href=\"" + localUrl + "?dirigentPk=" + sa[0] + "\">").append(StringEscapeUtils.escapeHtml(sa[1])).append("</a> ");
+          sb.append("<a href=\"" + localUrl + "?dirigentPk=" + sa[0] + "\">").append(WebUtils.escapeHtml(sa[1])).append("</a> ");
         }
         sb.append("<br/>");
       } else {

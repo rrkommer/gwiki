@@ -19,7 +19,10 @@ package de.micromata.genome.gwiki.utils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.EntityArrays;
+import org.apache.commons.text.translate.LookupTranslator;
 
 /**
  * TODO gwiki move this to another class.
@@ -29,15 +32,35 @@ import org.apache.commons.lang.StringUtils;
  */
 public class WebUtils
 {
+  private static LookupTranslator BASIC_XML_ESCAPE = new LookupTranslator(EntityArrays.BASIC_ESCAPE);
+
   public static String encodeUrlParam(String value)
   {
-    if (StringUtils.isEmpty(value) == true)
+    if (StringUtils.isEmpty(value) == true) {
       return "";
+    }
 
     try {
       return URLEncoder.encode(value, "UTF-8");
     } catch (UnsupportedEncodingException ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  public static String escapeHtml(String value)
+  {
+    //    return BASIC_XML_ESCAPE.translate(value);
+    return StringEscapeUtils.escapeHtml3(value);
+  }
+
+  public static String escapeXml(String value)
+  {
+    return BASIC_XML_ESCAPE.translate(value);
+    //    return StringEscapeUtils.escapeXml11(value);
+  }
+
+  public static String escapeJavaScript(String value)
+  {
+    return StringEscapeUtils.escapeEcmaScript(value);
   }
 }

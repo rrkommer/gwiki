@@ -16,7 +16,7 @@
 
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;

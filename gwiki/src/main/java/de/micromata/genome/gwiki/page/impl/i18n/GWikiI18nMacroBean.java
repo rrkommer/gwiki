@@ -16,14 +16,13 @@
 
 package de.micromata.genome.gwiki.page.impl.i18n;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroInfo.MacroParamType;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributes;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfo;
 import de.micromata.genome.gwiki.page.impl.wiki.MacroInfoParam;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * 
@@ -96,7 +95,7 @@ public class GWikiI18nMacroBean extends GWikiMacroBean
       value = ctx.getWikiWeb().getI18nProvider().translate(ctx, key, defVal, args);
     }
     if (escapeHtml == true) {
-      ctx.append(StringEscapeUtils.escapeHtml(value));
+      ctx.append(WebUtils.escapeHtml(value));
     } else {
       ctx.append(value);
     }
