@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.impl.wiki.MacroAttributesUtils;
 import de.micromata.genome.gwiki.utils.CommaListParser;

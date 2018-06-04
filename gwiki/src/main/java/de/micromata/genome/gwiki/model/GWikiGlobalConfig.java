@@ -102,6 +102,8 @@ public class GWikiGlobalConfig extends GWikiProps
 
   public static final String GWIKI_ARCHIVE_MAX_DAYS = "GWIKI_ARCHIVE_MAX_DAYS";
 
+  public static final String GWIKI_ALLOW_ANON_COOKIES = "GWIKI_ALLOW_ANON_COOKIES";
+
   private List<Pair<String, Matcher<String>>> writeAccessRules = null;
 
   private Map<String, GWikiMacroFactory> wikiFactories;
@@ -163,6 +165,11 @@ public class GWikiGlobalConfig extends GWikiProps
   public boolean showErrorStackTrace()
   {
     return getBooleanValue(GWIKI_ERROR_SHOW_STACK_TRACE, false);
+  }
+
+  public boolean allowAnonCookies()
+  {
+    return getBooleanValue(GWIKI_ALLOW_ANON_COOKIES, false);
   }
 
   public long getCheckFileSystemForModTimeout()

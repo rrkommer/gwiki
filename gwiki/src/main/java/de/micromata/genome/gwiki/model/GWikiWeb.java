@@ -39,7 +39,7 @@ import de.micromata.genome.logging.LogAttribute;
 import de.micromata.genome.logging.LoggingServiceManager;
 import de.micromata.genome.util.runtime.CallableX;
 import de.micromata.genome.util.types.TimeInMillis;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.Serializable;

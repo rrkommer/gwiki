@@ -18,7 +18,7 @@ package de.micromata.genome.gwiki.model.config;
 
 import javax.servlet.ServletConfig;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 

@@ -45,7 +45,7 @@ import de.micromata.genome.gwiki.umgmt.GWikiUserAuthorization;
 import de.micromata.genome.util.bean.PrivateBeanUtils;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.mail.Session;

@@ -24,7 +24,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.GWikiWeb;
 import de.micromata.genome.gwiki.page.gspt.BodyContentImpl;

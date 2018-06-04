@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.search.GWikiIndexedArtefakt;
 import de.micromata.genome.gwiki.utils.AppendableI;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 @SuppressWarnings("unchecked")
 public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GWikiIndexedArtefakt
@@ -43,6 +43,7 @@ public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GW
     super(props);
   }
 
+  @Override
   public void getPreview(GWikiContext ctx, AppendableI sb)
   {
     // StringBuilder sb = new StringBuilder();
@@ -50,13 +51,13 @@ public class GWikiSettingsPropsArtefakt extends GWikiPropsArtefakt implements GW
     String title = m.get(GWikiPropKeys.TITLE);
     if (StringUtils.isNotBlank(title) == true) {
       title = ctx.getTranslatedProp(title);
-      sb.append("<h1 class=\"gwikititle\">").append(StringEscapeUtils.escapeHtml(title)).append("</h1>");
+      sb.append("<h1 class=\"gwikititle\">").append(WebUtils.escapeHtml(title)).append("</h1>");
     }
     List<String> keywords = new GWikiProps(m).getStringList(GWikiPropKeys.KEYWORDS);
     if (keywords != null && keywords.isEmpty() == false) {
       sb.append("<ul>");
       for (String kw : keywords) {
-        sb.append("<li class=\"gwikikeyword\">").append(StringEscapeUtils.escapeHtml(kw)).append("</li>\n");
+        sb.append("<li class=\"gwikikeyword\">").append(WebUtils.escapeHtml(kw)).append("</li>\n");
       }
       sb.append("</ul>");
     }

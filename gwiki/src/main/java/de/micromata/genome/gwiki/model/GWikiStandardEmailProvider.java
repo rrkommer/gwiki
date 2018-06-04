@@ -24,7 +24,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLog;
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;

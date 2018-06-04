@@ -21,7 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.commons.collections15.map.ReferenceMap;
+import org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength;
+import org.apache.commons.collections4.map.ReferenceMap;
 
 import de.micromata.genome.gwiki.model.logging.GWikiLogCategory;
 import de.micromata.genome.logging.GLog;
@@ -38,8 +39,8 @@ public class GWikiPageCacheImpl implements GWikiPageCache
 {
 
   private Map<String, GWikiElement> cachedPages = Collections
-      .synchronizedMap(new ReferenceMap<String, GWikiElement>(ReferenceMap.HARD,
-          ReferenceMap.SOFT));
+      .synchronizedMap(new ReferenceMap<String, GWikiElement>(ReferenceStrength.HARD,
+          ReferenceStrength.SOFT));
 
   private Map<String, GWikiElementInfo> pageInfoMap = Collections.emptyMap();
 
