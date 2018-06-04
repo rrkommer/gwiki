@@ -1257,9 +1257,6 @@ public class GWikiContext extends AbstractAppendable implements GWikiPropKeys
     }
 
     Validate.notNull(request, "request not set");
-    if (create == true) {
-      System.out.println("createsession");
-    }
     return request.getSession(create);
   }
 
