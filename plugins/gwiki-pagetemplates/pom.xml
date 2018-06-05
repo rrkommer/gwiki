@@ -6,10 +6,6 @@
     <relativePath>../pom.xml</relativePath>
 	</parent>
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-pagetemplates</artifactId>
   <packaging>jar</packaging>
-  <name>gwiki-pagetemplates</name>
-  <version>2.4.0-SNAPSHOT</version>
 </project>

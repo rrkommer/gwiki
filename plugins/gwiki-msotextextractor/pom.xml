@@ -6,11 +6,8 @@
 		<version>2.4.0-SNAPSHOT</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
 	</parent>
-  <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-msotextextractor</artifactId>
   <packaging>jar</packaging>
-  <name>gwiki-msotextextractor</name>
-  <version>2.4.0-SNAPSHOT</version><!-- PLUGINVERSION -->
   <dependencies>
     <dependency>
       <groupId>org.apache.poi</groupId>

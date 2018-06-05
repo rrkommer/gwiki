@@ -5,10 +5,7 @@
     <groupId>de.micromata.genome.gwiki</groupId>
     <version>2.4.0-SNAPSHOT</version><!-- GWIKVERSION -->
   </parent>
-  <groupId>de.micromata.genome.gwiki</groupId>
   <artifactId>gwiki-vfolder</artifactId>
   <packaging>jar</packaging>
-  <name>gwiki-vfolder</name>
-  <version>2.4.0-SNAPSHOT</version><!-- PLUGINVERSION -->
- 
+
 </project>
