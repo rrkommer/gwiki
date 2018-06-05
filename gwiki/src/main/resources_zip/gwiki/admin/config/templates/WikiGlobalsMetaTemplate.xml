@@ -179,10 +179,10 @@ def onValidate(pec)
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
 												<value><![CDATA[
-import org.apache.commons.lang.*;
+import de.micromata.genome.gwiki.utils.*;
 def onRender(pct)
 {
-	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + WebUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
 }
 											]]></value>
 											</property>
@@ -197,10 +197,10 @@ def onRender(pct)
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
 												<value><![CDATA[
-import org.apache.commons.lang.*;
+import de.micromata.genome.gwiki.utils.*;
 def onRender(pct)
 {
-	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + WebUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
 }
 											]]></value>
 											</property>
@@ -215,10 +215,10 @@ def onRender(pct)
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
 												<value><![CDATA[
-import org.apache.commons.lang.*;
+import de.micromata.genome.gwiki.utils.*;
 def onRender(pct)
 {
-	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + WebUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
 }
 											]]></value>
 											</property>
@@ -233,10 +233,10 @@ def onRender(pct)
 											<property name="type" value="STRING" />
 											<property name="controlerScript">
 												<value><![CDATA[
-import org.apache.commons.lang.*;
+import de.micromata.genome.gwiki.utils.*;
 def onRender(pct)
 {
-	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + StringEscapeUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
+	pct.append("<textarea cols='100' rows='5' name='" + pct.getRequestKey() + "'>" + WebUtils.escapeHtml(pct.getPropsValue()) + "</textarea>");
 }
 											]]></value>
 											</property>

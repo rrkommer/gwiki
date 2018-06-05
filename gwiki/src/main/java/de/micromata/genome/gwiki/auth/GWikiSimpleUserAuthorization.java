@@ -232,16 +232,17 @@ public class GWikiSimpleUserAuthorization extends GWikiAuthorizationBase
     }
     su = (GWikiSimpleUser) wikiContext.getSessionAttribute(SINGLEUSER_SESSION_KEY);
     if (su != null) {
+      GWikiUserServeElementFilterEvent.setUser(su);
       return su;
     }
     if (wikiContext.getWikiWeb() != null) {
       su = findUserByAuthenticationToken(wikiContext);
       if (su != null) {
+        wikiContext.createSession();
         wikiContext.setSessionAttribute(SINGLEUSER_SESSION_KEY, su);
         GWikiUserServeElementFilterEvent.setUser(su);
         return su;
       }
-      // su = ctx.getWikiWeb().getAuthorization().(ctx, "anon");
       su = findUser(wikiContext, GWikiSimpleUser.ANON_USER_NAME);
       if (su == null) {
         su = defaultConfig.getUser(GWikiSimpleUser.ANON_USER_NAME);

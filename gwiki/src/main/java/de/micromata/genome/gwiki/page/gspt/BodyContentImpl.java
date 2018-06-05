@@ -106,6 +106,7 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
 
   }
 
+  @Override
   public void flushBody() throws IOException
   {
     if ((getEnclosingWriter() instanceof NullJspWriter) == false) {
@@ -140,6 +141,7 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
     return 4096;
   }
 
+  @Override
   public void write(String s) throws IOException
   {
     if (bufferSize == NO_BUFFER) {
@@ -153,7 +155,7 @@ public class BodyContentImpl extends BodyContent implements BodyFlusher
   public void write(char[] cbuf, int off, int len) throws IOException
   {
     if (bufferSize == NO_BUFFER) {
-      write(cbuf, off, len);
+      getEnclosingWriter().write(cbuf, off, len);
     } else {
       sw.write(cbuf, off, len);
     }

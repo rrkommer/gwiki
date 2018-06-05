@@ -25,7 +25,7 @@ import org.apache.commons.text.translate.EntityArrays;
 import org.apache.commons.text.translate.LookupTranslator;
 
 /**
- * TODO gwiki move this to another class.
+ * Used in Templates.
  * 
  * @author Roger Rene Kommer (r.kommer@micromata.de)
  * 
