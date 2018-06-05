@@ -188,7 +188,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
       normName = "/";
     }
     String fn = normName;
-    List<Long> resl = emfac.notx()
+    List<Long> resl = emfac.tx()
         .go((emgr) -> emgr.selectAttached(Long.class,
             "select e.pk from " + entName + " e where e.fsName = :fsName and e.name = :name",
             "fsName", getFileSystemName(), "name", fn));
@@ -363,7 +363,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   private boolean hasChilds(String name)
   {
     String normname = normalizeName(name);
-    return emfac.notx().go((emgr) -> {
+    return emfac.tx().go((emgr) -> {
       Long pk = findPk(normname);
       if (pk == null) {
         return false;
@@ -380,7 +380,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
    */
   private boolean hasChilds(Long pk)
   {
-    return emfac.notx()
+    return emfac.tx()
         .go((emgr) -> {
           return emgr.selectSingleAttached(Long.class,
               "select count(*) from " + entName + " e where e.parent = :parent", "parent", pk) > 0;
@@ -415,7 +415,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   private JpaFilesystemDO findDbObjectShort(String name)
   {
     String norname = normalizeName(name);
-    List<JpaFilesystemDO> dbo = emfac.notx().go((emgr) -> {
+    List<JpaFilesystemDO> dbo = emfac.tx().go((emgr) -> {
       return emgr.selectAttached(JpaFilesystemDO.class,
           getNewShortHql() + " where e.fsName = :fsName and e.name = :name",
           "fsName", getFileSystemName(), "name", norname);
@@ -435,7 +435,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   private JpaFilesystemDO findDbObjectFull(String name)
   {
     String norname = normalizeName(name);
-    List<JpaFilesystemDO> dbo = emfac.notx().go((emgr) -> {
+    List<JpaFilesystemDO> dbo = emfac.tx().go((emgr) -> {
       return emgr.selectAttached(JpaFilesystemDO.class,
           "select e from " + entName + " e where e.fsName = :fsName and e.name = :name",
           "fsName", getFileSystemName(), "name", norname);
@@ -473,7 +473,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   public long getLastModified(String name)
   {
     String normName = normalizeName(name);
-    return emfac.notx().go((emgr) -> {
+    return emfac.tx().go((emgr) -> {
       List<Date> datel = emgr.selectAttached(Date.class,
           "select e.modifiedAt from " + entName + " e where e.fsName = :fsName and e.name = :name", "fsName",
           getFileSystemName(), "name", normName);
@@ -600,7 +600,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
     Map<String, Object> args = new HashMap<>();
 
     clause.renderClause(sb, "e", args);
-    emfac.notx().go((emgr) -> {
+    emfac.tx().go((emgr) -> {
 
       List<JpaFilesystemDO> list = emgr.selectAttached(JpaFilesystemDO.class,
           getNewShortHql() + " where " + sb.toString(), args);
@@ -642,7 +642,7 @@ public class JpaFileSystemImpl extends AbstractFileSystem
   {
     Date lmod = new Date(lastEventCollected);
     lastEventCollected = System.currentTimeMillis();
-    List<JpaFilesystemDO> res = emfac.notx().go((emgr) -> {
+    List<JpaFilesystemDO> res = emfac.tx().go((emgr) -> {
       return emgr.selectAttached(JpaFilesystemDO.class,
           getNewShortHql() + " where e.fsName = :fsName and e.modifiedAt > :modifiedAt",
           "fsName", getFileSystemName(), "modifiedAt", lmod);

@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
 import org.apache.commons.collections4.ArrayStack;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
-import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragment;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHeading;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentHtml;
+import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentLink;
 import de.micromata.genome.gwiki.page.impl.wiki.fragment.GWikiFragmentVisitor;
 import de.micromata.genome.util.types.Pair;
 
@@ -52,20 +52,24 @@ public class KeyWordReplaceVisitor implements GWikiFragmentVisitor
     return false;
   }
 
+  @Override
   public void begin(GWikiFragment fragment)
   {
 
-    if (fragment instanceof GWikiFragmentHtml && isInLink() == false && (fragment instanceof GWikiFragmentKeywordHtml) == false) {
+    if (fragment instanceof GWikiFragmentHtml && isInLink() == false
+        && (fragment instanceof GWikiFragmentKeywordHtml) == false) {
       GWikiFragmentHtml htmlFrag = (GWikiFragmentHtml) fragment;
-      int idx = stack.get().getChilds().indexOf(fragment);
+      GWikiFragment top = stack.peek();
+      int idx = top.getChilds().indexOf(fragment);
       if (idx != -1) {
-        stack.get().getChilds().set(idx, new GWikiFragmentKeywordHtml(htmlFrag));
+        top.getChilds().set(idx, new GWikiFragmentKeywordHtml(htmlFrag));
       }
 
     }
     stack.push(fragment);
   }
 
+  @Override
   public void end(GWikiFragment fragment)
   {
     stack.pop();
