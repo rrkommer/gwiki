@@ -2,9 +2,9 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
-		<property name="apiVersion" value="1.0.0" />
+		<property name="apiVersion" value="2.4.0" />
 		<property name="name" value="gwiki.fssvn" />
-		<property name="version" value="1.0.0" />
+		<property name="version" value="2.4.0" />
     <property name="versionState" value="Beta" />
 		<property name="description" value="WebDAV/SVN Virtual File System. This plugin uses the Sardine WebDAV-Client" />
     <property name="descriptionPath" value="pub/plugins/gwiki-fssvn/Index"/>

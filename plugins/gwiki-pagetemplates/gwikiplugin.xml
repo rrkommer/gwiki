@@ -2,9 +2,9 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
-		<property name="apiVersion" value="1.0.0" />
+		<property name="apiVersion" value="2.4.0" />
 		<property name="name" value="gwiki.pagetemplates" />
-		<property name="version" value="1.0.0" />
+		<property name="version" value="2.4.0" />
     <property name="versionState" value="Experimental" />
 		<property name="description" value="Page Template Editor" />
 		<property name="author" value="Roger Kommer, Christian Claus"/>

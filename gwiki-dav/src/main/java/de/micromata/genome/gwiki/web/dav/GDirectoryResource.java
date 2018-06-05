@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.bradmcevoy.http.Auth;
 import com.bradmcevoy.http.CollectionResource;
@@ -42,6 +43,7 @@ import com.bradmcevoy.http.exceptions.NotAuthorizedException;
 import de.micromata.genome.gdbfs.FileNameUtils;
 import de.micromata.genome.gdbfs.FsDirectoryObject;
 import de.micromata.genome.gdbfs.FsObject;
+import de.micromata.genome.gwiki.utils.WebUtils;
 
 /**
  * WebDav service implementation.
@@ -132,7 +134,7 @@ public class GDirectoryResource extends GFsResource
       sb.append("<tr><td>") //
           .append("<a href='").append(resourceFactory.getReqPrefix()).append(r.getName()).append("'>") //
           .append(WebUtils.escapeHtml(r.getNamePart())).append("</a></td>") //
-          .append("<td>").append(WebUtils.escapeHtml(ObjectUtils.toString(r.getModifiedAt()))).append("</td>") //
+          .append("<td>").append(WebUtils.escapeHtml(Objects.toString(r.getModifiedAt()))).append("</td>") //
           .append("</tr>\n");
       ;
     }

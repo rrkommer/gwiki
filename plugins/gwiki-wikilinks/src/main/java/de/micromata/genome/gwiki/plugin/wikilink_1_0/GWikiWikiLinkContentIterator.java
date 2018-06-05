@@ -43,19 +43,23 @@ public class GWikiWikiLinkContentIterator implements GWikiFragmentVisitor
     return false;
   }
 
+  @Override
   public void begin(GWikiFragment fragment)
   {
-    if (fragment instanceof GWikiFragmentText && isInLink() == false && (fragment instanceof GWikiWikiLinkFragment) == false) {
+    if (fragment instanceof GWikiFragmentText && isInLink() == false
+        && (fragment instanceof GWikiWikiLinkFragment) == false) {
       GWikiFragmentText textFrag = (GWikiFragmentText) fragment;
-      int idx = stack.get().getChilds().indexOf(fragment);
+      GWikiFragment top = stack.peek();
+      int idx = top.getChilds().indexOf(fragment);
       if (idx != -1) {
-        stack.get().getChilds().set(idx, GWikiWikiLinkFragment.parseText(textFrag));
+        top.getChilds().set(idx, GWikiWikiLinkFragment.parseText(textFrag));
       }
 
     }
     stack.push(fragment);
   }
 
+  @Override
   public void end(GWikiFragment fragment)
   {
     stack.pop();

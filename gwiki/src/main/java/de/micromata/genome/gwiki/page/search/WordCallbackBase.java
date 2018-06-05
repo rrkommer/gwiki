@@ -16,8 +16,8 @@
 
 package de.micromata.genome.gwiki.page.search;
 
-import org.apache.commons.collections4.ArrayStack;
-import org.apache.commons.collections4.Buffer;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * Internal class to collect words.o
@@ -27,7 +27,7 @@ import org.apache.commons.collections4.Buffer;
  */
 public abstract class WordCallbackBase implements WordCallback
 {
-  protected Buffer<Integer> offsetLevel = new ArrayStack<Integer>();
+  protected Deque<Integer> offsetLevel = new ArrayDeque<Integer>();
 
   protected int getLevelOffset()
   {
@@ -41,11 +41,13 @@ public abstract class WordCallbackBase implements WordCallback
     return ret;
   }
 
+  @Override
   public void popLevel()
   {
     offsetLevel.remove();
   }
 
+  @Override
   public void pushLevel(int level)
   {
     offsetLevel.add(level);
