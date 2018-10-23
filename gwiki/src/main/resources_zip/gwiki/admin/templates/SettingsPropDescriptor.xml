@@ -46,13 +46,13 @@
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
-	if (pec.requestValue == null || pec.requestValue.length() == 0) {
-		pec.setValue(GWikiProps.formatTimeStamp(new java.util.Date()));
-	} else {
-		// nix
-	}
+  if (pec.requestValue == null || pec.requestValue.length() == 0) {
+    pec.setValue(GWikiProps.formatTimeStamp(new java.util.Date()));
+  } else {
+    // nix
+  }
 }
-							]]></value>
+              ]]></value>
           </property>
         </bean>
         <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
@@ -67,11 +67,11 @@ def onValidate(pec)
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
-	if (pec.requestValue == null || pec.requestValue.length() == 0) {
-		pec.setValue(pec.wikiContext.wikiWeb.authorization.getCurrentUserName(pec.wikiContext));
-	} 
+  if (pec.requestValue == null || pec.requestValue.length() == 0) {
+    pec.setValue(pec.wikiContext.wikiWeb.authorization.getCurrentUserName(pec.wikiContext));
+  } 
 }
-						]]></value>
+            ]]></value>
           </property>
         </bean>
         <bean class="de.micromata.genome.gwiki.page.impl.GWikiPropsDescriptorValue">
@@ -87,9 +87,9 @@ def onValidate(pec)
 import de.micromata.genome.gwiki.model.GWikiProps;
 def onValidate(pec) 
 {
-		pec.setValue(GWikiProps.formatTimeStamp(new java.util.Date()));
+    pec.setValue(GWikiProps.formatTimeStamp(new java.util.Date()));
 }
-							]]>
+              ]]>
             </value>
           </property>
         </bean>
@@ -104,9 +104,9 @@ def onValidate(pec)
             <value><![CDATA[
 def onValidate(pec) 
 {
-		pec.setValue(pec.wikiContext.wikiWeb.authorization.getCurrentUserName(pec.wikiContext));
+    pec.setValue(pec.wikiContext.wikiWeb.authorization.getCurrentUserName(pec.wikiContext));
 }
-								]]>
+                ]]>
             </value>
           </property>
         </bean>
@@ -130,30 +130,30 @@ def onValidate(pec)
             <value><![CDATA[
 def onValidate(pec) 
 {
-	
-	String pid = pec.getRequestValue();
-	if (pid == null || pid.length() == 0){
-		return;
-	}
-	pelInfo = pec.wikiContext.wikiWeb.findElementInfo(pid);
+  
+  String pid = pec.getRequestValue();
+  if (pid == null || pid.length() == 0){
+    return;
+  }
+  pelInfo = pec.wikiContext.wikiWeb.findElementInfo(pid);
   if (pelInfo  == null) {
-  	pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.validpageid");
-	} else {
-		boolean hasRec = false;
-		while (pelInfo != null) {
-			if (pelInfo.id.equals(pec.wikiContext.getWikiElement().elementInfo.id) == true) {
-				pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.pageidrecursive");
-				hasRec = true;
-				break;
-			}
-			pelInfo = pelInfo.getParent(pec.wikiContext);
-		} 
-		if (hasRec == false) {
-			pec.setValue(pid);
-		}
-	}
+    pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.validpageid");
+  } else {
+    boolean hasRec = false;
+    while (pelInfo != null) {
+      if (pelInfo.id.equals(pec.wikiContext.getWikiElement().elementInfo.id) == true) {
+        pec.wikiContext.addValidationError("gwiki.settings.PARENTPAGE.msg.pageidrecursive");
+        hasRec = true;
+        break;
+      }
+      pelInfo = pelInfo.getParent(pec.wikiContext);
+    } 
+    if (hasRec == false) {
+      pec.setValue(pid);
+    }
+  }
 }
-								]]>
+                ]]>
             </value>
           </property>
         </bean>
@@ -176,37 +176,38 @@ def onValidate(pec)
           <property name="controlerScript">
             <value><![CDATA[
 import org.apache.commons.lang.*;
+import org.apache.commons.lang3.*;
 import de.micromata.genome.gwiki.auth.*;
 import de.micromata.genome.gwiki.model.*;
 
 def onRender(pct)
 {
-	//String reqk = pct.getRequestKey();
+  //String reqk = pct.getRequestKey();
   String reqk = pct.getWikiContext().genHtmlId("gwikirightl");
-	String pval = pct.propsValue;
-	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
-		pct.append(' checked');
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Privat<br/>');
-	
-	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PUBLIC') == true) {
-		pct.append(' checked');
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PUBLIC\';"> Public<br/>');
-	
-	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.isEmpty(pval) == true) {
-		pct.append(' checked');
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived (' + pct.getEffectiveDerivedRight('AUTH_VIEW') + ')<br/>');
-	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && StringUtils.isEmpty(pval) == false) {
-		pct.append(' checked'); 
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
-	pct.append("<input type='text' id='" + reqk + "' name='" + pct.requestKey + "' value='" + pct.propsValue + "' list='" + reqk + "list'>");
+  String pval = pct.propsValue;
+  pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
+  if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
+    pct.append(' checked');
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Privat<br/>');
+  
+  pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
+  if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PUBLIC') == true) {
+    pct.append(' checked');
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PUBLIC\';"> Public<br/>');
+  
+  pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
+  if (org.apache.commons.lang3.StringUtils.isEmpty(pval) == true) {
+    pct.append(' checked');
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived (' + pct.getEffectiveDerivedRight('AUTH_VIEW') + ')<br/>');
+  pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
+  if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && org.apache.commons.lang3.StringUtils.isEmpty(pval) == false) {
+    pct.append(' checked'); 
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
+  pct.append("<input type='text' id='" + reqk + "' name='" + pct.requestKey + "' value='" + pct.propsValue + "' list='" + reqk + "list'>");
   
     GWikiAuthorization auth = pct.getWikiContext().getWikiWeb().getAuthorization();
     if ((auth instanceof GWikiAuthorizationExt) == true) {
@@ -233,29 +234,30 @@ def onRender(pct)
           <property name="controlerScript">
             <value><![CDATA[
 import org.apache.commons.lang.*;
+import org.apache.commons.lang3.*;
 import de.micromata.genome.gwiki.auth.*;
 import de.micromata.genome.gwiki.model.*;
 def onRender(pct)
 {
-	String reqk = pct.getRequestKey();
-	String pval = pct.propsValue;
-	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
-		pct.append(' checked');
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Private<br/>');
-	
-	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.isEmpty(pval) == true) {
-		pct.append(' checked');
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived  (' + pct.getEffectiveDerivedRight('AUTH_EDIT') + ')<br/>');
-	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && StringUtils.isEmpty(pval) == false) {
-		pct.append(' checked'); 
-	}
-	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
-	pct.append('<input type="text" id="' + reqk + '" name="' + pct.requestKey + '" value="' + pct.propsValue + '" list="' + reqk +  'list">');
+  String reqk = pct.getRequestKey();
+  String pval = pct.propsValue;
+  pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
+  if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
+    pct.append(' checked');
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Private<br/>');
+  
+  pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
+  if (org.apache.commons.lang3.StringUtils.isEmpty(pval) == true) {
+    pct.append(' checked');
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived  (' + pct.getEffectiveDerivedRight('AUTH_EDIT') + ')<br/>');
+  pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
+  if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && org.apache.commons.lang3.StringUtils.isEmpty(pval) == false) {
+    pct.append(' checked'); 
+  }
+  pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
+  pct.append('<input type="text" id="' + reqk + '" name="' + pct.requestKey + '" value="' + pct.propsValue + '" list="' + reqk +  'list">');
   GWikiAuthorization auth = pct.getWikiContext().getWikiWeb().getAuthorization();
     if ((auth instanceof GWikiAuthorizationExt) == true) {
       GWikiAuthorizationExt authx = (GWikiAuthorizationExt) auth;
@@ -348,9 +350,9 @@ def onRender(pct)
 import de.micromata.genome.gwiki.controls.GWikiEditPageActionBean;
 def onValidate(pec) 
 {
-	GWikiEditPageActionBean.checkKeywordProperties(pec.wikiContext, pec.getPropsValue());
+  GWikiEditPageActionBean.checkKeywordProperties(pec.wikiContext, pec.getPropsValue());
 }
-							]]>
+              ]]>
             </value>
           </property>
         </bean>
