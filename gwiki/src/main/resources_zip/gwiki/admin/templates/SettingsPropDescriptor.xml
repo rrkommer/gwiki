@@ -176,6 +176,7 @@ def onValidate(pec)
           <property name="controlerScript">
             <value><![CDATA[
 import org.apache.commons.lang.*;
+import org.apache.commons.lang3.*;
 import de.micromata.genome.gwiki.auth.*;
 import de.micromata.genome.gwiki.model.*;
 
@@ -191,18 +192,18 @@ def onRender(pct)
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Privat<br/>');
 	
 	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PUBLIC') == true) {
+	if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PUBLIC') == true) {
 		pct.append(' checked');
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PUBLIC\';"> Public<br/>');
 	
 	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.isEmpty(pval) == true) {
+	if (org.apache.commons.lang3.StringUtils.isEmpty(pval) == true) {
 		pct.append(' checked');
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived (' + pct.getEffectiveDerivedRight('AUTH_VIEW') + ')<br/>');
 	pct.append('<input type="radio" name="gwiki_auth_view_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && StringUtils.isEmpty(pval) == false) {
+	if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && org.apache.commons.lang3.StringUtils.isEmpty(pval) == false) {
 		pct.append(' checked'); 
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
@@ -233,6 +234,7 @@ def onRender(pct)
           <property name="controlerScript">
             <value><![CDATA[
 import org.apache.commons.lang.*;
+import org.apache.commons.lang3.*;
 import de.micromata.genome.gwiki.auth.*;
 import de.micromata.genome.gwiki.model.*;
 def onRender(pct)
@@ -240,18 +242,18 @@ def onRender(pct)
 	String reqk = pct.getRequestKey();
 	String pval = pct.propsValue;
 	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
+	if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == true) {
 		pct.append(' checked');
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'GWIKI_PRIVATE\';"> Private<br/>');
 	
 	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.isEmpty(pval) == true) {
+	if (org.apache.commons.lang3.StringUtils.isEmpty(pval) == true) {
 		pct.append(' checked');
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'\';"> Derived  (' + pct.getEffectiveDerivedRight('AUTH_EDIT') + ')<br/>');
 	pct.append('<input type="radio" name="gwiki_auth_edit_choice" ');
-	if (StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && StringUtils.isEmpty(pval) == false) {
+	if (org.apache.commons.lang3.StringUtils.equals(pval, 'GWIKI_PRIVATE') == false && org.apache.commons.lang3.StringUtils.isEmpty(pval) == false) {
 		pct.append(' checked'); 
 	}
 	pct.append(' onclick="document.getElementById(\'' + reqk + '\').value = \'' + pct.propsValue + '\';"> Right: ');
