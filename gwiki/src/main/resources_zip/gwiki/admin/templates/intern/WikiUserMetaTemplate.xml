@@ -160,10 +160,10 @@ def onValidate(pct)
 {
   String p1 = pct.wikiContext.getRequestParameter('pass1');
 	String p2 = pct.wikiContext.getRequestParameter('pass2');
-	if (org.apache.commons.lang3.StringUtils.isBlank(p1) && org.apache.commons.lang3.StringUtils.isBlank(p2)) {
+	if (StringUtils.isBlank(p1) && StringUtils.isBlank(p2)) {
 		return;
 	}
-	if (org.apache.commons.lang3.StringUtils.equals(p1, p2) == false) {
+	if (StringUtils.equals(p1, p2) == false) {
 		pct.wikiContext.addValidationError("gwiki.profile.message.password_not_equal");
 		return;
 	}
