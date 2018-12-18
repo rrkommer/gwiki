@@ -4,7 +4,7 @@
    <artifactId>gwiki-root</artifactId>
    <packaging>pom</packaging>
    <!-- mvn versions:set -DoldVersion=2.2.0-SNAPSHOT -DnewVersion=2.2.0 -->
-   <version>2.4.0</version><!-- GWIKVERSION -->
+   <version>2.5.0-SNAPSHOT</version><!-- GWIKVERSION -->
     <modules>
     <module>gwiki-gdbfs</module>
     <module>gwiki</module>

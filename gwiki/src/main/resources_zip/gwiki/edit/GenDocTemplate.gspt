@@ -12,6 +12,7 @@
 
 <gwiki:radio property="format" value="HTML"/> <fmt:message key='gwiki.page.edit.GenDoc.type.html' /><br/>
 <gwiki:radio property="format" value="DOC"/> <fmt:message key='gwiki.page.edit.GenDoc.type.doc' /><br/>
+<gwiki:checkbox property="withSubPages"/> With Sub pages<br/>
 <%--
 <gwiki:radio property="format" value="PDF"/> PDF (not really working).<br/>
  --%>

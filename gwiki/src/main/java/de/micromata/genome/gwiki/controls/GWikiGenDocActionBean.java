@@ -59,12 +59,13 @@ public class GWikiGenDocActionBean extends ActionBeanBase
   private static final String WIKIGENDOCBEAN = "WIKIGENDOCBEAN";
 
   private String format = "DOC";
-
+  private boolean withSubPages = false;
   private String rootPageId;
 
   private String docTree;
 
   private String documentTemplate = "admin/gendoc/DefaultWord";
+  private boolean isTopLevel = true;
 
   @Override
   public Object onInit()
@@ -319,17 +320,21 @@ public class GWikiGenDocActionBean extends ActionBeanBase
     } finally {
       wikiContext.popWikiElement();
     }
-    List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(el.getElementInfo().getId());
-    Collections.sort(childs,
-        new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
-            "ORDER", 0))));
-    wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);
-    for (GWikiElementInfo ei : childs) {
-      GWikiElement ce = wikiContext.getWikiWeb().getElement(ei);
-      // wikiContext.append("<h1>").append(WebUtils.escapeHtml(wikiContext.getTranlatedProp(ei.getTitle()))).append("</h1>\n");
+    if (isTopLevel == true || withSubPages == true) {
+      List<GWikiElementInfo> childs = wikiContext.getElementFinder().getPageDirectPages(el.getElementInfo().getId());
+      Collections.sort(childs,
+          new GWikiElementByChildOrderComparator(new GWikiElementByOrderComparator(new GWikiElementByIntPropComparator(
+              "ORDER", 0))));
+      wikiContext.setRequestAttribute(GWikiFragmentHeading.GWIKI_LAST_HEADING_LEVEL, offset);
 
-      renderPages(wikiContext, ce, offset + 1);
-      wikiContext.flush();
+      isTopLevel = false;
+      for (GWikiElementInfo ei : childs) {
+        GWikiElement ce = wikiContext.getWikiWeb().getElement(ei);
+        // wikiContext.append("<h1>").append(WebUtils.escapeHtml(wikiContext.getTranlatedProp(ei.getTitle()))).append("</h1>\n");
+
+        renderPages(wikiContext, ce, offset + 1);
+        wikiContext.flush();
+      }
     }
   }
 
@@ -372,4 +377,15 @@ public class GWikiGenDocActionBean extends ActionBeanBase
   {
     this.format = format;
   }
+
+  public boolean isWithSubPages()
+  {
+    return withSubPages;
+  }
+
+  public void setWithSubPages(boolean subpages)
+  {
+    this.withSubPages = subpages;
+  }
+
 }
