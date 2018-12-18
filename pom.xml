@@ -4,7 +4,7 @@
    <artifactId>gwiki-root</artifactId>
    <packaging>pom</packaging>
    <!-- mvn versions:set -DoldVersion=2.2.0-SNAPSHOT -DnewVersion=2.2.0 -->
-   <version>2.5.0-SNAPSHOT</version><!-- GWIKVERSION -->
+   <version>2.4.1</version><!-- GWIKVERSION -->
     <modules>
     <module>gwiki-gdbfs</module>
     <module>gwiki</module>
@@ -113,25 +113,21 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
-      
+      <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>3.0.1</version>
         <executions>
           <execution>
-            <inherited>true</inherited>
             <id>attach-sources</id>
-            <phase>verify</phase>
             <goals>
               <goal>jar</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <attach>true</attach>
-        </configuration>
       </plugin>
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
