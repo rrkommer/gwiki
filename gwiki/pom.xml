@@ -5,7 +5,7 @@
   <parent>
     <artifactId>gwiki-root</artifactId>
     <groupId>de.micromata.genome.gwiki</groupId>
-    <version>2.5.0-SNAPSHOT</version><!-- GWIKVERSION -->
+    <version>2.4.1</version><!-- GWIKVERSION -->
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>gwiki</artifactId>
