@@ -1,0 +1,9 @@
+{pageintro}
+Version 2.4.1 fixes runtime for Java 9 and 10 and some minor bugfixes. 
+{pageintro}
+ 
+{html}
+<iframe src="https://labs.micromata.de/jira/issues/?filter=10201" width="100%" height="800" name="Jira">
+</iframe>
+{html}
+ 
