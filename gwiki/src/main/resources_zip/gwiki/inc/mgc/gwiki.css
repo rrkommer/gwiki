@@ -104,6 +104,7 @@ element.style {
 
 .gwikifooter {
 	margin: 10px;
+	min-height: 20px;
 }
 
 body h1, body .wiki-content h1 {

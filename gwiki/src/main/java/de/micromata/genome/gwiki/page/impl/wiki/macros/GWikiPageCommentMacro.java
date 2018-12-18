@@ -17,6 +17,7 @@
 package de.micromata.genome.gwiki.page.impl.wiki.macros;
 
 import de.micromata.genome.gwiki.model.GWikiElementInfo;
+import de.micromata.genome.gwiki.model.GWikiProps;
 import de.micromata.genome.gwiki.page.GWikiContext;
 import de.micromata.genome.gwiki.page.RenderModes;
 import de.micromata.genome.gwiki.page.impl.wiki.GWikiMacroBean;
@@ -40,9 +41,32 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
     new GWikiPageCommentMacro().render(new MacroAttributes(), ctx);
   }
 
+  private boolean showComments(GWikiContext ctx)
+  {
+    String commentConfigId = "admin/config/CommentConfig";
+    GWikiProps props = ctx.getElementFinder().getConfigProps(commentConfigId);
+    boolean allowAnonComments = props.getBooleanValue("COMMENT_ALLOW_ANON");
+    if (allowAnonComments == true) {
+      return true;
+    }
+    allowAnonComments = props.getBooleanValue("COMMENT_HALF_ALLOW_ANON");
+    if (allowAnonComments == true) {
+      return true;
+    }
+    allowAnonComments = props.getBooleanValue("COMMENT_DEFAULT_VISIBLE");
+    if (allowAnonComments == true) {
+      return true;
+    }
+
+    return false;
+  }
+
   @Override
   public boolean renderImpl(GWikiContext ctx, MacroAttributes attrs)
   {
+    if (showComments(ctx) == false) {
+      return true;
+    }
     GWikiElementInfo comment = ctx.getWikiWeb().findElementInfo("admin/macros/pages/PageComment");
     if (comment == null) {
       return true;
@@ -72,6 +96,6 @@ public class GWikiPageCommentMacro extends GWikiMacroBean
         .append("</script>\n") //
     ;
     ctx.append(sb.toString());
-    return false;
+    return true;
   }
 }
