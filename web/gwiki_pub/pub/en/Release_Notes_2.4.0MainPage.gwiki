@@ -1,0 +1,10 @@
+{pageintro}
+Version 2.4.0 contains upgrade MGC dependencies. 
+{pageintro}
+ 
+{html}
+<iframe src="https://labs.micromata.de/jira/issues/?filter=10200" width="100%" height="800" name="Jira">
+</iframe>
+{html}
+ 
+h3.  

@@ -6,19 +6,21 @@ Download GWiki application and developer libraries.
  
 h2. Standalone Desktop Installation
 Take a look at the GWiki desktop installation.
- After downloading GWiki standalone distribution, please refer to [pub/en/Installation|pub/en/Installation] to launch
- the GWiki server.
+ After downloading GWiki standalone distribution, please refer to  [gwikidocs/installation/Installation]  to launch the GWiki server.
+
 h3. Releases
  
  You can download GWIki here
-[https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.3.0/gwikilauncher-2.3.0.jar|https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.3.0/gwikilauncher-2.3.0.jar]
+[https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.4.1/gwikilauncher-2.4.1.jar|https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/2.4.1/gwikilauncher-2.4.1.jar]
 
- Alternative
-[https://sourceforge.net/projects/genomewiki/files|https://sourceforge.net/projects/genomewiki/files]
+See also 
+[https://labs.micromata.de/nexus/content/repositories/GWIKI/de/micromata/genome/gwiki/gwikilauncher/] 
+for other versions.
+
  
- In most cases simply double click on the jar file to start.
- See to [gwikidocs/installation/Installation] for more.
-h4.  
+In most cases simply double click on the jar file to start.
+See to [gwikidocs/installation/Installation] for more.
+
 h2. Support
 Bugs, Support requests and feature requests can be found and submitted at: 
 *[https://labs.micromata.de/jira/browse/GWIKI|https://labs.micromata.de/jira/browse/GWIKI]*
