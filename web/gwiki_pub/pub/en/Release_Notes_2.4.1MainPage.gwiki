@@ -3,7 +3,634 @@ Version 2.4.1 fixes runtime for Java 9 and 10 and some minor bugfixes.
 {pageintro}
  
 {html}
-<iframe src="https://labs.micromata.de/jira/issues/?filter=10201" width="100%" height="800" name="Jira">
-</iframe>
+<header id="previous-view">
+    <nav class="aui-toolbar">
+        <div class="toolbar-split toolbar-split-right">
+            <ul class="toolbar-group">
+                <li class="toolbar-item">
+                    <a href="https://labs.micromata.de/jira/issues/?filter=10201" class="toolbar-trigger">Zur vorherigen Ansicht</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+                            <h3 class="formtitle">
+                        [GWIKI-324]&nbsp;<a href="https://labs.micromata.de/jira/browse/GWIKI-324">GenDoc allow to generate documents only with one Level of Children</a>
+            <span class="subText">
+               Erstellt: 18/Dez/18                   &nbsp;Aktualisiert: 18/Dez/18
+
+                                                    &nbsp;Erledigt: 18/Dez/18
+                            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Status:</b></td>
+        <td width="80%">Erledigt</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Projekt:</b></td>
+        <td width="80%"><a href="https://labs.micromata.de/jira/secure/BrowseProject.jspa?id=10000">GWIKI</a></td>
+    </tr>
+
+        <tr>
+            <td><b>Komponente(n):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>betrifft Version(en):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Lösungsversion(en):</b></td>
+            <td>
+                                        <a title="2.4.1"
+                href="https://labs.micromata.de/jira/issues/?jql=project%3D10000%20AND%20%22fixVersion%22%3D10521%20ORDER%20BY%20priority%20ASC"
+            >2.4.1</a>                        </td>
+    </tr>
+    
+    </table>
+
+<br />
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>Typ:</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top"  width="30%" >
+            Verbesserung
+        </td>
+
+                    <td bgcolor="#f0f0f0">
+                <b>Priorität:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                Unwesentlich
+            </td>
+            </tr>
+    <tr>
+                        <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>Autor:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top"  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_reporter_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+        
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Bearbeiter:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_assignee_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+            </tr>
+    	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>Lösung:</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                            Behoben
+                    </td>
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Stimmen:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                0
+            </td>
+        
+    </tr>
+    
+        <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>Stichwörter:</b>
+        </td>
+        <td id="labels-11463-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+                            Keine
+                    </td>
+    </tr>
+    
+    
+    </table>
+
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            
+
+                <tr>
+            <td bgcolor="#f0f0f0" width=20% valign=top>
+                <b>Anhänge:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top">
+                                    <img src="https://labs.micromata.de/jira/images/icons/attach/image.gif" height="16" width="16" border="0" alt="PNG-Datei">
+                    screenshot-1.png &nbsp;&nbsp;&nbsp;
+                            </td>
+        </tr>
+        
+    
+
+
+
+</table>
+
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>Beschreibung</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            <p>New: With Sub pages. If not enabled, only direct children will be included in the generated document.<br/>
+ <span class="image-wrap" style=""><a id="10420_thumb" href="https://labs.micromata.de/jira/secure/attachment/10420/10420_screenshot-1.png" title="screenshot-1.png" file-preview-type="image" file-preview-id="10420" file-preview-title="screenshot-1.png"><img src="https://labs.micromata.de/jira/secure/thumbnail/10420/_thumb_10420.png" style="border: 0px solid black" /></a></span> </p>
+            <br/>
+        </td>
+    </tr>
+    </table>
+
+<hr class='fullcontent'><br /><br style='page-break-before:always;'/><br />
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+                            <h3 class="formtitle">
+                        [GWIKI-322]&nbsp;<a href="https://labs.micromata.de/jira/browse/GWIKI-322">MGC style minor layout fix for footer</a>
+            <span class="subText">
+               Erstellt: 18/Dez/18                   &nbsp;Aktualisiert: 18/Dez/18
+
+                                                    &nbsp;Erledigt: 18/Dez/18
+                            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Status:</b></td>
+        <td width="80%">Erledigt</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Projekt:</b></td>
+        <td width="80%"><a href="https://labs.micromata.de/jira/secure/BrowseProject.jspa?id=10000">GWIKI</a></td>
+    </tr>
+
+        <tr>
+            <td><b>Komponente(n):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>betrifft Version(en):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Lösungsversion(en):</b></td>
+            <td>
+                                        <a title="2.4.1"
+                href="https://labs.micromata.de/jira/issues/?jql=project%3D10000%20AND%20%22fixVersion%22%3D10521%20ORDER%20BY%20priority%20ASC"
+            >2.4.1</a>                        </td>
+    </tr>
+    
+    </table>
+
+<br />
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>Typ:</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top"  width="30%" >
+            Verbesserung
+        </td>
+
+                    <td bgcolor="#f0f0f0">
+                <b>Priorität:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                Schwer
+            </td>
+            </tr>
+    <tr>
+                        <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>Autor:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top"  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_reporter_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+        
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Bearbeiter:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_assignee_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+            </tr>
+    	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>Lösung:</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                            Behoben
+                    </td>
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Stimmen:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                0
+            </td>
+        
+    </tr>
+    
+        <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>Stichwörter:</b>
+        </td>
+        <td id="labels-11461-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+                            Keine
+                    </td>
+    </tr>
+    
+    
+    </table>
+
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            
+
+        
+    
+
+
+
+</table>
+
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>Beschreibung</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            <p>set height of footer, so comments will not blend into footer</p>
+            <br/>
+        </td>
+    </tr>
+    </table>
+
+<hr class='fullcontent'><br /><br style='page-break-before:always;'/><br />
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+                            <h3 class="formtitle">
+                        [GWIKI-321]&nbsp;<a href="https://labs.micromata.de/jira/browse/GWIKI-321">GWiki Launcher doesnt&#39; start with Java 10</a>
+            <span class="subText">
+               Erstellt: 18/Dez/18                   &nbsp;Aktualisiert: 18/Dez/18
+
+                                                    &nbsp;Erledigt: 18/Dez/18
+                            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Status:</b></td>
+        <td width="80%">Erledigt</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Projekt:</b></td>
+        <td width="80%"><a href="https://labs.micromata.de/jira/secure/BrowseProject.jspa?id=10000">GWIKI</a></td>
+    </tr>
+
+        <tr>
+            <td><b>Komponente(n):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>betrifft Version(en):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Lösungsversion(en):</b></td>
+            <td>
+                                        <a title="2.4.1"
+                href="https://labs.micromata.de/jira/issues/?jql=project%3D10000%20AND%20%22fixVersion%22%3D10521%20ORDER%20BY%20priority%20ASC"
+            >2.4.1</a>                        </td>
+    </tr>
+    
+    </table>
+
+<br />
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>Typ:</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top"  width="30%" >
+            Verbesserung
+        </td>
+
+                    <td bgcolor="#f0f0f0">
+                <b>Priorität:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                Kritisch
+            </td>
+            </tr>
+    <tr>
+                        <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>Autor:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top"  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_reporter_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+        
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Bearbeiter:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_assignee_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+            </tr>
+    	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>Lösung:</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                            Behoben
+                    </td>
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Stimmen:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                0
+            </td>
+        
+    </tr>
+    
+        <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>Stichwörter:</b>
+        </td>
+        <td id="labels-11460-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+                            Keine
+                    </td>
+    </tr>
+    
+    
+    </table>
+
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            
+
+        
+    
+
+
+
+</table>
+
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>Beschreibung</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            
+<h1><a name="Problem"></a>Problem</h1>
+<p>Starting with Java 10:</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+17$~/d/temp/gwiki1.3&gt;java -jar gwikilauncher-2.4.0.jar
+java.lang.NoClassDefFoundError: de/micromata/mgc/javafx/launcher/MgcLauncher
+        at java.base/java.lang.<span class="code-object">ClassLoader</span>.defineClass1(Native Method)
+        at java.base/java.lang.<span class="code-object">ClassLoader</span>.defineClass(Unknown Source)
+        at java.base/java.security.SecureClassLoader.defineClass(Unknown Source)
+        at java.base/jdk.internal.loader.BuiltinClassLoader.defineClass(Unknown Source)
+        at java.base/jdk.internal.loader.BuiltinClassLoader.findClassOnClassPathOrNull(Unknown Source)
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(Unknown Source)
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(Unknown Source)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(Unknown Source)
+        at java.base/java.lang.<span class="code-object">ClassLoader</span>.loadClass(Unknown Source)
+        at java.base/java.lang.<span class="code-object">Class</span>.forName0(Native Method)
+        at java.base/java.lang.<span class="code-object">Class</span>.forName(Unknown Source)
+        at de.micromata.genome.gwiki.launcher.GWikiLauncherMain.runGui(GWikiLauncherMain.java:73)
+        at de.micromata.genome.gwiki.launcher.GWikiLauncherMain.main(GWikiLauncherMain.java:46)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+        at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+        at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:53)
+        at java.base/java.lang.<span class="code-object">Thread</span>.run(Unknown Source)
+Caused by: java.lang.ClassNotFoundException: de.micromata.mgc.javafx.launcher.MgcLauncher
+        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(Unknown Source)
+        at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(Unknown Source)
+        at java.base/java.lang.<span class="code-object">ClassLoader</span>.loadClass(Unknown Source)
+        ... 19 more
+</pre>
+</div></div>
+
+<h2><a name="Solution"></a>Solution</h2>
+<p>The spring boot fat jar maven plugin is not compatible with java 9.</p>
+            <br/>
+        </td>
+    </tr>
+    </table>
+
+<hr class='fullcontent'><br /><br style='page-break-before:always;'/><br />
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+                            <h3 class="formtitle">
+                        [GWIKI-323]&nbsp;<a href="https://labs.micromata.de/jira/browse/GWIKI-323">Hide Comments, if no comments are allowed for registered users.</a>
+            <span class="subText">
+               Erstellt: 18/Dez/18                   &nbsp;Aktualisiert: 18/Dez/18
+
+                                                    &nbsp;Erledigt: 18/Dez/18
+                            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Status:</b></td>
+        <td width="80%">Erledigt</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Projekt:</b></td>
+        <td width="80%"><a href="https://labs.micromata.de/jira/secure/BrowseProject.jspa?id=10000">GWIKI</a></td>
+    </tr>
+
+        <tr>
+            <td><b>Komponente(n):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>betrifft Version(en):</b></td>
+            <td>
+                            Keine
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Lösungsversion(en):</b></td>
+            <td>
+                                        <a title="2.4.1"
+                href="https://labs.micromata.de/jira/issues/?jql=project%3D10000%20AND%20%22fixVersion%22%3D10521%20ORDER%20BY%20priority%20ASC"
+            >2.4.1</a>                        </td>
+    </tr>
+    
+    </table>
+
+<br />
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>Typ:</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top"  width="30%" >
+            Verbesserung
+        </td>
+
+                    <td bgcolor="#f0f0f0">
+                <b>Priorität:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                Trivial
+            </td>
+            </tr>
+    <tr>
+                        <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>Autor:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top"  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_reporter_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+        
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Bearbeiter:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap  width="30%" >
+                                            <a class="user-hover" rel="rkommer" id="word_assignee_rkommer" href="https://labs.micromata.de/jira/secure/ViewProfile.jspa?name=rkommer">Roger Rene Kommer</a>
+                            </td>
+            </tr>
+    	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>Lösung:</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                            Behoben
+                    </td>
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Stimmen:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                0
+            </td>
+        
+    </tr>
+    
+        <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>Stichwörter:</b>
+        </td>
+        <td id="labels-11462-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+                            Keine
+                    </td>
+    </tr>
+    
+    
+    </table>
+
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            
+
+        
+    
+
+
+
+</table>
+
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>Beschreibung</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            <p>If no comments should be allowed for users and the comments are hidden by default, hide the Comment header in the template</p>
+            <br/>
+        </td>
+    </tr>
+    </table>
+
+<hr class='fullcontent'><br /><br style='page-break-before:always;'/><br />Erstellt am Fri Feb 15 11:09:20 CET 2019 von Roger Rene Kommer mit JIRA 7.1.9#71013-sha1:1aa0586d78efb7ed8b3de5c648d4b24912070b66.
+
 {html}
  

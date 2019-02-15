@@ -2,10 +2,452 @@
 2.2.0 is a bug fix release. 
 {pageintro}
  
-\- GWiki can start on Raspberry Pi [gwikidocs/howtos/en/GWiki_on_Raspberry_Pi].
+- GWiki can start on Raspberry Pi [gwikidocs/howtos/en/GWiki_on_Raspberry_Pi].
 
- See Jira: [https://labs.micromata.de/jira/issues/?filter=10100|https://labs.micromata.de/jira/issues/?filter=10100]
 {html}
-<iframe src="https://labs.micromata.de/jira/issues/?filter=10100" width="100%" height="800" name="Jira">
-</iframe>
+<div id="printable-content">
+<div class="result-header">
+    <h3><a href="https://labs.micromata.de/jira/issues/?filter=10100">GWIKI_solved_2.2.0 (Micromata Labs JIRA)</a></h3>
+                        
+                    
+                    
+                    
+                    
+                                        <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldpid">Projekt:</label><span id="fieldpid" class="fieldValue">
+    
+                <a href="https://labs.micromata.de/jira/browse/GWIKI" title="Projekt durchsuchen GWIKI">GWIKI</a>                    </span></div>
+
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldfixfor">Lösungsversion:</label><span id="fieldfixfor" class="fieldValue">
+    
+                                                            2.2.0                                        </span></div>
+
+                    
+                    
+                    
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldstatus">Status:</label><span id="fieldstatus" class="fieldValue">
+    
+                        Erledigt            </span></div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="searcherValue">
+            <label class="fieldLabel">Sortiert nach:</label>
+                            Aktualisiert Absteigend, dann
+                            Priorität Absteigend
+                    </div>
+                    <div class="results-count">
+            <b>1</b>&ndash;<b>12</b> von <b>12</b>
+            wie unter: <b>15/Feb/19 11:47 AM</b>
+        </div>
+    </div>  
+
+
+
+                                        <table id="issuetable"  >
+                        <thead>
+        <tr class="rowHeader">
+            
+                                                            <th class="colHeaderLink headerrow-issuetype" data-id="issuetype">
+                            S
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-issuekey" data-id="issuekey">
+                            Schlüssel
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-summary" data-id="summary">
+                            Zusammenfassung
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-priority" data-id="priority">
+                            Priorität
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-created" data-id="created">
+                            Erstellt
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-updated" data-id="updated">
+                            Aktualisiert
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-versions" data-id="versions">
+                            betrifft Version(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-fixVersions" data-id="fixVersions">
+                            Lösungsversion(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-components" data-id="components">
+                            Komponenten
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-description" data-id="description">
+                            Beschreibung
+                                                    </th>
+                                                                    </tr>
+    </thead>
+    <tbody>
+                    
+
+                <tr id="issuerow10614" rel="10614" data-issuekey="GWIKI-312" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-312" href="https://labs.micromata.de/jira/browse/GWIKI-312">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-312" href="https://labs.micromata.de/jira/browse/GWIKI-312">GWIKI-312</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-312" href="https://labs.micromata.de/jira/browse/GWIKI-312">PageContent only rendered in EditMode</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/blocker.svg" height="16" width="16" border="0" align="absmiddle" alt="Blocker" title="Blocker - Blockiert Entwicklung und/oder Testarbeit, Produktion nicht möglich.">
+    </td>
+                                            <td class="created"> <span title="13/Jun/16 11:21 AM"><time datetime="2016-06-13T11:21:12+0200">13/Jun/16</time></span> </td>
+                                            <td class="updated"> <span title="14/Jun/16 7:56 PM"><time datetime="2016-06-14T19:56:50+0200">14/Jun/16</time></span> </td>
+                                            <td class="versions">                        2.2.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>,                     <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+FutureFeature" class="tinylink">FutureFeature</a>            </td>
+                                            <td class="components">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+component+%3D+gwiki" class="tinylink">gwiki</a>            </td>
+                                            <td class="description">      <p>I created a wiki page with some subpages and used the children macro to generate a list of contents for that page. Unfortunately none of the children pages is visible to the users of my site. If a link to one of the subpages is clicked a empty page is presented. Admin users can see and edit the page, but as soon as they log out, they are also presented with a empty page.</p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10607" rel="10607" data-issuekey="GWIKI-309" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-309" href="https://labs.micromata.de/jira/browse/GWIKI-309">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10331&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Neue Funktion" title="Neue Funktion - Eine neue Produktfunktion, die noch entwickelt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-309" href="https://labs.micromata.de/jira/browse/GWIKI-309">GWIKI-309</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-309" href="https://labs.micromata.de/jira/browse/GWIKI-309">Run GWiki on RaspberryPi</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="15/Mai/16 3:06 PM"><time datetime="2016-05-15T15:06:31+0200">15/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="15/Mai/16 4:16 PM"><time datetime="2016-05-15T16:16:14+0200">15/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>Start GWiki on Raspberry PI. </p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10596" rel="10596" data-issuekey="GWIKI-300" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-300" href="https://labs.micromata.de/jira/browse/GWIKI-300">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10330&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Verbesserung" title="Verbesserung - Eine Verbesserung oder Erweiterung zu einer bestehenden Funktion oder Aufgabe.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-300" href="https://labs.micromata.de/jira/browse/GWIKI-300">GWIKI-300</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-300" href="https://labs.micromata.de/jira/browse/GWIKI-300">Improve Wiki Start Page of deployment</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="30/Apr/16 12:18 PM"><time datetime="2016-04-30T12:18:05+0200">30/Apr/16</time></span> </td>
+                                            <td class="updated"> <span title="15/Mai/16 1:49 PM"><time datetime="2016-05-15T13:49:26+0200">15/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <ul class="alternate" type="square">
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> How to create create your own webside.</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> How to create your own skin.</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/forbidden.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Spaces</li>
+</ul>
+
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10606" rel="10606" data-issuekey="GWIKI-308" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-308" href="https://labs.micromata.de/jira/browse/GWIKI-308">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10338&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Aufgabe" title="Aufgabe - Eine Aufgabe, die erledigt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-308" href="https://labs.micromata.de/jira/browse/GWIKI-308">GWIKI-308</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-308" href="https://labs.micromata.de/jira/browse/GWIKI-308">Remove old Logging Page</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="15/Mai/16 12:33 PM"><time datetime="2016-05-15T12:33:22+0200">15/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="15/Mai/16 1:36 PM"><time datetime="2016-05-15T13:36:23+0200">15/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description"></td>
+                    </tr>
+
+
+                <tr id="issuerow10605" rel="10605" data-issuekey="GWIKI-307" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-307" href="https://labs.micromata.de/jira/browse/GWIKI-307">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10338&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Aufgabe" title="Aufgabe - Eine Aufgabe, die erledigt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-307" href="https://labs.micromata.de/jira/browse/GWIKI-307">GWIKI-307</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-307" href="https://labs.micromata.de/jira/browse/GWIKI-307">Check notification emails, I18N</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="15/Mai/16 12:16 PM"><time datetime="2016-05-15T12:16:59+0200">15/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="15/Mai/16 1:27 PM"><time datetime="2016-05-15T13:27:15+0200">15/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <ul class="alternate" type="square">
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Add user changed the page in email text.</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Use I18N Text</li>
+</ul>
+
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10563" rel="10563" data-issuekey="GWIKI-279" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-279" href="https://labs.micromata.de/jira/browse/GWIKI-279">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10331&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Neue Funktion" title="Neue Funktion - Eine neue Produktfunktion, die noch entwickelt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-279" href="https://labs.micromata.de/jira/browse/GWIKI-279">GWIKI-279</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-279" href="https://labs.micromata.de/jira/browse/GWIKI-279">Use jsTree to move pages in hierarchie</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/minor.svg" height="16" width="16" border="0" align="absmiddle" alt="Unwesentlich" title="Unwesentlich - Unwesentlicher Funktionsverlust oder anderes Problem, bei dem ein einfacher Workaround vorhanden ist.">
+    </td>
+                                            <td class="created"> <span title="23/Mär/16 8:09 AM"><time datetime="2016-03-23T08:09:28+0100">23/Mär/16</time></span> </td>
+                                            <td class="updated"> <span title="15/Mai/16 12:14 PM"><time datetime="2016-05-15T12:14:21+0200">15/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>New jsTree has Drag and drop. May be used to move parent/childs hierarche.</p>
+<ul class="alternate" type="square">
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Implement core functions</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Link in PageInfo and SiteMap</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Show also attachments with different icons.</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> Disallow invalid targets (attachment must not have childs)</li>
+	<li><img class="emoticon" src="https://labs.micromata.de/jira/images/icons/emoticons/check.png" height="16" width="16" align="absmiddle" alt="" border="0"/> On Server side errors (like insufficent rights) show error message in GUI.</li>
+</ul>
+
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10603" rel="10603" data-issuekey="GWIKI-305" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-305" href="https://labs.micromata.de/jira/browse/GWIKI-305">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-305" href="https://labs.micromata.de/jira/browse/GWIKI-305">GWIKI-305</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-305" href="https://labs.micromata.de/jira/browse/GWIKI-305">Replace javascript alert boxes with div message boxes.</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="07/Mai/16 4:46 PM"><time datetime="2016-05-07T16:46:30+0200">07/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="09/Mai/16 12:49 PM"><time datetime="2016-05-09T12:49:34+0200">09/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>Browser warns by alerts, use jquery dialog or other.</p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10602" rel="10602" data-issuekey="GWIKI-304" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-304" href="https://labs.micromata.de/jira/browse/GWIKI-304">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-304" href="https://labs.micromata.de/jira/browse/GWIKI-304">GWIKI-304</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-304" href="https://labs.micromata.de/jira/browse/GWIKI-304">Parsing Smileys sometime failing, if text contains () before the smiley</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="06/Mai/16 1:56 AM"><time datetime="2016-05-06T01:56:00+0200">06/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="06/Mai/16 1:56 AM"><time datetime="2016-05-06T01:56:35+0200">06/Mai/16</time></span> </td>
+                                            <td class="versions">                        2.1.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description"></td>
+                    </tr>
+
+
+                <tr id="issuerow10601" rel="10601" data-issuekey="GWIKI-303" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-303" href="https://labs.micromata.de/jira/browse/GWIKI-303">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-303" href="https://labs.micromata.de/jira/browse/GWIKI-303">GWIKI-303</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-303" href="https://labs.micromata.de/jira/browse/GWIKI-303">Paste Image data in editor, Dialog, title has no effect. </a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="06/Mai/16 1:13 AM"><time datetime="2016-05-06T01:13:19+0200">06/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="06/Mai/16 1:13 AM"><time datetime="2016-05-06T01:13:58+0200">06/Mai/16</time></span> </td>
+                                            <td class="versions">                        2.1.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>it is always the filename, regardless, what given in title.</p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10600" rel="10600" data-issuekey="GWIKI-302" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-302" href="https://labs.micromata.de/jira/browse/GWIKI-302">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10330&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Verbesserung" title="Verbesserung - Eine Verbesserung oder Erweiterung zu einer bestehenden Funktion oder Aufgabe.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-302" href="https://labs.micromata.de/jira/browse/GWIKI-302">GWIKI-302</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-302" href="https://labs.micromata.de/jira/browse/GWIKI-302">Provide Autocomplete or dropdown in Element Rights</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="05/Mai/16 7:08 PM"><time datetime="2016-05-05T19:08:23+0200">05/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="06/Mai/16 1:12 AM"><time datetime="2016-05-06T01:12:06+0200">06/Mai/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>,                     <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+FutureFeature" class="tinylink">FutureFeature</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description"></td>
+                    </tr>
+
+
+                <tr id="issuerow10599" rel="10599" data-issuekey="GWIKI-301" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-301" href="https://labs.micromata.de/jira/browse/GWIKI-301">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-301" href="https://labs.micromata.de/jira/browse/GWIKI-301">GWIKI-301</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-301" href="https://labs.micromata.de/jira/browse/GWIKI-301">In textboxes which want a pageId the autocomplete doesn&#39;t work.</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/minor.svg" height="16" width="16" border="0" align="absmiddle" alt="Unwesentlich" title="Unwesentlich - Unwesentlicher Funktionsverlust oder anderes Problem, bei dem ein einfacher Workaround vorhanden ist.">
+    </td>
+                                            <td class="created"> <span title="05/Mai/16 1:13 PM"><time datetime="2016-05-05T13:13:29+0200">05/Mai/16</time></span> </td>
+                                            <td class="updated"> <span title="05/Mai/16 1:15 PM"><time datetime="2016-05-05T13:15:36+0200">05/Mai/16</time></span> </td>
+                                            <td class="versions">                        2.1.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+component+%3D+gwiki" class="tinylink">gwiki</a>            </td>
+                                            <td class="description">      <p>In textboxes which want a pageId the autocomplete doesn't work.<br/>
+The autocomplete api changed, so the backend will never be called.</p>
+
+<p>F.e. Settings dialog of the page editor for parent page id.</p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10595" rel="10595" data-issuekey="GWIKI-299" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-299" href="https://labs.micromata.de/jira/browse/GWIKI-299">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-299" href="https://labs.micromata.de/jira/browse/GWIKI-299">GWIKI-299</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-299" href="https://labs.micromata.de/jira/browse/GWIKI-299">Editor with new Page. Element Path doesn&#39;t have an effect</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="30/Apr/16 11:02 AM"><time datetime="2016-04-30T11:02:52+0200">30/Apr/16</time></span> </td>
+                                            <td class="updated"> <span title="30/Apr/16 11:03 AM"><time datetime="2016-04-30T11:03:30+0200">30/Apr/16</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.2.0" class="tinylink">2.2.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>New Page and edit storage path with button/dialog has no effect.</p>
+  </td>
+                    </tr>
+                </tbody>
+    </table>
+    <div class="end-of-stable-message"></div>
+            </div>
 {html}

@@ -23,7 +23,7 @@ See to [gwikidocs/installation/Installation] for more.
 
 h2. Support
 Bugs, Support requests and feature requests can be found and submitted at: 
-*[https://labs.micromata.de/jira/browse/GWIKI|https://labs.micromata.de/jira/browse/GWIKI]*
+*[https://github.com/rrkommer/gwiki/issues]*
 h2. Developer of GWiki
 h3. Source code repository
 The source code for GWiki is availabe via Git here:

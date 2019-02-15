@@ -1,10 +1,194 @@
 {pageintro}
-Version 2.4.0 contains upgrade MGC dependencies. 
+Version 2.4.0 contains upgrade MGC dependencies.
 {pageintro}
- 
+ 
+  
 {html}
-<iframe src="https://labs.micromata.de/jira/issues/?filter=10200" width="100%" height="800" name="Jira">
-</iframe>
+
+<div id="printable-content">
+<div class="result-header">
+    <h3>GWIKI_solved_2.4.0 (Micromata Labs JIRA)</h3>
+                        
+                    
+                    
+                    
+                    
+                                        <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldpid">Projekt:</label><span id="fieldpid" class="fieldValue">
+    
+                <a href="https://labs.micromata.de/jira/browse/GWIKI" title="Projekt durchsuchen GWIKI">GWIKI</a>                    </span></div>
+
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldfixfor">Lösungsversion:</label><span id="fieldfixfor" class="fieldValue">
+    
+                                                            2.4.0                                        </span></div>
+
+                    
+                    
+                    
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldstatus">Status:</label><span id="fieldstatus" class="fieldValue">
+    
+                        Erledigt            </span></div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="searcherValue">
+            <label class="fieldLabel">Sortiert nach:</label>
+                            Aktualisiert Absteigend, dann
+                            Priorität Absteigend
+                    </div>
+                    <div class="results-count">
+            <b>1</b>&ndash;<b>2</b> von <b>2</b>
+            wie unter: <b>15/Feb/19 11:43 AM</b>
+        </div>
+    </div>  
+
+
+
+                                        <table id="issuetable"  >
+                        <thead>
+        <tr class="rowHeader">
+            
+                                                            <th class="colHeaderLink headerrow-issuetype" data-id="issuetype">
+                            S
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-issuekey" data-id="issuekey">
+                            Schlüssel
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-summary" data-id="summary">
+                            Zusammenfassung
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-priority" data-id="priority">
+                            Priorität
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-created" data-id="created">
+                            Erstellt
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-updated" data-id="updated">
+                            Aktualisiert
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-versions" data-id="versions">
+                            betrifft Version(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-fixVersions" data-id="fixVersions">
+                            Lösungsversion(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-components" data-id="components">
+                            Komponenten
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-description" data-id="description">
+                            Beschreibung
+                                                    </th>
+                                                                    </tr>
+    </thead>
+    <tbody>
+                    
+
+                <tr id="issuerow11452" rel="11452" data-issuekey="GWIKI-318" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-318" href="https://labs.micromata.de/jira/browse/GWIKI-318">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10338&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Aufgabe" title="Aufgabe - Eine Aufgabe, die erledigt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-318" href="https://labs.micromata.de/jira/browse/GWIKI-318">GWIKI-318</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-318" href="https://labs.micromata.de/jira/browse/GWIKI-318">Upgrade to MGC 3.0.x</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="04/Jun/18 12:47 PM"><time datetime="2018-06-04T12:47:26+0200">04/Jun/18</time></span> </td>
+                                            <td class="updated"> <span title="05/Jun/18 4:43 PM"><time datetime="2018-06-05T16:43:22+0200">05/Jun/18</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.4.0" class="tinylink">2.4.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>Include depending libraries.<br/>
+With Apache apache lang utils, package name changed. <br/>
+Moved to WebUtils</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+
+  <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-object">String</span> escapeHtml(<span class="code-object">String</span> value)
+  {
+    <span class="code-comment">//    <span class="code-keyword">return</span> BASIC_XML_ESCAPE.translate(value);
+</span>    <span class="code-keyword">return</span> StringEscapeUtils.escapeHtml3(value);
+  }
+
+  <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-object">String</span> escapeXml(<span class="code-object">String</span> value)
+  {
+    <span class="code-keyword">return</span> BASIC_XML_ESCAPE.translate(value);
+    <span class="code-comment">//    <span class="code-keyword">return</span> StringEscapeUtils.escapeXml11(value);
+</span>  }
+
+  <span class="code-keyword">public</span> <span class="code-keyword">static</span> <span class="code-object">String</span> escapeJavaScript(<span class="code-object">String</span> value)
+  {
+    <span class="code-keyword">return</span> StringEscapeUtils.escapeEcmaScript(value);
+  }
+</pre>
+</div></div>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow11453" rel="11453" data-issuekey="GWIKI-319" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-319" href="https://labs.micromata.de/jira/browse/GWIKI-319">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10331&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Neue Funktion" title="Neue Funktion - Eine neue Produktfunktion, die noch entwickelt werden muss.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-319" href="https://labs.micromata.de/jira/browse/GWIKI-319">GWIKI-319</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-319" href="https://labs.micromata.de/jira/browse/GWIKI-319">Optional do not write cookies if not logged in</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="04/Jun/18 12:49 PM"><time datetime="2018-06-04T12:49:38+0200">04/Jun/18</time></span> </td>
+                                            <td class="updated"> <span title="05/Jun/18 4:43 PM"><time datetime="2018-06-05T16:43:18+0200">05/Jun/18</time></span> </td>
+                                            <td class="versions">    &nbsp;
+</td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.4.0" class="tinylink">2.4.0</a>            </td>
+                                            <td class="components">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+component+%3D+gwiki" class="tinylink">gwiki</a>            </td>
+                                            <td class="description"></td>
+                    </tr>
+                </tbody>
+    </table>
+    <div class="end-of-stable-message"></div>
+            </div>
+
 {html}
- 
-h3.  
