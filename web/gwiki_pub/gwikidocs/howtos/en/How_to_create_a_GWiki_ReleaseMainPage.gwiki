@@ -1,0 +1,23 @@
+{pageintro}
+Internal notes about how to create a new GWiki Release.
+{pageintro}
+{note}
+This is only for GWiki delevopers.
+{note}
+h2. Increment GWiki release number
+- rebuildall.sh GV=1.0.0\-SNAPSHOT
+- Patch all pom.xml <version>1.0.0\-SNAPSHOT</version><\!{-}{-} GWIKVERSION {-}{-}>
+- patch all \*.cmd and \*.sh gwiki\-standalone\-1.0.0\-SNAPSHOT.jar
+and commit it.
+h2. Ajust the download page
+In pub/en/Downloads all references to previous versions.
+h2. Build Standalone
+{note}
+Before build standalone with mvn, clean target directory, otherwise older versions of gwiki will be included.
+{note}
+h2. Tag the GIT
+Create a tag in Git.
+h2. Publish version
+Publish current version in github.
+ 
+h2. Update the gwiki public server

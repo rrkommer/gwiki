@@ -1,0 +1,189 @@
+{slideshow:incremental=true}
+{slidehandout}
+{pageintro}
+Vorstellung der Erweiterungen von GWiki 1.1.
+
+{pageintro}
+{slidehandout}
+{slideheader}
+{div}!inc/gwiki/img/gui/gwikiLogo.png!{div}{div}!inc/gwiki/img/gui/micromataLogo.png!{div}h1. GWiki Architektur 1.1
+{slideheader}
+{slidefooter}
+{div}Ingenieurbüro Kommer (c) 2013{div}
+{slidefooter}
+
+{slide:title=GWiki Kernarchitektur 1.1}
+\\
+\\
+Vorstellung der Architekturerweiterungen von GWiki 1.1.
+\\
+Roger René Kommer
+{slide}
+{slide:title=Start GWiki 0.9}
+_Ein gutes Werkzeug zeichnet sich dadurch aus, dass es für Zwecke eingesetzt wird, an die man ursprünglich nie gedacht hätte._
+\\
+\\
+*Alles ist Wiki*
+{slide}
+{slide:title=Motivation für 1.1}
+- Diverse Erweiterungen
+- Kern wird zu gross
+- Entwicklungsmodell für Erweiterungen
+- OpenSource
+- Schleife drum
+{slide}
+{slide:title=Übersicht der Projekte}
+!gwikidocs/slideshows/de/kernarchitektur/GWiki11Projects.png!
+{slide}
+{slide:title=Modulkonzept}
+Siehe [admin/PluginAdmin].
+- Erweiterung von GWiki durch Konfiguration (Springcontext)
+- Erweiterung von GWiki zur Laufzeit durch Plugins
+- Plugin ClassLoader sehr simple (ein Topf)
+- Erweiterung des virtuellen Dateisystems für
+-- Templates (jsp, etc.)
+-- Metatemplates (Seitentypen)
+-- Adminbereich
+-- Hilfeseiten
+{slide}
+{slide:title=Beispiel gwiki-msotextextractor}
+{code}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="gwikiplugin" class="de.micromata.genome.gwiki.plugin.GWikiPluginDescriptor">
+		<property name="apiVersion" value="1.0.0" />
+		<property name="name" value="gwiki.msotextextractor" />
+		<property name="version" value="1.0.0" />
+    <property name="versionState" value="Final" />
+		<property name="requiredPlugins">
+			<list>
+				<value>org.apache.poi:3.2.0</value>
+			</list>
+		</property>
+		<property name="description"
+			value="Plugin for MS Office documents full text search text extraction" />
+      <property name="descriptionPath" value="pub/plugins/gwiki-msotextextractor/Index"/>
+		<property name="author" value="Roger Kommer"/>
+		<property name="license" value="Apache License, Version 2.0"/>
+		<property name="category" value="Full Text Search Text Extractor"/>
+		<property name="textExtractors">
+			<map>
+				<entry key=".doc"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.WordTextExtractor" />
+				<entry key=".xls"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.ExcelTextExtractor" />
+					<entry key=".ppt"
+					value="de.micromata.genome.gwiki.plugin.msotextextractor_1_0.PowerPointTextExtractor" />
+			</map>
+		</property>
+	</bean>
+</beans>
+{code}
+{slide}
+
+{slide:title=Beispiel gwiki-msotextextractor,ExcelTextExtractor }
+
+{code}
+////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2010-2013 Micromata GmbH / Roger Rene Kommer
+...
+
+import de.micromata.genome.util.runtime.RuntimeIOException;
+
+/**
+ * Extracts text from a excel sheet.
+ * 
+ * @author Roger Rene Kommer (r.kommer@micromata.de)
+ * 
+ */
+public class ExcelTextExtractor implements TextExtractor
+{
+
+  public String extractText(String fileName, InputStream data)
+  {
+    try {
+      HSSFWorkbook wb = new HSSFWorkbook(data);
+      ExcelExtractor extr = new ExcelExtractor(wb);
+      String text = extr.getText();
+      text = WordTextExtractor.reworkWordText(text);
+      return text;
+    } catch (IOException ex) {
+      throw new RuntimeIOException("Failure to extract word from " + fileName + "; " + ex.getMessage(), ex);
+    }
+  }
+
+}
+{code}
+{slide}
+{slide:title=Beispiel gwiki.feed}
+- Hat Schülerpraktikant Ingo Joseph erstellt.
+- Seite (inkl. Unterseiten) wird zum feed.
+-> Demo {fancybox:fitToView=true|type=iframe|width=800|height=800|href=pub/plugins/gwiki-feed/Index}RSS Feed info{fancybox}
+
+IE: http://localhost:8081/gwikidocs/macros/en/GWikiMacros?feed=atom
+
+{slide}
+{slide:title=Beispiel gwiki.keywordssmarttags}
+Hängt sich als Wiki Fragment Filter rein. 
+
+{slide}
+{slide:title=Beispiel Blog}
+GWiki als Blog organisiert
+{slide}
+{slide:title=Wicket Erweiterungen}
+- Spezielle I18N-Editoren
+- GWiki Fragmente als Panels
+- Hilfe
+- Provider für HTML.
+{slide}
+{slide:title=Beispiel Slides}
+Haben wir die ganze Zeit angeschaut...
+{slide}
+{slide:title=Weitere Erweiterungen}
+- vfolder (Dir/SVN)
+- admintools
+- forum (alpha)
+- pagelifecycle (Mandantenfähigkeit, Parallele Bearbeitung von Branches)
+- pagetemplates (Satzsystem)
+- wikilinks (CamelCase)
+{slide}
+
+{slide:title=Google Appengine}
+- Virtuelles Dateisystem ({{com.google.appengine.api.datastore}})
+- Keine Threads
+- [http://gwikitapp.appspot.com/gwiki/pub/en/Index]
+{slide}
+
+{slide:title=Resumee}
+- Recht einfach Erweiterungen zu erstellen.
+- Spezifische Anforderungen umsetzbar.
+- Leichtgewichtige Engine
+{slide}
+{slide:title=Credits}
+- Christian Claus
+- Stefan Stützer
+- Frederik Najoks
+- Moritz Fröhner
+- Ingo Joseph
+
+Unterstützt durch:
+- Micromata GmbH
+- Ingenieurbüro Kommer
+{slide}
+{slide:title=Resourcen}
+- Projektseite: http://labs.micromata.de/gwiki/
+- Tickets: https://github.com/rrkommer/gwiki/issues
+- SNV: https://artefaktur.com/svn/gwiki/trunk (wird mal irgendwann umgezogen)
+- Roger Rene Kommer (kommer@artefaktur.com, r.kommer.extern@micromata.de)
+- Deployment auf Google Appengine: http://gwikitapp.appspot.com/gwiki/pub/en/Index
+{slide}
+
+{slide:title=Ende}
+\\
+\\
+\\
+Vielen Dank für die Aufmerksamkeit.
+{slide}
+{slideshow}

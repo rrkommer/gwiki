@@ -1,0 +1,28 @@
+{pageintro}
+How to store the GWiki files in a database instead of local file system.
+{pageintro}
+{pageattachments}{note}
+Currently only Oracle is supported.
+ The database layer to the gwiki virtual file system is not very complex, so it should quite simple to create interfaces to other databases.
+{note}
+ 
+h2. Introduction
+The standard implementation to store GWiki files is a combination of GWiki files embeded in the Gwiki Jar and 
+ local file system.
+ The advantage of storing the files on the local file system is, that you are able to modify the files not only via the
+ GWiki GUI, but also directly via text editor.
+ You can also directly manage your GWiki files with a version control system like CVS or SVN.
+ The disadvantage of this solution, you cannot use it in a clustered environment. 
+ On some hosting systems you are also not allowed to access local directories.
+h2. Setting up
+It is very easy to setup Database with the gwikilauncher
+!gwikidocs/howtos/en/GWikiLauncherConfigWikiFSDB.png!
+h2. Using other databases
+If you miss your Database driver in the dropdown, put the driver jar file into the libs subdirectory of your working directory.
+Currently supported are:
+* Derby Embedded
+* Derby In Memory
+* Postgres
+* Oracle
+If you miss your database, please open a ticket in GWikis github.
+ 

@@ -3,8 +3,173 @@ Version 2.3.0 contains important security fixes. 
 {pageintro}
  
 {html}
-<iframe src="https://labs.micromata.de/jira/issues/?filter=10101" width="100%" height="800" name="Jira">
-</iframe>
+<div id="printable-content">
+<div class="result-header">
+    <h3><a href="https://labs.micromata.de/jira/issues/?filter=10101">GWIKI_solved_2.3.0 (Micromata Labs JIRA)</a></h3>
+                        
+                    
+                    
+                    
+                    
+                                        <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldpid">Projekt:</label><span id="fieldpid" class="fieldValue">
+    
+                <a href="https://labs.micromata.de/jira/browse/GWIKI" title="Projekt durchsuchen GWIKI">GWIKI</a>                    </span></div>
+
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldfixfor">Lösungsversion:</label><span id="fieldfixfor" class="fieldValue">
+    
+                                                            2.3.0                                        </span></div>
+
+                    
+                    
+                    
+                    
+                                    <div class="searcherValue">
+    
+            <label class="fieldLabel" for="fieldstatus">Status:</label><span id="fieldstatus" class="fieldValue">
+    
+                        Erledigt            </span></div>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="searcherValue">
+            <label class="fieldLabel">Sortiert nach:</label>
+                            Aktualisiert Absteigend, dann
+                            Priorität Absteigend
+                    </div>
+                    <div class="results-count">
+            <b>1</b>&ndash;<b>2</b> von <b>2</b>
+            wie unter: <b>15/Feb/19 11:46 AM</b>
+        </div>
+    </div>  
+
+
+
+                                        <table id="issuetable"  >
+                        <thead>
+        <tr class="rowHeader">
+            
+                                                            <th class="colHeaderLink headerrow-issuetype" data-id="issuetype">
+                            S
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-issuekey" data-id="issuekey">
+                            Schlüssel
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-summary" data-id="summary">
+                            Zusammenfassung
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-priority" data-id="priority">
+                            Priorität
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-created" data-id="created">
+                            Erstellt
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-updated" data-id="updated">
+                            Aktualisiert
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-versions" data-id="versions">
+                            betrifft Version(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-fixVersions" data-id="fixVersions">
+                            Lösungsversion(en)
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-components" data-id="components">
+                            Komponenten
+                                                    </th>
+                                                
+                                                            <th class="colHeaderLink headerrow-description" data-id="description">
+                            Beschreibung
+                                                    </th>
+                                                                    </tr>
+    </thead>
+    <tbody>
+                    
+
+                <tr id="issuerow10616" rel="10616" data-issuekey="GWIKI-313" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-313" href="https://labs.micromata.de/jira/browse/GWIKI-313">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-313" href="https://labs.micromata.de/jira/browse/GWIKI-313">GWIKI-313</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-313" href="https://labs.micromata.de/jira/browse/GWIKI-313">XSS Bugs in PageComment and SearchBox</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="24/Jun/16 3:27 PM"><time datetime="2016-06-24T15:27:56+0200">24/Jun/16</time></span> </td>
+                                            <td class="updated"> <span title="24/Jun/16 3:28 PM"><time datetime="2016-06-24T15:28:51+0200">24/Jun/16</time></span> </td>
+                                            <td class="versions">                        1.0.2,                     2.1.0,                     2.2.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.3.0" class="tinylink">2.3.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>In both cases the pageId will passed unescaped to a link. <br/>
+Fixes done be tuxburner</p>
+  </td>
+                    </tr>
+
+
+                <tr id="issuerow10612" rel="10612" data-issuekey="GWIKI-311" class="issuerow">
+                                            <td class="issuetype">    <a class="issue-link" data-issue-key="GWIKI-311" href="https://labs.micromata.de/jira/browse/GWIKI-311">
+            <img src="https://labs.micromata.de/jira/secure/viewavatar?size=xsmall&amp;avatarId=10323&amp;avatarType=issuetype" height="16" width="16" border="0" align="absmiddle" alt="Bug" title="Bug - Ein Problem, das die Funktionen des Produkts beeinträchtigt oder verhindert.">
+        </a>
+</td>
+                                            <td class="issuekey">
+
+    <a class="issue-link" data-issue-key="GWIKI-311" href="https://labs.micromata.de/jira/browse/GWIKI-311">GWIKI-311</a>
+</td>
+                                            <td class="summary"><p>
+                <a class="issue-link" data-issue-key="GWIKI-311" href="https://labs.micromata.de/jira/browse/GWIKI-311">gwikilauncher does not initialize Log4j correct.</a>
+    </p>
+</td>
+                                            <td class="priority">            <img src="https://labs.micromata.de/jira/images/icons/priorities/major.svg" height="16" width="16" border="0" align="absmiddle" alt="Schwer" title="Schwer - Schwerer Funktionsverlust.">
+    </td>
+                                            <td class="created"> <span title="09/Jun/16 6:10 PM"><time datetime="2016-06-09T18:10:05+0200">09/Jun/16</time></span> </td>
+                                            <td class="updated"> <span title="09/Jun/16 6:28 PM"><time datetime="2016-06-09T18:28:24+0200">09/Jun/16</time></span> </td>
+                                            <td class="versions">                        2.2.0            </td>
+                                            <td class="fixVersions">                        <a href="https://labs.micromata.de/jira/issues/?jql=project+%3D+GWIKI+AND+fixVersion+%3D+2.3.0" class="tinylink">2.3.0</a>            </td>
+                                            <td class="components">    &nbsp;
+</td>
+                                            <td class="description">      <p>log4j.properties will not be copied and log4j is not initialized correctly.</p>
+<ul class="alternate" type="square">
+	<li>log4j.properties was git ignored.</li>
+	<li>with nogui option, the log4j.properties was not copied in to local directory</li>
+</ul>
+
+  </td>
+                    </tr>
+                </tbody>
+    </table>
+    <div class="end-of-stable-message"></div>
+            </div>
 {html}
  
-h3.  
